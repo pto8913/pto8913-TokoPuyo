@@ -5,7 +5,7 @@ namespace DX
 {
 	size_t VertexLayout::Size() const
 	{
-		return elements.empty() ? 0u : elements.back().GetOffset();
+		return elements.empty() ? 0u : elements.back().GetOffsetAfter();
 	}
 	const VertexLayout::Element& VertexLayout::Get(size_t i) const
 	{

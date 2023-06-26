@@ -90,8 +90,6 @@ void DirectX11::CleanUp()
 	Util::SafeDelete(m_pCamera);
 	Util::SafeDelete(m_pViewPort);
 
-	Util::SafeDelete(m_pConstantBufferPerFrame);
-
 	Util::SafeRelease(m_pSwapChain);
 	Util::SafeRelease(m_pID3DDevice);
 	Util::SafeRelease(m_pID3DContext);
@@ -189,6 +187,15 @@ void DirectX11::Present()
 void DirectX11::DrawIndexed(UINT count)
 {
 	m_pID3DContext->DrawIndexed(count, 0, 0);
+}
+
+DirectX::XMMATRIX DirectX11::GetWorldCameraTransform() const
+{
+	return WorldCamera;
+}
+DirectX::XMMATRIX DirectX11::GetProjection() const
+{
+	return Projection;
 }
 
 // Message handlers

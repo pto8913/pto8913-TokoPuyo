@@ -2,16 +2,32 @@
 
 #include "DirectX/DirectXHead.h"
 
+class DirectX11;
+
 class Camera
 {
 public:
 	Camera(float width, float height);
+	Camera(
+		DirectX11& dx,
+		std::string inName,
+		DirectX::XMVECTOR homePos = { 0.0f,0.0f,0.0f },
+		float homePitch = 0.0f,
+		float homeYaw = 0.0f,
+		bool tethered = false
+	);
+
+	void Reset(DirectX11& dx) noexcept;
 
 	void Update();
 
+	std::string GetName() const noexcept;
+
 	DirectX::XMMATRIX GetView() const;
 	DirectX::XMMATRIX GetProjection() const;
+
 	DirectX::XMVECTOR GetPosition() const;
+	void SetPosition(DirectX::XMVECTOR newPos);
 
 	float GetMoveLeftRight() const;
 	float GetMoveBackForward() const;
@@ -22,12 +38,18 @@ public:
 	void AddYaw(float Val);
 	void AddPitch(float Val);
 protected:
+	bool tethered;
+	std::string name;
+
+	DirectX::XMVECTOR homePos;
+	float homeYaw = 0.f;
+	float homePitch = 0.f;
+	DirectX::XMVECTOR camPosition;
 	float camYaw = 0.f;
 	float camPitch = 0.f;
 
 	DirectX::XMMATRIX camView;
 	DirectX::XMMATRIX camProjection;
-	DirectX::XMVECTOR camPosition;
 	DirectX::XMVECTOR camTarget;
 	DirectX::XMVECTOR camUp;
 

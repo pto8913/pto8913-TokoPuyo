@@ -214,6 +214,7 @@
     <ClInclude Include="Source\DirectX\Public\Render\Factory\Shader.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\Texture.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\Topology.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\TransformConstantBuffer.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\VertexBuffer.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\VertexShader.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Manager\BindableManager.h" />
@@ -311,6 +312,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\Factory\Topology.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\TransformConstantBuffer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\Factory\VertexBuffer.cpp">

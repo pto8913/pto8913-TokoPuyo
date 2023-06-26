@@ -17,6 +17,7 @@ public:
 	virtual ~DrawableObject();
 
 	void AddTask(std::shared_ptr<Bindable> task);
+	void InitializeTasks();
 	void ExecuteTasks(DirectX11& dx);
 
 	// ----------------------------------------------------

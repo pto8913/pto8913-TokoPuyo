@@ -2,6 +2,7 @@
 
 #include "DirectX/DirectXHead.h"
 
+#include "Utils/String.h"
 //struct FVertex 
 //{
 //public:
@@ -189,20 +190,22 @@ namespace DX
 			if (pAttribute)
 			{
 				using Dest = typename VertexLayout::Map<DestLayoutType>::SysType;
+				
+				std::string w = std::string(typeid(SrcType).name()) + std::string("/") + std::string(typeid(Dest).name());
+				MessageBox(NULL, Util::s2WString(w).c_str(), L"Create VertexLayout Error", MB_OK);
+
 				if constexpr (std::is_assignable<Dest, SrcType>::value)
 				{
 					*reinterpret_cast<Dest*>(pAttribute) = val;
 				}
 				else
 				{
-					MessageBox(NULL, L"Parameter Attribute type mismatch", L"Create VertexLayout Error", MB_OK);
-					//assert(false);
+					//MessageBox(NULL, L"Parameter Attribute type mismatch", L"Create VertexLayout Error", MB_OK);
 				}
 			}
 			else
 			{
-				MessageBox(NULL, L"Parameter Attribute is not valid" , L"Create VertexLayout Error", MB_OK);
-				//assert(false);
+				//MessageBox(NULL, L"Parameter Attribute is not valid" , L"Create VertexLayout Error", MB_OK);
 			}
 		}
 

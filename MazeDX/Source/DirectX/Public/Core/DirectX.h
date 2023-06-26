@@ -9,8 +9,6 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "DirectXTex.lib")
 
-class ConstantBufferPerFrame;
-
 class ViewPort;
 
 class DrawPlane;
@@ -82,6 +80,9 @@ public:
 	void DrawIndexed(UINT count);
 
 	bool bInitialized = false;
+
+	DirectX::XMMATRIX GetWorldCameraTransform() const;
+	DirectX::XMMATRIX GetProjection() const;
 private:
 	HINSTANCE m_hInstance;
 	HWND m_hWnd;
@@ -96,7 +97,6 @@ private:
 	ID3D11Device* m_pID3DDevice;
 	ID3D11DeviceContext* m_pID3DContext;
 
-	ConstantBufferPerFrame* m_pConstantBufferPerFrame;
 	cbPerObject cbPerObj;
 	cbPerFrame constbPerFrame;
 	Light light;
@@ -104,7 +104,10 @@ private:
 	DrawPlane* m_pDrawPlane;
 
 	DirectXInput* m_pDirectXInput;
+	
 	Camera* m_pCamera;
+	DirectX::XMMATRIX WorldCamera;
+	DirectX::XMMATRIX Projection;
 
 	ViewPort* m_pViewPort;
 

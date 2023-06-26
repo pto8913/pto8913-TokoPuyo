@@ -237,6 +237,9 @@
     <ClInclude Include="Source\DirectX\Public\Utils\String.h">
       <Filter>Source\DirectX\Public\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\TransformConstantBuffer.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -342,6 +345,9 @@
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Utils\String.cpp">
       <Filter>Source\DirectX\Private\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\TransformConstantBuffer.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

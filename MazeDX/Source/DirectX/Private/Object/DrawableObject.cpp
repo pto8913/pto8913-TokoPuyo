@@ -14,13 +14,19 @@ void DrawableObject::AddTask(std::shared_ptr<Bindable> task)
 {
 	tasks.push_back(task);
 }
+void DrawableObject::InitializeTasks()
+{
+	for (auto task : tasks)
+	{
+		task.get()->InitParentRefrence(*this);
+	}
+}
 void DrawableObject::ExecuteTasks(DirectX11& dx)
 {
 	for (auto task : tasks)
 	{
 		task.get()->Bind(dx);
 	}
-	
 }
 
 // ----------------------------------------------------

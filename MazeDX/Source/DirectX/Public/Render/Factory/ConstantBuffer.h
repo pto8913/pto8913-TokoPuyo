@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Bindable.h"
+#include "Render/Manager/BindableManager.h"
 
 class DirectX11;
 
@@ -8,14 +9,62 @@ template<typename C>
 class ConstantBuffer : public Bindable
 {
 public:
-	ConstantBuffer(DirectX11& dx, UINT inSlot = 0u);
-	ConstantBuffer(DirectX11& dx, const C& consts, UINT inSlot = 0u);
+	ConstantBuffer(DirectX11& dx, UINT inSlot = 0u)
+		: slot(inSlot)
+	{
+		D3D11_BUFFER_DESC desc;
+		desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		desc.Usage = D3D11_USAGE_DYNAMIC;
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		desc.MiscFlags = 0;
+		desc.ByteWidth = sizeof(C);
+		desc.StructureByteStride = 0;
 
-	void Update(DirectX11& dx, const C& consts);
+		HRESULT result = GetDevice(dx)->CreateBuffer(&desc, nullptr, &m_pConstantBuffer);
+		if (FAILED(result))
+		{
+			MessageBox(NULL, L"Can not create ConstantBuffer", L"Failed ConstantBuffer", MB_OK);
+			assert(false);
+		}
+	};
+	ConstantBuffer(DirectX11& dx, const C& consts, UINT inSlot = 0u)
+		: slot(inSlot)
+	{
+		D3D11_BUFFER_DESC desc;
+		desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		desc.Usage = D3D11_USAGE_DYNAMIC;
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		desc.MiscFlags = 0;
+		desc.ByteWidth = sizeof(consts);
+		desc.StructureByteStride = 0;
 
+		D3D11_SUBRESOURCE_DATA data;
+		data.pSysMem = &consts;
+
+		HRESULT result = GetDevice(dx)->CreateBuffer(&desc, &data, &m_pConstantBuffer);
+		if (FAILED(result))
+		{
+			MessageBox(NULL, L"Can not create ConstantBuffer", L"Failed ConstantBuffer", MB_OK);
+			assert(false);
+		}
+	}
+
+	void Update(DirectX11& dx, const C& consts)
+	{
+		D3D11_MAPPED_SUBRESOURCE resource;
+		GetContext(dx)->Map(
+			m_pConstantBuffer,
+			0,
+			D3D11_MAP_WRITE_DISCARD,
+			0,
+			&resource
+		);
+
+		memcpy(resource.pData, &consts, sizeof(consts));
+		GetContext(dx)->Unmap(m_pConstantBuffer, 0);
+	}
 protected:
 	ID3D11Buffer* m_pConstantBuffer;
-
 	UINT slot;
 };
 
@@ -26,9 +75,22 @@ class VertexConstantBuffer : public ConstantBuffer<C>
 	using ConstantBuffer<C>::m_pConstantBuffer;
 	using ConstantBuffer<C>::slot;
 public:
-	virtual void Bind(DirectX11& dx) override;
-	static std::shared_ptr<VertexConstantBuffer<C>> Make(DirectX11& dx, const C& consts, UINT inSlot = 0u);
-	static std::shared_ptr<VertexConstantBuffer<C>> Make(DirectX11& dx, UINT inSlot = 0u);
+	VertexConstantBuffer(DirectX11& dx, UINT inSlot = 0u)
+		: ConstantBuffer<C>(dx, inSlot)
+	{}
+
+	virtual void Bind(DirectX11& dx) override 
+	{
+		GetContext(dx)->VSSetConstantBuffers(slot, 1, &m_pConstantBuffer);
+	}
+	static std::shared_ptr<VertexConstantBuffer<C>> Make(DirectX11& dx, const C& consts, UINT inSlot = 0u)
+	{
+		return BindableManager::Make<VertexConstantBuffer>(dx, consts, inSlot);
+	}
+	static std::shared_ptr<VertexConstantBuffer<C>> Make(DirectX11& dx, UINT inSlot = 0u)
+	{
+		return BindableManager::Make<VertexConstantBuffer>(dx, inSlot);
+	}
 
 	static std::string GenerateID(const C&, UINT slot)
 	{
@@ -48,9 +110,21 @@ class PixelConstantBuffer : public ConstantBuffer<C>
 	using ConstantBuffer<C>::m_pConstantBuffer;
 	using ConstantBuffer<C>::slot;
 public:
-	virtual void Bind(DirectX11& dx) override;
-	static std::shared_ptr<PixelConstantBuffer<C>> Make(DirectX11& dx, const C& consts, UINT inSlot = 0u);
-	static std::shared_ptr<PixelConstantBuffer<C>> Make(DirectX11& dx, UINT inSlot = 0u);
+	PixelConstantBuffer(DirectX11& dx, UINT inSlot = 0u)
+		: ConstantBuffer<C>(dx, inSlot)
+	{}
+	virtual void Bind(DirectX11& dx) override
+	{
+		GetContext(dx)->PSSetConstantBuffers(slot, 1, &m_pConstantBuffer);
+	}
+	static std::shared_ptr<PixelConstantBuffer<C>> Make(DirectX11& dx, const C& consts, UINT inSlot = 0u)
+	{
+		return BindableManager::Make<PixelConstantBuffer>(dx, consts, inSlot);
+	}
+	static std::shared_ptr<PixelConstantBuffer<C>> Make(DirectX11& dx, UINT inSlot = 0u)
+	{
+		return BindableManager::Make<PixelConstantBuffer>(dx, inSlot);
+	}
 
 	static std::string GenerateID(const C&, UINT slot)
 	{
