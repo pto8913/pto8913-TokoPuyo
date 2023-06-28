@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DirectX/DirectXHead.h"
+#include "Geometry/TriangleList.h"
 
 #include "StepTimer.h"
 
@@ -17,6 +18,9 @@ class Camera;
 class InputLayout;
 
 class DirectXInput;
+
+class RenderTargetView;
+class DepthStencilView;
 
 struct cbPerObject
 {
@@ -65,13 +69,11 @@ public:
 	HINSTANCE const& GetHInstance() const;
 	HWND const& GetHWnd() const;
 
-	void Finalize();
 	void CleanUp();
 
 	// Basic game loop
 	void Tick();
 
-	virtual void Render();
 	virtual void Clear();
 
 	virtual void Update(DX::StepTimer const& timer);
@@ -81,8 +83,8 @@ public:
 
 	bool bInitialized = false;
 
-	DirectX::XMMATRIX GetWorldCameraTransform() const;
-	DirectX::XMMATRIX GetProjection() const;
+	DirectX::XMMATRIX GetCameraView() const;
+	DirectX::XMMATRIX GetCameraProjection() const;
 private:
 	HINSTANCE m_hInstance;
 	HWND m_hWnd;
@@ -97,7 +99,9 @@ private:
 	ID3D11Device* m_pID3DDevice;
 	ID3D11DeviceContext* m_pID3DContext;
 
-	cbPerObject cbPerObj;
+	std::shared_ptr<RenderTargetView> m_pRenderTargetView;
+	std::shared_ptr<DepthStencilView> m_pDepthStencilView;
+
 	cbPerFrame constbPerFrame;
 	Light light;
 
@@ -106,33 +110,28 @@ private:
 	DirectXInput* m_pDirectXInput;
 	
 	Camera* m_pCamera;
-	DirectX::XMMATRIX WorldCamera;
-	DirectX::XMMATRIX Projection;
 
 	ViewPort* m_pViewPort;
+	std::shared_ptr<class PixelShader> lightShader;
 
-	DirectX::XMMATRIX WVP;
-	DirectX::XMMATRIX World;
-	
-	DirectX::XMMATRIX cube1World;
-	DirectX::XMMATRIX cube2World;
-
-	DirectX::XMMATRIX Rotation;
-	DirectX::XMMATRIX Scale;
-	DirectX::XMMATRIX Translation;
-
-	float rot = 0.01;
-
-	float rot_x = 0;
-	float rot_z = 0;
-	float scale_x = 0;
-	float scale_z = 0;
-
-	DirectX::XMMATRIX RotationX;
-	DirectX::XMMATRIX RotationZ;
-
-	DirectX::XMMATRIX groundWorld;
-
+	// ---------------------------------------
+	TriangleList modelPlane;
+	ID3D11Buffer* m_pIndexBuffer;
+	ID3D11Buffer* m_pVertexBuffer;
+	ID3D11InputLayout* m_pInputLayout;
+	ID3D11ShaderResourceView* m_pTextureView;
+	std::shared_ptr<class PixelShader> pixelShader;
+	std::shared_ptr<class VertexShader> vertexShader;
+	ID3D11Buffer* m_pConstantBuffer;
+	ID3D11Buffer* m_pConstantBufferPerFrame;
+	ID3D11SamplerState* m_pSamplerState;
+	ID3D11RasterizerState* CCWcullMode;
+	ID3D11RasterizerState* CWcullMode;
+	ID3D11BlendState* m_pBlendState;
+	std::shared_ptr<class Topology> topology;
+	cbPerObject cbPerObj;
+	DirectX::XMMATRIX plane;
+	// ---------------------------------------
 public:
 	// Messages
 	void OnActivated();

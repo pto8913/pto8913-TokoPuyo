@@ -17,6 +17,7 @@ public:
 	);
 
 	virtual void Bind(DirectX11& dx) override;
+	UINT GetCount() const;
 
 	template<typename... Ignore>
 	static std::string GenerateID(const std::string& tag, Ignore&&... ignore)

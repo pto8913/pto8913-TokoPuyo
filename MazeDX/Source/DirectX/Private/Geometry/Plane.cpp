@@ -24,7 +24,7 @@ TriangleList Plane::Make()//DX::VertexLayout layout, float size, float u, float 
 	//}
 	//MessageBox(NULL, std::wstring(b.begin(), b.end()).c_str(), L"indicies", MB_OK);
 
-	//DX::VertexBuffer vertices{ std::move(layout) };
+	//std::vector<DX::FVertex> vertices{ std::move(layout) };
 	//vertices[0].Pos = { -size, -size, -size };
 	//vertices[1].Pos = {  size, -size, -size };
 	//vertices[2].Pos = {  size, -size,  size };
@@ -49,6 +49,37 @@ TriangleList Plane::Make()//DX::VertexLayout layout, float size, float u, float 
 	vl.Append(DX::VertexLayout::Texture2D);
 	return MakeTesselated(std::move(vl), 1, 1);
 }
+TriangleList Plane::Make(float size, float u, float v)
+{
+	DX::VertexLayout vl;
+	vl.Append(DX::VertexLayout::Position3D);
+	vl.Append(DX::VertexLayout::Normal);
+	vl.Append(DX::VertexLayout::Texture2D);
+
+	std::vector<DX::FVertex> vertices(4);
+	vertices[0].Pos = { -size, -size, -size };
+	vertices[1].Pos = { size, -size, -size };
+	vertices[2].Pos = { size, -size,  size };
+	vertices[3].Pos = { -size, -size,  size };
+
+	vertices[0].texCoord = { u,    v };
+	vertices[1].texCoord = { 0.0f, v };
+	vertices[2].texCoord = { 0.0f, 0.0f };
+	vertices[3].texCoord = { u,    0.0f };
+
+	vertices[0].Normal = { 0, 1, 0};
+	vertices[1].Normal = { 0, 1, 0};
+	vertices[2].Normal = { 0, 1, 0};
+	vertices[3].Normal = { 0, 1, 0};
+
+	return {
+		std::move(vertices),
+		{
+			0,1,2,
+			0,2,3,
+		}
+	};
+}
 TriangleList Plane::MakeTesselated(DX::VertexLayout layout, UINT division_x, UINT division_y)
 {
 	assert(division_x >= 1);
@@ -58,7 +89,8 @@ TriangleList Plane::MakeTesselated(DX::VertexLayout layout, UINT division_x, UIN
 	constexpr float height = 2.f;
 	const int nVertices_x = division_x + 1;
 	const int nVertices_y = division_y + 1;
-	DX::VertexBuffer vertices{ std::move(layout)};
+	DX::FVertex vertex;
+	std::vector<DX::FVertex> vertices;
 	{
 		const float side_x = width / 2.f;
 		const float side_y = height / 2.f;
@@ -74,11 +106,11 @@ TriangleList Plane::MakeTesselated(DX::VertexLayout layout, UINT division_x, UIN
 			{
 				const float x_pos = float(x) * divisionSize_x - side_x;
 				const float x_pos_texCoord = float(x) * divisionSize_x_texCoord;
-				vertices.EmplaceBack(
-					DirectX::XMFLOAT3{ x_pos, -1, y_pos },
-					DirectX::XMFLOAT2{ x_pos_texCoord, y_pos_texCoord },
-					DirectX::XMFLOAT3{0, 1, 0}
-				);
+
+				vertex.Pos = { x_pos, -1, y_pos };
+				vertex.texCoord = { x_pos_texCoord, y_pos_texCoord };
+				vertex.Normal = { 0, 1, 0 };
+				vertices.emplace_back(vertex);
 			}
 		}
 	}

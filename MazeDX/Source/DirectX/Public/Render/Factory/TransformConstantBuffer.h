@@ -15,9 +15,8 @@ public:
 protected:
 	struct Transforms
 	{
-		DirectX::XMMATRIX model;
-		DirectX::XMMATRIX modelView;
-		DirectX::XMMATRIX modelProjection;
+		DirectX::XMMATRIX World;
+		DirectX::XMMATRIX WorldViewProjection;
 	};
 	void Update(DirectX11& dx, const Transforms& newTransform);
 	Transforms GetTransform(DirectX11& dx);

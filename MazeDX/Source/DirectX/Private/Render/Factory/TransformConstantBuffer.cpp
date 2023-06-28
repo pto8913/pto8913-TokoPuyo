@@ -19,21 +19,16 @@ void TransformConstantBuffer::Bind(DirectX11& dx)
 }
 void TransformConstantBuffer::Update(DirectX11& dx, const TransformConstantBuffer::Transforms& newTransform)
 {
-	if (m_pParent)
-	{
-		m_pVCBuffer->Update(dx, newTransform);
-		m_pVCBuffer->Bind(dx);
-	}
+	m_pVCBuffer->Update(dx, newTransform);
+	m_pVCBuffer->Bind(dx);
 }
 TransformConstantBuffer::Transforms TransformConstantBuffer::GetTransform(DirectX11& dx)
 {
 	const auto model = m_pParent->GetWorldTransformXM();
-	const auto modelView = model * dx.GetWorldCameraTransform();
 	return {
 		DirectX::XMMatrixTranspose(model),
-		DirectX::XMMatrixTranspose(modelView),
 		DirectX::XMMatrixTranspose(
-			modelView * dx.GetProjection()
+			model * dx.GetCameraView() * dx.GetCameraProjection()
 		)
 	};
 }

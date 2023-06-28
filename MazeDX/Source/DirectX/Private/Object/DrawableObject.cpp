@@ -2,6 +2,9 @@
 #include "Object/DrawableObject.h"
 
 #include "Render/Factory/Bindable.h"
+#include "Render/Factory/Topology.h"
+#include "Render/Factory/IndexBuffer.h"
+#include "Render/Factory/VertexBuffer.h"
 
 
 DrawableObject::~DrawableObject()
@@ -23,10 +26,17 @@ void DrawableObject::InitializeTasks()
 }
 void DrawableObject::ExecuteTasks(DirectX11& dx)
 {
+	//m_pIndexBuffer->Bind(dx);
+	//m_pVertexBuffer->Bind(dx);
 	for (auto task : tasks)
 	{
 		task.get()->Bind(dx);
 	}
+	dx.DrawIndexed(m_pIndexBuffer->GetCount());
+}
+void DrawableObject::Update(DirectX11& dx)
+{
+
 }
 
 // ----------------------------------------------------
@@ -42,8 +52,13 @@ void DrawableObject::SetWorldRotation(float inRoll, float inPitch, float inYaw) 
 	pitch = inPitch;
 	yaw = inYaw;
 }
+void DrawableObject::SetWorldScale(DirectX::XMMATRIX inScale) noexcept
+{
+	worldScale = inScale;
+}
 DirectX::XMMATRIX DrawableObject::GetWorldTransformXM() const noexcept
 {
 	return DirectX::XMMatrixRotationRollPitchYaw(roll, pitch, yaw) *
-		DirectX::XMMatrixTranslation(worldPosition.x, worldPosition.y, worldPosition.z);
+		DirectX::XMMatrixTranslation(worldPosition.x, worldPosition.y, worldPosition.z) *
+		worldScale;
 }

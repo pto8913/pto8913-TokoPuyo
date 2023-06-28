@@ -20,12 +20,12 @@ Texture::Texture(DirectX11& dx, const std::wstring& inFileName, UINT inSlot)
 		assert(false);
 	}
 
-	if (scratch.GetImage(0, 0, 0)->format != format)
+	if (scratch.GetImage(0, 0, 0)->format != DXGI_FORMAT_R8G8B8A8_UNORM)
 	{
 		DirectX::ScratchImage converted;
 		result = DirectX::Convert(
 			*scratch.GetImage(0, 0, 0),
-			format,
+			DXGI_FORMAT_R8G8B8A8_UNORM,
 			DirectX::TEX_FILTER_DEFAULT,
 			0.5,
 			converted
@@ -57,14 +57,14 @@ Texture::Texture(DirectX11& dx, const std::wstring& inFileName, UINT inSlot)
 	ID3D11Texture2D* pTexture;
 	GetDevice(dx)->CreateTexture2D(&texDesc, nullptr, &pTexture);
 
-	GetContext(dx)->UpdateSubresource(
-		pTexture,
-		0,
-		nullptr,
-		scratch.GetPixels(),
-		width * sizeof(DWORD),
-		0
-	);
+	//GetContext(dx)->UpdateSubresource(
+	//	pTexture,
+	//	0,
+	//	nullptr,
+	//	scratch.GetPixels(),
+	//	width * sizeof(DWORD),
+	//	0
+	//);
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
 	ZeroMemory(&srvDesc, sizeof(srvDesc));
@@ -72,9 +72,13 @@ Texture::Texture(DirectX11& dx, const std::wstring& inFileName, UINT inSlot)
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MostDetailedMip = 0;
 	srvDesc.Texture2D.MipLevels = 1;
-	GetDevice(dx)->CreateShaderResourceView(pTexture, &srvDesc, &m_pTextureView);
+	GetDevice(dx)->CreateShaderResourceView(
+		pTexture, 
+		&srvDesc, 
+		&m_pTextureView
+	);
 
-	GetContext(dx)->GenerateMips(m_pTextureView);
+	//GetContext(dx)->GenerateMips(m_pTextureView);
 }
 Texture::~Texture()
 {

@@ -3,24 +3,69 @@
 
 #include "Render/Manager/BindableManager.h"
 
-Rasterizer::Rasterizer(DirectX11& dx, bool inTwoSide)
-	: bTwoSide(inTwoSide)
+Rasterizer::Rasterizer(DirectX11& dx, RasterizerType inType)
+	: type(inType)
 {
-	D3D11_RASTERIZER_DESC rasterDesc = CD3D11_RASTERIZER_DESC(CD3D11_DEFAULT{});
-	rasterDesc.CullMode = inTwoSide ? D3D11_CULL_NONE : D3D11_CULL_BACK;
+	D3D11_RASTERIZER_DESC desc;
+	ZeroMemory(&desc, sizeof(desc));
+	switch (inType)
+	{
+	case Wire:
+		desc.FillMode = D3D11_FILL_WIREFRAME;
+		desc.CullMode = D3D11_CULL_NONE;
+		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_1);
+		break;
+	case Transparent:
+		desc.FillMode = D3D11_FILL_SOLID;
+		desc.CullMode = D3D11_CULL_BACK;
+		desc.FrontCounterClockwise = true;
+		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_1);
 
-	GetDevice(dx)->CreateRasterizerState(&rasterDesc, &m_pRasterizer);
+		desc.FrontCounterClockwise = false;
+		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_2);
+		break;
+	default:
+		desc.FillMode = D3D11_FILL_SOLID;
+		desc.CullMode = D3D11_CULL_NONE;
+		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_1);
+		break;
+	}
 }
 Rasterizer::~Rasterizer()
 {
-	Util::SafeRelease(m_pRasterizer);
+	Util::SafeRelease(m_pRasterizer_1);
+	Util::SafeRelease(m_pRasterizer_2);
 }
 
-std::shared_ptr<Rasterizer> Rasterizer::Make(DirectX11& dx, bool inTwoSide)
+std::shared_ptr<Rasterizer> Rasterizer::Make(DirectX11& dx, RasterizerType inType)
 {
-	return BindableManager::Make<Rasterizer>(dx, inTwoSide);
+	return BindableManager::Make<Rasterizer>(dx, inType);
 }
 void Rasterizer::Bind(DirectX11& dx)
 {
-	GetContext(dx)->RSSetState(m_pRasterizer);
+	switch (type)
+	{
+	case Wire:
+		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		break;
+	case Transparent:
+		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		GetContext(dx)->RSSetState(m_pRasterizer_2);
+		break;
+	default:
+		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		break;
+	}
+}
+
+void Rasterizer::Get(ID3D11RasterizerState& Out1, ID3D11RasterizerState& Out2)
+{
+	if (&Out1 != nullptr)
+	{
+		Out1 = *m_pRasterizer_1;
+	}
+	if (&Out2 != nullptr)
+	{
+		Out2 = *m_pRasterizer_2;
+	}
 }

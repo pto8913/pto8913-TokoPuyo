@@ -10,7 +10,8 @@ TriangleList Sphere::MakeTesselated(DX::VertexLayout inLayout, int latDiv, int l
 	const DirectX::XMVECTOR base = DirectX::XMVectorSet(0, 0, radius, 0);
 	const float latAngle = PI / latDiv;
 	const float longAngle = 2.f * PI / longDiv;
-	DX::VertexBuffer vb{ std::move(inLayout) };
+	DX::FVertex vertex;
+	std::vector<DX::FVertex> vertices;
 	for (int lat_i = 1; lat_i < latDiv; ++lat_i)
 	{
 		const auto latBase = DirectX::XMVector3Transform(
@@ -25,18 +26,21 @@ TriangleList Sphere::MakeTesselated(DX::VertexLayout inLayout, int latDiv, int l
 				DirectX::XMMatrixRotationZ(longAngle * long_i)
 			);
 			DirectX::XMStoreFloat3(&calcPos, v);
-			vb.EmplaceBack(calcPos);
+			vertex.Pos = calcPos;
+			vertices.emplace_back(vertex);
 		}
 	}
-	const DWORD North = (DWORD)vb.Size();
+	const DWORD North = (DWORD)vertices.size();
 	DirectX::XMFLOAT3 northPos;
 	DirectX::XMStoreFloat3(&northPos, base);
-	vb.EmplaceBack(northPos);
+	vertex.Pos = northPos;
+	vertices.emplace_back(vertex);
 	
-	const DWORD South = (DWORD)vb.Size();
+	const DWORD South = (DWORD)vertices.size();
 	DirectX::XMFLOAT3 southPos;
 	DirectX::XMStoreFloat3(&southPos, base);
-	vb.EmplaceBack(southPos);
+	vertex.Pos = southPos;
+	vertices.emplace_back(vertex);
 
 	const auto Pos = [longDiv](int lat_i, int long_i)
 	{
@@ -82,13 +86,13 @@ TriangleList Sphere::MakeTesselated(DX::VertexLayout inLayout, int latDiv, int l
 	indices.push_back(South);
 
 	return {
-		std::move(vb),
+		std::move(vertices),
 		std::move(indices)
 	};
 }
 TriangleList Sphere::Make()
 {
-	DX::VertexLayout vb;
-	vb.Append(DX::VertexLayout::ElementType::Position3D);
-	return MakeTesselated(std::move(vb), 12, 24);
+	DX::VertexLayout vertices;
+	vertices.Append(DX::VertexLayout::ElementType::Position3D);
+	return MakeTesselated(std::move(vertices), 12, 24);
 }

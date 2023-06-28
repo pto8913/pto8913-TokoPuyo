@@ -17,34 +17,36 @@
 
 DrawPlane::DrawPlane(DirectX11& dx, float size)
 {
-	auto pTCB = std::make_shared<TransformConstantBuffer>(dx);
-
 	auto model = Plane::Make();
-	model.SetTransform(DirectX::XMMatrixScaling(size, size, 1));
+	//model.SetTransform(DirectX::XMMatrixScaling(size, size, 1));
 
-	auto pVB = VertexBuffer::Make(dx, "Plane", model.vertices);
-	pVB->Bind(dx);
-	auto pIB = IndexBuffer::Make(dx, "Plane", model.indices);
-	pIB->Bind(dx);
+	m_pVertexBuffer = VertexBuffer::Make(dx, "Plane", model.vertices);
+	m_pIndexBuffer = IndexBuffer::Make(dx, "Plane", model.indices);
+	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	auto pVS = VertexShader::Make(dx, L"Shader/Shader.hlsl", "VS");
-	pVS->Bind(dx);
-	auto pPS = PixelShader::Make(dx, L"Shader/Shader.hlsl", "PS");
-	pPS->Bind(dx);
-
+	auto pTCB = std::make_shared<TransformConstantBuffer>(dx);
+	
 	//AddTask(std::make_shared<ConstantBuffer>(dx, 1));
 
-	auto pInputLayout = InputLayout::Make(dx, model.vertices.GetLayout(), pVS.get());
-	pInputLayout->Bind(dx);
+	/* Shading */
+	auto pVS = VertexShader::Make(dx, L"Shader/Shader.hlsl", "VS");
 
-	auto pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	pTopology->Bind(dx);
+	auto pIL = InputLayout::Make(dx, DX::Layout::VertexType::V3D, pVS.get());
+	AddTask(std::move(pVS));
+	AddTask(PixelShader::Make(dx, L"Shader/Shader.hlsl", "PS"));
+	
+	AddTask(m_pIndexBuffer);
+	AddTask(m_pVertexBuffer);
 
-	AddTask(ConstantBufferPerFrame::Make(dx, sizeof(cbPerObject), 0));
-	AddTask(Texture::Make(dx, L"grass.jpg"));
-	AddTask(SamplerState::Make(dx, 0));
-	AddTask(Rasterizer::Make(dx, true));
 	AddTask(pTCB);
 
+	AddTask(Texture::Make(dx, L"grass.jpg"));
+	AddTask(SamplerState::Make(dx, 0));
+
+	AddTask(Rasterizer::Make(dx, Rasterizer::None));
+	
 	InitializeTasks();
+
+	pIL->Bind(dx);
+	m_pTopology->Bind(dx);
 }

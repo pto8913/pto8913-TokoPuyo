@@ -2,24 +2,15 @@
 
 #include "DirectX/DirectXHead.h"
 
-class ViewPort
+#include "Render/Factory/Bindable.h"
+
+class DirectX11;
+
+class ViewPort : public Bindable
 {
 public:
-	~ViewPort();
-
-	void CreateViewPort(ID3D11DeviceContext* pID3DContext, float width, float height);
-
-	// ------------------------------------------------------
-	// ViewPort State
-	// ------------------------------------------------------
-	void SetModeWireFrame(ID3D11Device* pID3DDevice, ID3D11DeviceContext* pID3DContext);
-	void SetModeTransparent(ID3D11Device* pID3DDevice);
-	void SetModePixelClipping(ID3D11Device* pID3DDevice);
-
-	void GetTransparentBuffer(ID3D11RasterizerState** OutCCWcull, ID3D11RasterizerState** OutCWcull);
+	ViewPort(DirectX11& dx, float width, float height);
+	virtual void Bind(DirectX11& dx) override;
 private:
-	ID3D11RasterizerState* m_pWireFrame;
-	ID3D11RasterizerState* m_pCCWcull;
-	ID3D11RasterizerState* m_pCWcull;
-	ID3D11RasterizerState* m_pNoCull;
+	D3D11_VIEWPORT viewport;
 };

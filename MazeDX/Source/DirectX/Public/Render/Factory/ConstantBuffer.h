@@ -2,6 +2,7 @@
 
 #include "Bindable.h"
 #include "Render/Manager/BindableManager.h"
+#include "Utils/String.h"
 
 class DirectX11;
 
@@ -19,6 +20,9 @@ public:
 		desc.MiscFlags = 0;
 		desc.ByteWidth = sizeof(C);
 		desc.StructureByteStride = 0;
+
+		std::string str = std::string("ConstantBuffer Size :") + std::to_string(desc.ByteWidth);
+		MessageBox(NULL, Util::s2WString(str).c_str(), L"ConstantBuffer Error", MB_OK);
 
 		HRESULT result = GetDevice(dx)->CreateBuffer(&desc, nullptr, &m_pConstantBuffer);
 		if (FAILED(result))
@@ -51,17 +55,18 @@ public:
 
 	void Update(DirectX11& dx, const C& consts)
 	{
-		D3D11_MAPPED_SUBRESOURCE resource;
-		GetContext(dx)->Map(
-			m_pConstantBuffer,
-			0,
-			D3D11_MAP_WRITE_DISCARD,
-			0,
-			&resource
-		);
+		GetContext(dx)->UpdateSubresource(m_pConstantBuffer, 0, NULL, &consts, 0, 0);
+		//D3D11_MAPPED_SUBRESOURCE resource;
+		//GetContext(dx)->Map(
+		//	m_pConstantBuffer,
+		//	0,
+		//	D3D11_MAP_WRITE_DISCARD,
+		//	0,
+		//	&resource
+		//);
 
-		memcpy(resource.pData, &consts, sizeof(consts));
-		GetContext(dx)->Unmap(m_pConstantBuffer, 0);
+		//memcpy(resource.pData, &consts, sizeof(consts));
+		//GetContext(dx)->Unmap(m_pConstantBuffer, 0);
 	}
 protected:
 	ID3D11Buffer* m_pConstantBuffer;
@@ -147,8 +152,11 @@ public:
 	);
 
 	static std::shared_ptr<ConstantBufferPerFrame> Make(DirectX11& dx, UINT size, void* pInitData);
-	virtual void Bind(DirectX11& dx) override;
-
+	virtual void Bind(DirectX11& dx) override {
+		dx;
+	};
+	void Bind(DirectX11& dx, void* pData);
+	
 	static std::string GenerateID(UINT size, void* pInitData)
 	{
 		pInitData;

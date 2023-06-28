@@ -3,38 +3,45 @@
 #include "DirectX/DirectXHead.h"
 
 #include "Utils/String.h"
-//struct FVertex 
-//{
-//public:
-//	FVertex()
-//		: Pos(0, 0, 0), Color(0, 0, 0, 1) {};
-//	FVertex(float x, float y, float z)
-//		: Pos(x, y, z), Color(0, 0, 0, 1) {};
-//	FVertex(float x, float y, float z, float r, float g, float b, float a = 1)
-//		: Pos(x, y, z), Color(r, g, b, a) {};
-//
-//	DirectX::XMFLOAT3 Pos;
-//	DirectX::XMFLOAT4 Color;
-//};
 
-struct FVertex
+#define VERTEX_TYPE \
+	X(V3D) \
+	X(V2D) \
+
+namespace DX
 {
-public:
-	FVertex()
-		: Pos(0, 0, 0), texCoord(0, 0), Normal(0, 1, 0) {};
-	FVertex(float x, float y, float z)
-		: Pos(x, y, z), texCoord(0, 0), Normal(0, 1, 0) {};
-	FVertex(float x, float y, float z, float u, float v)
-		: Pos(x, y, z), texCoord(u, v), Normal(0, 1, 0) {};
-	FVertex(float u, float v)
-		: Pos(0, 0, 0), texCoord(u, v), Normal(0, 1, 0) {};
-	FVertex(float x, float y, float z, float u, float v, float nx, float ny, float nz)
-		: Pos(x, y, z), texCoord(u, v), Normal(nx, ny, nz) {};
+	class Layout
+	{
+	public:
+		enum VertexType
+		{
+			#define X(el) el,
+			VERTEX_TYPE
+			#undef X
+		};
 
-	DirectX::XMFLOAT3 Pos;
-	DirectX::XMFLOAT2 texCoord;
-	DirectX::XMFLOAT3 Normal;
-};
+		static std::vector<D3D11_INPUT_ELEMENT_DESC> GetVertexDesc(const VertexType& type);
+	};
+
+	struct FVertex
+	{
+	public:
+		FVertex()
+			: Pos(0, 0, 0), texCoord(0, 0), Normal(0, 1, 0) {};
+		FVertex(float x, float y, float z)
+			: Pos(x, y, z), texCoord(0, 0), Normal(0, 1, 0) {};
+		FVertex(float x, float y, float z, float u, float v)
+			: Pos(x, y, z), texCoord(u, v), Normal(0, 1, 0) {};
+		FVertex(float u, float v)
+			: Pos(0, 0, 0), texCoord(u, v), Normal(0, 1, 0) {};
+		FVertex(float x, float y, float z, float u, float v, float nx, float ny, float nz)
+			: Pos(x, y, z), texCoord(u, v), Normal(nx, ny, nz) {};
+
+		DirectX::XMFLOAT3 Pos;
+		DirectX::XMFLOAT2 texCoord;
+		DirectX::XMFLOAT3 Normal;
+	};
+}
 
 struct Point 
 {
@@ -54,6 +61,7 @@ namespace DX
 	class VertexLayout
 	{
 	public:
+		~VertexLayout();
 		enum ElementType
 		{
 			#define X(el) el,
@@ -79,7 +87,7 @@ namespace DX
 		{
 			using SysType = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
-			static constexpr const char* segmentic = "Position";
+			static constexpr const char* segmentic = "POSITION";
 			static constexpr const char* code = "P3";
 		};
 		template<>
@@ -87,7 +95,7 @@ namespace DX
 		{
 			using SysType = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
-			static constexpr const char* segmentic = "Normal";
+			static constexpr const char* segmentic = "NORMAL";
 			static constexpr const char* code = "N";
 		};
 		template<>
@@ -95,7 +103,7 @@ namespace DX
 		{
 			using SysType = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
-			static constexpr const char* segmentic = "TexCoord";
+			static constexpr const char* segmentic = "TEXCOORD";
 			static constexpr const char* code = "T2";
 		};
 		template<>
@@ -192,7 +200,7 @@ namespace DX
 				using Dest = typename VertexLayout::Map<DestLayoutType>::SysType;
 				
 				std::string w = std::string(typeid(SrcType).name()) + std::string("/") + std::string(typeid(Dest).name());
-				MessageBox(NULL, Util::s2WString(w).c_str(), L"Create VertexLayout Error", MB_OK);
+				//MessageBox(NULL, Util::s2WString(w).c_str(), L"Create VertexLayout Error", MB_OK);
 
 				if constexpr (std::is_assignable<Dest, SrcType>::value)
 				{

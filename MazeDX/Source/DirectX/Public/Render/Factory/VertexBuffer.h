@@ -9,18 +9,18 @@ class DirectX11;
 class VertexBuffer : public Bindable
 {
 public:
-	VertexBuffer(DirectX11& dx, std::string inTag, const DX::VertexBuffer& pInitData);
+	VertexBuffer(DirectX11& dx, std::string inTag, const std::vector<DX::FVertex>& pInitData);
 	~VertexBuffer();
 
 	static std::shared_ptr<VertexBuffer> Make(
-		DirectX11& dx, 
-		std::string inTag, 
-		const DX::VertexBuffer& pInitData
+		DirectX11& dx,
+		std::string inTag,
+		const std::vector<DX::FVertex>& pInitData
 	);
 
 	virtual void Bind(DirectX11& dx) override;
 
-	static std::string GenerateID(const std::string& tag, const DX::VertexBuffer& pInitData)
+	static std::string GenerateID(const std::string& tag, const std::vector<DX::FVertex>& pInitData)
 	{
 		pInitData;
 		using namespace std::string_literals;
@@ -28,11 +28,10 @@ public:
 	}
 	std::string GetUID() const noexcept
 	{
-		return GenerateID(tag, DX::VertexBuffer());
+		return GenerateID(tag, {});
 	}
 protected:
 	ID3D11Buffer* m_pVertexBuffer;
 	std::string tag;
-	DX::VertexLayout layout;
 	UINT stride;
 };

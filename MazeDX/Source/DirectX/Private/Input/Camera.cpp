@@ -38,9 +38,9 @@ Camera::Camera(DirectX11& dx, std::string inName, DirectX::XMVECTOR homePos, flo
 
 	camProjection = XMMatrixPerspectiveFovLH(
 		0.4f * 3.14f,
-		width / height,
-		1.f,
-		1000.f
+		9.f/16.f,
+		0.5f,
+		400.f
 	);
 }
 
@@ -53,8 +53,6 @@ void Camera::Reset(DirectX11& dx) noexcept
 	}
 	camPitch = homePitch;
 	camYaw = homeYaw;
-
-
 }
 
 void Camera::Update()

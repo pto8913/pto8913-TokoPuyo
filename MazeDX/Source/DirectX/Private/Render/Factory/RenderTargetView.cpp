@@ -61,34 +61,10 @@ RenderTargetView::RenderTargetView(DirectX11& dx, ID3D11Texture2D* pTexture, std
 }
 RenderTargetView::~RenderTargetView()
 {
-	Util::SafeRelease(m_pRenderTargetView);
-	Util::SafeRelease(m_pRenderTargetViewBuffer);
+	//Util::SafeRelease(m_pRenderTargetView);
+	//Util::SafeRelease(m_pRenderTargetViewBuffer);
 }
 
-//void RenderTargetView::CreateRenderTargetView(IDXGISwapChain* pSwapChain, ID3D11Device* pID3DDevice)
-//{
-//	HRESULT result = pSwapChain->GetBuffer(
-//		0, 
-//		__uuidof(ID3D11Texture2D), 
-//		(LPVOID*)&m_pRenderTargetViewBuffer
-//	);
-//	if (FAILED(result))
-//	{
-//		MessageBox(NULL, L"Can not get backbuffer", L"Failed Get Buffer From SwapChain", MB_OK);
-//		assert(false);
-//	}
-//
-//	result = pID3DDevice->CreateRenderTargetView(
-//		m_pRenderTargetViewBuffer, 
-//		NULL,
-//		&m_pRenderTargetView
-//	);
-//	if (FAILED(result))
-//	{
-//		MessageBox(NULL, L"Can not create RenderTargetView.", L"Create RenderTargetView Error", MB_OK);
-//		assert(false);
-//	}
-//}
 
 ID3D11RenderTargetView*& RenderTargetView::Get()
 {
@@ -96,5 +72,7 @@ ID3D11RenderTargetView*& RenderTargetView::Get()
 }
 void RenderTargetView::Clear(DirectX11& dx)
 {
-	GetContext(dx)->ClearRenderTargetView(m_pRenderTargetView, 0x000);
+	float bgColor[4] = { 0.1, 0.1, 0.1, 1 };
+
+	GetContext(dx)->ClearRenderTargetView(m_pRenderTargetView, bgColor);
 }

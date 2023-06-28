@@ -42,7 +42,7 @@ SkySphere::SkySphere(DirectX11& dx, int latDiv, int longDiv)
 	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	auto pVS = VertexShader::Make(dx, SHADERPATH, "SKYMAP_VS");
-	AddTask(InputLayout::Make(dx, model.vertices.GetLayout(), pVS.get()));
+	AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V3D, pVS.get()));
 	AddTask(std::move(pVS));
 	AddTask(PixelShader::Make(dx, SHADERPATH, "SKYMAP_PS"));
 
@@ -54,7 +54,7 @@ SkySphere::SkySphere(DirectX11& dx, int latDiv, int longDiv)
 	//AddTask(PixelConstantBuffer<PSColorConstant>::Makedx, colorConst, 1));
 	AddTask(ConstantBufferPerFrame::Make(dx, sizeof(cbPerObject), 0));
 
-	AddTask(Rasterizer::Make(dx, true));
+	AddTask(Rasterizer::Make(dx, Rasterizer::None));
 
 	const wchar_t* TexturePaths[6] = {
 		L"directx.ico",

@@ -3,6 +3,37 @@
 
 namespace DX
 {
+	std::vector<D3D11_INPUT_ELEMENT_DESC> Layout::GetVertexDesc(const VertexType& type)
+	{
+		using F3 = DirectX::XMFLOAT3;
+		using F2 = DirectX::XMFLOAT2;
+
+		std::vector<D3D11_INPUT_ELEMENT_DESC> Out;
+		switch (type)
+		{
+		case V2D:
+			Out = {
+				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, sizeof(F3),              D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			};
+			break;
+		default:
+			Out = {
+				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,                       D3D11_INPUT_PER_VERTEX_DATA, 0 },
+				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, sizeof(F3),              D3D11_INPUT_PER_VERTEX_DATA, 0 },
+				{ "NORMAL",	  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, sizeof(F3) + sizeof(F2), D3D11_INPUT_PER_VERTEX_DATA, 0 }
+			};
+			break;
+		}
+		return Out;
+	}
+}
+
+namespace DX
+{
+	VertexLayout::~VertexLayout()
+	{
+	}
 	size_t VertexLayout::Size() const
 	{
 		return elements.empty() ? 0u : elements.back().GetOffsetAfter();
@@ -78,6 +109,9 @@ namespace DX
 	struct GenerateDesc {
 		static constexpr D3D11_INPUT_ELEMENT_DESC Exec(size_t offset)
 		{
+			std::string	str = std::string("Layout Size :") + std::to_string(offset);
+			MessageBox(NULL, Util::s2WString(str).c_str(), L"Layout Error", MB_OK);
+
 			return {
 				VertexLayout::Map<type>::segmentic,
 				0,

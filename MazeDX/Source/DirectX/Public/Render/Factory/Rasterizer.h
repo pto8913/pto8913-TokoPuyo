@@ -7,22 +7,30 @@ class DirectX11;
 class Rasterizer : public Bindable
 {
 public:
-	Rasterizer(DirectX11& dx, bool inTwoSide);
+	enum RasterizerType
+	{
+		None,
+		Wire,
+		Transparent,
+	};
+	Rasterizer(DirectX11& dx, RasterizerType inType);
 	~Rasterizer();
 
-	static std::shared_ptr<Rasterizer> Make(DirectX11& dx, bool inTwoSide);
+	static std::shared_ptr<Rasterizer> Make(DirectX11& dx, RasterizerType inType);
 	virtual void Bind(DirectX11& dx) override;
 
-	static std::string GenerateID(bool inTwoSide)
+	static std::string GenerateID(RasterizerType inType)
 	{
 		using namespace std::string_literals;
-		return typeid(Rasterizer).name() + "#"s + (inTwoSide ? "2s": "1s");
+		return typeid(Rasterizer).name() + "#"s + (inType ? "2s": "1s");
 	}
 	std::string GetID() const noexcept
 	{
-		return GenerateID(bTwoSide);
+		return GenerateID(type);
 	}
+	void Get(ID3D11RasterizerState& Out1, ID3D11RasterizerState& Out2);
 protected:
-	ID3D11RasterizerState* m_pRasterizer;
-	bool bTwoSide;
+	ID3D11RasterizerState* m_pRasterizer_1;
+	ID3D11RasterizerState* m_pRasterizer_2;
+	RasterizerType type;
 };

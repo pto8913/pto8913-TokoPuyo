@@ -13,6 +13,9 @@ ConstantBufferPerFrame::ConstantBufferPerFrame(DirectX11& dx, UINT size, void* p
 	desc.CPUAccessFlags = 0;
 	desc.MiscFlags = 0;
 
+	std::string str = std::string("ConstantBuffer Size :") + std::to_string(desc.ByteWidth);
+	MessageBox(NULL, Util::s2WString(str).c_str(), L"ConstantBuffer Error", MB_OK);
+
 	HRESULT result = GetDevice(dx)->CreateBuffer(
 		&desc,
 		NULL,
@@ -29,7 +32,8 @@ std::shared_ptr<ConstantBufferPerFrame> ConstantBufferPerFrame::Make(DirectX11& 
 {
 	return BindableManager::Make<ConstantBufferPerFrame>(dx, size, pInitData);
 }
-void ConstantBufferPerFrame::Bind(DirectX11& dx)
+void ConstantBufferPerFrame::Bind(DirectX11& dx, void* pData)
 {
-	dx;
+	GetContext(dx)->UpdateSubresource(m_pConstantBuffer, 0, NULL, &pData, 0, 0);
+	GetContext(dx)->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
 }
