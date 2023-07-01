@@ -13,6 +13,7 @@
 class ViewPort;
 
 class DrawPlane;
+class DrawSphere;
 
 class Camera;
 class InputLayout;
@@ -69,12 +70,13 @@ public:
 	HINSTANCE const& GetHInstance() const;
 	HWND const& GetHWnd() const;
 
+	ID3D11Device* GetDevice() { return m_pID3DDevice; }
+	ID3D11DeviceContext* GetContext() { return m_pID3DContext; }
+
 	void CleanUp();
 
 	// Basic game loop
 	void Tick();
-
-	virtual void Clear();
 
 	virtual void Update(DX::StepTimer const& timer);
 	virtual void Present();
@@ -106,6 +108,7 @@ private:
 	Light light;
 
 	DrawPlane* m_pDrawPlane;
+	DrawSphere* m_pDrawSphere;
 
 	DirectXInput* m_pDirectXInput;
 	
@@ -115,22 +118,9 @@ private:
 	std::shared_ptr<class PixelShader> lightShader;
 
 	// ---------------------------------------
-	TriangleList modelPlane;
-	ID3D11Buffer* m_pIndexBuffer;
-	ID3D11Buffer* m_pVertexBuffer;
-	ID3D11InputLayout* m_pInputLayout;
-	ID3D11ShaderResourceView* m_pTextureView;
 	std::shared_ptr<class PixelShader> pixelShader;
 	std::shared_ptr<class VertexShader> vertexShader;
-	ID3D11Buffer* m_pConstantBuffer;
-	ID3D11Buffer* m_pConstantBufferPerFrame;
-	ID3D11SamplerState* m_pSamplerState;
-	ID3D11RasterizerState* CCWcullMode;
-	ID3D11RasterizerState* CWcullMode;
-	ID3D11BlendState* m_pBlendState;
-	std::shared_ptr<class Topology> topology;
-	cbPerObject cbPerObj;
-	DirectX::XMMATRIX plane;
+	ID3D11Buffer* m_pConstantBufferEx;
 	// ---------------------------------------
 public:
 	// Messages

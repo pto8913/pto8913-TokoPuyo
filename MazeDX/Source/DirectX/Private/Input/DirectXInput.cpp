@@ -36,7 +36,7 @@ DirectXInput::~DirectXInput()
 	Util::SafeRelease(m_directInput);
 }
 
-void DirectXInput::Update(HWND hWnd, double time, Camera* pCamera)
+void DirectXInput::Update(HWND hWnd, float time, Camera* pCamera)
 {
 	DIMOUSESTATE mouseCurrState;
 	BYTE keyBoardState[256];
@@ -50,28 +50,34 @@ void DirectXInput::Update(HWND hWnd, double time, Camera* pCamera)
 	if (keyBoardState[DIK_ESCAPE] & 0x80)
 		PostMessage(hWnd, WM_DESTROY, 0, 0);
 
-	float speed = 100.0f * (float)time;
-
 	if (keyBoardState[DIK_A] & 0x80)
 	{
-		pCamera->AddMoveLeftRight(-speed);
+		pCamera->AddMoveLeftRight(-time);
 	}
 	if (keyBoardState[DIK_D] & 0x80)
 	{
-		pCamera->AddMoveLeftRight(speed);
+		pCamera->AddMoveLeftRight(time);
 	}
 	if (keyBoardState[DIK_W] & 0x80)
 	{
-		pCamera->AddMoveBackForward(speed);
+		pCamera->AddMoveBackForward(time);
 	}
 	if (keyBoardState[DIK_S] & 0x80)
 	{
-		pCamera->AddMoveBackForward(-speed);
+		pCamera->AddMoveBackForward(-time);
+	}
+	if (keyBoardState[DIK_Q] & 0x80)
+	{
+		pCamera->AddMoveUpDownward(-time);
+	}
+	if (keyBoardState[DIK_E] & 0x80)
+	{
+		pCamera->AddMoveUpDownward(time);
 	}
 	if ((mouseCurrState.lX != m_mouseLastState.lX) || (mouseCurrState.lY != m_mouseLastState.lY))
 	{
-		pCamera->AddYaw(mouseCurrState.lX * 0.001f);
-		pCamera->AddPitch(mouseCurrState.lY * 0.001f);
+		pCamera->AddYaw((float)mouseCurrState.lX);
+		pCamera->AddPitch((float)mouseCurrState.lY);
 
 		m_mouseLastState = mouseCurrState;
 	}

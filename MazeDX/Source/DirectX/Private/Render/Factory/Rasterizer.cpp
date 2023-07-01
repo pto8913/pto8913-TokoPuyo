@@ -3,8 +3,8 @@
 
 #include "Render/Manager/BindableManager.h"
 
-Rasterizer::Rasterizer(DirectX11& dx, RasterizerType inType)
-	: type(inType)
+Rasterizer::Rasterizer(DirectX11& dx, RasterizerType inType, UINT inSize)
+	: type(inType), size(inSize)
 {
 	D3D11_RASTERIZER_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
@@ -33,13 +33,13 @@ Rasterizer::Rasterizer(DirectX11& dx, RasterizerType inType)
 }
 Rasterizer::~Rasterizer()
 {
-	Util::SafeRelease(m_pRasterizer_1);
-	Util::SafeRelease(m_pRasterizer_2);
+	//Util::SafeRelease(m_pRasterizer_1);
+	//Util::SafeRelease(m_pRasterizer_2);
 }
 
-std::shared_ptr<Rasterizer> Rasterizer::Make(DirectX11& dx, RasterizerType inType)
+std::shared_ptr<Rasterizer> Rasterizer::Make(DirectX11& dx, RasterizerType inType, UINT inSize)
 {
-	return BindableManager::Make<Rasterizer>(dx, inType);
+	return BindableManager::Make<Rasterizer>(dx, inType, inSize);
 }
 void Rasterizer::Bind(DirectX11& dx)
 {
@@ -47,13 +47,17 @@ void Rasterizer::Bind(DirectX11& dx)
 	{
 	case Wire:
 		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		dx.DrawIndexed(size);
 		break;
 	case Transparent:
 		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		dx.DrawIndexed(size);
 		GetContext(dx)->RSSetState(m_pRasterizer_2);
+		dx.DrawIndexed(size);
 		break;
 	default:
 		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		dx.DrawIndexed(size);
 		break;
 	}
 }

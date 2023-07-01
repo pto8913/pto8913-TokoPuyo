@@ -4,7 +4,7 @@
 
 #include "Math/Math.h"
 
-TriangleList Sphere::MakeTesselated(DX::VertexLayout inLayout, int latDiv, int longDiv)
+TriangleList Sphere::MakeTesselated(int latDiv, int longDiv)
 {
 	constexpr float radius = 1.f;
 	const DirectX::XMVECTOR base = DirectX::XMVectorSet(0, 0, radius, 0);
@@ -92,7 +92,5 @@ TriangleList Sphere::MakeTesselated(DX::VertexLayout inLayout, int latDiv, int l
 }
 TriangleList Sphere::Make()
 {
-	DX::VertexLayout vertices;
-	vertices.Append(DX::VertexLayout::ElementType::Position3D);
-	return MakeTesselated(std::move(vertices), 12, 24);
+	return MakeTesselated(12, 24);
 }

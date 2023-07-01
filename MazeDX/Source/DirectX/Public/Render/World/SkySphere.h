@@ -10,7 +10,7 @@ class Topology;
 
 class VertexShader;
 class PixelShader;
-class ConstantBufferPerFrame;
+class ConstantBufferEx;
 
 class SkySphere : public DrawableObject
 {
@@ -29,7 +29,7 @@ public:
 private:
 	std::shared_ptr<IndexBuffer> m_pIndexBuffer;
 	std::shared_ptr<VertexBuffer> m_pVertexBuffer;
-	std::shared_ptr<ConstantBufferPerFrame> m_pConstantBuffer;
+	std::shared_ptr<ConstantBufferEx> m_pConstantBuffer;
 	std::shared_ptr<Topology> m_pTopology;
 
 	VertexShader* m_pVS_SkyMap;

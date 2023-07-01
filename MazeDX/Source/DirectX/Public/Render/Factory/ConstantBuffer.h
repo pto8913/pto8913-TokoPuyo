@@ -14,17 +14,20 @@ public:
 		: slot(inSlot)
 	{
 		D3D11_BUFFER_DESC desc;
-		desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		desc.Usage = D3D11_USAGE_DYNAMIC;
-		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		desc.MiscFlags = 0;
-		desc.ByteWidth = sizeof(C);
-		desc.StructureByteStride = 0;
+		desc.BindFlags =      D3D11_BIND_CONSTANT_BUFFER;
+		desc.Usage =          D3D11_USAGE_DEFAULT;
+		desc.CPUAccessFlags = 0;
+		desc.MiscFlags =      0;
+		desc.ByteWidth =      sizeof(C);
 
-		std::string str = std::string("ConstantBuffer Size :") + std::to_string(desc.ByteWidth);
-		MessageBox(NULL, Util::s2WString(str).c_str(), L"ConstantBuffer Error", MB_OK);
+		//std::string str = std::string("ConstantBuffer Size :") + std::to_string(desc.ByteWidth);
+		//MessageBox(NULL, Util::s2WString(str).c_str(), L"ConstantBuffer Error", MB_OK);
 
-		HRESULT result = GetDevice(dx)->CreateBuffer(&desc, nullptr, &m_pConstantBuffer);
+		HRESULT result = GetDevice(dx)->CreateBuffer(
+			&desc,
+			NULL,
+			&m_pConstantBuffer
+		);
 		if (FAILED(result))
 		{
 			MessageBox(NULL, L"Can not create ConstantBuffer", L"Failed ConstantBuffer", MB_OK);
@@ -35,17 +38,20 @@ public:
 		: slot(inSlot)
 	{
 		D3D11_BUFFER_DESC desc;
-		desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		desc.Usage = D3D11_USAGE_DYNAMIC;
-		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		desc.MiscFlags = 0;
-		desc.ByteWidth = sizeof(consts);
-		desc.StructureByteStride = 0;
+		desc.BindFlags =      D3D11_BIND_CONSTANT_BUFFER;
+		desc.Usage =          D3D11_USAGE_DEFAULT;
+		desc.CPUAccessFlags = 0;
+		desc.MiscFlags =      0;
+		desc.ByteWidth =      sizeof(consts);
 
 		D3D11_SUBRESOURCE_DATA data;
 		data.pSysMem = &consts;
 
-		HRESULT result = GetDevice(dx)->CreateBuffer(&desc, &data, &m_pConstantBuffer);
+		HRESULT result = GetDevice(dx)->CreateBuffer(
+			&desc, 
+			&data, 
+			&m_pConstantBuffer
+		);
 		if (FAILED(result))
 		{
 			MessageBox(NULL, L"Can not create ConstantBuffer", L"Failed ConstantBuffer", MB_OK);
@@ -53,7 +59,7 @@ public:
 		}
 	}
 
-	void Update(DirectX11& dx, const C& consts)
+	virtual void Update(DirectX11& dx, const C& consts)
 	{
 		GetContext(dx)->UpdateSubresource(m_pConstantBuffer, 0, NULL, &consts, 0, 0);
 		//D3D11_MAPPED_SUBRESOURCE resource;
@@ -68,6 +74,9 @@ public:
 		//memcpy(resource.pData, &consts, sizeof(consts));
 		//GetContext(dx)->Unmap(m_pConstantBuffer, 0);
 	}
+	ID3D11Buffer*& GetBuffer() {
+		return m_pConstantBuffer;
+	}
 protected:
 	ID3D11Buffer* m_pConstantBuffer;
 	UINT slot;
@@ -80,9 +89,7 @@ class VertexConstantBuffer : public ConstantBuffer<C>
 	using ConstantBuffer<C>::m_pConstantBuffer;
 	using ConstantBuffer<C>::slot;
 public:
-	VertexConstantBuffer(DirectX11& dx, UINT inSlot = 0u)
-		: ConstantBuffer<C>(dx, inSlot)
-	{}
+	using ConstantBuffer<C>::ConstantBuffer;
 
 	virtual void Bind(DirectX11& dx) override 
 	{
@@ -115,9 +122,8 @@ class PixelConstantBuffer : public ConstantBuffer<C>
 	using ConstantBuffer<C>::m_pConstantBuffer;
 	using ConstantBuffer<C>::slot;
 public:
-	PixelConstantBuffer(DirectX11& dx, UINT inSlot = 0u)
-		: ConstantBuffer<C>(dx, inSlot)
-	{}
+	using ConstantBuffer<C>::ConstantBuffer;
+
 	virtual void Bind(DirectX11& dx) override
 	{
 		GetContext(dx)->PSSetConstantBuffers(slot, 1, &m_pConstantBuffer);
@@ -142,26 +148,26 @@ public:
 	}
 };
 
-class ConstantBufferPerFrame : public Bindable
+class ConstantBufferEx : public Bindable
 {
 public:
-	ConstantBufferPerFrame(
+	ConstantBufferEx(
 		DirectX11& dx,
 		UINT size,
-		void* pInitData
+		UINT inSlot = 0
 	);
 
-	static std::shared_ptr<ConstantBufferPerFrame> Make(DirectX11& dx, UINT size, void* pInitData);
-	virtual void Bind(DirectX11& dx) override {
+	static std::shared_ptr<ConstantBufferEx> Make(DirectX11& dx, UINT size, UINT inSlot = 0);
+	virtual void Bind(DirectX11& dx) override 
+	{
 		dx;
 	};
-	void Bind(DirectX11& dx, void* pData);
+	virtual void Bind(DirectX11& dx, void* pData);
 	
-	static std::string GenerateID(UINT size, void* pInitData)
+	static std::string GenerateID(UINT size, UINT inSlot)
 	{
-		pInitData;
 		using namespace std::string_literals;
-		return typeid(ConstantBufferPerFrame).name() + "#"s + std::to_string(size);
+		return typeid(ConstantBufferEx).name() + "#"s + std::to_string(size) + "#"s + std::to_string(inSlot);
 	}
 
 	ID3D11Buffer*& GetBuffer()
@@ -169,6 +175,6 @@ public:
 		return m_pConstantBuffer;
 	}
 protected:
+	UINT slot;
 	ID3D11Buffer* m_pConstantBuffer;
-
 };

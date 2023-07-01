@@ -7,7 +7,6 @@ InputLayout::InputLayout(DirectX11& dx, DX::Layout::VertexType inVertexType, Ver
 	: vertexType(inVertexType)
 {
 	const auto desc = DX::Layout::GetVertexDesc(inVertexType);
-	
 	const auto pByteCode = pVertexShader->GetBuffer();
 
 	HRESULT result = GetDevice(dx)->CreateInputLayout(

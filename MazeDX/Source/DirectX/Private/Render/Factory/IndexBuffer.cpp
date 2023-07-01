@@ -9,20 +9,25 @@ IndexBuffer::IndexBuffer(DirectX11& dx, std::string inTag, const std::vector<DWO
 {
 	D3D11_BUFFER_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
-	desc.ByteWidth = (UINT)(count * sizeof(DWORD));
-	desc.Usage = D3D11_USAGE_DEFAULT;
-	desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	desc.CPUAccessFlags = 0;
-	desc.MiscFlags = 0;
+	desc.ByteWidth =           (UINT)(count * sizeof(DWORD));
+	desc.Usage =               D3D11_USAGE_DEFAULT;
+	desc.BindFlags =           D3D11_BIND_INDEX_BUFFER;
+	desc.CPUAccessFlags =      0;
+	desc.MiscFlags =           0;
 	desc.StructureByteStride = sizeof(DWORD);
 
-	std::string str = std::string("IndexBuffer Size :") + std::to_string(desc.ByteWidth);
-	MessageBox(NULL, Util::s2WString(str).c_str(), L"IndexBuffer Error", MB_OK);
+	//std::string str = std::string("IndexBuffer Size :") + std::to_string(desc.ByteWidth);
+	//MessageBox(NULL, Util::s2WString(str).c_str(), L"IndexBuffer Error", MB_OK);
 
 	D3D11_SUBRESOURCE_DATA data;
 	data.pSysMem = pInitData.data();
 
-	if (FAILED(GetDevice(dx)->CreateBuffer(&desc, &data, &m_pIndexBuffer)))
+	HRESULT result = GetDevice(dx)->CreateBuffer(
+		&desc, 
+		&data, 
+		&m_pIndexBuffer
+	);
+	if (FAILED(result))
 	{
 		MessageBox(NULL, L"Can not create IndexBuffer", L"Failed IndexBuffer", MB_OK);
 		assert(false);

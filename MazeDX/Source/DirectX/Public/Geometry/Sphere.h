@@ -6,7 +6,7 @@
 class Sphere
 {
 public:
-	static TriangleList MakeTesselated(DX::VertexLayout inLayout, int latDiv, int longDiv);
+	static TriangleList MakeTesselated(int latDiv, int longDiv);
 
 	static TriangleList Make();
 };

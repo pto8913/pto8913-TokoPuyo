@@ -1,125 +1,192 @@
 
 #include "Input/Camera.h"
 
+#include "Core/DirectX.h"
+
+#include "Math/Rotator.h"
+
 using namespace DirectX;
 
-Camera::Camera(float width, float height)
-{
-	camPosition = XMVectorSet(0.f, 3.f, -8.f, 0.f);
-	camTarget = XMVectorSet(0.f, 0.f, 0.f, 0.f);
-	camUp = XMVectorSet(0.f, 1.f, 0.f, 0.f);
-
-	camView = XMMatrixLookAtLH(camPosition, camTarget, camUp);
-
-	camProjection = XMMatrixPerspectiveFovLH(
-		0.4f * 3.14f, 
-		width / height, 
-		1.f, 
-		1000.f
-	);
-}
-Camera::Camera(DirectX11& dx, std::string inName, DirectX::XMVECTOR homePos, float homePitch, float homeYaw, bool tethered)
-	: 
-	name(std::move(inName)), 
-	homePos(homePos), 
-	homePitch(homePitch), 
-	homeYaw(homeYaw), 
-	tethered(tethered)
+Camera::Camera(DirectX11& dx, std::string inName, XMFLOAT3 inDefaultPos, float inDefaultPitch, float inDefaultYaw, bool inTethered)
+	:
+	name(std::move(inName)),
+	defaultPos(XMLoadFloat3(&inDefaultPos)),
+	defaultPitch(inDefaultPitch),
+	defaultYaw(inDefaultYaw),
+	tethered(inTethered),
+	m_CameraProjection(dx, 1.f, 9.f / 16.f, 0.5f, 400.f),
+	m_CameraIndicator(dx)
 {
 	if (tethered)
 	{
-		camPosition = homePos;
+		SetLocation(defaultPos);
 	}
-	camPosition = XMVectorSet(0.f, 3.f, -8.f, 0.f);
-	camTarget = XMVectorSet(0.f, 0.f, 0.f, 0.f);
-	camUp = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+	location = { 0.f, 3.f, 0.f };
 
-	camView = XMMatrixLookAtLH(camPosition, camTarget, camUp);
+	camView = XMMatrixLookAtLH(location, camLookAt, WorldUpVector);
 
 	camProjection = XMMatrixPerspectiveFovLH(
 		0.4f * 3.14f,
-		9.f/16.f,
-		0.5f,
-		400.f
+		800.f / 600.f,
+		1.f,
+		1000.f
 	);
+	Reset(dx);
 }
 
 void Camera::Reset(DirectX11& dx) noexcept
 {
 	if (!tethered)
 	{
-		camPosition = homePos;
-
+		SetLocation(defaultPos);
 	}
-	camPitch = homePitch;
-	camYaw = homeYaw;
-}
 
-void Camera::Update()
-{
-	camRotationMatrix = XMMatrixRotationRollPitchYaw(camPitch, camYaw, 0);
-	camTarget = XMVector3TransformCoord(DefaultForward, camRotationMatrix);
-	camTarget = XMVector3Normalize(camTarget);
-
-	XMMATRIX RotateYTempMatrix = XMMatrixRotationY(camYaw);
-	camRightward = XMVector3TransformCoord(DefaultRightward, RotateYTempMatrix);
-	camUp = XMVector3TransformCoord(camUp, RotateYTempMatrix);
-	camForward = XMVector3TransformCoord(DefaultForward, RotateYTempMatrix);
-
-	camPosition += moveLeftRight * camRightward;
-	camPosition += moveBackForward * camForward;
-
-	moveLeftRight = 0.f;
-	moveBackForward = 0.f;
-
-	camTarget = camPosition + camTarget;
-	camView = XMMatrixLookAtLH(camPosition, camTarget, camUp);
+	SetRotation({camPitch, camYaw, camRoll});
+	m_CameraProjection.Reset(dx);
 }
 
 std::string Camera::GetName() const noexcept
 {
 	return name;
 }
-DirectX::XMMATRIX Camera::GetView() const
+XMMATRIX Camera::GetView() const
 {
 	return camView;
 }
-DirectX::XMMATRIX Camera::GetProjection() const
+XMMATRIX Camera::GetProjection() const
 {
 	return camProjection;
-}
-DirectX::XMVECTOR Camera::GetPosition() const
-{
-	return camPosition;
-}
-void Camera::SetPosition(DirectX::XMVECTOR newPos)
-{
-	camPosition = newPos;
+	//return m_CameraProjection.GetMatrix();
 }
 
-float Camera::GetMoveLeftRight() const
+void Camera::SetLocation(const DirectX::XMVECTOR& inPos) noexcept
 {
-	return moveLeftRight;
+	location = inPos;
+	m_CameraIndicator.SetLocation(location);
+	m_CameraProjection.SetLocation(location);
 }
-float Camera::GetMoveBackForward() const
+void Camera::SetRotation(const DirectX::XMVECTOR& inRot) noexcept
 {
-	return moveBackForward;
+	rotation = inRot;
+	m_CameraIndicator.SetRotation(rotation);
+	m_CameraProjection.SetRotation(rotation);
 }
 
 void Camera::AddMoveLeftRight(float Val)
 {
-	moveLeftRight += Val;
+	moveInputLeftRight = Val * moveSpeed;
 }
 void Camera::AddMoveBackForward(float Val)
 {
-	moveBackForward += Val;
+	moveInputBackForward = Val * moveSpeed;
 }
-
+void Camera::AddMoveUpDownward(float Val)
+{
+	moveInputUpDown = Val * moveSpeed;
+}
 void Camera::AddYaw(float Val)
 {
-	camYaw += Val;
+	camYaw += Val * rotationSpeed;
+
+	//float newYaw = XMVectorGetY(rotation) + Val * rotationSpeed;
+	//XMVectorSetY(rotation, Math::wrap_angle(newYaw));
+	camYaw = Math::wrap_angle(camYaw);
 }
 void Camera::AddPitch(float Val)
 {
-	camPitch += Val;
+	camPitch += Val * rotationSpeed;
+	//float newPitch = XMVectorGetX(rotation) + Val * rotationSpeed;
+
+	//XMVectorSetX(rotation, std::clamp(newPitch, 0.995f * -PI / 2.f, 0.995f * PI / 2.f));
+	camPitch = std::clamp(camPitch, 0.995f * -PI / 2.f, 0.995f * PI / 2.f);
+}
+
+XMVECTOR Camera::GetForwardVector()
+{
+	//return XMVector3Normalize(
+	//	{ 
+	//		cos(rotation.x) * sin(rotation.y),
+	//		-sin(rotation.x),
+	//		cos(rotation.x) * cos(rotation.y)
+	//	}
+	//);
+
+	//return XMVector3TransformCoord(
+	//	WorldForwardVector,
+	//	XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, 0.f)
+	//);
+
+	return camForward;
+}
+XMVECTOR Camera::GetRightVector()
+{
+	//return XMVector3NormalizeEst(
+	//	{
+	//		cos(rotation.y), 0, -sin(rotation.y)
+	//	}
+	//);
+
+	//return XMVector3Cross(GetUpVector(), GetForwardVector());
+
+	return camRight;
+}
+XMVECTOR Camera::GetUpVector()
+{
+	//return XMVector3TransformCoord(
+	//	WorldUpVector,
+	//	XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, 0.f)
+	//);
+
+	//return XMVector3Cross(GetRightVector(), GetForwardVector());
+
+	return camUp;
+}
+
+void Camera::Update()
+{
+	location += camForward * moveInputBackForward + camRight * moveInputLeftRight + camUp * moveInputUpDown;
+
+	XMMATRIX MRotation = XMMatrixRotationRollPitchYaw(camPitch, camYaw, camRoll);
+
+	camLookAt = XMVector3TransformCoord(WorldForwardVector, MRotation);
+	camUp = XMVector3TransformCoord(WorldUpVector, MRotation);
+
+	camForward = XMPlaneNormalize(camLookAt);
+	camRight = XMVector3Cross(camUp, camLookAt);
+	camRight = XMPlaneNormalize(camRight);
+
+	camLookAt = location + camLookAt;
+
+	camView = XMMatrixLookAtLH(location, camLookAt, WorldUpVector);
+
+	moveInputBackForward = 0.f;
+	moveInputLeftRight = 0.f;
+	moveInputUpDown = 0.f;
+
+	//vLocation += vForward * moveInputBackForward + vRight * moveInputLeftRight + vUp * moveInputUpDown;
+	//FQuaternion QuatRotator(camYaw, camPitch, camRoll);
+
+	//FQuaternion QuatForwardVector(vWorldForward.x, vWorldForward.y, vWorldForward.z, 0.f);
+	//FQuaternion QuatLookAt = QuatForwardVector * QuatRotator;
+	//vLookAt = { QuatLookAt.x, QuatLookAt.y, QuatLookAt.z };
+
+	//FQuaternion QuatUpVector(vWorldUp.x, vWorldUp.y, vWorldUp.z, 0.f);
+	//FQuaternion QuatUp = QuatUpVector * QuatRotator;
+	//vUp = { QuatUp.x, QuatUp.y, QuatUp.z };
+
+	//vForward = vLookAt.Normalize();
+	//vRight = Vector::CrossProduct(vUp, vLookAt);
+	//vRight.Normalize();
+
+	//vLookAt = vLocation + vLookAt;
+	//vView = Matrix::LookAtLH(
+	//	{ vLocation.x, vLocation.y, vLocation.z },
+	//	{ vLookAt.x, vLookAt.y, vLookAt.z },
+	//	{ vWorldUp.x, vWorldUp.y, vWorldUp.z }
+	//);
+
+	//moveInputBackForward = 0.f;
+	//moveInputLeftRight = 0.f;
+	//moveInputUpDown = 0.f;
+
 }

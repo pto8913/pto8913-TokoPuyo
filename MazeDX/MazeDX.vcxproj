@@ -118,7 +118,7 @@
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <AdditionalHeaderUnitDependencies>
       </AdditionalHeaderUnitDependencies>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -193,13 +193,22 @@
     <ClInclude Include="Source\DirectX\Public\Geometry\Sphere.h" />
     <ClInclude Include="Source\DirectX\Public\Geometry\TriangleList.h" />
     <ClInclude Include="Source\DirectX\Public\Input\Camera.h" />
+    <ClInclude Include="Source\DirectX\Public\Input\CameraIndicator.h" />
+    <ClInclude Include="Source\DirectX\Public\Input\CameraProjection.h" />
     <ClInclude Include="Source\DirectX\Public\Input\DirectXInput.h" />
     <ClInclude Include="Source\DirectX\Public\Math\Math.h" />
+    <ClInclude Include="Source\DirectX\Public\Math\Matrix.h" />
+    <ClInclude Include="Source\DirectX\Public\Math\Rotator.h" />
+    <ClInclude Include="Source\DirectX\Public\Math\Vector.h" />
     <ClInclude Include="Source\DirectX\Public\Math\Vertex.h" />
     <ClInclude Include="Source\DirectX\Public\Math\Rect.h" />
     <ClInclude Include="Source\DirectX\Public\Object\DrawCube.h" />
     <ClInclude Include="Source\DirectX\Public\Object\DrawableObject.h" />
     <ClInclude Include="Source\DirectX\Public\Object\DrawPlane.h" />
+    <ClInclude Include="Source\DirectX\Public\Object\DrawPyramid.h" />
+    <ClInclude Include="Source\DirectX\Public\Object\DrawSphere.h" />
+    <ClInclude Include="Source\DirectX\Public\Object\ObjectBase.h" />
+    <ClInclude Include="Source\DirectX\Public\Object\PointLight.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\Bindable.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\BlendState.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\ConstantBuffer.h" />
@@ -259,10 +268,28 @@
     <ClCompile Include="Source\DirectX\Private\Input\Camera.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Input\CameraIndicator.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Input\CameraProjection.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Input\DirectXInput.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Math\Math.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Math\Matrix.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Math\Rect.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Math\Rotator.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Math\Vector.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Math\Vertex.cpp">
@@ -275,6 +302,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Object\DrawPlane.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\DrawPyramid.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\DrawSphere.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\ObjectBase.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\PointLight.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\Factory\BlendState.cpp">

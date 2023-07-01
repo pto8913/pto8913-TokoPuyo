@@ -3,63 +3,23 @@
 
 #include <DirectXMath.h>
 
-TriangleList Plane::Make()//DX::VertexLayout layout, float size, float u, float v)
+TriangleList Plane::Make()
 {
-	//std::string a;
-	//for (auto v : plane.vertices)
-	//{
-	//	a += std::to_string(v.Pos.x);
-	//	a += " ";
-	//	a += std::to_string(v.Pos.y);
-	//	a += " ";
-	//	a += std::to_string(v.Pos.z);
-	//	a += "\n";
-	//}
-	//MessageBox(NULL, std::wstring(a.begin(), a.end()).c_str(), L"vertices", MB_OK);
-
-	//std::string b;
-	//for (auto v : plane.indices)
-	//{
-	//	b += std::to_string(v);
-	//}
-	//MessageBox(NULL, std::wstring(b.begin(), b.end()).c_str(), L"indicies", MB_OK);
-
-	//std::vector<DX::FVertex> vertices{ std::move(layout) };
-	//vertices[0].Pos = { -size, -size, -size };
-	//vertices[1].Pos = {  size, -size, -size };
-	//vertices[2].Pos = {  size, -size,  size };
-	//vertices[3].Pos = { -size, -size,  size };
-	//
-	//vertices[0].texCoord = { u,    v };
-	//vertices[1].texCoord = { 0.0f, v };
-	//vertices[2].texCoord = { 0.0f, 0.0f };
-	//vertices[3].texCoord = { u,    0.0f };
-
-	//return {
-	//	std::move(vertices),
-	//	{
-	//		0,1,2,
-	//		0,2,3,
-	//	}
-	//};
-
-	DX::VertexLayout vl;
-	vl.Append(DX::VertexLayout::Position3D);
-	vl.Append(DX::VertexLayout::Normal);
-	vl.Append(DX::VertexLayout::Texture2D);
-	return MakeTesselated(std::move(vl), 1, 1);
+	return MakeTesselated(1, 1);
 }
 TriangleList Plane::Make(float size, float u, float v)
 {
-	DX::VertexLayout vl;
-	vl.Append(DX::VertexLayout::Position3D);
-	vl.Append(DX::VertexLayout::Normal);
-	vl.Append(DX::VertexLayout::Texture2D);
+	//std::vector<DX::FVertex> vertices = {
+	//	DX::FVertex(-size, -size, -size, 100.0f, 100.0f, 0.0f, 1.0f, 0.0f),
+	//	DX::FVertex( size, -size, -size,   0.0f, 100.0f, 0.0f, 1.0f, 0.0f),
+	//	DX::FVertex( size, -size,  size,   0.0f,   0.0f, 0.0f, 1.0f, 0.0f),
+	//	DX::FVertex(-size, -size,  size, 100.0f,   0.0f, 0.0f, 1.0f, 0.0f),
+	//};
 
 	std::vector<DX::FVertex> vertices(4);
 	vertices[0].Pos = { -size, -size, -size };
-	vertices[1].Pos = { size, -size, -size };
-	vertices[2].Pos = { size, -size,  size };
+	vertices[1].Pos = {  size, -size, -size };
+	vertices[2].Pos = {  size, -size,  size };
 	vertices[3].Pos = { -size, -size,  size };
 
 	vertices[0].texCoord = { u,    v };
@@ -80,7 +40,7 @@ TriangleList Plane::Make(float size, float u, float v)
 		}
 	};
 }
-TriangleList Plane::MakeTesselated(DX::VertexLayout layout, UINT division_x, UINT division_y)
+TriangleList Plane::MakeTesselated(UINT division_x, UINT division_y)
 {
 	assert(division_x >= 1);
 	assert(division_y >= 1);
@@ -131,11 +91,11 @@ TriangleList Plane::MakeTesselated(DX::VertexLayout layout, UINT division_x, UIN
 				DWORD c2 = Pos(x, y + 1);
 				DWORD c3 = Pos(x + 1, y + 1);
 				indices.push_back(c0);
-				indices.push_back(c1);
-				indices.push_back(c3);
-				indices.push_back(c0);
-				indices.push_back(c3);
 				indices.push_back(c2);
+				indices.push_back(c1);
+				indices.push_back(c1);
+				indices.push_back(c2);
+				indices.push_back(c3);
 			}
 		}
 	}

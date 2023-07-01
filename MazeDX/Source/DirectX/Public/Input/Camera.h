@@ -1,66 +1,87 @@
 #pragma once
 
-#include "DirectX/DirectXHead.h"
+#include "Object/ObjectBase.h"
+
+#include "Input/CameraIndicator.h"
+#include "Input/CameraProjection.h"
+
+#include "Math/Math.h"
 
 class DirectX11;
 
-class Camera
+class Camera : public ObjectBase
 {
 public:
-	Camera(float width, float height);
 	Camera(
 		DirectX11& dx,
 		std::string inName,
-		DirectX::XMVECTOR homePos = { 0.0f,0.0f,0.0f },
-		float homePitch = 0.0f,
-		float homeYaw = 0.0f,
+		DirectX::XMFLOAT3 defaultPos = { 0.0f,0.0f,0.0f },
+		float defaultPitch = 0.0f,
+		float defaultYaw = 0.0f,
 		bool tethered = false
 	);
 
 	void Reset(DirectX11& dx) noexcept;
-
-	void Update();
 
 	std::string GetName() const noexcept;
 
 	DirectX::XMMATRIX GetView() const;
 	DirectX::XMMATRIX GetProjection() const;
 
-	DirectX::XMVECTOR GetPosition() const;
-	void SetPosition(DirectX::XMVECTOR newPos);
+	virtual void SetLocation(const DirectX::XMVECTOR& inPos) noexcept override;
+	virtual void SetRotation(const DirectX::XMVECTOR& inRot) noexcept override;
 
-	float GetMoveLeftRight() const;
-	float GetMoveBackForward() const;
-	
 	void AddMoveLeftRight(float Val);
 	void AddMoveBackForward(float Val);
+	void AddMoveUpDownward(float Val);
 
 	void AddYaw(float Val);
 	void AddPitch(float Val);
+
+	DirectX::XMVECTOR GetForwardVector();
+	DirectX::XMVECTOR GetRightVector();
+	DirectX::XMVECTOR GetUpVector();
+
+	void Update();
 protected:
 	bool tethered;
 	std::string name;
 
-	DirectX::XMVECTOR homePos;
-	float homeYaw = 0.f;
-	float homePitch = 0.f;
-	DirectX::XMVECTOR camPosition;
+	DirectX::XMVECTOR defaultPos;
+	float defaultYaw = 0.f;
+	float defaultPitch = 0.5f;
+
 	float camYaw = 0.f;
 	float camPitch = 0.f;
+	float camRoll = 0.f;
+
+	DirectX::XMMATRIX camProjection;
+
+	float moveSpeed = 100.f;
+	float rotationSpeed = 0.001f;
 
 	DirectX::XMMATRIX camView;
-	DirectX::XMMATRIX camProjection;
-	DirectX::XMVECTOR camTarget;
-	DirectX::XMVECTOR camUp;
+	DirectX::XMVECTOR camLookAt = { 0.f };
+	DirectX::XMVECTOR camUp = WorldUpVector;
 
-	DirectX::XMMATRIX camRotationMatrix = DirectX::XMMATRIX();
+	DirectX::XMVECTOR camForward = WorldForwardVector;
+	DirectX::XMVECTOR camRight = WorldRightVector;
 
-	DirectX::XMVECTOR DefaultForward = DirectX::XMVectorSet(0, 0, 1, 0);
-	DirectX::XMVECTOR DefaultRightward = DirectX::XMVectorSet(1, 0, 0, 0);
+	float moveInputBackForward = 0.f;
+	float moveInputLeftRight = 0.f;
+	float moveInputUpDown = 0.f;
 
-	DirectX::XMVECTOR camForward = DirectX::XMVectorSet(0, 0, 1, 0);
-	DirectX::XMVECTOR camRightward = DirectX::XMVectorSet(1, 0, 0, 0);
+	CameraProjection m_CameraProjection;
+	CameraIndicator m_CameraIndicator;
 
-	float moveLeftRight = 0.f;
-	float moveBackForward = 0.f;
+	FRotator rotator;
+	FVector vLookAt;
+	FVector vForward;
+	FVector vRight;
+	FVector vUp;
+	FVector vLocation;
+	FMatrix vView;
+
+	FVector vWorldForward = { 0, 0, 1 };
+	FVector vWorldUp = { 0, 1, 0 };
 };

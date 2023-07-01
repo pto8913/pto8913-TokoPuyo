@@ -15,15 +15,14 @@ public:
 
 	void SetTransform(DirectX::FXMMATRIX matrix)
 	{
-		matrix;
-		//for (int i = 0; i < vertices.Size(); ++i)
-		//{
-		//	auto& pos = vertices[i].Attr<DX::VertexLayout::ElementType::Position3D>();
-		//	DirectX::XMStoreFloat3(
-		//		&pos,
-		//		DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&pos), matrix)
-		//	);
-		//}
+		for (int i = 0; i < vertices.size(); ++i)
+		{
+			auto& pos = vertices[i].Pos;
+			DirectX::XMStoreFloat3(
+				&pos,
+				DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&pos), matrix)
+			);
+		}
 	}
 
 	std::vector<DX::FVertex> vertices;

@@ -4,11 +4,6 @@
 #include "Core/DirectXTex.h"
 #include <d3d11_2.h>
 
-//#include <dxgi.h>
-//#include <d2d1.h>
-//#include <dwrite.h>
-//#include <sstream>
-
 #include <D3DCompiler.h>
 #include <DirectXMath.h>
 #include <DirectXColors.h>

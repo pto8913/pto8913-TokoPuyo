@@ -8,14 +8,14 @@ VertexBuffer::VertexBuffer(DirectX11& dx, std::string inTag, const std::vector<D
 {
 	D3D11_BUFFER_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
-	desc.ByteWidth = (UINT)pInitData.size();
+	desc.ByteWidth = (UINT)pInitData.size() * sizeof(DX::FVertex);
 	desc.Usage = D3D11_USAGE_DEFAULT;
 	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	desc.CPUAccessFlags = 0;
 	desc.MiscFlags = 0;
 
-	std::string str = std::string("VertexBuffer Size :") + std::to_string(desc.ByteWidth);
-	MessageBox(NULL, Util::s2WString(str).c_str(), L"pVertexBuffer Error", MB_OK);
+	//std::string str = std::string("VertexBuffer Size :") + std::to_string(desc.ByteWidth);
+	//MessageBox(NULL, Util::s2WString(str).c_str(), L"pVertexBuffer Error", MB_OK);
 
 	D3D11_SUBRESOURCE_DATA vertexBufferData;
 	ZeroMemory(&vertexBufferData, sizeof(vertexBufferData));
@@ -46,6 +46,7 @@ std::shared_ptr<VertexBuffer> VertexBuffer::Make(DirectX11& dx, std::string inTa
 
 void VertexBuffer::Bind(DirectX11& dx)
 {
+	const UINT _stride = sizeof(DX::FVertex);
 	const UINT offset = 0;
-	GetContext(dx)->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
+	GetContext(dx)->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &_stride, &offset);
 }

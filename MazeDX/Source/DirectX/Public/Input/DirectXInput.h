@@ -20,7 +20,7 @@ public:
 	DirectXInput(HINSTANCE hInstance, HWND hWnd);
 	~DirectXInput();
 
-	void Update(HWND hWnd, double time, Camera* pCamera);
+	void Update(HWND hWnd, float time, Camera* pCamera);
 
 private:
 	IDirectInputDevice8* m_directKeyBoard;

@@ -2,6 +2,8 @@
 
 #include "DrawableObject.h"
 
+class DirectX11;
+
 class DrawPlane : public DrawableObject
 {
 public:

@@ -52,9 +52,9 @@ SkySphere::SkySphere(DirectX11& dx, int latDiv, int longDiv)
 	//	float padding;
 	//} colorConst;
 	//AddTask(PixelConstantBuffer<PSColorConstant>::Makedx, colorConst, 1));
-	AddTask(ConstantBufferPerFrame::Make(dx, sizeof(cbPerObject), 0));
+	AddTask(ConstantBufferEx::Make(dx, sizeof(cbPerObject), 0));
 
-	AddTask(Rasterizer::Make(dx, Rasterizer::None));
+	AddTask(Rasterizer::Make(dx, Rasterizer::None, m_pIndexBuffer->GetCount()));
 
 	const wchar_t* TexturePaths[6] = {
 		L"directx.ico",
@@ -179,10 +179,8 @@ void SkySphere::Update(Camera* pCamera)
 {
 	m_sphereWorld = XMMatrixIdentity();
 	Scale = XMMatrixScaling(5.f, 5.f, 5.f);
-	Translation = XMMatrixTranslation(
-		XMVectorGetX(pCamera->GetPosition()),
-		XMVectorGetY(pCamera->GetPosition()),
-		XMVectorGetZ(pCamera->GetPosition())
+	Translation = XMMatrixTranslationFromVector(
+		pCamera->GetLocation()
 	);
 	m_sphereWorld = Scale * Translation;
 }

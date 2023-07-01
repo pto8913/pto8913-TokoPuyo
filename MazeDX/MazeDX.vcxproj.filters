@@ -240,6 +240,33 @@
     <ClInclude Include="Source\DirectX\Public\Render\Factory\TransformConstantBuffer.h">
       <Filter>Source\DirectX\Public\Render\Factory</Filter>
     </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\DrawSphere.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\PointLight.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\CameraIndicator.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\CameraProjection.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\DrawPyramid.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\ObjectBase.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Math\Rotator.h">
+      <Filter>Source\DirectX\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Math\Vector.h">
+      <Filter>Source\DirectX\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Math\Matrix.h">
+      <Filter>Source\DirectX\Public\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -348,6 +375,36 @@
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\Factory\TransformConstantBuffer.cpp">
       <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\DrawSphere.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\PointLight.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Input\CameraIndicator.cpp">
+      <Filter>Source\DirectX\Private\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Input\CameraProjection.cpp">
+      <Filter>Source\DirectX\Private\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\DrawPyramid.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Math\Math.cpp">
+      <Filter>Source\DirectX\Private\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\ObjectBase.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Math\Matrix.cpp">
+      <Filter>Source\DirectX\Private\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Math\Vector.cpp">
+      <Filter>Source\DirectX\Private\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Math\Rotator.cpp">
+      <Filter>Source\DirectX\Private\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
