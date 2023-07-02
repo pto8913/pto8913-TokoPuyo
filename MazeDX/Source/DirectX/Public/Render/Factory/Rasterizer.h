@@ -12,6 +12,8 @@ public:
 		None,
 		Wire,
 		Transparent,
+		Transparent1,
+		Transparent2,
 	};
 	Rasterizer(DirectX11& dx, RasterizerType inType, UINT inSize);
 	~Rasterizer();

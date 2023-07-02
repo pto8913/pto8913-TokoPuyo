@@ -4,15 +4,15 @@
 DepthStencilView::DepthStencilView(DirectX11& dx, UINT width, UINT height)
 {
 	D3D11_TEXTURE2D_DESC textureDesc = {};
-	textureDesc.Width = width;
-	textureDesc.Height = height;
-	textureDesc.ArraySize = 1;
-	textureDesc.MipLevels = 1;
-	textureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	textureDesc.SampleDesc.Count = 1;
+	textureDesc.Width              = width;
+	textureDesc.Height             = height;
+	textureDesc.ArraySize          = 1;
+	textureDesc.MipLevels          = 1;
+	textureDesc.Format             = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	textureDesc.SampleDesc.Count   = 1;
 	textureDesc.SampleDesc.Quality = 0;
-	textureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	textureDesc.Usage = D3D11_USAGE_DEFAULT;
+	textureDesc.BindFlags          = D3D11_BIND_DEPTH_STENCIL;
+	textureDesc.Usage              = D3D11_USAGE_DEFAULT;
 
 	HRESULT result = GetDevice(dx)->CreateTexture2D(
 		&textureDesc,
@@ -26,9 +26,9 @@ DepthStencilView::DepthStencilView(DirectX11& dx, UINT width, UINT height)
 	}
 
 	D3D11_DEPTH_STENCIL_VIEW_DESC viewDesc = {};
-	viewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
-	viewDesc.Flags = 0;
-	viewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	viewDesc.Format                  = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+	viewDesc.Flags                   = 0;
+	viewDesc.ViewDimension           = D3D11_DSV_DIMENSION_TEXTURE2D;
 	viewDesc.Texture2DArray.MipSlice = 0;
 
 	result = GetDevice(dx)->CreateDepthStencilView(

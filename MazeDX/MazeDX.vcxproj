@@ -222,11 +222,13 @@
     <ClInclude Include="Source\DirectX\Public\Render\Factory\SamplerState.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\Shader.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\Texture.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\Texture2D.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\Topology.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\TransformConstantBuffer.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\VertexBuffer.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\VertexShader.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Manager\BindableManager.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\Viewport\ScreenText.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Viewport\ViewPort.h" />
     <ClInclude Include="Source\DirectX\Public\Render\World\SkySphere.h" />
     <ClInclude Include="Source\DirectX\Public\Utils\DirectXUtils.h" />
@@ -352,6 +354,9 @@
     <ClCompile Include="Source\DirectX\Private\Render\Factory\Texture.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\Texture2D.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\Factory\Topology.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -362,6 +367,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\Factory\VertexShader.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Viewport\ScreenText.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\Viewprort\ViewPort.cpp">
@@ -394,6 +402,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Shader\Light_Point.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\ScreenText.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Shader\Shader.hlsl">

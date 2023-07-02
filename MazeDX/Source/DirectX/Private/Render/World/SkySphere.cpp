@@ -32,74 +32,74 @@ const std::wstring SHADERPATH = L"Shader/SkyMap.hlsl";
 
 SkySphere::SkySphere(DirectX11& dx, int latDiv, int longDiv)
 {
-	NumSphereVertices = (latDiv - 2) * longDiv + 2;
-	NumSphereFaces = ((latDiv - 3) * longDiv * 2) + (longDiv * 2);
+	//NumSphereVertices = (latDiv - 2) * longDiv + 2;
+	//NumSphereFaces = ((latDiv - 3) * longDiv * 2) + (longDiv * 2);
 
-	TriangleList model = Sphere::Make();
+	//TriangleList model = Sphere::Make();
 
-	m_pIndexBuffer = IndexBuffer::Make(dx, "Sky", model.indices);
-	m_pVertexBuffer = VertexBuffer::Make(dx, "Sky", model.vertices);
-	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//m_pIndexBuffer = IndexBuffer::Make(dx, "Sky", model.indices);
+	//m_pVertexBuffer = VertexBuffer::Make(dx, "Sky", model.vertices);
+	//m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	auto pVS = VertexShader::Make(dx, SHADERPATH, "SKYMAP_VS");
-	AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V3D, pVS.get()));
-	AddTask(std::move(pVS));
-	AddTask(PixelShader::Make(dx, SHADERPATH, "SKYMAP_PS"));
+	//auto pVS = VertexShader::Make(dx, SHADERPATH, "SKYMAP_VS");
+	//AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V3D, pVS.get()));
+	//AddTask(std::move(pVS));
+	//AddTask(PixelShader::Make(dx, SHADERPATH, "SKYMAP_PS"));
 
-	//struct PSColorConstant
+	////struct PSColorConstant
+	////{
+	////	DirectX::XMFLOAT3 color = { 1,1,1 };
+	////	float padding;
+	////} colorConst;
+	////AddTask(PixelConstantBuffer<PSColorConstant>::Makedx, colorConst, 1));
+	//AddTask(ConstantBufferEx::Make(dx, sizeof(cbPerObject), 0));
+
+	//AddTask(Rasterizer::Make(dx, Rasterizer::None, m_pIndexBuffer->GetCount()));
+
+	//const wchar_t* TexturePaths[6] = {
+	//	L"directx.ico",
+	//	L"directx.ico",
+	//	L"directx.ico",
+	//	L"directx.ico",
+	//	L"directx.ico",
+	//	L"directx.ico",
+	//};
+
+	//std::vector<ScratchImage> pTextures(6);
+	//std::vector<ID3D11ShaderResourceView*> pTexResourceViews(6);
+	//HRESULT result;
+	//for (int i = 0; i < 6; ++i)
 	//{
-	//	DirectX::XMFLOAT3 color = { 1,1,1 };
-	//	float padding;
-	//} colorConst;
-	//AddTask(PixelConstantBuffer<PSColorConstant>::Makedx, colorConst, 1));
-	AddTask(ConstantBufferEx::Make(dx, sizeof(cbPerObject), 0));
+	//	const wchar_t* path = TexturePaths[i];
+	//	result = DirectX::LoadFromWICFile(path, DirectX::WIC_FLAGS_IGNORE_SRGB, nullptr, pTextures[i]);
+	//	if (FAILED(result))
+	//	{
+	//		MessageBox(NULL, L"Can not Load Texture", L"Failed Texture", MB_OK);
+	//		assert(false);
+	//	}
+	//}
 
-	AddTask(Rasterizer::Make(dx, Rasterizer::None, m_pIndexBuffer->GetCount()));
+	//D3D11_TEXTURE2D_DESC texDesc;
+	//ZeroMemory(&texDesc, sizeof(texDesc));
+	//texDesc.Width = (UINT)pTextures[0].GetMetadata().width;
+	//texDesc.Height = (UINT)pTextures[0].GetMetadata().height;
+	//texDesc.MipLevels = 1;
+	//texDesc.ArraySize = 6;
+	//texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	//texDesc.SampleDesc.Count = 1;
+	//texDesc.SampleDesc.Quality = 0;
+	//texDesc.Usage = D3D11_USAGE_DEFAULT;
+	//texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	//texDesc.CPUAccessFlags = 0;
+	//texDesc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
 
-	const wchar_t* TexturePaths[6] = {
-		L"directx.ico",
-		L"directx.ico",
-		L"directx.ico",
-		L"directx.ico",
-		L"directx.ico",
-		L"directx.ico",
-	};
-
-	std::vector<ScratchImage> pTextures(6);
-	std::vector<ID3D11ShaderResourceView*> pTexResourceViews(6);
-	HRESULT result;
-	for (int i = 0; i < 6; ++i)
-	{
-		const wchar_t* path = TexturePaths[i];
-		result = DirectX::LoadFromWICFile(path, DirectX::WIC_FLAGS_IGNORE_SRGB, nullptr, pTextures[i]);
-		if (FAILED(result))
-		{
-			MessageBox(NULL, L"Can not Load Texture", L"Failed Texture", MB_OK);
-			assert(false);
-		}
-	}
-
-	D3D11_TEXTURE2D_DESC texDesc;
-	ZeroMemory(&texDesc, sizeof(texDesc));
-	texDesc.Width = (UINT)pTextures[0].GetMetadata().width;
-	texDesc.Height = (UINT)pTextures[0].GetMetadata().height;
-	texDesc.MipLevels = 1;
-	texDesc.ArraySize = 6;
-	texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	texDesc.SampleDesc.Count = 1;
-	texDesc.SampleDesc.Quality = 0;
-	texDesc.Usage = D3D11_USAGE_DEFAULT;
-	texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-	texDesc.CPUAccessFlags = 0;
-	texDesc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
-
-	D3D11_SUBRESOURCE_DATA data[6];
-	for (int i = 0; i < 6; ++i)
-	{
-		data[i].pSysMem = pTextures[i].GetPixels();
-		data[i].SysMemPitch = (UINT)pTextures[i].GetImage(0, 0, 0)->rowPitch;
-		data[i].SysMemSlicePitch = 0;
-	}
+	//D3D11_SUBRESOURCE_DATA data[6];
+	//for (int i = 0; i < 6; ++i)
+	//{
+	//	data[i].pSysMem = pTextures[i].GetPixels();
+	//	data[i].SysMemPitch = (UINT)pTextures[i].GetImage(0, 0, 0)->rowPitch;
+	//	data[i].SysMemSlicePitch = 0;
+	//}
 
 	//ID3D11Texture2D* pTexture;
 	//pID3DDevice->CreateTexture2D(&texDesc, data, &pTexture);
@@ -177,12 +177,12 @@ SkySphere::~SkySphere()
 
 void SkySphere::Update(Camera* pCamera)
 {
-	m_sphereWorld = XMMatrixIdentity();
-	Scale = XMMatrixScaling(5.f, 5.f, 5.f);
-	Translation = XMMatrixTranslationFromVector(
-		pCamera->GetLocation()
-	);
-	m_sphereWorld = Scale * Translation;
+	//m_sphereWorld = XMMatrixIdentity();
+	//Scale = XMMatrixScaling(5.f, 5.f, 5.f);
+	//Translation = XMMatrixTranslationFromVector(
+	//	pCamera->GetLocation()
+	//);
+	//m_sphereWorld = Scale * Translation;
 }
 //
 //void SkySphere::Draw(ID3D11DeviceContext* pID3DContext, Camera* pCamera, cbPerObject& cbPerObj, ID3D11Buffer** pConstantBuffer, ID3D11SamplerState** pSamplerState)

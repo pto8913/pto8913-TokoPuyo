@@ -9,8 +9,6 @@
 #include "Render/Factory/PixelShader.h"
 #include "Render/Factory/VertexShader.h"
 
-#include "Render/Factory/BlendState.h"
-
 #include "Render/Factory/DepthStencilView.h"
 #include "Render/Factory/RenderTargetView.h"
 
@@ -22,6 +20,7 @@
 
 #include "Object/DrawPlane.h"
 #include "Object/DrawSphere.h"
+#include "Render/Viewport/ScreenText.h"
 
 #include "Math/Math.h"
 
@@ -31,15 +30,15 @@ const std::wstring SHADERPATH = L"Shader/Shader.hlsl";
 
 using namespace DirectX;
 
-DirectX11::DirectX11(HINSTANCE hInstance, HWND hWnd, int width, int height)
+DirectX11::DirectX11(HINSTANCE hInstance, HWND hWnd, UINT width, UINT height)
 {
 	bInitialized = true;
 
 	m_hInstance = hInstance;
 	m_hWnd = hWnd;
 
-	m_outputWidth = (int)max(width, 1);
-	m_outputHeight = (int)max(height, 1);
+	m_outputWidth = max(width, 1);
+	m_outputHeight = max(height, 1);
 
 	CreateResources();
 
@@ -47,16 +46,30 @@ DirectX11::DirectX11(HINSTANCE hInstance, HWND hWnd, int width, int height)
 	m_pCamera = new Camera(*this, "A", DirectX::XMFLOAT3(0, 0, 5.f), 9.f, PI / 2.f);
 
 	m_pDrawPlane = new DrawPlane(*this, 100.f);
-	m_pDrawPlane->SetLocation({ 0.f, -50.f, 50.f });
+	m_pDrawPlane->SetLocation({ 0.f, -50.f, 0.f });
 
 	m_pDrawSphere = new DrawSphere(*this, 25.f);
 	m_pDrawSphere->SetLocation({ 0.f, 50.f, 0.f });
 
+	m_pScreenText = new ScreenText(*this, m_outputWidth, m_outputHeight);
+	m_pScreenText->UpdateText(L"Hello World");
+
+
+	/* Shader */
+	{
+		vertexShader = VertexShader::Make(*this, SHADERPATH, "VS");
+		pixelShader = PixelShader::Make(*this, SHADERPATH, "PS");
+		lightShader = PixelShader::Make(*this, SHADERPATH, "D2D_PS");
+		vertexShader->Bind(*this);
+		pixelShader->Bind(*this);
+		lightShader->Bind(*this);
+	}
+
 	/* Constant Buffer Per Frame */
 	{
-		light.direction = XMFLOAT3(0, -1, 0);
-		light.ambient = XMFLOAT4(0.2, 0.2, 0.2, 1);
-		light.diffuse = XMFLOAT4(1, 1, 1, 1);
+		light.direction = XMFLOAT3(0, 1, 0);
+		light.ambient = XMFLOAT4(1, 1, 1, 1);
+		light.diffuse = XMFLOAT4(255, 255, 255, 1);
 
 		D3D11_BUFFER_DESC desc;
 		ZeroMemory(&desc, sizeof(desc));
@@ -80,16 +93,6 @@ DirectX11::DirectX11(HINSTANCE hInstance, HWND hWnd, int width, int height)
 			MessageBox(NULL, L"Can not create ConstantBufferEx", L"Failed ConstantBufferEx", MB_OK);
 			assert(false);
 		}
-	}
-
-	/* Shader */
-	{
-		vertexShader = VertexShader::Make(*this, SHADERPATH, "VS");
-		pixelShader = PixelShader::Make(*this, SHADERPATH, "PS");
-		lightShader = PixelShader::Make(*this, SHADERPATH, "D2D_PS");
-		vertexShader->Bind(*this);
-		pixelShader->Bind(*this);
-		lightShader->Bind(*this);
 	}
 
 	/* Viewport */
@@ -173,18 +176,18 @@ void DirectX11::Present()
 	m_pID3DContext->OMSetRenderTargets(1, &m_pRenderTargetView->Get(), m_pDepthStencilView->Get());
 
 	//Set the default blend state (no blending) for opaque objects
-	//m_pID3DContext->OMSetBlendState(m_pBlendState, 0, 0xffffffff);
+	GetContext()->OMSetBlendState(0, 0, 0xffffffff);
+
 
 	m_pDrawPlane->ExecuteTasks(*this);
 	m_pDrawSphere->ExecuteTasks(*this);
+	m_pScreenText->ExecuteTasks(*this);
 
 	// The first argument instructs DXGI to block until VSync, putting the application
 	// to sleep until the next VSync. This ensures we don't waste any cycles rendering
 	// frames that will never be displayed to the screen.
-	HRESULT result = m_pSwapChain->Present(1, 0);
+	HRESULT result = m_pSwapChain->Present(0, 0);
 	
-	//m_pViewPort->CreateViewPort(m_pID3DContext, (float)m_outputWidth, (float)m_outputHeight);
-
 	// If the device was reset we must completely reinitialize the renderer.
 	if (result == DXGI_ERROR_DEVICE_REMOVED || result == DXGI_ERROR_DEVICE_RESET)
 	{
@@ -269,26 +272,26 @@ void DirectX11::CreateResources()
 	//Describe our SwapChain Buffer
 	DXGI_MODE_DESC bufferDesc;
 	ZeroMemory(&bufferDesc, sizeof(DXGI_MODE_DESC));
-	bufferDesc.Width = m_outputWidth;
-	bufferDesc.Height = m_outputHeight;
-	bufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	bufferDesc.RefreshRate.Numerator = 60;
+	bufferDesc.Width                   = m_outputWidth;
+	bufferDesc.Height                  = m_outputHeight;
+	bufferDesc.Format                  = DXGI_FORMAT_R8G8B8A8_UNORM;
+	bufferDesc.RefreshRate.Numerator   = 60;
 	bufferDesc.RefreshRate.Denominator = 1;
-	bufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	bufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	bufferDesc.Scaling                 = DXGI_MODE_SCALING_UNSPECIFIED;
+	bufferDesc.ScanlineOrdering        = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 
 	//Describe our SwapChain
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
 	ZeroMemory(&swapChainDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
-	swapChainDesc.BufferDesc = bufferDesc;
-	swapChainDesc.SampleDesc.Count = 1;
+	swapChainDesc.BufferDesc         = bufferDesc;
+	swapChainDesc.SampleDesc.Count   = 1;
 	swapChainDesc.SampleDesc.Quality = 0;
-	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	swapChainDesc.BufferCount = 1;
-	swapChainDesc.OutputWindow = m_hWnd;
-	swapChainDesc.Windowed = true;
-	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	swapChainDesc.Flags = 0;
+	swapChainDesc.BufferUsage        = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	swapChainDesc.BufferCount        = 1;
+	swapChainDesc.OutputWindow       = m_hWnd;
+	swapChainDesc.Windowed           = true;
+	swapChainDesc.SwapEffect         = DXGI_SWAP_EFFECT_DISCARD;
+	//swapChainDesc.Flags              = 0;
 
 	D3D_FEATURE_LEVEL featureLevels[] = {
 		D3D_FEATURE_LEVEL_10_0,
@@ -298,10 +301,7 @@ void DirectX11::CreateResources()
 	};
 	UINT totalFeatureLevels = ARRAYSIZE(featureLevels);
 
-	UINT creationFlags = 0;
-#ifdef _DEBUG
-	creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
-#endif // _DEBUG
+	UINT creationFlags = D3D11_CREATE_DEVICE_DEBUG | D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 
 	HRESULT result = D3D11CreateDeviceAndSwapChain(
 		0,
@@ -331,8 +331,9 @@ void DirectX11::CreateResources()
 		&pBackBuffer
 	);
 
-	m_pRenderTargetView = std::shared_ptr<RenderTargetView>{ new RenderTargetView(*this, pBackBuffer.Get()) };
-	m_pDepthStencilView = std::shared_ptr<DepthStencilView>{ new DepthStencilView(*this, m_outputWidth, m_outputHeight) };
+	m_pRenderTargetView = std::make_shared<RenderTargetView>(*this, pBackBuffer.Get());
+	//m_pRenderTargetView = std::make_shared<RenderTargetView>(*this, m_outputWidth, m_outputHeight);
+	m_pDepthStencilView = std::make_shared<DepthStencilView>(*this, m_outputWidth, m_outputHeight);
 
 	//m_pID3DContext->OMSetRenderTargets(1, &m_pRenderTargetView->Get(), m_pDepthStencilView->Get());
 

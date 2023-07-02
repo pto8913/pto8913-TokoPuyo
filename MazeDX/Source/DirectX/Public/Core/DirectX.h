@@ -1,33 +1,28 @@
 #pragma once
 
-#include "DirectX/DirectXHead.h"
-#include "Geometry/TriangleList.h"
-
-#include "StepTimer.h"
-
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "DirectXTex.lib")
 
+#include "DirectX/DirectXHead.h"
+#include "Geometry/TriangleList.h"
+
+#include "StepTimer.h"
+
 class ViewPort;
 
 class DrawPlane;
 class DrawSphere;
+class ScreenText;
 
 class Camera;
-class InputLayout;
 
 class DirectXInput;
 
 class RenderTargetView;
 class DepthStencilView;
 
-struct cbPerObject
-{
-	DirectX::XMMATRIX WVP;
-	DirectX::XMMATRIX World;
-};
 struct Light
 {
 	Light()
@@ -61,7 +56,7 @@ class DirectX11
 {
 	friend class DirectXResource;
 public:
-	DirectX11(HINSTANCE hInstance, HWND hWnd, int width, int height);
+	DirectX11(HINSTANCE hInstance, HWND hWnd, UINT width, UINT height);
 	~DirectX11();
 
 	DirectX11(const DirectX11& CopyC) = delete;
@@ -70,6 +65,7 @@ public:
 	HINSTANCE const& GetHInstance() const;
 	HWND const& GetHWnd() const;
 
+	IDXGISwapChain* GetSwapChain() { return m_pSwapChain; }
 	ID3D11Device* GetDevice() { return m_pID3DDevice; }
 	ID3D11DeviceContext* GetContext() { return m_pID3DContext; }
 
@@ -92,8 +88,8 @@ private:
 	HWND m_hWnd;
 	
 	// Device resources.
-	int m_outputWidth;
-	int m_outputHeight;
+	UINT m_outputWidth;
+	UINT m_outputHeight;
 
 	DX::StepTimer m_timer;
 
@@ -109,6 +105,7 @@ private:
 
 	DrawPlane* m_pDrawPlane;
 	DrawSphere* m_pDrawSphere;
+	ScreenText* m_pScreenText;
 
 	DirectXInput* m_pDirectXInput;
 	

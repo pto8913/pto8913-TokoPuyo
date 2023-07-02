@@ -1,6 +1,6 @@
-//
+// 
 // Main.cpp
-//
+// 
 
 #include "pch.h"
 
@@ -64,14 +64,14 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     }
 
     // Create window
-    int w = 800, h = 600;
+    UINT w = 800, h = 600;
 
     RECT rc = { 0, 0, static_cast<LONG>(w), static_cast<LONG>(h) };
 
     AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
-    const int width = rc.right - rc.left;
-    const int height = rc.bottom - rc.top;
+    const UINT width = rc.right - rc.left;
+    const UINT height = rc.bottom - rc.top;
     HWND hwnd = CreateWindowExW(
         0, 
         L"MazeDXWindowClass", 

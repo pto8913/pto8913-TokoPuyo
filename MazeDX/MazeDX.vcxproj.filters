@@ -228,9 +228,6 @@
     <ClInclude Include="Source\DirectX\Public\Render\Factory\Rasterizer.h">
       <Filter>Source\DirectX\Public\Render\Factory</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\Texture.h">
-      <Filter>Source\DirectX\Public\Render\Factory</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Object\DrawPlane.h">
       <Filter>Source\DirectX\Public\Object</Filter>
     </ClInclude>
@@ -266,6 +263,15 @@
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Math\Matrix.h">
       <Filter>Source\DirectX\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Viewport\ScreenText.h">
+      <Filter>Source\DirectX\Public\Render\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\Texture.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\Texture2D.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -406,6 +412,12 @@
     <ClCompile Include="Source\DirectX\Private\Math\Rotator.cpp">
       <Filter>Source\DirectX\Private\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Viewport\ScreenText.cpp">
+      <Filter>Source\DirectX\Private\Render\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\Texture2D.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -431,6 +443,9 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="Shader\SkyMap.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\ScreenText.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

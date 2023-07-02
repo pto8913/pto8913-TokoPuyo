@@ -19,6 +19,7 @@ public:
 
 	virtual void InitParentRefrence(const DrawableObject& pParent) override;
 	virtual void Bind(DirectX11& dx) override;
+	void Bind(DirectX11& dx, Transforms transform);
 
 	static std::string GenerateID(UINT inSlot)
 	{

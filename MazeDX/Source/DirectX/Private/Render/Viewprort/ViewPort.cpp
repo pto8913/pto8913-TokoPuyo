@@ -3,6 +3,7 @@
 
 ViewPort::ViewPort(DirectX11& dx, float width, float height)
 {
+	dx;
 	ZeroMemory(&viewport, sizeof(viewport));
 	viewport.Width = width;
 	viewport.Height = height;

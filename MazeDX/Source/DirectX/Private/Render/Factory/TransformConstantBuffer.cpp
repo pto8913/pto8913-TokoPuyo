@@ -24,6 +24,11 @@ void TransformConstantBuffer::Bind(DirectX11& dx)
 	m_pVCBuffer->Update(dx, GetTransform(dx));
 	m_pVCBuffer->Bind(dx);
 }
+void TransformConstantBuffer::Bind(DirectX11& dx, TransformConstantBuffer::Transforms transform)
+{
+	m_pVCBuffer->Update(dx, transform);
+	m_pVCBuffer->Bind(dx);
+}
 TransformConstantBuffer::Transforms TransformConstantBuffer::GetTransform(DirectX11& dx)
 {
 	const DirectX::XMMATRIX model = m_pParent->GetTransformXM();

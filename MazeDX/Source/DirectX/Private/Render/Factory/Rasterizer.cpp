@@ -20,7 +20,18 @@ Rasterizer::Rasterizer(DirectX11& dx, RasterizerType inType, UINT inSize)
 		desc.CullMode = D3D11_CULL_BACK;
 		desc.FrontCounterClockwise = true;
 		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_1);
-
+		desc.FrontCounterClockwise = false;
+		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_2);
+		break;
+	case Transparent1:
+		desc.FillMode = D3D11_FILL_SOLID;
+		desc.CullMode = D3D11_CULL_BACK;
+		desc.FrontCounterClockwise = true;
+		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_1);
+		break;
+	case Transparent2:
+		desc.FillMode = D3D11_FILL_SOLID;
+		desc.CullMode = D3D11_CULL_BACK;
 		desc.FrontCounterClockwise = false;
 		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_2);
 		break;
@@ -52,6 +63,14 @@ void Rasterizer::Bind(DirectX11& dx)
 	case Transparent:
 		GetContext(dx)->RSSetState(m_pRasterizer_1);
 		dx.DrawIndexed(size);
+		GetContext(dx)->RSSetState(m_pRasterizer_2);
+		dx.DrawIndexed(size);
+		break;
+	case Transparent1:
+		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		dx.DrawIndexed(size);
+		break;
+	case Transparent2:
 		GetContext(dx)->RSSetState(m_pRasterizer_2);
 		dx.DrawIndexed(size);
 		break;

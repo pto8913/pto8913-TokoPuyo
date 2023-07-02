@@ -27,7 +27,7 @@ public:
 protected:
 	UINT slot;
 	std::wstring fileName;
-	ID3D11ShaderResourceView* m_pTextureView;
 
-	DirectX::ScratchImage scratch;
+	ID3D11Texture2D* m_pTexture;
+	ID3D11ShaderResourceView* m_pTextureView;
 };

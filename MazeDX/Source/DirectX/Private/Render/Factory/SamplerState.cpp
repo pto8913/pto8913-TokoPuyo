@@ -14,7 +14,7 @@ SamplerState::SamplerState(DirectX11& dx, UINT inSlot)
 	desc.ComparisonFunc = D3D11_COMPARISON_NEVER;
 	desc.MinLOD =         0;
 	desc.MaxLOD =         D3D11_FLOAT32_MAX;
-	desc.MaxAnisotropy =  D3D11_REQ_MAXANISOTROPY;
+	//desc.MaxAnisotropy =  D3D11_REQ_MAXANISOTROPY;
 
 	HRESULT result = GetDevice(dx)->CreateSamplerState(
 		&desc,
