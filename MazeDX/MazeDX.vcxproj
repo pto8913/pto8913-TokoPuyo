@@ -182,12 +182,14 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="App.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Source\DirectX\DDSTextureLoader\DDSTextureLoader11.h" />
     <ClInclude Include="Source\DirectX\DirectXHead.h" />
     <ClInclude Include="Source\DirectX\Public\Core\DirectX.h" />
     <ClInclude Include="Source\DirectX\Public\Core\DirectXResource.h" />
     <ClInclude Include="Source\DirectX\Public\Core\DirectXTex.h" />
+    <ClInclude Include="Source\DirectX\Public\Delegate\Delegate.h" />
     <ClInclude Include="Source\DirectX\Public\Geometry\Cube.h" />
     <ClInclude Include="Source\DirectX\Public\Geometry\Plane.h" />
     <ClInclude Include="Source\DirectX\Public\Geometry\Sphere.h" />
@@ -207,8 +209,10 @@
     <ClInclude Include="Source\DirectX\Public\Object\DrawPlane.h" />
     <ClInclude Include="Source\DirectX\Public\Object\DrawPyramid.h" />
     <ClInclude Include="Source\DirectX\Public\Object\DrawSphere.h" />
+    <ClInclude Include="Source\DirectX\Public\Object\LightBase.h" />
     <ClInclude Include="Source\DirectX\Public\Object\ObjectBase.h" />
     <ClInclude Include="Source\DirectX\Public\Object\PointLight.h" />
+    <ClInclude Include="Source\DirectX\Public\Object\SkyLight.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\Bindable.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\BlendState.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\ConstantBuffer.h" />
@@ -235,8 +239,12 @@
     <ClInclude Include="Source\DirectX\Public\Utils\String.h" />
     <ClInclude Include="Source\DirectX\WICTextureLoader\WICTextureLoader11.h" />
     <ClInclude Include="StepTimer.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="App.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -312,10 +320,16 @@
     <ClCompile Include="Source\DirectX\Private\Object\DrawSphere.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\LightBase.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Object\ObjectBase.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Object\PointLight.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\SkyLight.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\Factory\BlendState.cpp">
@@ -385,6 +399,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\DirectX\WICTextureLoader\WICTextureLoader11.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
