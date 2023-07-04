@@ -18,7 +18,7 @@ class DirectX11;
 class App
 {
 public:
-	App(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow);
+	App();
 
 	virtual int Tick();
 	virtual void DoFrame();

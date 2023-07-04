@@ -17,8 +17,8 @@ const std::wstring SHADERPATH = L"Shader/Shader.hlsl";
 
 using namespace DirectX;
 
-App::App(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
-	: m_Window(1280, 720, L"pto8913", hInstance, hPrevInstance, lpCmdLine, nCmdShow)
+App::App()
+	: m_Window(800, 600, L"pto8913")
 {
 	//m_Window.__Tick.Bind<&App::Tick>(*this);
 	m_Window.__OnWindowSizeChanged.Bind<&App::OnWindowSizeChanged>(*this);
@@ -79,7 +79,6 @@ void App::DoFrame()
 	elapsedTime;
 
 	//m_pSkySphere->Update(m_pCamera);
-
 
 	m_pDrawPlane->ExecuteTasks(m_Window.GetDX());
 	m_pDrawSphere->ExecuteTasks(m_Window.GetDX());

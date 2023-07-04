@@ -15,10 +15,11 @@ Texture2D::Texture2D(DirectX11& dx, UINT inWidth, UINT inHeight)
 	sharedTexDesc.MipLevels        = 1;
 	sharedTexDesc.ArraySize        = 1;
 	sharedTexDesc.SampleDesc.Count = 1;
+	sharedTexDesc.SampleDesc.Quality = 0;
 	sharedTexDesc.Usage            = D3D11_USAGE_DEFAULT;
 	sharedTexDesc.BindFlags        = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
 	sharedTexDesc.MiscFlags        = D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
-
+	sharedTexDesc.CPUAccessFlags = 0;
 	ID3D11Texture2D* sharedTex11;
 	HRESULT result = dx.GetDevice()->CreateTexture2D(&sharedTexDesc, NULL, &sharedTex11);
 	if (FAILED(result))

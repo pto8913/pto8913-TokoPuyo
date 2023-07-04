@@ -31,7 +31,7 @@ private:
 		static constexpr const wchar_t* wndClassName = L"pto8913 Engine Window";
 	};
 public:
-	Window(int inWidth, int inHeight, const wchar_t* inName, _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow);
+	Window(int inWidth, int inHeight, const wchar_t* inName);
 	~Window();
 	
 	void SetTitle(const wchar_t* title);

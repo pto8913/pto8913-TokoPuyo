@@ -14,6 +14,8 @@ OnDeactivated Window::__OnDeactivated;
 
 LPCWSTR appName = L"MazeDX";
 
+Window::WindowClass Window::WindowClass::instance;
+
 Window::WindowClass::WindowClass()
     : hInstance(GetModuleHandle(nullptr))
 {
@@ -66,90 +68,55 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 {
     return instance.hInstance;
 }
-Window::WindowClass Window::WindowClass::instance;
 
-Window::Window(int inWidth, int inHeight, const wchar_t* inName, _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
+Window::Window(int inWidth, int inHeight, const wchar_t* inName)
 {
-    UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
-
-    if (!DirectX::XMVerifyCPUSupport())
+    RECT wr;
+    wr.left = 100;
+    wr.right = inWidth + wr.left;
+    wr.top = 100;
+    wr.bottom = inHeight + wr.top;
+    if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0)
     {
         return;
     }
 
-    HRESULT hr = CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
-    if (FAILED(hr))
-    {
-        return;
-    }
-
-    WNDCLASSEXW wcex = {};
-    wcex.cbSize = sizeof(WNDCLASSEXW);
-    wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = WndProc;
-    wcex.hInstance = hInstance;
-    wcex.hIcon = LoadIconW(hInstance, L"IDI_ICON");
-    wcex.hCursor = LoadCursorW(nullptr, IDC_ARROW);
-    wcex.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
-    wcex.lpszClassName = inName;
-    wcex.hIconSm = LoadIconW(wcex.hInstance, L"IDI_ICON");
-    if (!RegisterClassExW(&wcex))
-    {
-        return;
-    }
-
-	RECT rc;
-	rc.left   = 0;
-	rc.right  = 0; 
-	rc.top    = (LONG)inWidth; 
-	rc.bottom = (LONG)inHeight;
-
-    if (AdjustWindowRect(&rc, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0)
-    {
-        MessageBox(NULL, L"Invalid rect", L"m_hWnd", MB_OK);
-        assert(false);
-        return;
-    }
-    
-    const int width = rc.right - rc.left;
-    const int height = rc.bottom - rc.top;
-    //m_hWnd = CreateWindow(
-    //    WindowClass::GetName(),
-    //    inName,
-    //    WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-    //    CW_USEDEFAULT,
-    //    CW_USEDEFAULT,
-    //    width,
-    //    height,
-    //    nullptr,
-    //    nullptr,
-    //    WindowClass::GetInstance(),
-    //    this
-    //);
-    m_hWnd = CreateWindowExW(
-        0, 
+    float width = wr.right - wr.left;
+    float height = wr.bottom - wr.top;
+    // create window & get hWnd
+    m_hWnd = CreateWindow(
+        WindowClass::GetName(), 
         inName,
-        appName, 
-        WS_OVERLAPPEDWINDOW,
+        WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
         CW_USEDEFAULT, 
         CW_USEDEFAULT, 
         width, 
-        height, 
+        height,
         nullptr, 
         nullptr, 
-        hInstance,
-        nullptr
+        WindowClass::GetInstance(), 
+        this
     );
-    if (!m_hWnd)
+    // check for error
+    if (m_hWnd == nullptr)
     {
-        MessageBox(NULL, L"m_hWnd is not valid", L"m_hWnd", MB_OK);
-        assert(false);
         return;
     }
-    ShowWindow(m_hWnd, nCmdShow);
+    // newly created windows start off as hidden
+    ShowWindow(m_hWnd, SW_SHOWDEFAULT);
+    pDX = std::make_unique<DirectX11>(WindowClass::GetInstance(), m_hWnd, width, height);
+
+    // register mouse raw input device
+    RAWINPUTDEVICE rid;
+    rid.usUsagePage = 0x01; // mouse page
+    rid.usUsage = 0x02; // mouse usage
+    rid.dwFlags = 0;
+    rid.hwndTarget = nullptr;
+    if (RegisterRawInputDevices(&rid, 1, sizeof(rid)) == FALSE)
+    {
+        return;
+    }
     
-    pDX = std::make_unique<DirectX11>(hInstance, m_hWnd, width, height);
 }
 Window::~Window()
 {
