@@ -18,3 +18,5 @@
 #include <map>
 
 #include "Utils/DirectXUtils.h"
+
+#include "Delegate/Delegate.h"

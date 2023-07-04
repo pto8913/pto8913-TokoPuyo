@@ -6,51 +6,13 @@
 #pragma comment(lib, "DirectXTex.lib")
 
 #include "DirectX/DirectXHead.h"
-#include "Geometry/TriangleList.h"
-
-#include "StepTimer.h"
-
-class ViewPort;
-
-class DrawPlane;
-class DrawSphere;
-class ScreenText;
-
-class Camera;
 
 class DirectXInput;
+class Camera;
+class ViewPort;
 
 class RenderTargetView;
 class DepthStencilView;
-
-struct Light
-{
-	Light()
-	{
-		ZeroMemory(this, sizeof(Light));
-	}
-
-	DirectX::XMFLOAT3 direction;
-	float pad;
-	DirectX::XMFLOAT4 ambient;
-	DirectX::XMFLOAT4 diffuse;
-};
-struct Light_Point : public Light
-{
-	Light_Point()
-	{
-		ZeroMemory(this, sizeof(Light_Point));
-	}
-
-	DirectX::XMFLOAT3 position;
-	float range;
-	DirectX::XMFLOAT3 attenuation;
-	float pad2;
-};
-struct cbPerFrame
-{
-	Light light;
-};
 
 class DirectX11
 {
@@ -62,20 +24,12 @@ public:
 	DirectX11(const DirectX11& CopyC) = delete;
 	DirectX11& operator=(const DirectX11& CopyC) = delete;
 
-	HINSTANCE const& GetHInstance() const;
-	HWND const& GetHWnd() const;
-
 	IDXGISwapChain* GetSwapChain() { return m_pSwapChain; }
 	ID3D11Device* GetDevice() { return m_pID3DDevice; }
 	ID3D11DeviceContext* GetContext() { return m_pID3DContext; }
 
-	void CleanUp();
-
-	// Basic game loop
-	void Tick();
-
-	virtual void Update(DX::StepTimer const& timer);
-	virtual void Present();
+	void BeginFrame(float elapsedTime);
+	HRESULT EndFrame();
 
 	void DrawIndexed(UINT count);
 
@@ -86,12 +40,6 @@ public:
 private:
 	HINSTANCE m_hInstance;
 	HWND m_hWnd;
-	
-	// Device resources.
-	UINT m_outputWidth;
-	UINT m_outputHeight;
-
-	DX::StepTimer m_timer;
 
 	IDXGISwapChain* m_pSwapChain;
 	ID3D11Device* m_pID3DDevice;
@@ -100,34 +48,12 @@ private:
 	std::shared_ptr<RenderTargetView> m_pRenderTargetView;
 	std::shared_ptr<DepthStencilView> m_pDepthStencilView;
 
-	cbPerFrame constbPerFrame;
-	Light light;
-
-	DrawPlane* m_pDrawPlane;
-	DrawSphere* m_pDrawSphere;
-	ScreenText* m_pScreenText;
 
 	DirectXInput* m_pDirectXInput;
-	
 	Camera* m_pCamera;
-
 	ViewPort* m_pViewPort;
-	std::shared_ptr<class PixelShader> lightShader;
-
-	// ---------------------------------------
-	std::shared_ptr<class PixelShader> pixelShader;
-	std::shared_ptr<class VertexShader> vertexShader;
-	ID3D11Buffer* m_pConstantBufferEx;
-	// ---------------------------------------
-public:
-	// Messages
-	void OnActivated();
-	void OnDeactivated();
-	void OnSuspending();
-	void OnResuming();
 
 protected:
-	virtual void OnDeviceLost();
 
 	template<typename VertexType>
 	void FreshPic(
@@ -135,20 +61,6 @@ protected:
 		float picWidth, float picHeight,
 		int rowNum, int colNum, int currentRow, int currentCol
 	);
-
-public:
-	// ------------------------------------------------------
-	// Window
-	// ------------------------------------------------------
-	void GetDefaultSize(int& width, int& height) const noexcept;
-	virtual void OnWindowSizeChanged(int width, int height);
-
-protected:
-
-	// ------------------------------------------------------
-	// Resource
-	// ------------------------------------------------------
-	void CreateResources();
 };
 
 

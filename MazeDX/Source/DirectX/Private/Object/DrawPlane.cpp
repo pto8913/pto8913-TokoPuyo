@@ -46,7 +46,7 @@ DrawPlane::DrawPlane(DirectX11& dx, float size)
 	auto pTCB = std::make_shared<TransformConstantBuffer>(dx);
 	AddTask(pTCB);
 
-	AddTask(Texture::Make(dx, L"grass.jpg", 0));
+	AddTask(Texture::Make(dx, Texture::TextureType::WIC, L"grass.jpg", 0));
 	AddTask(SamplerState::Make(dx, 0));
 
 	AddTask(Rasterizer::Make(dx, Rasterizer::Transparent2, m_pIndexBuffer->GetCount()));

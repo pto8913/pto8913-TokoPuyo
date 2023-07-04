@@ -75,7 +75,7 @@ void ScreenText::ExecuteTasks(DirectX11& dx)
 	dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
 	
 	m_pTCB->Bind(dx, tf);
-	m_pTexture2D->Bind(dx, text);
+	m_pTexture2D->Bind(text);
 
 	//Use the shader resource representing the direct2d render target
 	//to texture a square which is rendered in screen space so it

@@ -9,18 +9,23 @@ Texture2D::Texture2D(DirectX11& dx, UINT inWidth, UINT inHeight)
 	//Create Shared Texture that Direct3D 10.1 will render on
 	D3D11_TEXTURE2D_DESC sharedTexDesc;
 	ZeroMemory(&sharedTexDesc, sizeof(sharedTexDesc));
-	sharedTexDesc.Width = width;
-	sharedTexDesc.Height = height;
-	sharedTexDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-	sharedTexDesc.MipLevels = 1;
-	sharedTexDesc.ArraySize = 1;
+	sharedTexDesc.Width            = width;
+	sharedTexDesc.Height           = height;
+	sharedTexDesc.Format           = DXGI_FORMAT_B8G8R8A8_UNORM;
+	sharedTexDesc.MipLevels        = 1;
+	sharedTexDesc.ArraySize        = 1;
 	sharedTexDesc.SampleDesc.Count = 1;
-	sharedTexDesc.Usage = D3D11_USAGE_DEFAULT;
-	sharedTexDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
-	sharedTexDesc.MiscFlags = D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
+	sharedTexDesc.Usage            = D3D11_USAGE_DEFAULT;
+	sharedTexDesc.BindFlags        = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+	sharedTexDesc.MiscFlags        = D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
 
 	ID3D11Texture2D* sharedTex11;
-	dx.GetDevice()->CreateTexture2D(&sharedTexDesc, NULL, &sharedTex11);
+	HRESULT result = dx.GetDevice()->CreateTexture2D(&sharedTexDesc, NULL, &sharedTex11);
+	if (FAILED(result))
+	{
+		MessageBox(NULL, L"Can not create Texture2D", L"Failed Texture2D constructor", MB_OK);
+		assert(false);
+	}
 
 	// Get the keyed mutex for the shared texture (for D3D11)
 	sharedTex11->QueryInterface(__uuidof(IDXGIKeyedMutex), (void**)&keyedMutex11);
@@ -106,7 +111,7 @@ void Texture2D::Bind(DirectX11& dx)
 {
 	GetContext(dx)->PSSetShaderResources(0, 1, &d2dTexture);
 }
-void Texture2D::Bind(DirectX11& dx, std::wstring text)
+void Texture2D::Bind(std::wstring text)
 {
 	//Release the D3D 11 Device
 	keyedMutex11->ReleaseSync(0);
@@ -137,7 +142,7 @@ void Texture2D::Bind(DirectX11& dx, std::wstring text)
 	//Draw the Text
 	D2DRenderTarget->DrawText(
 		printText.c_str(),
-		wcslen(printText.c_str()),
+		(UINT)wcslen(printText.c_str()),
 		TextFormat,
 		layoutRect,
 		Brush

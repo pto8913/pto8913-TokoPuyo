@@ -46,7 +46,7 @@ DrawSphere::DrawSphere(DirectX11& dx, float radius)
 	auto pTCB = std::make_shared<TransformConstantBuffer>(dx);
 	AddTask(pTCB);
 
-	AddTask(Texture::Make(dx, L"grass.jpg", 1));
+	AddTask(Texture::Make(dx, Texture::TextureType::WIC, L"grass.jpg", 1));
 	AddTask(SamplerState::Make(dx, 1));
 
 	AddTask(Rasterizer::Make(dx, Rasterizer::Transparent, m_pIndexBuffer->GetCount()));

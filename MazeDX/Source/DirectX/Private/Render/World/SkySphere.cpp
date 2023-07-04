@@ -1,37 +1,67 @@
 
 #include "Render/World/SkySphere.h"
 
-#include "Render/Factory/IndexBuffer.h"
+#include "Core/DirectX.h"
+
+#include "Geometry/Sphere.h"
+
 #include "Render/Factory/VertexBuffer.h"
-#include "Render/Factory/Topology.h"
-
-#include "Render/Factory/PixelShader.h"
-#include "Render/Factory/VertexShader.h"
-
+#include "Render/Factory/IndexBuffer.h"
 #include "Render/Factory/ConstantBuffer.h"
+#include "Render/Factory/VertexShader.h"
+#include "Render/Factory/PixelShader.h"
 #include "Render/Factory/InputLayout.h"
-
-#include "Render/Factory/SamplerState.h"
-
+#include "Render/Factory/Texture.h"
+#include "Render/Factory/Topology.h"
 #include "Render/Factory/Rasterizer.h"
-
-#include "Render/Factory/CubeTexture.h"
+#include "Render/Factory/SamplerState.h"
+#include "Render/Factory/TransformConstantBuffer.h"
 
 #include "Math/Vertex.h"
 
 #include "DirectX/WICTextureLoader/WICTextureLoader11.h"
 #include "DirectX/DDSTextureLoader/DDSTextureLoader11.h"
 
-#include "Input/Camera.h"
-
-#include "Geometry/Sphere.h"
-
 using namespace DirectX;
 
 const std::wstring SHADERPATH = L"Shader/SkyMap.hlsl";
 
-SkySphere::SkySphere(DirectX11& dx, int latDiv, int longDiv)
+SkySphere::SkySphere(DirectX11& dx, float radius)
 {
+	//SetWorldLocation(location);
+	//SetWorldRotation(rotation);
+	//SetWorldScale(scale);
+	//SetWorldTransform();
+
+	auto model = Sphere::Make();
+	model.SetTransform(DirectX::XMMatrixScaling(radius, radius, radius));
+
+	/* Shading */
+	auto pVS = VertexShader::Make(dx, L"Shader/Shader.hlsl", "VS");
+	AddTask(pVS);
+	AddTask(PixelShader::Make(dx, L"Shader/Shader.hlsl", "PS"));
+
+	m_pIndexBuffer = IndexBuffer::Make(dx, "SkySphere", model.indices);
+	m_pVertexBuffer = VertexBuffer::Make(dx, "SkySphere", model.vertices);
+
+	auto pIL = InputLayout::Make(dx, DX::Layout::VertexType::V3D, pVS.get());
+	pIL->Bind(dx);
+
+	auto pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	pTopology->Bind(dx);
+
+	AddTask(m_pIndexBuffer);
+	AddTask(m_pVertexBuffer);
+
+	auto pTCB = std::make_shared<TransformConstantBuffer>(dx);
+	AddTask(pTCB);
+
+	AddTask(Texture::Make(dx, Texture::TextureType::DDS, L"skymap.dds", 1));
+	AddTask(SamplerState::Make(dx, 1));
+
+	AddTask(Rasterizer::Make(dx, Rasterizer::Transparent1, m_pIndexBuffer->GetCount()));
+	InitializeTasks();
+
 	//NumSphereVertices = (latDiv - 2) * longDiv + 2;
 	//NumSphereFaces = ((latDiv - 3) * longDiv * 2) + (longDiv * 2);
 
@@ -162,17 +192,17 @@ SkySphere::SkySphere(DirectX11& dx, int latDiv, int longDiv)
 }
 SkySphere::~SkySphere()
 {
-	Util::SafeDelete(m_pIndexBuffer.get());
-	Util::SafeDelete(m_pVertexBuffer.get());
+	//Util::SafeDelete(m_pIndexBuffer.get());
+	//Util::SafeDelete(m_pVertexBuffer.get());
 
-	Util::SafeDelete(m_pVS_SkyMap);
-	Util::SafeDelete(m_pPS_SkyMap);
+	//Util::SafeDelete(m_pVS_SkyMap);
+	//Util::SafeDelete(m_pPS_SkyMap);
 
-	Util::SafeRelease(m_pSkyMapTexture);
-	Util::SafeRelease(m_pShaderResourceView);
+	//Util::SafeRelease(m_pSkyMapTexture);
+	//Util::SafeRelease(m_pShaderResourceView);
 
-	Util::SafeRelease(m_pDSLessEqual);
-	Util::SafeRelease(m_pRSCullNone);
+	//Util::SafeRelease(m_pDSLessEqual);
+	//Util::SafeRelease(m_pRSCullNone);
 }
 
 void SkySphere::Update(Camera* pCamera)

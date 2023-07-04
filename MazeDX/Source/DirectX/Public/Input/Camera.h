@@ -73,15 +73,4 @@ protected:
 
 	CameraProjection m_CameraProjection;
 	CameraIndicator m_CameraIndicator;
-
-	FRotator rotator;
-	FVector vLookAt;
-	FVector vForward;
-	FVector vRight;
-	FVector vUp;
-	FVector vLocation;
-	FMatrix vView;
-
-	FVector vWorldForward = { 0, 0, 1 };
-	FVector vWorldUp = { 0, 1, 0 };
 };

@@ -1,25 +1,23 @@
 #pragma once
 
-#include "DirectX/DirectXHead.h"
-#include "Render/Factory/ConstantBuffer.h"
+#include "LightBase.h"
 
 class DirectX11;
 class DrawSphere;
 
-class PointLight
+class PointLight : public LightBase
 {
 public:
-	PointLight(DirectX11& dx, float radius = 0.5f);
+	PointLight(DirectX11& dx, DirectX::XMVECTOR location, float radius = 0.5f);
 
 	void Reset();
 	virtual void ExecuteTasks(DirectX11& dx);
 
-	struct ConstantBufferPointLight
+	struct ConstantBufferPointLight : public LightBuffer
 	{
-		DirectX::XMVECTOR position;
-		DirectX::XMVECTOR ambient;
-		DirectX::XMVECTOR diffuse;
-		float intensity;
+		float attConst;
+		float attLin;
+		float attQuad;
 	};
 protected:
 	ConstantBufferPointLight defaultLight;

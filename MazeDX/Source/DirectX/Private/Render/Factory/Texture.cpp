@@ -4,16 +4,31 @@
 #include "Render/Manager/BindableManager.h"
 
 #include "DirectX/WICTextureLoader/WICTextureLoader11.h"
+#include "DirectX/DDSTextureLoader/DDSTextureLoader11.h"
 
-Texture::Texture(DirectX11& dx, const std::wstring& inFileName, UINT inSlot)
-	: fileName(inFileName), slot(inSlot)
+Texture::Texture(DirectX11& dx, Texture::TextureType inTextureType, const std::wstring& inFileName, UINT inSlot)
+	: textureType(inTextureType), fileName(inFileName), slot(inSlot)
 {
-	HRESULT result = DirectX::CreateWICTextureFromFile(
-		GetDevice(dx), 
-		inFileName.c_str(), 
-		(ID3D11Resource**)&m_pTexture,
-		&m_pTextureView
-	);
+	HRESULT result;
+	switch (inTextureType)
+	{
+	case DDS:
+		result = DirectX::CreateDDSTextureFromFile(
+			GetDevice(dx),
+			inFileName.c_str(),
+			(ID3D11Resource**)&m_pTexture,
+			&m_pTextureView
+		);
+		break;
+	default:
+		result = DirectX::CreateWICTextureFromFile(
+			GetDevice(dx),
+			inFileName.c_str(),
+			(ID3D11Resource**)&m_pTexture,
+			&m_pTextureView
+		);
+		break;
+	}
 
 	if (FAILED(result))
 	{
@@ -27,9 +42,9 @@ Texture::~Texture()
 	m_pTextureView->Release();
 }
 
-std::shared_ptr<Texture> Texture::Make(DirectX11& dx, const std::wstring& inFileName, UINT inSlot)
+std::shared_ptr<Texture> Texture::Make(DirectX11& dx, Texture::TextureType inTextureType, const std::wstring& inFileName, UINT inSlot)
 {
-	return BindableManager::Make<Texture>(dx, inFileName, inSlot);
+	return BindableManager::Make<Texture>(dx, inTextureType, inFileName, inSlot);
 }
 
 void Texture::Bind(DirectX11& dx)

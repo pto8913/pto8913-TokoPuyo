@@ -3,8 +3,6 @@
 
 #include "Core/DirectX.h"
 
-#include "Math/Rotator.h"
-
 using namespace DirectX;
 
 Camera::Camera(DirectX11& dx, std::string inName, XMFLOAT3 inDefaultPos, float inDefaultPitch, float inDefaultYaw, bool inTethered)
@@ -162,31 +160,4 @@ void Camera::Update()
 	moveInputBackForward = 0.f;
 	moveInputLeftRight = 0.f;
 	moveInputUpDown = 0.f;
-
-	//vLocation += vForward * moveInputBackForward + vRight * moveInputLeftRight + vUp * moveInputUpDown;
-	//FQuaternion QuatRotator(camYaw, camPitch, camRoll);
-
-	//FQuaternion QuatForwardVector(vWorldForward.x, vWorldForward.y, vWorldForward.z, 0.f);
-	//FQuaternion QuatLookAt = QuatForwardVector * QuatRotator;
-	//vLookAt = { QuatLookAt.x, QuatLookAt.y, QuatLookAt.z };
-
-	//FQuaternion QuatUpVector(vWorldUp.x, vWorldUp.y, vWorldUp.z, 0.f);
-	//FQuaternion QuatUp = QuatUpVector * QuatRotator;
-	//vUp = { QuatUp.x, QuatUp.y, QuatUp.z };
-
-	//vForward = vLookAt.Normalize();
-	//vRight = Vector::CrossProduct(vUp, vLookAt);
-	//vRight.Normalize();
-
-	//vLookAt = vLocation + vLookAt;
-	//vView = Matrix::LookAtLH(
-	//	{ vLocation.x, vLocation.y, vLocation.z },
-	//	{ vLookAt.x, vLookAt.y, vLookAt.z },
-	//	{ vWorldUp.x, vWorldUp.y, vWorldUp.z }
-	//);
-
-	//moveInputBackForward = 0.f;
-	//moveInputLeftRight = 0.f;
-	//moveInputUpDown = 0.f;
-
 }

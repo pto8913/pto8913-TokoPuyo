@@ -15,7 +15,7 @@ class ConstantBufferEx;
 class SkySphere : public DrawableObject
 {
 public:
-	SkySphere(DirectX11& dx, int latDiv, int longDiv);
+	SkySphere(DirectX11& dx, float radius);
 	~SkySphere();
 
 	void Update(Camera* pCamera);

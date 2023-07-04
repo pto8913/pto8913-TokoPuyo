@@ -20,7 +20,7 @@ public:
 	static std::shared_ptr<Texture2D> Make(DirectX11& dx, UINT inWidth, UINT inHeight);
 
 	virtual void Bind(DirectX11& dx) override;
-	void Bind(DirectX11& dx, std::wstring text);
+	void Bind(std::wstring text);
 
 	static std::string GenerateID(UINT inWidth, UINT inHeight)
 	{
