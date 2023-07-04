@@ -207,8 +207,10 @@
     <ClInclude Include="Source\DirectX\Public\Object\DrawPlane.h" />
     <ClInclude Include="Source\DirectX\Public\Object\DrawPyramid.h" />
     <ClInclude Include="Source\DirectX\Public\Object\DrawSphere.h" />
+    <ClInclude Include="Source\DirectX\Public\Object\LightBase.h" />
     <ClInclude Include="Source\DirectX\Public\Object\ObjectBase.h" />
     <ClInclude Include="Source\DirectX\Public\Object\PointLight.h" />
+    <ClInclude Include="Source\DirectX\Public\Object\SkyLight.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\Bindable.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\BlendState.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\ConstantBuffer.h" />
@@ -312,12 +314,14 @@
     <ClCompile Include="Source\DirectX\Private\Object\DrawSphere.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\LightBase.cpp" />
     <ClCompile Include="Source\DirectX\Private\Object\ObjectBase.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Object\PointLight.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\SkyLight.cpp" />
     <ClCompile Include="Source\DirectX\Private\Render\Factory\BlendState.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
