@@ -188,6 +188,7 @@
     <ClInclude Include="Source\DirectX\Public\Core\DirectX.h" />
     <ClInclude Include="Source\DirectX\Public\Core\DirectXResource.h" />
     <ClInclude Include="Source\DirectX\Public\Core\DirectXTex.h" />
+    <ClInclude Include="Source\DirectX\Public\Delegate\Delegate.h" />
     <ClInclude Include="Source\DirectX\Public\Geometry\Cube.h" />
     <ClInclude Include="Source\DirectX\Public\Geometry\Plane.h" />
     <ClInclude Include="Source\DirectX\Public\Geometry\Sphere.h" />
