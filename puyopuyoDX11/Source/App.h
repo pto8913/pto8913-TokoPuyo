@@ -5,38 +5,24 @@
 #include "DirectX/DirectXHead.h"
 #include "Window.h"
 
-#include "Input/Camera.h"
 #include "Render/Factory/ViewPort.h"
 
 class DirectX11;
 class GameMain;
+class WorldTimer;
+class Controller;
 
 class App
 {
 public:
-	// ------------------------------------------------------------------------------------------------------------
-	// Main
-	// ------------------------------------------------------------------------------------------------------------
-
 	App();
 	~App();
 
+	// ------------------------------------------------------------------------------------------------------------
+	// Main
+	// ------------------------------------------------------------------------------------------------------------
 	virtual int Run();
-
-	virtual void CleanUp();
-
-	// Messages
-	virtual void OnActivated();
-	virtual void OnDeactivated();
-	virtual void OnSuspending();
-	virtual void OnResuming();
-
-	virtual void OnDeviceLost();
-
-	// ------------------------------------------------------
-	// Main : Window
-	// ------------------------------------------------------
-	virtual void OnWindowSizeChanged(int inWidth, int inHeight);
+	void InputUpdate(float deltaTime);
 
 protected:
 	// ------------------------------------------------------------------------------------------------------------
@@ -44,12 +30,14 @@ protected:
 	// ------------------------------------------------------------------------------------------------------------
 	Window m_Window;
 
-	// Device resources.
-	UINT width;
-	UINT height;
-
-	GameMain* m_pGameMain;
-
-	std::unique_ptr<Camera> m_pCamera;
+	std::unique_ptr<GameMain> m_pGameMain;
 	std::unique_ptr<ViewPort> m_pViewPort;
+
+	std::shared_ptr<Controller> m_pController;
+
+	// ------------------------------------------------------
+	// State : WorldTimer
+	// ------------------------------------------------------
+	std::unique_ptr<WorldTimer> m_pWorldTimer;
+	float worldTimerSpeed = 1.f;
 };

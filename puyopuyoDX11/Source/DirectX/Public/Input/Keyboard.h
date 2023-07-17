@@ -36,7 +36,8 @@ public:
 	{
 		m_directKeyBoard->Unacquire();
 		//m_directMouse->Unacquire();
-		Util::SafeRelease(m_directInput);
+		//m_directInput->Release();
+		//m_directKeyBoard->Release();
 	}
 
 	void Update()
@@ -59,7 +60,7 @@ public:
 			{
 				if (!mActive)
 				{
-					//OutputDebugStringA(std::format("mKey %d Pressed\n", mKey).c_str());
+					//OutputDebugStringA(std::format("mKey {} Pressed\n", mKey).c_str());
 					mActive = true;
 					return true;
 				}

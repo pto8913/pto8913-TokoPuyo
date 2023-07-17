@@ -15,6 +15,5 @@ public:
 	virtual void Update() override;
 	virtual void SetSize(DirectX::XMFLOAT2 inSize) override;
 
-
-	virtual void AddChild(SlateBase* in) override;
+	virtual void AddChild(std::shared_ptr<SlateBase> in) override;
 };

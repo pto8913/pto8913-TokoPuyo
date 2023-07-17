@@ -18,7 +18,7 @@ public:
 
 	static std::shared_ptr<Texture> Make(DirectX11& dx, TextureType inTextureType, const std::wstring& inFileName, UINT inSlot = 0);
 
-	virtual void Bind(DirectX11& dx, ID3D11DeviceContext* pContext) override;
+	virtual void Bind(DirectX11& dx) override;
 
 	static std::string GenerateID(TextureType inTextureType, const std::wstring& inFileName, UINT slot = 0)
 	{

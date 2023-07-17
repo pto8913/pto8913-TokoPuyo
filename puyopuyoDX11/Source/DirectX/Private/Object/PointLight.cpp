@@ -20,15 +20,15 @@ void PointLight::Reset()
 {
 	currentLight = defaultLight;
 }
-void PointLight::ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext)
+void PointLight::ExecuteTasks(DirectX11& dx)
 {
 	currentLight.position = DirectX::XMVector3Transform(
 		currentLight.position, 
 		dx.GetCameraView()
 	);
-	m_pPixelConstantBuffer.get()->Update(pContext, currentLight);
-	m_pPixelConstantBuffer.get()->Bind(dx, pContext);
+	m_pPixelConstantBuffer.get()->Update(dx.GetContext(), currentLight);
+	m_pPixelConstantBuffer.get()->Bind(dx);
 
 	m_pDrawSphere->SetLocation(currentLight.position);
-	m_pDrawSphere->ExecuteTasks(dx, pContext);
+	m_pDrawSphere->ExecuteTasks(dx);
 }

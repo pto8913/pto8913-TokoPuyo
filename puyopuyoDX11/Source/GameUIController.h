@@ -1,7 +1,5 @@
 #pragma once
 
-class DirectX11;
-
 namespace DX
 {
 	enum class GameState
@@ -12,20 +10,6 @@ namespace DX
 		FallAll, /* Fall all puyo, from vanish. */
 		Wait,    /* Wait Task */
 		GameOver,
-	};
-
-	enum class GameInfoOverlayCommand {
-		None,
-
-	};
-
-	/* Interface */
-	struct IGameStateUIControl
-	{
-		virtual void ExecuteTasks2(DirectX11& dx) = 0;
-		virtual void SetPause() = 0;
-
-		virtual void SetGmaeProgressUI(DirectX11& dx) = 0;
-		virtual void SetGameOverUI(DirectX11& dx) = 0;
+		GameOverAnimation,
 	};
 }

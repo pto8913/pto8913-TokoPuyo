@@ -27,9 +27,9 @@ void CameraProjection::SetRotation(DirectX::XMVECTOR rotation)
 	m_pyramid.SetRotation(rotation);
 }
 
-void CameraProjection::ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext)
+void CameraProjection::ExecuteTasks(DirectX11& dx)
 {
-	m_pyramid.ExecuteTasks(dx, pContext);
+	m_pyramid.ExecuteTasks(dx);
 }
 
 void CameraProjection::Reset(DirectX11& dx)

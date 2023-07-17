@@ -3,6 +3,8 @@
 #include <sstream>
 #include "pch.h"
 
+#include "Input/MouseInterface.h"
+
 FOnTick Window::Tick;
 FOnWindowSizeChanged Window::OnWindowSizeChanged;
 FOnSuspending Window::OnSuspending;
@@ -10,9 +12,6 @@ FOnResuming Window::OnResuming;
 FOnActivated Window::OnActivated;
 FOnDeactivated Window::OnDeactivated;
 FOnProcessMessage Window::OnProcessMessage;
-
-UINT Window::defaultWidth;
-UINT Window::defaultHeight;
 
 Window::WindowClass Window::WindowClass::instance;
 
@@ -65,6 +64,9 @@ Window::Window(int inWidth, int inHeight, const std::wstring inName)
 
     width = wr.right - wr.left;
     height = wr.bottom - wr.top;
+
+    //width = inWidth;
+    //height = inHeight;
     defaultWidth = width;
     defaultHeight = height;
     // create window & get hWnd
@@ -89,7 +91,6 @@ Window::Window(int inWidth, int inHeight, const std::wstring inName)
     // newly created windows start off as hidden
     ShowWindow(m_hWnd, SW_SHOWDEFAULT);
     pDX = std::make_unique<DirectX11>(WindowClass::GetInstance(), m_hWnd, width, height);
-    pMouse = &Mouse::Get(*pDX);
 
     //// register mouse raw input device
     //RAWINPUTDEVICE rid;
@@ -104,6 +105,7 @@ Window::Window(int inWidth, int inHeight, const std::wstring inName)
 }
 Window::~Window()
 {
+    pController = nullptr;
     DestroyWindow(m_hWnd);
 }
 
@@ -225,14 +227,16 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
         break;
 
     case WM_EXITSIZEMOVE:
+    {
         s_in_sizemove = false;
         RECT rc;
         GetClientRect(hWnd, &rc);
 
         OnWindowSizeChanged.Broadcast(rc.right - rc.left, rc.bottom - rc.top);
         break;
-
+    }
     case WM_GETMINMAXINFO:
+    {
         if (lParam)
         {
             auto info = reinterpret_cast<MINMAXINFO*>(lParam);
@@ -240,8 +244,9 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
             info->ptMinTrackSize.y = 200;
         }
         break;
-
+    }
     case WM_ACTIVATEAPP:
+    {
         if (wParam)
         {
             OnActivated.Broadcast();
@@ -252,8 +257,9 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
             OnDeactivated.Broadcast();
         }
         break;
-
+    }
     case WM_POWERBROADCAST:
+    {
         switch (wParam)
         {
         case PBT_APMQUERYSUSPEND:
@@ -276,12 +282,14 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
             return TRUE;
         }
         break;
-
+    }
     case WM_DESTROY:
+    {
         PostQuitMessage(0);
         break;
-
+    }
     case WM_SYSKEYDOWN:
+    {
         if (wParam == VK_RETURN && (lParam & 0x60000000) == 0x20000000)
         {
             // Implements the classic ALT+ENTER fullscreen toggle
@@ -307,71 +315,192 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
             s_fullscreen = !s_fullscreen;
         }
         break;
-
+    }
     case WM_MENUCHAR:
+    {
         // A menu is active and the user presses a key that does not correspond
         // to any mnemonic or accelerator key. Ignore so we don't produce an error beep.
         return MAKELRESULT(0, MNC_CLOSE);
+    }
     case WM_ACTIVATE:
-        if (!bShowMouseCursor)
+    {
+        if (pController != nullptr)
         {
-            if (wParam & WA_ACTIVE)
+            if (!pController->IsEnableMouse())
             {
-                ConfineCursor();
-                HideMouseCursor();
+                if (wParam & WA_ACTIVE)
+                {
+                    ConfineCursor();
+                    pController->SetMouseEnabled(false);
+                }
+                else
+                {
+                    FreeCursor();
+                    pController->SetMouseEnabled(true);
+                }
             }
-            else
-            {
-                FreeCursor();
-                ShowMouseCursor();
-            }
+            break;
         }
-        break;
+    }
+
+    // --------------------------------------------------------------------------
+    // Mouse Keyboard
+    // --------------------------------------------------------------------------
 
     // --------------------------------------------------------------------------
     // Mouse Messages
     // --------------------------------------------------------------------------
     case WM_MOUSEMOVE:
-        //POINT pt;
-        //GetCursorPos(&pt);
-        //ScreenToClient(hWnd, &pt);
-        //pMouse->OnMouseMove(pt.x, pt.y);
-        //ShowCursor(true);
-        //if (!bShowMouseCursor)
-        //{
-        //    if (!pMouse->IsInWindow())
-        //    {
-        //        SetCapture(hWnd);
-        //        pMouse->OnMouseEnter();
-        //        HideMouseCursor();
-        //    }
-        //    break;
-        //}
-        //if (pt.x >= 0 && pt.y < width && pt.y >= 0 && pt.y < height)
-        //{
-        //    pMouse->OnMouseMove(pt.x, pt.y);
-        //    if (!pMouse->IsInWindow())
-        //    {
-        //        SetCapture(hWnd);
-        //        pMouse->OnMouseEnter();
-        //    }
-        //}
-        //else
-        //{
-        //    if (wParam & (MK_LBUTTON | MK_RBUTTON))
-        //    {
-        //        pMouse->OnMouseMove(pt.x, pt.y);
-        //    }
-        //    else
-        //    {
-        //        ReleaseCapture();
-        //        pMouse->OnMouseLeave();
-        //    }
-        //}
-        break;
+    {
+        if (pController != nullptr)
+        {
+            const POINTS pt = MAKEPOINTS(lParam);
+            if (!pController->IsEnableMouse())
+            {
+                if (!pMouse->IsInWindow())
+                {
+                    SetCapture(hWnd);
 
+                    pMouse->OnMouseEnter();
+                    pController->SetMouseEnabled(false);
+                }
+                break;
+            }
+            if (pt.x >= 0 && pt.y < width && pt.y >= 0 && pt.y < height)
+            {
+                pMouse->OnMouseMove(pt.x, pt.y);
+                if (!pMouse->IsInWindow())
+                {
+                    SetCapture(hWnd);
+                    pMouse->OnMouseEnter();
+                }
+            }
+            else
+            {
+                if (wParam & (MK_LBUTTON | MK_RBUTTON))
+                {
+                    pMouse->OnMouseMove(pt.x, pt.y);
+                }
+                else
+                {
+                    ReleaseCapture();
+                    pMouse->OnMouseLeave();
+                }
+            }
+            break;
+        }
+    }
+    case WM_LBUTTONDOWN:
+    {
+        SetForegroundWindow(hWnd);
+        if (pController != nullptr)
+        {
+            if (!pController->IsEnableMouse())
+            {
+                ConfineCursor();
+                pController->SetMouseEnabled(false);
+            }
+            const POINTS pt = MAKEPOINTS(lParam);
+            pMouse->OnLeftPressed(pt.x, pt.y);
+            break;
+        }
+    }
+    case WM_LBUTTONUP:
+    {
+        if (pController != nullptr)
+        {
+            const POINTS pt = MAKEPOINTS(lParam);
+            pMouse->OnLeftReleased(pt.x, pt.y);
+            if (pt.x < 0 || pt.x >= width || pt.y < 0 || pt.y >= height)
+            {
+                ReleaseCapture();
+                pMouse->OnMouseLeave();
+            }
+            break;
+        }
+    }
+    case WM_RBUTTONDOWN:
+    {
+        if (pController != nullptr)
+        {
+            const POINTS pt = MAKEPOINTS(lParam);
+            pMouse->OnRightPressed(pt.x, pt.y);
+            break;
+        }
+    }
+    case WM_RBUTTONUP:
+    {
+        if (pController != nullptr)
+        {
+            const POINTS pt = MAKEPOINTS(lParam);
+            pMouse->OnRightReleased(pt.x, pt.y);
+            if (pt.x < 0 || pt.x >= width || pt.y < 0 || pt.y >= height)
+            {
+                ReleaseCapture();
+                pMouse->OnMouseLeave();
+            }
+            break;
+        }
+    }
+    case WM_MOUSEWHEEL:
+    {
+        if (pController != nullptr)
+        {
+            const POINTS pt = MAKEPOINTS(lParam);
+            const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+            pMouse->OnWheelDelta(pt.x, pt.y, delta);
+            break;
+        }
+    }
+    // ------------------------------------
+    // Raw Mouse Messages
+    // ------------------------------------
+    case WM_INPUT:
+    {
+        if (pController != nullptr)
+        {
+            if (!pMouse->IsRawEnabled())
+            {
+                break;
+            }
+            UINT size;
+            if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, nullptr, &size, sizeof(RAWINPUTHEADER)) == -1)
+            {
+                break;
+            }
+            rawBuffer.resize(size);
+            if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, rawBuffer.data(), &size, sizeof(RAWINPUTHEADER)) != size)
+            {
+                break;
+            }
+            auto&& raw = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
+            if (raw.header.dwType == RIM_TYPEMOUSE && (raw.data.mouse.lLastX != 0 || raw.data.mouse.lLastY != 0))
+            {
+                pMouse->OnRawDelta(raw.data.mouse.lLastX, raw.data.mouse.lLastY);
+            }
+            break;
+        }
+    }
     }
 
+    if (pController != nullptr)
+    {
+        if (pMouse->IsLeftPressed())
+        {
+            const POINTS pt = MAKEPOINTS(lParam);
+            pMouse->OnLeftHeld(pt.x, pt.y);
+        }
+        if (pMouse->IsRightPressed())
+        {
+            const POINTS pt = MAKEPOINTS(lParam);
+            pMouse->OnRightHeld(pt.x, pt.y);
+        }
+        if (pMouse->IsWheelPressed())
+        {
+            const POINTS pt = MAKEPOINTS(lParam);
+            pMouse->OnWheelHeld(pt.x, pt.y);
+        }
+    }
     OnProcessMessage.Broadcast(message, wParam, lParam);
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
@@ -401,16 +530,7 @@ void Window::ConfineCursor() noexcept
     MapWindowPoints(m_hWnd, nullptr, reinterpret_cast<POINT*>(&rect), 2);
     ClipCursor(&rect);
 }
-
 void Window::FreeCursor() noexcept
 {
     ClipCursor(nullptr);
-}
-void Window::ShowMouseCursor()
-{
-    while (::ShowCursor(TRUE) < 0);
-}
-void Window::HideMouseCursor()
-{
-    while (::ShowCursor(FALSE) >= 0);
 }

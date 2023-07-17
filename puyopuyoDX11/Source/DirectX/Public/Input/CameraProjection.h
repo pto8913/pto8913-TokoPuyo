@@ -14,7 +14,7 @@ public:
 
 	void SetLocation(DirectX::XMVECTOR location);
 	void SetRotation(DirectX::XMVECTOR rotation);
-	virtual void ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext);
+	virtual void ExecuteTasks(DirectX11& dx);
 
 	void Reset(DirectX11& dx);
 private:

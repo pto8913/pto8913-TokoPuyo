@@ -5,6 +5,8 @@
 
 #include "Config.h"
 
+#include "Math/Math.h"
+
 #include "Render/Factory/IndexBuffer.h"
 #include "Render/Factory/VertexBuffer.h"
 
@@ -20,9 +22,11 @@
 
 #include "Render/Factory/Rasterizer.h"
 
-WidgetBase::WidgetBase(DirectX11& dx)
+WidgetBase::WidgetBase(DirectX11& dx, UINT windowSizeW, UINT windowSizeH, int inZOrder)
 {
-	m_ClearColor = D2D1::ColorF(D2D1::ColorF::Black);
+	ZOrder = Math::MapRange(inZOrder, 0, 100, 0, 1);
+
+	m_ClearColor = D2D1::ColorF(0.f, 0.f, 0.f, 1.f);
 
 	AddTask(BlendState::Make(dx, 0));
 
@@ -52,7 +56,7 @@ WidgetBase::WidgetBase(DirectX11& dx)
 	AddTask(m_pIndexBuffer);
 	AddTask(m_pVertexBuffer);
 
-	m_pScreenTextOnlyOutput = ScreenTextOnlyOutput::Make(dx, (UINT)Config::windowSize.x, (UINT)Config::windowSize.y);
+	m_pScreenTextOnlyOutput = ScreenTextOnlyOutput::Make(dx, windowSizeW, windowSizeH);
 	AddTask(m_pScreenTextOnlyOutput);
 	m_pRt2D = m_pScreenTextOnlyOutput->GetRT2D();
 	m_pMutex11 = m_pScreenTextOnlyOutput->GetMutex11();
@@ -83,15 +87,18 @@ void WidgetBase::DrawInternal()
 	m_pMutex11->AcquireSync(1, 5);
 }
 
-void WidgetBase::ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext)
+void WidgetBase::ExecuteTasks(DirectX11& dx)
 {
-	pContext->OMSetBlendState(0, 0, 0xffffffff);
+	if (IsInViewport())
+	{
+		dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
 
-	m_pTCB->Bind(dx, pContext, tf);
+		m_pTCB->Bind(dx, tf);
 
-	DrawInternal();
+		DrawInternal();
 
-	DrawableObject::ExecuteTasks(dx, pContext);
+		DrawableObject::ExecuteTasks(dx);
+	}
 }
 
 void WidgetBase::SetVisibility(bool inVisible)
@@ -105,6 +112,18 @@ bool WidgetBase::GetVisibility()
 
 DirectX::XMMATRIX WidgetBase::GetTransformXM(DirectX11&) const noexcept
 {
-	return DirectX::XMMatrixIdentity();
+	return DirectX::XMMatrixIdentity() * DirectX::XMMatrixTranslation(0, 0, ZOrder);
 }
 
+void WidgetBase::AddToViewport()
+{
+	bIsInViewport = true;
+}
+bool WidgetBase::IsInViewport() const noexcept
+{
+	return bIsInViewport;
+}
+int WidgetBase::GetZOrder() const noexcept
+{
+	return ZOrder;
+}

@@ -16,26 +16,29 @@
 
 #include <format>
 
-GameStateUI::GameStateUI(DirectX11& dx)
-	: WidgetBase(dx)
+using namespace DirectX;
+
+GameStateUI::GameStateUI(DirectX11& dx, UINT windowSizeW, UINT windowSizeH)
+	: WidgetBase(dx, windowSizeW, windowSizeH)
 {
-	m_GameState = DX::GameState::Control;
+	m_GameState = DX::GameState::Wait;
 }
 
-void GameStateUI::ExecuteTasks2(DirectX11& dx)
-{
-	ExecuteTasks(dx, dx.GetContext());
-}
 void GameStateUI::Draw()
 {
-	switch (m_GameState)
+	if (m_pVerticalBox != nullptr)
 	{
-	case DX::GameState::GameOver:
-		break;
-	default:
-		m_pVerticalBox->Draw();
-		break;
+		switch (m_GameState)
+		{
+		case DX::GameState::GameOver:
+			m_pVerticalBox->Draw();
+			break;
+		default:
+			m_pVerticalBox->Draw();
+			break;
+		}
 	}
+
 }
 
 // ----------------------------------------------------------
@@ -43,121 +46,173 @@ void GameStateUI::Draw()
 // ----------------------------------------------------------
 void GameStateUI::SetGmaeProgressUI(DirectX11& dx)
 {
+	if (m_GameState == DX::GameState::Control)
+	{
+		return;
+	}
+
 	m_GameState = DX::GameState::Control;
 
 	if (m_pVerticalBox == nullptr)
 	{
 		FSlateInfos SlateInfos;
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-		m_pVerticalBox = new S_VerticalBox(dx, Config::GAMEUI_SIZE, m_pRt2D, SlateInfos);
-		m_pVerticalBox->SetPosition(Config::GAMEUI_LEFT_TOP);
+		m_pVerticalBox = std::make_shared<S_VerticalBox>(dx, Config::GAMEUI_SIZE, m_pRt2D, SlateInfos);
 	}
+	m_pImage_NextPuyo1_1.reset();
+	m_pImage_NextPuyo1_2.reset();
+	m_pImage_NextPuyo2_1.reset();
+	m_pImage_NextPuyo2_2.reset();
+	m_pTextBlock_MaxScore.reset();
+	m_pTextBlock_MaxCombo.reset();
+	m_pTextBlock_Score.reset();
+	m_pTextBlock_Combo.reset();
+	m_pButton_Restart.reset();
+	m_pVerticalBox->ClearChildren();
+	m_pVerticalBox->SetPosition(Config::GAMEUI_LEFT_TOP);
+
 	FSlateTextAppearance textAppearance;
 	textAppearance.vAlign = EVerticalAlignment::Center;
-	if (m_pTextBlock_NextPuyo == nullptr)
-	{
-		textAppearance.hAlign = EHorizontalAlignment::Center;
-		FSlateInfos slateInfo;
-		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		m_pTextBlock_NextPuyo = new S_TextBlock(dx, m_pRt2D, slateInfo, FSlateFont(), textAppearance);
-		m_pVerticalBox->AddChild(m_pTextBlock_NextPuyo);
-		m_pTextBlock_NextPuyo->SetText(L"Next Puyo");
-	}
-	textAppearance.hAlign = EHorizontalAlignment::Left;
+	textAppearance.hAlign = EHorizontalAlignment::Center;
+	FSlateInfos slateInfo;
+	slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
+	auto m_pTextBlock_NextPuyo = std::make_shared<S_TextBlock>(dx, m_pRt2D, slateInfo, FSlateFont(), textAppearance);
+	m_pTextBlock_NextPuyo->SetText(L"Next Puyo");
+
+	/* Next Puyo */
+	FSlateInfos Overlay;
+	Overlay.padding = { 5.f, 20.f , 5.f, 20.f };
+	Overlay.HAlign = EHorizontalAlignment::Center;
+	auto m_pOverlay_NextPuyo1 = std::make_shared<S_Overlay>(dx, XMFLOAT2(150.f, 250.f), m_pRt2D, Overlay);
 
 	FSlateInfos SlateInfoNextPuyo;
 	SlateInfoNextPuyo.HAlign = EHorizontalAlignment::Center;
 	SlateInfoNextPuyo.VAlign = EVerticalAlignment::Center;
 
-	FSlateInfos SlateInfoNextPuyoVB;
-	SlateInfoNextPuyoVB.HAlign = EHorizontalAlignment::Center;
-	SlateInfoNextPuyoVB.VAlign = EVerticalAlignment::Center;
-	SlateInfoNextPuyoVB.padding = { 5.f, 5.f , 5.f, 5.f };
-	if (m_pVerticalBox_NextPuyo1 == nullptr)
+	FSlateInfos SlateInfoNextPuyo1VB;
+	SlateInfoNextPuyo1VB.HAlign = EHorizontalAlignment::Left;
+	SlateInfoNextPuyo1VB.VAlign = EVerticalAlignment::Top;
+	SlateInfoNextPuyo1VB.padding = { 5.f, 5.f , 5.f, 5.f };
+	auto m_pVerticalBox_NextPuyo1 = std::make_shared<S_VerticalBox>(dx, XMFLOAT2(64.f, 128.f), m_pRt2D, SlateInfoNextPuyo1VB);
+
+	if (m_pImage_NextPuyo1_1 == nullptr)
 	{
-		FSlateInfos Overlay;
-		Overlay.padding = { 5.f, 5.f , 5.f, 5.f };
-		m_pOverlay_NextPuyo1 = new S_Overlay(dx, {0.f, 150.f}, m_pRt2D, Overlay);
-		m_pVerticalBox->AddChild(m_pOverlay_NextPuyo1);
-
-		//m_pSpacer_NextPuyo1 = new S_Spacer(dx, { 0.f, 150.f }, m_pRt2D);
-		//m_pOverlay_NextPuyo1->AddChild(m_pSpacer_NextPuyo1);
-
-		m_pVerticalBox_NextPuyo1 = new S_VerticalBox(dx, { 64.f, 128.f }, m_pRt2D, SlateInfoNextPuyoVB);
-		m_pOverlay_NextPuyo1->AddChild(m_pVerticalBox_NextPuyo1);
-
-		m_pImage_NextPuyo1_1 = new S_Image(dx, { 64.f, 64.f }, m_pRt2D, SlateInfoNextPuyo);
-		m_pVerticalBox_NextPuyo1->AddChild(m_pImage_NextPuyo1_1);
-
-		m_pImage_NextPuyo1_2 = new S_Image(dx, { 64.f, 64.f }, m_pRt2D, SlateInfoNextPuyo);
-		m_pVerticalBox_NextPuyo1->AddChild(m_pImage_NextPuyo1_2);
+		m_pImage_NextPuyo1_1 = std::make_shared<S_Image>(dx, XMFLOAT2(64.f, 64.f), m_pRt2D, SlateInfoNextPuyo);
+	}
+	if (m_pImage_NextPuyo1_2 == nullptr)
+	{
+		m_pImage_NextPuyo1_2 = std::make_shared<S_Image>(dx, XMFLOAT2(64.f, 64.f), m_pRt2D, SlateInfoNextPuyo);
 	}
 
-	if (m_pVerticalBox_NextPuyo2 == nullptr)
+	FSlateInfos SlateInfoNextPuyo2VB;
+	SlateInfoNextPuyo2VB.HAlign = EHorizontalAlignment::Right;
+	SlateInfoNextPuyo2VB.VAlign = EVerticalAlignment::Bottom;
+	SlateInfoNextPuyo2VB.padding = { 5.f, 5.f , 5.f, 5.f };
+	auto m_pVerticalBox_NextPuyo2 = std::make_shared<S_VerticalBox>(dx, XMFLOAT2(32.f, 64.f), m_pRt2D, SlateInfoNextPuyo2VB);
+	if (m_pImage_NextPuyo2_1 == nullptr)
 	{
-		FSlateInfos Overlay;
-		Overlay.padding = { 5.f, 5.f , 5.f, 5.f };
-		m_pOverlay_NextPuyo2 = new S_Overlay(dx, { 0.f, 150.f }, m_pRt2D, Overlay);
-		m_pVerticalBox->AddChild(m_pOverlay_NextPuyo2);
-
-		//m_pSpacer_NextPuyo2 = new S_Spacer(dx, { 0.f, 150.f }, m_pRt2D);
-		//m_pOverlay_NextPuyo2->AddChild(m_pSpacer_NextPuyo2);
-
-		m_pVerticalBox_NextPuyo2 = new S_VerticalBox(dx, { 32.f, 64.f }, m_pRt2D, SlateInfoNextPuyoVB);
-		m_pOverlay_NextPuyo2->AddChild(m_pVerticalBox_NextPuyo2);
-
-		m_pImage_NextPuyo2_1 = new S_Image(dx, { 32.f, 32.f }, m_pRt2D, SlateInfoNextPuyo);
-		m_pVerticalBox_NextPuyo2->AddChild(m_pImage_NextPuyo2_1);
-
-		m_pImage_NextPuyo2_2 = new S_Image(dx, { 32.f, 32.f }, m_pRt2D, SlateInfoNextPuyo);
-		m_pVerticalBox_NextPuyo2->AddChild(m_pImage_NextPuyo2_2);
+		m_pImage_NextPuyo2_1 = std::make_shared<S_Image>(dx, XMFLOAT2(32.f, 32.f), m_pRt2D, SlateInfoNextPuyo);
 	}
+	if (m_pImage_NextPuyo2_2 == nullptr)
+	{
+		m_pImage_NextPuyo2_2 = std::make_shared<S_Image>(dx, XMFLOAT2(32.f, 32.f), m_pRt2D, SlateInfoNextPuyo);
+	}
+	m_pVerticalBox->AddChild(m_pTextBlock_NextPuyo);
 
-	if (m_pTextBlock_MaxScore == nullptr)
+	m_pVerticalBox->AddChild(m_pOverlay_NextPuyo1);
+
+	m_pOverlay_NextPuyo1->AddChild(m_pVerticalBox_NextPuyo1);
+	m_pVerticalBox_NextPuyo1->AddChild(m_pImage_NextPuyo1_1);
+	m_pVerticalBox_NextPuyo1->AddChild(m_pImage_NextPuyo1_2);
+
+	m_pOverlay_NextPuyo1->AddChild(m_pVerticalBox_NextPuyo2);
+	m_pVerticalBox_NextPuyo2->AddChild(m_pImage_NextPuyo2_1);
+	m_pVerticalBox_NextPuyo2->AddChild(m_pImage_NextPuyo2_2);
+
+	auto m_pSpacer = std::make_shared<S_Spacer>(dx, XMFLOAT2(0.f, 80.f), m_pRt2D);
+	m_pVerticalBox->AddChild(m_pSpacer);
+
+	/* Score */
 	{
 		FSlateInfos scoreSlateInfos;
-		scoreSlateInfos.margin.top = 5.f;
-		scoreSlateInfos.margin.bottom = 5.f;
+		scoreSlateInfos.padding = { 5.f, 5.f, 5.f, 5.f };
 
-		m_pTextBlock_MaxScore = new S_TextBlock(dx, m_pRt2D, scoreSlateInfos, FSlateFont(), textAppearance);
-		m_pVerticalBox->AddChild(m_pTextBlock_MaxScore);
-
-		m_pTextBlock_MaxCombo = new S_TextBlock(dx, m_pRt2D, scoreSlateInfos, FSlateFont(), textAppearance);
-		m_pVerticalBox->AddChild(m_pTextBlock_MaxCombo);
-
-		m_pTextBlock_Score = new S_TextBlock(dx, m_pRt2D, scoreSlateInfos, FSlateFont(), textAppearance);
-		m_pVerticalBox->AddChild(m_pTextBlock_Score);
-
-		m_pTextBlock_Combo = new S_TextBlock(dx, m_pRt2D, scoreSlateInfos, FSlateFont(), textAppearance);
-		m_pVerticalBox->AddChild(m_pTextBlock_Combo);
+		FSlateTextAppearance scoreAppearance;
+		scoreAppearance.vAlign = EVerticalAlignment::Center;
+		scoreAppearance.hAlign = EHorizontalAlignment::Left;
+		if (m_pTextBlock_MaxScore == nullptr)
+		{
+			m_pTextBlock_MaxScore = std::make_shared<S_TextBlock>(dx, m_pRt2D, scoreSlateInfos, FSlateFont(), scoreAppearance);
+		}
+		if (m_pTextBlock_MaxCombo == nullptr)
+		{
+			m_pTextBlock_MaxCombo = std::make_shared<S_TextBlock>(dx, m_pRt2D, scoreSlateInfos, FSlateFont(), scoreAppearance);
+		}
+		if (m_pTextBlock_Score == nullptr)
+		{
+			m_pTextBlock_Score = std::make_shared<S_TextBlock>(dx, m_pRt2D, scoreSlateInfos, FSlateFont(), scoreAppearance);
+		}
+		if (m_pTextBlock_Combo == nullptr)
+		{
+			m_pTextBlock_Combo = std::make_shared<S_TextBlock>(dx, m_pRt2D, scoreSlateInfos, FSlateFont(), scoreAppearance);
+		}
 	}
-	if (m_pButton_Restart == nullptr)
-	{
-		FSlateInfos SlateInfos;
-		SlateInfos.margin = { 5.f, 5.f, 5.f, 5.f };
-		m_pButton_Restart = new S_Button(dx, m_pRt2D, SlateInfos);
-		m_pVerticalBox->AddChild(m_pButton_Restart);
-	}
+
+	m_pVerticalBox->AddChild(m_pTextBlock_MaxScore);
+	m_pVerticalBox->AddChild(m_pTextBlock_MaxCombo);
+	m_pVerticalBox->AddChild(m_pTextBlock_Score);
+	m_pVerticalBox->AddChild(m_pTextBlock_Combo);
+
+	MaxScore = 0; MaxCombo = 0;
+	UpdateScore(dx, 0, 0);
+
+	m_pVerticalBox->AddChild(m_pSpacer);
+
+	CreateRestartButton(dx);
+	CreatePauseButton(dx);
 }
 void GameStateUI::UpdateNextPuyo(DirectX11& dx, UINT8 nPuyo1_1, UINT8 nPuyo1_2, UINT8 nPuyo2_1, UINT8 nPuyo2_2)
 {
-	m_pImage_NextPuyo1_1->SetFileName(Config::PuyoImages[nPuyo1_2]);
-	m_pImage_NextPuyo1_2->SetFileName(Config::PuyoImages[nPuyo1_1]);
-	m_pImage_NextPuyo2_1->SetFileName(Config::PuyoImages[nPuyo2_2]);
-	m_pImage_NextPuyo2_2->SetFileName(Config::PuyoImages[nPuyo2_1]);
+	if (m_pImage_NextPuyo1_1 != nullptr)
+	{
+		m_pImage_NextPuyo1_1->SetFileName(Config::PuyoImages[nPuyo1_2]);
+	}
 
-	ExecuteTasks2(dx);
+	if (m_pImage_NextPuyo1_2 != nullptr)
+	{
+		m_pImage_NextPuyo1_2->SetFileName(Config::PuyoImages[nPuyo1_1]);
+	}
+
+	if (m_pImage_NextPuyo2_1 != nullptr)
+	{
+		m_pImage_NextPuyo2_1->SetFileName(Config::PuyoImages[nPuyo2_2]);
+	}
+
+	if (m_pImage_NextPuyo2_2 != nullptr)
+	{
+		m_pImage_NextPuyo2_2->SetFileName(Config::PuyoImages[nPuyo2_1]);
+	}
 }
 void GameStateUI::UpdateScore(DirectX11& dx, int inScore, int inCombo)
 {
 	MaxCombo = max(inCombo, MaxCombo);
 	MaxScore = max(inScore, MaxScore);
-	m_pTextBlock_MaxScore->SetText(std::format(L"Max Score : {}", MaxScore));
-	m_pTextBlock_MaxCombo->SetText(std::format(L"Max Combo : {}", MaxCombo));
-	m_pTextBlock_Score->SetText(std::format(L"Score : {}", inScore));
-	m_pTextBlock_Combo->SetText(std::format(L"Combo : {}", inCombo));
-	
-	ExecuteTasks2(dx);
+	if (m_pTextBlock_MaxScore)
+	{
+		m_pTextBlock_MaxScore->SetText(std::format(L"Max Score : {}", MaxScore));
+	}
+	if (m_pTextBlock_MaxCombo)
+	{
+		m_pTextBlock_MaxCombo->SetText(std::format(L"Max Combo : {}", MaxCombo));
+	}
+	if (m_pTextBlock_Score)
+	{
+		m_pTextBlock_Score->SetText(std::format(L"Score : {}", inScore));
+	}
+	if (m_pTextBlock_Combo)
+	{
+		m_pTextBlock_Combo->SetText(std::format(L"Combo : {}", inCombo));
+	}
 }
 
 // ----------------------------------------------------------
@@ -165,7 +220,149 @@ void GameStateUI::UpdateScore(DirectX11& dx, int inScore, int inCombo)
 // ----------------------------------------------------------
 void GameStateUI::SetGameOverUI(DirectX11& dx)
 {
+	if (m_GameState == DX::GameState::GameOver)
+	{
+		return;
+	}
+
 	m_GameState = DX::GameState::GameOver;
 
+	if (m_pVerticalBox == nullptr)
+	{
+		FSlateInfos SlateInfos;
+		SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
+		m_pVerticalBox = std::make_shared<S_VerticalBox>(dx, Config::GAMEUI_SIZE, m_pRt2D, SlateInfos);
+	}
+	m_pImage_NextPuyo1_1.reset();
+	m_pImage_NextPuyo1_2.reset();
+	m_pImage_NextPuyo2_1.reset();
+	m_pImage_NextPuyo2_2.reset();
+	m_pTextBlock_MaxScore.reset();
+	m_pTextBlock_MaxCombo.reset();
+	m_pTextBlock_Score.reset();
+	m_pTextBlock_Combo.reset();
+	m_pButton_Restart.reset();
+
+	m_pVerticalBox->ClearChildren();
+	m_pVerticalBox->SetPosition(
+		{
+			(Config::windowSize.x / 2.f) - (Config::GAMEUI_SIZE.x / 2.f),
+			Config::GAMESCREEN_PADDING.y
+		}
+	);
+
+	auto m_pSpacer = std::make_shared<S_Spacer>(dx, XMFLOAT2(0.f, 80.f), m_pRt2D);
+	m_pVerticalBox->AddChild(m_pSpacer);
+
+	FSlateTextAppearance textGameOver;
+	textGameOver.vAlign = EVerticalAlignment::Center;
+	textGameOver.hAlign = EHorizontalAlignment::Center;
+	FSlateInfos slateInfo;
+	slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
+	auto pText_GameOver = std::make_shared<S_TextBlock>(dx, m_pRt2D, slateInfo, FSlateFont(), textGameOver);
+	pText_GameOver->SetText(L"GAME OVER");
+	m_pVerticalBox->AddChild(pText_GameOver);
+
+	FSlateInfos scoreSlateInfos;
+	scoreSlateInfos.padding = { 5.f, 5.f, 5.f, 5.f };
+
+	FSlateTextAppearance textAppearance;
+	textAppearance.vAlign = EVerticalAlignment::Center;
+	textAppearance.hAlign = EHorizontalAlignment::Left;
+
+	if (m_pTextBlock_MaxScore == nullptr)
+	{
+		m_pTextBlock_MaxScore = std::make_shared<S_TextBlock>(dx, m_pRt2D, scoreSlateInfos, FSlateFont(), textAppearance);
+	}
+	m_pVerticalBox->AddChild(m_pTextBlock_MaxScore);
+
+	if (m_pTextBlock_MaxCombo == nullptr)
+	{
+		m_pTextBlock_MaxCombo = std::make_shared<S_TextBlock>(dx, m_pRt2D, scoreSlateInfos, FSlateFont(), textAppearance);
+	}
+	m_pVerticalBox->AddChild(m_pTextBlock_MaxCombo);
+	UpdateScore(dx, 0, 0);
+
+	m_pVerticalBox->AddChild(m_pSpacer);
+
+	CreateRestartButton(dx);
 }
 
+void GameStateUI::CreateRestartButton(DirectX11& dx)
+{
+	if (m_pButton_Restart == nullptr)
+	{
+		FSlateInfos SlateInfos;
+		SlateInfos.padding = { 5.f, 5.f, 5.f, 5.f };
+		m_pButton_Restart = std::make_shared<S_Button>(dx, XMFLOAT2(150.f, 40.f), m_pRt2D, SlateInfos);
+		m_pButton_Restart->OnClicked.Bind<&GameStateUI::OnClickedRestartButton>(*this);
+	}
+	m_pButton_Restart->ClearChildren();
+	m_pVerticalBox->AddChild(m_pButton_Restart);
+
+	FSlateInfos LabelInfos;
+	LabelInfos.VAlign = EVerticalAlignment::Center;
+	LabelInfos.HAlign = EHorizontalAlignment::Center;
+	auto m_pTextBlock_Restart = std::make_shared<S_TextBlock>(dx, m_pRt2D, LabelInfos);
+	m_pButton_Restart->AddChild(m_pTextBlock_Restart);
+	m_pTextBlock_Restart->SetText(L"Restart");
+}
+void GameStateUI::CreatePauseButton(DirectX11& dx)
+{
+	if (m_pButton_Pause == nullptr)
+	{
+		FSlateInfos SlateInfos;
+		SlateInfos.padding = { 5.f, 5.f, 5.f, 5.f };
+		m_pButton_Pause = std::make_shared<S_Button>(dx, XMFLOAT2(150.f, 40.f), m_pRt2D, SlateInfos);
+		m_pButton_Pause->OnClicked.Bind<&GameStateUI::OnClickedPauseButton>(*this);
+	}
+	m_pButton_Pause->ClearChildren();
+	m_pVerticalBox->AddChild(m_pButton_Pause);
+
+	FSlateInfos LabelInfos;
+	LabelInfos.VAlign = EVerticalAlignment::Center;
+	LabelInfos.HAlign = EHorizontalAlignment::Center;
+	auto m_pTextBlock_Pause = std::make_shared<S_TextBlock>(dx, m_pRt2D, LabelInfos);
+	m_pButton_Pause->AddChild(m_pTextBlock_Pause);
+	m_pTextBlock_Pause->SetText(L"Pause");
+}
+void GameStateUI::OnClickedRestartButton(DX::MouseEvent inMouseEvent)
+{
+	OnClickedRestart.Broadcast(inMouseEvent);
+}
+void GameStateUI::OnClickedPauseButton(DX::MouseEvent inMouseEvent)
+{
+	bPause = !bPause;
+	if (bPause)
+	{
+		auto&& child = m_pButton_Pause->GetSlotAt();
+		static_cast<S_TextBlock*>(child)->SetText(L"Resume");
+	}
+	else
+	{
+		auto&& child = m_pButton_Pause->GetSlotAt();
+		static_cast<S_TextBlock*>(child)->SetText(L"Pause");
+	}
+	OnClickedPause.Broadcast(inMouseEvent);
+
+}
+bool GameStateUI::IsPause() const noexcept
+{
+	return bPause;
+}
+
+// ----------------------------------------------------------
+// Main : Event
+// ----------------------------------------------------------
+bool GameStateUI::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
+{
+	return m_pVerticalBox->GetRootParent()->OnMouseButtonDown(inMouseEvent);
+}
+bool GameStateUI::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
+{
+	return m_pVerticalBox->GetRootParent()->OnMouseButtonHeld(inMouseEvent);
+}
+bool GameStateUI::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
+{
+	return m_pVerticalBox->GetRootParent()->OnMouseButtonUp(inMouseEvent);
+}

@@ -58,11 +58,11 @@ DirectX::XMMATRIX SkySphere::GetTransformXM(DirectX11& dx) const noexcept
 			DirectX::XMVectorGetZ(dx.GetCameraLocation())
 		);
 }
-void SkySphere::ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext)
+void SkySphere::ExecuteTasks(DirectX11& dx)
 {
-	DrawableObject::ExecuteTasks(dx, pContext);
+	DrawableObject::ExecuteTasks(dx);
 
-	pContext->OMSetDepthStencilState(NULL, 0);
+	dx.GetContext()->OMSetDepthStencilState(NULL, 0);
 }
 
 TriangleList SkySphere::CreateSphere(UINT LatLines, UINT LongLines)

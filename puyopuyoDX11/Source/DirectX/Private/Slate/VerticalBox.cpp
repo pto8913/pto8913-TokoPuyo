@@ -25,23 +25,28 @@ void S_VerticalBox::Update()
 	//}
 	for (int i = 0; i < numOfChild; ++i)
 	{
-		SlateBase*& pChild = m_pChildren[i];
+		auto&& pChild = m_pChildren[i];
 		const FSlateInfos childSlateInfos = pChild->GetSlateInfos();
 		const float childWidth = pChild->GetWidth();
 		const float childHeight = pChild->GetHeight();
 
+		if (childWidth == 0)
+		{
+			NewSize.x = cellW;
+		}
+		else
+		{
+			NewSize.x = childWidth;
+		}
 		switch (childSlateInfos.HAlign)
 		{
 		case EHorizontalAlignment::Left:
-			NewSize.x = childWidth;
 			NewPos.x = SrcPos.x + childSlateInfos.padding.left;
 			break;
 		case EHorizontalAlignment::Right:
-			NewSize.x = childWidth;
 			NewPos.x = SrcPos.x + SrcSize.x - NewSize.x - childSlateInfos.padding.right;
 			break;
 		case EHorizontalAlignment::Center:
-			NewSize.x = childWidth;
 			NewPos.x = SrcPos.x + (SrcSize.x / 2.f) - (NewSize.x / 2.f) + childSlateInfos.padding.left;
 			break;
 		default:

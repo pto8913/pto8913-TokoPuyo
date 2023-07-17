@@ -17,16 +17,16 @@ void DrawableObject::InitializeTasks()
 		task.get()->InitParentRefrence(*this);
 	}
 }
-void DrawableObject::ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext)
+void DrawableObject::ExecuteTasks(DirectX11& dx)
 {
 	if (visibility)
 	{
-		m_pTopology->Bind(dx, pContext);
-		m_pIndexBuffer->Bind(dx, pContext);
-		//m_pVertexBuffer->Bind(dx, pContext);
+		m_pTopology->Bind(dx);
+		m_pIndexBuffer->Bind(dx);
+		//m_pVertexBuffer->Bind(dx);
 		for (auto task : tasks)
 		{
-			task.get()->Bind(dx, pContext);
+			task.get()->Bind(dx);
 		}
 	}
 }

@@ -35,7 +35,7 @@ std::shared_ptr<SamplerState> SamplerState::Make(DirectX11& dx, UINT inSlot)
 {
 	return BindableManager::Make<SamplerState>(dx, inSlot);
 }
-void SamplerState::Bind(DirectX11& , ID3D11DeviceContext* pContext)
+void SamplerState::Bind(DirectX11& dx)
 {
-	pContext->PSSetSamplers(slot, 1, &m_pSamplerState);
+	GetContext(dx)->PSSetSamplers(slot, 1, &m_pSamplerState);
 }

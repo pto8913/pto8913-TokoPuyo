@@ -19,7 +19,7 @@ public:
 	~Rasterizer();
 
 	static std::shared_ptr<Rasterizer> Make(DirectX11& dx, RasterizerType inType, UINT inSize);
-	virtual void Bind(DirectX11& dx, ID3D11DeviceContext* pContext) override;
+	virtual void Bind(DirectX11& dx) override;
 
 	static std::string GenerateID(RasterizerType inType, UINT inSize)
 	{

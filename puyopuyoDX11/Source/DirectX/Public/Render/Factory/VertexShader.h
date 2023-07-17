@@ -13,7 +13,7 @@ public:
 	void ReleaseShaderCode();
 
 	static std::shared_ptr<VertexShader> Make(DirectX11& dx, const std::wstring& inFileName, const char* pEntryPoint);
-	virtual void Bind(DirectX11& dx, ID3D11DeviceContext* pContext) override;
+	virtual void Bind(DirectX11& dx) override;
 
 	static std::string GenerateID(const std::wstring& inFileName, const char* pEntryPoint);
 	std::string GetID() const noexcept;

@@ -32,9 +32,9 @@ std::shared_ptr<InputLayout> InputLayout::Make(DirectX11& dx, DX::Layout::Vertex
 {
 	return BindableManager::Make<InputLayout>(dx, inVertexType, pVertexShader);
 }
-void InputLayout::Bind(DirectX11&, ID3D11DeviceContext* pContext)
+void InputLayout::Bind(DirectX11& dx)
 {
-	pContext->IASetInputLayout(m_pInputLayout);
+	GetContext(dx)->IASetInputLayout(m_pInputLayout);
 }
 
 std::string InputLayout::GenerateID(const DX::Layout::VertexType& inVertexType, VertexShader* vs)

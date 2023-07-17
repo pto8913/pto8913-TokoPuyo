@@ -45,7 +45,7 @@ std::shared_ptr<BlendState> BlendState::Make(DirectX11& dx, UINT inSlot)
 	return BindableManager::Make<BlendState>(dx, inSlot);
 }
 
-void BlendState::Bind(DirectX11&, ID3D11DeviceContext* pContext)
+void BlendState::Bind(DirectX11& dx)
 {
-	pContext->OMSetBlendState(m_pBlendState, NULL, 0xffffffff);
+	GetContext(dx)->OMSetBlendState(m_pBlendState, NULL, 0xffffffff);
 }

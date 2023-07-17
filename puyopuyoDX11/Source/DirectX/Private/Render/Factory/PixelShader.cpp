@@ -37,9 +37,9 @@ std::shared_ptr<PixelShader> PixelShader::Make(DirectX11& dx, const std::wstring
 {
 	return BindableManager::Make<PixelShader>(dx, inFileName, pEntryPoint);
 }
-void PixelShader::Bind(DirectX11&, ID3D11DeviceContext* pContext)
+void PixelShader::Bind(DirectX11& dx)
 {
-	pContext->PSSetShader(m_pPixelShader, nullptr, 0);
+	GetContext(dx)->PSSetShader(m_pPixelShader, nullptr, 0);
 }
 
 std::string PixelShader::GenerateID(const std::wstring& inFileName, const char* pEntryPoint)

@@ -17,7 +17,7 @@ public:
 
 	static std::shared_ptr<DepthStencilState> Make(DirectX11& dx, DSSType inType);
 
-	virtual void Bind(DirectX11& dx, ID3D11DeviceContext* pContext) override;
+	virtual void Bind(DirectX11& dx) override;
 
 	static std::string GenerateID(DepthStencilState::DSSType type)
 	{

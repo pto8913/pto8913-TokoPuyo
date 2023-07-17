@@ -15,7 +15,7 @@ public:
 
 	static std::shared_ptr<ScreenTexture> Make(DirectX11& dx, const std::wstring& inFileName, FLOAT inWidth, FLOAT inHeight);
 
-	virtual void Bind(DirectX11& dx, ID3D11DeviceContext* pContext) override;
+	virtual void Bind(DirectX11& dx) override;
 	void Bind(DirectX::XMFLOAT2 offset);
 
 	static std::string GenerateID(const std::wstring& inFileName, FLOAT inWidth, FLOAT inHeight)

@@ -13,7 +13,7 @@ public:
 		DirectX11& dx, 
 		D3D11_PRIMITIVE_TOPOLOGY inType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
 	);
-	virtual void Bind(DirectX11& dx, ID3D11DeviceContext* pContext) override;
+	virtual void Bind(DirectX11& dx) override;
 
 	static std::string GenerateID(D3D11_PRIMITIVE_TOPOLOGY inType)
 	{

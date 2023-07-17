@@ -3,7 +3,16 @@
 #include "DirectX/DirectXHead.h"
 #include "Core/DirectX.h"
 
+#include "Slate/SlateInterface.h"
+
 class DirectX11;
+
+enum class ESlateInputEventReceiveType
+{
+	Enable, /* Enable all event. */
+	NotChildren, /* Ignore this slate, but children is not ignore. Containers Default */
+	NotAll, /* Ignore all */
+};
 
 enum class EHorizontalAlignment
 {
@@ -33,21 +42,21 @@ public:
 	FSlateInfos()
 		: HAlign(EHorizontalAlignment::Fill),
 		VAlign(EVerticalAlignment::Fill),
-		padding(D2D1::RectF(0, 0, 0, 0)),
-		margin(D2D1::RectF(0, 0, 0, 0))
+		padding(D2D1::RectF(0, 0, 0, 0))
 	{};
 
 	D2D1_RECT_F padding;
-	D2D1_RECT_F margin;
 
 	EHorizontalAlignment HAlign;
 	EVerticalAlignment VAlign;
 };
 
-class SlateBase
+class SlateBase : public DX::ISlateInterface
 {
 public:
 	SlateBase(DirectX11& dx, DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = FSlateInfos());
+	
+	virtual ~SlateBase() = default;
 
 	// ------------------------------------------------------------------------------------------------
 	// Main
@@ -62,6 +71,17 @@ public:
 	SlateBase* GetParent() const noexcept;
 	void SetParent(SlateBase* in);
 	SlateBase* GetRootParent() noexcept;
+
+	// ------------------------------------------------
+	// Main : InputEvent
+	// ------------------------------------------------
+	virtual bool OnMouseButtonDown(DX::MouseEvent inMouseEvent) override;
+	virtual bool OnMouseButtonHeld(DX::MouseEvent inMouseEvent) override;
+	virtual bool OnMouseButtonUp(DX::MouseEvent inMouseEvent) override;
+	virtual bool OnMouseEnter(DX::MouseEvent inMouseEvent) override;
+	virtual bool OnMouseLeave(DX::MouseEvent inMouseEvent) override;
+	virtual bool OnKeyDown(DX::MouseEvent inMouseEvent) override;
+	virtual bool OnKeyUp(DX::MouseEvent inMouseEvent) override;
 
 	// ------------------------------------------------
 	// Main : SlateInfos
@@ -94,11 +114,20 @@ public:
 protected:
 	SlateBase* m_pParent = nullptr;
 
-	ID2D1DeviceContext* m_pContext = nullptr;
 	ID2D1RenderTarget* m_pD2DRenderTarget = nullptr;
 
 	ID2D1SolidColorBrush* m_pBrush = nullptr;
 
+	// ------------------------------------------------
+	// Main : InputEvent
+	// ------------------------------------------------
+	ESlateInputEventReceiveType mSlateInputEventReceiveType;
+	//bool bEnableEnterLeave = true;
+	//bool bEnableClicked = true;
+
+	// ------------------------------------------------
+	// Main : SlateInfos
+	// ------------------------------------------------
 	FSlateInfos m_SlateInfos;
 
 	DirectX::XMFLOAT2 m_Size = { 0.f, 0.f };

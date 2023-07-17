@@ -53,31 +53,31 @@ std::shared_ptr<Rasterizer> Rasterizer::Make(DirectX11& dx, RasterizerType inTyp
 {
 	return BindableManager::Make<Rasterizer>(dx, inType, inSize);
 }
-void Rasterizer::Bind(DirectX11&, ID3D11DeviceContext* pContext)
+void Rasterizer::Bind(DirectX11& dx)
 {
 	switch (type)
 	{
 	case Wire:
-		pContext->RSSetState(m_pRasterizer_1);
-		pContext->DrawIndexed(size, 0, 0);
+		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		GetContext(dx)->DrawIndexed(size, 0, 0);
 		break;
 	case Transparent:
-		pContext->RSSetState(m_pRasterizer_1);
-		pContext->DrawIndexed(size, 0, 0);
-		pContext->RSSetState(m_pRasterizer_2);
-		pContext->DrawIndexed(size, 0, 0);
+		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		GetContext(dx)->DrawIndexed(size, 0, 0);
+		GetContext(dx)->RSSetState(m_pRasterizer_2);
+		GetContext(dx)->DrawIndexed(size, 0, 0);
 		break;
 	case Transparent1:
-		pContext->RSSetState(m_pRasterizer_1);
-		pContext->DrawIndexed(size, 0, 0);
+		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		GetContext(dx)->DrawIndexed(size, 0, 0);
 		break;
 	case Transparent2:
-		pContext->RSSetState(m_pRasterizer_2);
-		pContext->DrawIndexed(size, 0, 0);
+		GetContext(dx)->RSSetState(m_pRasterizer_2);
+		GetContext(dx)->DrawIndexed(size, 0, 0);
 		break;
 	default:
-		pContext->RSSetState(m_pRasterizer_1);
-		pContext->DrawIndexed(size, 0, 0);
+		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		GetContext(dx)->DrawIndexed(size, 0, 0);
 		break;
 	}
 }

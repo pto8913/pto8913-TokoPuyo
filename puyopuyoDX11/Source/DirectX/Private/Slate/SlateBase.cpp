@@ -2,9 +2,11 @@
 #include "Slate/SlateBase.h"
 
 SlateBase::SlateBase(DirectX11& dx, DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
-	: m_Size(inSize), m_pD2DRenderTarget(inD2DRT), m_SlateInfos(inSlateInfos)
+	: m_Size(inSize), 
+	m_pD2DRenderTarget(inD2DRT),
+	m_SlateInfos(inSlateInfos),
+	mSlateInputEventReceiveType(ESlateInputEventReceiveType::Enable)
 {
-	m_pContext = dx.GetContext2D();
 	m_pD2DRenderTarget->CreateSolidColorBrush(
 		D2D1::ColorF(255.f, 255.f, 255.f, 1.f),
 		&m_pBrush
@@ -30,6 +32,116 @@ SlateBase* SlateBase::GetRootParent() noexcept
 		return m_pParent->GetRootParent();
 	}
 	return this;
+}
+
+// ------------------------------------------------
+// Main : Event
+// ------------------------------------------------
+bool SlateBase::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
+{
+	switch (mSlateInputEventReceiveType)
+	{
+	case ESlateInputEventReceiveType::NotAll:
+		return false;
+		break;
+	default:
+		auto rect = GetRect();
+		if (inMouseEvent.State == DX::MouseEvent::ButtonState::LPRESSED ||
+			inMouseEvent.State == DX::MouseEvent::ButtonState::RPRESSED
+			)
+		{
+			if (InRect(inMouseEvent.x, inMouseEvent.y))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+}
+bool SlateBase::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
+{
+	switch (mSlateInputEventReceiveType)
+	{
+	case ESlateInputEventReceiveType::NotAll:
+		return false;
+	default:
+		auto rect = GetRect();
+		if (inMouseEvent.State == DX::MouseEvent::ButtonState::LHELD ||
+			inMouseEvent.State == DX::MouseEvent::ButtonState::RHELD
+			)
+		{
+			if (InRect(inMouseEvent.x, inMouseEvent.y))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+}
+bool SlateBase::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
+{
+	switch (mSlateInputEventReceiveType)
+	{
+	case ESlateInputEventReceiveType::NotAll:
+		return false;
+		break;
+	default:
+		auto rect = GetRect();
+		if (inMouseEvent.State == DX::MouseEvent::ButtonState::LRELEASED ||
+			inMouseEvent.State == DX::MouseEvent::ButtonState::RRELEASED
+			)
+		{
+			if (InRect(inMouseEvent.x, inMouseEvent.y))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+}
+bool SlateBase::OnMouseEnter(DX::MouseEvent inMouseEvent)
+{
+	switch (mSlateInputEventReceiveType)
+	{
+	case ESlateInputEventReceiveType::NotAll:
+		return false;
+		break;
+	default:
+		return InRect(inMouseEvent.x, inMouseEvent.y);
+	}
+}
+bool SlateBase::OnMouseLeave(DX::MouseEvent inMouseEvent)
+{
+	switch (mSlateInputEventReceiveType)
+	{
+	case ESlateInputEventReceiveType::NotAll:
+		return false;
+		break;
+	default:
+		return InRect(inMouseEvent.x, inMouseEvent.y);
+	}
+}
+bool SlateBase::OnKeyDown(DX::MouseEvent inMouseEvent)
+{
+	switch (mSlateInputEventReceiveType)
+	{
+	case ESlateInputEventReceiveType::NotAll:
+		return false;
+		break;
+	default:
+		return InRect(inMouseEvent.x, inMouseEvent.y);
+	}
+}
+bool SlateBase::OnKeyUp(DX::MouseEvent inMouseEvent)
+{
+	switch (mSlateInputEventReceiveType)
+	{
+	case ESlateInputEventReceiveType::NotAll:
+		return false;
+		break;
+	default:
+		return InRect(inMouseEvent.x, inMouseEvent.y);
+	}
 }
 
 // ------------------------------------------------
@@ -86,7 +198,7 @@ void SlateBase::SetPosition(DirectX::XMFLOAT2 inPosition)
 bool SlateBase::InRect(float x, float y) const noexcept
 {
 	const D2D1_RECT_F rect = GetRect();
-	return x >= rect.left && x <= rect.right && y >= rect.bottom && y <= rect.top;
+	return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
 }
 float SlateBase::GetWidth() const noexcept
 {

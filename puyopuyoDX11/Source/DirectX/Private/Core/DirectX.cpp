@@ -113,8 +113,8 @@ DirectX11::~DirectX11()
 void DirectX11::BeginFrame()
 {
 	// TODO: Add rendering logic here.
-	m_pRenderTargetView->Clear(m_pID3DContext);
-	m_pDepthStencilView->Clear(m_pID3DContext);
+	m_pRenderTargetView->Clear(*this);
+	m_pDepthStencilView->Clear(*this);
 
 	m_pID3DContext->OMSetRenderTargets(1, &m_pRenderTargetView->Get(), m_pDepthStencilView->Get());
 	m_pID3DContext->OMSetBlendState(0, 0, 0xffffffff);

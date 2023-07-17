@@ -11,7 +11,7 @@ public:
 	PointLight(DirectX11& dx, DirectX::XMVECTOR location, float radius = 0.5f);
 
 	void Reset();
-	virtual void ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext);
+	virtual void ExecuteTasks(DirectX11& dx);
 
 	struct ConstantBufferPointLight
 	{

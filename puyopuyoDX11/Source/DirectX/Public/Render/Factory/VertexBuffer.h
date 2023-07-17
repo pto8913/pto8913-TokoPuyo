@@ -52,11 +52,11 @@ public:
 		return BindableManager::Make<VertexBuffer<StructType>>(dx, inTag, pInitData);
 	}
 
-	virtual void Bind(DirectX11&, ID3D11DeviceContext* pContext) override
+	virtual void Bind(DirectX11& dx) override
 	{
 		const UINT _stride = sizeof(StructType);
 		const UINT offset = 0;
-		pContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &_stride, &offset);
+		GetContext(dx)->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &_stride, &offset);
 	}
 
 	static std::string GenerateID(const std::string& tag, const std::vector<StructType>& pInitData)

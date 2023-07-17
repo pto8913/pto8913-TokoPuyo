@@ -1,12 +1,13 @@
 #pragma once
 
 #include "Core/DirectX.h"
-#include "Object/Mouse.h"
 
 #include "Delegate/Delegate.h"
 
 #include <optional>
 #include <memory>
+
+#include "Input/ControllerInterface.h"
 
 DECLARE_MULTICAST_DELEGATE(FOnSuspending);
 DECLARE_MULTICAST_DELEGATE(FOnResuming);
@@ -58,23 +59,27 @@ public:
 	HINSTANCE GetHInstance();
 	HWND& GetHWnd();
 
-private:
 	void ConfineCursor() noexcept;
 	void FreeCursor() noexcept;
-	void ShowMouseCursor();
-	void HideMouseCursor();
-
 private:
+	// ------------------------------------------------------------------------
+	// State
+	// ------------------------------------------------------------------------
 	HWND m_hWnd;
 	std::unique_ptr<DirectX11> pDX;
-
-	Mouse* pMouse;
 
 	UINT width = 800;
 	UINT height = 600;
 
-	static UINT defaultWidth;
-	static UINT defaultHeight;
+	UINT defaultWidth;
+	UINT defaultHeight;
 
-	bool bShowMouseCursor = true;
+public:
+	// ----------------------------------
+	// State : Controller
+	// ----------------------------------
+	std::shared_ptr<DX::IControllerInterface> pController = nullptr;
+	DX::IMouseInterface* pMouse = nullptr;
+private:
+	std::vector<BYTE> rawBuffer;
 };

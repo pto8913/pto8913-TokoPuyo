@@ -87,12 +87,13 @@ class VertexConstantBuffer : public ConstantBuffer<C>
 {
 	using ConstantBuffer<C>::m_pConstantBuffer;
 	using ConstantBuffer<C>::slot;
+	using ConstantBuffer<C>::GetContext;
 public:
 	using ConstantBuffer<C>::ConstantBuffer;
 
-	virtual void Bind(DirectX11&, ID3D11DeviceContext* pContext) override 
+	virtual void Bind(DirectX11& dx) override 
 	{
-		pContext->VSSetConstantBuffers(slot, 1, &m_pConstantBuffer);
+		GetContext(dx)->VSSetConstantBuffers(slot, 1, &m_pConstantBuffer);
 	}
 	static std::shared_ptr<VertexConstantBuffer<C>> Make(DirectX11& dx, const C& consts, UINT inSlot = 0u)
 	{
@@ -119,12 +120,13 @@ class PixelConstantBuffer : public ConstantBuffer<C>
 {
 	using ConstantBuffer<C>::m_pConstantBuffer;
 	using ConstantBuffer<C>::slot;
+	using ConstantBuffer<C>::GetContext;
 public:
 	using ConstantBuffer<C>::ConstantBuffer;
 
-	virtual void Bind(DirectX11&, ID3D11DeviceContext* pContext) override
+	virtual void Bind(DirectX11& dx) override
 	{
-		pContext->PSSetConstantBuffers(slot, 1, &m_pConstantBuffer);
+		GetContext(dx)->PSSetConstantBuffers(slot, 1, &m_pConstantBuffer);
 	}
 	static std::shared_ptr<PixelConstantBuffer<C>> Make(DirectX11& dx, const C& consts, UINT inSlot = 0u)
 	{
@@ -156,10 +158,10 @@ public:
 	);
 
 	static std::shared_ptr<ConstantBufferEx> Make(DirectX11& dx, UINT size, UINT inSlot = 0);
-	virtual void Bind(DirectX11&, ID3D11DeviceContext*) override
+	virtual void Bind(DirectX11&) override
 	{
 	};
-	virtual void Bind(DirectX11& dx, ID3D11DeviceContext* pContext, void* pData);
+	virtual void Bind(DirectX11& dx, void* pData);
 	
 	static std::string GenerateID(UINT size, UINT inSlot)
 	{

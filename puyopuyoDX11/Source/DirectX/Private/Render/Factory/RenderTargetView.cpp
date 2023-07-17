@@ -47,9 +47,9 @@ ID3D11RenderTargetView*& RenderTargetView::Get()
 {
 	return m_pRenderTargetView;
 }
-void RenderTargetView::Clear(ID3D11DeviceContext* pContext)
+void RenderTargetView::Clear(DirectX11& dx)
 {
 	float bgColor[4] = { 0.1, 0.1, 0.1, 1 };
 
-	pContext->ClearRenderTargetView(m_pRenderTargetView, bgColor);
+	GetContext(dx)->ClearRenderTargetView(m_pRenderTargetView, bgColor);
 }

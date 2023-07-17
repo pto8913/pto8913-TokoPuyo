@@ -5,6 +5,8 @@
 
 class DirectX11;
 
+DECLARE_MULTICAST_DELEGATE_RET(FOnSetText, std::wstring);
+
 struct FSlateFont
 {
 public:
@@ -83,6 +85,8 @@ public:
 
 	virtual void SetWrap(ETextWrap in);
 
+	/* NOTE : this will be called per frame. */
+	FOnSetText OnSetText;
 private:
 	FSlateTextAppearance m_Appearance;
 

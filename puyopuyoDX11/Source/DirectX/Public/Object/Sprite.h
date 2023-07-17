@@ -13,7 +13,7 @@ public:
 	Sprite() = default;
 	Sprite(DirectX11& dx, const wchar_t* inFileName, std::wstring Tag, DirectX::XMFLOAT2 inSize, DirectX::XMFLOAT2 inOffset);
 
-	virtual void ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext) override;
+	virtual void ExecuteTasks(DirectX11& dx) override;
 	virtual DirectX::XMMATRIX GetTransformXM(DirectX11& dx) const noexcept override;
 
 	void SetOffset(DirectX::XMFLOAT2 inOffset);

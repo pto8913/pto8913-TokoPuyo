@@ -31,6 +31,13 @@ namespace Math
 		return mod;
 	}
 
+	template<typename T>
+	T MapRange(T value, T input_start, T input_end, T output_start, T output_end)
+	{
+		double slope = 1.0 * (output_end - output_start) / (input_end - input_start);
+		return output_start + round(slope * (value - input_start));
+	}
+
 	DirectX::XMFLOAT2 AddXMF2(DirectX::XMFLOAT2 a, DirectX::XMFLOAT2 b);
 }
 

@@ -1,4 +1,20 @@
+#pragma once
+
 #include <thread>
+#include <chrono>
+
+class WorldTimer
+{
+public:
+	WorldTimer();
+	
+	WorldTimer(const WorldTimer&) = delete;
+	WorldTimer& operator=(const WorldTimer&) = delete;
+
+	float GetDelta() noexcept;
+private:
+	std::chrono::steady_clock::time_point last;
+};
 
 /* NOTE : must be use DefferedContext_n per Timer. */
 #define DECLARE_TIMER(TimerName) \
@@ -132,3 +148,4 @@ private:
 	Storage mData;
 	Function mFunction;
 };
+

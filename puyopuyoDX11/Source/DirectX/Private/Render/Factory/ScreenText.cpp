@@ -100,9 +100,9 @@ std::shared_ptr<ScreenText> ScreenText::Make(DirectX11& dx, UINT inWidth, UINT i
 	return BindableManager::Make<ScreenText>(dx, inWidth, inHeight);
 }
 
-void ScreenText::Bind(DirectX11& dx, ID3D11DeviceContext* pContext)
+void ScreenText::Bind(DirectX11& dx)
 {
-	pContext->PSSetShaderResources(0, 1, &d2dTexture);
+	GetContext(dx)->PSSetShaderResources(0, 1, &d2dTexture);
 }
 void ScreenText::Bind(std::wstring text)
 {
@@ -229,7 +229,7 @@ std::shared_ptr<ScreenTextOnlyOutput> ScreenTextOnlyOutput::Make(DirectX11& dx, 
 	return BindableManager::Make<ScreenTextOnlyOutput>(dx, inWidth, inHeight);
 }
 
-void ScreenTextOnlyOutput::Bind(DirectX11& dx, ID3D11DeviceContext* pContext)
+void ScreenTextOnlyOutput::Bind(DirectX11& dx)
 {
-	pContext->PSSetShaderResources(0, 1, &d2dTexture);
+	GetContext(dx)->PSSetShaderResources(0, 1, &d2dTexture);
 }

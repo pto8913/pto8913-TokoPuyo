@@ -14,7 +14,7 @@ public:
 	~SamplerState();
 
 	static std::shared_ptr<SamplerState> Make(DirectX11& dx, UINT inSlot = 0);
-	virtual void Bind(DirectX11& dx, ID3D11DeviceContext* pContext) override;
+	virtual void Bind(DirectX11& dx) override;
 
 	static std::string GenerateID(UINT inSlot)
 	{

@@ -12,9 +12,9 @@ public:
 	~DepthStencilView();
 
 	ID3D11DepthStencilView*& Get();
-	virtual void Bind(DirectX11&, ID3D11DeviceContext*) override {};
+	virtual void Bind(DirectX11&) override {};
 
-	void Clear(ID3D11DeviceContext* pContext);
+	void Clear(DirectX11& dx);
 private:
 	ID3D11DepthStencilView* m_pDepthStencilView;
 	ID3D11Texture2D* m_pDepthStencilViewBuffer;

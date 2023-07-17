@@ -125,6 +125,9 @@
     <Filter Include="Source\DirectX\Private\Object\Widget">
       <UniqueIdentifier>{83b19585-2a15-42d0-9ac8-83a62c6f3b79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\DirectX\Private\Timer">
+      <UniqueIdentifier>{f0065346-b0a1-40d8-8cf8-92986e6025d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DirectX\DirectXHead.h">
@@ -319,9 +322,6 @@
     <ClInclude Include="Source\DirectX\Public\Render\Factory\ScreenText.h">
       <Filter>Source\DirectX\Public\Render\Factory</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Render\GameRender.h">
-      <Filter>Source\DirectX\Public\Render</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameMain.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -376,8 +376,26 @@
     <ClInclude Include="Source\DirectX\Public\Slate\Overlay.h">
       <Filter>Source\DirectX\Public\Slate</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Object\Mouse.h">
-      <Filter>Source\DirectX\Public\Object</Filter>
+    <ClInclude Include="Source\DirectX\Public\Input\Controller.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\MouseInterface.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\Mouse.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\ControllerInterface.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Factory\WidgetFactory.h">
+      <Filter>Source\Engine\Public\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetInterface.h">
+      <Filter>Source\DirectX\Public\Object\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Slate\SlateInterface.h">
+      <Filter>Source\DirectX\Public\Slate</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -555,9 +573,6 @@
     <ClCompile Include="Source\DirectX\Private\Render\Factory\ScreenText.cpp">
       <Filter>Source\DirectX\Private\Render\Factory</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\GameRender.cpp">
-      <Filter>Source\DirectX\Private\Render</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GameMain.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -603,8 +618,17 @@
     <ClCompile Include="Source\DirectX\Private\Slate\Overlay.cpp">
       <Filter>Source\DirectX\Private\Slate</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\Mouse.cpp">
-      <Filter>Source\DirectX\Private\Object</Filter>
+    <ClCompile Include="Source\DirectX\Private\Timer\Timer.cpp">
+      <Filter>Source\DirectX\Private\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Config.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Input\Controller.cpp">
+      <Filter>Source\DirectX\Private\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Input\Mouse.cpp">
+      <Filter>Source\DirectX\Private\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

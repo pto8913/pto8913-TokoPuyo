@@ -16,7 +16,7 @@ public:
 
 	void UpdateText(std::wstring inText);
 
-	virtual void ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext) override;
+	virtual void ExecuteTasks(DirectX11& dx) override;
 
 	virtual DirectX::XMMATRIX GetTransformXM(DirectX11& dx) const noexcept override;
 

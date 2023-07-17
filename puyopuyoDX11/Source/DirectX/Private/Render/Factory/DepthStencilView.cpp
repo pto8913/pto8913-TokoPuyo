@@ -76,13 +76,13 @@ ID3D11DepthStencilView*& DepthStencilView::Get()
 {
 	return m_pDepthStencilView;
 }
-//void DepthStencilView::Bind(DirectX11& dx, ID3D11DeviceContext* pContext)
+//void DepthStencilView::Bind(DirectX11& dx)
 //{
-//	pContext->OMSetRenderTargets(0, nullptr, m_pDepthStencilView);
+//	GetContext(dx)->OMSetRenderTargets(0, nullptr, m_pDepthStencilView);
 //}
-void DepthStencilView::Clear(ID3D11DeviceContext* pContext)
+void DepthStencilView::Clear(DirectX11& dx)
 {
-	pContext->ClearDepthStencilView(
+	GetContext(dx)->ClearDepthStencilView(
 		m_pDepthStencilView, 
 		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 
 		1.0f, 

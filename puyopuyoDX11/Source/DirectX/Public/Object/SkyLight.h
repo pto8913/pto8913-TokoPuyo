@@ -8,7 +8,7 @@ public:
 	SkyLight(DirectX11& dx);
 
 	void Reset();
-	virtual void ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext) override;
+	virtual void ExecuteTasks(DirectX11& dx) override;
 
 	struct ConstantBufferSkyLight
 	{

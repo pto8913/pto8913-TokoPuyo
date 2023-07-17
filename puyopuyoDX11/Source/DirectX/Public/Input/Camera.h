@@ -7,6 +7,9 @@
 
 #include "Math/Math.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnCameraMatrix, DirectX::XMMATRIX);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnCameraVector, DirectX::XMVECTOR);
+
 class DirectX11;
 
 class Camera : public ObjectBase
@@ -43,8 +46,11 @@ public:
 	DirectX::XMVECTOR GetUpVector();
 
 	void ExecuteTasks(DirectX11& dx);
-	void Update();
+
 protected:
+	// ------------------------------------------------------------------------
+	// State
+	// ------------------------------------------------------------------------
 	bool tethered;
 	std::string name;
 
@@ -75,5 +81,12 @@ protected:
 	CameraProjection m_CameraProjection;
 	CameraIndicator m_CameraIndicator;
 
-
+public:
+	// ----------------------------------
+	// State : Delegate
+	// ----------------------------------
+	FOnCameraMatrix OnCameraViewChanged;
+	FOnCameraMatrix OnCameraProjectionChanged;
+	FOnCameraVector OnCameraLocationChanged;
+	FOnCameraVector OnCameraRotationChanged;
 };

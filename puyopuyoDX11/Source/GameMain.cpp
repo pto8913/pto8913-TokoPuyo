@@ -25,27 +25,34 @@ Keyboard::InputAction InputUp(DIK_UP);
 Keyboard::InputAxis InputDown(DIK_DOWN);
 Keyboard::InputAction InputEsc(DIK_ESCAPE);
 
-//Keyboard::InputMouse InputMouse;
-
 UINT8 vanishCount;
 
-GameMain::GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd)
-	:unionFind(Config::GAMESCREEN_WIDTH* Config::GAMESCREEN_HEIGHT), stackedPuyo(Config::GAMESCREEN_WIDTH* Config::GAMESCREEN_HEIGHT), stackedPuyoSprites(Config::GAMESCREEN_WIDTH* Config::GAMESCREEN_HEIGHT), planVanishPuyo(Config::GAMESCREEN_WIDTH* Config::GAMESCREEN_HEIGHT),
-	Cached_NeedDurationTime_Main(0)
+GameMain::GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd, UINT windowSizeW, UINT windowSizeH, std::shared_ptr<DX::IControllerInterface> inController)
+	: ControllerInterface(inController)
 {
+	size = (UINT8)Config::GAMESCREEN_WIDTH * Config::GAMESCREEN_HEIGHT;
 	puyoCount = 0;
 	comboCount = 0;
 	connectCount = 0;
 	colorCount = 0;
 	score = 0;
 
+	unionFind = UnionFind(size);
+	stackedPuyo.resize(size);
+	stackedPuyoSprites.resize(size);
+	planVanishPuyo.resize(size);
+	Cached_NeedDurationTime_Main = 0;
+
 	m_pdx = &dx;
 
 	m_keyBoard = Keyboard(hInstance, hWnd);
 
-	m_pGameStateUI = new GameStateUI(dx);
+	m_pGameStateUI = new GameStateUI(dx, windowSizeW, windowSizeH);
 	m_pGameStateUI->SetGmaeProgressUI(dx);
 	m_pGameStateUI->UpdateScore(dx, 0, 0);
+	m_pGameStateUI->OnClickedRestart.Bind<&GameMain::OnClickedRestart>(*this);
+	m_pGameStateUI->OnClickedPause.Bind<&GameMain::OnClickedPause>(*this);
+	m_pGameStateUI->AddToViewport();
 
 	m_pGameMode = std::make_shared<GameMode>();
 	vanishCount = static_cast<UINT8>(m_pGameMode->GetNumOfConnect());
@@ -60,7 +67,24 @@ GameMain::GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd)
 
 	LastTime_Main = chrono::now();
 
+	ControllerInterface->GetMouseInterface()->GetClickedLeftPressed().Bind<&GameMain::OnClickedDown>(*this);
+	ControllerInterface->GetMouseInterface()->GetClickedLeftReleased().Bind<&GameMain::OnClickedUp>(*this);
+	ControllerInterface->GetMouseInterface()->GetClickedLeftHeld().Bind<&GameMain::OnClickedHeld>(*this);
+
+	ControllerInterface->GetMouseInterface()->GetClickedRightPressed().Bind<&GameMain::OnClickedDown>(*this);
+	ControllerInterface->GetMouseInterface()->GetClickedRightReleased().Bind<&GameMain::OnClickedUp>(*this);
+	ControllerInterface->GetMouseInterface()->GetClickedRightHeld().Bind<&GameMain::OnClickedHeld>(*this);
+
+	ControllerInterface->GetMouseInterface()->GetClickedWheelPressed().Bind<&GameMain::OnClickedDown>(*this);
+	ControllerInterface->GetMouseInterface()->GetClickedWheelReleased().Bind<&GameMain::OnClickedUp>(*this);
+	ControllerInterface->GetMouseInterface()->GetClickedWheelHeld().Bind<&GameMain::OnClickedHeld>(*this);
+
 	StartControlPuyo();
+#if _DEBUG
+	OutputDebugStringA("DEBUG");
+#else
+	OutputDebugStringA("NotDebug");
+#endif
 }
 GameMain::~GameMain()
 {
@@ -72,96 +96,95 @@ void GameMain::SetGameState(DX::GameState NewState)
 	switch (NewState)
 	{
 	case DX::GameState::Control:
-		OutputDebugStringA("--- GameState Control ---\n");
+		//OutputDebugStringA("--- GameState Control ---\n");
 		NeedDurationTime_Main = Config::PUYO_FALL_SPEED_GAMESTATE_CONTROL;
 		break;
 	case DX::GameState::Release:
-		OutputDebugStringA("--- GameState Release ---\n");
+		//OutputDebugStringA("--- GameState Release ---\n");
 		NeedDurationTime_Main = Config::PUYO_FALL_SPEED_GAMESTATE_RELEASE;
 		DoFrame_Release();
 		break;
 	case DX::GameState::Vanish:
-		OutputDebugStringA("--- GameState Vanish ---\n");
+		//OutputDebugStringA("--- GameState Vanish ---\n");
 		StartTime_Vanish = chrono::now();
 		NeedDurationTime_Main = Config::PUYO_FALL_SPEED_GAMESTATE_VANISH;
 		break;
 	case DX::GameState::FallAll:
-		OutputDebugStringA("--- GameState Fallall ---\n");
+		//OutputDebugStringA("--- GameState Fallall ---\n");
 		NeedDurationTime_Main = Config::PUYO_FALL_SPEED_GAMESTATE_VANISH_TO_FALL;
 		break;
+	case DX::GameState::GameOver:
+		m_pGameStateUI->SetGameOverUI(*m_pdx);
+		break;
 	default:
-		OutputDebugStringA("--- GameState Wait ---\n");
+		//OutputDebugStringA("--- GameState Wait ---\n");
 		NeedDurationTime_Main = Config::PUYO_FALL_SPEED_GAMESTATE_WAIT;
 		break;
 	}
 }
 
-int GameMain::Run(DirectX11& dx)
-{
-	while (m_GameState != DX::GameState::GameOver)
-	{
-		if (const auto ecode = Window::ProcessMessages())
-		{
-			return *ecode;
-		}
-
-		DoFrame(dx);
-	}
-	return 0;
-}
-
-void GameMain::DoFrame(DirectX11& dx)
+void GameMain::DoFrame(DirectX11& dx, float deltaTime)
 {
 	dx.BeginFrame();
 
-	m_pGameStateUI->ExecuteTasks(*m_pdx, m_pdx->GetContext());
-
-	BackGround->ExecuteTasks(*m_pdx, m_pdx->GetContext());
-
-	//chrono::duration DurationTime_Main = chrono::now() - LastTime_Main;
-	//Duration_Main = std::chrono::duration_cast<std::chrono::milliseconds>(DurationTime_Main);
-	//if (Duration_Main.count() >= NeedDurationTime_Main)
-	//{
-	//	LastTime_Main = chrono::now();
-	//	switch (m_GameState)
-	//	{
-	//	case DX::GameState::Control:
-	//		DoFrame_Control();
-	//		break;
-	//	case DX::GameState::Release:
-	//		DoFrame_Release();
-	//		break;
-	//	case DX::GameState::Vanish:
-	//		DoFrame_Vanish();
-	//		break;
-	//	case DX::GameState::FallAll:
-	//		DoFrame_FallAll();
-	//		break;
-	//	case DX::GameState::GameOver:
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//}
-
-	for (auto sprite : stackedPuyoSprites)
+	if (m_GameState != DX::GameState::GameOver)
 	{
-		if (sprite.get())
+		m_pGameStateUI->ExecuteTasks(*m_pdx);
+
+		BackGround->ExecuteTasks(*m_pdx);
+
+		chrono::duration DurationTime_Main = chrono::now() - LastTime_Main;
+		Duration_Main = std::chrono::duration_cast<std::chrono::milliseconds>(DurationTime_Main);
+		////OutputDebugStringA(std::format("deltaTime {}, Duration {}\n", deltaTime, Duration_Main.count()).c_str());
+		if (Duration_Main.count() >= NeedDurationTime_Main)
 		{
-			sprite.get()->ExecuteTasks(*m_pdx, m_pdx->GetContext());
+			LastTime_Main = chrono::now();
+			switch (m_GameState)
+			{
+			case DX::GameState::Control:
+				DoFrame_Control();
+				break;
+			case DX::GameState::Release:
+				DoFrame_Release();
+				break;
+			case DX::GameState::Vanish:
+				DoFrame_Vanish();
+				break;
+			case DX::GameState::FallAll:
+				DoFrame_FallAll();
+				break;
+			case DX::GameState::GameOver:
+				break;
+			case DX::GameState::GameOverAnimation:
+				break;
+			default:
+				break;
+			}
+		}
+
+		for (auto sprite : stackedPuyoSprites)
+		{
+			if (sprite.get())
+			{
+				sprite.get()->ExecuteTasks(*m_pdx);
+			}
+		}
+
+		InputUpdate();
+
+		if (m_pActivePuyo.get())
+		{
+			m_pActivePuyo->ExecuteTasks(*m_pdx);
+		}
+		if (m_pSubPuyo.get())
+		{
+			m_pSubPuyo->ExecuteTasks(*m_pdx);
 		}
 	}
-
-	InputUpdate();
-
-	//if (m_pActivePuyo.get())
-	//{
-	//	m_pActivePuyo->ExecuteTasks(*m_pdx, m_pdx->GetContext());
-	//}
-	//if (m_pSubPuyo.get())
-	//{
-	//	m_pSubPuyo->ExecuteTasks(*m_pdx, m_pdx->GetContext());
-	//}
+	else
+	{
+		m_pGameStateUI->ExecuteTasks(*m_pdx);
+	}
 
 	HRESULT result = dx.EndFrame();
 	if (result == DXGI_ERROR_DEVICE_REMOVED || result == DXGI_ERROR_DEVICE_RESET)
@@ -179,7 +202,7 @@ void GameMain::DoFrame(DirectX11& dx)
 
 void GameMain::StartControlPuyo()
 {
-	OutputDebugStringA("Restart Puyo\n");
+	//////OutputDebugStringA("Restart Puyo\n");
 	
 	int P = GetPos(Config::GAMEOVER_COORD);
 	if (IsValidIndex(P))
@@ -195,6 +218,10 @@ void GameMain::StartControlPuyo()
 			ResetCalcScoreCount();
 			SpawnPuyo();
 		}
+	}
+	else
+	{
+		SetGameState(DX::GameState::GameOver);
 	}
 }
 
@@ -250,7 +277,6 @@ void GameMain::SpawnPuyo()
 		AddXMF2(activePuyo.offset, { 0, -Config::CELL })
 	);
 
-
 	m_pGameStateUI->UpdateNextPuyo(*m_pdx, nextPuyo1_1, nextPuyo1_2, nextPuyo2_1, nextPuyo2_2);
 }
 
@@ -260,6 +286,60 @@ void GameMain::SpawnPuyo()
 void GameMain::DoFrame_Control()
 {
 	ActionActivePuyoDown(0.5f);
+}
+
+// ------------------------------------------------------------
+// Main : UI
+// ------------------------------------------------------------
+void GameMain::OnClickedRestart(DX::MouseEvent)
+{
+	if (m_GameState == DX::GameState::GameOver)
+	{
+		m_pGameStateUI->SetGmaeProgressUI(*m_pdx);
+	}
+
+	SetGameState(DX::GameState::Wait);
+
+	activePuyo.SetEmpty();
+	subPuyo.SetEmpty();
+	subId = Config::EMPTY_PUYO;
+	m_pActivePuyo.reset();
+	m_pSubPuyo.reset();
+	nextPuyo1_1 = Config::EMPTY_PUYO;
+	nextPuyo1_2 = Config::EMPTY_PUYO;
+	nextPuyo2_1 = Config::EMPTY_PUYO;
+	nextPuyo2_2 = Config::EMPTY_PUYO;
+
+	unionFind.clear();
+
+	for (int i = 0; i < size; ++i)
+	{
+		stackedPuyo[i].SetEmpty();
+		stackedPuyoSprites[i].reset();
+		planVanishPuyo[i] = false;
+	}
+
+	puyoCount = 0;
+	comboCount = 0;
+	connectCount = 0;
+	colorCount = 0;
+	score = 0;
+
+	LastTime_Main = chrono::now();
+
+	StartControlPuyo();
+}
+void GameMain::OnClickedPause(DX::MouseEvent inMouseEvent)
+{
+	if (m_pGameStateUI->IsPause())
+	{
+		Cached_GameState = m_GameState;
+		SetGameState(DX::GameState::Wait);
+	}
+	else
+	{
+		SetGameState(Cached_GameState);
+	}
 }
 
 // ---------------------------
@@ -360,8 +440,8 @@ void GameMain::ActivePuyoDownToRelease()
 	activePuyo.CopyToSub(subPuyo);
 	subPuyo.Id = subId;
 	m_pSubPuyo->SetOffset(subPuyo.offset);
-	OutputDebugStringA(std::format("Release active puyo x:{} y:{} pos:{}\n", activePuyo.x, activePuyo.y, GetPos(activePuyo.x, activePuyo.y)).c_str());
-	OutputDebugStringA(std::format("Release sub puyo x:{} y:{} pos:{}\n", subPuyo.x, subPuyo.y, GetPos(subPuyo.x, subPuyo.y)).c_str());
+	//OutputDebugStringA(std::format("Release active puyo x:{} y:{} pos:{}\n", activePuyo.x, activePuyo.y, GetPos(activePuyo.x, activePuyo.y)).c_str());
+	//OutputDebugStringA(std::format("Release sub puyo x:{} y:{} pos:{}\n", subPuyo.x, subPuyo.y, GetPos(subPuyo.x, subPuyo.y)).c_str());
 
 	activePuyo.UpdateOffset();
 	SetGameState(DX::GameState::Release);
@@ -510,7 +590,7 @@ void GameMain::ActionActivePuyoRotate(bool rotateR)
 			/* U to L */
 			x -= 1;
 			P = GetPos(x, y);
-			if (!IsValidIndex(P) || !stackedPuyo[P].IsEmpty())
+			if (!IsValidIndex(P) || (IsValidIndex(P) && !stackedPuyo[P].IsEmpty()))
 			{
 				activePuyo.x += 1;
 				x += 2;
@@ -520,7 +600,7 @@ void GameMain::ActionActivePuyoRotate(bool rotateR)
 			/* B to R */
 			x += 1;
 			P = GetPos(x, y);
-			if (!IsValidIndex(P) || !stackedPuyo[P].IsEmpty())
+			if (!IsValidIndex(P) || (IsValidIndex(P) && !stackedPuyo[P].IsEmpty()))
 			{
 				activePuyo.x -= 1;
 				x -= 2;
@@ -530,7 +610,7 @@ void GameMain::ActionActivePuyoRotate(bool rotateR)
 			/* L to B */
 			y += 1;
 			P = GetPos(x, y);
-			if (!IsValidIndex(P) || !stackedPuyo[P].IsEmpty())
+			if (!IsValidIndex(P) || (IsValidIndex(P) && !stackedPuyo[P].IsEmpty()))
 			{
 				activePuyo.y -= 1;
 				y -= 2;
@@ -644,8 +724,8 @@ void GameMain::ActivePuyoRotateToRelease()
 	default:
 		break;
 	}
-	OutputDebugStringA(std::format("Release active puyo x:{} y:{} pos:{}\n", activePuyo.x, activePuyo.y, GetPos(activePuyo.x, activePuyo.y)).c_str());
-	OutputDebugStringA(std::format("Release sub puyo x:{} y:{} pos:{}\n", subPuyo.x, subPuyo.y, GetPos(subPuyo.x, subPuyo.y)).c_str());
+	//OutputDebugStringA(std::format("Release active puyo x:{} y:{} pos:{}\n", activePuyo.x, activePuyo.y, GetPos(activePuyo.x, activePuyo.y)).c_str());
+	//OutputDebugStringA(std::format("Release sub puyo x:{} y:{} pos:{}\n", subPuyo.x, subPuyo.y, GetPos(subPuyo.x, subPuyo.y)).c_str());
 
 	activePuyo.UpdateOffset();
 	SetGameState(DX::GameState::Release);
@@ -685,7 +765,7 @@ bool GameMain::DoFrame_Release(Puyo& puyo, std::shared_ptr<Sprite> pPuyo)
 		{
 			if (stackedPuyo[NAP].IsEmpty())
 			{
-				OutputDebugStringA("Stack puyo NAP !!\n");
+				//OutputDebugStringA("Stack puyo NAP !!\n");
 
 				puyo.y += 1;
 				puyo.UpdateOffset();
@@ -696,7 +776,7 @@ bool GameMain::DoFrame_Release(Puyo& puyo, std::shared_ptr<Sprite> pPuyo)
 			{
 				if (stackedPuyo[CAP].IsEmpty())
 				{
-					OutputDebugStringA("Stack puyo + 1!\n");
+					//OutputDebugStringA("Stack puyo + 1!\n");
 
 					stackedPuyoSprites[CAP] = pPuyo;
 					stackedPuyo[CAP] = puyo;
@@ -708,7 +788,7 @@ bool GameMain::DoFrame_Release(Puyo& puyo, std::shared_ptr<Sprite> pPuyo)
 		{
 			if (stackedPuyo[CAP].IsEmpty())
 			{
-				OutputDebugStringA(std::format("Stack puyo x:{} y:{} pos:{}\n", puyo.x, puyo.y, CAP).c_str());
+				//OutputDebugStringA(std::format("Stack puyo x:{} y:{} pos:{}\n", puyo.x, puyo.y, CAP).c_str());
 
 				stackedPuyoSprites[CAP] = pPuyo;
 				stackedPuyo[CAP] = puyo;
@@ -721,7 +801,7 @@ bool GameMain::DoFrame_Release(Puyo& puyo, std::shared_ptr<Sprite> pPuyo)
 
 void GameMain::ReachToBottomActivePuyo()
 {
-	OutputDebugStringA("ReachToBottomActivePuyo\n");
+	//OutputDebugStringA("ReachToBottomActivePuyo\n");
 	int AP = GetPos(activePuyo.x, activePuyo.y);
 	int SP = GetPos(subPuyo.x, subPuyo.y);
 
@@ -759,21 +839,24 @@ void GameMain::ReachToBottomActivePuyo()
 // ------------------------------------------------------------
 void GameMain::DoFrame_Vanish()
 {
-	std::chrono::duration Duration = chrono::now() - StartTime_Vanish;
-	if (std::chrono::duration_cast<std::chrono::milliseconds>(Duration).count() >= Config::PUTO_EFFECT_TIME_VANISH)
+	if (m_GameState == DX::GameState::Vanish)
 	{
-		SetVisibilityVanishPuyo(true);
-		VanishPuyo();
-		SetGameState(DX::GameState::FallAll);
-	}
-	else
-	{
-		FlashVanishPuyo();
+		std::chrono::duration Duration = chrono::now() - StartTime_Vanish;
+		if (std::chrono::duration_cast<std::chrono::milliseconds>(Duration).count() >= Config::PUTO_EFFECT_TIME_VANISH)
+		{
+			SetVisibilityVanishPuyo(true);
+			VanishPuyo();
+			SetGameState(DX::GameState::FallAll);
+		}
+		else
+		{
+			FlashVanishPuyo();
+		}
 	}
 }
 bool GameMain::SetPlanToVanishPuyo(Puyo puyo)
 {
-	OutputDebugStringA("SetPlanToVanishPuyo\n");
+	//OutputDebugStringA("SetPlanToVanishPuyo\n");
 	const int CP = GetPos(puyo.x, puyo.y);
 	int P;
 	bool hasVanishPlan = false;
@@ -828,18 +911,21 @@ void GameMain::SetVisibilityVanishPuyo(bool in)
 			P = GetPos(x, y);
 			if (planVanishPuyo[P])
 			{
-				stackedPuyoSprites[P]->SetVisibility(in);
+				if (stackedPuyoSprites[P] != nullptr)
+				{
+					stackedPuyoSprites[P]->SetVisibility(in);
+				}
 			}
 		}
 	}
 }
 void GameMain::VanishPuyo()
 {
-	OutputDebugStringA("Vanish Puyo\n");
+	//OutputDebugStringA("Vanish Puyo\n");
 
 	int P;
 	std::map<int, int> colors;
-	std::map<int, int> size;
+	std::map<int, int> RootSize;
 	for (UINT8 y = 0; y < Config::GAMESCREEN_HEIGHT; ++y)
 	{
 		for (UINT8 x = 0; x < Config::GAMESCREEN_WIDTH; ++x)
@@ -851,7 +937,7 @@ void GameMain::VanishPuyo()
 
 				/* Cache for calculate score. */
 				++colors[puyo.Id];
-				size.emplace(std::make_pair<int, int>(unionFind.root(P), unionFind.size(P)));
+				RootSize.emplace(std::make_pair<int, int>(unionFind.root(P), unionFind.size(P)));
 
 				/* Clear puyo. */
 				puyo.SetEmpty();
@@ -863,7 +949,7 @@ void GameMain::VanishPuyo()
 
 	/* calc score */
 	int bonus = 0;
-	for (auto&& s : size)
+	for (auto&& s : RootSize)
 	{
 		bonus += Config::connectBonus[s.second];
 		puyoCount += s.second;
@@ -880,7 +966,7 @@ void GameMain::VanishPuyo()
 	bonus += Config::comboBonus[comboCount];
 	bonus = bonus == 0 ? 1 : bonus;
 	
-	score = puyoCount * 10 * bonus;
+	score += puyoCount * 10 * bonus;
 
 	m_pGameStateUI->UpdateScore(*m_pdx, score, comboCount);
 
@@ -974,29 +1060,29 @@ void GameMain::UnionFindPuyo(Puyo puyo)
 {
 	float x = puyo.x, y = puyo.y;
 	const int CP = GetPos(x, y);
-	OutputDebugStringA(std::format("CP {} = {} * {} + {}\n", CP, ceil(y), Config::GAMESCREEN_WIDTH, ceil(x)).c_str());
+	//OutputDebugStringA(std::format("CP {} = {} * {} + {}\n", CP, ceil(y), Config::GAMESCREEN_WIDTH, ceil(x)).c_str());
 	auto Check = [this, &puyo, &CP](int P, LPCSTR str)
 	{
 		if (IsValidIndex(P))
 		{
 			if (puyo.IsSameId(stackedPuyo[P]))
 			{
-				OutputDebugStringA(std::format("puyo id : {}, id2 : {}\n", puyo.Id, stackedPuyo[P].Id).c_str());
-				OutputDebugStringA(str);
+				//OutputDebugStringA(std::format("puyo id : {}, id2 : {}\n", puyo.Id, stackedPuyo[P].Id).c_str());
+				//OutputDebugStringA(str);
 				unionFind.unite(CP, P);
 			}
 		}
 	};
-	OutputDebugStringA(std::format("{} = {} * {} + {}\n", GetPos(x - 1, y), ceil(y), Config::GAMESCREEN_WIDTH, ceil(x - 1)).c_str());
+	//OutputDebugStringA(std::format("{} = {} * {} + {}\n", GetPos(x - 1, y), ceil(y), Config::GAMESCREEN_WIDTH, ceil(x - 1)).c_str());
 	Check(GetPos(x - 1, y), "Unite Left\n");
 
-	OutputDebugStringA(std::format("{} = {} * {} + {}\n", GetPos(x + 1, y), ceil(y), Config::GAMESCREEN_WIDTH, ceil(x + 1)).c_str());
+	//OutputDebugStringA(std::format("{} = {} * {} + {}\n", GetPos(x + 1, y), ceil(y), Config::GAMESCREEN_WIDTH, ceil(x + 1)).c_str());
 	Check(GetPos(x + 1, y), "Unite Right\n");
 
-	OutputDebugStringA(std::format("{} = {} * {} + {}\n", GetPos(x, y - 1), ceil(y - 1), Config::GAMESCREEN_WIDTH, ceil(x)).c_str());
+	//OutputDebugStringA(std::format("{} = {} * {} + {}\n", GetPos(x, y - 1), ceil(y - 1), Config::GAMESCREEN_WIDTH, ceil(x)).c_str());
 	Check(GetPos(x, y - 1), "Unite Up\n");
 
-	OutputDebugStringA(std::format("{} = {} * {} + {}\n", GetPos(x, y + 1), ceil(y + 1), Config::GAMESCREEN_WIDTH, ceil(x)).c_str());
+	//OutputDebugStringA(std::format("{} = {} * {} + {}\n", GetPos(x, y + 1), ceil(y + 1), Config::GAMESCREEN_WIDTH, ceil(x)).c_str());
 	Check(GetPos(x, y + 1), "Unite Bottom\n");
 }
 
@@ -1011,8 +1097,6 @@ void GameMain::InputUpdate()
 	{
 		PostQuitMessage(0);
 	}
-
-	OnInputUpdate.Broadcast();
 
 	if (m_GameState == DX::GameState::Control)
 	{
@@ -1045,10 +1129,18 @@ void GameMain::InputUpdate()
 			ResetNeedDuration();
 		}
 	}
-
-	if (InputMouse)
-	{
-	}
+}
+void GameMain::OnClickedDown(DX::MouseEvent inMouseEvent)
+{
+	m_pGameStateUI->OnMouseButtonDown(inMouseEvent);
+}
+void GameMain::OnClickedHeld(DX::MouseEvent inMouseEvent)
+{
+	m_pGameStateUI->OnMouseButtonHeld(inMouseEvent);
+}
+void GameMain::OnClickedUp(DX::MouseEvent inMouseEvent)
+{
+	m_pGameStateUI->OnMouseButtonUp(inMouseEvent);
 }
 
 // ------------------------------------------------------
@@ -1094,7 +1186,7 @@ void GameMain::ResetCalcScoreCount()
 int GameMain::GetPos(UINT8 x, UINT8 y)
 {
 	// 33 = 5 * 6 + 3
-	//OutputDebugStringA(std::format("{} = {} * {} + {}\n", y * Config::GAMESCREEN_WIDTH+x, y, Config::GAMESCREEN_WIDTH, x).c_str());
+	////OutputDebugStringA(std::format("{} = {} * {} + {}\n", y * Config::GAMESCREEN_WIDTH+x, y, Config::GAMESCREEN_WIDTH, x).c_str());
 	if (x < 0 || x >= Config::GAMESCREEN_WIDTH || y < 0 || y >= Config::GAMESCREEN_HEIGHT)
 	{
 		return Config::INDEX_NONE;

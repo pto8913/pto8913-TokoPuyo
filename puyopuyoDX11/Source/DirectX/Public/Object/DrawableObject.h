@@ -17,7 +17,7 @@ public:
 
 	void AddTask(std::shared_ptr<Bindable> task);
 	void InitializeTasks();
-	virtual void ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext);
+	virtual void ExecuteTasks(DirectX11& dx);
 
 	virtual void SetVisibility(bool inVisible);
 	virtual bool GetVisibility();

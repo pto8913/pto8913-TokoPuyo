@@ -47,7 +47,7 @@ std::shared_ptr<Texture> Texture::Make(DirectX11& dx, Texture::TextureType inTex
 	return BindableManager::Make<Texture>(dx, inTextureType, inFileName, inSlot);
 }
 
-void Texture::Bind(DirectX11& dx, ID3D11DeviceContext* pContext)
+void Texture::Bind(DirectX11& dx)
 {
-	pContext->PSSetShaderResources(slot, 1, &m_pTextureView);
+	GetContext(dx)->PSSetShaderResources(slot, 1, &m_pTextureView);
 }

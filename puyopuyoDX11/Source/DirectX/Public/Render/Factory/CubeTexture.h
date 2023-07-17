@@ -14,7 +14,7 @@ public:
 
 	static std::shared_ptr<CubeTexture> Make(DirectX11& dx, const std::wstring& inFileName, UINT inSlot = 0);
 
-	virtual void Bind(DirectX11& dx, ID3D11DeviceContext* pContext) override;
+	virtual void Bind(DirectX11& dx) override;
 
 	static std::string GenerateID(const std::wstring& inFileName, UINT slot = 0)
 	{

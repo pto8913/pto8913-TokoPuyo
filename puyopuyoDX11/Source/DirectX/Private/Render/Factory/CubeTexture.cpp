@@ -108,9 +108,9 @@ std::shared_ptr<CubeTexture> CubeTexture::Make(DirectX11& dx, const std::wstring
 {
 	return BindableManager::Make<CubeTexture>(dx, inFileName, inSlot);
 }
-void CubeTexture::Bind(DirectX11&, ID3D11DeviceContext* pContext)
+void CubeTexture::Bind(DirectX11& dx)
 {
-	pContext->PSSetShaderResources(slot, 1, &m_pTextureView);
+	GetContext(dx)->PSSetShaderResources(slot, 1, &m_pTextureView);
 }
 //
 //CubeTargetTexture::CubeTargetTexture(DirectX11& dx, UINT width, UINT height, UINT inSlot, DXGI_FORMAT format)

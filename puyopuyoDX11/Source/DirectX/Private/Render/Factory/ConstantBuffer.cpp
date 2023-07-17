@@ -31,7 +31,7 @@ std::shared_ptr<ConstantBufferEx> ConstantBufferEx::Make(DirectX11& dx, UINT siz
 {
 	return BindableManager::Make<ConstantBufferEx>(dx, size, inSlot);
 }
-void ConstantBufferEx::Bind(DirectX11&, ID3D11DeviceContext* pContext, void* pData)
+void ConstantBufferEx::Bind(DirectX11& dx, void* pData)
 {
-	pContext->UpdateSubresource(m_pConstantBuffer, 0, NULL, &pData, 0, 0);
+	GetContext(dx)->UpdateSubresource(m_pConstantBuffer, 0, NULL, &pData, 0, 0);
 }

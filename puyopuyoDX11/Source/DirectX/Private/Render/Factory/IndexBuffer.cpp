@@ -43,9 +43,9 @@ std::shared_ptr<IndexBuffer> IndexBuffer::Make(DirectX11& dx, std::string inTag,
 	return BindableManager::Make<IndexBuffer>(dx, inTag, pInitData);
 }
 
-void IndexBuffer::Bind(DirectX11&, ID3D11DeviceContext* pContext)
+void IndexBuffer::Bind(DirectX11& dx)
 {
-	pContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	GetContext(dx)->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 }
 UINT IndexBuffer::GetCount() const
 {

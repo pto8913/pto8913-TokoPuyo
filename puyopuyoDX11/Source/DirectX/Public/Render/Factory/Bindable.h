@@ -12,6 +12,6 @@ class Bindable : public DirectXResource
 public:
 	virtual ~Bindable() = default;
 
-	virtual void Bind(DirectX11& dx, ID3D11DeviceContext* pContext) = 0;
+	virtual void Bind(DirectX11& dx) = 0;
 	virtual void InitParentRefrence(const DrawableObject& pParent) { pParent; };
 };

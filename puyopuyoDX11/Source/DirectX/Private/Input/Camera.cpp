@@ -167,4 +167,9 @@ void Camera::ExecuteTasks(DirectX11& dx)
 	dx.SetCameraProjection(camProjection);
 	dx.SetCameraLocation(location);
 	dx.SetCameraRotation(rotation);
+
+	OnCameraViewChanged.Broadcast(camView);
+	OnCameraProjectionChanged.Broadcast(camProjection);
+	OnCameraLocationChanged.Broadcast(location);
+	OnCameraRotationChanged.Broadcast(rotation);
 }

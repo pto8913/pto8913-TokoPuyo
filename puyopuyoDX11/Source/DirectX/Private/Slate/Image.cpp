@@ -67,4 +67,9 @@ void S_Image::SetFileName(std::wstring in)
 	);
 
 	m_pD2DRenderTarget->CreateBitmapFromWicBitmap(pImageConverter, nullptr, &m_pBitmap);
+
+	pImageFactory->Release();
+	pBitmapDecoder->Release();
+	pBitmapFrameDecode->Release();
+	pImageConverter->Release();
 }

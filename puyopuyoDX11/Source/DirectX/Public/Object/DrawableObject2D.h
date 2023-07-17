@@ -10,7 +10,7 @@ class DrawableObject2D : public DrawableObject
 public:
 	DrawableObject2D() = default;
 
-	virtual void ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext) override;
+	virtual void ExecuteTasks(DirectX11& dx) override;
 
 protected:
 	std::shared_ptr<VertexBuffer<DX::FVertex2D>> m_pVertexBuffer;

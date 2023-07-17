@@ -19,12 +19,12 @@ void SkyLight::Reset()
 {
 	currentLight = defaultLight;
 }
-void SkyLight::ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext)
+void SkyLight::ExecuteTasks(DirectX11& dx)
 {
 	currentLight.position = DirectX::XMVector3Transform(
 		currentLight.position,
 		dx.GetCameraView()
 	);
-	m_pPixelConstantBuffer.get()->Update(pContext, currentLight);
-	m_pPixelConstantBuffer.get()->Bind(dx, pContext);
+	m_pPixelConstantBuffer.get()->Update(dx.GetContext(), currentLight);
+	m_pPixelConstantBuffer.get()->Bind(dx);
 }

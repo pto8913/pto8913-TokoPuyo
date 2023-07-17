@@ -122,6 +122,11 @@ public:
 		}
 		return mFunction(&mData, std::forward<Args>(args)...);
 	}
+
+	bool IsBound()
+	{
+		return mFunction;
+	}
 private:
 	using Storage = std::aligned_storage_t<sizeof(void*), alignof(void*)>;
 	// like using Func = void(Class::*)(Args)
@@ -169,6 +174,19 @@ public:
 
 	explicit operator bool() const { return !mDelegates.empty(); }
 
+	void Broadcast(Args ...args)
+	{
+		for (auto& _delegate : mDelegates)
+		{
+			_delegate.Broadcast(std::forward<Args>(args)...);
+		}
+	}
+
+	bool IsBound()
+	{
+		return mDelegates.size() > 0;
+	}
+private:
 	void Invoke(Args ...args)
 	{
 		for (auto& _delegate : mDelegates)
@@ -177,13 +195,5 @@ public:
 		}
 	}
 
-	void Broadcast(Args ...args)
-	{
-		for (auto& _delegate : mDelegates)
-		{
-			_delegate.Broadcast(std::forward<Args>(args)...);
-		}
-	}
-private:
 	std::vector<Delegate<Ret(Args...)>> mDelegates;
 };

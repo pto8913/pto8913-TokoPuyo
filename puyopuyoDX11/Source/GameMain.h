@@ -6,13 +6,11 @@
 #include <chrono>
 
 #include "Input/Keyboard.h"
+#include "Input/ControllerInterface.h"
+
+#include "Slate/SlateInterface.h"
 
 #include "Config.h"
-
-DECLARE_DELEGATE_OneParam(OnReleaseControlPuyo, DX::GameState);
-DECLARE_DELEGATE_OneParam(OnVanishedPuyo, DX::GameState);
-DECLARE_DELEGATE_OneParam(OnRestartPuyo, DX::GameState);
-DECLARE_MULTICAST_DELEGATE(FOnInputUpdate);
 
 class DirectX11;
 
@@ -193,23 +191,22 @@ private:
 class GameMain
 {
 public:
-	GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd);
+	GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd, UINT windowSizeW, UINT windowSizeH, std::shared_ptr<DX::IControllerInterface> inController);
 	~GameMain();
-
-	int Run(DirectX11& dx);
 
 	void SetGameState(DX::GameState NewState);
 
-	OnReleaseControlPuyo __OnReleaseControlPuyo;
-	OnVanishedPuyo __OnVanishedPuyo;
-	OnRestartPuyo __OnRestartPuyo;
-	FOnInputUpdate OnInputUpdate;
-
-	void DoFrame(DirectX11& dx);
+	void DoFrame(DirectX11& dx, float deltaTime);
 private:
 	void StartControlPuyo();
-
 	void SpawnPuyo();
+
+	// ------------------------------------------------------------
+	// Main : UI
+	// ------------------------------------------------------------
+	void OnClickedRestart(DX::MouseEvent inMouseEvent);
+	void OnClickedPause(DX::MouseEvent inMouseEvent);
+
 	// ------------------------------------------------------------
 	// Main : Control Puyo
 	// ------------------------------------------------------------
@@ -256,20 +253,23 @@ private:
 	void RemakeUnionFind();
 	void UnionFindPuyo(Puyo puyo);
 	
-	// ------------------------------------------------------
+	// ------------------------------------------------------------
 	// Main : Input
-	// ------------------------------------------------------
+	// ------------------------------------------------------------
 	void InputUpdate();
+	void OnClickedDown(DX::MouseEvent inMouseEvent);
+	void OnClickedHeld(DX::MouseEvent inMouseEvent);
+	void OnClickedUp(DX::MouseEvent inMouseEvent);
 
-	// ------------------------------------------------------
+	// ------------------------------------------------------------
 	// Main : State : Main Timer
-	// ------------------------------------------------------
+	// ------------------------------------------------------------
 	void SetNeedDurationCached(DWORD NewVal);
 	void ResetNeedDuration();
 
-	// ------------------------------------------------------
+	// ------------------------------------------------------------
 	// Main : State : Score
-	// ------------------------------------------------------
+	// ------------------------------------------------------------
 	void ResetCalcScoreCount();
 
 	// ------------------------------------------------------------
@@ -302,13 +302,20 @@ private:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
+	UINT8 size;
 	DX::GameState m_GameState;
 	DirectX11* m_pdx;
 
-	GameStateUI* m_pGameStateUI;
-
 	std::shared_ptr<Sprite> BackGround;
-	
+	std::shared_ptr<DX::IControllerInterface> ControllerInterface;
+
+	// ----------------------
+	// State : UI
+	// ----------------------
+
+	GameStateUI* m_pGameStateUI;
+	DX::GameState Cached_GameState;
+
 	// ----------------------
 	// State : Puyo
 	// ----------------------
@@ -348,7 +355,6 @@ private:
 	int comboCount = 0;
 	int connectCount = 0;
 	int colorCount = 0;
-
 	int score = 0;
 
 	// ----------------------

@@ -122,9 +122,9 @@ std::shared_ptr<ScreenTexture> ScreenTexture::Make(DirectX11& dx, const std::wst
 	return BindableManager::Make<ScreenTexture>(dx, inFileName, inWidth, inHeight);
 }
 
-void ScreenTexture::Bind(DirectX11& dx, ID3D11DeviceContext* pContext)
+void ScreenTexture::Bind(DirectX11& dx)
 {
-	pContext->PSSetShaderResources(0, 1, &d2dTexture);
+	GetContext(dx)->PSSetShaderResources(0, 1, &d2dTexture);
 }
 
 void ScreenTexture::Bind(DirectX::XMFLOAT2 offset)

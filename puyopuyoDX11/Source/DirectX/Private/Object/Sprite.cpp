@@ -48,15 +48,15 @@ Sprite::Sprite(DirectX11& dx, const wchar_t* inFileName, std::wstring Tag, Direc
 	InitializeTasks();
 }
 
-void Sprite::ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext)
+void Sprite::ExecuteTasks(DirectX11& dx)
 {
-	pContext->OMSetBlendState(0, 0, 0xffffffff);
+	dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
 
-	m_pTCB->Bind(dx, pContext, tf);
+	m_pTCB->Bind(dx, tf);
 
 	m_pScreenTexture->Bind(offset);
 
-	DrawableObject::ExecuteTasks(dx, pContext);
+	DrawableObject::ExecuteTasks(dx);
 }
 
 DirectX::XMMATRIX Sprite::GetTransformXM(DirectX11&) const noexcept

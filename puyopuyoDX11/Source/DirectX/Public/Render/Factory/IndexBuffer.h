@@ -16,7 +16,7 @@ public:
 		const std::vector<DWORD>& pInitData
 	);
 
-	virtual void Bind(DirectX11& dx, ID3D11DeviceContext* pContext) override;
+	virtual void Bind(DirectX11& dx) override;
 	UINT GetCount() const;
 
 	template<typename... Ignore>

@@ -67,14 +67,14 @@ void DrawScreenText::UpdateText(std::wstring inText)
 {
 	text = inText;
 }
-void DrawScreenText::ExecuteTasks(DirectX11& dx, ID3D11DeviceContext* pContext)
+void DrawScreenText::ExecuteTasks(DirectX11& dx)
 {
-	pContext->OMSetBlendState(0, 0, 0xffffffff);
+	dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
 
-	m_pTCB->Bind(dx, pContext, tf);
+	m_pTCB->Bind(dx, tf);
 	m_pScreenText->Bind(text);
 
-	DrawableObject::ExecuteTasks(dx, pContext);
+	DrawableObject::ExecuteTasks(dx);
 }
 
 DirectX::XMMATRIX DrawScreenText::GetTransformXM(DirectX11&) const noexcept

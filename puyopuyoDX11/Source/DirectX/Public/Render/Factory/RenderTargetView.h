@@ -13,9 +13,9 @@ public:
 
 	ID3D11RenderTargetView*& Get();
 
-	virtual void Bind(DirectX11& , ID3D11DeviceContext*) override {};
+	virtual void Bind(DirectX11&) override {};
 
-	void Clear(ID3D11DeviceContext* pContext);
+	void Clear(DirectX11& dx);
 
 private:
 	ID3D11RenderTargetView* m_pRenderTargetView;

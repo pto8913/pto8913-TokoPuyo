@@ -12,7 +12,7 @@ ViewPort::ViewPort(float width, float height)
 	viewport.TopLeftY = 0.f;
 }
 
-void ViewPort::Bind(DirectX11& dx, ID3D11DeviceContext* pContext)
+void ViewPort::Bind(DirectX11& dx)
 {
-	pContext->RSSetViewports(1, &viewport);
+	GetContext(dx)->RSSetViewports(1, &viewport);
 }

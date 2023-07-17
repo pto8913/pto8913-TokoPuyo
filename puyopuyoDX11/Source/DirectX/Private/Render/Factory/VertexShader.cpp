@@ -36,9 +36,9 @@ std::shared_ptr<VertexShader> VertexShader::Make(DirectX11& dx, const std::wstri
 {
 	return BindableManager::Make<VertexShader>(dx, inFileName, pEntryPoint);
 }
-void VertexShader::Bind(DirectX11& dx, ID3D11DeviceContext* pContext)
+void VertexShader::Bind(DirectX11& dx)
 {
-	pContext->VSSetShader(m_pVertexShader, nullptr, 0);
+	GetContext(dx)->VSSetShader(m_pVertexShader, nullptr, 0);
 }
 
 void VertexShader::ReleaseShaderCode()

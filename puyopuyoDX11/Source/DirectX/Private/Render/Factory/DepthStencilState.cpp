@@ -26,7 +26,7 @@ std::shared_ptr<DepthStencilState> DepthStencilState::Make(DirectX11& dx, DepthS
 {
 	return BindableManager::Make<DepthStencilState>(dx, inType);
 }
-void DepthStencilState::Bind(DirectX11&, ID3D11DeviceContext* pContext)
+void DepthStencilState::Bind(DirectX11& dx)
 {
-	pContext->OMSetDepthStencilState(m_pDepthStencilState, 0);
+	GetContext(dx)->OMSetDepthStencilState(m_pDepthStencilState, 0);
 }
