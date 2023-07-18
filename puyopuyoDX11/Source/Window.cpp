@@ -5,14 +5,6 @@
 
 #include "Input/MouseInterface.h"
 
-FOnTick Window::Tick;
-FOnWindowSizeChanged Window::OnWindowSizeChanged;
-FOnSuspending Window::OnSuspending;
-FOnResuming Window::OnResuming;
-FOnActivated Window::OnActivated;
-FOnDeactivated Window::OnDeactivated;
-FOnProcessMessage Window::OnProcessMessage;
-
 Window::WindowClass Window::WindowClass::instance;
 
 Window::WindowClass::WindowClass()

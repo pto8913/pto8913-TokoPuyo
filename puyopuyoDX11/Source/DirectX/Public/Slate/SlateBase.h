@@ -75,6 +75,7 @@ public:
 	// ------------------------------------------------
 	// Main : InputEvent
 	// ------------------------------------------------
+	virtual bool OnMouseMove(DX::MouseEvent inMouseEvent) override;
 	virtual bool OnMouseButtonDown(DX::MouseEvent inMouseEvent) override;
 	virtual bool OnMouseButtonHeld(DX::MouseEvent inMouseEvent) override;
 	virtual bool OnMouseButtonUp(DX::MouseEvent inMouseEvent) override;
@@ -139,4 +140,6 @@ protected:
 	DirectX::XMFLOAT2 m_Offset = { 0.f, 0.f };
 
 	D2D1_RECT_F m_Rect;
+
+	bool bIsLastInRect = false;
 };

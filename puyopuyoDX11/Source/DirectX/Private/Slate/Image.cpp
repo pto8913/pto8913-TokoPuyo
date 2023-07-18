@@ -21,8 +21,9 @@ void S_Image::Draw()
 			nullptr
 		);
 	}
-
+#if _DEBUG
 	m_pD2DRenderTarget->DrawRectangle(GetRect(), m_pBrush);
+#endif
 }
 
 void S_Image::SetFileName(std::wstring in)

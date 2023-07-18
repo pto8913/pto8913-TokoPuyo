@@ -95,7 +95,9 @@ void S_Overlay::Update()
 		pChild->SetPosition(NewPos);
 		pChild->Draw();
 	}
+#if _DEBUG
 	m_pBrush->SetColor(
 		D2D1::ColorF(D2D1::ColorF::Yellow)
 	);
+#endif
 }

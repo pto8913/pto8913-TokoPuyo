@@ -47,6 +47,8 @@ public:
 	// --------------------------------------
 	// Main : Delegate
 	// --------------------------------------
+	virtual DX::FOnMouseAction& GetMouseMove() override;
+
 	virtual DX::FOnMouseAction& GetClickedLeftPressed() override;
 	virtual DX::FOnMouseAction& GetClickedLeftReleased() override;
 	virtual DX::FOnMouseAction& GetClickedLeftHeld() override;
@@ -144,6 +146,8 @@ private:
 	DX::FOnMouseAction OnClickedWheelPressed;
 	DX::FOnMouseAction OnClickedWheelReleased;
 	DX::FOnMouseAction OnClickedWheelHeld;
+
+	DX::FOnMouseAction OnMouseMoving;
 
 	DX::FOnMouseActionDelta OnWheelUpDelta;
 	DX::FOnMouseActionDelta OnWheelDownDelta;

@@ -40,6 +40,7 @@ public:
 	// ------------------------------------------------
 	// Main : Event
 	// ------------------------------------------------
+	virtual bool OnMouseMove(DX::MouseEvent inMouseEvent) override;
 	virtual bool OnMouseButtonDown(DX::MouseEvent) override;
 	virtual bool OnMouseButtonHeld(DX::MouseEvent) override;
 	virtual bool OnMouseButtonUp(DX::MouseEvent) override;

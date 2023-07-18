@@ -82,13 +82,16 @@ void S_VerticalBox::Update()
 		}
 		accumulatePosY += NewSize.y + childSlateInfos.padding.top + childSlateInfos.padding.bottom;
 
+#if _DEBUG
 		//OutputDebugStringA(std::format("size {}, {} offset {}, {}\n", NewSize.x, NewSize.y, NewPos.x, NewPos.y).c_str());
-
+#endif
 		pChild->SetSize(NewSize);
 		pChild->SetPosition(NewPos);
 		pChild->Draw();
 	}
+#if _DEBUG
 	m_pBrush->SetColor(
 		D2D1::ColorF(D2D1::ColorF::Red)
 	);
+#endif
 }

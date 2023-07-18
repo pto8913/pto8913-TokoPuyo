@@ -50,9 +50,6 @@ public:
 	// ----------------------------------------------------------
 	// Main : Event
 	// ----------------------------------------------------------
-	virtual bool OnMouseButtonDown(DX::MouseEvent inMouseEvent) override;
-	virtual bool OnMouseButtonHeld(DX::MouseEvent inMouseEvent) override;
-	virtual bool OnMouseButtonUp(DX::MouseEvent inMouseEvent) override;
 	DX::FOnMouseAction OnClickedRestart;
 	DX::FOnMouseAction OnClickedPause;
 private:
@@ -65,8 +62,6 @@ private:
 	// ----------------------------------------------------------
 	// State : Game State
 	// ----------------------------------------------------------
-	std::shared_ptr<S_VerticalBox> m_pVerticalBox = nullptr;
-	
 	std::shared_ptr<S_Image> m_pImage_NextPuyo1_1 = nullptr;
 	std::shared_ptr<S_Image> m_pImage_NextPuyo1_2 = nullptr;
 

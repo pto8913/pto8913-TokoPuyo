@@ -26,19 +26,18 @@ GameStateUI::GameStateUI(DirectX11& dx, UINT windowSizeW, UINT windowSizeH)
 
 void GameStateUI::Draw()
 {
-	if (m_pVerticalBox != nullptr)
+	if (m_pRootSlate != nullptr)
 	{
 		switch (m_GameState)
 		{
 		case DX::GameState::GameOver:
-			m_pVerticalBox->Draw();
+			m_pRootSlate->Draw();
 			break;
 		default:
-			m_pVerticalBox->Draw();
+			m_pRootSlate->Draw();
 			break;
 		}
 	}
-
 }
 
 // ----------------------------------------------------------
@@ -53,11 +52,11 @@ void GameStateUI::SetGmaeProgressUI(DirectX11& dx)
 
 	m_GameState = DX::GameState::Control;
 
-	if (m_pVerticalBox == nullptr)
+	if (m_pRootSlate == nullptr)
 	{
 		FSlateInfos SlateInfos;
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-		m_pVerticalBox = std::make_shared<S_VerticalBox>(dx, Config::GAMEUI_SIZE, m_pRt2D, SlateInfos);
+		m_pRootSlate = std::make_shared<S_VerticalBox>(dx, Config::GAMEUI_SIZE, m_pRt2D, SlateInfos);
 	}
 	m_pImage_NextPuyo1_1.reset();
 	m_pImage_NextPuyo1_2.reset();
@@ -68,8 +67,8 @@ void GameStateUI::SetGmaeProgressUI(DirectX11& dx)
 	m_pTextBlock_Score.reset();
 	m_pTextBlock_Combo.reset();
 	m_pButton_Restart.reset();
-	m_pVerticalBox->ClearChildren();
-	m_pVerticalBox->SetPosition(Config::GAMEUI_LEFT_TOP);
+	m_pRootSlate->ClearChildren();
+	m_pRootSlate->SetPosition(Config::GAMEUI_LEFT_TOP);
 
 	FSlateTextAppearance textAppearance;
 	textAppearance.vAlign = EVerticalAlignment::Center;
@@ -93,7 +92,7 @@ void GameStateUI::SetGmaeProgressUI(DirectX11& dx)
 	SlateInfoNextPuyo1VB.HAlign = EHorizontalAlignment::Left;
 	SlateInfoNextPuyo1VB.VAlign = EVerticalAlignment::Top;
 	SlateInfoNextPuyo1VB.padding = { 5.f, 5.f , 5.f, 5.f };
-	auto m_pVerticalBox_NextPuyo1 = std::make_shared<S_VerticalBox>(dx, XMFLOAT2(64.f, 128.f), m_pRt2D, SlateInfoNextPuyo1VB);
+	auto m_pRootSlate_NextPuyo1 = std::make_shared<S_VerticalBox>(dx, XMFLOAT2(64.f, 128.f), m_pRt2D, SlateInfoNextPuyo1VB);
 
 	if (m_pImage_NextPuyo1_1 == nullptr)
 	{
@@ -108,7 +107,7 @@ void GameStateUI::SetGmaeProgressUI(DirectX11& dx)
 	SlateInfoNextPuyo2VB.HAlign = EHorizontalAlignment::Right;
 	SlateInfoNextPuyo2VB.VAlign = EVerticalAlignment::Bottom;
 	SlateInfoNextPuyo2VB.padding = { 5.f, 5.f , 5.f, 5.f };
-	auto m_pVerticalBox_NextPuyo2 = std::make_shared<S_VerticalBox>(dx, XMFLOAT2(32.f, 64.f), m_pRt2D, SlateInfoNextPuyo2VB);
+	auto m_pRootSlate_NextPuyo2 = std::make_shared<S_VerticalBox>(dx, XMFLOAT2(32.f, 64.f), m_pRt2D, SlateInfoNextPuyo2VB);
 	if (m_pImage_NextPuyo2_1 == nullptr)
 	{
 		m_pImage_NextPuyo2_1 = std::make_shared<S_Image>(dx, XMFLOAT2(32.f, 32.f), m_pRt2D, SlateInfoNextPuyo);
@@ -117,20 +116,20 @@ void GameStateUI::SetGmaeProgressUI(DirectX11& dx)
 	{
 		m_pImage_NextPuyo2_2 = std::make_shared<S_Image>(dx, XMFLOAT2(32.f, 32.f), m_pRt2D, SlateInfoNextPuyo);
 	}
-	m_pVerticalBox->AddChild(m_pTextBlock_NextPuyo);
+	m_pRootSlate->AddChild(m_pTextBlock_NextPuyo);
 
-	m_pVerticalBox->AddChild(m_pOverlay_NextPuyo1);
+	m_pRootSlate->AddChild(m_pOverlay_NextPuyo1);
 
-	m_pOverlay_NextPuyo1->AddChild(m_pVerticalBox_NextPuyo1);
-	m_pVerticalBox_NextPuyo1->AddChild(m_pImage_NextPuyo1_1);
-	m_pVerticalBox_NextPuyo1->AddChild(m_pImage_NextPuyo1_2);
+	m_pOverlay_NextPuyo1->AddChild(m_pRootSlate_NextPuyo1);
+	m_pRootSlate_NextPuyo1->AddChild(m_pImage_NextPuyo1_1);
+	m_pRootSlate_NextPuyo1->AddChild(m_pImage_NextPuyo1_2);
 
-	m_pOverlay_NextPuyo1->AddChild(m_pVerticalBox_NextPuyo2);
-	m_pVerticalBox_NextPuyo2->AddChild(m_pImage_NextPuyo2_1);
-	m_pVerticalBox_NextPuyo2->AddChild(m_pImage_NextPuyo2_2);
+	m_pOverlay_NextPuyo1->AddChild(m_pRootSlate_NextPuyo2);
+	m_pRootSlate_NextPuyo2->AddChild(m_pImage_NextPuyo2_1);
+	m_pRootSlate_NextPuyo2->AddChild(m_pImage_NextPuyo2_2);
 
 	auto m_pSpacer = std::make_shared<S_Spacer>(dx, XMFLOAT2(0.f, 80.f), m_pRt2D);
-	m_pVerticalBox->AddChild(m_pSpacer);
+	m_pRootSlate->AddChild(m_pSpacer);
 
 	/* Score */
 	{
@@ -158,15 +157,15 @@ void GameStateUI::SetGmaeProgressUI(DirectX11& dx)
 		}
 	}
 
-	m_pVerticalBox->AddChild(m_pTextBlock_MaxScore);
-	m_pVerticalBox->AddChild(m_pTextBlock_MaxCombo);
-	m_pVerticalBox->AddChild(m_pTextBlock_Score);
-	m_pVerticalBox->AddChild(m_pTextBlock_Combo);
+	m_pRootSlate->AddChild(m_pTextBlock_MaxScore);
+	m_pRootSlate->AddChild(m_pTextBlock_MaxCombo);
+	m_pRootSlate->AddChild(m_pTextBlock_Score);
+	m_pRootSlate->AddChild(m_pTextBlock_Combo);
 
 	MaxScore = 0; MaxCombo = 0;
 	UpdateScore(dx, 0, 0);
 
-	m_pVerticalBox->AddChild(m_pSpacer);
+	m_pRootSlate->AddChild(m_pSpacer);
 
 	CreateRestartButton(dx);
 	CreatePauseButton(dx);
@@ -227,11 +226,11 @@ void GameStateUI::SetGameOverUI(DirectX11& dx)
 
 	m_GameState = DX::GameState::GameOver;
 
-	if (m_pVerticalBox == nullptr)
+	if (m_pRootSlate == nullptr)
 	{
 		FSlateInfos SlateInfos;
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-		m_pVerticalBox = std::make_shared<S_VerticalBox>(dx, Config::GAMEUI_SIZE, m_pRt2D, SlateInfos);
+		m_pRootSlate = std::make_shared<S_VerticalBox>(dx, Config::GAMEUI_SIZE, m_pRt2D, SlateInfos);
 	}
 	m_pImage_NextPuyo1_1.reset();
 	m_pImage_NextPuyo1_2.reset();
@@ -243,8 +242,8 @@ void GameStateUI::SetGameOverUI(DirectX11& dx)
 	m_pTextBlock_Combo.reset();
 	m_pButton_Restart.reset();
 
-	m_pVerticalBox->ClearChildren();
-	m_pVerticalBox->SetPosition(
+	m_pRootSlate->ClearChildren();
+	m_pRootSlate->SetPosition(
 		{
 			(Config::windowSize.x / 2.f) - (Config::GAMEUI_SIZE.x / 2.f),
 			Config::GAMESCREEN_PADDING.y
@@ -252,7 +251,7 @@ void GameStateUI::SetGameOverUI(DirectX11& dx)
 	);
 
 	auto m_pSpacer = std::make_shared<S_Spacer>(dx, XMFLOAT2(0.f, 80.f), m_pRt2D);
-	m_pVerticalBox->AddChild(m_pSpacer);
+	m_pRootSlate->AddChild(m_pSpacer);
 
 	FSlateTextAppearance textGameOver;
 	textGameOver.vAlign = EVerticalAlignment::Center;
@@ -261,7 +260,7 @@ void GameStateUI::SetGameOverUI(DirectX11& dx)
 	slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
 	auto pText_GameOver = std::make_shared<S_TextBlock>(dx, m_pRt2D, slateInfo, FSlateFont(), textGameOver);
 	pText_GameOver->SetText(L"GAME OVER");
-	m_pVerticalBox->AddChild(pText_GameOver);
+	m_pRootSlate->AddChild(pText_GameOver);
 
 	FSlateInfos scoreSlateInfos;
 	scoreSlateInfos.padding = { 5.f, 5.f, 5.f, 5.f };
@@ -274,16 +273,16 @@ void GameStateUI::SetGameOverUI(DirectX11& dx)
 	{
 		m_pTextBlock_MaxScore = std::make_shared<S_TextBlock>(dx, m_pRt2D, scoreSlateInfos, FSlateFont(), textAppearance);
 	}
-	m_pVerticalBox->AddChild(m_pTextBlock_MaxScore);
+	m_pRootSlate->AddChild(m_pTextBlock_MaxScore);
 
 	if (m_pTextBlock_MaxCombo == nullptr)
 	{
 		m_pTextBlock_MaxCombo = std::make_shared<S_TextBlock>(dx, m_pRt2D, scoreSlateInfos, FSlateFont(), textAppearance);
 	}
-	m_pVerticalBox->AddChild(m_pTextBlock_MaxCombo);
+	m_pRootSlate->AddChild(m_pTextBlock_MaxCombo);
 	UpdateScore(dx, 0, 0);
 
-	m_pVerticalBox->AddChild(m_pSpacer);
+	m_pRootSlate->AddChild(m_pSpacer);
 
 	CreateRestartButton(dx);
 }
@@ -298,7 +297,7 @@ void GameStateUI::CreateRestartButton(DirectX11& dx)
 		m_pButton_Restart->OnClicked.Bind<&GameStateUI::OnClickedRestartButton>(*this);
 	}
 	m_pButton_Restart->ClearChildren();
-	m_pVerticalBox->AddChild(m_pButton_Restart);
+	m_pRootSlate->AddChild(m_pButton_Restart);
 
 	FSlateInfos LabelInfos;
 	LabelInfos.VAlign = EVerticalAlignment::Center;
@@ -317,7 +316,7 @@ void GameStateUI::CreatePauseButton(DirectX11& dx)
 		m_pButton_Pause->OnClicked.Bind<&GameStateUI::OnClickedPauseButton>(*this);
 	}
 	m_pButton_Pause->ClearChildren();
-	m_pVerticalBox->AddChild(m_pButton_Pause);
+	m_pRootSlate->AddChild(m_pButton_Pause);
 
 	FSlateInfos LabelInfos;
 	LabelInfos.VAlign = EVerticalAlignment::Center;
@@ -349,20 +348,4 @@ void GameStateUI::OnClickedPauseButton(DX::MouseEvent inMouseEvent)
 bool GameStateUI::IsPause() const noexcept
 {
 	return bPause;
-}
-
-// ----------------------------------------------------------
-// Main : Event
-// ----------------------------------------------------------
-bool GameStateUI::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
-{
-	return m_pVerticalBox->GetRootParent()->OnMouseButtonDown(inMouseEvent);
-}
-bool GameStateUI::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
-{
-	return m_pVerticalBox->GetRootParent()->OnMouseButtonHeld(inMouseEvent);
-}
-bool GameStateUI::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
-{
-	return m_pVerticalBox->GetRootParent()->OnMouseButtonUp(inMouseEvent);
 }

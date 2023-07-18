@@ -45,13 +45,13 @@ public:
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	static FOnTick Tick;
-	static FOnWindowSizeChanged OnWindowSizeChanged;
-	static FOnSuspending OnSuspending;
-	static FOnResuming OnResuming;
-	static FOnActivated OnActivated;
-	static FOnDeactivated OnDeactivated;
-	static FOnProcessMessage OnProcessMessage;
+	FOnTick Tick;
+	FOnWindowSizeChanged OnWindowSizeChanged;
+	FOnSuspending OnSuspending;
+	FOnResuming OnResuming;
+	FOnActivated OnActivated;
+	FOnDeactivated OnDeactivated;
+	FOnProcessMessage OnProcessMessage;
 
 	void GetWindowSize(UINT& w, UINT& h);
 

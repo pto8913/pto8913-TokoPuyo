@@ -12,18 +12,12 @@ S_Button::S_Button(DirectX11& dx, DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* i
 	);
 }
 
-#include <format>
 void S_Button::Draw()
 {
-	//m_pD2DRenderTarget->DrawRectangle(
-	//	GetRect(),
-	//	m_pBrush
-	//);
 	m_pD2DRenderTarget->FillRectangle(
 		GetRect(),
 		m_pBrush
 	);
-
 	SlotContainerOnlyOne::Draw();
 }
 
@@ -35,9 +29,10 @@ bool S_Button::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 	bool Out = SlotContainerOnlyOne::OnMouseButtonDown(inMouseEvent);
 	if (Out)
 	{
+#if _DEBUG
 		OutputDebugStringA(std::format("{} {}\n", inMouseEvent.x, inMouseEvent.y).c_str());
 		OutputDebugStringA(std::format("{} {} {} {}\n", GetRect().left, GetRect().top, GetRect().right, GetRect().bottom).c_str());
-
+#endif
 		m_pBrush->SetColor(ButtonAppearance.PressColor);
 		OnClicked.Broadcast(inMouseEvent);
 		return true;
@@ -65,6 +60,9 @@ bool S_Button::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
 }
 bool S_Button::OnMouseEnter(DX::MouseEvent inMouseEvent)
 {
+#if _DEBUG
+	OutputDebugStringA("OnMouseEnter\n");
+#endif
 	bool Out = SlotContainerOnlyOne::OnMouseEnter(inMouseEvent);
 	if (Out)
 	{
@@ -75,6 +73,9 @@ bool S_Button::OnMouseEnter(DX::MouseEvent inMouseEvent)
 }
 bool S_Button::OnMouseLeave(DX::MouseEvent inMouseEvent)
 {
+#if _DEBUG
+	OutputDebugStringA("OnMouseLeave\n");
+#endif
 	bool Out = SlotContainerOnlyOne::OnMouseLeave(inMouseEvent);
 	if (Out)
 	{

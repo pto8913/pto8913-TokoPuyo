@@ -25,3 +25,7 @@
 #include "Utils/DirectXUtils.h"
 
 #include "Delegate/Delegate.h"
+
+#if _DEBUG
+#include <format>
+#endif

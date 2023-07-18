@@ -6,6 +6,7 @@ namespace DX
 {
 	struct IWidgetInterface
 	{
+		virtual bool OnMouseMove(DX::MouseEvent inMouseEvent) = 0;
 		virtual bool OnMouseButtonDown(DX::MouseEvent inMouseEvent) = 0;
 		virtual bool OnMouseButtonHeld(DX::MouseEvent inMouseEvent) = 0;
 		virtual bool OnMouseButtonUp(DX::MouseEvent inMouseEvent) = 0;

@@ -11,66 +11,89 @@ void S_HorizontalBox::Update()
 	const D2D1_RECT_F containerRect = GetRect();
 
 	const int numOfChild = (int)m_pChildren.size();
-	const float cellW = GetWidth() / numOfChild;
-	const float halfCellW = cellW / 2;
-	const float halfCellH = GetHeight() / 2;
+	const float cellH = GetHeight() / numOfChild;
+	const float cellW = GetWidth();
 
-	D2D1_RECT_F childRect_New;
+	DirectX::XMFLOAT2 NewSize = { 0, 0 };
+	DirectX::XMFLOAT2 NewPos = { 0, 0 };
+	float accumulatePosX = 0.f;
+
+	DirectX::XMFLOAT2 SrcPos = m_Position;
+	DirectX::XMFLOAT2 SrcSize = m_Size;
+	//const SlateBase* pRootParent = GetRootParent();
+	//if (m_pParent != nullptr)
+	//{
+	//	SrcPos = m_pParent->GetPosition();
+	//	SrcSize = m_pParent->GetSize();
+	//}
 	for (int i = 0; i < numOfChild; ++i)
 	{
-		//SlateBase*& pChild = m_pChildren[i];
+		auto&& pChild = m_pChildren[i];
+		const FSlateInfos childSlateInfos = pChild->GetSlateInfos();
+		const float childWidth = pChild->GetWidth();
+		const float childHeight = pChild->GetHeight();
 
-		//D2D1_RECT_F childRect = pChild->GetRect();
-		//const float childWidth = pChild->GetWidth();
-		//const float halfChildWidth = childWidth / 2;
+		if (childWidth == 0)
+		{
+			NewSize.x = cellW;
+		}
+		else
+		{
+			NewSize.x = childWidth;
+		}
+		switch (childSlateInfos.HAlign)
+		{
+		case EHorizontalAlignment::Left:
+			NewPos.x = SrcPos.x + childSlateInfos.padding.left + accumulatePosX;
+			break;
+		case EHorizontalAlignment::Right:
+			NewPos.x = SrcPos.x + SrcSize.x - NewSize.x - childSlateInfos.padding.right + accumulatePosX;
+			break;
+		case EHorizontalAlignment::Center:
+			NewPos.x = SrcPos.x + (SrcSize.x / 2.f) - (NewSize.x / 2.f) + childSlateInfos.padding.left + accumulatePosX;
+			break;
+		default:
+			NewSize.x = cellW;// -childSlateInfos.padding.left - childSlateInfos.padding.right;
+			NewPos.x = SrcPos.x + childSlateInfos.padding.left + accumulatePosX;
+			break;
+		}
+		accumulatePosX += NewSize.x + childSlateInfos.padding.left + childSlateInfos.padding.right;
 
-		//const float childHeight = pChild->GetHeight();
-		//const float halfChildHeight = childHeight / 2;
+		if (childHeight == 0)
+		{
+			NewSize.y = cellH;
+		}
+		else
+		{
+			NewSize.y = childHeight;
+		}
+		switch (childSlateInfos.VAlign)
+		{
+		case EVerticalAlignment::Top:
+			NewPos.y = SrcPos.y + childSlateInfos.padding.top;
+			break;
+		case EVerticalAlignment::Bottom:
+			NewPos.y = SrcPos.y + SrcSize.y - NewSize.y - childSlateInfos.padding.bottom;
+			break;
+		case EVerticalAlignment::Center:
+			NewPos.y = SrcPos.y + (cellH / 2.f) - (NewSize.y / 2.f) + childSlateInfos.padding.top;
+			break;
+		default:
+			NewSize.y = cellH - childSlateInfos.padding.top - childSlateInfos.padding.bottom;
+			NewPos.y = SrcPos.y + childSlateInfos.padding.top;
+			break;
+		}
 
-		//float left = containerRect.left + cellW * i;
-		//switch (m_ChildInfos.HAlign)
-		//{
-		//case EHorizontalAlignment::Left:
-		//	childRect_New.left = left;
-		//	if (childRect_New.right > cellW)
-		//	{
-		//		childRect_New.right = cellW;
-		//	}
-		//	break;
-		//case EHorizontalAlignment::Right:
-		//	childRect_New.right = cellW;
-		//	if (childRect_New.left < left)
-		//	{
-		//		childRect_New.left = left;
-		//	}
-		//	break;
-		//default:
-		//	childRect_New.left = halfCellW - halfChildWidth;
-		//	childRect_New.right = halfCellW + halfChildWidth;
-		//	break;
-		//}
-		//switch (m_ChildInfos.VAlign)
-		//{
-		//case EVerticalAlignment::Top:
-		//	childRect_New.top = containerRect.top;
-		//	if (childRect_New.bottom > containerRect.bottom)
-		//	{
-		//		childRect_New.bottom = containerRect.bottom;
-		//	}
-		//	break;
-		//case EVerticalAlignment::Bottom:
-		//	childRect_New.bottom = containerRect.bottom;
-		//	if (childRect_New.top < containerRect.top)
-		//	{
-		//		childRect_New.top = containerRect.top;
-		//	}
-		//	break;
-		//default:
-		//	childRect_New.top = halfCellH - halfChildHeight;
-		//	childRect_New.bottom = halfCellH + halfChildHeight;
-		//	break;
-		//}
-
-		//pChild->SetRect(childRect_New);
+#if _DEBUG
+		//OutputDebugStringA(std::format("size {}, {} offset {}, {}\n", NewSize.x, NewSize.y, NewPos.x, NewPos.y).c_str());
+#endif
+		pChild->SetSize(NewSize);
+		pChild->SetPosition(NewPos);
+		pChild->Draw();
 	}
+#if _DEBUG
+	m_pBrush->SetColor(
+		D2D1::ColorF(D2D1::ColorF::Red)
+	);
+#endif
 }

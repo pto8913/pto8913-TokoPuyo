@@ -2,6 +2,15 @@
 
 #include "SlateSlotBase.h"
 
+struct FSlateImageAppearance
+{
+	enum class EImageType
+	{
+		Image, /* like a .png */
+		Border, /* only color */
+	};
+};
+
 class S_Image : public SlateSlotBase
 {
 public:

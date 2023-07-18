@@ -7,6 +7,8 @@
 
 #include "Math/Math.h"
 
+#include "Slate/SlateContainerBase.h"
+
 #include "Render/Factory/IndexBuffer.h"
 #include "Render/Factory/VertexBuffer.h"
 
@@ -127,3 +129,39 @@ int WidgetBase::GetZOrder() const noexcept
 {
 	return ZOrder;
 }
+
+// ----------------------------------------------------------
+// Main : Event
+// ----------------------------------------------------------
+bool WidgetBase::OnMouseMove(DX::MouseEvent inMouseEvent)
+{
+	return m_pRootSlate->OnMouseMove(inMouseEvent);
+};
+bool WidgetBase::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
+{
+	return m_pRootSlate->OnMouseButtonDown(inMouseEvent);
+};
+bool WidgetBase::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
+{
+	return m_pRootSlate->OnMouseButtonHeld(inMouseEvent);
+};
+bool WidgetBase::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
+{
+	return m_pRootSlate->OnMouseButtonUp(inMouseEvent);
+};
+bool WidgetBase::OnMouseEnter(DX::MouseEvent inMouseEvent)
+{
+	return m_pRootSlate->OnMouseEnter(inMouseEvent);
+};
+bool WidgetBase::OnMouseLeave(DX::MouseEvent inMouseEvent)
+{
+	return m_pRootSlate->OnMouseLeave(inMouseEvent);
+};
+bool WidgetBase::OnKeyDown(DX::MouseEvent inMouseEvent)
+{
+	return m_pRootSlate->OnKeyDown(inMouseEvent);
+};
+bool WidgetBase::OnKeyUp(DX::MouseEvent inMouseEvent)
+{
+	return m_pRootSlate->OnKeyUp(inMouseEvent);
+};

@@ -260,6 +260,7 @@ private:
 	void OnClickedDown(DX::MouseEvent inMouseEvent);
 	void OnClickedHeld(DX::MouseEvent inMouseEvent);
 	void OnClickedUp(DX::MouseEvent inMouseEvent);
+	void OnMouseMove(DX::MouseEvent inMouseEvent);
 
 	// ------------------------------------------------------------
 	// Main : State : Main Timer

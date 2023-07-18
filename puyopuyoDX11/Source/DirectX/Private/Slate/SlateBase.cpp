@@ -37,6 +37,26 @@ SlateBase* SlateBase::GetRootParent() noexcept
 // ------------------------------------------------
 // Main : Event
 // ------------------------------------------------
+bool SlateBase::OnMouseMove(DX::MouseEvent inMouseEvent)
+{
+	if (InRect(inMouseEvent.x, inMouseEvent.y) && !bIsLastInRect)
+	{
+		OnMouseEnter(inMouseEvent);
+		bIsLastInRect = true;
+#if _DEBUG
+		OutputDebugStringA("OnMouseEnter\n");
+#endif
+	}
+	else if (bIsLastInRect)
+	{
+		OnMouseLeave(inMouseEvent);
+		bIsLastInRect = false;
+#if _DEBUG
+		OutputDebugStringA("OnMouseLeave\n");
+#endif
+	}
+	return true;
+}
 bool SlateBase::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
 	switch (mSlateInputEventReceiveType)
@@ -112,14 +132,7 @@ bool SlateBase::OnMouseEnter(DX::MouseEvent inMouseEvent)
 }
 bool SlateBase::OnMouseLeave(DX::MouseEvent inMouseEvent)
 {
-	switch (mSlateInputEventReceiveType)
-	{
-	case ESlateInputEventReceiveType::NotAll:
-		return false;
-		break;
-	default:
-		return InRect(inMouseEvent.x, inMouseEvent.y);
-	}
+	return true;
 }
 bool SlateBase::OnKeyDown(DX::MouseEvent inMouseEvent)
 {

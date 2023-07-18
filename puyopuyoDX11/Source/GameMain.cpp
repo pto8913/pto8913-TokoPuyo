@@ -79,6 +79,8 @@ GameMain::GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd, UINT windowSiz
 	ControllerInterface->GetMouseInterface()->GetClickedWheelReleased().Bind<&GameMain::OnClickedUp>(*this);
 	ControllerInterface->GetMouseInterface()->GetClickedWheelHeld().Bind<&GameMain::OnClickedHeld>(*this);
 
+	ControllerInterface->GetMouseInterface()->GetMouseMove().Bind<&GameMain::OnMouseMove>(*this);
+
 	StartControlPuyo();
 #if _DEBUG
 	OutputDebugStringA("DEBUG");
@@ -1141,6 +1143,10 @@ void GameMain::OnClickedHeld(DX::MouseEvent inMouseEvent)
 void GameMain::OnClickedUp(DX::MouseEvent inMouseEvent)
 {
 	m_pGameStateUI->OnMouseButtonUp(inMouseEvent);
+}
+void GameMain::OnMouseMove(DX::MouseEvent inMouseEvent)
+{
+	m_pGameStateUI->OnMouseMove(inMouseEvent);
 }
 
 // ------------------------------------------------------

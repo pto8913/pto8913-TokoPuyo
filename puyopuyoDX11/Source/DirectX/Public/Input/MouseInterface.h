@@ -66,6 +66,8 @@ namespace DX
 		virtual DX::FOnMouseAction& GetClickedWheelReleased() = 0;
 		virtual DX::FOnMouseAction& GetClickedWheelHeld() = 0;
 
+		virtual DX::FOnMouseAction& GetMouseMove() = 0;
+
 		virtual DX::FOnMouseActionDelta& GetWheelUp() = 0;
 		virtual DX::FOnMouseActionDelta& GetWheelDown() = 0;
 

@@ -9,6 +9,8 @@ class DirectX11;
 
 class ScreenTextOnlyOutput;
 
+class SlateContainerBase;
+
 class WidgetBase : private DrawableObject2D, public DX::IWidgetInterface
 {
 public:
@@ -28,13 +30,14 @@ public:
 	// ----------------------------------------------------------
 	// Main : Event
 	// ----------------------------------------------------------
-	virtual bool OnMouseButtonDown(DX::MouseEvent) override { return false; };
-	virtual bool OnMouseButtonHeld(DX::MouseEvent) override { return false; };
-	virtual bool OnMouseButtonUp(DX::MouseEvent) override { return false; };
-	virtual bool OnMouseEnter(DX::MouseEvent) override { return false; };
-	virtual bool OnMouseLeave(DX::MouseEvent) override { return false; };
-	virtual bool OnKeyDown(DX::MouseEvent) override { return false; };
-	virtual bool OnKeyUp(DX::MouseEvent) override { return false; };
+	virtual bool OnMouseMove(DX::MouseEvent) override;
+	virtual bool OnMouseButtonDown(DX::MouseEvent) override;
+	virtual bool OnMouseButtonHeld(DX::MouseEvent) override;
+	virtual bool OnMouseButtonUp(DX::MouseEvent) override;
+	virtual bool OnMouseEnter(DX::MouseEvent) override;
+	virtual bool OnMouseLeave(DX::MouseEvent) override;
+	virtual bool OnKeyDown(DX::MouseEvent) override;
+	virtual bool OnKeyUp(DX::MouseEvent) override;
 protected:
 	virtual void Draw() = 0;
 	void DrawInternal();
@@ -56,4 +59,6 @@ protected:
 	D2D1_COLOR_F m_ClearColor;
 
 	bool bIsInViewport = false;
+
+	std::shared_ptr<SlateContainerBase> m_pRootSlate = nullptr;
 };

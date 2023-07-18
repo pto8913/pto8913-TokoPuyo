@@ -154,6 +154,15 @@ size_t SlateContainerBase::GetChildrenCount() const noexcept
 // ------------------------------------------------
 // Main : Event
 // ------------------------------------------------
+bool SlateContainerBase::OnMouseMove(DX::MouseEvent inMouseEvent)
+{
+	SlateBase::OnMouseMove(inMouseEvent);
+	for (auto&& child : m_pChildren)
+	{
+		child->OnMouseMove(inMouseEvent);
+	}
+	return true;
+}
 bool SlateContainerBase::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
 	bool out = SlateBase::OnMouseButtonDown(inMouseEvent);

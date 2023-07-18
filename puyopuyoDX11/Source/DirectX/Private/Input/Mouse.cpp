@@ -44,6 +44,10 @@ void Mouse::SetCursorPosition(float x, float y)
 // ------------------------------------------------------------------------
 // Delegate
 // ------------------------------------------------------------------------
+DX::FOnMouseAction& Mouse::GetMouseMove()
+{
+	return OnMouseMoving;
+}
 DX::FOnMouseAction& Mouse::GetClickedLeftPressed()
 {
 	return OnClickedLeftPressed;
@@ -98,7 +102,9 @@ DX::FOnMouseActionDelta& Mouse::GetWheelDown()
 void Mouse::OnMouseMove(int x, int y) noexcept
 {
 	SetCursorPosition((float)x, (float)y);
-	eventBuffer.push(DX::MouseEvent(DX::MouseEvent::ButtonState::MOVE, x, y));
+	DX::MouseEvent Event(DX::MouseEvent::ButtonState::MOVE, x, y);
+	eventBuffer.push(Event);
+	OnMouseMoving.Broadcast(Event);
 	TrimBuffer();
 }
 void Mouse::OnMouseEnter() noexcept
