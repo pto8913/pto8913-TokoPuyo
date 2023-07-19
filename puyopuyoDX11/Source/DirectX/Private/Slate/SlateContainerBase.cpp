@@ -11,9 +11,11 @@
 //////////////////////////////////////////////////////////////////////////////////////// 
 void SlateContainerBase::Draw()
 {
+#if _DEBUG
 	m_pD2DRenderTarget->DrawRectangle(
 		GetRect(), m_pBrush
 	);
+#endif
 	for (auto&& child : m_pChildren)
 	{
 		child->Draw();
@@ -239,7 +241,7 @@ void SlotContainerOnlyOne::AddChild(std::shared_ptr<SlateBase> in)
 		SlateContainerBase::AddChild(in);
 	}
 }
-SlateBase* SlotContainerOnlyOne::GetSlotAt(int idx) const noexcept
+SlateBase* SlotContainerOnlyOne::GetSlotAt(int) const noexcept
 {
 	if (m_pChildren.size() > 0)
 	{

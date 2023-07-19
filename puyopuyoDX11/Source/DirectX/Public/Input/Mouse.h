@@ -40,9 +40,9 @@ public:
 	virtual bool IsVisible() const noexcept override;
 	virtual void SetVisibility(bool inVisible) override;
 
-	float GetPosX() const noexcept;
-	float GetPosY() const noexcept;
-	void SetCursorPosition(float x, float y);
+	int GetPosX() const noexcept;
+	int GetPosY() const noexcept;
+	void SetCursorPosition(int x, int y);
 
 	// --------------------------------------
 	// Main : Delegate
@@ -125,8 +125,8 @@ private:
 	std::queue<DX::MouseEvent> eventBuffer;
 	std::queue<Raw> rawEventBuffer;
 
-	float posX = 0;
-	float posY = 0;
+	int posX = 0;
+	int posY = 0;
 	
 	int wheelDelta = 0;
 

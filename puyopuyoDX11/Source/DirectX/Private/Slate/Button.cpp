@@ -60,12 +60,12 @@ bool S_Button::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
 }
 bool S_Button::OnMouseEnter(DX::MouseEvent inMouseEvent)
 {
-#if _DEBUG
-	OutputDebugStringA("OnMouseEnter\n");
-#endif
 	bool Out = SlotContainerOnlyOne::OnMouseEnter(inMouseEvent);
 	if (Out)
 	{
+#if _DEBUG
+		OutputDebugStringA("OnMouseEnter from button\n");
+#endif
 		m_pBrush->SetColor(ButtonAppearance.HoverColor);
 		return true;
 	}
@@ -73,12 +73,12 @@ bool S_Button::OnMouseEnter(DX::MouseEvent inMouseEvent)
 }
 bool S_Button::OnMouseLeave(DX::MouseEvent inMouseEvent)
 {
-#if _DEBUG
-	OutputDebugStringA("OnMouseLeave\n");
-#endif
 	bool Out = SlotContainerOnlyOne::OnMouseLeave(inMouseEvent);
 	if (Out)
 	{
+#if _DEBUG
+		OutputDebugStringA("OnMouseLeave from button\n");
+#endif
 		m_pBrush->SetColor(ButtonAppearance.DefaultColor);
 		return true;
 	}

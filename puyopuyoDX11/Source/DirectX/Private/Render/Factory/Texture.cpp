@@ -3,8 +3,8 @@
 
 #include "Render/Manager/BindableManager.h"
 
-#include "WICTextureLoader/WICTextureLoader11.h"
-#include "DDSTextureLoader/DDSTextureLoader11.h"
+#include "DXTex/WICTextureLoader11.h"
+#include "DXTex/DDSTextureLoader11.h"
 
 Texture::Texture(DirectX11& dx, Texture::TextureType inTextureType, const std::wstring& inFileName, UINT inSlot)
 	: textureType(inTextureType), fileName(inFileName), slot(inSlot)

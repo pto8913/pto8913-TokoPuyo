@@ -2,8 +2,6 @@
 
 #include "DirectX/DirectXHead.h"
 
-#include "Utils/String.h"
-
 #define VERTEX_TYPE \
 	X(V3D) \
 	X(V2D) \

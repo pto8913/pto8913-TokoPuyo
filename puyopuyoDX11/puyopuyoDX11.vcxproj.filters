@@ -104,12 +104,6 @@
     <Filter Include="Shader\Share">
       <UniqueIdentifier>{282692ac-e5e9-4478-a186-81af5f5666d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SDK">
-      <UniqueIdentifier>{e5bbb7bb-9c5f-49a9-9e21-f84627c136d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SDK\DXTex">
-      <UniqueIdentifier>{c0169745-914e-4abc-a061-4d0f52f0673a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\DirectX\Public\Timer">
       <UniqueIdentifier>{93a40518-3130-4f1a-9b2a-95fdd731c261}</UniqueIdentifier>
     </Filter>
@@ -127,6 +121,12 @@
     </Filter>
     <Filter Include="Source\DirectX\Private\Timer">
       <UniqueIdentifier>{f0065346-b0a1-40d8-8cf8-92986e6025d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Private\DXTex">
+      <UniqueIdentifier>{c3a4a984-35b3-474e-964c-41c42346512b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\DXTex">
+      <UniqueIdentifier>{1361ac87-d8fe-4309-a4c3-9bbb69619264}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -298,12 +298,6 @@
     <ClInclude Include="Source\App.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="SDK\DXTex\include\DDSTextureLoader\DDSTextureLoader11.h">
-      <Filter>SDK\DXTex</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\DXTex\include\WICTextureLoader\WICTextureLoader11.h">
-      <Filter>SDK\DXTex</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Object\Sprite.h">
       <Filter>Source\DirectX\Public\Object</Filter>
     </ClInclude>
@@ -396,6 +390,12 @@
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Slate\SlateInterface.h">
       <Filter>Source\DirectX\Public\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\DXTex\WICTextureLoader11.h">
+      <Filter>Source\DirectX\Public\DXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\DXTex\DDSTextureLoader11.h">
+      <Filter>Source\DirectX\Public\DXTex</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -549,12 +549,6 @@
     <ClCompile Include="Source\pch.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="SDK\DXTex\include\DDSTextureLoader\DDSTextureLoader11.cpp">
-      <Filter>SDK\DXTex</Filter>
-    </ClCompile>
-    <ClCompile Include="SDK\DXTex\include\WICTextureLoader\WICTextureLoader11.cpp">
-      <Filter>SDK\DXTex</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Object\Sprite.cpp">
       <Filter>Source\DirectX\Private\Object</Filter>
     </ClCompile>
@@ -630,6 +624,12 @@
     <ClCompile Include="Source\DirectX\Private\Input\Mouse.cpp">
       <Filter>Source\DirectX\Private\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\DXTex\WICTextureLoader11.cpp">
+      <Filter>Source\DirectX\Private\DXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\DXTex\DDSTextureLoader11.cpp">
+      <Filter>Source\DirectX\Private\DXTex</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="directx.ico">
@@ -695,5 +695,8 @@
     <None Include="Shader\PointLight.hlsli">
       <Filter>Shader</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Package.appxmanifest.xml" />
   </ItemGroup>
 </Project>

@@ -67,6 +67,7 @@ void GameStateUI::SetGmaeProgressUI(DirectX11& dx)
 	m_pTextBlock_Score.reset();
 	m_pTextBlock_Combo.reset();
 	m_pButton_Restart.reset();
+	m_pButton_Pause.reset();
 	m_pRootSlate->ClearChildren();
 	m_pRootSlate->SetPosition(Config::GAMEUI_LEFT_TOP);
 
@@ -80,7 +81,7 @@ void GameStateUI::SetGmaeProgressUI(DirectX11& dx)
 
 	/* Next Puyo */
 	FSlateInfos Overlay;
-	Overlay.padding = { 5.f, 20.f , 5.f, 20.f };
+	Overlay.padding = { 5.f, 15.f , 5.f, 15.f };
 	Overlay.HAlign = EHorizontalAlignment::Center;
 	auto m_pOverlay_NextPuyo1 = std::make_shared<S_Overlay>(dx, XMFLOAT2(150.f, 250.f), m_pRt2D, Overlay);
 
@@ -128,13 +129,46 @@ void GameStateUI::SetGmaeProgressUI(DirectX11& dx)
 	m_pRootSlate_NextPuyo2->AddChild(m_pImage_NextPuyo2_1);
 	m_pRootSlate_NextPuyo2->AddChild(m_pImage_NextPuyo2_2);
 
-	auto m_pSpacer = std::make_shared<S_Spacer>(dx, XMFLOAT2(0.f, 80.f), m_pRt2D);
-	m_pRootSlate->AddChild(m_pSpacer);
+	/* how to control */
+	{
+		FSlateInfos SlateInfos;
+		SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
+		SlateInfos.HAlign = EHorizontalAlignment::Center;
+
+		FSlateTextAppearance Appearance;
+		Appearance.vAlign = EVerticalAlignment::Center;
+		Appearance.hAlign = EHorizontalAlignment::Left;
+
+		auto pText_Control1 = std::make_shared<S_TextBlock>(dx, m_pRt2D, SlateInfos, FSlateFont(), Appearance);
+		pText_Control1->SetText(L" ª : Turn Right");
+		m_pRootSlate->AddChild(pText_Control1);
+		
+		auto pText_Control2 = std::make_shared<S_TextBlock>(dx, m_pRt2D, SlateInfos, FSlateFont(), Appearance);
+		pText_Control2->SetText(L"© : Move Left");
+		m_pRootSlate->AddChild(pText_Control2);
+
+		auto pText_Control3 = std::make_shared<S_TextBlock>(dx, m_pRt2D, SlateInfos, FSlateFont(), Appearance);
+		pText_Control3->SetText(L"¨ : Move Right");
+		m_pRootSlate->AddChild(pText_Control3);
+
+		auto pText_Control4 = std::make_shared<S_TextBlock>(dx, m_pRt2D, SlateInfos, FSlateFont(), Appearance);
+		pText_Control4->SetText(L" « : Move Bottom");
+		m_pRootSlate->AddChild(pText_Control4);
+
+		auto pText_Control5 = std::make_shared<S_TextBlock>(dx, m_pRt2D, SlateInfos, FSlateFont(), Appearance);
+		pText_Control5->SetText(L"Z : Turn Left");
+		m_pRootSlate->AddChild(pText_Control5);
+		
+		SlateInfos.padding = { 5.f, 2.5f, 5.f, 20.f };
+		auto pText_Control6 = std::make_shared<S_TextBlock>(dx, m_pRt2D, SlateInfos, FSlateFont(), Appearance);
+		pText_Control6->SetText(L"X : Turn Right");
+		m_pRootSlate->AddChild(pText_Control6);
+	}
 
 	/* Score */
 	{
 		FSlateInfos scoreSlateInfos;
-		scoreSlateInfos.padding = { 5.f, 5.f, 5.f, 5.f };
+		scoreSlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
 
 		FSlateTextAppearance scoreAppearance;
 		scoreAppearance.vAlign = EVerticalAlignment::Center;
@@ -163,14 +197,12 @@ void GameStateUI::SetGmaeProgressUI(DirectX11& dx)
 	m_pRootSlate->AddChild(m_pTextBlock_Combo);
 
 	MaxScore = 0; MaxCombo = 0;
-	UpdateScore(dx, 0, 0);
-
-	m_pRootSlate->AddChild(m_pSpacer);
+	UpdateScore(0, 0);
 
 	CreateRestartButton(dx);
 	CreatePauseButton(dx);
 }
-void GameStateUI::UpdateNextPuyo(DirectX11& dx, UINT8 nPuyo1_1, UINT8 nPuyo1_2, UINT8 nPuyo2_1, UINT8 nPuyo2_2)
+void GameStateUI::UpdateNextPuyo(UINT8 nPuyo1_1, UINT8 nPuyo1_2, UINT8 nPuyo2_1, UINT8 nPuyo2_2)
 {
 	if (m_pImage_NextPuyo1_1 != nullptr)
 	{
@@ -192,7 +224,7 @@ void GameStateUI::UpdateNextPuyo(DirectX11& dx, UINT8 nPuyo1_1, UINT8 nPuyo1_2, 
 		m_pImage_NextPuyo2_2->SetFileName(Config::PuyoImages[nPuyo2_1]);
 	}
 }
-void GameStateUI::UpdateScore(DirectX11& dx, int inScore, int inCombo)
+void GameStateUI::UpdateScore(int inScore, int inCombo)
 {
 	MaxCombo = max(inCombo, MaxCombo);
 	MaxScore = max(inScore, MaxScore);
@@ -241,6 +273,7 @@ void GameStateUI::SetGameOverUI(DirectX11& dx)
 	m_pTextBlock_Score.reset();
 	m_pTextBlock_Combo.reset();
 	m_pButton_Restart.reset();
+	m_pButton_Pause.reset();
 
 	m_pRootSlate->ClearChildren();
 	m_pRootSlate->SetPosition(
@@ -280,7 +313,7 @@ void GameStateUI::SetGameOverUI(DirectX11& dx)
 		m_pTextBlock_MaxCombo = std::make_shared<S_TextBlock>(dx, m_pRt2D, scoreSlateInfos, FSlateFont(), textAppearance);
 	}
 	m_pRootSlate->AddChild(m_pTextBlock_MaxCombo);
-	UpdateScore(dx, 0, 0);
+	UpdateScore(0, 0);
 
 	m_pRootSlate->AddChild(m_pSpacer);
 

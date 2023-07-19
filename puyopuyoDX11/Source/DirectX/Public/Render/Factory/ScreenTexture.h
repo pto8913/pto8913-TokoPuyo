@@ -15,6 +15,8 @@ public:
 
 	static std::shared_ptr<ScreenTexture> Make(DirectX11& dx, const std::wstring& inFileName, FLOAT inWidth, FLOAT inHeight);
 
+	void UpdateTexture(const std::wstring& inFileName);
+
 	virtual void Bind(DirectX11& dx) override;
 	void Bind(DirectX::XMFLOAT2 offset);
 
@@ -33,11 +35,11 @@ protected:
 	FLOAT width;
 	FLOAT height;
 
-	ID2D1Bitmap* m_pBitmap;
+	ID2D1Bitmap* m_pBitmap = nullptr;
 
-	IDXGIKeyedMutex* keyedMutex11;
-	IDXGIKeyedMutex* keyedMutex10;
+	IDXGIKeyedMutex* keyedMutex11 = nullptr;
+	IDXGIKeyedMutex* keyedMutex10 = nullptr;
 
-	ID2D1RenderTarget* D2DRenderTarget;
-	ID3D11ShaderResourceView* d2dTexture;
+	ID2D1RenderTarget* D2DRenderTarget = nullptr;
+	ID3D11ShaderResourceView* d2dTexture = nullptr;
 };

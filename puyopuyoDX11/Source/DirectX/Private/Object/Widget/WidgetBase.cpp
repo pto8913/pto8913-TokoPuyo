@@ -114,7 +114,7 @@ bool WidgetBase::GetVisibility()
 
 DirectX::XMMATRIX WidgetBase::GetTransformXM(DirectX11&) const noexcept
 {
-	return DirectX::XMMatrixIdentity() * DirectX::XMMatrixTranslation(0, 0, ZOrder);
+	return DirectX::XMMatrixIdentity() * DirectX::XMMatrixTranslation(0, 0, (float)ZOrder);
 }
 
 void WidgetBase::AddToViewport()

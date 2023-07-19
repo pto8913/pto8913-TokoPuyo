@@ -2,8 +2,6 @@
 
 #include "Shader.h"
 
-#include "Utils/String.h"
-
 class VertexShader : public Shader
 {
 public:

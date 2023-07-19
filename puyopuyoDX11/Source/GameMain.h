@@ -11,6 +11,7 @@
 #include "Slate/SlateInterface.h"
 
 #include "Config.h"
+#include "random"
 
 class DirectX11;
 
@@ -320,6 +321,9 @@ private:
 	// ----------------------
 	// State : Puyo
 	// ----------------------
+	std::mt19937 gen;
+	std::uniform_int_distribution<int> distr;
+
 	Puyo activePuyo;
 	Puyo subPuyo;
 	UINT8 subId;

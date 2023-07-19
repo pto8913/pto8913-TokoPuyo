@@ -38,35 +38,22 @@ void S_Image::SetFileName(std::wstring in)
 	}
 	m_FileName = in;
 
+	if (m_pBitmap)
+	{
+		m_pBitmap->Release();
+		m_pBitmap = nullptr;
+	}
+
 	IWICImagingFactory* pImageFactory;
 	IWICBitmapDecoder* pBitmapDecoder;
 	IWICBitmapFrameDecode* pBitmapFrameDecode;
 	IWICFormatConverter* pImageConverter;
-	CoCreateInstance(
-		CLSID_WICImagingFactory,
-		nullptr,
-		CLSCTX_INPROC_SERVER,
-		IID_IWICImagingFactory,
-		(LPVOID*)&pImageFactory
-	);
-	pImageFactory->CreateDecoderFromFilename(
-		in.c_str(),
-		nullptr,
-		GENERIC_READ,
-		WICDecodeMetadataCacheOnLoad,
-		&pBitmapDecoder
-	);
+	CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, (LPVOID*)&pImageFactory);
+	pImageFactory->CreateDecoderFromFilename(in.c_str(), nullptr, GENERIC_READ, WICDecodeMetadataCacheOnLoad, &pBitmapDecoder);
 	pBitmapDecoder->GetFrame(0, &pBitmapFrameDecode);
 	pImageFactory->CreateFormatConverter(&pImageConverter);
-	pImageConverter->Initialize(
-		pBitmapFrameDecode,
-		GUID_WICPixelFormat32bppPBGRA,
-		WICBitmapDitherTypeNone,
-		nullptr,
-		1.f,
-		WICBitmapPaletteTypeMedianCut
-	);
-
+	pImageConverter->Initialize(pBitmapFrameDecode, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, nullptr, 1.f, WICBitmapPaletteTypeMedianCut);
+	
 	m_pD2DRenderTarget->CreateBitmapFromWicBitmap(pImageConverter, nullptr, &m_pBitmap);
 
 	pImageFactory->Release();

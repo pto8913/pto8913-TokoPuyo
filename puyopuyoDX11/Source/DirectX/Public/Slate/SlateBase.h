@@ -99,6 +99,11 @@ public:
 	D2D1_RECT_F GetRect() const noexcept;
 	void SetRect(DirectX::XMFLOAT2 inSize, DirectX::XMFLOAT2 inOffset);
 
+	template<typename T>
+	bool InRect(T x, T y) const noexcept
+	{
+		return InRect((float)x, (float)y);
+	}
 	bool InRect(float x, float y) const noexcept;
 	
 	DirectX::XMFLOAT2 GetSize() const noexcept;

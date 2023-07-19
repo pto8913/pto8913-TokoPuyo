@@ -27,15 +27,15 @@ void Mouse::SetVisibility(bool inVisible)
 	}
 }
 
-float Mouse::GetPosX() const noexcept
+int Mouse::GetPosX() const noexcept
 {
 	return posX;
 }
-float Mouse::GetPosY() const noexcept
+int Mouse::GetPosY() const noexcept
 {
 	return posY;
 }
-void Mouse::SetCursorPosition(float x, float y)
+void Mouse::SetCursorPosition(int x, int y)
 {
 	posX = x;
 	posY = y;
@@ -101,7 +101,7 @@ DX::FOnMouseActionDelta& Mouse::GetWheelDown()
 // ------------------------------------------------------------------------
 void Mouse::OnMouseMove(int x, int y) noexcept
 {
-	SetCursorPosition((float)x, (float)y);
+	SetCursorPosition(x, y);
 	DX::MouseEvent Event(DX::MouseEvent::ButtonState::MOVE, x, y);
 	eventBuffer.push(Event);
 	OnMouseMoving.Broadcast(Event);

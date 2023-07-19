@@ -358,7 +358,7 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
                 }
                 break;
             }
-            if (pt.x >= 0 && pt.y < width && pt.y >= 0 && pt.y < height)
+            if (pt.x >= 0 && pt.y < (SHORT)width && pt.y >= 0 && pt.y < (SHORT)height)
             {
                 pMouse->OnMouseMove(pt.x, pt.y);
                 if (!pMouse->IsInWindow())
@@ -403,7 +403,7 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
         {
             const POINTS pt = MAKEPOINTS(lParam);
             pMouse->OnLeftReleased(pt.x, pt.y);
-            if (pt.x < 0 || pt.x >= width || pt.y < 0 || pt.y >= height)
+            if (pt.x < 0 || pt.x >= (SHORT)width || pt.y < 0 || pt.y >= (SHORT)height)
             {
                 ReleaseCapture();
                 pMouse->OnMouseLeave();
@@ -426,7 +426,7 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
         {
             const POINTS pt = MAKEPOINTS(lParam);
             pMouse->OnRightReleased(pt.x, pt.y);
-            if (pt.x < 0 || pt.x >= width || pt.y < 0 || pt.y >= height)
+            if (pt.x < 0 || pt.x >= (SHORT)width || pt.y < 0 || pt.y >= (SHORT)height)
             {
                 ReleaseCapture();
                 pMouse->OnMouseLeave();

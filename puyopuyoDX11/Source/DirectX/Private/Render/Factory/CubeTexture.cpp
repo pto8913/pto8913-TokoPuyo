@@ -5,10 +5,8 @@
 #include "Render/Factory/RenderTargetView.h"
 #include "Render/Factory/DepthStencilView.h"
 
-#include "DDSTextureLoader/DDSTextureLoader11.h"
+#include "DXTex/DDSTextureLoader11.h"
 #include <vector>
-
-#include "Utils/String.h"
 
 CubeTexture::CubeTexture(DirectX11& dx, const std::wstring& path, UINT newSlot)
 	: slot(newSlot), fileName(path)

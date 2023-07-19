@@ -11,12 +11,13 @@ class Sprite : public DrawableObject2D
 {
 public:
 	Sprite() = default;
-	Sprite(DirectX11& dx, const wchar_t* inFileName, std::wstring Tag, DirectX::XMFLOAT2 inSize, DirectX::XMFLOAT2 inOffset);
+	Sprite(DirectX11& dx, const std::wstring& inFileName, std::wstring Tag, DirectX::XMFLOAT2 inSize, DirectX::XMFLOAT2 inOffset);
 
 	virtual void ExecuteTasks(DirectX11& dx) override;
 	virtual DirectX::XMMATRIX GetTransformXM(DirectX11& dx) const noexcept override;
 
 	void SetOffset(DirectX::XMFLOAT2 inOffset);
+	void UpdateTexture(const std::wstring& inFileName);
 protected:
 	DirectX::XMFLOAT2 offset;
 	TransformConstantBuffer::Transforms tf = {

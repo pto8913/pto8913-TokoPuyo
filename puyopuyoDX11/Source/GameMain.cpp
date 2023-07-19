@@ -8,8 +8,6 @@
 
 #include "Object/GameStateUI.h"
 
-#include "random"
-
 #include "Math/Math.h"
 
 using namespace DirectX;
@@ -46,16 +44,14 @@ GameMain::GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd, UINT windowSiz
 	m_pdx = &dx;
 
 	m_keyBoard = Keyboard(hInstance, hWnd);
-
-	m_pGameStateUI = new GameStateUI(dx, windowSizeW, windowSizeH);
-	m_pGameStateUI->SetGmaeProgressUI(dx);
-	m_pGameStateUI->UpdateScore(dx, 0, 0);
-	m_pGameStateUI->OnClickedRestart.Bind<&GameMain::OnClickedRestart>(*this);
-	m_pGameStateUI->OnClickedPause.Bind<&GameMain::OnClickedPause>(*this);
-	m_pGameStateUI->AddToViewport();
+	m_pGameStateUI = new GameStateUI(dx, windowSizeW, windowSizeH);m_pGameStateUI->SetGmaeProgressUI(dx);m_pGameStateUI->UpdateScore(0, 0);m_pGameStateUI->OnClickedRestart.Bind<&GameMain::OnClickedRestart>(*this);m_pGameStateUI->OnClickedPause.Bind<&GameMain::OnClickedPause>(*this);m_pGameStateUI->AddToViewport();
 
 	m_pGameMode = std::make_shared<GameMode>();
 	vanishCount = static_cast<UINT8>(m_pGameMode->GetNumOfConnect());
+
+	std::random_device rd;
+	gen = std::mt19937(rd());
+	distr = std::uniform_int_distribution<int>(0, 3);
 
 	BackGround = std::make_shared<Sprite>(
 		dx,
@@ -229,10 +225,6 @@ void GameMain::StartControlPuyo()
 
 void GameMain::SpawnPuyo()
 {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<int> distr(0, 3);
-
 	if (nextPuyo1_1 == Config::EMPTY_PUYO)
 	{
 		activePuyo.Id = (UINT8)distr(gen);
@@ -264,22 +256,37 @@ void GameMain::SpawnPuyo()
 		nextPuyo2_2 = (UINT8)distr(gen);
 	}
 
-	m_pActivePuyo = std::make_shared<Sprite>(
-		*m_pdx,
-		Config::PuyoImages[activePuyo.Id].c_str(),
-		L"ActivePuyo",
-		XMFLOAT2(Config::CELL, Config::CELL),
-		activePuyo.offset
-	);
-	m_pSubPuyo = std::make_shared<Sprite>(
-		*m_pdx,
-		Config::PuyoImages[subId].c_str(),
-		L"SubPuyo",
-		XMFLOAT2(Config::CELL, Config::CELL),
-		AddXMF2(activePuyo.offset, { 0, -Config::CELL })
-	);
-
-	m_pGameStateUI->UpdateNextPuyo(*m_pdx, nextPuyo1_1, nextPuyo1_2, nextPuyo2_1, nextPuyo2_2);
+	if (m_pActivePuyo == nullptr)
+	{
+#if _DEBUG
+		OutputDebugStringA("SpawnPuyo new pointer");
+#endif
+		m_pActivePuyo = std::make_shared<Sprite>(
+			*m_pdx,
+			Config::PuyoImages[activePuyo.Id].c_str(),
+			L"ActivePuyo",
+			XMFLOAT2(Config::CELL, Config::CELL),
+			activePuyo.offset
+		);
+		m_pSubPuyo = std::make_shared<Sprite>(
+			*m_pdx,
+			Config::PuyoImages[subId].c_str(),
+			L"SubPuyo",
+			XMFLOAT2(Config::CELL, Config::CELL),
+			AddXMF2(activePuyo.offset, { 0, -Config::CELL })
+		);
+	}
+	else
+	{
+#if _DEBUG
+		OutputDebugStringA("SpawnPuyo shared pointer");
+#endif
+		m_pActivePuyo->UpdateTexture(Config::PuyoImages[activePuyo.Id]);
+		m_pActivePuyo->SetOffset(activePuyo.offset);
+		m_pSubPuyo->UpdateTexture(Config::PuyoImages[subId]);
+		m_pSubPuyo->SetOffset(AddXMF2(activePuyo.offset, { 0, -Config::CELL }));
+	}
+	m_pGameStateUI->UpdateNextPuyo(nextPuyo1_1, nextPuyo1_2, nextPuyo2_1, nextPuyo2_2);
 }
 
 // ------------------------------------------------------------
@@ -314,24 +321,30 @@ void GameMain::OnClickedRestart(DX::MouseEvent)
 
 	unionFind.clear();
 
-	for (int i = 0; i < size; ++i)
-	{
-		stackedPuyo[i].SetEmpty();
-		stackedPuyoSprites[i].reset();
-		planVanishPuyo[i] = false;
-	}
+	stackedPuyo.erase(stackedPuyo.begin(), stackedPuyo.end());
+	stackedPuyo.clear();
+
+	stackedPuyoSprites.erase(stackedPuyoSprites.begin(), stackedPuyoSprites.end());
+	stackedPuyoSprites.clear();
+
+	planVanishPuyo.erase(planVanishPuyo.begin(), planVanishPuyo.end());
+	planVanishPuyo.clear();
+
+	stackedPuyo.resize(size);
+	stackedPuyoSprites.resize(size);
+	planVanishPuyo.resize(size);
 
 	puyoCount = 0;
 	comboCount = 0;
 	connectCount = 0;
 	colorCount = 0;
 	score = 0;
-
+	
 	LastTime_Main = chrono::now();
 
 	StartControlPuyo();
 }
-void GameMain::OnClickedPause(DX::MouseEvent inMouseEvent)
+void GameMain::OnClickedPause(DX::MouseEvent)
 {
 	if (m_pGameStateUI->IsPause())
 	{
@@ -349,6 +362,7 @@ void GameMain::OnClickedPause(DX::MouseEvent inMouseEvent)
 // ---------------------------
 void GameMain::ActionActivePuyoDown(float rate)
 {
+	if (m_pActivePuyo == nullptr) return;
 	int NAP, NSP;
 	bool success = false;
 	switch (activePuyo.rotation)
@@ -970,7 +984,7 @@ void GameMain::VanishPuyo()
 	
 	score += puyoCount * 10 * bonus;
 
-	m_pGameStateUI->UpdateScore(*m_pdx, score, comboCount);
+	m_pGameStateUI->UpdateScore(score, comboCount);
 
 	colorCount = 0;
 	puyoCount = 0;

@@ -16,7 +16,7 @@
 #include "Render/Factory/BlendState.h"
 #include "Render/Factory/SamplerState.h"
 
-Sprite::Sprite(DirectX11& dx, const wchar_t* inFileName, std::wstring Tag, DirectX::XMFLOAT2 inSize, DirectX::XMFLOAT2 inOffset)
+Sprite::Sprite(DirectX11& dx, const std::wstring& inFileName, std::wstring Tag, DirectX::XMFLOAT2 inSize, DirectX::XMFLOAT2 inOffset)
 	: offset(inOffset)
 {
 	//SetWorldLocation(location);
@@ -41,10 +41,10 @@ Sprite::Sprite(DirectX11& dx, const wchar_t* inFileName, std::wstring Tag, Direc
 	AddTask(PixelShader::Make(dx, L"Shader/Sprite.hlsl", "PS"));
 
 	AddTask(Rasterizer::Make(dx, Rasterizer::Transparent2, (UINT)model.indices.size()));
-	
+
 	m_pTCB = std::make_shared<TransformConstantBuffer>(dx, 0);
 	m_pTCB->InitParentRefrence(*this);
-	
+
 	InitializeTasks();
 }
 
@@ -67,4 +67,11 @@ DirectX::XMMATRIX Sprite::GetTransformXM(DirectX11&) const noexcept
 void Sprite::SetOffset(DirectX::XMFLOAT2 inOffset)
 {
 	offset = inOffset;
+}
+void Sprite::UpdateTexture(const std::wstring& inFileName)
+{
+	if (m_pScreenTexture)
+	{
+		m_pScreenTexture->UpdateTexture(inFileName);
+	}
 }

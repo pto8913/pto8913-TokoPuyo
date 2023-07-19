@@ -32,8 +32,8 @@ public:
 	// ----------------------------------------------------------
 	virtual void SetGmaeProgressUI(DirectX11& dx);
 
-	void UpdateNextPuyo(DirectX11& dx, UINT8 nPuyo1_1, UINT8 nPuyo1_2, UINT8 nPuyo2_1, UINT8 nPuyo2_2);
-	void UpdateScore(DirectX11& dx, int inScore, int inCombo);
+	void UpdateNextPuyo(UINT8 nPuyo1_1, UINT8 nPuyo1_2, UINT8 nPuyo2_1, UINT8 nPuyo2_2);
+	void UpdateScore(int inScore, int inCombo);
 
 	// ----------------------------------------------------------
 	// Main : Game Over
@@ -79,5 +79,4 @@ private:
 
 	int MaxScore = 0;
 	int MaxCombo = 0;
-
 };

@@ -23,15 +23,15 @@ App::App()
 	m_Window.pController = m_pController;
 	m_Window.pMouse = m_pController->GetMouseInterface();
 
-	UINT x, y;
-	m_Window.GetWindowSize(x, y);
-	m_pGameMain = std::make_unique<GameMain>(dx, m_Window.GetHInstance(), m_Window.GetHWnd(), Config::windowSize.x, Config::windowSize.y, m_pController);
+	m_pGameMain = std::make_unique<GameMain>(dx, m_Window.GetHInstance(), m_Window.GetHWnd(), (UINT)Config::windowSize.x, (UINT)Config::windowSize.y, m_pController);
 
 	m_pWorldTimer = std::make_unique<WorldTimer>();
 
 	/* Viewport */
 	{
-		m_pViewPort = std::make_unique<ViewPort>(x, y);
+		UINT x, y;
+		m_Window.GetWindowSize(x, y);
+		m_pViewPort = std::make_unique<ViewPort>((float)x, (float)y);
 		m_pViewPort->Bind(dx);
 	}
 }
@@ -51,6 +51,8 @@ int App::Run()
 	{
 		if (const auto ecode = Window::ProcessMessages())
 		{
+			CoUninitialize();
+
 			return *ecode;
 		}
 
@@ -64,7 +66,7 @@ void App::InputUpdate(float)
 {
 }
 
-int WINAPI wWinMain(_In_ HINSTANCE , _In_opt_ HINSTANCE , _In_ LPWSTR , _In_ int )
+int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
 {
 	return App().Run();
 }

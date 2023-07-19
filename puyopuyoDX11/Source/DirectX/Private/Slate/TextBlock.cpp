@@ -3,6 +3,8 @@
 
 #include "Core/DirectX.h"
 
+#include "Utils/String.h"
+
 S_TextBlock::S_TextBlock(DirectX11& dx, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
 	: SlateSlotBase(dx, { m_Font.fontSize * m_Text.size(), m_Font.fontSize}, inD2DRT, inSlateInfos), m_Text(L"TextBlock"), m_Font(inFont), m_Appearance(inAppearance)
 {
@@ -23,7 +25,9 @@ void S_TextBlock::Draw()
 		GetRect(),
 		m_pBrush
 	);
+#if _DEBUG
 	m_pD2DRenderTarget->DrawRectangle(GetRect(), m_pBrush);
+#endif
 }
 
 void S_TextBlock::SetFont(FSlateFont inFont)
@@ -60,6 +64,21 @@ void S_TextBlock::SetAppearance(FSlateTextAppearance in)
 void S_TextBlock::SetText(std::wstring inText)
 {
 	m_Text = inText;
+	auto lines = Util::Split(m_Text, L'\n');
+#if _DEBUG
+	OutputDebugStringA(std::format("{}", lines.size()).c_str());
+#endif
+	UINT8 lineCount = (UINT8)lines.size();
+	if (lineCount > 1)
+	{
+		SetSize(
+			{
+				m_Font.fontSize * lines[0].size(),
+				m_Font.fontSize * lines.size()
+			}
+		);
+
+	}
 	//SetSize(
 	//	{
 	//		m_Font.fontSize * m_Text.size(),
