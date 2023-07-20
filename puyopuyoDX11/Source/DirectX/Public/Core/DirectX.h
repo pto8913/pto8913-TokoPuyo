@@ -1,0 +1,75 @@
+#pragma once
+
+#include "DirectX/DirectXHead.h"
+
+class RenderTargetView;
+class DepthStencilView;
+
+class DirectX11
+{
+	friend class DirectXResource;
+public:
+	// ------------------------------------------------------------------------------------------------------------
+	// Main
+	// ------------------------------------------------------------------------------------------------------------
+
+	DirectX11(HINSTANCE hInstance, HWND hWnd, UINT width, UINT height);
+	~DirectX11();
+
+	DirectX11(const DirectX11& CopyC) = delete;
+	DirectX11& operator=(const DirectX11& CopyC) = delete;
+
+	IDXGISwapChain* GetSwapChain() { return m_pSwapChain; }
+	// ------------------------------------------------------
+	// Main : Device3D
+	// ------------------------------------------------------
+	ID3D11Device* GetDevice() { return m_pID3DDevice; }
+	ID3D11DeviceContext* GetContext() { return m_pID3DContext; }
+
+	// ------------------------------------------------------
+	// Main : Frame
+	// ------------------------------------------------------
+	void BeginFrame();
+	HRESULT EndFrame();
+
+	void DrawIndexed(UINT count);
+
+	// ------------------------------------------------------
+	// Main : Camera
+	// ------------------------------------------------------
+	void SetCameraView(const DirectX::XMMATRIX& InCameraView);
+	DirectX::XMMATRIX GetCameraView() const;
+	void SetCameraProjection(const DirectX::XMMATRIX& InCameraProjection);
+	DirectX::XMMATRIX GetCameraProjection() const;
+	void SetCameraLocation(const DirectX::XMVECTOR& InCameraLocation);
+	DirectX::XMVECTOR GetCameraLocation() const;
+	void SetCameraRotation(const DirectX::XMVECTOR& InCameraRotation);
+	DirectX::XMVECTOR GetCameraRotation() const;
+
+	// ------------------------------------------------------------------------------------------------------------
+	// State
+	// ------------------------------------------------------------------------------------------------------------
+	bool bInitialized = false;
+
+	std::shared_ptr<RenderTargetView> m_pRenderTargetView;
+	std::shared_ptr<DepthStencilView> m_pDepthStencilView;
+private:
+	HINSTANCE m_hInstance;
+	HWND m_hWnd;
+
+	IDXGISwapChain* m_pSwapChain;
+
+	// ------------------------------------------------------
+	// State : Device3D
+	// ------------------------------------------------------
+	ID3D11Device* m_pID3DDevice;
+	ID3D11DeviceContext* m_pID3DContext;
+
+	// ------------------------------------------------------
+	// State : Camera
+	// ------------------------------------------------------
+	DirectX::XMMATRIX CameraProjection;
+	DirectX::XMMATRIX CameraView;
+	DirectX::XMVECTOR CameraLocation;
+	DirectX::XMVECTOR CameraRotation;
+};
