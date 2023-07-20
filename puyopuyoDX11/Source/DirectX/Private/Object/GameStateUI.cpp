@@ -360,6 +360,12 @@ void GameStateUI::CreatePauseButton()
 }
 void GameStateUI::OnClickedRestartButton(DX::MouseEvent inMouseEvent)
 {
+	if (bPause)
+	{
+		auto&& child = m_pButton_Pause->GetSlotAt();
+		static_cast<S_TextBlock*>(child)->SetText(L"Pause");
+		bPause = false;
+	}
 	OnClickedRestart.Broadcast(inMouseEvent);
 }
 void GameStateUI::OnClickedPauseButton(DX::MouseEvent inMouseEvent)
