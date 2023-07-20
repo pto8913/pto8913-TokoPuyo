@@ -28,6 +28,12 @@ UINT8 vanishCount;
 GameMain::GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd, UINT windowSizeW, UINT windowSizeH, std::shared_ptr<DX::IControllerInterface> inController)
 	: ControllerInterface(inController)
 {
+#if _DEBUG
+	OutputDebugStringA("DEBUG\n");
+#else
+	OutputDebugStringA("NotDebug\n");
+#endif
+
 	size = (UINT8)Config::GAMESCREEN_WIDTH * Config::GAMESCREEN_HEIGHT;
 	puyoCount = 0;
 	comboCount = 0;
@@ -44,7 +50,11 @@ GameMain::GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd, UINT windowSiz
 	m_pdx = &dx;
 
 	m_keyBoard = Keyboard(hInstance, hWnd);
-	m_pGameStateUI = new GameStateUI(dx, windowSizeW, windowSizeH);m_pGameStateUI->SetGmaeProgressUI(dx);m_pGameStateUI->UpdateScore(0, 0);m_pGameStateUI->OnClickedRestart.Bind<&GameMain::OnClickedRestart>(*this);m_pGameStateUI->OnClickedPause.Bind<&GameMain::OnClickedPause>(*this);m_pGameStateUI->AddToViewport();
+	m_pGameStateUI = new GameStateUI(dx, windowSizeW, windowSizeH);m_pGameStateUI->SetGmaeProgressUI();
+	m_pGameStateUI->UpdateScore(0, 0);
+	m_pGameStateUI->OnClickedRestart.Bind<&GameMain::OnClickedRestart>(*this);
+	m_pGameStateUI->OnClickedPause.Bind<&GameMain::OnClickedPause>(*this);
+	m_pGameStateUI->AddToViewport();
 
 	m_pGameMode = std::make_shared<GameMode>();
 	vanishCount = static_cast<UINT8>(m_pGameMode->GetNumOfConnect());
@@ -78,11 +88,6 @@ GameMain::GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd, UINT windowSiz
 	ControllerInterface->GetMouseInterface()->GetMouseMove().Bind<&GameMain::OnMouseMove>(*this);
 
 	StartControlPuyo();
-#if _DEBUG
-	OutputDebugStringA("DEBUG");
-#else
-	OutputDebugStringA("NotDebug");
-#endif
 }
 GameMain::~GameMain()
 {
@@ -112,7 +117,7 @@ void GameMain::SetGameState(DX::GameState NewState)
 		NeedDurationTime_Main = Config::PUYO_FALL_SPEED_GAMESTATE_VANISH_TO_FALL;
 		break;
 	case DX::GameState::GameOver:
-		m_pGameStateUI->SetGameOverUI(*m_pdx);
+		m_pGameStateUI->SetGameOverUI();
 		break;
 	default:
 		//OutputDebugStringA("--- GameState Wait ---\n");
@@ -201,7 +206,7 @@ void GameMain::DoFrame(DirectX11& dx, float deltaTime)
 void GameMain::StartControlPuyo()
 {
 	//////OutputDebugStringA("Restart Puyo\n");
-	
+
 	int P = GetPos(Config::GAMEOVER_COORD);
 	if (IsValidIndex(P))
 	{
@@ -304,7 +309,7 @@ void GameMain::OnClickedRestart(DX::MouseEvent)
 {
 	if (m_GameState == DX::GameState::GameOver)
 	{
-		m_pGameStateUI->SetGmaeProgressUI(*m_pdx);
+		m_pGameStateUI->SetGmaeProgressUI();
 	}
 
 	SetGameState(DX::GameState::Wait);

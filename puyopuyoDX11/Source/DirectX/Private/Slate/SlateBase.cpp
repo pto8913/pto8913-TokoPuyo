@@ -1,7 +1,7 @@
 
 #include "Slate/SlateBase.h"
 
-SlateBase::SlateBase(DirectX11& dx, DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
+SlateBase::SlateBase(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
 	: m_Size(inSize), 
 	m_pD2DRenderTarget(inD2DRT),
 	m_SlateInfos(inSlateInfos),

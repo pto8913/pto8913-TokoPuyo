@@ -70,7 +70,7 @@ public:
 class S_TextBlock : public SlateSlotBase
 {
 public:
-	S_TextBlock(DirectX11& dx, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
+	S_TextBlock(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
 
 	virtual void Draw() override;
 
@@ -87,10 +87,13 @@ public:
 
 	/* NOTE : this will be called per frame. */
 	FOnSetText OnSetText;
+
+protected:
+	virtual void UpdateSize();
 private:
+
 	FSlateTextAppearance m_Appearance;
 
-	IDWriteFactory* m_pDWriteFactory = nullptr;
 	IDWriteTextFormat* m_pTextFormat = nullptr;
 	FSlateFont m_Font;
 

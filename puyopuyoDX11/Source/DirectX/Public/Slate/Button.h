@@ -2,8 +2,6 @@
 
 #include "SlateContainerBase.h"
 
-class DirectX11;
-
 struct FSlateButtonAppearance
 {
 public:
@@ -20,9 +18,9 @@ public:
 class S_Button : public SlotContainerOnlyOne
 {
 public:
-	S_Button(DirectX11& dx, DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {});
-	S_Button(DirectX11& dx, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {})
-		: S_Button(dx, {0,0}, inD2DRT, inSlateInfos, inButtonAppearance)
+	S_Button(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {});
+	S_Button(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {})
+		: S_Button({0,0}, inD2DRT, inSlateInfos, inButtonAppearance)
 	{}
 
 	virtual void Draw() override;

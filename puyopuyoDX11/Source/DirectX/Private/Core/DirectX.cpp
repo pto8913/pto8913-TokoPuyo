@@ -4,8 +4,6 @@
 #include "Render/Factory/DepthStencilView.h"
 #include "Render/Factory/RenderTargetView.h"
 
-#include <dwrite.h>
-
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
@@ -92,8 +90,6 @@ DirectX11::DirectX11(HINSTANCE hInstance, HWND hWnd, UINT width, UINT height)
 	d2d1Factory->CreateDevice(dxgiDevice, &m_pID2DDevice);
 
 	m_pID2DDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &m_pID2DContext);
-
-	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&m_pDWriteFactory));
 
 	bInitialized = true;
 }

@@ -67,9 +67,10 @@ ScreenText::ScreenText(DirectX11& dx, UINT inWidth, UINT inHeight)
 	D2DRenderTarget->CreateSolidColorBrush(D2D1::ColorF(255.0f, 255.0f, 255.0f, 1.0f), &Brush);
 
 	//DirectWrite
-	IDWriteFactory* DWriteFactory = dx.GetDWriteFactory();
+	IDWriteFactory* pDWriteFactory = nullptr;
+	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&pDWriteFactory));
 
-	DWriteFactory->CreateTextFormat(
+	pDWriteFactory->CreateTextFormat(
 		L"Script",
 		NULL,
 		DWRITE_FONT_WEIGHT_REGULAR,
@@ -79,6 +80,7 @@ ScreenText::ScreenText(DirectX11& dx, UINT inWidth, UINT inHeight)
 		L"en-us",
 		&TextFormat
 	);
+	pDWriteFactory->Release();
 
 	TextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
 	TextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);

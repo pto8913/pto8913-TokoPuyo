@@ -1,8 +1,8 @@
 
 #include "Slate/Button.h"
 
-S_Button::S_Button(DirectX11& dx, DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
-	: SlotContainerOnlyOne(dx, inSize, inD2DRT, inSlateInfos), ButtonAppearance(inButtonAppearance)
+S_Button::S_Button(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
+	: SlotContainerOnlyOne(inSize, inD2DRT, inSlateInfos), ButtonAppearance(inButtonAppearance)
 {
 	mSlateInputEventReceiveType = ESlateInputEventReceiveType::Enable;
 

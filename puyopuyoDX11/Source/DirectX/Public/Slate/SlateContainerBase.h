@@ -13,13 +13,13 @@ class DirectX11;
 class SlateContainerBase : public SlateBase
 {
 public:
-	SlateContainerBase(DirectX11& dx, DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
-		: SlateBase(dx, inSize, inD2DRT, inSlateInfos)
+	SlateContainerBase(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
+		: SlateBase(inSize, inD2DRT, inSlateInfos)
 	{
 		mSlateInputEventReceiveType = ESlateInputEventReceiveType::NotChildren;
 	}
-	SlateContainerBase(DirectX11& dx, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
-		: SlateContainerBase(dx, {0,0}, inD2DRT, inSlateInfos)
+	SlateContainerBase(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
+		: SlateContainerBase({0,0}, inD2DRT, inSlateInfos)
 	{}
 
 	virtual void Draw() override;
@@ -61,11 +61,11 @@ protected:
 class SlotContainerOnlyOne : public SlateContainerBase
 {
 public:
-	SlotContainerOnlyOne(DirectX11& dx, DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
-		: SlateContainerBase(dx, inSize, inD2DRT, inSlateInfos)
+	SlotContainerOnlyOne(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
+		: SlateContainerBase(inSize, inD2DRT, inSlateInfos)
 	{}
-	SlotContainerOnlyOne(DirectX11& dx, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
-		: SlotContainerOnlyOne(dx, { 0,0 }, inD2DRT, inSlateInfos)
+	SlotContainerOnlyOne(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
+		: SlotContainerOnlyOne({ 0,0 }, inD2DRT, inSlateInfos)
 	{}
 
 	virtual void AddChild(std::shared_ptr<SlateBase> in) override final;

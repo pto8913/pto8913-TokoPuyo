@@ -5,11 +5,9 @@
 
 #include "Utils/String.h"
 
-S_TextBlock::S_TextBlock(DirectX11& dx, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
-	: SlateSlotBase(dx, { m_Font.fontSize * m_Text.size(), m_Font.fontSize}, inD2DRT, inSlateInfos), m_Text(L"TextBlock"), m_Font(inFont), m_Appearance(inAppearance)
+S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
+	: SlateSlotBase({ m_Font.fontSize * m_Text.size(), m_Font.fontSize}, inD2DRT, inSlateInfos), m_Text(L"TextBlock"), m_Font(inFont), m_Appearance(inAppearance)
 {
-	m_pDWriteFactory = dx.GetDWriteFactory();
-
 	m_pD2DRenderTarget->CreateSolidColorBrush(m_Appearance.color, &m_pBrush);
 
 	SetFont(m_Font);
@@ -34,6 +32,9 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 {
 	m_Font = inFont;
 
+	IDWriteFactory* m_pDWriteFactory = nullptr;
+	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&m_pDWriteFactory));
+
 	m_pDWriteFactory->CreateTextFormat(
 		m_Font.fontFamily,
 		NULL,
@@ -44,12 +45,8 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 		m_Font.fontLocalName,
 		&m_pTextFormat
 	);
-	SetSize(
-		{
-			m_Font.fontSize * m_Text.size(),
-			0
-		}
-	);
+	m_pDWriteFactory->Release();
+	UpdateSize();
 }
 void S_TextBlock::SetAppearance(FSlateTextAppearance in)
 {
@@ -64,34 +61,39 @@ void S_TextBlock::SetAppearance(FSlateTextAppearance in)
 void S_TextBlock::SetText(std::wstring inText)
 {
 	m_Text = inText;
-	auto lines = Util::Split(m_Text, L'\n');
-#if _DEBUG
-	OutputDebugStringA(std::format("{}", lines.size()).c_str());
-#endif
-	UINT8 lineCount = (UINT8)lines.size();
-	if (lineCount > 1)
-	{
-		SetSize(
-			{
-				m_Font.fontSize * lines[0].size(),
-				m_Font.fontSize * lines.size()
-			}
-		);
-
-	}
-	//SetSize(
-	//	{
-	//		m_Font.fontSize * m_Text.size(),
-	//		0
-	//	}
-	//);
+	//UpdateSize();
 }
 void S_TextBlock::SetSize(DirectX::XMFLOAT2 inSize)
 {
 	m_Size.x = inSize.x;
 	m_Size.y = m_Font.fontSize;
 }
-
+void S_TextBlock::UpdateSize()
+{
+	auto lines = Util::Split(m_Text, L'\n');
+	UINT8 lineCount = (UINT8)lines.size();
+	if (lineCount > 1)
+	{
+#if _DEBUG
+		OutputDebugStringA(std::format("{}\n", lines.size()).c_str());
+#endif
+		SetSize(
+			{
+				m_Font.fontSize * lines[0].size(),
+				m_Font.fontSize * lines.size()
+			}
+		);
+	}
+	else
+	{
+		SetSize(
+			{
+				m_Font.fontSize * m_Text.size(),
+				0
+			}
+		);
+	}
+}
 void S_TextBlock::SetAppearHorizontalAlignment(EHorizontalAlignment in)
 {
 	m_Appearance.hAlign = in;

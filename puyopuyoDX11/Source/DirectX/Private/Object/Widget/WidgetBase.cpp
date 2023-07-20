@@ -26,7 +26,7 @@
 
 WidgetBase::WidgetBase(DirectX11& dx, UINT windowSizeW, UINT windowSizeH, int inZOrder)
 {
-	ZOrder = Math::MapRange(inZOrder, 0, 100, 0, 1);
+	ZOrder = Math::MapRange<double>(inZOrder, 0.0, 100.0, 0.0, 1.0);
 
 	m_ClearColor = D2D1::ColorF(0.f, 0.f, 0.f, 1.f);
 
@@ -125,7 +125,7 @@ bool WidgetBase::IsInViewport() const noexcept
 {
 	return bIsInViewport;
 }
-int WidgetBase::GetZOrder() const noexcept
+double WidgetBase::GetZOrder() const noexcept
 {
 	return ZOrder;
 }

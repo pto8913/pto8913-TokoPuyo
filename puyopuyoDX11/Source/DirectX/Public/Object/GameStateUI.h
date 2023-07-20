@@ -30,7 +30,7 @@ public:
 	// ----------------------------------------------------------
 	// Main : Game Progress
 	// ----------------------------------------------------------
-	virtual void SetGmaeProgressUI(DirectX11& dx);
+	virtual void SetGmaeProgressUI();
 
 	void UpdateNextPuyo(UINT8 nPuyo1_1, UINT8 nPuyo1_2, UINT8 nPuyo2_1, UINT8 nPuyo2_2);
 	void UpdateScore(int inScore, int inCombo);
@@ -38,10 +38,10 @@ public:
 	// ----------------------------------------------------------
 	// Main : Game Over
 	// ----------------------------------------------------------
-	virtual void SetGameOverUI(DirectX11& dx);
+	virtual void SetGameOverUI();
 
-	void CreateRestartButton(DirectX11& dx);
-	void CreatePauseButton(DirectX11& dx);
+	void CreateRestartButton();
+	void CreatePauseButton();
 	void OnClickedRestartButton(DX::MouseEvent inMouseEvent);
 	void OnClickedPauseButton(DX::MouseEvent inMouseEvent);
 

@@ -1,11 +1,6 @@
 
 #include "Slate/HorizontalBox.h"
 
-S_HorizontalBox::S_HorizontalBox(DirectX11& dx, DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
-	: SlateContainerBase(dx, inSize, inD2DRT, inSlateInfos)
-{
-
-}
 void S_HorizontalBox::Update()
 {
 	const D2D1_RECT_F containerRect = GetRect();

@@ -3,10 +3,10 @@
 
 #include <wincodec.h>
 
-S_Image::S_Image(DirectX11& dx, DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, std::wstring inFileName)
-	: SlateSlotBase(dx, inSize, inD2DRT, inSlateInfos), m_FileName(inFileName)
+S_Image::S_Image(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, std::wstring inFileName)
+	: SlateSlotBase(inSize, inD2DRT, inSlateInfos), m_FileName(inFileName)
 {
-	SetFileName(m_FileName);
+	SetFileName(inFileName);
 }
 
 void S_Image::Draw()

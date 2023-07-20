@@ -5,8 +5,6 @@
 class RenderTargetView;
 class DepthStencilView;
 
-struct IDWriteFactory;
-
 class DirectX11
 {
 	friend class DirectXResource;
@@ -34,7 +32,6 @@ public:
 	// ------------------------------------------------------
 	ID2D1Device* GetDevice2D() { return m_pID2DDevice; }
 	ID2D1DeviceContext* GetContext2D() { return m_pID2DContext; }
-	IDWriteFactory* GetDWriteFactory() { return m_pDWriteFactory; }
 
 	// ------------------------------------------------------
 	// Main : Frame
@@ -81,7 +78,6 @@ private:
 	// ------------------------------------------------------
 	ID2D1Device* m_pID2DDevice;
 	ID2D1DeviceContext* m_pID2DContext;
-	IDWriteFactory* m_pDWriteFactory;
 
 	// ------------------------------------------------------
 	// State : Camera

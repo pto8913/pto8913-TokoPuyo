@@ -22,7 +22,7 @@ public:
 
 	void AddToViewport();
 	bool IsInViewport() const noexcept;
-	int GetZOrder() const noexcept;
+	double GetZOrder() const noexcept;
 
 	virtual void SetVisibility(bool inVisible) override;
 	virtual bool GetVisibility() override;
