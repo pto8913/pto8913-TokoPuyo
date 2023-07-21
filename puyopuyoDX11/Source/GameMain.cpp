@@ -25,8 +25,6 @@ Keyboard::InputAction InputEsc(DIK_ESCAPE);
 
 UINT8 vanishCount;
 
-#define _DEBUG 1
-
 GameMain::GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd, UINT windowSizeW, UINT windowSizeH, std::shared_ptr<DX::IControllerInterface> inController)
 	: ControllerInterface(inController)
 {
