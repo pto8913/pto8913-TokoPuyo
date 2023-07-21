@@ -205,9 +205,6 @@
     <ClInclude Include="Source\DirectX\Public\Delegate\Delegate.h">
       <Filter>Source\DirectX\Public\Delegate</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\Material.h">
-      <Filter>Source\DirectX\Public\Render\Factory</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Render\Factory\DepthStencilState.h">
       <Filter>Source\DirectX\Public\Render\Factory</Filter>
     </ClInclude>
@@ -307,6 +304,7 @@
     <ClInclude Include="Source\DirectX\Public\DXTex\DDSTextureLoader11.h">
       <Filter>Source\DirectX\Public\DXTex</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
@@ -492,59 +490,15 @@
     </Manifest>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader\Shader.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Light_Point.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Light_Directional.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\SkyMap.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
     <FxCompile Include="Shader\DrawScreenText.hlsl">
       <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Solid_VS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Solid_PS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Shadow_PS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Shadow_VS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Share\LightVectorData.hlsli">
-      <Filter>Shader\Share</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Share\PShadow_Dynamic.hlsli">
-      <Filter>Shader\Share</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Share\PShadow_Statc.hlsli">
-      <Filter>Shader\Share</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Share\ShaderOps.hlsli">
-      <Filter>Shader\Share</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Share\Transform.hlsli">
-      <Filter>Shader\Share</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Share\VShadow.hlsli">
-      <Filter>Shader\Share</Filter>
     </FxCompile>
     <FxCompile Include="Shader\Sprite.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shader\PointLight.hlsli">
-      <Filter>Shader</Filter>
-    </None>
+    <None Include="..\.gitignore" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
