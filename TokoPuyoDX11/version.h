@@ -8,6 +8,22 @@
 #define VER_TRADEMARK_STR       "pto8913"
 #define VER_COMPANY_STR     "pto8913"
 
+#ifndef  VS_VERSION_INFO
+#define  VS_VERSION_INFO                     1
+#endif
+
+#ifndef  VOS_NT_WINDOWS32
+#define  VOS_NT_WINDOWS32                    0x00040004L
+#endif
+
+#ifndef  VFT_APP
+#define  VFT_APP                             0x00000001L
+#endif
+
+#ifndef  VFT_DLL
+#define  VFT_DLL                             0x00000002L
+#endif
+
 #define STRINGIZE2(s)               #s
 #define STRINGIZE(s)                STRINGIZE2(s)
 #if (VERSION_UNSAFE == 1)
