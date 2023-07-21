@@ -25,6 +25,8 @@ Keyboard::InputAction InputEsc(DIK_ESCAPE);
 
 UINT8 vanishCount;
 
+#define _DEBUG 1
+
 GameMain::GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd, UINT windowSizeW, UINT windowSizeH, std::shared_ptr<DX::IControllerInterface> inController)
 	: ControllerInterface(inController)
 {
@@ -577,8 +579,9 @@ void GameMain::ActionActivePuyoSlide(bool left)
 }
 void GameMain::ActionActivePuyoRotate(bool rotateR)
 {
+	float ax = activePuyo.x, ay = activePuyo.y;
 	float x = activePuyo.x, y = activePuyo.y;
-	int P;
+	int P, AP;
 	/* set rotate coord. */
 	if (rotateR)
 	{
@@ -588,9 +591,12 @@ void GameMain::ActionActivePuyoRotate(bool rotateR)
 			/* U to R */
 			x += 1;
 			P = GetPos(x, y);
+#if _DEBUG
+			OutputDebugStringA("U to R\n");
+#endif
 			if (!IsValidIndex(P) || !stackedPuyo[P].IsEmpty())
 			{
-				activePuyo.x -= 1;
+				ax -= 1;
 				x -= 2;
 			}
 			break;
@@ -598,23 +604,32 @@ void GameMain::ActionActivePuyoRotate(bool rotateR)
 			/* B to L */
 			x -= 1;
 			P = GetPos(x, y);
+#if _DEBUG
+			OutputDebugStringA("B to L\n");
+#endif
 			if (!IsValidIndex(P) || !stackedPuyo[P].IsEmpty())
 			{
-				activePuyo.x += 1;
+				ax += 1;
 				x += 2;
 			}
 			break;
 		case Puyo::Rotation::L:
 			/* L to U */
 			y -= 1;
+#if _DEBUG
+			OutputDebugStringA("L to U\n");
+#endif
 			break;
 		case Puyo::Rotation::R:
 			/* R to B */
 			y += 1;
+#if _DEBUG
+			OutputDebugStringA("R to B\n");
+#endif
 			P = GetPos(x, y);
 			if (!IsValidIndex(P) || !stackedPuyo[P].IsEmpty())
 			{
-				activePuyo.y -= 1;
+				ay -= 1;
 				y -= 2;
 			}
 			break;
@@ -629,45 +644,61 @@ void GameMain::ActionActivePuyoRotate(bool rotateR)
 		case Puyo::Rotation::U:
 			/* U to L */
 			x -= 1;
+#if _DEBUG
+			OutputDebugStringA("U to L\n");
+#endif
 			P = GetPos(x, y);
 			if (!IsValidIndex(P) || (IsValidIndex(P) && !stackedPuyo[P].IsEmpty()))
 			{
-				activePuyo.x += 1;
+				ax += 1;
 				x += 2;
 			}
 			break;
 		case Puyo::Rotation::B:
 			/* B to R */
 			x += 1;
+#if _DEBUG
+			OutputDebugStringA("B to R\n");
+#endif
 			P = GetPos(x, y);
 			if (!IsValidIndex(P) || (IsValidIndex(P) && !stackedPuyo[P].IsEmpty()))
 			{
-				activePuyo.x -= 1;
+				ax -= 1;
 				x -= 2;
 			}
 			break;
 		case Puyo::Rotation::L:
 			/* L to B */
 			y += 1;
+#if _DEBUG
+			OutputDebugStringA("L to B\n");
+#endif
 			P = GetPos(x, y);
 			if (!IsValidIndex(P) || (IsValidIndex(P) && !stackedPuyo[P].IsEmpty()))
 			{
-				activePuyo.y -= 1;
+				ay -= 1;
 				y -= 2;
 			}
 			break;
 		case Puyo::Rotation::R:
 			/* R to U */
 			y -= 1;
+#if _DEBUG
+			OutputDebugStringA("R to U\n");
+#endif
 			break;
 		default:
 			break;
 		}
 	}
 
+	AP = GetPos(ax, ay);
 	P = GetPos(x, y);
-	if (IsValidIndex(P))
+	if (IsValidIndex(P) && IsValidIndex(AP) && stackedPuyo[P].IsEmpty() && stackedPuyo[AP].IsEmpty())
 	{
+		activePuyo.x = ax;
+		activePuyo.y = ay;
+
 		activePuyo.Rotate(rotateR);
 		activePuyo.UpdateOffset();
 		m_pActivePuyo->SetOffset(activePuyo.offset);
