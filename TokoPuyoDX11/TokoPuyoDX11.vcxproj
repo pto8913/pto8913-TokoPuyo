@@ -84,6 +84,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LinkDelaySign>false</LinkDelaySign>
+    <WindowsMetadataLinkKeyFile>$(ProjectDir)x64\msen.pfx</WindowsMetadataLinkKeyFile>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -182,6 +184,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>DirectXTex.lib;d3d11.lib;d3d10.lib;d3d10_1.lib;D2D1.lib;dwrite.lib;dxgi.lib;dxguid.lib;uuid.lib;kernel32.lib;user32.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;%(AdditionalDependencies);</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)SDK/DXTex/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <WindowsMetadataLinkDelaySign>true</WindowsMetadataLinkDelaySign>
     </Link>
     <Manifest>
       <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
