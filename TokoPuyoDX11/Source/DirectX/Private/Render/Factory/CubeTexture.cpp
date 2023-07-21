@@ -5,7 +5,7 @@
 #include "Render/Factory/RenderTargetView.h"
 #include "Render/Factory/DepthStencilView.h"
 
-#include "DXTex/DDSTextureLoader11.h"
+#include "SDK/DXTex/include/Public/DDSTextureLoader11.h"
 #include <vector>
 
 CubeTexture::CubeTexture(DirectX11& dx, const std::wstring& path, UINT newSlot)

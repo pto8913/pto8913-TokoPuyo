@@ -160,7 +160,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)Source/DirectX/Public;$(ProjectDir)Source/Game/Public;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)Source/DirectX/Public;$(ProjectDir)SDK/DXTex/include/Public;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
@@ -180,16 +180,16 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;d3d10.lib;d3d10_1.lib;D2D1.lib;dwrite.lib;dxgi.lib;dxguid.lib;uuid.lib;kernel32.lib;user32.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;%(AdditionalDependencies);</AdditionalDependencies>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>DirectXTex.lib;d3d11.lib;d3d10.lib;d3d10_1.lib;D2D1.lib;dwrite.lib;dxgi.lib;dxguid.lib;uuid.lib;kernel32.lib;user32.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)SDK/DXTex/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
       <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="SDK\DXTex\include\Public\DDSTextureLoader11.h" />
+    <ClInclude Include="SDK\DXTex\include\Public\WICTextureLoader11.h" />
     <ClInclude Include="Source\App.h" />
     <ClInclude Include="Source\Config.h" />
     <ClInclude Include="Source\DirectX\DirectXHead.h" />
@@ -197,8 +197,6 @@
     <ClInclude Include="Source\DirectX\Public\Core\DirectXResource.h" />
     <ClInclude Include="Source\DirectX\Public\Core\DirectXTex.h" />
     <ClInclude Include="Source\DirectX\Public\Delegate\Delegate.h" />
-    <ClInclude Include="Source\DirectX\Public\DXTex\DDSTextureLoader11.h" />
-    <ClInclude Include="Source\DirectX\Public\DXTex\WICTextureLoader11.h" />
     <ClInclude Include="Source\DirectX\Public\Geometry\Cube.h" />
     <ClInclude Include="Source\DirectX\Public\Geometry\Plane.h" />
     <ClInclude Include="Source\DirectX\Public\Geometry\Sphere.h" />
@@ -257,8 +255,11 @@
     <ClInclude Include="Source\GameUIController.h" />
     <ClInclude Include="Source\pch.h" />
     <ClInclude Include="Source\Window.h" />
+    <ClInclude Include="version.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SDK\DXTex\include\Private\DDSTextureLoader11.cpp" />
+    <ClCompile Include="SDK\DXTex\include\Private\WICTextureLoader11.cpp" />
     <ClCompile Include="Source\App.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -272,12 +273,6 @@
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Core\DirectXResource.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\DXTex\DDSTextureLoader11.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\DXTex\WICTextureLoader11.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Geometry\Cube.cpp">
@@ -474,10 +469,11 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <None Include="..\.gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\.gitignore" />
+    <ResourceCompile Include="filever.rc2" />
+    <ResourceCompile Include="resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
