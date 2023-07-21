@@ -10,3 +10,4 @@ z : 左回転<br>
 x : 右回転<br>
 
 # ダウンロード
+https://github.com/pto8913/pto8913-TokoPuyo/releases
