@@ -80,16 +80,18 @@ private:
 	virtual void OnLeftPressed(int x, int y) noexcept override;
 	virtual void OnLeftReleased(int x, int y) noexcept override;
 	virtual void OnLeftHeld(int x, int y) noexcept override;
+public:
 	virtual bool IsLeftPressed() const noexcept override;
-
+private:
 	// --------------------------------------
 	// Main : RightButton
 	// --------------------------------------
 	virtual void OnRightPressed(int x, int y) noexcept override;
 	virtual void OnRightReleased(int x, int y) noexcept override;
 	virtual void OnRightHeld(int x, int y) noexcept override;
+public:
 	virtual bool IsRightPressed() const noexcept override;
-
+private:
 	// --------------------------------------
 	// Main : WheelButton
 	// --------------------------------------
@@ -98,8 +100,9 @@ private:
 	virtual void OnWheelPressed(int x, int y) noexcept override;
 	virtual void OnWheelReleased(int x, int y) noexcept override;
 	virtual void OnWheelHeld(int x, int y) noexcept override;
-	virtual bool IsWheelPressed() const noexcept override;
 	virtual void OnWheelDelta(int x, int y, int delta) noexcept override;
+public:
+	virtual bool IsWheelPressed() const noexcept override;
 private:
 	// --------------------------------------
 	// Main : Raw
@@ -127,10 +130,16 @@ private:
 
 	int posX = 0;
 	int posY = 0;
+	int posXLast = 0;
+	int posYLast = 0;
 	
 	int wheelDelta = 0;
 
 	bool bEnableRawInput = false;
+
+	// --------------------------------------
+	// State : DInput
+	// --------------------------------------
 
 	// --------------------------------------
 	// State : Delegate

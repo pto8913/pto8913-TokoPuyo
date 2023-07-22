@@ -2,17 +2,15 @@
 
 #include "Object/ObjectBase.h"
 
-#include "Input/CameraIndicator.h"
-#include "Input/CameraProjection.h"
+#include "CameraIndicator.h"
+#include "CameraProjection.h"
+#include "CameraInterface.h"
 
 #include "Math/Math.h"
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnCameraMatrix, DirectX::XMMATRIX);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnCameraVector, DirectX::XMVECTOR);
-
 class DirectX11;
 
-class Camera : public ObjectBase
+class Camera : public ObjectBase, public DX::ICameraInterface
 {
 public:
 	Camera(
@@ -34,16 +32,16 @@ public:
 	virtual void SetLocation(const DirectX::XMVECTOR& inPos) noexcept override;
 	virtual void SetRotation(const DirectX::XMVECTOR& inRot) noexcept override;
 
-	void AddMoveLeftRight(float Val);
-	void AddMoveBackForward(float Val);
-	void AddMoveUpDownward(float Val);
+	virtual void AddMoveLeftRight(float Val) override;
+	virtual void AddMoveBackForward(float Val) override;
+	virtual void AddMoveUpDownward(float Val) override;
 
-	void AddYaw(float Val);
-	void AddPitch(float Val);
+	virtual void AddYaw(float Val) override;
+	virtual void AddPitch(float Val) override;
 
-	DirectX::XMVECTOR GetForwardVector();
-	DirectX::XMVECTOR GetRightVector();
-	DirectX::XMVECTOR GetUpVector();
+	virtual DirectX::XMVECTOR GetForwardVector() override;
+	virtual DirectX::XMVECTOR GetRightVector() override;
+	virtual DirectX::XMVECTOR GetUpVector() override;
 
 	void ExecuteTasks(DirectX11& dx);
 
@@ -80,13 +78,4 @@ protected:
 
 	CameraProjection m_CameraProjection;
 	CameraIndicator m_CameraIndicator;
-
-public:
-	// ----------------------------------
-	// State : Delegate
-	// ----------------------------------
-	FOnCameraMatrix OnCameraViewChanged;
-	FOnCameraMatrix OnCameraProjectionChanged;
-	FOnCameraVector OnCameraLocationChanged;
-	FOnCameraVector OnCameraRotationChanged;
 };

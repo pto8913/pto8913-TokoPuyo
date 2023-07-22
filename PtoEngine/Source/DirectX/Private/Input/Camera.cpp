@@ -23,14 +23,14 @@ Camera::Camera(DirectX11& dx, std::string inName, XMFLOAT3 inDefaultPos, float i
 
 	camView = XMMatrixLookAtLH(location, camLookAt, WorldUpVector);
 
-	camProjection = XMMatrixOrthographicRH(200.f, 360.f, 1.f, 1000.f);
+	//camProjection = XMMatrixOrthographicRH(200.f, 360.f, 1.f, 1000.f);
 
-	//camProjection = XMMatrixPerspectiveFovLH(
-	//	0.4f * 3.14f,
-	//	800.f / 600.f,
-	//	1.f,
-	//	1000.f
-	//);
+	camProjection = XMMatrixPerspectiveFovLH(
+		0.4f * 3.14f,
+		800.f / 600.f,
+		1.f,
+		1000.f
+	);
 	Reset(dx);
 }
 
@@ -103,42 +103,14 @@ void Camera::AddPitch(float Val)
 
 XMVECTOR Camera::GetForwardVector()
 {
-	//return XMVector3Normalize(
-	//	{ 
-	//		cos(rotation.x) * sin(rotation.y),
-	//		-sin(rotation.x),
-	//		cos(rotation.x) * cos(rotation.y)
-	//	}
-	//);
-
-	//return XMVector3TransformCoord(
-	//	WorldForwardVector,
-	//	XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, 0.f)
-	//);
-
 	return camForward;
 }
 XMVECTOR Camera::GetRightVector()
 {
-	//return XMVector3NormalizeEst(
-	//	{
-	//		cos(rotation.y), 0, -sin(rotation.y)
-	//	}
-	//);
-
-	//return XMVector3Cross(GetUpVector(), GetForwardVector());
-
 	return camRight;
 }
 XMVECTOR Camera::GetUpVector()
 {
-	//return XMVector3TransformCoord(
-	//	WorldUpVector,
-	//	XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, 0.f)
-	//);
-
-	//return XMVector3Cross(GetRightVector(), GetForwardVector());
-
 	return camUp;
 }
 
@@ -167,9 +139,4 @@ void Camera::ExecuteTasks(DirectX11& dx)
 	dx.SetCameraProjection(camProjection);
 	dx.SetCameraLocation(location);
 	dx.SetCameraRotation(rotation);
-
-	OnCameraViewChanged.Broadcast(camView);
-	OnCameraProjectionChanged.Broadcast(camProjection);
-	OnCameraLocationChanged.Broadcast(location);
-	OnCameraRotationChanged.Broadcast(rotation);
 }

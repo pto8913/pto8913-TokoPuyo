@@ -37,6 +37,9 @@ int Mouse::GetPosY() const noexcept
 }
 void Mouse::SetCursorPosition(int x, int y)
 {
+	posXLast = std::move(posX);
+	posYLast = std::move(posY);
+
 	posX = x;
 	posY = y;
 }
@@ -102,7 +105,7 @@ DX::FOnMouseActionDelta& Mouse::GetWheelDown()
 void Mouse::OnMouseMove(int x, int y) noexcept
 {
 	SetCursorPosition(x, y);
-	DX::MouseEvent Event(DX::MouseEvent::ButtonState::MOVE, x, y);
+	DX::MouseEvent Event(DX::MouseEvent::ButtonState::MOVE, x, y, posX - posXLast, posY - posYLast);
 	eventBuffer.push(Event);
 	OnMouseMoving.Broadcast(Event);
 	TrimBuffer();
@@ -244,10 +247,6 @@ void Mouse::OnWheelHeld(int x, int y) noexcept
 		OnClickedWheelHeld.Broadcast(Event);
 	}
 }
-bool Mouse::IsWheelPressed() const noexcept
-{
-	return bIsWheelPressed;
-}
 void Mouse::OnWheelDelta(int x, int y, int delta) noexcept
 {
 	wheelDelta += delta;
@@ -261,6 +260,10 @@ void Mouse::OnWheelDelta(int x, int y, int delta) noexcept
 		wheelDelta += WHEEL_DELTA;
 		OnWheelDown(x, y);
 	}
+}
+bool Mouse::IsWheelPressed() const noexcept
+{
+	return bIsWheelPressed;
 }
 
 

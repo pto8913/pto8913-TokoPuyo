@@ -32,14 +32,18 @@ namespace DX
 			ENTER = 32,
 			LEAVE = 33,
 		};
-		MouseEvent(ButtonState inState, int posX, int posY) noexcept
+		MouseEvent(ButtonState inState, int posX, int posY, int inDX = 0, int inDY = 0) noexcept
 			: State(inState),
 			x(posX),
-			y(posY)
+			y(posY),
+			deltaX(inDX),
+			deltaY(inDY)
 		{}
 		ButtonState State;
-		int x;
-		int y;
+		int x = 0;
+		int y = 0;
+		int deltaX = 0;
+		int deltaY = 0;
 	};
 
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnMouseAction, MouseEvent);

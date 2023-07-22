@@ -19,11 +19,11 @@ App::App()
 	DirectX11& dx = m_Window.GetDX();
 	dx.GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	m_pController = std::make_shared<Controller>();
+	m_pController = std::make_shared<Controller>(dx, m_Window.GetHInstance(), m_Window.GetHWnd());
 	m_Window.pController = m_pController;
 	m_Window.pMouse = m_pController->GetMouseInterface();
 
-	m_pGameMain = std::make_unique<GameMain>(dx, m_Window.GetHInstance(), m_Window.GetHWnd(), (UINT)Config::windowSize.x, (UINT)Config::windowSize.y, m_pController);
+	m_pGameMain = std::make_unique<GameMain>(dx, (UINT)Config::windowSize.x, (UINT)Config::windowSize.y, m_pController);
 
 	m_pWorldTimer = std::make_unique<WorldTimer>();
 

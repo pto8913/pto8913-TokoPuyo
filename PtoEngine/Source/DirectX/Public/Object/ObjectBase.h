@@ -26,6 +26,10 @@ public:
 	virtual void SetScale(const DirectX::XMVECTOR& inScale) noexcept;
 
 	virtual DirectX::XMMATRIX GetTransformXM(DirectX11& dx) const noexcept;
+
+	virtual DirectX::XMVECTOR GetForwardVector();
+	virtual DirectX::XMVECTOR GetRightVector();
+	virtual DirectX::XMVECTOR GetUpVector();
 protected:
 	// --------------------------------------------------------------------------------------------------------
 	// State

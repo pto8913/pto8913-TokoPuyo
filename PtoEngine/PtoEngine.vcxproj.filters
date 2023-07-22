@@ -122,11 +122,20 @@
     <Filter Include="Source\DirectX\Private\Timer">
       <UniqueIdentifier>{f0065346-b0a1-40d8-8cf8-92986e6025d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DirectX\Private\DXTex">
-      <UniqueIdentifier>{c3a4a984-35b3-474e-964c-41c42346512b}</UniqueIdentifier>
+    <Filter Include="SDK">
+      <UniqueIdentifier>{70f44241-610f-4353-9c20-afd41eadaf5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DirectX\Public\DXTex">
-      <UniqueIdentifier>{1361ac87-d8fe-4309-a4c3-9bbb69619264}</UniqueIdentifier>
+    <Filter Include="SDK\DXTex">
+      <UniqueIdentifier>{70cc0725-22eb-4ad2-83f9-f7be79a4f2e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK\DXTex\include">
+      <UniqueIdentifier>{6a299b65-ced2-46eb-af2c-39ce028aee6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK\DXTex\include\Public">
+      <UniqueIdentifier>{86155017-4540-4f43-9dee-e026329d4eba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK\DXTex\include\Private">
+      <UniqueIdentifier>{ab7c437b-f9c7-4808-a5fa-0c6c87d3d340}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -277,9 +286,6 @@
     <ClInclude Include="Source\DirectX\Public\Object\SkyLight.h">
       <Filter>Source\DirectX\Public\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\Material.h">
-      <Filter>Source\DirectX\Public\Render\Factory</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Object\SkySphere.h">
       <Filter>Source\DirectX\Public\Object</Filter>
     </ClInclude>
@@ -391,11 +397,14 @@
     <ClInclude Include="Source\DirectX\Public\Slate\SlateInterface.h">
       <Filter>Source\DirectX\Public\Slate</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\DXTex\WICTextureLoader11.h">
-      <Filter>Source\DirectX\Public\DXTex</Filter>
+    <ClInclude Include="Source\DirectX\Public\Input\CameraInterface.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\DXTex\DDSTextureLoader11.h">
-      <Filter>Source\DirectX\Public\DXTex</Filter>
+    <ClInclude Include="SDK\DXTex\include\Public\DDSTextureLoader11.h">
+      <Filter>SDK\DXTex\include\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\DXTex\include\Public\WICTextureLoader11.h">
+      <Filter>SDK\DXTex\include\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -531,9 +540,6 @@
     <ClCompile Include="Source\DirectX\Private\Object\SkyLight.cpp">
       <Filter>Source\DirectX\Private\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\Material.cpp">
-      <Filter>Source\DirectX\Private\Render\Factory</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Object\SkySphere.cpp">
       <Filter>Source\DirectX\Private\Object</Filter>
     </ClCompile>
@@ -624,11 +630,11 @@
     <ClCompile Include="Source\DirectX\Private\Input\Mouse.cpp">
       <Filter>Source\DirectX\Private\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\DXTex\WICTextureLoader11.cpp">
-      <Filter>Source\DirectX\Private\DXTex</Filter>
+    <ClCompile Include="SDK\DXTex\include\Private\DDSTextureLoader11.cpp">
+      <Filter>SDK\DXTex\include\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\DXTex\DDSTextureLoader11.cpp">
-      <Filter>Source\DirectX\Private\DXTex</Filter>
+    <ClCompile Include="SDK\DXTex\include\Private\WICTextureLoader11.cpp">
+      <Filter>SDK\DXTex\include\Private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -695,8 +701,5 @@
     <None Include="Shader\PointLight.hlsli">
       <Filter>Shader</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="..\Package.appxmanifest.xml" />
   </ItemGroup>
 </Project>

@@ -8,7 +8,7 @@
 
 #include <wincodec.h>
 
-#include "DXTex/WICTextureLoader11.h"
+#include "SDK/DXTex/include/Public/WICTextureLoader11.h"
 
 ScreenTexture::ScreenTexture(DirectX11& dx, const std::wstring& inFileName, FLOAT inWidth, FLOAT inHeight)
 	: fileName(inFileName), width(inWidth), height(inHeight)

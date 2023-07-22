@@ -1,3 +1,0 @@
-
-#include "Slate/SlateSlotBase.h"
-
