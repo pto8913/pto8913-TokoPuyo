@@ -48,7 +48,7 @@ private:
 	// State
 	// ---------------------------------------------------------------------------------
 	int mId = 0;
-	DX::FInputMode mInputMode;
+	DX::FInputMode mInputMode = DX::FInputMode::GameOnly;
 
 	// -----------------------------------
 	// State : Camera

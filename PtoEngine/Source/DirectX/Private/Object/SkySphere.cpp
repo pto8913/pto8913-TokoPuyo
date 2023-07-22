@@ -23,14 +23,18 @@ using namespace DirectX;
 
 const std::wstring SHADERPATH = L"Shader/Shader.hlsl";
 
-SkySphere::SkySphere(DirectX11& dx, float)
+SkySphere::SkySphere(DirectX11& dx, float radius)
 {
-	auto model = CreateSphere(10, 10);
+	//auto model = CreateSphere(10, 10);
+
+	auto model = Sphere::Make();
+	model.SetTransform(DirectX::XMMatrixScaling(radius, radius, radius));
+
 	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_pIndexBuffer = IndexBuffer::Make(dx, "SkySphere", model.indices);
 	m_pVertexBuffer = VertexBuffer<DX::FVertex>::Make(dx, "SkySphere", model.vertices);
 
-	auto pTCB = std::make_shared<TransformConstantBuffer>(dx, 0);
+	m_pTCB = std::make_shared<TransformConstantBuffer>(dx, 0);
 
 	AddTask(CubeTexture::Make(dx, L"Content/Textures/skymap.dds"));
 	AddTask(SamplerState::Make(dx));
@@ -42,7 +46,7 @@ SkySphere::SkySphere(DirectX11& dx, float)
 
 	AddTask(DepthStencilState::Make(dx, DepthStencilState::DSSType::SkyMap));
 
-	AddTask(pTCB);
+	AddTask(m_pTCB);
 
 	AddTask(Rasterizer::Make(dx, Rasterizer::RasterizerType::None, (UINT)model.indices.size()));
 
@@ -60,7 +64,7 @@ DirectX::XMMATRIX SkySphere::GetTransformXM(DirectX11& dx) const noexcept
 }
 void SkySphere::ExecuteTasks(DirectX11& dx)
 {
-	DrawableObject::ExecuteTasks(dx);
+	DrawableObject3D::ExecuteTasks(dx);
 
 	dx.GetContext()->OMSetDepthStencilState(NULL, 0);
 }
@@ -157,4 +161,3 @@ TriangleList SkySphere::CreateSphere(UINT LatLines, UINT LongLines)
 
 	return Out;
 }
-

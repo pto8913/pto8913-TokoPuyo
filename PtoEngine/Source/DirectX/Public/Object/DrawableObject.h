@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Object/ObjectBase.h"
+#include "Render/Factory/TransformConstantBuffer.h"
 
 class IndexBuffer;
 class ConstantBufferEx;
@@ -23,9 +24,10 @@ public:
 	virtual bool GetVisibility();
 protected:
 	bool visibility = true;
-	std::shared_ptr<IndexBuffer> m_pIndexBuffer;
-	//std::shared_ptr<VertexBuffer<DX::FVertex>> m_pVertexBuffer;
-	std::shared_ptr<Topology> m_pTopology;
+	std::shared_ptr<IndexBuffer> m_pIndexBuffer = nullptr;
+	//std::shared_ptr<VertexBuffer<DX::FVertex>> m_pVertexBuffer = nullptr;
+	std::shared_ptr<Topology> m_pTopology = nullptr;
+	std::shared_ptr<TransformConstantBuffer> m_pTCB = nullptr;
 
 	std::vector<std::shared_ptr<Bindable>> tasks;
 };

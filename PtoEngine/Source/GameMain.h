@@ -10,7 +10,9 @@
 
 class DirectX11;
 class DrawPlane;
+class DrawSphere;
 class SkySphere;
+class SkyLight;
 
 class GameMain
 {
@@ -25,7 +27,6 @@ private:
 	// Main : Input
 	// ------------------------------------------------------------
 	void InputUpdate(DirectX11& dx);
-	void MouseMove(DX::MouseEvent inMouseEvent);
 private:
 	// ------------------------------------------------------
 	// State
@@ -34,6 +35,8 @@ private:
 	DX::IMouseInterface* m_pMouseInterface = nullptr;
 	DX::ICameraInterface* m_pCameraInterface = nullptr;
 
-	std::shared_ptr<DrawPlane> m_pPlane_Ground;
+	std::shared_ptr<DrawPlane> m_pDrawPlane;
+	std::shared_ptr<DrawSphere> m_pDrawSphere;
 	std::shared_ptr<SkySphere> m_pSkySphere;
+	std::shared_ptr<SkyLight> m_pSkyLight;
 };

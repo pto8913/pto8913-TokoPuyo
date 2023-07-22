@@ -25,13 +25,6 @@ public:
 	// ------------------------------------------------------
 	ID3D11Device* GetDevice() { return m_pID3DDevice; }
 	ID3D11DeviceContext* GetContext() { return m_pID3DContext; }
-	ID3D11DeviceContext* GetDeferredContext() { return m_pID3DDeferredContext_1; }
-
-	// ------------------------------------------------------
-	// Main : Device2D
-	// ------------------------------------------------------
-	ID2D1Device* GetDevice2D() { return m_pID2DDevice; }
-	ID2D1DeviceContext* GetContext2D() { return m_pID2DContext; }
 
 	// ------------------------------------------------------
 	// Main : Frame
@@ -71,13 +64,6 @@ private:
 	// ------------------------------------------------------
 	ID3D11Device* m_pID3DDevice;
 	ID3D11DeviceContext* m_pID3DContext;
-	ID3D11DeviceContext* m_pID3DDeferredContext_1;
-
-	// ------------------------------------------------------
-	// State : Device2D
-	// ------------------------------------------------------
-	ID2D1Device* m_pID2DDevice;
-	ID2D1DeviceContext* m_pID2DContext;
 
 	// ------------------------------------------------------
 	// State : Camera

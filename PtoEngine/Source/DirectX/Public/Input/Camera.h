@@ -64,7 +64,7 @@ protected:
 	float camPitch = 0.f;
 	float camRoll = 0.f;
 
-	float moveSpeed = 100.f;
+	float moveSpeed = 1.f;
 	float rotationSpeed = 0.001f;
 
 	DirectX::XMVECTOR camUp = WorldUpVector;

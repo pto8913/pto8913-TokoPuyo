@@ -36,9 +36,10 @@ DrawPlane::DrawPlane(DirectX11& dx, float size)
 	AddTask(SamplerState::Make(dx));
 
 	auto pVS = VertexShader::Make(dx, L"Shader/Shader.hlsl", "VS");
-	AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V2D, pVS.get()));
+	AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V3D, pVS.get()));
 	AddTask(std::move(pVS));
 	AddTask(PixelShader::Make(dx, L"Shader/Shader.hlsl", "PS"));
+
 	AddTask(pTCB);
 
 	AddTask(Rasterizer::Make(dx, Rasterizer::None, (UINT)model.indices.size()));

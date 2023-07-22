@@ -67,8 +67,6 @@ DirectX11::DirectX11(HINSTANCE hInstance, HWND hWnd, UINT width, UINT height)
 		assert(false);
 	}
 
-	m_pID3DDevice->CreateDeferredContext(0, &m_pID3DDeferredContext_1);
-
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> pBackBuffer;
 	m_pSwapChain->GetBuffer(
 		0,
@@ -78,18 +76,6 @@ DirectX11::DirectX11(HINSTANCE hInstance, HWND hWnd, UINT width, UINT height)
 
 	m_pRenderTargetView = std::make_shared<RenderTargetView>(*this, pBackBuffer.Get());
 	m_pDepthStencilView = std::make_shared<DepthStencilView>(*this, width, height);
-
-	// ------------------------------------------------------
-	// Create Device2D
-	// ------------------------------------------------------
-	IDXGIDevice* dxgiDevice;
-	m_pID3DDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgiDevice);
-
-	ID2D1Factory1* d2d1Factory;
-	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, __uuidof(ID2D1Factory1), (void**)&d2d1Factory);
-	d2d1Factory->CreateDevice(dxgiDevice, &m_pID2DDevice);
-
-	m_pID2DDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &m_pID2DContext);
 
 	bInitialized = true;
 }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Object/DrawableObject2D.h"
-#include "Render/Factory/TransformConstantBuffer.h"
 
 #include "Object/Widget/WidgetInterface.h"
 
@@ -42,7 +41,6 @@ protected:
 	virtual void Draw() = 0;
 	void DrawInternal();
 private:
-	std::shared_ptr<TransformConstantBuffer> m_pTCB = nullptr;
 	std::shared_ptr<ScreenTextOnlyOutput> m_pScreenTextOnlyOutput = nullptr;
 
 	/* The higher the number, the more it appears in the front. */
