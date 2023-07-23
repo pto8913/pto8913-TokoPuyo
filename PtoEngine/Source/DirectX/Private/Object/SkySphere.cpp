@@ -25,10 +25,10 @@ const std::wstring SHADERPATH = L"Shader/Shader.hlsl";
 
 SkySphere::SkySphere(DirectX11& dx, float radius)
 {
-	//auto model = CreateSphere(10, 10);
+	auto model = CreateSphere(10, 10);
 
-	auto model = Sphere::Make();
-	model.SetTransform(DirectX::XMMatrixScaling(radius, radius, radius));
+	//auto model = Sphere::Make();
+	//model.SetTransform(DirectX::XMMatrixScaling(radius, radius, radius));
 
 	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_pIndexBuffer = IndexBuffer::Make(dx, "SkySphere", model.indices);

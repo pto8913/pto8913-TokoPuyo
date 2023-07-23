@@ -21,7 +21,12 @@ Camera::Camera(DirectX11& dx, std::string inName, XMFLOAT3 inDefaultPos, float i
 	}
 	location = { 0.f, 3.f, 0.f };
 
-	camView = XMMatrixLookAtLH(location, camLookAt, WorldUpVector);
+
+	XMMATRIX MRotation = XMMatrixRotationRollPitchYaw(camPitch, camYaw, camRoll);
+
+	camLookAt = XMVector3TransformCoord(WorldForwardVector, MRotation);
+	camUp = XMVector3TransformCoord(WorldUpVector, MRotation);
+	camView = XMMatrixLookAtLH(location, camLookAt, camUp);
 
 	//camProjection = XMMatrixOrthographicRH(200.f, 360.f, 1.f, 1000.f);
 
@@ -29,7 +34,7 @@ Camera::Camera(DirectX11& dx, std::string inName, XMFLOAT3 inDefaultPos, float i
 		0.4f * 3.14f,
 		800.f / 600.f,
 		1.f,
-		1000.f
+		25000.f
 	);
 	Reset(dx);
 }

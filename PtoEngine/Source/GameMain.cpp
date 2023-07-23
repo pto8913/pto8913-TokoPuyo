@@ -40,13 +40,13 @@ GameMain::GameMain(DirectX11& dx, UINT windowSizeW, UINT windowSizeH, std::share
 	m_pMouseInterface = m_pController->GetMouseInterface();
 	m_pCameraInterface = m_pController->GetCameraInterface();
 
-	//m_pDrawPlane = std::make_shared<DrawPlane>(dx, 500.f);
-	//m_pDrawPlane->SetLocation({ 0, -50, 0 });
+	m_pDrawPlane = std::make_shared<DrawPlane>(dx, 500.f);
+	m_pDrawPlane->SetLocation({ 0, -50, 0 });
 
-	//m_pDrawSphere = std::make_shared<DrawSphere>(dx, 50.f);
-	//m_pDrawSphere->SetLocation({ 0, 50, 0 });
+	m_pDrawSphere = std::make_shared<DrawSphere>(dx, 50.f);
+	m_pDrawSphere->SetLocation({ 0, 50, 0 });
 
-	//m_pSkyLight = std::make_shared<SkyLight>(dx);
+	m_pSkyLight = std::make_shared<SkyLight>(dx);
 
 	m_pSkySphere = std::make_shared<SkySphere>(dx, 50.f);
 }
@@ -60,10 +60,10 @@ void GameMain::DoFrame(DirectX11& dx, float deltaTime)
 
 	InputUpdate(dx);
 
-	//m_pSkyLight->ExecuteTasks(dx);
+	m_pSkyLight->ExecuteTasks(dx);
 
-	//m_pDrawSphere->ExecuteTasks(dx);
-	//m_pDrawPlane->ExecuteTasks(dx);
+	m_pDrawSphere->ExecuteTasks(dx);
+	m_pDrawPlane->ExecuteTasks(dx);
 
 	m_pSkySphere->ExecuteTasks(dx);
 
