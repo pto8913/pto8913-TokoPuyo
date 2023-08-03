@@ -58,6 +58,7 @@ GameMain::GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd, UINT windowSiz
 	SE_PuyoRotate = std::make_shared<Audio>(L"Content/Sounds/Puyo_Rotate.wav");
 	SE_PuyoRotate->SetVolume(0.5f);
 	SE_PuyoVanish = std::make_shared<Audio>(L"Content/Sounds/Puyo_Vanish.wav");
+	SE_PuyoGameOver = std::make_shared<Audio>(L"Content/Sounds/Puyo_GameOver.wav");
 	if (BGM)
 	{
 		BGM->SetVolume(0.5f);
@@ -130,6 +131,13 @@ GameMain::~GameMain()
 
 void GameMain::SetGameState(DX::GameState NewState)
 {
+	if (m_GameState == DX::GameState::GameOver)
+	{
+		if (NewState != DX::GameState::GameOver)
+		{
+			BGM->Play();
+		}
+	}
 	m_GameState = NewState;
 	switch (NewState)
 	{
@@ -154,6 +162,7 @@ void GameMain::SetGameState(DX::GameState NewState)
 	case DX::GameState::GameOver:
 		m_pGameStateUI->SetGameOverUI();
 		BGM->Stop();
+		SE_PuyoGameOver->Play();
 		break;
 	default:
 		//OutputDebugStringA("--- GameState Wait ---\n");

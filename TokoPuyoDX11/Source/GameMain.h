@@ -371,6 +371,7 @@ private:
 	std::shared_ptr<Audio> SE_PuyoBottom = nullptr;
 	std::shared_ptr<Audio> SE_PuyoRotate = nullptr;
 	std::shared_ptr<Audio> SE_PuyoVanish = nullptr;
+	std::shared_ptr<Audio> SE_PuyoGameOver = nullptr;
 
 	// ----------------------
 	// State : Input
