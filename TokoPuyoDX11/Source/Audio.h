@@ -2,25 +2,6 @@
 
 #include <xaudio2.h>
 
-class VoiceCallback : public IXAudio2VoiceCallback
-{
-public:
-	HANDLE hBufferEndEvent;
-	VoiceCallback();
-	~VoiceCallback();
-
-	//Called when the voice has just finished playing a contiguous audio stream.
-	virtual void __stdcall OnStreamEnd() override;
-
-	//Unused methods are stubs
-	virtual void __stdcall OnVoiceProcessingPassEnd() override;
-	virtual void __stdcall OnVoiceProcessingPassStart(UINT32 SamplesRequired) override;
-	virtual void __stdcall OnBufferEnd(void* pBufferContext) override;
-	virtual void __stdcall OnBufferStart(void* pBufferContext) override;
-	virtual void __stdcall OnLoopEnd(void* pBufferContext) override;
-	virtual void __stdcall OnVoiceError(void* pBufferContext, HRESULT Error) override;
-};
-
 // ------------------------------------------------------------------------
 // AudioManager
 // ------------------------------------------------------------------------
@@ -84,5 +65,4 @@ private:
 
 	IXAudio2SourceVoice* pSourceVoice = nullptr;
 	XAUDIO2_BUFFER m_buffer = {};
-	VoiceCallback callback;
 };

@@ -10,42 +10,6 @@
 #define fourccXWMA 'AMWX'
 #define fourccDPDS 'sdpd'
 
-VoiceCallback::VoiceCallback()
-    : hBufferEndEvent(CreateEvent(NULL, FALSE, FALSE, NULL))
-{}
-
-VoiceCallback::~VoiceCallback()
-{
-    CloseHandle(hBufferEndEvent);
-}
-
-void __stdcall VoiceCallback::OnVoiceProcessingPassStart(UINT32 BytesRequired)
-{
-}
-void __stdcall VoiceCallback::OnVoiceProcessingPassEnd()
-{
-}
-void __stdcall VoiceCallback::OnStreamEnd()
-{
-    SetEvent(hBufferEndEvent);
-}
-void __stdcall VoiceCallback::OnBufferStart(void* pBufferContext)
-{
-}
-void __stdcall VoiceCallback::OnBufferEnd(void* pBufferContext)
-{
-#if _DEBUG
-    OutputDebugStringA("On Buffer End\n");
-#endif
-}
-void __stdcall VoiceCallback::OnLoopEnd(void* pBufferContext)
-{
-}
-void __stdcall VoiceCallback::OnVoiceError(void* pBufferContext, HRESULT Error)
-{
-}
-
-
 // ------------------------------------------------------------------------
 // AudioManager
 // ------------------------------------------------------------------------
@@ -247,7 +211,7 @@ HRESULT Audio::OpenFile(const wchar_t* fileName)
     m_buffer.pAudioData = pDataBuffer;  //buffer containing audio data
     m_buffer.Flags = XAUDIO2_END_OF_STREAM; // tell the source voice not to expect any data after this buffer
 
-    result = AudioManager::Get().GetAudioDevice()->CreateSourceVoice(&pSourceVoice, (WAVEFORMATEX*)&wfx, 0, XAUDIO2_DEFAULT_FREQ_RATIO, &callback, NULL, NULL);
+    result = AudioManager::Get().GetAudioDevice()->CreateSourceVoice(&pSourceVoice, (WAVEFORMATEX*)&wfx);
     if (FAILED(result))
     {
 #if _DEBUG
