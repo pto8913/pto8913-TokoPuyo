@@ -20,6 +20,7 @@ using chrono = std::chrono::system_clock;
 class Sprite;
 class GameMode;
 class GameStateUI;
+class Audio;
 
 struct UnionFind
 {
@@ -361,6 +362,15 @@ private:
 	int connectCount = 0;
 	int colorCount = 0;
 	int score = 0;
+
+	// ----------------------
+	// State : Sound
+	// ----------------------
+	std::shared_ptr<Audio> BGM = nullptr;
+	std::shared_ptr<Audio> SE_PuyoMove = nullptr;
+	std::shared_ptr<Audio> SE_PuyoBottom = nullptr;
+	std::shared_ptr<Audio> SE_PuyoRotate = nullptr;
+	std::shared_ptr<Audio> SE_PuyoVanish = nullptr;
 
 	// ----------------------
 	// State : Input

@@ -195,6 +195,7 @@
     <ClInclude Include="SDK\DXTex\include\Public\DDSTextureLoader11.h" />
     <ClInclude Include="SDK\DXTex\include\Public\WICTextureLoader11.h" />
     <ClInclude Include="Source\App.h" />
+    <ClInclude Include="Source\Audio.h" />
     <ClInclude Include="Source\Config.h" />
     <ClInclude Include="Source\DirectX\DirectXHead.h" />
     <ClInclude Include="Source\DirectX\Public\Core\DirectX.h" />
@@ -270,6 +271,9 @@
     </ClCompile>
     <ClCompile Include="Source\App.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\Audio.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\Config.cpp">

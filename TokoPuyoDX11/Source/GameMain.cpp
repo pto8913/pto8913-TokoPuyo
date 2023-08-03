@@ -10,6 +10,8 @@
 
 #include "Math/Math.h"
 
+#include "Audio.h"
+
 using namespace DirectX;
 using namespace Math;
 
@@ -48,6 +50,20 @@ GameMain::GameMain(DirectX11& dx, HINSTANCE hInstance, HWND hWnd, UINT windowSiz
 	Cached_NeedDurationTime_Main = 0;
 
 	m_pdx = &dx;
+
+	BGM = std::make_shared<Audio>(L"Content/Sounds/Puyo_BGM.wav");
+	SE_PuyoMove = std::make_shared<Audio>(L"Content/Sounds/Puyo_Move.wav");
+	SE_PuyoMove->SetVolume(0.5f);
+	SE_PuyoBottom = std::make_shared<Audio>(L"Content/Sounds/Puyo_Bottom.wav");
+	SE_PuyoRotate = std::make_shared<Audio>(L"Content/Sounds/Puyo_Rotate.wav");
+	SE_PuyoRotate->SetVolume(0.5f);
+	SE_PuyoVanish = std::make_shared<Audio>(L"Content/Sounds/Puyo_Vanish.wav");
+	if (BGM)
+	{
+		BGM->SetVolume(0.5f);
+		BGM->SetLoop(true);
+		BGM->Play();
+	}
 
 	m_keyBoard = Keyboard(hInstance, hWnd);
 	m_pGameStateUI = new GameStateUI(dx, windowSizeW, windowSizeH);m_pGameStateUI->SetGmaeProgressUI();
@@ -137,6 +153,7 @@ void GameMain::SetGameState(DX::GameState NewState)
 		break;
 	case DX::GameState::GameOver:
 		m_pGameStateUI->SetGameOverUI();
+		BGM->Stop();
 		break;
 	default:
 		//OutputDebugStringA("--- GameState Wait ---\n");
@@ -386,6 +403,8 @@ void GameMain::OnClickedPause(DX::MouseEvent)
 // ---------------------------
 void GameMain::ActionActivePuyoDown(float rate)
 {
+	SE_PuyoMove->Play();
+
 	if (m_pActivePuyo == nullptr) return;
 	int NAP, NSP;
 	bool success = false;
@@ -485,9 +504,12 @@ void GameMain::ActivePuyoDownToRelease()
 
 	activePuyo.UpdateOffset();
 	SetGameState(DX::GameState::Release);
+	SE_PuyoBottom->Play();
 }
 void GameMain::ActionActivePuyoSlide(bool left)
 {
+	SE_PuyoMove->Play();
+
 	const float slideDir = left ? -1.f : 1.f;
 
 	if (activePuyo.y == 0)
@@ -577,6 +599,8 @@ void GameMain::ActionActivePuyoSlide(bool left)
 }
 void GameMain::ActionActivePuyoRotate(bool rotateR)
 {
+	SE_PuyoRotate->Play();
+
 	float ax = activePuyo.x, ay = activePuyo.y;
 	float x = activePuyo.x, y = activePuyo.y;
 	int P, AP;
@@ -1041,6 +1065,8 @@ void GameMain::VanishPuyo()
 
 	colorCount = 0;
 	puyoCount = 0;
+
+	SE_PuyoVanish->Play();
 }
 
 // ------------------------------------------------------------
@@ -1251,6 +1277,7 @@ void GameMain::ResetCalcScoreCount()
 	comboCount = 0;
 	connectCount = 0;
 	colorCount = 0;
+	score = 0;
 }
 
 // ------------------------------------------------------------

@@ -307,6 +307,9 @@
     <ClInclude Include="SDK\DXTex\include\Public\WICTextureLoader11.h">
       <Filter>SDK\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Audio.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
@@ -479,6 +482,9 @@
     </ClCompile>
     <ClCompile Include="SDK\DXTex\include\Private\WICTextureLoader11.cpp">
       <Filter>SDK\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Audio.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

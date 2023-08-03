@@ -13,3 +13,11 @@ x : 右回転<br>
 
 ### ダウンロード
 https://github.com/pto8913/pto8913-TokoPuyo/releases
+
+### 使用アセット
+SE
+ - https://soundeffect-lab.info/sound/anime/
+ - https://soundeffect-lab.info/sound/button/
+
+BGM
+ - https://www.springin.org/sound-stock/category/bgm-short/
