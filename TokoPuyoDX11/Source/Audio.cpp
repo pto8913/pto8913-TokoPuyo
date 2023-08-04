@@ -13,6 +13,28 @@
 // ------------------------------------------------------------------------
 // AudioManager
 // ------------------------------------------------------------------------
+class AudioManager
+{
+public:
+    AudioManager();
+    virtual ~AudioManager();
+
+private:
+    AudioManager(const AudioManager&) = delete;
+    AudioManager& operator=(const AudioManager&) = delete;
+    AudioManager(AudioManager&&) = delete;
+    AudioManager& operator=(AudioManager&&) = delete;
+public:
+
+    static AudioManager& Get();
+
+    IXAudio2* GetAudioDevice();
+    IXAudio2MasteringVoice* GetMasterVoice();
+private:
+    IXAudio2* pXAudio2 = nullptr;
+    IXAudio2MasteringVoice* pMasterVoice = nullptr;
+};
+
 AudioManager::AudioManager()
 {
     HRESULT result = XAudio2Create(&pXAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);
@@ -44,19 +66,27 @@ AudioManager& AudioManager::Get()
     return instance;
 }
 
-void AudioManager::SetMasterVolume(float inVolume)
-{
-    pMasterVoice->SetVolume(inVolume);
-}
-float AudioManager::GetMasterVolume() const
-{
-    float Out;
-    pMasterVoice->GetVolume(&Out);
-    return Out;
-}
 IXAudio2* AudioManager::GetAudioDevice()
 {
     return pXAudio2;
+}
+IXAudio2MasteringVoice* AudioManager::GetMasterVoice()
+{
+    return pMasterVoice;
+}
+
+// ------------------------------------------------------------------------
+// AudioManagerHelper
+// ------------------------------------------------------------------------
+void AudioHelperLibrary::SetMasterVolume(float inVolume)
+{
+    AudioManager::Get().GetMasterVoice()->SetVolume(inVolume);
+}
+float AudioHelperLibrary::GetMasterVolume()
+{
+    float Out;
+    AudioManager::Get().GetMasterVoice()->GetVolume(&Out);
+    return Out;
 }
 
 // ------------------------------------------------------------------------
@@ -89,7 +119,6 @@ void Audio::Play()
 #endif
     }
 }
-
 void Audio::Stop()
 {
     if (pSourceVoice != nullptr)

@@ -3,30 +3,14 @@
 #include <xaudio2.h>
 
 // ------------------------------------------------------------------------
-// AudioManager
+// AudioManagerHelper
 // ------------------------------------------------------------------------
-class AudioManager
+class AudioHelperLibrary
 {
 public:
-	AudioManager();
-	virtual ~AudioManager();
-
-	AudioManager(const AudioManager&) = delete;
-	AudioManager& operator=(const AudioManager&) = delete;
-	AudioManager(AudioManager&&) = delete;
-	AudioManager& operator=(AudioManager&&) = delete;
-
-	static AudioManager& Get();
-
-	void SetMasterVolume(float inVolume);
-	float GetMasterVolume() const;
-
-	IXAudio2* GetAudioDevice();
-private:
-	IXAudio2* pXAudio2 = nullptr;
-	IXAudio2MasteringVoice* pMasterVoice = nullptr;
+	static void SetMasterVolume(float inVolume);
+	static float GetMasterVolume();
 };
-
 
 // ------------------------------------------------------------------------
 // Audio Instance
