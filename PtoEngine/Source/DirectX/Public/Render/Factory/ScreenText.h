@@ -13,7 +13,7 @@ public:
 	static std::shared_ptr<ScreenText> Make(DirectX11& dx, UINT inWidth, UINT inHeight);
 
 	virtual void Bind(DirectX11& dx) override;
-	void Bind(std::wstring text);
+	void Bind(std::wstring text, D2D1_RECT_F rect);
 
 	static std::string GenerateID(UINT inWidth, UINT inHeight)
 	{

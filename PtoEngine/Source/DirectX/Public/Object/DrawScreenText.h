@@ -14,7 +14,7 @@ class DrawScreenText : public DrawableObject2D
 public:
 	DrawScreenText(DirectX11& dx, UINT inWidth, UINT inHeight);
 
-	void UpdateText(std::wstring inText);
+	void UpdateText(std::wstring inText, D2D1_RECT_F inRect);
 
 	virtual void ExecuteTasks(DirectX11& dx) override;
 
@@ -22,6 +22,7 @@ public:
 
 protected:
 	std::wstring text;
+	D2D1_RECT_F rect;
 
 	std::shared_ptr<TransformConstantBuffer> m_pTCB;
 	std::shared_ptr<ScreenText> m_pScreenText;

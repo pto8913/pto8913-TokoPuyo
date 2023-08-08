@@ -15,30 +15,12 @@ namespace Util
     }
 
     template<typename T>
-    void SafeMapRelease(T& InMap)
-    {
-        for (auto itr = InMap.begin(); itr != InMap.end(); itr++)
-        {
-            SafeRelease(itr->second);
-        }
-    }
-
-    template<typename T>
     void SafeDelete(T* p)
     {
         if (p != nullptr)
         {
             delete p;
             p = nullptr;
-        }
-    }
-
-    template<typename T>
-    void SafeMapDelete(T& InMap)
-    {
-        for (auto itr = InMap.begin(); itr != InMap.end(); itr++)
-        {
-            SafeDelete(itr->second);
         }
     }
 }

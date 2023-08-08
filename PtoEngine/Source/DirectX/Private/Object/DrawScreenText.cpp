@@ -63,16 +63,17 @@ DrawScreenText::DrawScreenText(DirectX11& dx, UINT inWidth, UINT inHeight)
 
 	InitializeTasks();
 }
-void DrawScreenText::UpdateText(std::wstring inText)
+void DrawScreenText::UpdateText(std::wstring inText, D2D1_RECT_F inRect)
 {
 	text = inText;
+	rect = inRect;
 }
 void DrawScreenText::ExecuteTasks(DirectX11& dx)
 {
 	dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
 
 	m_pTCB->Bind(dx, tf);
-	m_pScreenText->Bind(text);
+	m_pScreenText->Bind(text, rect);
 
 	DrawableObject::ExecuteTasks(dx);
 }

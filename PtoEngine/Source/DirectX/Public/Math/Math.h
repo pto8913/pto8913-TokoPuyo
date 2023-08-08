@@ -16,6 +16,13 @@ constexpr DirectX::XMVECTOR WorldUpVector      = { 0, 1, 0, 0 };
 namespace Math
 {
 	template<typename T>
+	T MapRange(T value, T input_start, T input_end, T output_start, T output_end)
+	{
+		double slope = 1.0 * (output_end - output_start) / (input_end - input_start);
+		return output_start + (T)round(slope * (value - input_start));
+	}
+
+	template<typename T>
 	T wrap_angle(T theta) noexcept
 	{
 		const T PI2 = 2 * PI;
@@ -32,10 +39,17 @@ namespace Math
 	}
 
 	template<typename T>
-	T MapRange(T value, T input_start, T input_end, T output_start, T output_end)
+	constexpr T Clamp(const T& t, const T& inMin, const T& inMax)
 	{
-		double slope = 1.0 * (output_end - output_start) / (input_end - input_start);
-		return output_start + (T)round(slope * (value - input_start));
+		if (t < inMin)
+		{
+			return inMin;
+		}
+		else if (t > inMax)
+		{
+			return inMax;
+		}
+		return t;
 	}
 
 	DirectX::XMFLOAT2 AddXMF2(DirectX::XMFLOAT2 a, DirectX::XMFLOAT2 b);

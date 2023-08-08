@@ -1,10 +1,10 @@
 #pragma once
 
-#include "DrawableObject2D.h"
+#include "Object/DrawableObject2D.h"
 #include "GameUIController.h"
 #include "Render/Factory/TransformConstantBuffer.h"
 
-#include "Widget/WidgetBase.h"
+#include "Object/Widget/WidgetBase.h"
 
 class TransformConstantBuffer;
 

@@ -3,8 +3,6 @@
 
 #include "Core/DirectX.h"
 
-#include "Config.h"
-
 #include "Math/Math.h"
 
 #include "Slate/SlateContainerBase.h"

@@ -4,8 +4,6 @@
 #include "Render/Manager/BindableManager.h"
 #include <dwrite.h>
 
-#include "Config.h"
-
 ScreenText::ScreenText(DirectX11& dx, UINT inWidth, UINT inHeight)
 	: width(inWidth), height(inHeight)
 {
@@ -106,7 +104,7 @@ void ScreenText::Bind(DirectX11& dx)
 {
 	GetContext(dx)->PSSetShaderResources(0, 1, &d2dTexture);
 }
-void ScreenText::Bind(std::wstring text)
+void ScreenText::Bind(std::wstring text, D2D1_RECT_F rect)
 {
 	//Release the D3D 11 Device
 	keyedMutex11->ReleaseSync(0);
@@ -143,15 +141,15 @@ void ScreenText::Bind(std::wstring text)
 		Brush
 	);
 
-	D2D1_RECT_F ll = D2D1::RectF(
-		Config::GAMEUI_LEFT_TOP.x, 
-		Config::GAMEUI_LEFT_TOP.y,
-		Config::GAMEUI_RIGHT_BOTTOM.x,
-		Config::GAMEUI_LEFT_TOP.y + 200
-	);
+	//D2D1_RECT_F ll = D2D1::RectF(
+	//	Config::GAMEUI_LEFT_TOP.x, 
+	//	Config::GAMEUI_LEFT_TOP.y,
+	//	Config::GAMEUI_RIGHT_BOTTOM.x,
+	//	Config::GAMEUI_LEFT_TOP.y + 200
+	//);
 
 	//D2DRenderTarget->DrawRectangle(ll, Brush, 2);
-	D2DRenderTarget->FillRectangle(ll, Brush);
+	D2DRenderTarget->FillRectangle(rect, Brush);
 
 	D2DRenderTarget->EndDraw();
 

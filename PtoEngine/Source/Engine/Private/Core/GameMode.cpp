@@ -1,5 +1,5 @@
 
-#include "GameMode.h"
+#include "Core/GameMode.h"
 
 GameMode::GameMode(NumOfPlayer inNumOfPlayer, NumOfConnect inNumOfConnect)
 	: numOfPlayer(inNumOfPlayer), numOfConnect(inNumOfConnect)

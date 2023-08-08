@@ -1,8 +1,10 @@
 
 #include "GameMain.h"
-#include "GameMode.h"
 
-#include "Window.h"
+#include "DirectX/Public/Core/DirectX.h"
+
+#include "Core/GameMode.h"
+#include "Core/Window.h"
 
 #include "Object/DrawPlane.h"
 #include "Object/DrawSphere.h"
@@ -11,10 +13,9 @@
 
 #include "Input/Keyboard.h"
 
-#include "Math/Math.h"
+#include "Algorithm/MazeGenerator.h"
 
 using namespace DirectX;
-using namespace Math;
 
 Keyboard::InputAxis InputW(DIK_W);
 Keyboard::InputAxis InputA(DIK_A);
@@ -26,7 +27,11 @@ Keyboard::InputAction InputF8(DIK_F8);
 
 Keyboard::InputAction InputEsc(DIK_ESCAPE);
 
-#define _DEBUG 0
+#define _DEBUG 1
+
+#if _DEBUG
+#include <format>
+#endif
 
 GameMain::GameMain(DirectX11& dx, UINT windowSizeW, UINT windowSizeH, std::shared_ptr<DX::IControllerInterface> inController)
 	: m_pController(inController)
@@ -38,17 +43,10 @@ GameMain::GameMain(DirectX11& dx, UINT windowSizeW, UINT windowSizeH, std::share
 #endif
 
 	m_pMouseInterface = m_pController->GetMouseInterface();
-	m_pCameraInterface = m_pController->GetCameraInterface();
+	m_pController->SetInputMode(DX::FInputMode::UIOnly);
 
-	m_pDrawPlane = std::make_shared<DrawPlane>(dx, 500.f);
-	m_pDrawPlane->SetLocation({ 0, -50, 0 });
-
-	m_pDrawSphere = std::make_shared<DrawSphere>(dx, 50.f);
-	m_pDrawSphere->SetLocation({ 0, 50, 0 });
-
-	m_pSkyLight = std::make_shared<SkyLight>(dx);
-
-	m_pSkySphere = std::make_shared<SkySphere>(dx, 50.f);
+	pMazeGenerator = std::make_shared<MazeGenerator>();
+	pMazeGenerator->GenerateMaze();
 }
 GameMain::~GameMain()
 {
@@ -59,13 +57,6 @@ void GameMain::DoFrame(DirectX11& dx, float deltaTime)
 	dx.BeginFrame();
 
 	InputUpdate(dx);
-
-	m_pSkyLight->ExecuteTasks(dx);
-
-	m_pDrawSphere->ExecuteTasks(dx);
-	m_pDrawPlane->ExecuteTasks(dx);
-
-	m_pSkySphere->ExecuteTasks(dx);
 
 	HRESULT result = dx.EndFrame();
 	if (result == DXGI_ERROR_DEVICE_REMOVED || result == DXGI_ERROR_DEVICE_RESET)
@@ -81,10 +72,6 @@ void GameMain::DoFrame(DirectX11& dx, float deltaTime)
 	}
 }
 
-// ------------------------------------------------------------
-// Main : Input
-// ------------------------------------------------------------
-#include <format>
 void GameMain::InputUpdate(DirectX11& dx)
 {
 	if (InputEsc)
@@ -97,42 +84,36 @@ void GameMain::InputUpdate(DirectX11& dx)
 #if _DEBUG
 		OutputDebugStringA("W\n");
 #endif
-		m_pCameraInterface->AddMoveBackForward(1.f);
 	}
 	if (InputS)
 	{
 #if _DEBUG
 		OutputDebugStringA("S\n");
 #endif
-		m_pCameraInterface->AddMoveBackForward(-1.f);
 	}
 	if (InputA)
 	{
 #if _DEBUG
 		OutputDebugStringA("A\n");
 #endif
-		m_pCameraInterface->AddMoveLeftRight(-1.f);
 	}
 	if (InputD)
 	{
 #if _DEBUG
 		OutputDebugStringA("D\n");
 #endif
-		m_pCameraInterface->AddMoveLeftRight(1.f);
 	}
 	if (InputQ)
 	{
 #if _DEBUG
 		OutputDebugStringA("Q\n");
 #endif
-		m_pCameraInterface->AddMoveUpDownward(-1.f);
 	}
 	if (InputE)
 	{
 #if _DEBUG
 		OutputDebugStringA("E\n");
 #endif
-		m_pCameraInterface->AddMoveUpDownward(1.f);
 	}
 	if (InputF8)
 	{
@@ -153,22 +134,30 @@ void GameMain::InputUpdate(DirectX11& dx)
 	{
 	case DX::FInputMode::UIOnly:
 #if _DEBUG
-		OutputDebugStringA("UIONly\n");
+		//OutputDebugStringA("UIONly\n");
 #endif
 		break;
 	case DX::FInputMode::GameOnly:
 #if _DEBUG
-		OutputDebugStringA("GameONly\n");
+		//OutputDebugStringA("GameONly\n");
 #endif
 	case DX::FInputMode::GameAndUI:
 #if _DEBUG
-		OutputDebugStringA("GameAndUI\n");
+		////OutputDebugStringA("GameAndUI\n");
 #endif
-		m_pCameraInterface->AddPitch(m_pController->GetMouseDeltaY());
-		m_pCameraInterface->AddYaw(m_pController->GetMouseDeltaX());
 #if _DEBUG
-		OutputDebugStringA(std::format("{} {}\n", m_pController->GetMouseDeltaX(), m_pController->GetMouseDeltaY()).c_str());
+		//OutputDebugStringA(std::format("{} {}\n", m_pController->GetMouseDeltaX(), m_pController->GetMouseDeltaY()).c_str());
 #endif
+		break;
+	default:
+		break;
+	}
+	switch (m_pController->GetInputMode())
+	{
+	case DX::FInputMode::UIOnly:
+		break;
+	case DX::FInputMode::GameOnly:
+	case DX::FInputMode::GameAndUI:
 		break;
 	default:
 		break;

@@ -1,20 +1,19 @@
 
 #include "pch.h"
 
-#include "App.h"
+#include "Core/App.h"
+#include "Core/AppSettings.h"
 
 #include "Core/DirectX.h"
 
-#include "Timer/Timer.h"
-
 #include "GameMain.h"
+
+#include "Timer/Timer.h"
 
 #include "Input/Controller.h"
 
-#include "Config.h"
-
 App::App()
-	: m_Window((int)Config::windowSize.x, (int)Config::windowSize.y, Config::windowTitle)
+	: m_Window((int)AppSettings::windowSize.x, (int)AppSettings::windowSize.y, AppSettings::windowTitle)
 {
 	DirectX11& dx = m_Window.GetDX();
 	dx.GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -23,7 +22,7 @@ App::App()
 	m_Window.pController = m_pController;
 	m_Window.pMouse = m_pController->GetMouseInterface();
 
-	m_pGameMain = std::make_unique<GameMain>(dx, (UINT)Config::windowSize.x, (UINT)Config::windowSize.y, m_pController);
+	m_pGameMain = std::make_unique<GameMain>(dx, (UINT)AppSettings::windowSize.x, (UINT)AppSettings::windowSize.y, m_pController);
 
 	m_pWorldTimer = std::make_unique<WorldTimer>();
 

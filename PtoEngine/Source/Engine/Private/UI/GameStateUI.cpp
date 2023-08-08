@@ -1,11 +1,11 @@
 
-#include "Object/GameStateUI.h"
+#include "UI/GameStateUI.h"
+#include "GameSettings.h"
+#include "Core/AppSettings.h"
 
 #include "Core/DirectX.h"
 
 #include <dwrite.h>
-
-#include "Config.h"
 
 #include "Slate/Button.h"
 #include "Slate/TextBlock.h"
@@ -56,7 +56,7 @@ void GameStateUI::SetGmaeProgressUI()
 	{
 		FSlateInfos SlateInfos;
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-		m_pRootSlate = std::make_shared<S_VerticalBox>(Config::GAMEUI_SIZE, m_pRt2D, SlateInfos);
+		m_pRootSlate = std::make_shared<S_VerticalBox>(GameSettings::GAMEUI_SIZE, m_pRt2D, SlateInfos);
 	}
 	m_pImage_NextPuyo1_1.reset();
 	m_pImage_NextPuyo1_2.reset();
@@ -69,7 +69,7 @@ void GameStateUI::SetGmaeProgressUI()
 	m_pButton_Restart.reset();
 	m_pButton_Pause.reset();
 	m_pRootSlate->ClearChildren();
-	m_pRootSlate->SetPosition(Config::GAMEUI_LEFT_TOP);
+	m_pRootSlate->SetPosition(GameSettings::GAMEUI_LEFT_TOP);
 
 	FSlateTextAppearance textAppearance;
 	textAppearance.vAlign = EVerticalAlignment::Center;
@@ -142,7 +142,7 @@ void GameStateUI::SetGmaeProgressUI()
 		auto pText_Control1 = std::make_shared<S_TextBlock>(m_pRt2D, SlateInfos, FSlateFont(), Appearance);
 		pText_Control1->SetText(L" ª : Turn Right");
 		m_pRootSlate->AddChild(pText_Control1);
-		
+
 		auto pText_Control2 = std::make_shared<S_TextBlock>(m_pRt2D, SlateInfos, FSlateFont(), Appearance);
 		pText_Control2->SetText(L"© : Move Left");
 		m_pRootSlate->AddChild(pText_Control2);
@@ -158,7 +158,7 @@ void GameStateUI::SetGmaeProgressUI()
 		auto pText_Control5 = std::make_shared<S_TextBlock>(m_pRt2D, SlateInfos, FSlateFont(), Appearance);
 		pText_Control5->SetText(L" Z : Turn Left");
 		m_pRootSlate->AddChild(pText_Control5);
-		
+
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 20.f };
 		auto pText_Control6 = std::make_shared<S_TextBlock>(m_pRt2D, SlateInfos, FSlateFont(), Appearance);
 		pText_Control6->SetText(L" X : Turn Right");
@@ -204,25 +204,25 @@ void GameStateUI::SetGmaeProgressUI()
 }
 void GameStateUI::UpdateNextPuyo(UINT8 nPuyo1_1, UINT8 nPuyo1_2, UINT8 nPuyo2_1, UINT8 nPuyo2_2)
 {
-	if (m_pImage_NextPuyo1_1 != nullptr)
-	{
-		m_pImage_NextPuyo1_1->SetFileName(Config::PuyoImages[nPuyo1_2]);
-	}
+	//if (m_pImage_NextPuyo1_1 != nullptr)
+	//{
+	//	m_pImage_NextPuyo1_1->SetFileName(GameSettings::PuyoImages[nPuyo1_2]);
+	//}
 
-	if (m_pImage_NextPuyo1_2 != nullptr)
-	{
-		m_pImage_NextPuyo1_2->SetFileName(Config::PuyoImages[nPuyo1_1]);
-	}
+	//if (m_pImage_NextPuyo1_2 != nullptr)
+	//{
+	//	m_pImage_NextPuyo1_2->SetFileName(GameSettings::PuyoImages[nPuyo1_1]);
+	//}
 
-	if (m_pImage_NextPuyo2_1 != nullptr)
-	{
-		m_pImage_NextPuyo2_1->SetFileName(Config::PuyoImages[nPuyo2_2]);
-	}
+	//if (m_pImage_NextPuyo2_1 != nullptr)
+	//{
+	//	m_pImage_NextPuyo2_1->SetFileName(GameSettings::PuyoImages[nPuyo2_2]);
+	//}
 
-	if (m_pImage_NextPuyo2_2 != nullptr)
-	{
-		m_pImage_NextPuyo2_2->SetFileName(Config::PuyoImages[nPuyo2_1]);
-	}
+	//if (m_pImage_NextPuyo2_2 != nullptr)
+	//{
+	//	m_pImage_NextPuyo2_2->SetFileName(GameSettings::PuyoImages[nPuyo2_1]);
+	//}
 }
 void GameStateUI::UpdateScore(int inScore, int inCombo)
 {
@@ -262,7 +262,7 @@ void GameStateUI::SetGameOverUI()
 	{
 		FSlateInfos SlateInfos;
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-		m_pRootSlate = std::make_shared<S_VerticalBox>(Config::GAMEUI_SIZE, m_pRt2D, SlateInfos);
+		m_pRootSlate = std::make_shared<S_VerticalBox>(GameSettings::GAMEUI_SIZE, m_pRt2D, SlateInfos);
 	}
 	m_pImage_NextPuyo1_1.reset();
 	m_pImage_NextPuyo1_2.reset();
@@ -278,8 +278,8 @@ void GameStateUI::SetGameOverUI()
 	m_pRootSlate->ClearChildren();
 	m_pRootSlate->SetPosition(
 		{
-			(Config::windowSize.x / 2.f) - (Config::GAMEUI_SIZE.x / 2.f),
-			Config::GAMESCREEN_PADDING.y
+			(AppSettings::windowSize.x / 2.f) - (GameSettings::GAMEUI_SIZE.x / 2.f),
+			GameSettings::GAMESCREEN_PADDING.y
 		}
 	);
 
