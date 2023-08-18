@@ -14,6 +14,10 @@
 #include "Engine/World.h"
 #include "Controller/PlayerController.h"
 
+#include "GameMode/GameModeBase.h"
+#include "GameState/GameStateBase.h"
+#include "Controller/PlayerController.h"
+
 #include "UI/HUD.h"
 
 #if _DEBUG
@@ -23,12 +27,15 @@
 // ------------------------------------------------------------------------------------------------------------
 // Level
 // ------------------------------------------------------------------------------------------------------------
-Level::Level()
+Level::Level(DirectX11& dx)
+	: pDX(&dx)
 {
-
+	SetTickEnabled(true);
 }
 Level::~Level()
 {
+	pDX = nullptr;
+
 	pOwningWorld.reset();
 	pOwningWorld = nullptr;
 }
@@ -36,9 +43,9 @@ Level::~Level()
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
-void Level::SetWorld(World* in)
+void Level::SetWorld(std::shared_ptr<World> in)
 {
-	pOwningWorld = std::make_shared<World>(in);
+	pOwningWorld = in;
 }
 std::shared_ptr<World> Level::GetWorld()
 {
@@ -49,15 +56,13 @@ std::shared_ptr<World> Level::GetWorld()
 // Level 2D
 // ------------------------------------------------------------------------------------------------------------
 Level2D::Level2D(DirectX11& dx)
-	: pDX(&dx)
+	: Level(dx)
 {
 	pWorldTimer = std::make_unique<WorldTimer>();
 }
 Level2D::~Level2D()
 {
 	Clear();
-
-	pDX = nullptr;
 
 	pWorldTimer.reset();
 	pWorldTimer = nullptr;
@@ -68,12 +73,29 @@ Level2D::~Level2D()
 // ------------------------------------------------------
 void Level2D::BeginPlay(DirectX11& dx)
 {
+	GetWorld()->GetGameMode()->SetOuter(shared_from_this());
+	GetWorld()->GetGameState()->SetOuter(shared_from_this());
+	GetWorld()->GetPlayerController()->SetOuter(shared_from_this());
+
+	Generate(dx);
+}
+
+void Level2D::Generate(DirectX11& dx)
+{
+	Disactivate();
+
 	GenerateGroundLayer();
 	GenerateEventLayer();
 	GenerateItemLayer();
 	GenerateBuildingLayer();
 	GenerateCharacterLayer();
 	GenerateEffectLayer();
+
+	Activate();
+}
+void Level2D::SetGroundType(const EGroundType& inGroundType)
+{
+	mGroundType = inGroundType;
 }
 
 void Level2D::Init(const UINT16& x, const UINT16& y)
@@ -87,18 +109,28 @@ void Level2D::Init(const UINT16& x, const UINT16& y)
 	TArray<std::shared_ptr<EventBase>> eventRows(x, nullptr);
 	EventLayer.Init(y, eventRows);
 
+	TArray<std::shared_ptr<ItemBase>> itemRows(x, nullptr);
+	ItemLayer.Init(y, itemRows);
+
 	TArray<std::shared_ptr<CharacterBase>> characterRows(x, nullptr);
 	CharacterLayer.Init(y, characterRows);
 }
 
-void Level2D::Accept()
+void Level2D::Activate()
 {
 #if _DEBUG
 	OutputDebugStringA(std::format("start x, y {} {}\n", startX, startY).c_str());
 #endif
+	const auto& pPlayerController = GetWorld()->GetPlayerController();
+	pPlayerController->GetHUD()->ResetMap(this);
+
 	MoveCenter(startX, startY);
 
 	bInitialized = true;
+}
+void Level2D::Disactivate()
+{
+	bInitialized = false;
 }
 
 bool Level2D::MoveCenter(const int& x, const int& y)
@@ -155,7 +187,7 @@ bool Level2D::MoveCenter(const int& x, const int& y)
 			screenRightX = currX + GameSettings::GAMESCREEN_CENTER_X + 2;
 			screenRightY = currY + GameSettings::GAMESCREEN_CENTER_Y + 2;
 
-			auto pPlayerController = GetWorld()->GetPlayerController();
+			const auto& pPlayerController = GetWorld()->GetPlayerController();
 			CharacterLayer[currY][currX] = pPlayerController->GetPlayer();
 
 			pPlayerController->GetHUD()->UpdateMap(this);
@@ -221,6 +253,19 @@ void Level2D::Clear()
 	Clear(EventLayer);
 	Clear(ItemLayer);
 	Clear(CharacterLayer);
+
+	width = 0;
+	height = 0;
+
+	startX = 0;
+	startY = 0;
+
+	currX = 0;
+	currY = 0;
+	screenLeftX = 0;
+	screenLeftY = 0;
+	screenRightX = 0;
+	screenRightY = 0;
 }
 
 // --------------------------
@@ -228,7 +273,7 @@ void Level2D::Clear()
 // --------------------------
 UINT16 Level2D::GetSize() const noexcept
 {
-	return GroundLayer.Size();
+	return (UINT16)GroundLayer.Size();
 }
 const UINT16& Level2D::GetWidth() const noexcept
 {
@@ -239,50 +284,61 @@ const UINT16& Level2D::GetHeight() const noexcept
 	return height;
 }
 
-bool Level2D::IsInScreen(const UINT8& x, const UINT8& y) const noexcept
+bool Level2D::IsInScreen(const int& x, const int& y) const noexcept
 {
 	return (x >= screenLeftX && x < screenRightX) && (y >= screenLeftY && y < screenRightY);
 }
-bool Level2D::IsInWorld(const UINT16& x, const UINT16& y) const noexcept
+bool Level2D::IsInWorld(const int& x, const int& y) const noexcept
 {
 	return (x >= 0 && x < width) && (y >= 0 && y < height);
 }
-bool Level2D::IsEmptyGround(const UINT16& x, const UINT16& y) noexcept
+bool Level2D::IsEmptyGround(const int& x, const int& y) const noexcept
 {
 	if (IsInWorld(x, y))
 	{
-		switch (ConvertToGroundTile(GroundLayer[y][x]->GetGroundType()))
+		if (GroundLayer[y][x] != nullptr)
 		{
-		case EGroundTile::Path:
-		case EGroundTile::Room:
-			break;
-		default:
-			break;
+			switch (ConvertToGroundTile(GroundLayer[y][x]->GetGroundType()))
+			{
+			case EGroundTile::Path:
+			case EGroundTile::Room:
+				break;
+			default:
+				break;
+			}
 		}
 
-		switch (EventLayer[y][x]->GetEventType())
+		if (EventLayer[y][x])
 		{
-		case EEventId::Enter:
-		case EEventId::Transparent:
-			break;
-		default:
-			break;
+			switch (EventLayer[y][x]->GetEventType())
+			{
+			case EEventId::Enter:
+			case EEventId::Transparent:
+				break;
+			default:
+				break;
+			}
 		}
 
-		switch (ItemLayer[y][x]->GetItemType())
+		if (ItemLayer[y][x])
 		{
-		case EItemId::None:
-			break;
-		default:
-			return false;
+			switch (ItemLayer[y][x]->GetItemType())
+			{
+			case EItemId::None:
+				break;
+			default:
+				return false;
+			}
 		}
-
-		switch (CharacterLayer[y][x]->GetCharacterType())
+		if (CharacterLayer[y][x])
 		{
-		case ECharacterId::None:
-			break;
-		default:
-			return false;
+			switch (CharacterLayer[y][x]->GetCharacterType())
+			{
+			case ECharacterId::None:
+				break;
+			default:
+				return false;
+			}
 		}
 	}
 
@@ -300,7 +356,7 @@ void Level2D::SetGroundLayerID(const EGroundId& groundType, const UINT16& x, con
 		}
 		else
 		{
-			sprite = std::make_shared<GroundBase>(*pDX, groundType);
+			sprite = GetWorld()->SpawnActor<GroundBase>(*pDX, groundType);
 		}
 	}
 }
@@ -372,7 +428,7 @@ const std::shared_ptr<GroundBase>& Level2D::GetGroundLayerID(const int& x, const
 
 void Level2D::SetEventLayerID(const EEventId& eventType, const UINT16& x, const UINT16& y)
 {
-	SetEventLayerID(std::make_shared<EventBase>(*pDX, eventType), x, y);
+	SetEventLayerID(GetWorld()->SpawnActor<EventBase>(*pDX, eventType), x, y);
 }
 void Level2D::SetEventLayerID(std::shared_ptr<EventBase>& inEventData, const UINT16& x, const UINT16& y)
 {
@@ -434,7 +490,7 @@ void Level2D::SetItemLayerID(const EItemId& itemType, const UINT16& x, const UIN
 		}
 		else
 		{
-			sprite = std::make_shared<ItemBase>(*pDX, itemType);
+			sprite = GetWorld()->SpawnActor<ItemBase>(*pDX, itemType);
 		}
 	}
 }
@@ -454,7 +510,7 @@ void Level2D::SetCharacterLayerID(const ECharacterId& characterType, const UINT1
 		}
 		else
 		{
-			sprite = std::make_shared<CharacterBase>(*pDX, characterType);
+			sprite = GetWorld()->SpawnActor<CharacterBase>(*pDX, characterType);
 		}
 	}
 }

@@ -7,6 +7,11 @@ Event_DungeonExit::Event_DungeonExit(DirectX11& dx)
 	ChoiceInfos.Add(FChoiceInfos(L"ç~ÇËÇÈ", L"Yes"));
 	ChoiceInfos.Add(FChoiceInfos(L"Ç‚ÇﬂÇÈ", L"Cancel"));
 }
+Event_DungeonExit::~Event_DungeonExit()
+{
+	OnChoiceYes.ClearBind();
+	OnChoiceNo.ClearBind();
+}
 
 void Event_DungeonExit::OnChoiceResult(const FChoiceInfos& inChoiceInfos)
 {

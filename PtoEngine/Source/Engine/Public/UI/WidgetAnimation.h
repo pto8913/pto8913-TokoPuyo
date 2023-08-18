@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Algorithm/Array.h"
-#include "Algorithm/Math.h"
+#include "Algorithm/Math2.h"
 
 // ------------------------------------------------------------------------------------------------------------
 // Widget Animation Property

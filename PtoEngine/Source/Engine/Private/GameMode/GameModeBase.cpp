@@ -3,7 +3,7 @@
 
 GameModeBase::GameModeBase()
 {
-
+	SetTickEnabled(true);
 }
 GameModeBase::~GameModeBase()
 {

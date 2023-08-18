@@ -20,16 +20,16 @@ public:
 	// -----------------------------------
 	// Main : Util
 	// -----------------------------------
-	void SetOuter(std::shared_ptr<Object> inOuter);
+	virtual void SetOuter(std::shared_ptr<Object> inOuter);
 	std::shared_ptr<Object> GetOuter();
 	
-	Level* GetLevel();
-	std::shared_ptr<World> GetWorld();
+	std::shared_ptr<Level> GetLevel();
+	virtual std::shared_ptr<World> GetWorld() override final;
 
 	template<typename T>
-	T* GetTypedOuter()
+	std::shared_ptr<T> GetTypedOuter()
 	{
-		return static_cast<T*>(pOuter.get());
+		return std::static_pointer_cast<T>(pOuter);
 	}
 private:
 	std::shared_ptr<Object> pOuter = nullptr;

@@ -20,6 +20,7 @@ class HUD : public UserWidget, public DX::HUDInterface
 {
 public:
 	HUD(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH);
+	HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH);
 
 private:
 	virtual void Draw() override final;
@@ -48,7 +49,8 @@ public:
 	// --------------------------
 	// Main : HUDInterface : Game Infos : Map
 	// --------------------------
-	virtual void UpdateMap(const Level2D* pWorld) override;
+	virtual void ResetMap(const Level2D* pLevel);
+	virtual void UpdateMap(const Level2D* pLevel) override;
 
 	// --------------------------
 	// Main : HUDInterface : Effect

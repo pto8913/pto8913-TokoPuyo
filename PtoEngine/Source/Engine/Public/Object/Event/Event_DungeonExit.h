@@ -10,6 +10,7 @@ class Event_DungeonExit : public EventChoiceBase
 {
 public:
 	Event_DungeonExit(DirectX11& dx);
+	virtual ~Event_DungeonExit();
 
 	FOnChoice OnChoiceYes;
 	FOnChoice OnChoiceNo;

@@ -1,15 +1,15 @@
 
 #include "World/World_SonoCave.h"
 
-#include "GameState/GameState_Dungeon.h"
-
-#include "Controller/PlayerController_Dungeon.h"
 #include "Core/DirectX.h"
 
-#include "Object/LevelDesign/MazeGenerator.h"
+#include "Level/MazeGenerator.h"
+#include "Controller/PlayerController_Dungeon.h"
+#include "GameMode/GameMode_Dungeon.h"
+#include "GameState/GameState_Dungeon.h"
 
-World_SonoCave::World_SonoCave(DirectX11& dx)
-	: World(dx)
+World_SonoCave::World_SonoCave()
+	: World()
 {
 
 }
@@ -18,17 +18,31 @@ World_SonoCave::~World_SonoCave()
 
 }
 
-void World_SonoCave::SetGameState(DirectX11& dx)
+void World_SonoCave::SetLevel(DirectX11& dx)
 {
-	pGameState = std::make_shared<GameState_Dungeon>();
+	pPersistentLevel = std::make_shared<MazeGenerator>(dx);
+
+	World::SetLevel(dx);
 }
 
 void World_SonoCave::SetPlayerController(DirectX11& dx)
 {
-	pPlayerController = std::make_shared<PlayerController_Dungeon>(dx);
+
+	pPlayerController = SpawnActor<PlayerController_Dungeon>(dx);
+
+	World::SetPlayerController(dx);
 }
 
-void World_SonoCave::SetLevel(DirectX11& dx)
+void World_SonoCave::SetGameMode(DirectX11& dx)
 {
-	pPersistentLevel = std::make_shared<MazeGenerator>(dx);
+	pGameMode = SpawnActor<GameMode_Dungeon>();
+
+	World::SetGameMode(dx);
+}
+
+void World_SonoCave::SetGameState(DirectX11& dx)
+{
+	pGameState = SpawnActor<GameState_Dungeon>();
+
+	World::SetGameState(dx);
 }

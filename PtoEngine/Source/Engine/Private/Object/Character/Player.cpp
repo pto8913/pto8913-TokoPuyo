@@ -1,11 +1,9 @@
 
 #include "Object/Character/Player.h"
 
-#include "Engine/World.h"
-
 #include "Input/Keyboard.h"
 
-#include "GameInstance.h"
+#include "Level/Level.h"
 
 Keyboard::InputAction InputW(DIK_W);
 Keyboard::InputAction InputA(DIK_A);
@@ -27,22 +25,21 @@ void Player::Tick(DirectX11& dx, float deltaTime)
 
 void Player::InputUpdate()
 {
-	GameInstance& gameInstance = GameInstance::Get();
 	if (InputW)
 	{
-		gameInstance.GetWorld()->MoveCenter(0, -1);
+		GetTypedOuter<Level2D>()->MoveCenter(0, -1);
 	}
 	if (InputS)
 	{
-		gameInstance.GetWorld()->MoveCenter(0, 1);
+		GetTypedOuter<Level2D>()->MoveCenter(0, 1);
 	}
 	if (InputA)
 	{
-		gameInstance.GetWorld()->MoveCenter(-1, 0);
+		GetTypedOuter<Level2D>()->MoveCenter(-1, 0);
 	}
 	if (InputD)
 	{
-		gameInstance.GetWorld()->MoveCenter(1, 0);
+		GetTypedOuter<Level2D>()->MoveCenter(1, 0);
 	}
 	if (InputQ)
 	{

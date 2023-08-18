@@ -1,7 +1,7 @@
 
-#include "Object/LevelDesign/MazeGenerator.h"
-#include "Object/Sprite.h"
+#include "Level/MazeGenerator.h"
 
+#include "Object/Sprite.h"
 #include "Object/Event/EventTypes.h"
 #include "Object/Event/Event_DungeonExit.h"
 
@@ -11,6 +11,8 @@
 #include "Math/Math.h"
 
 #include "GameSettings.h"
+
+#include "Engine/World.h"
 
 using namespace DirectX;
 using namespace Math;
@@ -27,7 +29,6 @@ using namespace Algo;
 MazeGenerator::MazeGenerator(DirectX11& dx)
 	: Level2D(dx)
 {
-	pDX = &dx;
 }
 MazeGenerator::~MazeGenerator()
 {
@@ -42,7 +43,7 @@ MazeGenerator::~MazeGenerator()
 // ------------------------------------------------------
 void MazeGenerator::GenerateGroundLayer()
 {
-	ClearMaze();
+	Clear();
 
 	InitializeMaze();
 	InitializeBlock();
@@ -68,12 +69,25 @@ void MazeGenerator::GenerateItemLayer()
 // --------------------------
 // Main : Ground Layer : Initialization
 // --------------------------
-void MazeGenerator::ClearMaze()
+void MazeGenerator::Clear()
 {
-	Clear();
+	Level2D::Clear();
+
+	actualBlockCountX = 0;
+	actualBlockCountY = 0;
+
+	actualBlockCount = 0;
+
+	actualMazeCountX = 0;
+	actualMazeCountY = 0;
+
+	actualMazeCount = 0;
 
 	blockIDs.Clear();
+	blockUnionFind.clear();
+
 	RoomLocalRects.Clear();
+	actualRoomCount = 0;
 
 	pExit.reset();
 	pExit = nullptr;
@@ -384,7 +398,7 @@ void MazeGenerator::MakeRoom()
 
 				for (int constantY = Sy; constantY <= Ey; ++constantY)
 				{
-					SetGroundLayerID(ConvertToGround(EGroundTile::Room, groundType), Sx, Ex, constantY, true);
+					SetGroundLayerID(ConvertToGround(EGroundTile::Room, mGroundType), Sx, Ex, constantY, true);
 				}
 			}
 			else if (block.id == EBlockID::Path)
@@ -398,7 +412,7 @@ void MazeGenerator::MakeRoom()
 				const UINT16 Sx = LocalToWorld(x, rectX);
 				const UINT16 Sy = LocalToWorld(y, rectY);
 
-				SetGroundLayerID(ConvertToGround(EGroundTile::Path, groundType), Sx, Sy);
+				SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), Sx, Sy);
 			}
 			else
 			{
@@ -461,8 +475,8 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 
 			int borderX = RandRange(currSx + 1, nextSx - 1);
 
-			SetGroundLayerID(ConvertToGround(EGroundTile::Path, groundType), currSx, borderX, currSy, true);
-			SetGroundLayerID(ConvertToGround(EGroundTile::Path, groundType), borderX, nextSx, nextSy, true);
+			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), currSx, borderX, currSy, true);
+			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), borderX, nextSx, nextSy, true);
 
 #if _DEBUG
 			//OutputDebugStringA(std::format("Make Path X {} {} {}\n", currSx, borderX, currSy).c_str());
@@ -474,7 +488,7 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 			{
 				swap(currSy, nextSy);
 			}
-			SetGroundLayerID(ConvertToGround(EGroundTile::Path, groundType), currSy, nextSy, borderX);
+			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), currSy, nextSy, borderX);
 
 #if _DEBUG
 			//OutputDebugStringA(std::format("Merge Path V {} {} {}\n", currSy, nextSy, borderX).c_str());
@@ -505,8 +519,8 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 
 			int borderY = RandRange(currSy + 1, nextSy - 1);
 
-			SetGroundLayerID(ConvertToGround(EGroundTile::Path, groundType), currSy, borderY, currSx);
-			SetGroundLayerID(ConvertToGround(EGroundTile::Path, groundType), borderY, nextSy, nextSx);
+			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), currSy, borderY, currSx);
+			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), borderY, nextSy, nextSx);
 
 #if _DEBUG
 			//OutputDebugStringA(std::format("Make Path Y {} {} {}\n", currSy, borderY, currSx).c_str());
@@ -518,7 +532,7 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 			{
 				swap(currSx, nextSx);
 			}
-			SetGroundLayerID(ConvertToGround(EGroundTile::Path, groundType), currSx, nextSx, borderY, true);
+			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), currSx, nextSx, borderY, true);
 
 #if _DEBUG
 			//OutputDebugStringA(std::format("Merge Path H {} {} {}\n", currSx, nextSx, borderY).c_str());
@@ -750,7 +764,8 @@ void MazeGenerator::SetExit(const UINT8& blockX, const UINT8& blockY)
 	UINT16 resX = LocalToWorld(blockX, RandRange(localRect.l, localRect.r));
 	UINT16 resY = LocalToWorld(blockY, RandRange(localRect.t, localRect.b));
 
-	pExit = std::make_shared<Event_DungeonExit>(*pDX);
+	pExit = GetWorld()->SpawnActor<Event_DungeonExit>(*pDX);
+	pExit->SetOuter(shared_from_this());
 	SetEventLayerID(pExit, resX, resY);
 
 	pExit->OnChoiceYes.Bind<&MazeGenerator::OverlapExit>(*this, "MazeExit");
@@ -762,6 +777,7 @@ void MazeGenerator::OverlapExit()
 void MazeGenerator::NextFloor(DirectX11& dx)
 {
 	++mFloorCount;
+	Generate(dx);
 }
 
 // ------------------------------------------------------

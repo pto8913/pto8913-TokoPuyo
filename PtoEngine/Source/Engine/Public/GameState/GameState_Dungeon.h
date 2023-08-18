@@ -11,6 +11,4 @@ class GameState_Dungeon : public GameStateBase
 public:
 	GameState_Dungeon();
 	virtual ~GameState_Dungeon();
-
-
 };

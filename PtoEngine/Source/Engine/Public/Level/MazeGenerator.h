@@ -107,7 +107,8 @@ private:
 	// --------------------------
 	// Main : Ground Layer : Initialization
 	// --------------------------
-	void ClearMaze();
+	virtual void Clear() override;
+
 	void InitializeMaze();
 
 	// --------------------------

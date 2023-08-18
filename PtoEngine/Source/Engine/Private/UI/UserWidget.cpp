@@ -3,7 +3,7 @@
 
 #include "Math/Math.h"
 
-#include "GameInstance.h"
+#include "Engine/World.h"
 
 UserWidget::UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
 	: WidgetBase(dx, windowSizeW, windowSizeH),
@@ -25,6 +25,15 @@ UserWidget::UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSiz
 
 	pMouse->GetMouseMove().Bind<&UserWidget::OnMouseMove>(*this, "UserWidget");
 }
+UserWidget::UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
+	: UserWidget(dx, mouse, windowSizeW, windowSizeH)
+{
+	if (inOwner != nullptr)
+	{
+		pOwner = inOwner;
+	}
+}
+
 UserWidget::~UserWidget()
 {
 	if (pMouse)
@@ -159,7 +168,14 @@ void UserWidget::ExecuteTasks(DirectX11& dx)
 
 		if (GetTickEnabled())
 		{
-			Tick(dx, GameInstance::Get().GetWorldDeltaSec());
+			if (pOwner != nullptr && pOwner->GetWorld() != nullptr)
+			{
+				Tick(dx, pOwner->GetWorld()->GetWorldDeltaSec());
+			}
+			else
+			{
+				Tick(dx, 0.001367f);
+			}
 		}
 	}
 }

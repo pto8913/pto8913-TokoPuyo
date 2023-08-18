@@ -21,19 +21,21 @@ class WorldTimer;
 // ------------------------------------------------------------------------------------------------------------
 // Level
 // ------------------------------------------------------------------------------------------------------------
-class Level : public Object
+class Level : public Object, public std::enable_shared_from_this<Level>
 {
 public:
-	Level();
+	Level(DirectX11& dx);
 	virtual ~Level();
 
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
-	void SetWorld(World* in);
-	std::shared_ptr<World> GetWorld();
+	void SetWorld(std::shared_ptr<World> in);
+	virtual std::shared_ptr<World> GetWorld() override;
 
 protected:
+	DirectX11* pDX = nullptr;
+
 	std::shared_ptr<World> pOwningWorld = nullptr;
 };
 
@@ -60,7 +62,7 @@ public:
 	// ------------------------------------------------------
 	virtual void BeginPlay(DirectX11& dx) override;
 
-	void Generate(DirectX11& dx, Level2D* inLevel);
+	void Generate(DirectX11& dx);
 	void SetGroundType(const EGroundType& inGroundType);
 
 protected:
@@ -73,12 +75,13 @@ protected:
 
 public:
 	void Init(const UINT16& x, const UINT16& y);
-	void Accept();
+	void Activate();
+	void Disactivate();
 	bool MoveCenter(const int& x, const int& y);
 
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
-	void Clear();
+	virtual void Clear();
 	template<typename T>
 	void Clear(TArray<TArray<T>>& in)
 	{
@@ -100,9 +103,9 @@ public:
 	const UINT16& GetWidth() const noexcept;
 	const UINT16& GetHeight() const noexcept;
 
-	bool IsInScreen(const UINT8& x, const UINT8& y) const noexcept;
-	bool IsInWorld(const UINT16& x, const UINT16& y) const noexcept;
-	bool IsEmptyGround(const UINT16& x, const UINT16& y) noexcept;
+	bool IsInScreen(const int& x, const int& y) const noexcept;
+	bool IsInWorld(const int& x, const int& y) const noexcept;
+	bool IsEmptyGround(const int& x, const int& y) const noexcept;
 
 	void SetGroundLayerID(const EGroundId& groundType, const UINT16& x, const UINT16& y);
 	void SetGroundLayerID(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal = false, INT16 inConstantXY2 = -1);
@@ -141,10 +144,8 @@ public:
 	UINT16 width = 0;
 	UINT16 height = 0;
 protected:
-	DirectX11* pDX = nullptr;
-
 	bool bInitialized = false;
-	EGroundType groundType;
+	EGroundType mGroundType = EGroundType::Cave;
 
 	// --------------------------
 	// State : Display

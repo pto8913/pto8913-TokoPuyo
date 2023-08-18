@@ -31,13 +31,13 @@ std::shared_ptr<Object> Actor::GetOuter()
 	return pOuter;
 }
 
-Level* Actor::GetLevel()
+std::shared_ptr<Level> Actor::GetLevel()
 {
 	return GetTypedOuter<Level>();
 }
 std::shared_ptr<World> Actor::GetWorld()
 {
-	if (Level* pLevel = GetLevel())
+	if (std::shared_ptr<Level> pLevel = GetLevel())
 	{
 		return pLevel->GetWorld();
 	}

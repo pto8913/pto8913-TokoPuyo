@@ -15,7 +15,7 @@ class EventChoiceBase : public EventBase
 {
 public:
 	EventChoiceBase(DirectX11& dx, const EEventId& inEventType);
-	~EventChoiceBase();
+	virtual ~EventChoiceBase();
 
 	// ------------------------------------------------------------------------------------------------------------
 	// Main

@@ -12,6 +12,8 @@
 PlayerController::PlayerController(DirectX11& dx)
 	: Controller(dx)
 {
+    SetTickEnabled(true);
+
     /* Input */
     {
         mKeyBoard = Keyboard(dx.GetHInstance(), dx.GetHWnd());
@@ -24,7 +26,7 @@ PlayerController::PlayerController(DirectX11& dx)
 
 	pPlayer = std::make_shared<Player>(dx);
 
-	pHUD = std::make_shared<HUD>(dx, pMouse.get(), (int)AppSettings::windowSize.x, (int)AppSettings::windowSize.y);
+	pHUD = std::make_shared<HUD>(pPlayer, dx, pMouse.get(), (int)AppSettings::windowSize.x, (int)AppSettings::windowSize.y);
 	pHUD->AddToViewport();
 }
 PlayerController::~PlayerController()
@@ -47,6 +49,12 @@ PlayerController::~PlayerController()
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
+void PlayerController::SetOuter(std::shared_ptr<Object> inOuter)
+{
+    Actor::SetOuter(inOuter);
+
+    pPlayer->SetOuter(inOuter);
+}
 void PlayerController::Tick(DirectX11& dx, float deltaTime)
 {
 	InputUpdate(deltaTime);

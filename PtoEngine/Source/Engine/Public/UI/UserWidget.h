@@ -16,6 +16,7 @@ class UserWidget : public WidgetBase, public Object
 {
 public:
 	UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH);
+	UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH);
 	virtual ~UserWidget();
 
 	// ------------------------------------------------------------------------------------------------------------
@@ -72,6 +73,7 @@ protected:
 
 	std::shared_ptr<SlateContainerBase> m_pRootSlate = nullptr;
 	DX::IMouseInterface* pMouse;
+	std::shared_ptr<Object> pOwner = nullptr;
 
 	TArray<WidgetAnimation> mAnimations;
 };

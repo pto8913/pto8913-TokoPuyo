@@ -253,7 +253,7 @@
     <ClInclude Include="Source\DirectX\Public\Utils\String.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\algo.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\Array.h" />
-    <ClInclude Include="Source\Engine\Public\Algorithm\Math.h" />
+    <ClInclude Include="Source\Engine\Public\Algorithm\Math2.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\Random.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\Rect.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\UnionFind.h" />
@@ -278,7 +278,7 @@
     <ClInclude Include="Source\Engine\Public\GameState\GameState_Dungeon.h" />
     <ClInclude Include="Source\Engine\Public\Helper\ColorHelper.h" />
     <ClInclude Include="Source\Engine\Public\Level\Level.h" />
-    <ClInclude Include="Source\Engine\Public\Level\Level_SonoCave.h" />
+    <ClInclude Include="Source\Engine\Public\Level\MazeGenerator.h" />
     <ClInclude Include="Source\Engine\Public\Object\Actor.h" />
     <ClInclude Include="Source\Engine\Public\Object\Building\BuildingBase.h" />
     <ClInclude Include="Source\Engine\Public\Object\Building\BuildingTypes.h" />
@@ -299,9 +299,6 @@
     <ClInclude Include="Source\Engine\Public\Object\Item\ItemTypes.h" />
     <ClInclude Include="Source\Engine\Public\Object\LayerInterface.h" />
     <ClInclude Include="Source\Engine\Public\Object\LayerObjectBase.h" />
-    <ClInclude Include="Source\Engine\Public\Object\LevelDesign\LevelDesign.h" />
-    <ClInclude Include="Source\Engine\Public\Object\LevelDesign\Level_SonoTown.h" />
-    <ClInclude Include="Source\Engine\Public\Object\LevelDesign\MazeGenerator.h" />
     <ClInclude Include="Source\Engine\Public\Object\LibraryInterface.h" />
     <ClInclude Include="Source\Engine\Public\Object\Object.h" />
     <ClInclude Include="Source\Engine\Public\Object\StatusTypes.h" />
@@ -330,7 +327,6 @@
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimation.h" />
     <ClInclude Include="Source\Engine\Public\World\World_SonoCave.h" />
     <ClInclude Include="Source\pch.h" />
-    <ClInclude Include="Source\StepTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDK\DXTex\include\Private\DDSTextureLoader11.cpp">
@@ -541,7 +537,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Algorithm\Math.cpp" />
+    <ClCompile Include="Source\Engine\Private\Algorithm\Math2.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\Random.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\Rect.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\UnionFind.cpp" />
@@ -567,7 +563,7 @@
     <ClCompile Include="Source\Engine\Private\GameState\GameState_Dungeon.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\ColorHelper.cpp" />
     <ClCompile Include="Source\Engine\Private\Level\Level.cpp" />
-    <ClCompile Include="Source\Engine\Private\Level\Level_SonoCave.cpp" />
+    <ClCompile Include="Source\Engine\Private\Level\MazeGenerator.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Actor.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Building\BuildingBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Character\CharacterBase.cpp" />
@@ -582,9 +578,6 @@
     <ClCompile Include="Source\Engine\Private\Object\Item\ItemBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\LayerInterface.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\LayerObjectBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\LevelDesign\LevelDesign.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\LevelDesign\Level_SonoTown.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\LevelDesign\MazeGenerator.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Object.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\HUD.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\Message\S_ChoiceBox.cpp" />

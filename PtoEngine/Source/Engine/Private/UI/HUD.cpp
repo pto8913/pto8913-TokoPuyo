@@ -3,7 +3,6 @@
 #include "UI/Message/S_ChoiceBox.h"
 
 #include "GameSettings.h"
-#include "GameInstance.h"
 
 #include "UI/Slate/HorizontalBox.h"
 #include "UI/Slate/VerticalBox.h"
@@ -31,12 +30,11 @@
 
 using namespace DirectX;
 
-HUD::HUD(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
-	: UserWidget(dx, mouse, windowSizeW, windowSizeH)
+HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
+	: UserWidget(inOwner, dx, mouse, windowSizeW, windowSizeH)
 {
-	GameInstance& gameInstance = GameInstance::Get();
 	m_pRootSlate = std::make_shared<S_CanvasPanel>(XMFLOAT2(windowSizeW, windowSizeH), m_pRt2D);
-	
+
 	// HP Bar
 	{
 		FSlateInfos textInfos;
@@ -83,7 +81,7 @@ HUD::HUD(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windo
 	{
 
 	}
-	
+
 	// Game Infos
 	{
 		auto pGameInfosVB = std::make_shared<S_VerticalBox>(XMFLOAT2(300.f, GameSettings::GAMEUI_RIGHT_BOTTOM.y), m_pRt2D);
@@ -148,9 +146,13 @@ HUD::HUD(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windo
 
 		pGameInfosVB->UpdateWidget();
 	}
-	
-	m_pRootSlate->SetPosition({0, 0});
+
+	m_pRootSlate->SetPosition({ 0, 0 });
 	m_pRootSlate->UpdateWidget();
+}
+HUD::HUD(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
+	: HUD(nullptr, dx, mouse, windowSizeW, windowSizeH)
+{
 }
 
 void HUD::Draw()
@@ -196,78 +198,85 @@ void HUD::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
 // --------------------------
 // Main : HUDInterface : Game Infos : Map
 // --------------------------
-void HUD::UpdateMap(const Level2D* pWorld)
+void HUD::ResetMap(const Level2D* pLevel)
+{
+	m_pMapGP->ClearChildren();
+
+	FSlateGridPanelAppearance gpAppearance;
+	gpAppearance.column = pLevel->GetWidth();
+	gpAppearance.row = pLevel->GetHeight();
+	m_pMapGP->SetAppearance(gpAppearance);
+
+	m_pMapGP->SetSize({
+		mapSize * pLevel->GetWidth(),
+		mapSize * pLevel->GetHeight()
+	});
+
+	for (int y = 0; y < pLevel->GetHeight(); ++y)
+	{
+		for (int x = 0; x < pLevel->GetWidth(); ++x)
+		{
+			FSlateInfos infos;
+			infos.HAlign = EHorizontalAlignment::Fill;
+			infos.VAlign = EVerticalAlignment::Fill;
+			auto cell = std::make_shared<S_Border>(m_pRt2D, infos);
+			cell->SetSize({ mapSize, mapSize });
+			const auto& ground = pLevel->GetGroundLayerID(x, y);
+			if (ground != nullptr)
+			{
+				FSlateBorderAppearance apperance;
+				apperance.Type = EBorderType::Box;
+				apperance.color = FColor(0.f, 0.f, 1.f);
+				cell->SetAppearance(apperance);
+			}
+
+			const auto& eventData = pLevel->GetEventLayerID(x, y);
+			if (eventData != nullptr)
+			{
+				if (eventData->GetEventType() == EEventId::Exit)
+				{
+					FSlateBorderAppearance apperance;
+					apperance.Type = EBorderType::Box;
+					apperance.color = FColor(1.f, 0.f, 1.f);
+					cell->SetAppearance(apperance);
+				}
+			}
+
+			const auto& character = pLevel->GetCharacterLayerID(x, y);
+			if (character != nullptr)
+			{
+				if (character->GetCharacterType() == ECharacterId::Player)
+				{
+					FSlateBorderAppearance apperance;
+					apperance.Type = EBorderType::Border;
+					apperance.color = FColor(0.f, 1.f, 1.f);
+					apperance.roundSize = { 2.5f, 2.5f };
+					cell->SetAppearance(apperance);
+				}
+			}
+			m_pMapGP->AddChild(cell);
+		}
+	}
+
+	m_pRootSlate->UpdateWidget();
+}
+void HUD::UpdateMap(const Level2D* pLevel)
 {
 	if (m_pMapGP->GetChildrenCount() == 0)
 	{
-		FSlateGridPanelAppearance gpAppearance;
-		gpAppearance.column = pWorld->GetWidth();
-		gpAppearance.row = pWorld->GetHeight();
-		m_pMapGP->SetAppearance(gpAppearance);
-
-		m_pMapGP->SetSize({
-			mapSize * pWorld->GetWidth(),
-			mapSize * pWorld->GetHeight()
-		});
-
-		for (int y = 0; y < pWorld->GetHeight(); ++y)
-		{
-			for (int x = 0; x < pWorld->GetWidth(); ++x)
-			{
-				FSlateInfos infos;
-				infos.HAlign = EHorizontalAlignment::Fill;
-				infos.VAlign = EVerticalAlignment::Fill;
-				auto cell = std::make_shared<S_Border>(m_pRt2D, infos);
-				cell->SetSize({ mapSize, mapSize });
-				const auto& ground = pWorld->GetGroundLayerID(x, y);
-				if (ground != nullptr)
-				{
-					FSlateBorderAppearance apperance;
-					apperance.Type = EBorderType::Box;
-					apperance.color = FColor(0.f, 0.f, 1.f);
-					cell->SetAppearance(apperance);
-				}
-
-				const auto& eventData = pWorld->GetEventLayerID(x, y);
-				if (eventData != nullptr)
-				{
-					if (eventData->GetEventType() == EEventId::Exit)
-					{
-						FSlateBorderAppearance apperance;
-						apperance.Type = EBorderType::Box;
-						apperance.color = FColor(1.f, 0.f, 1.f);
-						cell->SetAppearance(apperance);
-					}
-				}
-
-				const auto& character = pWorld->GetCharacterLayerID(x, y);
-				if (character != nullptr)
-				{
-					if (character->GetCharacterType() == ECharacterId::Player)
-					{
-						FSlateBorderAppearance apperance;
-						apperance.Type = EBorderType::Border;
-						apperance.color = FColor(0.f, 1.f, 1.f);
-						apperance.roundSize = { 2.5f, 2.5f };
-						cell->SetAppearance(apperance);
-					}
-				}
-				m_pMapGP->AddChild(cell);
-			}
-		}
-
-		m_pRootSlate->UpdateWidget();
+		ResetMap(pLevel);
 	}
 	else
 	{
-		for (int y = 0; y < pWorld->GetHeight(); ++y)
+		for (int y = 0; y < pLevel->GetHeight(); ++y)
 		{
-			for (int x = 0; x < pWorld->GetWidth(); ++x)
+			for (int x = 0; x < pLevel->GetWidth(); ++x)
 			{
 				auto& slot = m_pMapGP->GetChildAt(x, y);
-				auto cell = static_cast<S_Border*>(slot.get());
+				auto cell = static_pointer_cast<S_Border>(slot);
+				cell->GetAppearance().color = FColor(0, 0, 0);
 
-				const auto& ground = pWorld->GetGroundLayerID(x, y);
+				const auto& ground = pLevel->GetGroundLayerID(x, y);
 				if (ground != nullptr)
 				{
 					FSlateBorderAppearance apperance;
@@ -276,7 +285,7 @@ void HUD::UpdateMap(const Level2D* pWorld)
 					cell->SetAppearance(apperance);
 				}
 
-				const auto& eventData = pWorld->GetEventLayerID(x, y);
+				const auto& eventData = pLevel->GetEventLayerID(x, y);
 				if (eventData != nullptr)
 				{
 					if (eventData->GetEventType() == EEventId::Exit)
@@ -288,7 +297,7 @@ void HUD::UpdateMap(const Level2D* pWorld)
 					}
 				}
 
-				const auto& character = pWorld->GetCharacterLayerID(x, y);
+				const auto& character = pLevel->GetCharacterLayerID(x, y);
 				if (character != nullptr)
 				{
 					if (character->GetCharacterType() == ECharacterId::Player)

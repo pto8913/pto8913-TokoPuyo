@@ -5,6 +5,8 @@
 
 class DirectX11;
 
+class World;
+
 class Object
 {
 public:
@@ -19,6 +21,8 @@ public:
 
 	void SetTickEnabled(bool inState) noexcept;
 	bool GetTickEnabled() const noexcept;
+
+	virtual std::shared_ptr<World> GetWorld() { return nullptr; }
 
 private:
 	// ------------------------------------------------------

@@ -22,6 +22,8 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
+	virtual void SetOuter(std::shared_ptr<Object> inOuter) override;
+
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
 protected:
