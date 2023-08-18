@@ -9,8 +9,8 @@
 // ------------------------------------------------------------------------------------------------------------
 DirectX11::DirectX11(HINSTANCE hInstance, HWND hWnd, UINT width, UINT height)
 {
-	m_hInstance = hInstance;
-	m_hWnd = hWnd;
+	mhInstance = hInstance;
+	mhWnd = hWnd;
 
 	// ------------------------------------------------------
 	// Create Device3D
@@ -34,7 +34,7 @@ DirectX11::DirectX11(HINSTANCE hInstance, HWND hWnd, UINT width, UINT height)
 	swapChainDesc.SampleDesc.Quality = 0;
 	swapChainDesc.BufferUsage        = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.BufferCount        = 1;
-	swapChainDesc.OutputWindow       = m_hWnd;
+	swapChainDesc.OutputWindow       = hWnd;
 	swapChainDesc.Windowed           = true;
 	swapChainDesc.SwapEffect         = DXGI_SWAP_EFFECT_DISCARD;
 	//swapChainDesc.Flags              = 0;
@@ -82,7 +82,6 @@ DirectX11::DirectX11(HINSTANCE hInstance, HWND hWnd, UINT width, UINT height)
 DirectX11::~DirectX11()
 {
 	m_pSwapChain->SetFullscreenState(false, NULL);
-	PostMessage(m_hWnd, WM_DESTROY, 0, 0);
 
 	Util::SafeRelease(m_pSwapChain);
 	Util::SafeRelease(m_pID3DDevice);

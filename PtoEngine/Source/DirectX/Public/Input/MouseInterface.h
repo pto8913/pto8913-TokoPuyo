@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Delegate/Delegate.h"
+#include "Engine/Delegate.h"
 
 namespace DX
 {

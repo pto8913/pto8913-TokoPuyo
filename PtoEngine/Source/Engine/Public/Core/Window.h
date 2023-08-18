@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core/DirectX.h"
+#include "DirectX/DirectXHead.h"
 
-#include "Delegate/Delegate.h"
+#include "Engine/Delegate.h"
 
 #include <optional>
 #include <memory>
@@ -27,18 +27,29 @@ private:
 		WindowClass();
 		~WindowClass();
 
-		static const wchar_t* GetName() noexcept;
-		static HINSTANCE GetInstance() noexcept;
+		const wchar_t* GetName() noexcept;
+		HINSTANCE GetInstance() noexcept;
 	private:
-		HINSTANCE hInstance;
-		static WindowClass instance;
-		static constexpr const wchar_t* wndClassName = L"pto8913 Engine Window";
+		HINSTANCE hInstance = nullptr;
+		const wchar_t* wndClassName = L"pto8913 Engine Window";
 	};
 public:
-	Window(int inWidth, int inHeight, const std::wstring inName);
+	Window();
 	~Window();
 	
 	void SetTitle(const wchar_t* title);
+
+	HINSTANCE GetHInstance();
+	HWND& GetHWnd();
+	UINT GetWidth() const noexcept;
+	UINT GetHeight() const noexcept;
+
+	void ConfineCursor() noexcept;
+	void FreeCursor() noexcept;
+
+	bool IsEnableMouse() const noexcept;
+	void SetMouseEnabled(bool in);
+
 	static std::optional<int> ProcessMessages() noexcept;
 
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
@@ -52,21 +63,12 @@ public:
 	FOnActivated OnActivated;
 	FOnDeactivated OnDeactivated;
 	FOnProcessMessage OnProcessMessage;
-
-	void GetWindowSize(UINT& w, UINT& h);
-
-	DirectX11& GetDX();
-	HINSTANCE GetHInstance();
-	HWND& GetHWnd();
-
-	void ConfineCursor() noexcept;
-	void FreeCursor() noexcept;
 private:
 	// ------------------------------------------------------------------------
 	// State
 	// ------------------------------------------------------------------------
-	HWND m_hWnd;
-	std::unique_ptr<DirectX11> pDX;
+	HWND m_hWnd = nullptr;
+	WindowClass mClass;
 
 	UINT width = 800;
 	UINT height = 600;
@@ -78,7 +80,6 @@ public:
 	// ----------------------------------
 	// State : Controller
 	// ----------------------------------
-	std::shared_ptr<DX::IControllerInterface> pController = nullptr;
 	DX::IMouseInterface* pMouse = nullptr;
 private:
 	std::vector<BYTE> rawBuffer;

@@ -5,9 +5,6 @@
 #include <DirectXMath.h>
 #include <basetsd.h>
 
-#include "Vector.h"
-#include "Matrix.h"
-
 constexpr float PI = 3.14159265f;
 constexpr DirectX::XMVECTOR WorldForwardVector = { 0, 0, 1, 0 };
 constexpr DirectX::XMVECTOR WorldRightVector   = { 1, 0, 0, 0 };

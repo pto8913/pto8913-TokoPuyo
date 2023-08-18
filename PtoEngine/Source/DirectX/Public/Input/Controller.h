@@ -1,25 +1,27 @@
 #pragma once
 
 #include "Input/ControllerInterface.h"
-#include "Input/Keyboard.h"
 #include <memory>
 
+#include "Engine/Delegate.h"
+
 class DirectX11;
-class Mouse;
-class Keyboard;
 class Camera;
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnInputModeChanged, const DX::FInputMode&);
 
 class Controller : public DX::IControllerInterface
 {
 public:
-	Controller(DirectX11& dx, HINSTANCE hInstance, HWND hWnd);
-	~Controller();
+	Controller(DirectX11& dx);
+	virtual ~Controller();
 
 	// ---------------------------------------------------------------------------------
 	// Main
 	// ---------------------------------------------------------------------------------
 	virtual void SetInputMode(DX::FInputMode inMode) override;
 	virtual DX::FInputMode GetInputMode() const noexcept override;
+
 	virtual void ExecuteTasks(DirectX11& dx) override;
 
 	// -----------------------------------
@@ -30,19 +32,7 @@ public:
 	virtual void SetCameraEnabled(bool inEnabled) override;
 	virtual bool IsEnableCamera() const noexcept override;
 
-	// -----------------------------------
-	// Main : Mouse
-	// -----------------------------------
-	virtual DX::IMouseInterface* GetMouseInterface() override;
-
-	virtual void SetMouseEnabled(bool inEnabled) override;
-	virtual bool IsEnableMouse() const noexcept override;
-
-	virtual LONG GetMouseDeltaX() const noexcept override;
-	virtual LONG GetMouseDeltaY() const noexcept override;
-
-	void UpdateDirectInputMouse();
-
+	FOnInputModeChanged OnInputModeChanged;
 private:
 	// ---------------------------------------------------------------------------------
 	// State
@@ -53,23 +43,6 @@ private:
 	// -----------------------------------
 	// State : Camera
 	// -----------------------------------
-	std::shared_ptr<Camera> pCamera;
+	std::shared_ptr<Camera> pCamera = nullptr;
 	bool bEnableCamera = true;
-
-	// -----------------------------------
-	// State : Mouse
-	// -----------------------------------
-	std::shared_ptr<Mouse> pMouse;
-
-	// -----------------------------------
-	// State : Mouse Direct Input
-	// -----------------------------------
-	IDirectInputDevice8* mDirectMouse;
-	DIMOUSESTATE mMouseCurrState;
-	DIMOUSESTATE mMouseLastState;
-
-	// -----------------------------------
-	// State : Keyboard
-	// -----------------------------------
-	Keyboard m_keyBoard;
 };

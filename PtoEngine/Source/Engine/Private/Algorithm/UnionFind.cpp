@@ -60,3 +60,13 @@ int UnionFind::size(int x)
 {
 	return _size[root(x)];
 }
+
+int UnionFind::numOfParent() const noexcept
+{
+	return (int)_parent.size();
+}
+
+void UnionFind::GetParent(std::vector<int>& out) const noexcept
+{
+	out = _parent;
+}

@@ -1,11 +1,11 @@
 
 #include "Core/Window.h"
+#include "Core/AppSettings.h"
+
 #include <sstream>
 #include "pch.h"
 
 #include "Input/MouseInterface.h"
-
-Window::WindowClass Window::WindowClass::instance;
 
 Window::WindowClass::WindowClass()
     : hInstance(GetModuleHandle(nullptr))
@@ -39,16 +39,17 @@ const wchar_t* Window::WindowClass::GetName() noexcept
 }
 HINSTANCE Window::WindowClass::GetInstance() noexcept
 {
-    return instance.hInstance;
+    return hInstance;
 }
 
-Window::Window(int inWidth, int inHeight, const std::wstring inName)
+Window::Window()
+    : mClass()
 {
     RECT wr;
     wr.left = 100;
-    wr.right = inWidth + wr.left;
+    wr.right = (int)AppSettings::windowSize.x + wr.left;
     wr.top = 100;
-    wr.bottom = inHeight + wr.top;
+    wr.bottom = (int)AppSettings::windowSize.y + wr.top;
     if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_OVERLAPPEDWINDOW, FALSE) == 0)
     {
         return;
@@ -63,16 +64,16 @@ Window::Window(int inWidth, int inHeight, const std::wstring inName)
     defaultHeight = height;
     // create window & get hWnd
     m_hWnd = CreateWindow(
-        WindowClass::GetName(), 
-        inName.c_str(),
+        mClass.GetName(),
+        AppSettings::windowTitle.c_str(),
         WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 
-        CW_USEDEFAULT, 
-        width, 
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        width,
         height,
-        nullptr, 
-        nullptr, 
-        WindowClass::GetInstance(), 
+        nullptr,
+        nullptr,
+        mClass.GetInstance(),
         this
     );
     // check for error
@@ -82,7 +83,6 @@ Window::Window(int inWidth, int inHeight, const std::wstring inName)
     }
     // newly created windows start off as hidden
     ShowWindow(m_hWnd, SW_SHOWDEFAULT);
-    pDX = std::make_unique<DirectX11>(WindowClass::GetInstance(), m_hWnd, width, height);
 
     //// register mouse raw input device
     //RAWINPUTDEVICE rid;
@@ -97,7 +97,7 @@ Window::Window(int inWidth, int inHeight, const std::wstring inName)
 }
 Window::~Window()
 {
-    pController = nullptr;
+    pMouse = nullptr;
     DestroyWindow(m_hWnd);
 }
 
@@ -110,10 +110,42 @@ void Window::SetTitle(const wchar_t* title)
     }
 }
 
-void Window::GetWindowSize(UINT& w, UINT& h)
+HINSTANCE Window::GetHInstance()
 {
-    w = width;
-    h = height;
+    return mClass.GetInstance();
+}
+HWND& Window::GetHWnd()
+{
+    return m_hWnd;
+}
+UINT Window::GetWidth() const noexcept
+{
+    return width;
+}
+UINT Window::GetHeight() const noexcept
+{
+    return height;
+}
+
+void Window::ConfineCursor() noexcept
+{
+    RECT rect;
+    GetClientRect(m_hWnd, &rect);
+    MapWindowPoints(m_hWnd, nullptr, reinterpret_cast<POINT*>(&rect), 2);
+    ClipCursor(&rect);
+}
+void Window::FreeCursor() noexcept
+{
+    ClipCursor(nullptr);
+}
+
+bool Window::IsEnableMouse() const noexcept
+{
+    return pMouse->IsVisible();
+}
+void Window::SetMouseEnabled(bool in)
+{
+    pMouse->SetVisibility(in);
 }
 
 std::optional<int> Window::ProcessMessages() noexcept
@@ -316,23 +348,23 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
     }
     case WM_ACTIVATE:
     {
-        if (pController != nullptr)
+        if (pMouse != nullptr)
         {
-            if (!pController->IsEnableMouse())
+            if (!IsEnableMouse())
             {
                 if (wParam & WA_ACTIVE)
                 {
                     ConfineCursor();
-                    pController->SetMouseEnabled(false);
+                    SetMouseEnabled(false);
                 }
                 else
                 {
                     FreeCursor();
-                    pController->SetMouseEnabled(true);
+                    SetMouseEnabled(true);
                 }
             }
-            break;
         }
+        break;
     }
 
     // --------------------------------------------------------------------------
@@ -344,17 +376,17 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
     // --------------------------------------------------------------------------
     case WM_MOUSEMOVE:
     {
-        if (pController != nullptr)
+        if (pMouse != nullptr)
         {
             const POINTS pt = MAKEPOINTS(lParam);
-            if (!pController->IsEnableMouse())
+            if (!IsEnableMouse())
             {
                 if (!pMouse->IsInWindow())
                 {
                     SetCapture(hWnd);
 
                     pMouse->OnMouseEnter();
-                    pController->SetMouseEnabled(false);
+                    SetMouseEnabled(false);
                 }
                 break;
             }
@@ -385,12 +417,12 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
     case WM_LBUTTONDOWN:
     {
         SetForegroundWindow(hWnd);
-        if (pController != nullptr)
+        if (pMouse != nullptr)
         {
-            if (!pController->IsEnableMouse())
+            if (!IsEnableMouse())
             {
                 ConfineCursor();
-                pController->SetMouseEnabled(false);
+                SetMouseEnabled(false);
             }
             const POINTS pt = MAKEPOINTS(lParam);
             pMouse->OnLeftPressed(pt.x, pt.y);
@@ -399,7 +431,7 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
     }
     case WM_LBUTTONUP:
     {
-        if (pController != nullptr)
+        if (pMouse != nullptr)
         {
             const POINTS pt = MAKEPOINTS(lParam);
             pMouse->OnLeftReleased(pt.x, pt.y);
@@ -413,7 +445,7 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
     }
     case WM_RBUTTONDOWN:
     {
-        if (pController != nullptr)
+        if (pMouse != nullptr)
         {
             const POINTS pt = MAKEPOINTS(lParam);
             pMouse->OnRightPressed(pt.x, pt.y);
@@ -422,7 +454,7 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
     }
     case WM_RBUTTONUP:
     {
-        if (pController != nullptr)
+        if (pMouse != nullptr)
         {
             const POINTS pt = MAKEPOINTS(lParam);
             pMouse->OnRightReleased(pt.x, pt.y);
@@ -436,7 +468,7 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
     }
     case WM_MOUSEWHEEL:
     {
-        if (pController != nullptr)
+        if (pMouse != nullptr)
         {
             const POINTS pt = MAKEPOINTS(lParam);
             const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
@@ -449,7 +481,7 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
     // ------------------------------------
     case WM_INPUT:
     {
-        if (pController != nullptr)
+        if (pMouse != nullptr)
         {
             if (!pMouse->IsRawEnabled())
             {
@@ -475,7 +507,7 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
     }
     }
 
-    if (pController != nullptr)
+    if (pMouse != nullptr)
     {
         if (pMouse->IsLeftPressed())
         {
@@ -495,34 +527,4 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
     }
     OnProcessMessage.Broadcast(message, wParam, lParam);
     return DefWindowProc(hWnd, message, wParam, lParam);
-}
-
-DirectX11& Window::GetDX()
-{
-    if (!pDX)
-    {
-
-    }
-    return *pDX;
-}
-
-HINSTANCE Window::GetHInstance()
-{
-    return WindowClass::GetInstance();
-}
-HWND& Window::GetHWnd()
-{
-    return m_hWnd;
-}
-
-void Window::ConfineCursor() noexcept
-{
-    RECT rect;
-    GetClientRect(m_hWnd, &rect);
-    MapWindowPoints(m_hWnd, nullptr, reinterpret_cast<POINT*>(&rect), 2);
-    ClipCursor(&rect);
-}
-void Window::FreeCursor() noexcept
-{
-    ClipCursor(nullptr);
 }

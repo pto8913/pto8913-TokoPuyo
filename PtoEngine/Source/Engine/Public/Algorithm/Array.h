@@ -14,6 +14,25 @@ public:
 	{
 		arr.assign(size, initVal);
 	}
+
+	T& operator[](int idx)
+	{
+		return arr[idx];
+	}
+	const T& operator[](int idx) const
+	{
+		return arr[idx];
+	}
+
+	std::vector<T>::iterator begin() noexcept
+	{
+		return arr.begin();
+	}
+	std::vector<T>::iterator end() noexcept
+	{
+		return arr.end();
+	}
+
 	void Init(int size, T initVal) noexcept
 	{
 		arr.assign(size, initVal);
@@ -51,15 +70,6 @@ public:
 		return arr.back();
 	}
 
-	std::vector<T>::iterator begin() noexcept
-	{
-		return arr.begin();
-	}
-	std::vector<T>::iterator end() noexcept
-	{
-		return arr.end();
-	}
-
 	template<typename Compare>
 	void Sort()
 	{
@@ -72,13 +82,13 @@ public:
 
 	T RandomValue() const noexcept
 	{
+		if (Size() == 0)
+		{
+			return T();
+		}
 		return arr[Algo::RandRange(0, int(Size() - 1))];
 	}
-	
-	T& operator[](int Idx)
-	{
-		return arr[Idx];
-	}
+
 private:
 	std::vector<T> arr;
 };

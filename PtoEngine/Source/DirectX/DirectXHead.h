@@ -23,11 +23,3 @@
 #include <map>
 
 #include "Utils/DirectXUtils.h"
-
-#include "Delegate/Delegate.h"
-
-#define _DEBUG 0
-
-#if _DEBUG
-#include <format>
-#endif

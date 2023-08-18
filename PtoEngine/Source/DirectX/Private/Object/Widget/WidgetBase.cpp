@@ -3,10 +3,6 @@
 
 #include "Core/DirectX.h"
 
-#include "Math/Math.h"
-
-#include "Slate/SlateContainerBase.h"
-
 #include "Render/Factory/IndexBuffer.h"
 #include "Render/Factory/VertexBuffer.h"
 
@@ -22,10 +18,8 @@
 
 #include "Render/Factory/Rasterizer.h"
 
-WidgetBase::WidgetBase(DirectX11& dx, UINT windowSizeW, UINT windowSizeH, int inZOrder)
+WidgetBase::WidgetBase(DirectX11& dx, UINT windowSizeW, UINT windowSizeH)
 {
-	ZOrder = Math::MapRange<double>(inZOrder, 0.0, 100.0, 0.0, 1.0);
-
 	m_ClearColor = D2D1::ColorF(0.f, 0.f, 0.f, 1.f);
 
 	AddTask(BlendState::Make(dx, 0));
@@ -89,77 +83,16 @@ void WidgetBase::DrawInternal()
 
 void WidgetBase::ExecuteTasks(DirectX11& dx)
 {
-	if (IsInViewport())
-	{
-		dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
+	dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
 
-		m_pTCB->Bind(dx, tf);
+	m_pTCB->Bind(dx, tf);
 
-		DrawInternal();
+	DrawInternal();
 
-		DrawableObject::ExecuteTasks(dx);
-	}
-}
-
-void WidgetBase::SetVisibility(bool inVisible)
-{
-	DrawableObject2D::SetVisibility(inVisible);
-}
-bool WidgetBase::GetVisibility()
-{
-	return DrawableObject2D::GetVisibility();
+	DrawableObject::ExecuteTasks(dx);
 }
 
 DirectX::XMMATRIX WidgetBase::GetTransformXM(DirectX11&) const noexcept
 {
-	return DirectX::XMMatrixIdentity() * DirectX::XMMatrixTranslation(0, 0, (float)ZOrder);
+	return DirectX::XMMatrixIdentity() * DirectX::XMMatrixTranslation(0, 0, 0);
 }
-
-void WidgetBase::AddToViewport()
-{
-	bIsInViewport = true;
-}
-bool WidgetBase::IsInViewport() const noexcept
-{
-	return bIsInViewport;
-}
-double WidgetBase::GetZOrder() const noexcept
-{
-	return ZOrder;
-}
-
-// ----------------------------------------------------------
-// Main : Event
-// ----------------------------------------------------------
-bool WidgetBase::OnMouseMove(DX::MouseEvent inMouseEvent)
-{
-	return m_pRootSlate->OnMouseMove(inMouseEvent);
-};
-bool WidgetBase::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
-{
-	return m_pRootSlate->OnMouseButtonDown(inMouseEvent);
-};
-bool WidgetBase::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
-{
-	return m_pRootSlate->OnMouseButtonHeld(inMouseEvent);
-};
-bool WidgetBase::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
-{
-	return m_pRootSlate->OnMouseButtonUp(inMouseEvent);
-};
-bool WidgetBase::OnMouseEnter(DX::MouseEvent inMouseEvent)
-{
-	return m_pRootSlate->OnMouseEnter(inMouseEvent);
-};
-bool WidgetBase::OnMouseLeave(DX::MouseEvent inMouseEvent)
-{
-	return m_pRootSlate->OnMouseLeave(inMouseEvent);
-};
-bool WidgetBase::OnKeyDown(DX::MouseEvent inMouseEvent)
-{
-	return m_pRootSlate->OnKeyDown(inMouseEvent);
-};
-bool WidgetBase::OnKeyUp(DX::MouseEvent inMouseEvent)
-{
-	return m_pRootSlate->OnKeyUp(inMouseEvent);
-};

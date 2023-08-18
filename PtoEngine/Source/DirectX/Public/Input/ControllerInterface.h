@@ -26,16 +26,5 @@ namespace DX
 		virtual DX::ICameraInterface* GetCameraInterface() = 0;
 		virtual void SetCameraEnabled(bool inEnabled) = 0;
 		virtual bool IsEnableCamera() const noexcept = 0;
-
-		// -----------------------------------
-		// Main : Mouse
-		// -----------------------------------
-		virtual DX::IMouseInterface* GetMouseInterface() = 0;
-
-		virtual void SetMouseEnabled(bool inEnabled) = 0;
-		virtual bool IsEnableMouse() const noexcept = 0;
-
-		virtual long GetMouseDeltaX() const noexcept = 0;
-		virtual long GetMouseDeltaY() const noexcept = 0;
 	};
 }

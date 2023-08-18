@@ -8,6 +8,25 @@ Mouse::Mouse()
 }
 Mouse::~Mouse()
 {
+	OnClickedLeftPressed.ClearBind();
+	OnClickedLeftReleased.ClearBind();
+	OnClickedLeftHeld.ClearBind();
+
+	OnClickedRightPressed.ClearBind();
+	OnClickedRightReleased.ClearBind();
+	OnClickedRightHeld.ClearBind();
+
+	OnClickedWheelPressed.ClearBind();
+	OnClickedWheelReleased.ClearBind();
+	OnClickedWheelHeld.ClearBind();
+
+	OnMouseMoving.ClearBind();
+
+	OnWheelUpDelta.ClearBind();
+	OnWheelDownDelta.ClearBind();
+
+	eventBuffer.empty();
+	rawEventBuffer.empty();
 }
 
 bool Mouse::IsVisible() const noexcept
@@ -212,14 +231,14 @@ bool Mouse::IsRightPressed() const noexcept
 void Mouse::OnWheelUp(int x, int y) noexcept
 {
 	DX::MouseEvent Event(DX::MouseEvent::ButtonState::WHEELUP, x, y);
-	OnWheelUpDelta.Broadcast(Event, wheelDelta);
+	OnWheelUpDelta.Broadcast(Event, (float)wheelDelta);
 	eventBuffer.push(Event);
 	TrimBuffer();
 }
 void Mouse::OnWheelDown(int x, int y) noexcept
 {
 	DX::MouseEvent Event(DX::MouseEvent::ButtonState::WHEELDOWN, x, y);
-	OnWheelDownDelta.Broadcast(Event, wheelDelta);
+	OnWheelDownDelta.Broadcast(Event, (float)wheelDelta);
 	eventBuffer.push(Event);
 	TrimBuffer();
 }

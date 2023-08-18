@@ -77,23 +77,11 @@
     <Filter Include="Shader\Share">
       <UniqueIdentifier>{282692ac-e5e9-4478-a186-81af5f5666d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DirectX\Public\Timer">
-      <UniqueIdentifier>{93a40518-3130-4f1a-9b2a-95fdd731c261}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DirectX\Public\Slate">
-      <UniqueIdentifier>{89d4cfe4-9099-49f8-a2f2-a1e31c05bfd9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DirectX\Private\Slate">
-      <UniqueIdentifier>{0f82d7a4-4e1e-4acf-b9e3-4eb60381bdfd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\DirectX\Public\Object\Widget">
       <UniqueIdentifier>{2f97230d-b228-4a55-93d8-669c303a8523}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\DirectX\Private\Object\Widget">
       <UniqueIdentifier>{83b19585-2a15-42d0-9ac8-83a62c6f3b79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DirectX\Private\Timer">
-      <UniqueIdentifier>{f0065346-b0a1-40d8-8cf8-92986e6025d8}</UniqueIdentifier>
     </Filter>
     <Filter Include="SDK">
       <UniqueIdentifier>{70f44241-610f-4353-9c20-afd41eadaf5e}</UniqueIdentifier>
@@ -134,14 +122,116 @@
     <Filter Include="Source\Engine\Public\UI">
       <UniqueIdentifier>{d0aa68fc-f689-4b81-9600-6a08b4d89b6f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Engine\Private\UI">
-      <UniqueIdentifier>{76c5f4c2-76fd-49ce-9bde-d995586c3079}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Engine\Private\Object">
       <UniqueIdentifier>{6d5c2893-fe4e-4163-a1c6-942dd9ff0fe4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Engine\Public\Object">
       <UniqueIdentifier>{83868b78-8fb7-4cc1-ac06-b6f0db12ad5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\Object\LevelDesign">
+      <UniqueIdentifier>{d2e8775b-970d-464a-a2fc-0385bf53feed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\Object\LevelDesign">
+      <UniqueIdentifier>{0cabfdc9-f1be-4dda-93b2-d6b26a4a7377}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\UI">
+      <UniqueIdentifier>{76c5f4c2-76fd-49ce-9bde-d995586c3079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\Object\Building">
+      <UniqueIdentifier>{953dbb39-27f6-42e8-aea2-9af8fa5972e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\Object\Character">
+      <UniqueIdentifier>{f79d3c62-5966-42af-9c1f-6f22f3734e6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\Object\Effect">
+      <UniqueIdentifier>{a30bc22d-df52-4650-85e2-e3601c608e6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\Object\Item">
+      <UniqueIdentifier>{c3d3526e-ee0b-4aaf-8f5a-d831dd22c73a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\Object\Building">
+      <UniqueIdentifier>{bed850ef-80fb-415b-afbe-87e1cd5469c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\Object\Character">
+      <UniqueIdentifier>{07068b9e-d206-4942-956d-778763fc7167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\Object\Effect">
+      <UniqueIdentifier>{0c198f58-faef-4645-b6a8-796407cb8c9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\Object\Item">
+      <UniqueIdentifier>{d245647c-06a5-42c3-b77c-dd9fdde5eade}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\Object\Event">
+      <UniqueIdentifier>{ef4797e6-0ee0-481b-86c2-6d331cfdd19c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\Object\Event">
+      <UniqueIdentifier>{5b0d834b-d02c-4d9b-a9f4-15b6f5ec0274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\Object\Ground">
+      <UniqueIdentifier>{d6e3f129-85f7-4dcd-952f-c828ee58d113}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\Object\Ground">
+      <UniqueIdentifier>{28aa674c-7fa9-4a4c-ad82-dd618ee679b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\Component">
+      <UniqueIdentifier>{91be71c7-13a0-4fa0-b0c7-466fc0354971}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\Component">
+      <UniqueIdentifier>{1e767630-b08c-4c2a-9915-2244c0b6e1da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\UI\Message">
+      <UniqueIdentifier>{e7c0e955-32d5-41f0-a991-a92a95d3684e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\UI\Message">
+      <UniqueIdentifier>{1333a11f-0332-4324-bfd2-0dec98a49096}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\GameMode">
+      <UniqueIdentifier>{1bbc4391-892c-4a4e-9528-5500639d354e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\GameMode">
+      <UniqueIdentifier>{1374d2f8-1bb0-49bf-8c77-c6c860fb3a8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\Controller">
+      <UniqueIdentifier>{8be76cab-1f14-4122-9497-aaf5d4b78086}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\Controller">
+      <UniqueIdentifier>{a72707c3-c0f3-417f-8401-1a1d1f8610b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\UI\Slate">
+      <UniqueIdentifier>{1e3c0a73-4b7b-43ff-9c51-7efeddd17491}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\UI\Slate">
+      <UniqueIdentifier>{a6318ddd-6f37-4f33-9641-03b77310ec97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\GameState">
+      <UniqueIdentifier>{60efe3e8-bd3c-456c-9870-b045825df6c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\GameState">
+      <UniqueIdentifier>{b3a2150d-2287-4986-aad2-ed957228693f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\Helper">
+      <UniqueIdentifier>{66b1c244-b0f7-4d25-8fca-90ddf04f4916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\Helper">
+      <UniqueIdentifier>{0cc79391-c1c4-4f3d-98ba-73faafb4d946}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\Engine">
+      <UniqueIdentifier>{48089475-6725-4da1-841f-051e3de93dfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\Engine">
+      <UniqueIdentifier>{dc6895df-7e90-43f3-bdb3-6340ba745586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\Level">
+      <UniqueIdentifier>{2d53b411-cd9b-478d-8984-d391fefb02f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\Level">
+      <UniqueIdentifier>{3c1af9d2-08bb-4478-9466-7f933610a7c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\World">
+      <UniqueIdentifier>{07ee9350-8921-4552-a41e-8d87a7933506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\World">
+      <UniqueIdentifier>{28b33b12-4641-4296-b303-4495401285ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -180,9 +270,6 @@
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Render\Factory\BlendState.h">
       <Filter>Source\DirectX\Public\Render\Factory</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Input\DirectXInput.h">
-      <Filter>Source\DirectX\Public\Input</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Render\Factory\DepthStencilView.h">
       <Filter>Source\DirectX\Public\Render\Factory</Filter>
@@ -268,9 +355,6 @@
     <ClInclude Include="Source\DirectX\Public\Math\Rotator.h">
       <Filter>Source\DirectX\Public\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Math\Vector.h">
-      <Filter>Source\DirectX\Public\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Math\Matrix.h">
       <Filter>Source\DirectX\Public\Math</Filter>
     </ClInclude>
@@ -295,9 +379,6 @@
     <ClInclude Include="Source\DirectX\Public\Render\Factory\DepthStencilState.h">
       <Filter>Source\DirectX\Public\Render\Factory</Filter>
     </ClInclude>
-    <ClInclude Include="Source\pch.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\StepTimer.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -319,44 +400,11 @@
     <ClInclude Include="Source\DirectX\Public\Render\Factory\ScreenText.h">
       <Filter>Source\DirectX\Public\Render\Factory</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Timer\Timer.h">
-      <Filter>Source\DirectX\Public\Timer</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Input\Keyboard.h">
       <Filter>Source\DirectX\Public\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Slate\TextBlock.h">
-      <Filter>Source\DirectX\Public\Slate</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Slate\SlateBase.h">
-      <Filter>Source\DirectX\Public\Slate</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Slate\SlateSlotBase.h">
-      <Filter>Source\DirectX\Public\Slate</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Slate\Image.h">
-      <Filter>Source\DirectX\Public\Slate</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Slate\Button.h">
-      <Filter>Source\DirectX\Public\Slate</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Slate\HorizontalBox.h">
-      <Filter>Source\DirectX\Public\Slate</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Slate\VerticalBox.h">
-      <Filter>Source\DirectX\Public\Slate</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Slate\SlateContainerBase.h">
-      <Filter>Source\DirectX\Public\Slate</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetBase.h">
       <Filter>Source\DirectX\Public\Object\Widget</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Slate\Spacer.h">
-      <Filter>Source\DirectX\Public\Slate</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Slate\Overlay.h">
-      <Filter>Source\DirectX\Public\Slate</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Input\Controller.h">
       <Filter>Source\DirectX\Public\Input</Filter>
@@ -369,12 +417,6 @@
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Input\ControllerInterface.h">
       <Filter>Source\DirectX\Public\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetInterface.h">
-      <Filter>Source\DirectX\Public\Object\Widget</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Slate\SlateInterface.h">
-      <Filter>Source\DirectX\Public\Slate</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Input\CameraInterface.h">
       <Filter>Source\DirectX\Public\Input</Filter>
@@ -394,15 +436,6 @@
     <ClInclude Include="Source\Engine\Public\UI\GameUIController.h">
       <Filter>Source\Engine\Public\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\UI\GameStateUI.h">
-      <Filter>Source\Engine\Public\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Core\GameMode.h">
-      <Filter>Source\Engine\Public\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Core\Window.h">
-      <Filter>Source\Engine\Public\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Core\App.h">
       <Filter>Source\Engine\Public\Core</Filter>
     </ClInclude>
@@ -415,15 +448,6 @@
     <ClInclude Include="Source\Engine\Public\GameSettings.h">
       <Filter>Source\Engine\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\GameMain.h">
-      <Filter>Source\Engine\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Algorithm\MazeGenerator.h">
-      <Filter>Source\Engine\Public\Algorithm</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Object\World.h">
-      <Filter>Source\Engine\Public\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Algorithm\Array.h">
       <Filter>Source\Engine\Public\Algorithm</Filter>
     </ClInclude>
@@ -432,6 +456,213 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Algorithm\Rect.h">
       <Filter>Source\Engine\Public\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\LevelDesign\Level_SonoTown.h">
+      <Filter>Source\Engine\Public\Object\LevelDesign</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\LevelDesign\LevelDesign.h">
+      <Filter>Source\Engine\Public\Object\LevelDesign</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\LayerInterface.h">
+      <Filter>Source\Engine\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Building\BuildingBase.h">
+      <Filter>Source\Engine\Public\Object\Building</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Building\BuildingTypes.h">
+      <Filter>Source\Engine\Public\Object\Building</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Character\CharacterBase.h">
+      <Filter>Source\Engine\Public\Object\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Character\CharacterTypes.h">
+      <Filter>Source\Engine\Public\Object\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Effect\EffectBase.h">
+      <Filter>Source\Engine\Public\Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Effect\EffectTypes.h">
+      <Filter>Source\Engine\Public\Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Item\ItemBase.h">
+      <Filter>Source\Engine\Public\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Item\ItemTypes.h">
+      <Filter>Source\Engine\Public\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\LayerObjectBase.h">
+      <Filter>Source\Engine\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\LibraryInterface.h">
+      <Filter>Source\Engine\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\LevelDesign\MazeGenerator.h">
+      <Filter>Source\Engine\Public\Object\LevelDesign</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Event\EventBase.h">
+      <Filter>Source\Engine\Public\Object\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Event\EventTypes.h">
+      <Filter>Source\Engine\Public\Object\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Ground\GroundTypes.h">
+      <Filter>Source\Engine\Public\Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Ground\GroundBase.h">
+      <Filter>Source\Engine\Public\Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Character\Player.h">
+      <Filter>Source\Engine\Public\Object\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Character\Enemy.h">
+      <Filter>Source\Engine\Public\Object\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Copmonent\InventoryComponentBase.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\ItemManager.h">
+      <Filter>Source\Engine\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\HUD.h">
+      <Filter>Source\Engine\Public\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\GameInstance.h">
+      <Filter>Source\Engine\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\StatusTypes.h">
+      <Filter>Source\Engine\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Message\S_ChoiceBox.h">
+      <Filter>Source\Engine\Public\UI\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Message\S_ChoiceButton.h">
+      <Filter>Source\Engine\Public\UI\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Message\ChoiceTypes.h">
+      <Filter>Source\Engine\Public\UI\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Event\Event_DungeonExit.h">
+      <Filter>Source\Engine\Public\Object\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Event\EventChoiceBase.h">
+      <Filter>Source\Engine\Public\Object\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\HUDInterface.h">
+      <Filter>Source\Engine\Public\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\GameMode\GameModeBase.h">
+      <Filter>Source\Engine\Public\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\GameMode\GameMode_Dungeon.h">
+      <Filter>Source\Engine\Public\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Controller\PlayerController_Town.h">
+      <Filter>Source\Engine\Public\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Controller\PlayerController_Dungeon.h">
+      <Filter>Source\Engine\Public\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\pch.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Core\Window.h">
+      <Filter>Source\Engine\Public\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Controller\PlayerController.h">
+      <Filter>Source\Engine\Public\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Actor.h">
+      <Filter>Source\Engine\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\Border.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\Button.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\CanvasPanel.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\GridPanel.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\HorizontalBox.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\Image.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\Overlay.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\ProgressBar.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\SlateBase.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\SlateContainerBase.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\SlateInterface.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\SlateSlotBase.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\Spacer.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\TextBlock.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Slate\VerticalBox.h">
+      <Filter>Source\Engine\Public\UI\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\UserWidget.h">
+      <Filter>Source\Engine\Public\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\GameState\GameStateBase.h">
+      <Filter>Source\Engine\Public\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\GameState\GameState_Dungeon.h">
+      <Filter>Source\Engine\Public\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\WidgetAnimation.h">
+      <Filter>Source\Engine\Public\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Object.h">
+      <Filter>Source\Engine\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Helper\ColorHelper.h">
+      <Filter>Source\Engine\Public\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Engine\Color.h">
+      <Filter>Source\Engine\Public\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Engine\Delegate.h">
+      <Filter>Source\Engine\Public\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Engine\Timer.h">
+      <Filter>Source\Engine\Public\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Engine\Vector.h">
+      <Filter>Source\Engine\Public\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Algorithm\Math.h">
+      <Filter>Source\Engine\Public\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Engine\World.h">
+      <Filter>Source\Engine\Public\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Level\Level.h">
+      <Filter>Source\Engine\Public\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Level\Level_SonoCave.h">
+      <Filter>Source\Engine\Public\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\World\World_SonoCave.h">
+      <Filter>Source\Engine\Public\World</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -467,9 +698,6 @@
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\Factory\BlendState.cpp">
       <Filter>Source\DirectX\Private\Render\Factory</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Input\DirectXInput.cpp">
-      <Filter>Source\DirectX\Private\Input</Filter>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\Factory\DepthStencilView.cpp">
       <Filter>Source\DirectX\Private\Render\Factory</Filter>
@@ -549,9 +777,6 @@
     <ClCompile Include="Source\DirectX\Private\Math\Matrix.cpp">
       <Filter>Source\DirectX\Private\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Math\Vector.cpp">
-      <Filter>Source\DirectX\Private\Math</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Math\Rotator.cpp">
       <Filter>Source\DirectX\Private\Math</Filter>
     </ClCompile>
@@ -569,9 +794,6 @@
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\Factory\DepthStencilState.cpp">
       <Filter>Source\DirectX\Private\Render\Factory</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\pch.cpp">
-      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Object\Sprite.cpp">
       <Filter>Source\DirectX\Private\Object</Filter>
@@ -594,41 +816,8 @@
     <ClCompile Include="Source\DirectX\Private\Input\Keyboard.cpp">
       <Filter>Source\DirectX\Private\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Slate\SlateBase.cpp">
-      <Filter>Source\DirectX\Private\Slate</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Slate\TextBlock.cpp">
-      <Filter>Source\DirectX\Private\Slate</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Slate\SlateSlotBase.cpp">
-      <Filter>Source\DirectX\Private\Slate</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Slate\Image.cpp">
-      <Filter>Source\DirectX\Private\Slate</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Slate\Button.cpp">
-      <Filter>Source\DirectX\Private\Slate</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Slate\HorizontalBox.cpp">
-      <Filter>Source\DirectX\Private\Slate</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Slate\VerticalBox.cpp">
-      <Filter>Source\DirectX\Private\Slate</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Slate\SlateContainerBase.cpp">
-      <Filter>Source\DirectX\Private\Slate</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Object\Widget\WidgetBase.cpp">
       <Filter>Source\DirectX\Private\Object\Widget</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Slate\Spacer.cpp">
-      <Filter>Source\DirectX\Private\Slate</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Slate\Overlay.cpp">
-      <Filter>Source\DirectX\Private\Slate</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Timer\Timer.cpp">
-      <Filter>Source\DirectX\Private\Timer</Filter>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Input\Controller.cpp">
       <Filter>Source\DirectX\Private\Input</Filter>
@@ -645,19 +834,10 @@
     <ClCompile Include="Source\Engine\Private\Algorithm\UnionFind.cpp">
       <Filter>Source\Engine\Private\Algorithm</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\UI\GameStateUI.cpp">
-      <Filter>Source\Engine\Private\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Private\Core\Audio.cpp">
       <Filter>Source\Engine\Private\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Core\AppSettings.cpp">
-      <Filter>Source\Engine\Private\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Core\GameMode.cpp">
-      <Filter>Source\Engine\Private\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Core\Window.cpp">
       <Filter>Source\Engine\Private\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Core\App.cpp">
@@ -666,20 +846,182 @@
     <ClCompile Include="Source\Engine\Private\GameSettings.cpp">
       <Filter>Source\Engine\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\GameMain.cpp">
-      <Filter>Source\Engine\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Algorithm\MazeGenerator.cpp">
-      <Filter>Source\Engine\Private\Algorithm</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Object\World.cpp">
-      <Filter>Source\Engine\Private\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Private\Algorithm\Random.cpp">
       <Filter>Source\Engine\Private\Algorithm</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Algorithm\Rect.cpp">
       <Filter>Source\Engine\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\LevelDesign\Level_SonoTown.cpp">
+      <Filter>Source\Engine\Private\Object\LevelDesign</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\LevelDesign\LevelDesign.cpp">
+      <Filter>Source\Engine\Private\Object\LevelDesign</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\LayerInterface.cpp">
+      <Filter>Source\Engine\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Building\BuildingBase.cpp">
+      <Filter>Source\Engine\Private\Object\Building</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Character\CharacterBase.cpp">
+      <Filter>Source\Engine\Private\Object\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Effect\EffectBase.cpp">
+      <Filter>Source\Engine\Private\Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Item\ItemBase.cpp">
+      <Filter>Source\Engine\Private\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\LayerObjectBase.cpp">
+      <Filter>Source\Engine\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\LevelDesign\MazeGenerator.cpp">
+      <Filter>Source\Engine\Private\Object\LevelDesign</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Event\EventBase.cpp">
+      <Filter>Source\Engine\Private\Object\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Ground\GroundBase.cpp">
+      <Filter>Source\Engine\Private\Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Ground\GroundTypes.cpp">
+      <Filter>Source\Engine\Private\Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Character\Player.cpp">
+      <Filter>Source\Engine\Private\Object\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Character\Enemy.cpp">
+      <Filter>Source\Engine\Private\Object\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Copmonent\InventoryComponentBase.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\HUD.cpp">
+      <Filter>Source\Engine\Private\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\GameInstance.cpp">
+      <Filter>Source\Engine\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Message\S_ChoiceBox.cpp">
+      <Filter>Source\Engine\Private\UI\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Message\S_ChoiceButton.cpp">
+      <Filter>Source\Engine\Private\UI\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Event\Event_DungeonExit.cpp">
+      <Filter>Source\Engine\Private\Object\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Event\EventChoiceBase.cpp">
+      <Filter>Source\Engine\Private\Object\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\GameMode\GameModeBase.cpp">
+      <Filter>Source\Engine\Private\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\GameMode\GameMode_Dungeon.cpp">
+      <Filter>Source\Engine\Private\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Controller\PlayerController_Town.cpp">
+      <Filter>Source\Engine\Private\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Controller\PlayerController_Dungeon.cpp">
+      <Filter>Source\Engine\Private\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\pch.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Core\Window.cpp">
+      <Filter>Source\Engine\Private\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Controller\PlayerController.cpp">
+      <Filter>Source\Engine\Private\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Actor.cpp">
+      <Filter>Source\Engine\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\Border.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\Button.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\CanvasPanel.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\GridPanel.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\HorizontalBox.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\Image.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\Overlay.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\ProgressBar.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\SlateBase.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\SlateContainerBase.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\SlateSlotBase.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\Spacer.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\TextBlock.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Slate\VerticalBox.cpp">
+      <Filter>Source\Engine\Private\UI\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\UserWidget.cpp">
+      <Filter>Source\Engine\Private\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\GameState\GameState_Dungeon.cpp">
+      <Filter>Source\Engine\Private\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\GameState\GameStateBase.cpp">
+      <Filter>Source\Engine\Private\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\WidgetAnimation.cpp">
+      <Filter>Source\Engine\Private\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Object.cpp">
+      <Filter>Source\Engine\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Helper\ColorHelper.cpp">
+      <Filter>Source\Engine\Private\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Engine\Timer.cpp">
+      <Filter>Source\Engine\Private\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Engine\Vector.cpp">
+      <Filter>Source\Engine\Private\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Algorithm\Math.cpp">
+      <Filter>Source\Engine\Private\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Engine\Color.cpp">
+      <Filter>Source\Engine\Private\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Engine\World.cpp">
+      <Filter>Source\Engine\Private\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Level\Level.cpp">
+      <Filter>Source\Engine\Private\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Level\Level_SonoCave.cpp">
+      <Filter>Source\Engine\Private\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\World\World_SonoCave.cpp">
+      <Filter>Source\Engine\Private\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

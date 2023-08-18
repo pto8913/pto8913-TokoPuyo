@@ -20,6 +20,9 @@ public:
 	DirectX11& operator=(const DirectX11& CopyC) = delete;
 
 	IDXGISwapChain* GetSwapChain() { return m_pSwapChain; }
+	HINSTANCE GetHInstance() { return mhInstance; }
+	HWND& GetHWnd() { return mhWnd; }
+
 	// ------------------------------------------------------
 	// Main : Device3D
 	// ------------------------------------------------------
@@ -54,10 +57,9 @@ public:
 	std::shared_ptr<RenderTargetView> m_pRenderTargetView;
 	std::shared_ptr<DepthStencilView> m_pDepthStencilView;
 private:
-	HINSTANCE m_hInstance;
-	HWND m_hWnd;
-
 	IDXGISwapChain* m_pSwapChain;
+	HINSTANCE mhInstance;
+	HWND mhWnd;
 
 	// ------------------------------------------------------
 	// State : Device3D

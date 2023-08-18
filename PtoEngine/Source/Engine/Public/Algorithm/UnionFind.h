@@ -14,6 +14,8 @@ public:
 	bool unite(int x, int y);
 	int size(int x);
 
+	int numOfParent() const noexcept;
+	void GetParent(std::vector<int>& out) const noexcept;
 private:
 	std::vector<int> _parent, _rank, _size;
 	int N;

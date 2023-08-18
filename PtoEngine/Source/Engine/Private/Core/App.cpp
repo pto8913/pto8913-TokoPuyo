@@ -1,44 +1,60 @@
 
-#include "pch.h"
-
 #include "Core/App.h"
 #include "Core/AppSettings.h"
-
 #include "Core/DirectX.h"
 
-#include "GameMain.h"
+#include "Engine/Timer.h"
+#include "Engine/World.h"
 
-#include "Timer/Timer.h"
+#include "Controller/PlayerController.h"
+#include "Input/Keyboard.h"
 
-#include "Input/Controller.h"
+#include "GameInstance.h"
+
+#include "World/World_SonoCave.h"
+
+Keyboard::InputAction InputEsc(DIK_ESCAPE);
+
+int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
+{
+    return App().Run();
+}
 
 App::App()
-	: m_Window((int)AppSettings::windowSize.x, (int)AppSettings::windowSize.y, AppSettings::windowTitle)
+    : mWindow()
 {
-	DirectX11& dx = m_Window.GetDX();
-	dx.GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    pDX = std::make_unique<DirectX11>(mWindow.GetHInstance(), mWindow.GetHWnd(), mWindow.GetWidth(), mWindow.GetHeight());
 
-	m_pController = std::make_shared<Controller>(dx, m_Window.GetHInstance(), m_Window.GetHWnd());
-	m_Window.pController = m_pController;
-	m_Window.pMouse = m_pController->GetMouseInterface();
+    GameInstance& gameInstance = GameInstance::Get();
+    gameInstance.Initialize(*pDX);
 
-	m_pGameMain = std::make_unique<GameMain>(dx, (UINT)AppSettings::windowSize.x, (UINT)AppSettings::windowSize.y, m_pController);
+    pWorld = std::make_shared<World_SonoCave>(*pDX);
+    pWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
+    OnPlayerControllerChanged(pWorld->GetPlayerController());
 
-	m_pWorldTimer = std::make_unique<WorldTimer>();
+    /* Viewport */
+    {
+        pViewPort = std::make_unique<ViewPort>((float)mWindow.GetWidth(), (float)mWindow.GetHeight());
+        pViewPort->Bind(*pDX);
+    }
 
-	/* Viewport */
-	{
-		UINT x, y;
-		m_Window.GetWindowSize(x, y);
-		m_pViewPort = std::make_unique<ViewPort>((float)x, (float)y);
-		m_pViewPort->Bind(dx);
-	}
+    pAppTimer = std::make_unique<WorldTimer>();
+
+    bIsInitialized = true;
 }
 App::~App()
 {
-	m_pViewPort.reset();
-	m_pGameMain.reset();
-	m_pWorldTimer.reset();
+    pDX.reset();
+    pDX = nullptr;
+
+    pViewPort.reset();
+    pViewPort = nullptr;
+
+    pAppTimer.reset();
+    pAppTimer = nullptr;
+
+    pWorld.reset();
+    pWorld = nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------------------
@@ -46,26 +62,52 @@ App::~App()
 // ------------------------------------------------------------------------------------------------------------
 int App::Run()
 {
-	while (true)
-	{
-		if (const auto ecode = Window::ProcessMessages())
-		{
-			CoUninitialize();
+    while (true)
+    {
+        if (bIsInitialized)
+        {
+            if (const auto ecode = Window::ProcessMessages())
+            {
+                CoUninitialize();
 
-			return *ecode;
-		}
+                return *ecode;
+            }
 
-		const auto deltaTime = m_pWorldTimer->GetDelta() * worldTimerSpeed;
+            pDX->BeginFrame();
 
-		InputUpdate(deltaTime);
-		m_pGameMain->DoFrame(m_Window.GetDX(), deltaTime);
-	}
+            const auto deltaSec = pAppTimer->GetDelta() * appTimerSpeed;
+
+            InputUpdate(*pDX);
+
+            pWorld->Tick(*pDX, deltaSec);
+
+            HRESULT result = pDX->EndFrame();
+            if (result == DXGI_ERROR_DEVICE_REMOVED || result == DXGI_ERROR_DEVICE_RESET)
+            {
+                //OnDeviceLost();
+            }
+            else
+            {
+                if (FAILED(result))
+                {
+                    assert(false);
+                }
+            }
+        }
+    }
 }
-void App::InputUpdate(float)
+void App::InputUpdate(DirectX11& dx)
 {
+    if (InputEsc)
+    {
+        PostQuitMessage(0);
+    }
 }
 
-int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
+// -----------------------------------
+// Main : GameMode
+// -----------------------------------
+void App::OnPlayerControllerChanged(const std::shared_ptr<PlayerController>& pPlayerController)
 {
-	return App().Run();
+    mWindow.pMouse = pPlayerController->GetMouse();
 }

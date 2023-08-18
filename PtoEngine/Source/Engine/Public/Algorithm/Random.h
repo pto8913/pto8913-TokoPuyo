@@ -9,4 +9,7 @@ namespace Algo
 
 	/* random 0 ~ inMax */
 	int Random(int inMax);
+
+	/* weight 0 ~ 1 */
+	bool RandomBool(float weight = 0.5f);
 }
