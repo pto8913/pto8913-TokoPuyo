@@ -13,7 +13,7 @@ FLayerObject2DSettings::FLayerObject2DSettings(const std::wstring& inFileName, c
 {
 }
 
-LayerObject2DBase::LayerObject2DBase(DirectX11& dx, const FLayerObject2DSettings& Settings, const int& inLayer, const float& inUpdateTime)
+LayerObject2DBase::LayerObject2DBase(DirectX11& dx, const FLayerObject2DSettings& Settings, const float& inUpdateTime)
 	: Sprite(
 		dx, 
 		Settings.fileName, 
@@ -21,7 +21,6 @@ LayerObject2DBase::LayerObject2DBase(DirectX11& dx, const FLayerObject2DSettings
 		Settings.size, 
 		{0, 0}
 	), 
-	DX::Layer2DInterface(inLayer), 
 	DurationTime(0),
 	UpdateTime(inUpdateTime),
 	size(Settings.size)
