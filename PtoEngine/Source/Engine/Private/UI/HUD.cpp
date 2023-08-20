@@ -161,11 +161,6 @@ HUD::HUD(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windo
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
-void HUD::Tick(DirectX11& dx, float deltaSec)
-{
-	UserWidget::Tick(dx, deltaSec);
-}
-
 ID2D1RenderTarget* HUD::GetRt2D()
 {
 	return m_pRt2D;
@@ -210,7 +205,7 @@ void HUD::ResetMap(const Level2D* pLevel)
 	pMapGP->SetSize({
 		mapSize * pLevel->GetWidth(),
 		mapSize * pLevel->GetHeight()
-		});
+	});
 
 	for (int y = 0; y < pLevel->GetHeight(); ++y)
 	{

@@ -3,7 +3,7 @@
 
 struct FEventSettings : public FLayerObject2DSettings
 {
-	FEventSettings(const std::wstring& inFileName, const std::wstring& inTag, const DirectX::XMFLOAT2& inSize)
+	FEventSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
 		: FLayerObject2DSettings(inFileName, inTag, inSize)
 	{
 	}

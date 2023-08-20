@@ -23,11 +23,23 @@ Player::Player(DirectX11& dx)
 	SetTickEnabled(true);
 }
 
+// ------------------------------------------------------
+// Main
+// ------------------------------------------------------
 void Player::Tick(DirectX11& dx, float deltaTime)
 {
 	CharacterBase::Tick(dx, deltaTime);
 
 	InputUpdate();
+}
+
+void Player::SetEnableInput(bool in)
+{
+	bIsEnableInput = in;
+}
+bool Player::IsEnableInput() const noexcept
+{
+	return bIsEnableInput;
 }
 
 void Player::InputUpdate()

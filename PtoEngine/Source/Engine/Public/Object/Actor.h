@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Object.h"
+#include "Engine/Vector.h"
 
 class DirectX11;
 

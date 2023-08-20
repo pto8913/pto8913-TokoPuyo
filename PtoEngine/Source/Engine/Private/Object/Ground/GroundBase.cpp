@@ -5,7 +5,7 @@
 
 struct FGroundSettings : public FLayerObject2DSettings
 {
-	FGroundSettings(const std::wstring& inFileName, const std::wstring& inTag, const DirectX::XMFLOAT2& inSize)
+	FGroundSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
 		: FLayerObject2DSettings(inFileName, inTag, inSize)
 	{
 	}

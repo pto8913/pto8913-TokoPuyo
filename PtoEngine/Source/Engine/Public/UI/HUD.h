@@ -26,7 +26,6 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
-	virtual void Tick(DirectX11& dx, float deltaSec) override;
 	ID2D1RenderTarget* GetRt2D();
 
 	void AddSlate(std::shared_ptr<SlateBase> inSlate);

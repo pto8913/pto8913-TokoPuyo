@@ -7,15 +7,17 @@
 
 class DirectX11;
 
+//DECLARE_MULTICAST_DELEGATE_OneParam(FOnTransformChanged, );
+
 struct FLayerObject2DSettings
 {
 public:
-	FLayerObject2DSettings(const std::wstring& inFileName, const std::wstring& inTag, const DirectX::XMFLOAT2& inSize);
+	FLayerObject2DSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize);
 	FLayerObject2DSettings(const std::wstring& inFileName, const std::wstring& inTag);
 
 	std::wstring fileName;
 	std::wstring tag;
-	DirectX::XMFLOAT2 size;
+	FVector2D size;
 };
 
 class LayerObject2DBase : public Sprite, public Actor
@@ -30,20 +32,29 @@ public:
 protected:
 	// called per UpdateTime.
 	virtual void Update(DirectX11& dx) {};
-
 	virtual void ExecuteTasks(DirectX11& dx) override final;
 public:
-	const DirectX::XMFLOAT2& GetSize() const noexcept;
+	const FVector2D& GetSize() const noexcept;
+	const FVector2D& GetPosition() const noexcept;
+
 protected:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
 	std::wstring tag = L"";
-	DirectX::XMFLOAT2 size;
 
-	float UpdateTime = 1.f;
+	// -------------------------
+	// State : Tick
+	// -------------------------
+	float mUpdateTime = 1.f;
 
 	using chrono = std::chrono::system_clock;
 	chrono::time_point LastTime;
 	chrono::duration DurationTime;
+
+	// -------------------------
+	// State : Transform
+	// -------------------------
+	FVector2D mPosition;
+	FVector2D mSize;
 };

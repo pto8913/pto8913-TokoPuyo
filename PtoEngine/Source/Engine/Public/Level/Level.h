@@ -5,6 +5,7 @@
 #include "Algorithm/Array.h"
 
 #include "Engine/Timer.h"
+#include "Engine/Vector.h"
 
 #include "Layer/Layer.h"
 
@@ -130,10 +131,7 @@ public:
 
 	const std::shared_ptr<CharacterBase>& GetCharacter2LayerID(const int& x, const int& y) const;
 protected:
-	DirectX::XMFLOAT2 WorldToScreen(const int& x, const int& y, const DirectX::XMFLOAT2& size);
-
-	void SetScreenSize(const int& x, const int& y);
-	void SetLayerSprites(const int& x, const int& y);
+	DirectX::XMFLOAT2 WorldToScreen(const int& x, const int& y, const FVector2D& size);
 public:
 	// --------------------------
 	// Main : Debug
@@ -152,9 +150,6 @@ public:
 	TArray<TArray<std::shared_ptr<CharacterBase>>> CharacterLayer;
 	TArray<TArray<std::shared_ptr<CharacterBase>>> Character2Layer;
 	//TArray<TArray<std::shared_ptr<CharacterBase>>> EffectLayer;
-
-	TArray<TArray<TArray<std::shared_ptr<LayerObject2DBase>>>> pScreen;
-	TArray<TArray<Layer>> mLayers;
 
 	UINT16 width = 0;
 	UINT16 height = 0;

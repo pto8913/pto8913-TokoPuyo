@@ -24,7 +24,7 @@ private:
 struct FCharacterSettings : public FLayerObject2DSettings
 {
 public:
-	FCharacterSettings(const std::wstring& inFileName, const std::wstring& inTag, const DirectX::XMFLOAT2& inSize)
+	FCharacterSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
 		: FLayerObject2DSettings(inFileName, inTag, inSize)
 	{
 	}

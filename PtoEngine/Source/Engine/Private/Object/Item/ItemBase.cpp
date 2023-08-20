@@ -4,7 +4,7 @@
 struct FItemSettings : public FLayerObject2DSettings
 {
 public:
-	FItemSettings(const std::wstring& inFileName, const std::wstring& inTag, const DirectX::XMFLOAT2& inSize)
+	FItemSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
 		: FLayerObject2DSettings(inFileName, inTag, inSize)
 	{
 	}
