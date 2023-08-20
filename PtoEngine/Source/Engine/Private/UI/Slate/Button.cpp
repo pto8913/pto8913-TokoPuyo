@@ -2,23 +2,24 @@
 #include "UI/Slate/Button.h"
 
 #include "Helper/ColorHelper.h"
+#include "Helper/RectHelper.h"
 
 #if _DEBUG
 #include <format>
 #endif
 
-S_Button::S_Button(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
-	: SlotContainerOnlyOne(inSize, inD2DRT, inSlateInfos), ButtonAppearance(inButtonAppearance)
+S_Button::S_Button(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateButtonAppearance inAppearance)
+	: SlotContainerOnlyOne(inSize, inD2DRT, inSlateInfos), mAppearance(inAppearance)
 {
 	mSlateInputEventReceiveType = ESlateInputEventReceiveType::Enable;
 
-	m_pD2DRenderTarget->CreateSolidColorBrush(
-		ColorHelper::ConvertColorToD2D(ButtonAppearance.DefaultColor),
-		&m_pBrush
+	pD2DRT->CreateSolidColorBrush(
+		ColorHelper::ConvertColorToD2D(mAppearance.DefaultColor),
+		&pBrush
 	);
 }
-S_Button::S_Button(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
-	: S_Button({ 0,0 }, inD2DRT, inSlateInfos, inButtonAppearance)
+S_Button::S_Button(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateButtonAppearance inAppearance)
+	: S_Button({ 0,0 }, inD2DRT, inSlateInfos, inAppearance)
 {}
 
 S_Button::~S_Button()
@@ -26,17 +27,29 @@ S_Button::~S_Button()
 	OnClicked.ClearBind();
 }
 
+// ------------------------------------------------------------------------------------------------------------
+// Main
+// ------------------------------------------------------------------------------------------------------------
 void S_Button::Draw()
 {
 	if (!bIsVisible)
 	{
 		return;
 	}
-	m_pD2DRenderTarget->FillRectangle(
-		GetRect(),
-		m_pBrush
+	pD2DRT->FillRectangle(
+		RectHelper::ConvertRectToD2D(GetRect()),
+		pBrush
 	);
 	SlotContainerOnlyOne::Draw();
+}
+
+void S_Button::SetAppearance(const FSlateButtonAppearance& in)
+{
+	mAppearance = in;
+}
+FSlateButtonAppearance& S_Button::GetAppearance()
+{
+	return mAppearance;
 }
 
 // ------------------------------------------------
@@ -51,7 +64,7 @@ bool S_Button::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 		OutputDebugStringA(std::format("{} {}\n", inMouseEvent.x, inMouseEvent.y).c_str());
 		OutputDebugStringA(std::format("{} {} {} {}\n", GetRect().left, GetRect().top, GetRect().right, GetRect().bottom).c_str());
 #endif
-		m_pBrush->SetColor(ColorHelper::ConvertColorToD2D(ButtonAppearance.PressColor));
+		pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.PressColor));
 		OnClicked.Broadcast(inMouseEvent);
 		return true;
 	}
@@ -73,11 +86,11 @@ bool S_Button::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
 	{
 		if (InRect(inMouseEvent.x, inMouseEvent.y))
 		{
-			m_pBrush->SetColor(ColorHelper::ConvertColorToD2D(ButtonAppearance.HoverColor));
+			pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.HoverColor));
 		}
 		else
 		{
-			m_pBrush->SetColor(ColorHelper::ConvertColorToD2D(ButtonAppearance.DefaultColor));
+			pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.DefaultColor));
 		}
 		return true;
 	}
@@ -91,7 +104,7 @@ bool S_Button::OnMouseEnter(DX::MouseEvent inMouseEvent)
 #if _DEBUG
 		OutputDebugStringA("OnMouseEnter from button\n");
 #endif
-		m_pBrush->SetColor(ColorHelper::ConvertColorToD2D(ButtonAppearance.HoverColor));
+		pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.HoverColor));
 		return true;
 	}
 	return Out;
@@ -104,7 +117,7 @@ bool S_Button::OnMouseLeave(DX::MouseEvent inMouseEvent)
 #if _DEBUG
 		OutputDebugStringA("OnMouseLeave from button\n");
 #endif
-		m_pBrush->SetColor(ColorHelper::ConvertColorToD2D(ButtonAppearance.DefaultColor));
+		pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.DefaultColor));
 		return true;
 	}
 	return Out;

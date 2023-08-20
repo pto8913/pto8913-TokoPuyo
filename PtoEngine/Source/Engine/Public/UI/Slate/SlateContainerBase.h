@@ -12,11 +12,13 @@ class DirectX11;
 class SlateContainerBase : public SlateBase
 {
 public:
-	SlateContainerBase(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {});	
+	SlateContainerBase(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {});
 	SlateContainerBase(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {});
-
 	virtual ~SlateContainerBase();
 
+	// ------------------------------------------------------------------------------------------------
+	// Main
+	// ------------------------------------------------------------------------------------------------
 	virtual void Draw() override;
 
 	virtual void AddChild(std::shared_ptr<SlateBase> in);
@@ -26,14 +28,14 @@ public:
 
 	virtual void UpdateWidget() override final;
 protected:
-	/* 
-		If AddChild success then this function called. 
+	/*
+		If AddChild success then this function called.
 		In this function will be expect to initialized children slots properties like offset or size.
 	*/
 	virtual void Update() override;
 public:
 	virtual SlateBase* GetChildAt(int idx) const noexcept;
-	
+
 	std::vector<std::shared_ptr<SlateBase>> GetChiledren() const noexcept;
 	size_t GetChildrenCount() const noexcept;
 
@@ -50,7 +52,10 @@ public:
 	virtual bool OnKeyUp(DX::MouseEvent) override;
 
 protected:
-	std::vector<std::shared_ptr<SlateBase>> m_pChildren;
+	// ------------------------------------------------------------------------------------------------
+	// State
+	// ------------------------------------------------------------------------------------------------
+	std::vector<std::shared_ptr<SlateBase>> pChildren;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +66,7 @@ protected:
 class SlotContainerOnlyOne : public SlateContainerBase
 {
 public:
-	SlotContainerOnlyOne(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
+	SlotContainerOnlyOne(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
 		: SlateContainerBase(inSize, inD2DRT, inSlateInfos)
 	{}
 	SlotContainerOnlyOne(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})

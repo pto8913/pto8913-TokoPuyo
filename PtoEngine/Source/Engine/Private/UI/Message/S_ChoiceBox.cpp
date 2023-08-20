@@ -4,7 +4,7 @@
 
 #include <format>
 
-S_ChoiceBox::S_ChoiceBox(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, const TArray<FChoiceInfos>& inChoiceInfos, FSlateInfos inSlateInfos)
+S_ChoiceBox::S_ChoiceBox(FVector2D inSize, ID2D1RenderTarget* inD2DRT, const TArray<FChoiceInfos>& inChoiceInfos, FSlateInfos inSlateInfos)
 	: S_VerticalBox(inSize, inD2DRT, inSlateInfos)
 {
 	SetChoiceButton(inChoiceInfos);
@@ -36,16 +36,23 @@ void S_ChoiceBox::SetChoiceButton(const TArray<FChoiceInfos>& inChoiceInfos)
 	//static_assert(numOfButton > 0, "ChoiceBox Error : ChoiceInfos must greater than 0.");
 	if (numOfButton > 0)
 	{
-		int currNumOfButton = m_pChildren.size();
+		int currNumOfButton = pChildren.size();
 		if (numOfButton > currNumOfButton)
 		{
+			FSlateInfos info;
+			info.padding.top = 2.5f;
+			info.padding.bottom = 2.5f;
+
 			FSlateButtonAppearance appearance;
 			appearance.HoverColor = FColor(0.f, 1.f, 0.75f, 1.f);
 			appearance.PressColor = FColor(0.f, 0.5f, 0.4f, 1.f);
 
-			auto button = std::make_shared<S_ChoiceButton>(m_pD2DRenderTarget, FChoiceInfos(), FSlateInfos(), appearance);
-			AddChild(button);
-			button->GetOnChoice().Bind<&S_ChoiceBox::OnClicked>(*this, std::format("choice_button_{}", GetChildrenCount()));
+			for (int i = 0; i < numOfButton; ++i)
+			{
+				auto button = std::make_shared<S_ChoiceButton>(FVector2D(GetSize().x, 30.f), pD2DRT, FChoiceInfos(), info, appearance);
+				AddChild(button);
+				button->GetOnChoice().Bind<&S_ChoiceBox::OnClicked>(*this, std::format("choice_button_{}", GetChildrenCount()));
+			}
 		}
 		else if (numOfButton < currNumOfButton)
 		{
@@ -58,6 +65,8 @@ void S_ChoiceBox::SetChoiceButton(const TArray<FChoiceInfos>& inChoiceInfos)
 			}
 		}
 
+		SetSize(FVector2D(200.f, numOfButton * 35.f));
+
 		for (int i = 0; i < numOfButton; ++i)
 		{
 			const auto& button = static_cast<S_ChoiceButton*>(GetChildAt(i));;
@@ -65,7 +74,6 @@ void S_ChoiceBox::SetChoiceButton(const TArray<FChoiceInfos>& inChoiceInfos)
 			{
 				button->SetChoiceInfos(inChoiceInfos[i]);
 			}
-			++i;
 		}
 		UpdateWidget();
 	}

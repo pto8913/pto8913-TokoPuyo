@@ -41,9 +41,10 @@
 
 #include "Algorithm/UnionFind.h"
 #include "Algorithm/Array.h"
-#include "Algorithm/Rect.h"
+#include "Engine/Rect.h"
 
 class Event_DungeonExit;
+class LandmarkUI;
 
 class MazeGenerator : public Level2D
 {
@@ -101,6 +102,8 @@ private:
 	virtual void GenerateEventLayer() override;
 	virtual void GenerateItemLayer() override;
 
+	virtual void Tick(DirectX11& dx, float deltaSec) override;
+
 	// ------------------------------------------------------
 	// Main : Ground Layer
 	// ------------------------------------------------------
@@ -154,8 +157,10 @@ private:
 	// ------------------------------------------------------
 	void SetEnterExit();
 	void SetExit(const UINT8& blockX, const UINT8& blockY);
-	void OverlapExit();
-	void NextFloor(DirectX11& dx);
+	void NextFloorWait();
+	void NextFloor();
+	void NextFloorAfter();
+	FTimerHandle mNextFloorTimer;
 
 	// ------------------------------------------------------
 	// Main : Item Layer
@@ -170,7 +175,6 @@ private:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
-	int mFloorCount = 0;
 
 	// --------------------------
 	// State : Ground Layer 
@@ -195,4 +199,7 @@ private:
 	// State : Event Layer 
 	// --------------------------
 	std::shared_ptr<Event_DungeonExit> pExit = nullptr;
+
+	std::shared_ptr<LandmarkUI> pLandmarkUI = nullptr;
+
 };

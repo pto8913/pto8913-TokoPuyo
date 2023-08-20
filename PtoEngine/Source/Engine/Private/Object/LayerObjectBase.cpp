@@ -32,7 +32,7 @@ LayerObject2DBase::LayerObject2DBase(DirectX11& dx, const FLayerObject2DSettings
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
-void LayerObject2DBase::DoFrame(DirectX11& dx, float deltaTime)
+void LayerObject2DBase::Tick(DirectX11& dx, float deltaTime)
 {
 	ExecuteTasks(dx);
 
@@ -44,11 +44,6 @@ void LayerObject2DBase::DoFrame(DirectX11& dx, float deltaTime)
 			LastTime = chrono::now();
 			Update(dx);
 		}
-	}
-
-	if (GetTickEnabled())
-	{
-		Tick(dx, deltaTime);
 	}
 }
 void LayerObject2DBase::ExecuteTasks(DirectX11& dx)

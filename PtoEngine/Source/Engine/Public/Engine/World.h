@@ -49,9 +49,9 @@ public:
 	}
 protected:
 	virtual void SetLevel(DirectX11& dx);
-	virtual void SetPlayerController(DirectX11& dx);
 	virtual void SetGameMode(DirectX11& dx);
 	virtual void SetGameState(DirectX11& dx);
+	virtual void SetPlayerController(DirectX11& dx);
 
 public:
 	// -----------------------------------
@@ -69,6 +69,10 @@ public:
 	FOnGameModeChanged OnGameModeChanged;
 	FOnPlayerControllerChanged OnPlayerControllerChanged;
 protected:
+	// ------------------------------------------------------
+	// State
+	// ------------------------------------------------------
+
 	TimerManager mTimerManager;
 
 	std::shared_ptr<GameModeBase> pGameMode = nullptr;

@@ -20,11 +20,17 @@ public:
 class S_Button : public SlotContainerOnlyOne
 {
 public:
-	S_Button(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {});
+	S_Button(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {});
 	S_Button(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {});
 	virtual ~S_Button();
 
+	// ------------------------------------------------------------------------------------------------------------
+	// Main
+	// ------------------------------------------------------------------------------------------------------------
 	virtual void Draw() override;
+
+	void SetAppearance(const FSlateButtonAppearance& in);
+	FSlateButtonAppearance& GetAppearance();
 
 	// ------------------------------------------------
 	// Main : Event
@@ -37,5 +43,9 @@ public:
 
 	DX::FOnMouseAction OnClicked;
 
-	FSlateButtonAppearance ButtonAppearance;
+protected:
+	// ------------------------------------------------------------------------------------------------------------
+	// State
+	// ------------------------------------------------------------------------------------------------------------
+	FSlateButtonAppearance mAppearance;
 };

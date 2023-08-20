@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine/Delegate.h"
+#include <basetsd.h>
 
 enum EEventId : unsigned char
 {
@@ -8,7 +9,8 @@ enum EEventId : unsigned char
 	Exit,
 	Shop,
 	Transparent,
-	Block
+	Block,
+	None
 };
 
 struct FEventData

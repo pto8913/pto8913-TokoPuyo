@@ -16,19 +16,21 @@ class S_Border;
 
 class Level2D;
 
-class HUD : public UserWidget, public DX::HUDInterface
+class HUD : public UserWidget
 {
 public:
-	HUD(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH);
 	HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH);
-
-private:
-	virtual void Draw() override final;
+	HUD(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH);
 
 public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
+	virtual void Tick(DirectX11& dx, float deltaSec) override;
+	ID2D1RenderTarget* GetRt2D();
+
+	void AddSlate(std::shared_ptr<SlateBase> inSlate);
+	void RemoveSlate(std::shared_ptr<SlateBase> inSlate);
 
 	// --------------------------
 	// Main : Status
@@ -36,27 +38,12 @@ public:
 	void OnHPChanged(int inCurrent, int inMax);
 
 	// -----------------------------------------------------
-	// Main : HUDInterface
+	// Main : Game Infos
 	// -----------------------------------------------------
-	virtual ID2D1RenderTarget* GetRt2D() override;
+	void SetFloorName(const std::wstring in);
+	void ResetMap(const Level2D* pLevel);
+	void UpdateMap(const Level2D* pLevel);
 
-	// --------------------------
-	// Main : HUDInterface : External
-	// --------------------------
-	virtual void AddSlate(std::shared_ptr<SlateBase> inSlate) override;
-	virtual void RemoveSlate(std::shared_ptr<SlateBase> inSlate) override;
-
-	// --------------------------
-	// Main : HUDInterface : Game Infos : Map
-	// --------------------------
-	virtual void ResetMap(const Level2D* pLevel);
-	virtual void UpdateMap(const Level2D* pLevel) override;
-
-	// --------------------------
-	// Main : HUDInterface : Effect
-	// --------------------------
-	virtual void Effect_Blackout(float playRate = 0.5f) override;
-	void Effect_Blckout_Completed();
 protected:
 	// ------------------------------------------------------------------------------------------------------------
 	// Settings
@@ -71,26 +58,21 @@ protected:
 	// ------------------------------------------------------------------------------------------------------------
 	// State
 	// ------------------------------------------------------------------------------------------------------------
-	std::shared_ptr<S_ProgressBar> m_pHPBar = nullptr;
-	std::shared_ptr<S_TextBlock> m_pHPText = nullptr;
+	std::shared_ptr<S_ProgressBar> pHPBar = nullptr;
+	std::shared_ptr<S_TextBlock> pHPText = nullptr;
 
 	// --------------------------
 	// State : Game Message
 	// --------------------------
-	std::shared_ptr<S_VerticalBox> m_pGameMessage = nullptr;
+	std::shared_ptr<S_VerticalBox> pGameMessage = nullptr;
 
 	// --------------------------
 	// State : Game Infos : Floor
 	// --------------------------
-	std::shared_ptr<S_TextBlock> m_pFloorText = nullptr;
+	std::shared_ptr<S_TextBlock> pFloorText = nullptr;
 
 	// --------------------------
 	// State : Game Infos : Map
 	// --------------------------
-	std::shared_ptr<S_GridPanel> m_pMapGP = nullptr;
-
-	// --------------------------
-	// State : HUDInterface : Effect
-	// --------------------------
-	std::shared_ptr<S_Border> pEffectBorder = nullptr;
+	std::shared_ptr<S_GridPanel> pMapGP = nullptr;
 };

@@ -5,59 +5,70 @@
 #include <format>
 #endif
 
-S_GridPanel::S_GridPanel(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateGridPanelAppearance inAppearance)
+S_GridPanel::S_GridPanel(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateGridPanelAppearance inAppearance)
 	: SlateContainerBase(inSize, inD2DRT, inSlateInfos),
-	appearance(inAppearance)
+	mAppearance(inAppearance)
 {
-	m_pD2DRenderTarget->CreateSolidColorBrush(
+	pD2DRT->CreateSolidColorBrush(
 		D2D1::ColorF(1, 1, 0),
-		&m_pBrush
+		&pBrush
 	);
 }
 S_GridPanel::S_GridPanel(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateGridPanelAppearance inAppearance)
 	: S_GridPanel({ 0,0 }, inD2DRT, inSlateInfos, inAppearance)
 {
 }
+S_GridPanel::~S_GridPanel()
+{
 
+}
+
+// ------------------------------------------------------------------------------------------------
+// Main
+// ------------------------------------------------------------------------------------------------
 std::shared_ptr<SlateBase>& S_GridPanel::GetChildAt(const int& x, const int& y)
 {
-	return m_pChildren[y * appearance.column + x];
+	return pChildren[y * mAppearance.column + x];
 }
 void S_GridPanel::SetAppearance(const FSlateGridPanelAppearance& in)
 {
-	appearance = in;
+	mAppearance = in;
+}
+FSlateGridPanelAppearance& S_GridPanel::GetAppearance()
+{
+	return mAppearance;
 }
 
 void S_GridPanel::Update()
 {
-	const D2D1_RECT_F containerRect = GetRect();
+	const FRect containerRect = GetRect();
 
-	const int numOfChild = (int)m_pChildren.size();
+	const int numOfChild = (int)pChildren.size();
 	const float cellH = GetHeight() / numOfChild;
 	const float cellW = GetWidth() / numOfChild;
 
-	DirectX::XMFLOAT2 NewSize = { 0, 0 };
-	DirectX::XMFLOAT2 NewPos = { 0, 0 };
+	FVector2D NewSize = { 0, 0 };
+	FVector2D NewPos = { 0, 0 };
 	float accumulatePosX = 0.f, accumulatePosY = 0.f;
 
-	DirectX::XMFLOAT2 SrcPos = { GetRect().left, GetRect().top };
-	DirectX::XMFLOAT2 SrcSize = m_Size;
+	FVector2D SrcPos = { GetRect().left, GetRect().top };
+	FVector2D SrcSize = mSize;
 	//const SlateBase* pRootParent = GetRootParent();
-	//if (m_pParent != nullptr)
+	//if (pParent != nullptr)
 	//{
-	//	SrcPos = m_pParent->GetPosition();
-	//	SrcSize = m_pParent->GetSize();
+	//	SrcPos = pParent->GetPosition();
+	//	SrcSize = pParent->GetSize();
 	//}
 
 	float maxSizeY = 0, maxPadT = 0, maxPadB = 0;
-	for (int y = 0; y < appearance.row; ++y)
+	for (int y = 0; y < mAppearance.row; ++y)
 	{
-		for (int x = 0; x < appearance.column; ++x)
+		for (int x = 0; x < mAppearance.column; ++x)
 		{
-			int idx = y * appearance.column + x;
-			if (m_pChildren.size() > idx)
+			int idx = y * mAppearance.column + x;
+			if (pChildren.size() > idx)
 			{
-				auto&& pChild = m_pChildren[idx];
+				auto&& pChild = pChildren[idx];
 				const FSlateInfos childSlateInfos = pChild->GetSlateInfos();
 				const float childWidth = pChild->GetWidth();
 				const float childHeight = pChild->GetHeight();
@@ -125,7 +136,7 @@ void S_GridPanel::Update()
 		accumulatePosY += maxSizeY + maxPadT + maxPadB;
 	}
 #if _DEBUG
-	m_pBrush->SetColor(
+	pBrush->SetColor(
 		D2D1::ColorF(D2D1::ColorF::Red)
 	);
 #endif

@@ -5,6 +5,9 @@
 
 #include "UI/Slate/SlateInterface.h"
 
+#include "Engine/Vector.h"
+#include "Engine/Rect.h"
+
 class DirectX11;
 
 enum class ESlateInputEventReceiveType
@@ -42,10 +45,10 @@ public:
 	FSlateInfos()
 		: HAlign(EHorizontalAlignment::Fill),
 		VAlign(EVerticalAlignment::Fill),
-		padding(D2D1::RectF(0, 0, 0, 0))
+		padding(FRect(0, 0, 0, 0))
 	{};
 
-	D2D1_RECT_F padding;
+	FRect padding;
 
 	EHorizontalAlignment HAlign;
 	EVerticalAlignment VAlign;
@@ -54,7 +57,7 @@ public:
 class SlateBase : public DX::ISlateInterface
 {
 public:
-	SlateBase(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = FSlateInfos());
+	SlateBase(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = FSlateInfos());
 	
 	virtual ~SlateBase() = 0;
 
@@ -105,8 +108,7 @@ public:
 	// ------------------------------------------------
 	// Main : Transform
 	// ------------------------------------------------
-	D2D1_RECT_F GetRect() const noexcept;
-	void SetRect(DirectX::XMFLOAT2 inSize, DirectX::XMFLOAT2 inOffset);
+	FRect GetRect() const noexcept;
 
 	template<typename T>
 	bool InRect(T x, T y) const noexcept
@@ -115,45 +117,43 @@ public:
 	}
 	bool InRect(float x, float y) const noexcept;
 	
-	DirectX::XMFLOAT2 GetSize() const noexcept;
+	FVector2D GetSize() const noexcept;
 	float GetWidth() const noexcept;
 	float GetHeight() const noexcept;
-	virtual void SetSize(DirectX::XMFLOAT2 inSize);
+	virtual void SetSize(FVector2D inSize);
 	
-	DirectX::XMFLOAT2 GetPosition() const noexcept;
-	void SetPosition(DirectX::XMFLOAT2 inPosition);
-	void AddPosition(DirectX::XMFLOAT2 inPosition);
+	FVector2D GetPosition() const noexcept;
+	void SetPosition(FVector2D inPosition);
+	void AddPosition(FVector2D inPosition);
 
-	void SetOffset(DirectX::XMFLOAT2 in);
-	DirectX::XMFLOAT2 GetOffset() const noexcept;
+	void SetOffset(FVector2D in);
+	FVector2D GetOffset() const noexcept;
 
 protected:
-	SlateBase* m_pParent = nullptr;
-
-	ID2D1RenderTarget* m_pD2DRenderTarget = nullptr;
-
-	ID2D1SolidColorBrush* m_pBrush = nullptr;
+	// ------------------------------------------------------------------------------------------------
+	// State
+	// ------------------------------------------------------------------------------------------------
+	SlateBase* pParent = nullptr;
+	ID2D1RenderTarget* pD2DRT = nullptr;
+	ID2D1SolidColorBrush* pBrush = nullptr;
 
 	// ------------------------------------------------
-	// Main : InputEvent
+	// State : InputEvent
 	// ------------------------------------------------
 	ESlateInputEventReceiveType mSlateInputEventReceiveType;
-	//bool bEnableEnterLeave = true;
-	//bool bEnableClicked = true;
 
 	// ------------------------------------------------
-	// Main : SlateInfos
+	// State : SlateInfos
 	// ------------------------------------------------
-	FSlateInfos m_SlateInfos;
+	FSlateInfos mSlateInfos;
 	bool bIsVisible = true;
 
-	DirectX::XMFLOAT2 m_Size = { 0.f, 0.f };
+	FVector2D mSize;
 	/*
 		If this slate is root use m_Position.
 	*/
-	DirectX::XMFLOAT2 m_Position = { 0.f, 0.f };
-	DirectX::XMFLOAT2 m_Offset = { 0.f, 0.f };
+	FVector2D mPosition;
+	FVector2D mOffset;
 
-	D2D1_RECT_F m_Rect;
 	bool bIsLastInRect = false;
 };

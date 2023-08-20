@@ -9,8 +9,6 @@
 #include "Controller/PlayerController.h"
 #include "UI/HUD.h"
 
-using namespace DirectX;
-
 EventChoiceBase::EventChoiceBase(DirectX11& dx, const EEventId& inEventType)
 	: EventBase(dx, inEventType)
 {
@@ -31,15 +29,18 @@ void EventChoiceBase::LeaveVolume(const int& x, const int& y)
 
 void EventChoiceBase::OpenChoiceUI()
 {
-	if (pChoiceBox == nullptr)
-	{
-		auto& pHUD = GetWorld()->GetPlayerController()->GetHUD();
-		pChoiceBox = std::make_shared<S_ChoiceBox>(pHUD->GetRt2D());
-		pChoiceBox->GetOnChoiceResult().Bind<&EventChoiceBase::OnChoiceResult>(*this, "choice");
-		InitChoiceBox();
-		pHUD->AddSlate(pChoiceBox);
-	}
+	auto& pHUD = GetWorld()->GetPlayerController()->GetHUD();
+	pChoiceBox = std::make_shared<S_ChoiceBox>(pHUD->GetRt2D());
+	pChoiceBox->GetOnChoiceResult().Bind<&EventChoiceBase::OnChoiceResult>(*this, "choice");
+
 	pChoiceBox->SetChoiceButton(ChoiceInfos);
+	pChoiceBox->SetPosition(FVector2D(
+		GameSettings::GAMEUI_LEFT_TOP.x - pChoiceBox->GetSize().x - GameSettings::GAMESCREEN_LEFT_TOP.x,
+		GameSettings::GAMESCREEN_LEFT_TOP.y)
+	);
+	
+	pHUD->AddSlate(pChoiceBox);
+
 	//pChoiceBox->SetVisibility(true);
 }
 void EventChoiceBase::CloseChoiceUI()
@@ -51,16 +52,5 @@ void EventChoiceBase::CloseChoiceUI()
 		pHUD->RemoveSlate(pChoiceBox);
 		pChoiceBox.reset();
 		pChoiceBox = nullptr;
-	}
-}
-void EventChoiceBase::InitChoiceBox()
-{
-	if (pChoiceBox)
-	{
-		pChoiceBox->SetSize(XMFLOAT2(200.f, ChoiceInfos.Size() * 30.f));
-		pChoiceBox->SetPosition(XMFLOAT2(
-			GameSettings::GAMEUI_LEFT_TOP.x - pChoiceBox->GetSize().x - GameSettings::GAMESCREEN_LEFT_TOP.x,
-			GameSettings::GAMESCREEN_LEFT_TOP.y)
-		);
 	}
 }

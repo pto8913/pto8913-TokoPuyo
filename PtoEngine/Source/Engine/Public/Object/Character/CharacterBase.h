@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Object/LayerObjectBase.h"
-#include "CharacterTypes.h"
+#include "Level/Layer/CharacterTypes.h"
 
 #include "Engine/Delegate.h"
 

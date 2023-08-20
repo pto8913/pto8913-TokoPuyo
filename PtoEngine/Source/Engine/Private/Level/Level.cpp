@@ -1,5 +1,6 @@
 
 #include "Level/Level.h"
+#include "Level/Layer/Layer.h"
 
 #include "Math/Math.h"
 
@@ -82,7 +83,7 @@ void Level2D::BeginPlay(DirectX11& dx)
 
 void Level2D::Generate(DirectX11& dx)
 {
-	Disactivate();
+	Deactivate();
 
 	GenerateGroundLayer();
 	GenerateEventLayer();
@@ -114,6 +115,8 @@ void Level2D::Init(const UINT16& x, const UINT16& y)
 
 	TArray<std::shared_ptr<CharacterBase>> characterRows(x, nullptr);
 	CharacterLayer.Init(y, characterRows);
+
+	Character2Layer.Init(y, characterRows);
 }
 
 void Level2D::Activate()
@@ -128,7 +131,7 @@ void Level2D::Activate()
 
 	bInitialized = true;
 }
-void Level2D::Disactivate()
+void Level2D::Deactivate()
 {
 	bInitialized = false;
 }
@@ -177,7 +180,7 @@ bool Level2D::MoveCenter(const int& x, const int& y)
 		/* GroundLayer */
 		if (GroundLayer[nextY][nextX] != nullptr)
 		{
-			CharacterLayer[currY][currX] = nullptr;
+			Character2Layer[currY][currX] = nullptr;
 
 			currX = nextX;
 			currY = nextY;
@@ -186,9 +189,12 @@ bool Level2D::MoveCenter(const int& x, const int& y)
 			screenLeftY = currY - GameSettings::GAMESCREEN_CENTER_Y - 1;
 			screenRightX = currX + GameSettings::GAMESCREEN_CENTER_X + 2;
 			screenRightY = currY + GameSettings::GAMESCREEN_CENTER_Y + 2;
+			//SetScreenSize(GameSettings::GAMESCREEN_CENTER_X, GameSettings::GAMESCREEN_CENTER_Y);
 
 			const auto& pPlayerController = GetWorld()->GetPlayerController();
-			CharacterLayer[currY][currX] = pPlayerController->GetPlayer();
+			auto& pPlayer = pPlayerController->GetPlayer();
+			Character2Layer[currY][currX] = pPlayer;
+			pPlayer->SetOffset(WorldToScreen(currX, currY, pPlayer->GetSize()));
 
 			pPlayerController->GetHUD()->UpdateMap(this);
 			
@@ -211,39 +217,26 @@ void Level2D::Tick(DirectX11& dx, float deltaTime)
 				auto& pGroundSprite = GroundLayer[y][x];
 				if (pGroundSprite != nullptr)
 				{
-					pGroundSprite->DoFrame(dx, deltaTime);
+					pGroundSprite->Tick(dx, deltaTime);
 					pGroundSprite->SetOffset(WorldToScreen(x, y, pGroundSprite->GetSize()));
+
 				}
 
 				auto& pEventSprite = EventLayer[y][x];
 				if (pEventSprite != nullptr)
 				{
-					pEventSprite->DoFrame(dx, deltaTime);
+					pEventSprite->Tick(dx, deltaTime);
 					pEventSprite->SetOffset(WorldToScreen(x, y, pEventSprite->GetSize()));
 				}
 
 				auto& pCharacterSprite = CharacterLayer[y][x];
 				if (pCharacterSprite != nullptr)
 				{
-					pCharacterSprite->DoFrame(dx, deltaTime);
-					if (pCharacterSprite->GetCharacterType() == ECharacterId::Player)
-					{
-						pCharacterSprite->SetOffset(WorldToScreen(currX, currY, pCharacterSprite->GetSize()));
-					}
-					else
-					{
-						pCharacterSprite->SetOffset(WorldToScreen(x, y, pCharacterSprite->GetSize()));
-					}
+					pCharacterSprite->Tick(dx, deltaTime);
+					pCharacterSprite->SetOffset(WorldToScreen(x, y, pCharacterSprite->GetSize()));
 				}
 			}
 		}
-	}
-
-	auto pPlayerController = GetWorld()->GetPlayerController();
-	if (pPlayerController)
-	{
-		auto pPlayer = pPlayerController->GetPlayer();
-		pPlayer->SetOffset(WorldToScreen(currX, currY, pPlayer->GetSize()));
 	}
 }
 
@@ -518,6 +511,10 @@ const std::shared_ptr<CharacterBase>& Level2D::GetCharacterLayerID(const int& x,
 {
 	return CharacterLayer[y][x];
 }
+const std::shared_ptr<CharacterBase>& Level2D::GetCharacter2LayerID(const int& x, const int& y) const
+{
+	return Character2Layer[y][x];
+}
 
 DirectX::XMFLOAT2 Level2D::WorldToScreen(const int& x, const int& y, const DirectX::XMFLOAT2& size)
 {
@@ -525,6 +522,166 @@ DirectX::XMFLOAT2 Level2D::WorldToScreen(const int& x, const int& y, const Direc
 		GameSettings::GAMESCREEN_LEFT_TOP.x + size.x * (x - screenLeftX),
 		GameSettings::GAMESCREEN_LEFT_TOP.y * 2.f + 64.f + size.y * (y - screenLeftY)
 	};
+}
+
+void Level2D::SetScreenSize(const int& x, const int& y)
+{
+	int nextLeftX = currX - x - 1;
+	int nextLeftY = currY - y - 1;
+	int nextRightX = currX + x + 2;
+	int nextRightY = currY + y + 2;
+
+	int diffX = nextLeftX - screenLeftX;
+	int diffY = nextLeftY - screenLeftY;
+
+	if (pScreen.Size() > 0)
+	{
+		TArray<std::shared_ptr<LayerObject2DBase>> s(0, nullptr);
+		TArray<TArray<std::shared_ptr<LayerObject2DBase>>> empty(nextRightX - nextLeftX, s);
+		if (diffX > 0)
+		{
+			for (int y = screenLeftY; y < screenRightY; ++y)
+			{
+				pScreen[y].Insert(s, 0);
+				pScreen[y].Add(s);
+			}
+		}
+		else if (diffX < 0)
+		{
+			for (int y = screenLeftY; y < screenRightY; ++y)
+			{
+				for (auto&& sprite : pScreen[y][0])
+				{
+					if (sprite != nullptr)
+					{
+						sprite.reset();
+					}
+					sprite = nullptr;
+				}
+				pScreen[y].Remove(0);
+				for (auto&& sprite : pScreen[y][pScreen[y].Size() - 1])
+				{
+					if (sprite != nullptr)
+					{
+						sprite.reset();
+					}
+					sprite = nullptr;
+				}
+				pScreen[y].Remove(pScreen[y].Size() - 1);
+			}
+		}
+		if (diffY > 0)
+		{
+			for (int y = 0; y < diffY; ++y)
+			{
+				pScreen.Insert(empty, 0);
+				pScreen.Add(empty);
+			}
+		}
+		else if (diffY < 0)
+		{
+			for (int y = 0; y < diffY; ++y)
+			{
+				for (auto&& sprites : pScreen[0])
+				{
+					for (auto&& sprite : sprites)
+					{
+						if (sprite != nullptr)
+						{
+							sprite.reset();
+						}
+						sprite = nullptr;
+					}
+				}
+				pScreen.Remove(0);
+				for (auto&& sprites : pScreen.Last())
+				{
+					for (auto&& sprite : sprites)
+					{
+						if (sprite != nullptr)
+						{
+							sprite.reset();
+						}
+						sprite = nullptr;
+					}
+				}
+				pScreen.Remove(pScreen.LastIdx());
+			}
+		}
+		if (diffX == 0 && diffY == 0)
+		{
+			return;
+		}
+
+		for (int y = nextLeftY; y < nextRightY; ++y)
+		{
+			auto world = GetWorld();
+			for (int x = nextLeftX; x < nextRightX; ++x)
+			{
+				auto& sprites = pScreen[y][x];
+				if (sprites.Size() == 0)
+				{
+					SetLayerSprites(x, y);
+				}
+			}
+		}
+	}
+	else
+	{
+		auto world = GetWorld();
+		TArray<std::shared_ptr<LayerObject2DBase>> s(0, nullptr);
+		for (int y = nextLeftY; y < nextRightY; ++y)
+		{
+			for (int x = nextLeftX; x < nextRightX; ++x)
+			{
+				SetLayerSprites(x, y);
+			}
+		}
+	}
+
+	screenLeftX = nextLeftX;
+	screenLeftY = nextLeftY;
+	screenRightX = nextRightX;
+	screenRightY = nextRightY;
+}
+void Level2D::SetLayerSprites(const int& x, const int& y)
+{
+	auto world = GetWorld();
+	const auto& layer = mLayers[y][x];
+	TArray<std::shared_ptr<LayerObject2DBase>> s(0, nullptr);
+
+	auto groundData = world->SpawnActor<GroundBase>(*pDX, layer.mGroundID);
+	groundData->SetOffset(WorldToScreen(x, y, groundData->GetSize()));
+	s.Add(groundData);
+
+	if (layer.mGroundID != EGroundId::None)
+	{
+		if (layer.mEventID != EEventId::None)
+		{
+			auto eventData = world->SpawnActor<EventBase>(*pDX, layer.mEventID);
+			eventData->SetOffset(WorldToScreen(x, y, eventData->GetSize()));
+			s.Add(eventData);
+		}
+		if (layer.mItemID != EItemId::None)
+		{
+			auto itemData = world->SpawnActor<ItemBase>(*pDX, layer.mItemID);
+			itemData->SetOffset(WorldToScreen(x, y, itemData->GetSize()));
+			s.Add(itemData);
+		}
+		if (layer.mCharacterID != ECharacterId::None)
+		{
+			auto characterData = world->SpawnActor<CharacterBase>(*pDX, layer.mCharacterID);
+			characterData->SetOffset(WorldToScreen(x, y, characterData->GetSize()));
+			s.Add(characterData);
+		}
+		if (layer.mCharacter2ID != ECharacterId::None)
+		{
+			auto characterData = world->SpawnActor<CharacterBase>(*pDX, layer.mCharacter2ID);
+			characterData->SetOffset(WorldToScreen(x, y, characterData->GetSize()));
+			s.Add(characterData);
+		}
+	}
+	pScreen[y][x] = s;
 }
 
 // --------------------------

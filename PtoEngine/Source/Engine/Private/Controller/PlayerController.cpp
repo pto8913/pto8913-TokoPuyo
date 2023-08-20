@@ -9,7 +9,7 @@
 
 #include "UI/HUD.h"
 
-PlayerController::PlayerController(DirectX11& dx)
+PlayerController::PlayerController(DirectX11& dx, std::shared_ptr<Object> inOuter)
 	: Controller(dx)
 {
     SetTickEnabled(true);
@@ -25,6 +25,7 @@ PlayerController::PlayerController(DirectX11& dx)
     }
 
 	pPlayer = std::make_shared<Player>(dx);
+    SetOuter(inOuter);
 
 	pHUD = std::make_shared<HUD>(pPlayer, dx, pMouse.get(), (int)AppSettings::windowSize.x, (int)AppSettings::windowSize.y);
 	pHUD->AddToViewport();
@@ -59,10 +60,12 @@ void PlayerController::Tick(DirectX11& dx, float deltaTime)
 {
 	InputUpdate(deltaTime);
 
-	pHUD->ExecuteTasks(dx);
+    if (pHUD->GetTickEnabled())
+    {
+        pHUD->Tick(dx, deltaTime);
+    }
 
 	ExecuteTasks(dx);
-	pPlayer->DoFrame(dx, deltaTime);
 }
 
 // -----------------------------------
@@ -153,6 +156,23 @@ std::shared_ptr<Player>& PlayerController::GetPlayer()
 std::shared_ptr<HUD>& PlayerController::GetHUD()
 {
 	return pHUD;
+}
+
+void PlayerController::ActivatePlayer()
+{
+    pPlayer->SetTickEnabled(true);
+}
+void PlayerController::ActivateHUD()
+{
+    pHUD->SetTickEnabled(true);
+}
+void PlayerController::DeactivatePlayer()
+{
+    pPlayer->SetTickEnabled(false);
+}
+void PlayerController::DeactivateHUD()
+{
+    pHUD->SetTickEnabled(false);
 }
 
 // -----------------------------------

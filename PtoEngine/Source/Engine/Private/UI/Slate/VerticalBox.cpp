@@ -3,7 +3,7 @@
 
 #include <format>
 
-S_VerticalBox::S_VerticalBox(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
+S_VerticalBox::S_VerticalBox(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
 	: SlateContainerBase(inSize, inD2DRT, inSlateInfos)
 {}
 
@@ -15,29 +15,32 @@ S_VerticalBox::~S_VerticalBox()
 {
 }
 
+// ------------------------------------------------------------------------------------------------------------
+// Main
+// ------------------------------------------------------------------------------------------------------------
 void S_VerticalBox::Update()
 {
-	const D2D1_RECT_F containerRect = GetRect();
+	const FRect containerRect = GetRect();
 
-	const int numOfChild = (int)m_pChildren.size();
+	const int numOfChild = (int)pChildren.size();
 	const float cellH = GetHeight() / numOfChild;
 	const float cellW = GetWidth();
 
-	DirectX::XMFLOAT2 NewSize = { 0, 0 };
-	DirectX::XMFLOAT2 NewPos = { 0, 0 };
+	FVector2D NewSize = { 0, 0 };
+	FVector2D NewPos = { 0, 0 };
 	float accumulatePosY = 0.f;
 
-	DirectX::XMFLOAT2 SrcPos = m_Position;
-	DirectX::XMFLOAT2 SrcSize = m_Size;
+	FVector2D SrcPos = mPosition;
+	FVector2D SrcSize = mSize;
 	//const SlateBase* pRootParent = GetRootParent();
-	//if (m_pParent != nullptr)
+	//if (pParent != nullptr)
 	//{
-	//	SrcPos = m_pParent->GetPosition();
-	//	SrcSize = m_pParent->GetSize();
+	//	SrcPos = pParent->GetPosition();
+	//	SrcSize = pParent->GetSize();
 	//}
 	for (int i = 0; i < numOfChild; ++i)
 	{
-		auto&& pChild = m_pChildren[i];
+		auto&& pChild = pChildren[i];
 		const FSlateInfos childSlateInfos = pChild->GetSlateInfos();
 		const float childWidth = pChild->GetWidth();
 		const float childHeight = pChild->GetHeight();
@@ -102,7 +105,7 @@ void S_VerticalBox::Update()
 		pChild->Draw();
 	}
 #if _DEBUG
-	m_pBrush->SetColor(
+	pBrush->SetColor(
 		D2D1::ColorF(D2D1::ColorF::Red)
 	);
 #endif

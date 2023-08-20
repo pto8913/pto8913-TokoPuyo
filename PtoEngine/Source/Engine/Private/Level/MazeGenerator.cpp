@@ -2,17 +2,22 @@
 #include "Level/MazeGenerator.h"
 
 #include "Object/Sprite.h"
-#include "Object/Event/EventTypes.h"
+#include "Level/Layer/EventTypes.h"
 #include "Object/Event/Event_DungeonExit.h"
 
-#include "DirectX/Public/Core/DirectX.h"
+#include "Core/DirectX.h"
 
 #include "Algorithm/algo.h"
 #include "Math/Math.h"
 
 #include "GameSettings.h"
+#include "GameState/GameState_Dungeon.h"
 
 #include "Engine/World.h"
+
+#include "Controller/PlayerController.h"
+
+#include "UI/LandmarkUI.h"
 
 using namespace DirectX;
 using namespace Math;
@@ -60,6 +65,18 @@ void MazeGenerator::GenerateEventLayer()
 }
 void MazeGenerator::GenerateItemLayer()
 {
+}
+
+void MazeGenerator::Tick(DirectX11& dx, float deltaSec)
+{
+	if (pLandmarkUI == nullptr)
+	{
+		Level2D::Tick(dx, deltaSec);
+	}
+	else
+	{
+		pLandmarkUI->Tick(dx, deltaSec);
+	}
 }
 
 // ------------------------------------------------------
@@ -547,27 +564,27 @@ void MazeGenerator::GetPathStartPos(const FRect& inRect, const EDirection& direc
 	switch (direction)
 	{
 	case EDirection::Right:
-		for (int roomY = inRect.t; roomY <= inRect.b; ++roomY)
+		for (int roomY = inRect.top; roomY <= inRect.bottom; ++roomY)
 		{
-			candidatePathStartPos.Add(GetPosMaze(inRect.r + 1, roomY));
+			candidatePathStartPos.Add(GetPosMaze(inRect.right + 1, roomY));
 		}
 		break;
 	case EDirection::Left:
-		for (int roomY = inRect.t; roomY <= inRect.b; ++roomY)
+		for (int roomY = inRect.top; roomY <= inRect.bottom; ++roomY)
 		{
-			candidatePathStartPos.Add(GetPosMaze(inRect.l - 1, roomY));
+			candidatePathStartPos.Add(GetPosMaze(inRect.left - 1, roomY));
 		}
 		break;
 	case EDirection::Up:
-		for (int roomX = inRect.l; roomX <= inRect.r; ++roomX)
+		for (int roomX = inRect.left; roomX <= inRect.right; ++roomX)
 		{
-			candidatePathStartPos.Add(GetPosMaze(roomX, inRect.t - 1));
+			candidatePathStartPos.Add(GetPosMaze(roomX, inRect.top - 1));
 		}
 		break;
 	case EDirection::Down:
-		for (int roomX = inRect.l; roomX <= inRect.r; ++roomX)
+		for (int roomX = inRect.left; roomX <= inRect.right; ++roomX)
 		{
-			candidatePathStartPos.Add(GetPosMaze(roomX, inRect.b + 1));
+			candidatePathStartPos.Add(GetPosMaze(roomX, inRect.bottom + 1));
 		}
 		break;
 	default:
@@ -703,6 +720,7 @@ void MazeGenerator::SetEnterExit()
 	UINT8 resX, resY;
 	FRect localRect;
 	int blockX = 0, blockY = 0;
+	bool ima = false;
 	for (int y = 0; y < actualBlockCountY; ++y)
 	{
 		for (int x = 0; x < actualBlockCountX; ++x)
@@ -717,11 +735,12 @@ void MazeGenerator::SetEnterExit()
 				{
 					if (RandomBool(enterPossibility))
 					{
-						resX = LocalToWorld(x, RandRange(localRect.l, localRect.r));
-						resY = LocalToWorld(y, RandRange(localRect.t, localRect.b));
+						resX = LocalToWorld(x, RandRange(localRect.left, localRect.right));
+						resY = LocalToWorld(y, RandRange(localRect.top, localRect.bottom));
 
 						SetEventLayerID(EEventId::Enter, resX, resY);
 						makeEnter = true;
+						ima = true;
 					}
 				}
 				if (!makeEnter)
@@ -730,16 +749,20 @@ void MazeGenerator::SetEnterExit()
 				}
 				if (!makeExit)
 				{
-					if (RandomBool(exitPossibility))
+					if (!ima)
 					{
-						SetExit(x, y);
-						makeExit = true;
+						if (RandomBool(exitPossibility))
+						{
+							SetExit(x, y);
+							makeExit = true;
+						}
 					}
 				}
 				if (!makeExit)
 				{
 					exitPossibility += additionalPossibility;
 				}
+				ima = false;
 			}
 			if (makeEnter && makeExit)
 			{
@@ -749,8 +772,8 @@ void MazeGenerator::SetEnterExit()
 	}
 	if (!makeEnter)
 	{
-		resX = LocalToWorld(blockX, RandRange(localRect.l, localRect.r));
-		resY = LocalToWorld(blockY, RandRange(localRect.t, localRect.b));
+		resX = LocalToWorld(blockX, RandRange(localRect.left, localRect.right));
+		resY = LocalToWorld(blockY, RandRange(localRect.top, localRect.bottom));
 		SetEventLayerID(EEventId::Enter, resX, resY);
 	}
 	if (!makeExit)
@@ -761,23 +784,47 @@ void MazeGenerator::SetEnterExit()
 void MazeGenerator::SetExit(const UINT8& blockX, const UINT8& blockY)
 {
 	const FRect& localRect = RoomLocalRects[blockY][blockX];
-	UINT16 resX = LocalToWorld(blockX, RandRange(localRect.l, localRect.r));
-	UINT16 resY = LocalToWorld(blockY, RandRange(localRect.t, localRect.b));
+	UINT16 resX = LocalToWorld(blockX, RandRange(localRect.left, localRect.right));
+	UINT16 resY = LocalToWorld(blockY, RandRange(localRect.top, localRect.bottom));
 
 	pExit = GetWorld()->SpawnActor<Event_DungeonExit>(*pDX);
 	pExit->SetOuter(shared_from_this());
 	SetEventLayerID(pExit, resX, resY);
 
-	pExit->OnChoiceYes.Bind<&MazeGenerator::OverlapExit>(*this, "MazeExit");
+	pExit->OnChoiceYes.Bind<&MazeGenerator::NextFloorWait>(*this, "MazeExit");
 }
-void MazeGenerator::OverlapExit()
+void MazeGenerator::NextFloorWait()
 {
-	NextFloor(*pDX);
+	pExit->OnChoiceYes.Unbind("MazeExit");
+
+	FOnWidgetAnimationCompleted completed;
+	completed.Bind<&MazeGenerator::NextFloor>(*this, "MazeExit");
+
+	auto GameStateInterface = static_pointer_cast<GameState_Dungeon>(GetWorld()->GetGameState());
+	GameStateInterface->IncreaseDungeonFloor();
+
+	pLandmarkUI = std::make_shared<LandmarkUI>(GetWorld(), *pDX, GameStateInterface->GetDungeonFloorName(), 0.5f, completed);
+	pLandmarkUI->AddToViewport(-1);
+
+	GetWorld()->GetPlayerController()->DeactivateHUD();
+	GetWorld()->GetPlayerController()->DeactivatePlayer();
 }
-void MazeGenerator::NextFloor(DirectX11& dx)
+void MazeGenerator::NextFloor()
 {
-	++mFloorCount;
-	Generate(dx);
+	pLandmarkUI->RemoveFromParent();
+
+	mNextFloorTimer = GetWorld()->GetTimerManager().SetTimer<&MazeGenerator::NextFloorAfter>(*this, 0.f, false, 0.05f);
+}
+void MazeGenerator::NextFloorAfter()
+{
+	//GetWorld()->GetTimerManager().ClearTimer(mNextFloorTimer);
+	GetWorld()->GetPlayerController()->ActivateHUD();
+	GetWorld()->GetPlayerController()->ActivatePlayer();
+
+	Generate(*pDX);
+
+	pLandmarkUI.reset();
+	pLandmarkUI = nullptr;
 }
 
 // ------------------------------------------------------
@@ -798,8 +845,8 @@ void MazeGenerator::SpawnItems()
 				localRect = RoomLocalRects[y][x];
 				blockX = x;
 				blockY = y;
-				resX = LocalToWorld(x, RandRange(localRect.l, localRect.r));
-				resY = LocalToWorld(y, RandRange(localRect.t, localRect.b));
+				resX = LocalToWorld(x, RandRange(localRect.left, localRect.right));
+				resY = LocalToWorld(y, RandRange(localRect.top, localRect.bottom));
 
 				SetEventLayerID(EEventId::Enter, resX, resY);
 			}

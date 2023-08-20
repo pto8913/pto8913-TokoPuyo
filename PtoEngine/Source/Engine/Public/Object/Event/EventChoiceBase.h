@@ -26,7 +26,6 @@ public:
 protected:
 	void OpenChoiceUI();
 	void CloseChoiceUI();
-	virtual void InitChoiceBox();
 	virtual void OnChoiceResult(const FChoiceInfos& inChoiceInfos) = 0;
 
 	// ------------------------------------------------------------------------------------------------------------

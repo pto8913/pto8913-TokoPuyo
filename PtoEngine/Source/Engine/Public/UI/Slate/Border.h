@@ -44,16 +44,21 @@ public:
 	// ------------------------------------------------------
 	// Type : Border
 	// ------------------------------------------------------
-	DirectX::XMFLOAT2 roundSize;
+	FVector2D roundSize;
 };
 
 class S_Border : public SlotContainerOnlyOne
 {
 public:
-	S_Border(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateBorderAppearance inAppearance = {});
+	S_Border(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateBorderAppearance inAppearance = {});
 	S_Border(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateBorderAppearance inAppearance = {});
+	virtual ~S_Border();
 
+	// ------------------------------------------------------------------------------------------------------------
+	// Main
+	// ------------------------------------------------------------------------------------------------------------
 	virtual void Draw() override;
+
 	void SetAppearance(const FSlateBorderAppearance& inAppearance);
 	FSlateBorderAppearance& GetAppearance();
 
@@ -61,7 +66,11 @@ protected:
 	void SetFileName(std::wstring in);
 	virtual void Update() override;
 
-	ID2D1Bitmap* m_pBitmap = nullptr;
-	FSlateBorderAppearance appearance;
+	// ------------------------------------------------------------------------------------------------------------
+	// State
+	// ------------------------------------------------------------------------------------------------------------
+
+	ID2D1Bitmap* pBitmap = nullptr;
+	FSlateBorderAppearance mAppearance;
 
 };

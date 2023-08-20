@@ -22,6 +22,8 @@
 #include "Object/Character/CharacterBase.h"
 #include "Object/Event/EventBase.h"
 
+#include "GameState/GameState_Dungeon.h"
+
 #define _DEBUG 1
 
 #if _DEBUG
@@ -33,7 +35,7 @@ using namespace DirectX;
 HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
 	: UserWidget(inOwner, dx, mouse, windowSizeW, windowSizeH)
 {
-	m_pRootSlate = std::make_shared<S_CanvasPanel>(XMFLOAT2(windowSizeW, windowSizeH), m_pRt2D);
+	pRootSlate = std::make_shared<S_CanvasPanel>(FVector2D(windowSizeW, windowSizeH), m_pRt2D);
 
 	// HP Bar
 	{
@@ -47,34 +49,34 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 		infos.HAlign = EHorizontalAlignment::Center;
 		infos.VAlign = EVerticalAlignment::Center;
 
-		m_pHPText = std::make_shared<S_TextBlock>(m_pRt2D, infos);
-		m_pHPText->SetText(L"0 / 0");
+		pHPText = std::make_shared<S_TextBlock>(m_pRt2D, infos);
+		pHPText->SetText(L"0 / 0");
 
-		infos.padding = { 1.f,1.f,1.f };
+		infos.padding = FRect(1.f, 1.f, 1.f, 1.f);
 
 		FSlateProgressAppearance HPBarAppear;
 		HPBarAppear.BackgroundColor = FColor(0.5f, 0.5f, 0.5f);
 		HPBarAppear.ProgressColor = FColor(0.f, 0.75f, 0.5f);
 
-		m_pHPBar = std::make_shared<S_ProgressBar>(m_pRt2D, infos, HPBarAppear);
-		m_pHPBar->SetPercent(0.64f);
+		pHPBar = std::make_shared<S_ProgressBar>(m_pRt2D, infos, HPBarAppear);
+		pHPBar->SetPercent(0.64f);
 
 		FSlateInfos hbInfos;
 		hbInfos.HAlign = EHorizontalAlignment::Fill;
 		hbInfos.VAlign = EVerticalAlignment::Center;
 		auto pHPBarOverlay = std::make_shared<S_Overlay>(m_pRt2D, hbInfos);
-		pHPBarOverlay->SetSize(XMFLOAT2(200, 20));
+		pHPBarOverlay->SetSize(FVector2D(200, 20));
 
-		auto pHPBarHB = std::make_shared<S_HorizontalBox>(XMFLOAT2(400.f, 30.f), m_pRt2D);
+		auto pHPBarHB = std::make_shared<S_HorizontalBox>(FVector2D(400.f, 30.f), m_pRt2D);
 		pHPBarHB->SetPosition(GameSettings::GAMESCREEN_PADDING);
 
-		m_pRootSlate->AddChild(pHPBarHB);
+		pRootSlate->AddChild(pHPBarHB);
 
 		pHPBarHB->AddChild(pHPText);
 		pHPBarHB->AddChild(pHPBarOverlay);
 
-		pHPBarOverlay->AddChild(m_pHPBar);
-		pHPBarOverlay->AddChild(m_pHPText);
+		pHPBarOverlay->AddChild(pHPBar);
+		pHPBarOverlay->AddChild(pHPText);
 	}
 
 	// Game Message
@@ -84,10 +86,10 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 
 	// Game Infos
 	{
-		auto pGameInfosVB = std::make_shared<S_VerticalBox>(XMFLOAT2(300.f, GameSettings::GAMEUI_RIGHT_BOTTOM.y), m_pRt2D);
-		//pGameInfosVB->SetPosition(XMFLOAT2(0,0));
+		auto pGameInfosVB = std::make_shared<S_VerticalBox>(FVector2D(300.f, GameSettings::GAMEUI_RIGHT_BOTTOM.y), m_pRt2D);
+		//pGameInfosVB->SetPosition(FVector2D(0,0));
 		pGameInfosVB->SetPosition({ GameSettings::GAMEUI_LEFT_TOP.x, GameSettings::GAMEUI_LEFT_TOP.y });
-		m_pRootSlate->AddChild(pGameInfosVB);
+		pRootSlate->AddChild(pGameInfosVB);
 
 		// Floor Name
 		{
@@ -98,8 +100,9 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 			FSlateTextAppearance appearance;
 			appearance.hAlign = EHorizontalAlignment::Center;
 
-			m_pFloorText = std::make_shared<S_TextBlock>(m_pRt2D, infos, FSlateFont(), appearance);
-			m_pFloorText->SetText(L"É\ÉmçzéR1F");
+			pFloorText = std::make_shared<S_TextBlock>(m_pRt2D, infos, FSlateFont(), appearance);
+			auto gameState = static_pointer_cast<GameState_Dungeon>(GetWorld()->GetGameState());
+			pFloorText->SetText(gameState->GetDungeonFloorName());
 
 			FSlateBorderAppearance boxAppearance;
 			boxAppearance.bIsFill = false;
@@ -111,10 +114,10 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 			boxInfos.padding.top = 0.f;
 			boxInfos.padding.bottom = 5.f;
 
-			auto pbox = std::make_shared<S_Border>(XMFLOAT2(300.f, 50.f), m_pRt2D, boxInfos, boxAppearance);
+			auto pbox = std::make_shared<S_Border>(FVector2D(300.f, 50.f), m_pRt2D, boxInfos, boxAppearance);
 
 			pGameInfosVB->AddChild(pbox);
-			pbox->AddChild(m_pFloorText);
+			pbox->AddChild(pFloorText);
 		}
 
 		// Map
@@ -123,7 +126,7 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 			infos.HAlign = EHorizontalAlignment::Center;
 			infos.VAlign = EVerticalAlignment::Center;
 
-			m_pMapGP = std::make_shared<S_GridPanel>(m_pRt2D, infos);
+			pMapGP = std::make_shared<S_GridPanel>(m_pRt2D, infos);
 
 			FSlateBorderAppearance boxAppearance;
 			boxAppearance.bIsFill = false;
@@ -135,9 +138,9 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 			boxInfos.padding.top = 5.f;
 			boxInfos.padding.bottom = 5.f;
 
-			auto pbox = std::make_shared<S_Border>(XMFLOAT2(300.f, 300.f), m_pRt2D, boxInfos, boxAppearance);
+			auto pbox = std::make_shared<S_Border>(FVector2D(300.f, 300.f), m_pRt2D, boxInfos, boxAppearance);
 			pGameInfosVB->AddChild(pbox);
-			pbox->AddChild(m_pMapGP);
+			pbox->AddChild(pMapGP);
 		}
 
 		// Inventory
@@ -147,70 +150,67 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 		pGameInfosVB->UpdateWidget();
 	}
 
-	m_pRootSlate->SetPosition({ 0, 0 });
-	m_pRootSlate->UpdateWidget();
+	pRootSlate->SetPosition({ 0, 0 });
+	pRootSlate->UpdateWidget();
 }
 HUD::HUD(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
 	: HUD(nullptr, dx, mouse, windowSizeW, windowSizeH)
 {
 }
 
-void HUD::Draw()
-{
-	m_pRootSlate->Draw();
-}
-
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
+void HUD::Tick(DirectX11& dx, float deltaSec)
+{
+	UserWidget::Tick(dx, deltaSec);
+}
+
+ID2D1RenderTarget* HUD::GetRt2D()
+{
+	return m_pRt2D;
+}
+
+void HUD::AddSlate(std::shared_ptr<SlateBase> inSlate)
+{
+	pRootSlate->AddChild(inSlate);
+	pRootSlate->UpdateWidget();
+}
+void HUD::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
+{
+	pRootSlate->RemoveChild(inSlate);
+	pRootSlate->UpdateWidget();
+}
 
 // --------------------------
 // Main : Status
 // --------------------------
 void HUD::OnHPChanged(int inCurrent, int inMax)
 {
-	m_pHPBar->SetPercent(inCurrent / inMax);
-	m_pHPText->SetText(std::format(L"{} / {}", inCurrent, inMax).c_str());
+	pHPBar->SetPercent(inCurrent / inMax);
+	pHPText->SetText(std::format(L"{} / {}", inCurrent, inMax).c_str());
 }
 
 // -----------------------------------------------------
-// Main : HUDInterface
+// Main : Game Infos
 // -----------------------------------------------------
-ID2D1RenderTarget* HUD::GetRt2D()
+void HUD::SetFloorName(const std::wstring in)
 {
-	return m_pRt2D;
+	pFloorText->SetText(in);
 }
-
-// --------------------------
-// Main : HUDInterface : External
-// --------------------------
-void HUD::AddSlate(std::shared_ptr<SlateBase> inSlate)
-{
-	m_pRootSlate->AddChild(inSlate);
-	m_pRootSlate->UpdateWidget();
-}
-void HUD::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
-{
-	m_pRootSlate->RemoveChild(inSlate);
-	m_pRootSlate->UpdateWidget();
-}
-
-// --------------------------
-// Main : HUDInterface : Game Infos : Map
-// --------------------------
 void HUD::ResetMap(const Level2D* pLevel)
 {
-	m_pMapGP->ClearChildren();
+	pMapGP->ClearChildren();
 
 	FSlateGridPanelAppearance gpAppearance;
 	gpAppearance.column = pLevel->GetWidth();
 	gpAppearance.row = pLevel->GetHeight();
-	m_pMapGP->SetAppearance(gpAppearance);
+	pMapGP->SetAppearance(gpAppearance);
 
-	m_pMapGP->SetSize({
+	pMapGP->SetSize({
 		mapSize * pLevel->GetWidth(),
 		mapSize * pLevel->GetHeight()
-	});
+		});
 
 	for (int y = 0; y < pLevel->GetHeight(); ++y)
 	{
@@ -254,15 +254,15 @@ void HUD::ResetMap(const Level2D* pLevel)
 					cell->SetAppearance(apperance);
 				}
 			}
-			m_pMapGP->AddChild(cell);
+			pMapGP->AddChild(cell);
 		}
 	}
 
-	m_pRootSlate->UpdateWidget();
+	pRootSlate->UpdateWidget();
 }
 void HUD::UpdateMap(const Level2D* pLevel)
 {
-	if (m_pMapGP->GetChildrenCount() == 0)
+	if (pMapGP->GetChildrenCount() == 0)
 	{
 		ResetMap(pLevel);
 	}
@@ -272,7 +272,7 @@ void HUD::UpdateMap(const Level2D* pLevel)
 		{
 			for (int x = 0; x < pLevel->GetWidth(); ++x)
 			{
-				auto& slot = m_pMapGP->GetChildAt(x, y);
+				auto& slot = pMapGP->GetChildAt(x, y);
 				auto cell = static_pointer_cast<S_Border>(slot);
 				cell->GetAppearance().color = FColor(0, 0, 0);
 
@@ -300,7 +300,7 @@ void HUD::UpdateMap(const Level2D* pLevel)
 				const auto& character = pLevel->GetCharacterLayerID(x, y);
 				if (character != nullptr)
 				{
-					if (character->GetCharacterType() == ECharacterId::Player)
+					if (character->GetCharacterType() != ECharacterId::Player)
 					{
 						FSlateBorderAppearance apperance;
 						apperance.Type = EBorderType::Border;
@@ -309,51 +309,20 @@ void HUD::UpdateMap(const Level2D* pLevel)
 						cell->SetAppearance(apperance);
 					}
 				}
+
+				const auto& character2 = pLevel->GetCharacter2LayerID(x, y);
+				if (character2 != nullptr)
+				{
+					if (character2->GetCharacterType() == ECharacterId::Player)
+					{
+						FSlateBorderAppearance apperance;
+						apperance.Type = EBorderType::Border;
+						apperance.color = FColor(1.f, 1.f, 1.f);
+						apperance.roundSize = { 2.5f, 2.5f };
+						cell->SetAppearance(apperance);
+					}
+				}
 			}
 		}
 	}
-}
-
-// --------------------------
-// Main : HUDInterface : Effect
-// --------------------------
-void HUD::Effect_Blackout(float playRate)
-{
-	if (pEffectBorder == nullptr)
-	{
-		FSlateBorderAppearance appearance;
-		appearance.Type = EBorderType::Box;
-		appearance.bIsFill = true;
-		appearance.color = FColor(0, 0, 0, 1.f);
-
-		pEffectBorder = std::make_shared<S_Border>(m_pRootSlate->GetSize(), m_pRt2D, FSlateInfos(), appearance);
-	}
-
-	WidgetAnimation blackout(0.f, playRate);
-	WidgetAnimationProperty propBlack;
-	propBlack.Assign(
-		pEffectBorder->GetAppearance(), 
-		&FSlateBorderAppearance::color, 
-		FColor(0, 0, 0, 1.f), 
-		FColor(0, 0, 0, 0.f)
-	);
-
-	blackout.AssignProp(propBlack);
-	blackout.SetCallback<&HUD::Effect_Blckout_Completed>(*this);
-
-	m_pRootSlate->AddChild(pEffectBorder);
-	m_pRootSlate->UpdateWidget();
-
-	blackout.Accept();
-
-	AddAnimation(blackout);
-}
-
-void HUD::Effect_Blckout_Completed()
-{
-	m_pRootSlate->RemoveChild(pEffectBorder);
-	m_pRootSlate->UpdateWidget();
-
-	pEffectBorder.reset();
-	pEffectBorder = nullptr;
 }

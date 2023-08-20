@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Object/LayerObjectBase.h"
-#include "GroundTypes.h"
+#include "Level/Layer/GroundTypes.h"
 
 class DirectX11;
 

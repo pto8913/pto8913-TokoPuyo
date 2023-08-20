@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Object/LayerObjectBase.h"
-#include "EventTypes.h"
+#include "Level/Layer/EventTypes.h"
 
 class DirectX11;
 

@@ -3,12 +3,13 @@
 #include <wincodec.h>
 
 #include "Helper/ColorHelper.h"
+#include "Helper/RectHelper.h"
 
 #if _DEBUG
 #include <format>
 #endif
 
-S_Border::S_Border(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateBorderAppearance inAppearance)
+S_Border::S_Border(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateBorderAppearance inAppearance)
 	: SlotContainerOnlyOne(inSize, inD2DRT, inSlateInfos)
 {
 	SetAppearance(inAppearance);
@@ -17,58 +18,75 @@ S_Border::S_Border(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateB
 	: S_Border({ 0,0 }, inD2DRT, inSlateInfos, inAppearance)
 {
 }
+S_Border::~S_Border()
+{
+	Util::SafeRelease(pBitmap);
+}
 
+// ------------------------------------------------------------------------------------------------------------
+// Main
+// ------------------------------------------------------------------------------------------------------------
 void S_Border::Draw()
 {
 	if (!bIsVisible)
 	{
 		return;
 	}
-	switch (appearance.Type)
+
+	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
+	switch (mAppearance.Type)
 	{
 	case EBorderType::None:
 		SlotContainerOnlyOne::Draw();
 		return;
 	case EBorderType::Box:
-		if (appearance.bIsFill)
+		if (mAppearance.bIsFill)
 		{
-			m_pD2DRenderTarget->FillRectangle(
-				GetRect(),
-				m_pBrush
+			pD2DRT->FillRectangle(
+				RectHelper::ConvertRectToD2D(GetRect()),
+				pBrush
 			);
 		}
 		else
 		{
-			m_pD2DRenderTarget->DrawRectangle(
-				GetRect(),
-				m_pBrush,
-				appearance.lineWidth
+			pD2DRT->DrawRectangle(
+				RectHelper::ConvertRectToD2D(GetRect()),
+				pBrush,
+				mAppearance.lineWidth
 			);
 		}
 		break;
 	case EBorderType::Border:
-		if (appearance.bIsFill)
+		if (mAppearance.bIsFill)
 		{
-			m_pD2DRenderTarget->FillRoundedRectangle(
-				D2D1::RoundedRect(GetRect(), appearance.roundSize.x, appearance.roundSize.y),
-				m_pBrush
+			pD2DRT->FillRoundedRectangle(
+				D2D1::RoundedRect(
+					RectHelper::ConvertRectToD2D(GetRect()),
+					mAppearance.roundSize.x,
+					mAppearance.roundSize.y
+				),
+				pBrush
 			);
 		}
 		else
 		{
-			m_pD2DRenderTarget->DrawRoundedRectangle(
-				D2D1::RoundedRect(GetRect(), appearance.roundSize.x, appearance.roundSize.y),
-				m_pBrush,
-				appearance.lineWidth
+			pD2DRT->DrawRoundedRectangle(
+				D2D1::RoundedRect(
+					RectHelper::ConvertRectToD2D(GetRect()),
+					mAppearance.roundSize.x,
+					mAppearance.roundSize.y
+				),
+				pBrush,
+				mAppearance.lineWidth
 			);
 		}
 		break;
 	case EBorderType::Image:
-		if (m_pBitmap != nullptr)
+		if (pBrush != nullptr)
 		{
-			m_pD2DRenderTarget->DrawBitmap(
-				m_pBitmap,
-				GetRect(),
+			pD2DRT->DrawBitmap(
+				pBitmap,
+				RectHelper::ConvertRectToD2D(GetRect()),
 				1.f,
 				D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
 				nullptr
@@ -88,13 +106,13 @@ void S_Border::SetAppearance(const FSlateBorderAppearance& inAppearance)
 	{
 		SetFileName(inAppearance.fileName);
 	}
-	appearance = inAppearance;
+	mAppearance = inAppearance;
 
-	m_pBrush->SetColor(ColorHelper::ConvertColorToD2D(appearance.color));
+	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
 }
 FSlateBorderAppearance& S_Border::GetAppearance()
 {
-	return appearance;
+	return mAppearance;
 }
 
 void S_Border::SetFileName(std::wstring in)
@@ -103,33 +121,33 @@ void S_Border::SetFileName(std::wstring in)
 	{
 		return;
 	}
-	if (appearance.fileName == in)
+	if (mAppearance.fileName == in)
 	{
 		return;
 	}
-	appearance.fileName = in;
+	mAppearance.fileName = in;
 
-	if (m_pBitmap)
+	if (pBrush)
 	{
-		m_pBitmap->Release();
-		m_pBitmap = nullptr;
+		pBrush->Release();
+		pBrush = nullptr;
 	}
 
 	IWICImagingFactory* pImageFactory;
-	IWICBitmapDecoder* pBitmapDecoder;
-	IWICBitmapFrameDecode* pBitmapFrameDecode;
+	IWICBitmapDecoder* pBrushDecoder;
+	IWICBitmapFrameDecode* pBrushFrameDecode;
 	IWICFormatConverter* pImageConverter;
 	CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, (LPVOID*)&pImageFactory);
-	pImageFactory->CreateDecoderFromFilename(in.c_str(), nullptr, GENERIC_READ, WICDecodeMetadataCacheOnLoad, &pBitmapDecoder);
-	pBitmapDecoder->GetFrame(0, &pBitmapFrameDecode);
+	pImageFactory->CreateDecoderFromFilename(in.c_str(), nullptr, GENERIC_READ, WICDecodeMetadataCacheOnLoad, &pBrushDecoder);
+	pBrushDecoder->GetFrame(0, &pBrushFrameDecode);
 	pImageFactory->CreateFormatConverter(&pImageConverter);
-	pImageConverter->Initialize(pBitmapFrameDecode, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, nullptr, 1.f, WICBitmapPaletteTypeMedianCut);
+	pImageConverter->Initialize(pBrushFrameDecode, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, nullptr, 1.f, WICBitmapPaletteTypeMedianCut);
 
-	m_pD2DRenderTarget->CreateBitmapFromWicBitmap(pImageConverter, nullptr, &m_pBitmap);
+	pD2DRT->CreateBitmapFromWicBitmap(pImageConverter, nullptr, &pBitmap);
 
 	pImageFactory->Release();
-	pBitmapDecoder->Release();
-	pBitmapFrameDecode->Release();
+	pBrushDecoder->Release();
+	pBrushFrameDecode->Release();
 	pImageConverter->Release();
 }
 
@@ -140,19 +158,19 @@ void S_Border::Update()
 	const float cellH = GetHeight();
 	const float cellW = GetWidth();
 
-	DirectX::XMFLOAT2 NewSize = { 0, 0 };
-	DirectX::XMFLOAT2 NewPos = { 0, 0 };
+	FVector2D NewSize = { 0, 0 };
+	FVector2D NewPos = { 0, 0 };
 
-	DirectX::XMFLOAT2 SrcPos = m_Position;
-	DirectX::XMFLOAT2 SrcSize = m_Size;
+	FVector2D SrcPos = mPosition;
+	FVector2D SrcSize = mSize;
 	//const SlateBase* pRootParent = GetRootParent();
-	//if (m_pParent != nullptr)
+	//if (pParent != nullptr)
 	//{
-	//	SrcPos = m_pParent->GetPosition();
-	//	SrcSize.x = m_pParent->GetWidth();
-	//	SrcSize.y = m_pParent->GetHeight();
+	//	SrcPos = pParent->GetPosition();
+	//	SrcSize.x = pParent->GetWidth();
+	//	SrcSize.y = pParent->GetHeight();
 	//}
-	auto&& pChild = m_pChildren[0];
+	auto&& pChild = pChildren[0];
 	const FSlateInfos& childSlateInfos = pChild->GetSlateInfos();
 	const float childWidth = pChild->GetWidth();
 	const float childHeight = pChild->GetHeight();
@@ -214,7 +232,7 @@ void S_Border::Update()
 	pChild->SetPosition(NewPos);
 	pChild->Draw();
 #if _DEBUG
-	m_pBrush->SetColor(
+	pBrush->SetColor(
 		D2D1::ColorF(D2D1::ColorF::Yellow)
 	);
 #endif

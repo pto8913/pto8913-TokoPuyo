@@ -18,7 +18,6 @@ void Event_DungeonExit::OnChoiceResult(const FChoiceInfos& inChoiceInfos)
 	if (inChoiceInfos.tag == L"Yes")
 	{
 		OutputDebugStringA("Dungeon Exit Yes");
-		CloseChoiceUI();
 		OnChoiceYes.Broadcast();
 	}
 	else if (inChoiceInfos.tag == L"Cancel")

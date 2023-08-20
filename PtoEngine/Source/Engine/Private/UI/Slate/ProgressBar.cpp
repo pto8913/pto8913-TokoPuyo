@@ -4,55 +4,73 @@
 #include "Math/Math.h"
 
 #include "Helper/ColorHelper.h"
+#include "Helper/RectHelper.h"
 
-S_ProgressBar::S_ProgressBar(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateProgressAppearance inAppearance)
+S_ProgressBar::S_ProgressBar(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateProgressAppearance inAppearance)
 	: SlateSlotBase(inSize, inD2DRT, inSlateInfos),
-	Appearance(inAppearance)
+	mAppearance(inAppearance),
+	mPercent(1.f)
 {
-	m_pD2DRenderTarget->CreateSolidColorBrush(
-		ColorHelper::ConvertColorToD2D(Appearance.BackgroundColor),
-		&m_pBrush
+	pD2DRT->CreateSolidColorBrush(
+		ColorHelper::ConvertColorToD2D(mAppearance.BackgroundColor),
+		&pBrush
 	);
 
-	m_pD2DRenderTarget->CreateSolidColorBrush(
-		ColorHelper::ConvertColorToD2D(Appearance.ProgressColor),
-		&m_pBrush_Bar
+	pD2DRT->CreateSolidColorBrush(
+		ColorHelper::ConvertColorToD2D(mAppearance.ProgressColor),
+		&pBarBrush
 	);
 }
 S_ProgressBar::S_ProgressBar(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateProgressAppearance inAppearance)
-	: S_ProgressBar({0,0}, inD2DRT, inSlateInfos, inAppearance)
+	: S_ProgressBar({ 0,0 }, inD2DRT, inSlateInfos, inAppearance)
 {
 }
+S_ProgressBar::~S_ProgressBar()
+{
+	Util::SafeRelease(pBarBrush);
+}
 
+// ------------------------------------------------------------------------------------------------
+// Main
+// ------------------------------------------------------------------------------------------------
 void S_ProgressBar::Draw()
 {
 	if (!bIsVisible)
 	{
 		return;
 	}
-	m_pD2DRenderTarget->FillRectangle(
-		GetRect(1),
-		m_pBrush
+	pD2DRT->FillRectangle(
+		RectHelper::ConvertRectToD2D(GetRect(1)),
+		pBrush
 	);
 
-	D2D1_RECT_F progressRect = GetRect(Percent);
-	m_pD2DRenderTarget->FillRectangle(
-		progressRect,
-		m_pBrush_Bar
+	FRect progressRect = GetRect(mPercent);
+	pD2DRT->FillRectangle(
+		RectHelper::ConvertRectToD2D(progressRect),
+		pBarBrush
 	);
 }
 
-D2D1_RECT_F S_ProgressBar::GetRect(float inPercent) const noexcept
+FRect S_ProgressBar::GetRect(float inPercent) const noexcept
 {
-	return D2D1::RectF(
-		m_Position.x + m_Offset.x,
-		m_Position.y + m_Offset.y,
-		m_Position.x + m_Size.x * inPercent + m_Offset.x,
-		m_Position.y + m_Size.y + m_Offset.y
+	return FRect(
+		mPosition.x + mOffset.x,
+		mPosition.y + mOffset.y,
+		mPosition.x + mSize.x * inPercent + mOffset.x,
+		mPosition.y + mSize.y + mOffset.y
 	);
 }
 
 void S_ProgressBar::SetPercent(float in)
 {
-	Percent = Math::Clamp(in, 0.f, 1.f);
+	mPercent = Math::Clamp(in, 0.f, 1.f);
+}
+
+void S_ProgressBar::SetAppearance(const FSlateProgressAppearance& in)
+{
+	mAppearance = in;
+}
+FSlateProgressAppearance& S_ProgressBar::GetAppearance()
+{
+	return mAppearance;
 }

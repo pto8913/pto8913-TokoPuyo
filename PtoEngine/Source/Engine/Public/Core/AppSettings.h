@@ -1,6 +1,7 @@
 #pragma once
 
-#include "DirectX/DirectXHead.h"
+#include "Engine/Vector.h"
+#include <string>
 
 class AppSettings
 {
@@ -13,6 +14,6 @@ public:
 	// -------------------------------------------------
 	// Settings : Application
 	// -------------------------------------------------
-	static const DirectX::XMFLOAT2 windowSize;
+	static const FVector2D windowSize;
 	static const std::wstring windowTitle;
 };

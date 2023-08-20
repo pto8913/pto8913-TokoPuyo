@@ -5,7 +5,7 @@
 class SlateSlotBase : public SlateBase
 {
 public:
-	SlateSlotBase(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = FSlateInfos())
+	SlateSlotBase(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = FSlateInfos())
 		: SlateBase(inSize, inD2DRT, inSlateInfos)
 	{}
 	SlateSlotBase(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = FSlateInfos())

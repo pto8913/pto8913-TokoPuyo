@@ -14,6 +14,10 @@ public:
 	{
 		arr.assign(size, initVal);
 	}
+	virtual ~TArray()
+	{
+		arr.clear();
+	}
 
 	T& operator[](int idx)
 	{
@@ -50,6 +54,10 @@ public:
 	{
 		arr.push_back(in);
 	}
+	void Insert(T in, int Idx)
+	{
+		arr.insert(arr.begin() + Idx, in);
+	}
 
 	void Remove(int Idx) noexcept
 	{
@@ -68,6 +76,10 @@ public:
 	T& Last() noexcept
 	{
 		return arr.back();
+	}
+	size_t LastIdx() const noexcept
+	{
+		return Size() - 1;
 	}
 
 	template<typename Compare>

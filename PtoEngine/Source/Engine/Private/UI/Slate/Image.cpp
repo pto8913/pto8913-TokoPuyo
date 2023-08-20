@@ -3,30 +3,45 @@
 
 #include <wincodec.h>
 
-S_Image::S_Image(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, std::wstring inFileName)
+#include "Helper/RectHelper.h"
+
+S_Image::S_Image(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, std::wstring inFileName)
 	: SlateSlotBase(inSize, inD2DRT, inSlateInfos)
 {
 	SetFileName(inFileName);
 }
+S_Image::S_Image(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, std::wstring inFileName)	
+	: S_Image({ 0,0 }, inD2DRT, inSlateInfos, inFileName)
+{}
+S_Image::~S_Image()
+{
+	Util::SafeRelease(pBitmap);
+}
 
+// ------------------------------------------------------------------------------------------------
+// Main
+// ------------------------------------------------------------------------------------------------
 void S_Image::Draw()
 {
 	if (!bIsVisible)
 	{
 		return;
 	}
-	if (m_pBitmap != nullptr)
+	if (pBitmap != nullptr)
 	{
-		m_pD2DRenderTarget->DrawBitmap(
-			m_pBitmap,
-			GetRect(),
+		pD2DRT->DrawBitmap(
+			pBitmap,
+			RectHelper::ConvertRectToD2D(GetRect()),
 			1.f,
 			D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
 			nullptr
 		);
 	}
 #if _DEBUG
-	m_pD2DRenderTarget->DrawRectangle(GetRect(), m_pBrush);
+	pD2DRT->DrawRectangle(
+		RectHelper::ConvertRectToD2D(GetRect()),
+		pBrush
+	);
 #endif
 }
 
@@ -36,16 +51,16 @@ void S_Image::SetFileName(std::wstring in)
 	{
 		return;
 	}
-	if (m_FileName == in)
+	if (mFileName == in)
 	{
 		return;
 	}
-	m_FileName = in;
+	mFileName = in;
 
-	if (m_pBitmap)
+	if (pBitmap)
 	{
-		m_pBitmap->Release();
-		m_pBitmap = nullptr;
+		pBitmap->Release();
+		pBitmap = nullptr;
 	}
 
 	IWICImagingFactory* pImageFactory;
@@ -57,8 +72,8 @@ void S_Image::SetFileName(std::wstring in)
 	pBitmapDecoder->GetFrame(0, &pBitmapFrameDecode);
 	pImageFactory->CreateFormatConverter(&pImageConverter);
 	pImageConverter->Initialize(pBitmapFrameDecode, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, nullptr, 1.f, WICBitmapPaletteTypeMedianCut);
-	
-	m_pD2DRenderTarget->CreateBitmapFromWicBitmap(pImageConverter, nullptr, &m_pBitmap);
+
+	pD2DRT->CreateBitmapFromWicBitmap(pImageConverter, nullptr, &pBitmap);
 
 	pImageFactory->Release();
 	pBitmapDecoder->Release();

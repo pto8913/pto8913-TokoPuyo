@@ -27,7 +27,7 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
-	void DoFrame(DirectX11& dx, float deltaTime);
+	virtual void Tick(DirectX11& dx, float deltaTime) override;
 protected:
 	// called per UpdateTime.
 	virtual void Update(DirectX11& dx) {};

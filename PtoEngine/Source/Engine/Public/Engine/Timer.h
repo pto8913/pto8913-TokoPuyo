@@ -32,49 +32,16 @@ public:
 template<typename T>
 class Timer;
 
+
+// ------------------------------------------------------------------------------------------------------------
+// Timer
+// ------------------------------------------------------------------------------------------------------------
 template<>
 class Timer<void()>
 {
 public:
-	Timer()
-	{
-		ClearTimer();
-
-		mLastTime = std::chrono::system_clock::now();
-	}
-
-	void Tick()
-	{
-		std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
-		std::chrono::system_clock::duration duration = now - mLastTime;
-		std::chrono::milliseconds durationSec = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
-		if (bIsCompleteInitialLoop)
-		{
-			if (durationSec.count() / 1000.f > mDelay)
-			{
-				if (bIsLoop)
-				{
-					// call function
-					Invoke();
-					mLastTime = now;
-				}
-				else
-				{
-					// call function
-					Invoke();
-					ClearTimer();
-				}
-			}
-		}
-		else
-		{
-			if (durationSec.count() / 1000.f > mInitialDelay)
-			{
-				bIsCompleteInitialLoop = true;
-				mLastTime = now;
-			}
-		}
-	}
+	Timer();
+	void Tick();
 
 	/* global function */
 	template<auto tFunction, typename = typename std::enable_if_t<std::is_function_v<typename std::remove_pointer_t<decltype(tFunction)>> && std::is_invocable_r_v<void, decltype(tFunction)>>>
@@ -135,40 +102,11 @@ public:
 		};
 	}
 
-	void ClearTimer()
-	{
-		new (&mData) std::nullptr_t(nullptr);
-		mFunction = nullptr;
-
-		bIsLoop = false;
-		bIsCompleteInitialLoop = false;
-		mInitialDelay = 1.f;
-		mDelay = 1.f;
-	}
-
-	explicit operator bool() const noexcept
-	{
-		return mFunction;
-	}
+	void ClearTimer();
+	explicit operator bool() const noexcept;
 private:
-	void Initialize(float inInitialDelay = 0.f, bool inLoop = false, float inDelay = 1.f)
-	{
-		if (inInitialDelay == 0.f)
-		{
-			bIsCompleteInitialLoop = true;
-		}
-		bIsLoop = inLoop;
-		mDelay = inDelay;
-	}
-
-	void Invoke()
-	{
-		if (!*this)
-		{
-			throw InvalidTimer();
-		}
-		mFunction(&mData);
-	}
+	void Initialize(float inInitialDelay = 0.f, bool inLoop = false, float inDelay = 1.f);
+	void Invoke();
 
 	bool bIsLoop = false;
 	bool bIsCompleteInitialLoop = false;
@@ -184,27 +122,29 @@ private:
 	Function mFunction;
 };
 
+
+// ------------------------------------------------------------------------------------------------------------
+// TimerHandle
+// ------------------------------------------------------------------------------------------------------------
 struct FTimerHandle
 {
 private:
 	friend class TimerManager;
 	std::string tag;
 public:
-	FTimerHandle() = default;
-	bool operator==(const FTimerHandle& other) const noexcept
-	{
-		return tag == other.tag;
-	}
-	bool operator==(FTimerHandle&& other) const noexcept
-	{
-		return tag == other.tag;
-	}
-	bool operator<(const FTimerHandle& other) const noexcept
-	{
-		return tag < other.tag;
-	}
+	FTimerHandle();
+	~FTimerHandle();
+	explicit operator bool() const noexcept;
+	bool operator==(const FTimerHandle& other) const noexcept;
+	bool operator==(FTimerHandle&& other) const noexcept;
+	bool operator<(const FTimerHandle& other) const noexcept;
+
+	void Clear();
 };
 
+// ------------------------------------------------------------------------------------------------------------
+// TimerManager
+// ------------------------------------------------------------------------------------------------------------
 class TimerManager
 {
 public:
@@ -212,6 +152,8 @@ public:
 
 	TimerManager(const TimerManager&) = delete;
 	TimerManager& operator=(const TimerManager&) = delete;
+
+	explicit operator bool() const noexcept;
 
 	/* global function */
 	template<auto tFunction, typename = typename std::enable_if_t<std::is_function_v<typename std::remove_pointer_t<decltype(tFunction)>>&& std::is_invocable_r_v<void, decltype(tFunction)>>>
@@ -231,7 +173,7 @@ public:
 	FTimerHandle SetTimer(Type& instance, float inInitialDelay = 0.f, bool inLoop = false, float inDelay = 1.f)
 	{
 		Timer<void()> timer;
-		timer.SetTimer<tFunction>(&instance, inInitialDelay, inLoop, inDelay);
+		timer.SetTimer<tFunction>(instance, inInitialDelay, inLoop, inDelay);
 
 		FTimerHandle handle;
 		handle.tag = std::to_string(timers.size());
@@ -266,24 +208,11 @@ public:
 		return handle;
 	}
 
-	void ClearTimer(FTimerHandle handle)
-	{
-		auto timer = timers.at(handle);
-		if (timer)
-		{
-			timer.ClearTimer();
-		}
-		timers.erase(handle);
-	}
+	void ClearTimer(FTimerHandle& handle);
+	void Clear();
+	void Tick();
 
-	void Clear()
-	{
-		for (auto&& e : timers)
-		{
-			e.second.ClearTimer();
-		}
-		timers.empty();
-	}
 private:
 	std::map<FTimerHandle, Timer<void()>> timers;
+	bool bEnableTick = true;
 };

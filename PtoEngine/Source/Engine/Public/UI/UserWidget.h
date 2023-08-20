@@ -18,6 +18,10 @@ public:
 	UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH);
 	UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH);
 	virtual ~UserWidget();
+protected:
+	virtual void Draw() override;
+
+public:
 
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
@@ -25,10 +29,14 @@ public:
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
 	void AddToViewport(double inZOrder = 0);
+	void RemoveFromParent();
+
 	bool IsInViewport() const noexcept;
 	double GetZOrder() const noexcept;
 
+	virtual std::shared_ptr<World> GetWorld() override;
 protected:
+
 	// --------------------------
 	// Main : Animation
 	// --------------------------
@@ -58,7 +66,6 @@ public:
 	// --------------------------
 	// 
 	// --------------------------
-	virtual void ExecuteTasks(DirectX11& dx) override final;
 	virtual DirectX::XMMATRIX GetTransformXM(DirectX11& dx) const noexcept override final;
 
 private:
@@ -71,7 +78,7 @@ private:
 protected:
 	bool bIsInViewport = false;
 
-	std::shared_ptr<SlateContainerBase> m_pRootSlate = nullptr;
+	std::shared_ptr<SlateContainerBase> pRootSlate = nullptr;
 	DX::IMouseInterface* pMouse;
 	std::shared_ptr<Object> pOwner = nullptr;
 

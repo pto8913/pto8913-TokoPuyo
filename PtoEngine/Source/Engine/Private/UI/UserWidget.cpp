@@ -11,19 +11,22 @@ UserWidget::UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSiz
 {
 	SetTickEnabled(true);
 
-	pMouse->GetClickedLeftPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, "UserWidget");
-	pMouse->GetClickedLeftReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, "UserWidget");
-	pMouse->GetClickedLeftHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, "UserWidget");
+	if (pMouse)
+	{
+		pMouse->GetClickedLeftPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, "UserWidget");
+		pMouse->GetClickedLeftReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, "UserWidget");
+		pMouse->GetClickedLeftHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, "UserWidget");
 
-	pMouse->GetClickedRightPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, "UserWidget");
-	pMouse->GetClickedRightReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, "UserWidget");
-	pMouse->GetClickedRightHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, "UserWidget");
+		pMouse->GetClickedRightPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, "UserWidget");
+		pMouse->GetClickedRightReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, "UserWidget");
+		pMouse->GetClickedRightHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, "UserWidget");
 
-	pMouse->GetClickedWheelPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, "UserWidget");
-	pMouse->GetClickedWheelReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, "UserWidget");
-	pMouse->GetClickedWheelHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, "UserWidget");
+		pMouse->GetClickedWheelPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, "UserWidget");
+		pMouse->GetClickedWheelReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, "UserWidget");
+		pMouse->GetClickedWheelHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, "UserWidget");
 
-	pMouse->GetMouseMove().Bind<&UserWidget::OnMouseMove>(*this, "UserWidget");
+		pMouse->GetMouseMove().Bind<&UserWidget::OnMouseMove>(*this, "UserWidget");
+	}
 }
 UserWidget::UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
 	: UserWidget(dx, mouse, windowSizeW, windowSizeH)
@@ -51,9 +54,14 @@ UserWidget::~UserWidget()
 	}
 	pMouse = nullptr;
 
-	m_pRootSlate->ClearChildren();
-	m_pRootSlate.reset();
-	m_pRootSlate = nullptr;
+	pRootSlate->ClearChildren();
+	pRootSlate.reset();
+	pRootSlate = nullptr;
+}
+
+void UserWidget::Draw()
+{
+	pRootSlate->Draw();
 }
 
 // ------------------------------------------------------------------------------------------------------------
@@ -61,9 +69,14 @@ UserWidget::~UserWidget()
 // ------------------------------------------------------------------------------------------------------------
 void UserWidget::Tick(DirectX11& dx, float deltaTime)
 {
-	for (auto&& animation : mAnimations)
+	if (IsInViewport())
 	{
-		animation.Update(deltaTime);
+		ExecuteTasks(dx);
+
+		for (auto&& animation : mAnimations)
+		{
+			animation.Update(deltaTime);
+		}
 	}
 }
 void UserWidget::AddToViewport(double inZOrder)
@@ -71,6 +84,10 @@ void UserWidget::AddToViewport(double inZOrder)
 	ZOrder = Math::MapRange<double>(inZOrder, 0.0, 100.0, 0.0, 1.0);
 
 	bIsInViewport = true;
+}
+void UserWidget::RemoveFromParent()
+{
+	bIsInViewport = false;
 }
 bool UserWidget::IsInViewport() const noexcept
 {
@@ -80,6 +97,14 @@ double UserWidget::GetZOrder() const noexcept
 {
 	return ZOrder;
 }
+std::shared_ptr<World> UserWidget::GetWorld()
+{
+	if (pOwner)
+	{
+		return pOwner->GetWorld();
+	}
+}
+
 // --------------------------
 // Main : Animation
 // --------------------------
@@ -126,59 +151,40 @@ void UserWidget::OnKeyUp(DX::MouseEvent inMouseEvent)
 
 bool UserWidget::NativeOnMouseMove(DX::MouseEvent inMouseEvent)
 {
-	return m_pRootSlate->OnMouseMove(inMouseEvent);
+	return pRootSlate->OnMouseMove(inMouseEvent);
 };
 bool UserWidget::NativeOnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
-	return m_pRootSlate->OnMouseButtonDown(inMouseEvent);
+	return pRootSlate->OnMouseButtonDown(inMouseEvent);
 };
 bool UserWidget::NativeOnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
-	return m_pRootSlate->OnMouseButtonHeld(inMouseEvent);
+	return pRootSlate->OnMouseButtonHeld(inMouseEvent);
 };
 bool UserWidget::NativeOnMouseButtonUp(DX::MouseEvent inMouseEvent)
 {
-	return m_pRootSlate->OnMouseButtonUp(inMouseEvent);
+	return pRootSlate->OnMouseButtonUp(inMouseEvent);
 };
 bool UserWidget::NativeOnMouseEnter(DX::MouseEvent inMouseEvent)
 {
-	return m_pRootSlate->OnMouseEnter(inMouseEvent);
+	return pRootSlate->OnMouseEnter(inMouseEvent);
 };
 bool UserWidget::NativeOnMouseLeave(DX::MouseEvent inMouseEvent)
 {
-	return m_pRootSlate->OnMouseLeave(inMouseEvent);
+	return pRootSlate->OnMouseLeave(inMouseEvent);
 };
 bool UserWidget::NativeOnKeyDown(DX::MouseEvent inMouseEvent)
 {
-	return m_pRootSlate->OnKeyDown(inMouseEvent);
+	return pRootSlate->OnKeyDown(inMouseEvent);
 };
 bool UserWidget::NativeOnKeyUp(DX::MouseEvent inMouseEvent)
 {
-	return m_pRootSlate->OnKeyUp(inMouseEvent);
+	return pRootSlate->OnKeyUp(inMouseEvent);
 };
 
 // --------------------------
 // 
 // --------------------------
-void UserWidget::ExecuteTasks(DirectX11& dx)
-{
-	if (IsInViewport())
-	{
-		WidgetBase::ExecuteTasks(dx);
-
-		if (GetTickEnabled())
-		{
-			if (pOwner != nullptr && pOwner->GetWorld() != nullptr)
-			{
-				Tick(dx, pOwner->GetWorld()->GetWorldDeltaSec());
-			}
-			else
-			{
-				Tick(dx, 0.001367f);
-			}
-		}
-	}
-}
 DirectX::XMMATRIX UserWidget::GetTransformXM(DirectX11&) const noexcept
 {
 	return DirectX::XMMatrixIdentity() * DirectX::XMMatrixTranslation(0, 0, (float)ZOrder);

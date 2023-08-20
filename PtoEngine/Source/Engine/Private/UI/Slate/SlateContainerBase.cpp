@@ -4,6 +4,8 @@
 
 #include "Core/DirectX.h"
 
+#include "Helper/RectHelper.h"
+
 #define _DEBUG 1
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -12,24 +14,27 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////////// 
 
-SlateContainerBase::SlateContainerBase(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
+SlateContainerBase::SlateContainerBase(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
 	: SlateBase(inSize, inD2DRT, inSlateInfos)
 {
 	mSlateInputEventReceiveType = ESlateInputEventReceiveType::NotChildren;
 }
 SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
 	: SlateContainerBase({ 0,0 }, inD2DRT, inSlateInfos)
-{}
-
+{
+}
 SlateContainerBase::~SlateContainerBase()
 {
-	for (auto&& child : m_pChildren)
+	for (auto&& child : pChildren)
 	{
 		child.reset();
 	}
-	m_pChildren.clear();
+	pChildren.clear();
 }
 
+// ------------------------------------------------------------------------------------------------
+// Main
+// ------------------------------------------------------------------------------------------------
 void SlateContainerBase::Draw()
 {
 	if (!bIsVisible)
@@ -38,12 +43,13 @@ void SlateContainerBase::Draw()
 	}
 
 #if _DEBUG
-	m_pD2DRenderTarget->DrawRectangle(
-		GetRect(), m_pBrush
+	pD2DRT->DrawRectangle(
+		RectHelper::ConvertRectToD2D(GetRect()),
+		pBrush
 	);
 #endif
 
-	for (auto&& child : m_pChildren)
+	for (auto&& child : pChildren)
 	{
 		child->Draw();
 	}
@@ -52,25 +58,25 @@ void SlateContainerBase::Draw()
 void SlateContainerBase::AddChild(std::shared_ptr<SlateBase> in)
 {
 	in->SetParent(this);
-	m_pChildren.push_back(in);
+	pChildren.push_back(in);
 }
 void SlateContainerBase::RemoveChild(int idx)
 {
-	if (m_pChildren.size() > idx)
+	if (pChildren.size() > idx)
 	{
-		m_pChildren[idx].reset();
+		pChildren[idx].reset();
 	}
-	m_pChildren.erase(m_pChildren.begin() + idx);
+	pChildren.erase(pChildren.begin() + idx);
 }
 void SlateContainerBase::RemoveChild(std::shared_ptr<SlateBase> in)
 {
-	auto copiedChildren = m_pChildren;
+	auto copiedChildren = pChildren;
 	int i = 0;
 	for (auto&& child : copiedChildren)
 	{
-		if (m_pChildren[i] == in)
+		if (pChildren[i] == in)
 		{
-			m_pChildren.erase(m_pChildren.begin() + i);
+			pChildren.erase(pChildren.begin() + i);
 			break;
 		}
 		++i;
@@ -78,44 +84,44 @@ void SlateContainerBase::RemoveChild(std::shared_ptr<SlateBase> in)
 }
 void SlateContainerBase::ClearChildren()
 {
-	for (auto&& child : m_pChildren)
+	for (auto&& child : pChildren)
 	{
 		child.reset();
 	}
-	m_pChildren.erase(m_pChildren.begin(), m_pChildren.end());
+	pChildren.erase(pChildren.begin(), pChildren.end());
 }
 
 void SlateContainerBase::UpdateWidget()
 {
 	Update();
-	for (auto&& child : m_pChildren)
+	for (auto&& child : pChildren)
 	{
 		child->UpdateWidget();
 	}
 }
 void SlateContainerBase::Update()
 {
-	const int numOfChild = (int)m_pChildren.size();
+	const int numOfChild = (int)pChildren.size();
 	float cellH = GetHeight();
-	cellH = cellH == 0 ? m_pParent->GetHeight() : cellH;
+	cellH = cellH == 0 ? pParent->GetHeight() : cellH;
 	float cellW = GetWidth();
-	cellW = cellW == 0 ? m_pParent->GetWidth() : cellW;
+	cellW = cellW == 0 ? pParent->GetWidth() : cellW;
 
-	DirectX::XMFLOAT2 NewSize = { 0, 0 };
-	DirectX::XMFLOAT2 NewPos = { 0, 0 };
+	FVector2D NewSize = { 0, 0 };
+	FVector2D NewPos = { 0, 0 };
 
-	DirectX::XMFLOAT2 SrcPos = m_Position;
-	DirectX::XMFLOAT2 SrcSize = m_Size;
+	FVector2D SrcPos = mPosition;
+	FVector2D SrcSize = mSize;
 	//const SlateBase* pRootParent = GetRootParent();
-	//if (m_pParent != nullptr)
+	//if (pParent != nullptr)
 	//{
-	//	SrcPos = m_pParent->GetPosition();
-	//	SrcSize.x = m_pParent->GetWidth();
-	//	SrcSize.y = m_pParent->GetHeight();
+	//	SrcPos = pParent->GetPosition();
+	//	SrcSize.x = pParent->GetWidth();
+	//	SrcSize.y = pParent->GetHeight();
 	//}
 	for (int i = 0; i < numOfChild; ++i)
 	{
-		auto&& pChild = m_pChildren[i];
+		auto&& pChild = pChildren[i];
 		const FSlateInfos childSlateInfos = pChild->GetSlateInfos();
 		const float childWidth = pChild->GetWidth();
 		const float childHeight = pChild->GetHeight();
@@ -177,20 +183,20 @@ void SlateContainerBase::Update()
 }
 SlateBase* SlateContainerBase::GetChildAt(int idx) const noexcept
 {
-	if (m_pChildren.size() > idx)
+	if (pChildren.size() > idx)
 	{
-		return m_pChildren[idx].get();
+		return pChildren[idx].get();
 	}
 	return nullptr;
 }
 
 std::vector<std::shared_ptr<SlateBase>> SlateContainerBase::GetChiledren() const noexcept
 {
-	return m_pChildren;
+	return pChildren;
 }
 size_t SlateContainerBase::GetChildrenCount() const noexcept
 {
-	return m_pChildren.size();
+	return pChildren.size();
 }
 // ------------------------------------------------
 // Main : Event
@@ -198,72 +204,96 @@ size_t SlateContainerBase::GetChildrenCount() const noexcept
 bool SlateContainerBase::OnMouseMove(DX::MouseEvent inMouseEvent)
 {
 	SlateBase::OnMouseMove(inMouseEvent);
-	for (auto&& child : m_pChildren)
+	for (auto&& child : pChildren)
 	{
-		child->OnMouseMove(inMouseEvent);
+		if (child != nullptr)
+		{
+			child->OnMouseMove(inMouseEvent);
+		}
 	}
 	return true;
 }
 bool SlateContainerBase::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
 	bool out = SlateBase::OnMouseButtonDown(inMouseEvent);
-	for (auto&& child : m_pChildren)
+	for (auto&& child : pChildren)
 	{
-		child->OnMouseButtonDown(inMouseEvent);
+		if (child != nullptr)
+		{
+			child->OnMouseButtonDown(inMouseEvent);
+		}
 	}
 	return out;
 }
 bool SlateContainerBase::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
 	bool out = SlateBase::OnMouseButtonHeld(inMouseEvent);
-	for (auto&& child : m_pChildren)
+	for (auto&& child : pChildren)
 	{
-		child->OnMouseButtonHeld(inMouseEvent);
+		if (child != nullptr)
+		{
+			child->OnMouseButtonHeld(inMouseEvent);
+		}
 	}
 	return out;
 }
 bool SlateContainerBase::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
 {
 	bool out = SlateBase::OnMouseButtonUp(inMouseEvent);
-	for (auto&& child : m_pChildren)
+	for (auto&& child : pChildren)
 	{
-		child->OnMouseButtonUp(inMouseEvent);
+		if (child != nullptr)
+		{
+			child->OnMouseButtonUp(inMouseEvent);
+		}
 	}
 	return out;
 }
 bool SlateContainerBase::OnMouseEnter(DX::MouseEvent inMouseEvent)
 {
 	bool out = SlateBase::OnMouseEnter(inMouseEvent);
-	for (auto&& child : m_pChildren)
+	for (auto&& child : pChildren)
 	{
-		child->OnMouseEnter(inMouseEvent);
+		if (child != nullptr)
+		{
+			child->OnMouseEnter(inMouseEvent);
+		}
 	}
 	return out;
 }
 bool SlateContainerBase::OnMouseLeave(DX::MouseEvent inMouseEvent)
 {
 	bool out = SlateBase::OnMouseLeave(inMouseEvent);
-	for (auto&& child : m_pChildren)
+	for (auto&& child : pChildren)
 	{
-		child->OnMouseLeave(inMouseEvent);
+		if (child != nullptr)
+		{
+			child->OnMouseLeave(inMouseEvent);
+		}
 	}
 	return out;
 }
 bool SlateContainerBase::OnKeyDown(DX::MouseEvent inMouseEvent)
 {
 	bool out = SlateBase::OnKeyDown(inMouseEvent);
-	for (auto&& child : m_pChildren)
+	for (auto&& child : pChildren)
 	{
-		child->OnKeyDown(inMouseEvent);
+		if (child != nullptr)
+		{
+			child->OnKeyDown(inMouseEvent);
+		}
 	}
 	return out;
 }
 bool SlateContainerBase::OnKeyUp(DX::MouseEvent inMouseEvent)
 {
 	bool out = SlateBase::OnKeyUp(inMouseEvent);
-	for (auto&& child : m_pChildren)
+	for (auto&& child : pChildren)
 	{
-		child->OnKeyUp(inMouseEvent);
+		if (child != nullptr)
+		{
+			child->OnKeyUp(inMouseEvent);
+		}
 	}
 	return out;
 }
@@ -275,16 +305,16 @@ bool SlateContainerBase::OnKeyUp(DX::MouseEvent inMouseEvent)
 //////////////////////////////////////////////////////////////////////////////////////// 
 void SlotContainerOnlyOne::AddChild(std::shared_ptr<SlateBase> in)
 {
-	if (m_pChildren.size() == 0)
+	if (pChildren.size() == 0)
 	{
 		SlateContainerBase::AddChild(in);
 	}
 }
 SlateBase* SlotContainerOnlyOne::GetChildAt(int) const noexcept
 {
-	if (m_pChildren.size() > 0)
+	if (pChildren.size() > 0)
 	{
-		return m_pChildren[0].get();
+		return pChildren[0].get();
 	}
 	return nullptr;
 }
@@ -294,24 +324,24 @@ void SlotContainerOnlyOne::Update()
 	if (GetChildrenCount() == 0) return;
 
 	float cellH = GetHeight();
-	cellH = cellH == 0 ? m_pParent->GetHeight() : cellH;
+	cellH = cellH == 0 ? pParent->GetHeight() : cellH;
 	float cellW = GetWidth();
-	cellW = cellW == 0 ? m_pParent->GetWidth() : cellW;
+	cellW = cellW == 0 ? pParent->GetWidth() : cellW;
 
-	DirectX::XMFLOAT2 NewSize = { 0, 0 };
-	DirectX::XMFLOAT2 NewPos = { 0, 0 };
+	FVector2D NewSize = { 0, 0 };
+	FVector2D NewPos = { 0, 0 };
 
-	DirectX::XMFLOAT2 SrcPos = m_Position;
-	DirectX::XMFLOAT2 SrcSize = m_Size;
+	FVector2D SrcPos = mPosition;
+	FVector2D SrcSize = mSize;
 	//const SlateBase* pRootParent = GetRootParent();
-	//if (m_pParent != nullptr)
+	//if (pParent != nullptr)
 	//{
-	//	SrcPos = m_pParent->GetPosition();
-	//	SrcSize.x = m_pParent->GetWidth();
-	//	SrcSize.y = m_pParent->GetHeight();
+	//	SrcPos = pParent->GetPosition();
+	//	SrcSize.x = pParent->GetWidth();
+	//	SrcSize.y = pParent->GetHeight();
 	//}
 
-	auto&& pChild = m_pChildren[0];
+	auto&& pChild = pChildren[0];
 	const FSlateInfos childSlateInfos = pChild->GetSlateInfos();
 	const float childWidth = pChild->GetWidth();
 	const float childHeight = pChild->GetHeight();

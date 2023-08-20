@@ -6,6 +6,7 @@
 #include "GameState/GameStateBase.h"
 #include "Controller/PlayerController.h"
 #include "Level/Level.h"
+#include "Object/Character/Player.h"
 
 // ------------------------------------------------------------------------------------------------------------
 // World
@@ -15,6 +16,9 @@ World::World()
 }
 World::~World()
 {
+	OnGameModeChanged.ClearBind();
+	OnPlayerControllerChanged.ClearBind();
+
 	mTimerManager.Clear();
 
 	pGameMode.reset();
@@ -36,22 +40,27 @@ World::~World()
 void World::Init(DirectX11& dx)
 {
 	SetLevel(dx);
-	SetPlayerController(dx);
 	SetGameMode(dx);
 	SetGameState(dx);
+	SetPlayerController(dx);
 }
 
 void World::BeginPlay(DirectX11& dx)
 {
 	pPersistentLevel->BeginPlay(dx);
-	pPlayerController->BeginPlay(dx);
 	pGameMode->BeginPlay(dx);
 	pGameState->BeginPlay(dx);
+	pPlayerController->BeginPlay(dx);
 }
 
 void World::Tick(DirectX11& dx, float deltaSec)
 {
 	mWorldDelta = deltaSec;
+
+	if (mTimerManager)
+	{
+		mTimerManager.Tick();
+	}
 
 	if (pGameMode)
 	{
@@ -82,6 +91,14 @@ void World::Tick(DirectX11& dx, float deltaSec)
 		if (pPersistentLevel->GetTickEnabled())
 		{
 			pPersistentLevel->Tick(dx, deltaSec);
+		}
+	}
+
+	if (pPlayerController)
+	{
+		if (pPlayerController->GetPlayer()->GetTickEnabled())
+		{
+			pPlayerController->GetPlayer()->Tick(dx, deltaSec);
 		}
 	}
 }
@@ -115,9 +132,8 @@ void World::SetPlayerController(DirectX11& dx)
 {
 	if (pPlayerController == nullptr)
 	{
-		pPlayerController = std::make_shared<PlayerController>(dx);
+		pPlayerController = std::make_shared<PlayerController>(dx, shared_from_this());
 	}
-	pPlayerController->SetOuter(shared_from_this());
 }
 void World::SetLevel(DirectX11& dx)
 {

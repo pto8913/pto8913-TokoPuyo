@@ -1,24 +1,6 @@
 
 #include "UI/WidgetAnimation.h"
 
-#include <cmath>
-
-
-// ------------------------------------------------------------------------------------------------------------
-// Widget Animation Property
-// ------------------------------------------------------------------------------------------------------------
-WidgetAnimationProperty::~WidgetAnimationProperty()
-{
-	new (&mData) std::nullptr_t(nullptr);
-	new (&mStart) std::nullptr_t(nullptr);
-	new (&mEnd) std::nullptr_t(nullptr);
-	mFunction = nullptr;
-}
-void WidgetAnimationProperty::Udpate(float alpha/* 0.f ~ 1.f */)
-{
-	mFunction(&mData, offset, &mStart, &mEnd, alpha);
-}
-
 // ------------------------------------------------------------------------------------------------------------
 // Widget Animation
 // ------------------------------------------------------------------------------------------------------------
@@ -35,39 +17,30 @@ WidgetAnimation::~WidgetAnimation()
 	Clear();
 }
 
-void WidgetAnimation::AssignProp(WidgetAnimationProperty prop)
+// -------------------------------------------------------
+// Main
+// -------------------------------------------------------
+void WidgetAnimation::SetStartTime(const float& in)
 {
-	props.Add(prop);
-}
-
-void WidgetAnimation::Accept()
-{
-	bIsInitialized = true;
-}
-
-void WidgetAnimation::Update(float deltaTime)
-{
-	if (bIsInitialized)
+	if (!bIsActive)
 	{
-		mDuration += deltaTime * mPlaySpeed;
-		for (auto&& prop : props)
-		{
-			prop.Udpate(mDuration);
-		}
-
-		if (mDuration == mEndTime)
-		{
-			if (mFunction != nullptr)
-			{
-				mFunction(&mData);
-			}
-		}
+		mStartTime = in;
+		mDuration = in;
 	}
 }
+void WidgetAnimation::SetPlaySpeed(const float& in)
+{
+	if (!bIsActive)
+	{
+		mPlaySpeed = in;
+	}
+}
+
 void WidgetAnimation::Clear()
 {
-	new (&mData) std::nullptr_t(nullptr);
-	mFunction = nullptr;
+	bIsActive = false;
+
+	OnWidgetAnimationCompleted.ClearBind();
 
 	mStartTime = 0.f;
 	mEndTime = 1.f;
@@ -75,4 +48,39 @@ void WidgetAnimation::Clear()
 	mDuration = 0.f;
 
 	props.Clear();
+}
+
+void WidgetAnimation::AssignProp(FWidgetAnimationProperty* prop)
+{
+	props.Add(prop);
+}
+
+void WidgetAnimation::Activate()
+{
+	bIsActive = true;
+}
+void WidgetAnimation::Deactivate()
+{
+	bIsActive = false;
+}
+
+void WidgetAnimation::Update(float deltaTime)
+{
+	if (bIsActive)
+	{
+		mDuration += deltaTime * mPlaySpeed;
+		for (auto&& prop : props)
+		{
+			prop->Udpate(mDuration);
+		}
+
+		if (Algo::IsNearlyEqual(mDuration, mEndTime, 0.1f))
+		{
+			if (OnWidgetAnimationCompleted.IsBound())
+			{
+				OnWidgetAnimationCompleted.Broadcast();
+			}
+			Deactivate();
+		}
+	}
 }

@@ -6,7 +6,7 @@
 #include "UI/Slate/TextBlock.h"
 
 
-S_ChoiceButton::S_ChoiceButton(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, const FChoiceInfos& inChoiceInfos, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
+S_ChoiceButton::S_ChoiceButton(FVector2D inSize, ID2D1RenderTarget* inD2DRT, const FChoiceInfos& inChoiceInfos, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
 	: S_Button(inSize, inD2DRT, inSlateInfos, inButtonAppearance)
 {
 	OnClicked.Bind<&S_ChoiceButton::OnClickedEvent>(*this, "S_ChoiceButton");

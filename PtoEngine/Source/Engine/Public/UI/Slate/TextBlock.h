@@ -3,6 +3,8 @@
 #include "SlateSlotBase.h"
 #include <dwrite.h>
 
+#include "Engine/Color.h"
+
 class DirectX11;
 
 DECLARE_MULTICAST_DELEGATE_RET(FOnSetText, std::wstring);
@@ -40,13 +42,13 @@ struct FSlateTextAppearance
 {
 public:
 	FSlateTextAppearance()
-		: color(D2D1::ColorF(255.f, 255.f, 255.f, 1.f)),
+		: color(FColor(1.f, 1.f, 1.f, 1.f)),
 		hAlign(EHorizontalAlignment::Center),
 		vAlign(EVerticalAlignment::Center),
 		wrap(ETextWrap::No)
 	{}
 
-	D2D1_COLOR_F color;
+	FColor color;
 
 	EHorizontalAlignment hAlign;
 	EVerticalAlignment vAlign;
@@ -71,15 +73,23 @@ class S_TextBlock : public SlateSlotBase
 {
 public:
 	S_TextBlock(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
+	virtual ~S_TextBlock();
 
+	// ------------------------------------------------------------------------------------------------
+	// Main
+	// ------------------------------------------------------------------------------------------------
 	virtual void Draw() override;
 
-	void SetFont(FSlateFont inFont);
 	void SetAppearance(FSlateTextAppearance in);
+	FSlateTextAppearance& GetAppearance();
+
+	void SetFont(FSlateFont inFont);
 	void SetText(std::wstring inText);
+	virtual void SetSize(FVector2D inSize) override;
+protected:
+	virtual void UpdateSize();
 
-	virtual void SetSize(DirectX::XMFLOAT2 inSize) override;
-
+public:
 	virtual void SetAppearHorizontalAlignment(EHorizontalAlignment in);
 	virtual void SetAppearVerticalAlignment(EVerticalAlignment in);
 
@@ -88,14 +98,13 @@ public:
 	/* NOTE : this will be called per frame. */
 	FOnSetText OnSetText;
 
-protected:
-	virtual void UpdateSize();
 private:
+	// ------------------------------------------------------------------------------------------------
+	// State
+	// ------------------------------------------------------------------------------------------------
+	FSlateTextAppearance mAppearance;
 
-	FSlateTextAppearance m_Appearance;
-
-	IDWriteTextFormat* m_pTextFormat = nullptr;
-	FSlateFont m_Font;
-
-	std::wstring m_Text;
+	IDWriteTextFormat* pTextFormat = nullptr;
+	FSlateFont mFont;
+	std::wstring mText;
 };

@@ -135,6 +135,9 @@ private:
 template<typename Ret, typename ...Args>
 class MulticastDelegate<Ret(Args...)>
 {
+private:
+	using DelegateType = Delegate<Ret(Args...)>;
+	using MulticastDelegateType = MulticastDelegate<Ret(Args...)>;
 public:
 	// ƒOƒ[ƒoƒ‹ŠÖ”‚Ì•Û‘¶
 	template<auto Function, typename = typename std::enable_if_t<std::is_function_v<typename std::remove_pointer_t<decltype(Function)>>&& std::is_invocable_r_v<Ret, decltype(Function), Args...>>>
@@ -173,6 +176,21 @@ public:
 		DelegateType _delegate;
 		mDelegates.push_back(_delegate);
 		mDelegates.back().Bind<Type>(funcPtr);
+		mFunctionTags.push_back(tag);
+	}
+
+	void Add(const DelegateType& inDelegate, std::string tag)
+	{
+		mDelegates.push_back(inDelegate);
+		mFunctionTags.push_back(tag);
+	}
+
+	void Append(const MulticastDelegateType& inDelegate, std::string tag)
+	{
+		for (auto&& _delegate : inDelegate.mDelegates)
+		{
+			mDelegates.push_back(_delegate);
+		}
 		mFunctionTags.push_back(tag);
 	}
 
@@ -219,8 +237,6 @@ public:
 		return mDelegates.size() > 0;
 	}
 private:
-	using DelegateType = Delegate<Ret(Args...)>;
-
 	std::vector<DelegateType> mDelegates;
 	std::vector<std::string> mFunctionTags;
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DirectX/DirectXHead.h"
+#include "Engine/Vector.h"
 
 class GameSettings
 {
@@ -16,12 +17,12 @@ public:
 	static const float CELL;
 	static const int   INDEX_NONE;
 
-	static const DirectX::XMFLOAT2 GAMESCREEN_LEFT_TOP;
+	static const FVector2D GAMESCREEN_LEFT_TOP;
 
-	static const DirectX::XMFLOAT2 GAMESCREEN_PADDING;
+	static const FVector2D GAMESCREEN_PADDING;
 
-	static const int GAMESCREEN_SIZE_WIDTH;
-	static const int GAMESCREEN_SIZE_HEIGHT;
+	static const float GAMESCREEN_SIZE_WIDTH;
+	static const float GAMESCREEN_SIZE_HEIGHT;
 
 	static const UINT8 GAMESCREEN_WIDTH;
 	static const UINT8 GAMESCREEN_HEIGHT;
@@ -37,9 +38,9 @@ public:
 	// -------------------------------------------------
 	// Settings : Game UI
 	// -------------------------------------------------
-	static const DirectX::XMFLOAT2 MESSAGEBOX_LEFT_TOP;
+	static const FVector2D MESSAGEBOX_LEFT_TOP;
 
-	static const DirectX::XMFLOAT2 GAMEUI_SIZE;
-	static const DirectX::XMFLOAT2 GAMEUI_LEFT_TOP;
-	static const DirectX::XMFLOAT2 GAMEUI_RIGHT_BOTTOM;
+	static const FVector2D GAMEUI_SIZE;
+	static const FVector2D GAMEUI_LEFT_TOP;
+	static const FVector2D GAMEUI_RIGHT_BOTTOM;
 };

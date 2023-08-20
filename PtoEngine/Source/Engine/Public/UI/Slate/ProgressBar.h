@@ -15,21 +15,30 @@ public:
 	FColor ProgressColor;
 };
 
-
 class S_ProgressBar : public SlateSlotBase
 {
 public:
-	S_ProgressBar(DirectX::XMFLOAT2 inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateProgressAppearance inAppearance = {});
+	S_ProgressBar(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateProgressAppearance inAppearance = {});
 	S_ProgressBar(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateProgressAppearance inAppearance = {});
+	virtual ~S_ProgressBar();
+
+	// ------------------------------------------------------------------------------------------------
+	// Main
+	// ------------------------------------------------------------------------------------------------
 	virtual void Draw() override;
 
-	D2D1_RECT_F GetRect(float inPercent) const noexcept;
+	FRect GetRect(float inPercent) const noexcept;
 
 	void SetPercent(float in);
+
+	void SetAppearance(const FSlateProgressAppearance& in);
+	FSlateProgressAppearance& GetAppearance();
 private:
-	FSlateProgressAppearance Appearance;
+	// ------------------------------------------------------------------------------------------------
+	// State
+	// ------------------------------------------------------------------------------------------------
+	ID2D1SolidColorBrush* pBarBrush = nullptr;
 
-	float Percent;
-
-	ID2D1SolidColorBrush* m_pBrush_Bar;
+	FSlateProgressAppearance mAppearance;
+	float mPercent;
 };

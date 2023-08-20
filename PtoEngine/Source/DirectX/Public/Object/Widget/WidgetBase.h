@@ -11,7 +11,7 @@ class WidgetBase : private DrawableObject2D
 public:
 	WidgetBase(DirectX11& dx, UINT windowSizeW, UINT windowSizeH);
 
-	virtual void ExecuteTasks(DirectX11& dx) override;
+	virtual void ExecuteTasks(DirectX11& dx) override final;
 
 	virtual DirectX::XMMATRIX GetTransformXM(DirectX11& dx) const noexcept override;
 

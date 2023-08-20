@@ -16,7 +16,7 @@ class HUD;
 class PlayerController : public Controller, public Actor
 {
 public:
-	PlayerController(DirectX11& dx);
+	PlayerController(DirectX11& dx, std::shared_ptr<Object> inOuter);
 	virtual ~PlayerController();
 
 	// ------------------------------------------------------------------------------------------------------------
@@ -48,6 +48,11 @@ public:
 	DX::IMouseInterface* GetMouse();
 	std::shared_ptr<Player>& GetPlayer();
 	std::shared_ptr<HUD>& GetHUD();
+
+	void ActivatePlayer();
+	void ActivateHUD();
+	void DeactivatePlayer();
+	void DeactivateHUD();
 protected:
 	// -----------------------------------
 	// 

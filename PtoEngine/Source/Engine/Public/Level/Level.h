@@ -4,13 +4,16 @@
 
 #include "Algorithm/Array.h"
 
-#include "Object/Event/EventTypes.h"
-#include "Object/Item/ItemTypes.h"
-#include "Object/Ground/GroundTypes.h"
-#include "Object/Character/CharacterTypes.h"
+#include "Engine/Timer.h"
 
-class World;
+#include "Layer/Layer.h"
+
 class DirectX11;
+class World;
+
+class LayerObject2DBase;
+class Layer;
+
 class GroundBase;
 class EventBase;
 class ItemBase;
@@ -34,6 +37,9 @@ public:
 	virtual std::shared_ptr<World> GetWorld() override;
 
 protected:
+	// ------------------------------------------------------
+	// State
+	// ------------------------------------------------------
 	DirectX11* pDX = nullptr;
 
 	std::shared_ptr<World> pOwningWorld = nullptr;
@@ -76,7 +82,7 @@ protected:
 public:
 	void Init(const UINT16& x, const UINT16& y);
 	void Activate();
-	void Disactivate();
+	void Deactivate();
 	bool MoveCenter(const int& x, const int& y);
 
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
@@ -121,8 +127,13 @@ public:
 
 	void SetCharacterLayerID(const ECharacterId& characterType, const UINT16& x, const UINT16& y);
 	const std::shared_ptr<CharacterBase>& GetCharacterLayerID(const int& x, const int& y) const;
+
+	const std::shared_ptr<CharacterBase>& GetCharacter2LayerID(const int& x, const int& y) const;
 protected:
 	DirectX::XMFLOAT2 WorldToScreen(const int& x, const int& y, const DirectX::XMFLOAT2& size);
+
+	void SetScreenSize(const int& x, const int& y);
+	void SetLayerSprites(const int& x, const int& y);
 public:
 	// --------------------------
 	// Main : Debug
@@ -139,7 +150,11 @@ public:
 	//TArray<TArray<std::shared_ptr<CharacterBase>>> BuildingLayer;
 
 	TArray<TArray<std::shared_ptr<CharacterBase>>> CharacterLayer;
+	TArray<TArray<std::shared_ptr<CharacterBase>>> Character2Layer;
 	//TArray<TArray<std::shared_ptr<CharacterBase>>> EffectLayer;
+
+	TArray<TArray<TArray<std::shared_ptr<LayerObject2DBase>>>> pScreen;
+	TArray<TArray<Layer>> mLayers;
 
 	UINT16 width = 0;
 	UINT16 height = 0;
