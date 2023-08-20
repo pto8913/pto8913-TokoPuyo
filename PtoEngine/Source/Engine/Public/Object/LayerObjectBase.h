@@ -2,7 +2,6 @@
 
 #include "Object/Sprite.h"
 #include "Object/Actor.h"
-#include "Object/LayerInterface.h"
 
 #include <chrono>
 
@@ -19,10 +18,10 @@ public:
 	DirectX::XMFLOAT2 size;
 };
 
-class LayerObject2DBase : public Sprite, public Actor, public DX::Layer2DInterface
+class LayerObject2DBase : public Sprite, public Actor
 {
 public:
-	LayerObject2DBase(DirectX11& dx, const FLayerObject2DSettings& Settings, const int& inLayer, const float& inUpdateTime = -1);
+	LayerObject2DBase(DirectX11& dx, const FLayerObject2DSettings& Settings, const float& inUpdateTime = -1);
 
 	// ------------------------------------------------------
 	// Main

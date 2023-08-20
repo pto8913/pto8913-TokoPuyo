@@ -24,7 +24,6 @@ EventBase::EventBase(DirectX11& dx, const EEventId& inEventType)
 	: LayerObject2DBase(
 		dx, 
 		EventSettings.at(inEventType),
-		1,
 		1.f
 	),
 	EventType(inEventType)

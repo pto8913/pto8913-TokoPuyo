@@ -1,8 +1,6 @@
 #pragma once
 
-#include "Object/LayerInterface.h"
-
-class EffectBase : public DX::Layer2DInterface
+class EffectBase
 {
 public:
 	EffectBase();

@@ -299,7 +299,6 @@
     <ClInclude Include="Source\Engine\Public\Object\Ground\GroundBase.h" />
     <ClInclude Include="Source\Engine\Public\Object\ItemManager.h" />
     <ClInclude Include="Source\Engine\Public\Object\Item\ItemBase.h" />
-    <ClInclude Include="Source\Engine\Public\Object\LayerInterface.h" />
     <ClInclude Include="Source\Engine\Public\Object\LayerObjectBase.h" />
     <ClInclude Include="Source\Engine\Public\Object\LibraryInterface.h" />
     <ClInclude Include="Source\Engine\Public\Object\Object.h" />

@@ -44,7 +44,6 @@ CharacterBase::CharacterBase(DirectX11& dx, const ECharacterId& inCharacterType)
 	: LayerObject2DBase(
 		dx,
 		CharacterList.at(inCharacterType),
-		4, 
 		1.f
 	),
 	characterType(inCharacterType)

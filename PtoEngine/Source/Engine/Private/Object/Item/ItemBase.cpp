@@ -23,8 +23,7 @@ const std::map<EItemId, FItemSettings> ItemList =
 ItemBase::ItemBase(DirectX11& dx, const EItemId& inItemType)
 	: LayerObject2DBase(
 		dx,
-		ItemList.at(inItemType),
-		3
+		ItemList.at(inItemType)
 	),
 	itemType(inItemType)
 {

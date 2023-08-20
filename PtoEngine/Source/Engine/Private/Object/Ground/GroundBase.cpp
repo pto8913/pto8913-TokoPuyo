@@ -40,7 +40,6 @@ GroundBase::GroundBase(DirectX11& dx, const EGroundId& inGroundType)
 	: LayerObject2DBase(
 		dx, 
 		GroundSettings.at(inGroundType),
-		1,
 		1.f
 	),
 	GroundType(inGroundType)
