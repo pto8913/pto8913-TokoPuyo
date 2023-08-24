@@ -352,12 +352,6 @@
     <ClInclude Include="Source\DirectX\Public\Object\ObjectBase.h">
       <Filter>Source\DirectX\Public\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Math\Rotator.h">
-      <Filter>Source\DirectX\Public\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Math\Matrix.h">
-      <Filter>Source\DirectX\Public\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Render\Factory\Texture.h">
       <Filter>Source\DirectX\Public\Render\Factory</Filter>
     </ClInclude>
@@ -451,9 +445,6 @@
     <ClInclude Include="Source\Engine\Public\Algorithm\Random.h">
       <Filter>Source\Engine\Public\Algorithm</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Object\LayerInterface.h">
-      <Filter>Source\Engine\Public\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Object\Building\BuildingBase.h">
       <Filter>Source\Engine\Public\Object\Building</Filter>
     </ClInclude>
@@ -483,9 +474,6 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Object\Character\Enemy.h">
       <Filter>Source\Engine\Public\Object\Character</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Copmonent\InventoryComponentBase.h">
-      <Filter>Source\Engine\Public\Component</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Object\ItemManager.h">
       <Filter>Source\Engine\Public\Object</Filter>
@@ -661,6 +649,62 @@
     <ClInclude Include="Source\Engine\Public\Level\Layer\Layer.h">
       <Filter>Source\Engine\Public\Level\Layer</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Level\Level2D.h" />
+    <ClInclude Include="Source\Engine\Public\Object\Character\PlayerTypes.h" />
+    <ClInclude Include="Source\Engine\Public\UI\WidgetAnimationTypes.h">
+      <Filter>Source\Engine\Public\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\World\World_SonoTown.h">
+      <Filter>Source\Engine\Public\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Level\Level_SonoTown.h">
+      <Filter>Source\Engine\Public\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Component\ActorComponent.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Component\InventoryComponentBase.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Component\MovementComponent.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Engine\Rotator.h">
+      <Filter>Source\Engine\Public\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Engine\Matrix.h">
+      <Filter>Source\Engine\Public\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Character\Player_Dungeon.h">
+      <Filter>Source\Engine\Public\Object\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Character\Player_Town.h">
+      <Filter>Source\Engine\Public\Object\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Event\Event_TownDoor.h">
+      <Filter>Source\Engine\Public\Object\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\World\World_Town.h">
+      <Filter>Source\Engine\Public\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\World\World_Dungeon.h">
+      <Filter>Source\Engine\Public\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\GameMode\GameMode_Town.h">
+      <Filter>Source\Engine\Public\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\GameState\GameState_Town.h">
+      <Filter>Source\Engine\Public\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Level\LevelTypes.h">
+      <Filter>Source\Engine\Public\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Level\LevelFactory.h">
+      <Filter>Source\Engine\Public\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Level\Level_SonoTown_House_0.h">
+      <Filter>Source\Engine\Public\Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
@@ -771,12 +815,6 @@
     <ClCompile Include="Source\DirectX\Private\Object\ObjectBase.cpp">
       <Filter>Source\DirectX\Private\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Math\Matrix.cpp">
-      <Filter>Source\DirectX\Private\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Math\Rotator.cpp">
-      <Filter>Source\DirectX\Private\Math</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\Factory\ScreenTexture.cpp">
       <Filter>Source\DirectX\Private\Render\Factory</Filter>
     </ClCompile>
@@ -846,9 +884,6 @@
     <ClCompile Include="Source\Engine\Private\Algorithm\Random.cpp">
       <Filter>Source\Engine\Private\Algorithm</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Object\LayerInterface.cpp">
-      <Filter>Source\Engine\Private\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Private\Object\Building\BuildingBase.cpp">
       <Filter>Source\Engine\Private\Object\Building</Filter>
     </ClCompile>
@@ -875,9 +910,6 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Object\Character\Enemy.cpp">
       <Filter>Source\Engine\Private\Object\Character</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Copmonent\InventoryComponentBase.cpp">
-      <Filter>Source\Engine\Private\Component</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\UI\HUD.cpp">
       <Filter>Source\Engine\Private\UI</Filter>
@@ -1019,6 +1051,55 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Level\Layer\Layer.cpp">
       <Filter>Source\Engine\Private\Level\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Level\Level2D.cpp" />
+    <ClCompile Include="Source\Engine\Private\World\World_SonoTown.cpp">
+      <Filter>Source\Engine\Private\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Level\Level_SonoTown.cpp">
+      <Filter>Source\Engine\Private\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Component\ActorComponent.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Component\InventoryComponentBase.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Component\MovementComponent.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Engine\Rotator.cpp">
+      <Filter>Source\Engine\Private\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Engine\Matrix.cpp">
+      <Filter>Source\Engine\Private\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Character\Player_Dungeon.cpp">
+      <Filter>Source\Engine\Private\Object\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Character\Player_Town.cpp">
+      <Filter>Source\Engine\Private\Object\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Event\Event_TownDoor.cpp">
+      <Filter>Source\Engine\Private\Object\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\World\World_Town.cpp">
+      <Filter>Source\Engine\Private\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\World\World_Dungeon.cpp">
+      <Filter>Source\Engine\Private\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\GameMode\GameMode_Town.cpp">
+      <Filter>Source\Engine\Private\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\GameState\GameState_Town.cpp">
+      <Filter>Source\Engine\Private\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Level\LevelFactory.cpp">
+      <Filter>Source\Engine\Private\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Level\Level_SonoTown_House_0.cpp">
+      <Filter>Source\Engine\Private\Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

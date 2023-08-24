@@ -7,6 +7,8 @@
 
 #include "Engine/Delegate.h"
 
+#include "WidgetAnimationTypes.h"
+
 #include <format>
 
 // ------------------------------------------------------------------------------------------------------------
@@ -125,8 +127,6 @@ private:
 // ------------------------------------------------------------------------------------------------------------
 // Widget Animation
 // ------------------------------------------------------------------------------------------------------------
-
-DECLARE_MULTICAST_DELEGATE(FOnWidgetAnimationCompleted);
 
 /*
 * NOTE : Must be call Accept If you complete assign properties.

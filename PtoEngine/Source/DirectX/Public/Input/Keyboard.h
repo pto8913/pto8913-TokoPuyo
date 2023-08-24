@@ -84,12 +84,29 @@ public:
 		{
 			if (m_keyBoardState[mKey] & 0x80)
 			{
+				if (isPressedFlip)
+				{
+					isPressed = true;
+					isPressedFlip = false;
+				}
+				else
+				{
+					isPressed = false;
+				}
 				return true;
 			}
+			isPressedFlip = true;
+			isPressed = false;
 			return false;
+		}
+		bool IsPressed()
+		{
+			return isPressed;
 		}
 	private:
 		BYTE mKey;
+		bool isPressed = false;
+		bool isPressedFlip = true;
 	};
 
 private:

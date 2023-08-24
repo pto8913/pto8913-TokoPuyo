@@ -39,6 +39,9 @@ public:
 	// -----------------------------------------------------
 	// Main : Game Infos
 	// -----------------------------------------------------
+	void NextFloor(const Level2D* pLevel);
+	void PlayerMoved(const FVector& inPos);
+
 	void SetFloorName(const std::wstring in);
 	void ResetMap(const Level2D* pLevel);
 	void UpdateMap(const Level2D* pLevel);
@@ -58,7 +61,7 @@ protected:
 	// State
 	// ------------------------------------------------------------------------------------------------------------
 	std::shared_ptr<S_ProgressBar> pHPBar = nullptr;
-	std::shared_ptr<S_TextBlock> pHPText = nullptr;
+	std::shared_ptr<S_TextBlock> pHPBarText = nullptr;
 
 	// --------------------------
 	// State : Game Message

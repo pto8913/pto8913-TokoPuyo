@@ -14,7 +14,7 @@
 #include "UI/Slate/Border.h"
 
 #include "Engine/World.h"
-#include "Level/Level.h"
+#include "Level/Level2D.h"
 
 #include "Core/AppSettings.h"
 
@@ -35,6 +35,8 @@ using namespace DirectX;
 HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
 	: UserWidget(inOwner, dx, mouse, windowSizeW, windowSizeH)
 {
+	SetTickEnabled(true);
+
 	pRootSlate = std::make_shared<S_CanvasPanel>(FVector2D(windowSizeW, windowSizeH), m_pRt2D);
 
 	// HP Bar
@@ -43,14 +45,14 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 		textInfos.HAlign = EHorizontalAlignment::Left;
 		textInfos.VAlign = EVerticalAlignment::Center;
 		auto pHPText = std::make_shared<S_TextBlock>(m_pRt2D, textInfos);
-		pHPText->SetText(L"HP:");
+		pHPText->SetText(L"HP : ");
 
 		FSlateInfos infos;
 		infos.HAlign = EHorizontalAlignment::Center;
 		infos.VAlign = EVerticalAlignment::Center;
 
-		pHPText = std::make_shared<S_TextBlock>(m_pRt2D, infos);
-		pHPText->SetText(L"0 / 0");
+		pHPBarText = std::make_shared<S_TextBlock>(m_pRt2D, infos);
+		pHPBarText->SetText(L"0 / 0");
 
 		infos.padding = FRect(1.f, 1.f, 1.f, 1.f);
 
@@ -76,7 +78,7 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 		pHPBarHB->AddChild(pHPBarOverlay);
 
 		pHPBarOverlay->AddChild(pHPBar);
-		pHPBarOverlay->AddChild(pHPText);
+		pHPBarOverlay->AddChild(pHPBarText);
 	}
 
 	// Game Message
@@ -183,12 +185,25 @@ void HUD::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
 void HUD::OnHPChanged(int inCurrent, int inMax)
 {
 	pHPBar->SetPercent(inCurrent / inMax);
-	pHPText->SetText(std::format(L"{} / {}", inCurrent, inMax).c_str());
+	pHPBarText->SetText(std::format(L"{} / {}", inCurrent, inMax).c_str());
 }
 
 // -----------------------------------------------------
 // Main : Game Infos
 // -----------------------------------------------------
+void HUD::NextFloor(const Level2D* pLevel)
+{
+	ResetMap(pLevel);
+
+	auto gameState = static_pointer_cast<GameState_Dungeon>(GetWorld()->GetGameState());
+	SetFloorName(gameState->GetDungeonFloorName());
+}
+void HUD::PlayerMoved(const FVector& inPos)
+{
+	auto level = static_pointer_cast<Level2D>(GetWorld()->GetLevel());
+	UpdateMap(level.get());
+}
+
 void HUD::SetFloorName(const std::wstring in)
 {
 	pFloorText->SetText(in);
@@ -240,11 +255,24 @@ void HUD::ResetMap(const Level2D* pLevel)
 			const auto& character = pLevel->GetCharacterLayerID(x, y);
 			if (character != nullptr)
 			{
-				if (character->GetCharacterType() == ECharacterId::Player)
+				if (character->GetCharacterType() != ECharacterId::Player)
 				{
 					FSlateBorderAppearance apperance;
 					apperance.Type = EBorderType::Border;
-					apperance.color = FColor(0.f, 1.f, 1.f);
+					apperance.color = FColor(1.f, 1.f, 0.f);
+					apperance.roundSize = { 2.5f, 2.5f };
+					cell->SetAppearance(apperance);
+				}
+			}
+
+			const auto& character2 = pLevel->GetCharacter2LayerID(x, y);
+			if (character2 != nullptr)
+			{
+				if (character2->GetCharacterType() == ECharacterId::Player)
+				{
+					FSlateBorderAppearance apperance;
+					apperance.Type = EBorderType::Border;
+					apperance.color = FColor(1.f, 1.f, 1.f);
 					apperance.roundSize = { 2.5f, 2.5f };
 					cell->SetAppearance(apperance);
 				}

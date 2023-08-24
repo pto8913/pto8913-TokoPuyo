@@ -18,6 +18,7 @@ const std::map<EEventId, FEventSettings> EventSettings =
 {
 	{EEventId::Enter, FEventSettings(L"Content/Textures/T_Transparent.png", L"Enter")},
 	{EEventId::Exit, FEventSettings(L"Content/Textures/T_Dungeon_Exit.png", L"Exit")},
+	{EEventId::EnterRoom, FEventSettings(L"Content/Textures/T_Transparent.png", L"EnterRoom")},
 };
 
 EventBase::EventBase(DirectX11& dx, const EEventId& inEventType)
@@ -37,14 +38,14 @@ void EventBase::EnterVolume(const int& x, const int& y)
 {
 	if (OnEnterVolume.IsBound())
 	{
-		OnEnterVolume.Broadcast(FEventData(x, y, EventType));
+		OnEnterVolume.Broadcast(FEventData(FVector(x, y, 0), EventType));
 	}
 }
 void EventBase::LeaveVolume(const int& x, const int& y)
 {
 	if (OnLeaveVolume.IsBound())
 	{
-		OnLeaveVolume.Broadcast(FEventData(x, y, EventType));
+		OnLeaveVolume.Broadcast(FEventData(FVector(x, y, 0), EventType));
 	}
 }
 

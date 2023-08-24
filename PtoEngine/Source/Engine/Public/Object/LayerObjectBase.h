@@ -34,8 +34,12 @@ protected:
 	virtual void Update(DirectX11& dx) {};
 	virtual void ExecuteTasks(DirectX11& dx) override final;
 public:
-	const FVector2D& GetSize() const noexcept;
-	const FVector2D& GetPosition() const noexcept;
+	// -----------------------------------
+	// Main : Transform
+	// -----------------------------------
+	virtual void SetActorLocation(const FVector& in) override;
+	virtual void SetActorRotation(const FRotator& in) override;
+	virtual void SetActorScale(const FVector& in) override;
 
 protected:
 	// ------------------------------------------------------
@@ -51,10 +55,4 @@ protected:
 	using chrono = std::chrono::system_clock;
 	chrono::time_point LastTime;
 	chrono::duration DurationTime;
-
-	// -------------------------
-	// State : Transform
-	// -------------------------
-	FVector2D mPosition;
-	FVector2D mSize;
 };

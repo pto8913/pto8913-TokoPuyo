@@ -3,6 +3,8 @@
 
 #include "GameSettings.h"
 
+#include "Component/MovementComponent.h"
+
 class CharacterManager
 {
 public:
@@ -53,6 +55,13 @@ CharacterBase::CharacterBase(DirectX11& dx, const ECharacterId& inCharacterType)
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
+void CharacterBase::BeginPlay(DirectX11& dx)
+{
+	LayerObject2DBase::BeginPlay(dx);
+
+	pMovementComponent = AddComponent<MovementComponent>("Movement", shared_from_this());
+}
+
 void CharacterBase::SetCharacterType(const ECharacterId& inCharacterType)
 {
 	UpdateTexture(CharacterList.at(inCharacterType).fileName);
@@ -61,6 +70,11 @@ void CharacterBase::SetCharacterType(const ECharacterId& inCharacterType)
 const ECharacterId& CharacterBase::GetCharacterType() const noexcept
 {
 	return characterType;
+}
+
+std::shared_ptr<MovementComponent> CharacterBase::GetMovementComp()
+{
+	return pMovementComponent;
 }
 
 CharacterManager& CharacterBase::GetManager()

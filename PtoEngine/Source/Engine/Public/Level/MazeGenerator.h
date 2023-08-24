@@ -1,5 +1,3 @@
-#pragma once
-
 /*
 * LocalCoord : on block coordinate.
 * ex. This is the block List
@@ -34,8 +32,9 @@
 *
 *
 */
+#pragma once
 
-#include "Level/Level.h"
+#include "Level/Level2D.h"
 
 #include "DirectX/DirectXHead.h"
 
@@ -44,14 +43,16 @@
 #include "Engine/Rect.h"
 
 class Event_DungeonExit;
-class LandmarkUI;
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnDungeonNextFloor, const Level2D*);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnEnterBlock, const FVector2D&);
 
 class MazeGenerator : public Level2D
 {
 public:
 	MazeGenerator(DirectX11& dx);
 	virtual ~MazeGenerator();
-private:
+protected:
 	// ------------------------------------------------------
 	// Sub Structure
 	// ------------------------------------------------------
@@ -93,17 +94,24 @@ private:
 	using FBlock = MazeGenerator::FBlock;
 	using EBlockID = FBlock::EBlockID;
 	using EBlockJoinState = FBlock::EBlockJoinState;
-
-private:
+	
+public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+	virtual void BeginPlay(DirectX11& dx) override;
+
+protected:
 	virtual void GenerateGroundLayer() override;
 	virtual void GenerateEventLayer() override;
 	virtual void GenerateItemLayer() override;
+public:
+	FOnDungeonNextFloor& GetDungeonNextFloor();
+	FOnEnterBlock& GetEnterBlock();
 
-	virtual void Tick(DirectX11& dx, float deltaSec) override;
-
+	virtual bool MoveCenter(const int& x, const int& y) override;
+	void EnterBlock(const FEventData& inEventData);
+protected:
 	// ------------------------------------------------------
 	// Main : Ground Layer
 	// ------------------------------------------------------
@@ -129,7 +137,10 @@ private:
 
 	void MakePath();
 	void MakePath(const UINT8& x, const UINT8& y, const FBlock& block);
-	void GetPathStartPos(const FRect& inRect, const EDirection& direction, UINT8& x, UINT8& y) const noexcept;
+	void GetPathStartPos(const FRect& inRect, const EDirection& direction, UINT8& x, UINT8& y);
+	void SetEnterBlockEvent();
+	void SetEnterBlockEvent(const FVector2D& pos);
+	void CheckSetEnterBlockCount(const int& blockX, const int& blockY);
 
 	// --------------------------
 	// Main : Ground Layer : Utils
@@ -137,6 +148,8 @@ private:
 
 	bool IsInMaze(const UINT8& x, const UINT8& y) const noexcept;
 	bool IsInBlock(const UINT8& x, const UINT8& y) const noexcept;
+
+	bool CheckIsEnter(const EBlockID& blockID, const int& worldX, const int& worldY) const noexcept;
 
 	void GetMazeXY(const UINT16& pos, UINT8& x, UINT8& y) const noexcept;
 	void GetBlockXY(const UINT16& pos, UINT8& x, UINT8& y) const noexcept;
@@ -156,16 +169,22 @@ private:
 	// Main : Event Layer
 	// ------------------------------------------------------
 	void SetEnterExit();
+	void SetEnter(const UINT8& blockX, const UINT8& blockY);
 	void SetExit(const UINT8& blockX, const UINT8& blockY);
-	void NextFloorWait();
-	void NextFloor();
-	void NextFloorAfter();
-	FTimerHandle mNextFloorTimer;
+
+	void StartMoveToNextFloor();
+	void CompletedMoveToNextFloor();
 
 	// ------------------------------------------------------
 	// Main : Item Layer
 	// ------------------------------------------------------
 	void SpawnItems();
+
+	// ------------------------------------------------------
+	// Main : Delegate
+	// ------------------------------------------------------
+	FOnDungeonNextFloor OnDungeonNextFloor;
+	FOnEnterBlock OnEnterBlock;
 
 	// --------------------------
 	// Settings : Item Layer
@@ -199,7 +218,4 @@ private:
 	// State : Event Layer 
 	// --------------------------
 	std::shared_ptr<Event_DungeonExit> pExit = nullptr;
-
-	std::shared_ptr<LandmarkUI> pLandmarkUI = nullptr;
-
 };

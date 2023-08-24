@@ -29,18 +29,14 @@ public:
 /*
 * Only one void funtion(void) in the one timer.
 */
-template<typename T>
-class Timer;
-
 
 // ------------------------------------------------------------------------------------------------------------
 // Timer
 // ------------------------------------------------------------------------------------------------------------
-template<>
-class Timer<void()>
+struct FTimerDelegate
 {
 public:
-	Timer();
+	FTimerDelegate();
 	void Tick();
 
 	/* global function */
@@ -104,6 +100,7 @@ public:
 
 	void ClearTimer();
 	explicit operator bool() const noexcept;
+	bool IsBound() const noexcept;
 private:
 	void Initialize(float inInitialDelay = 0.f, bool inLoop = false, float inDelay = 1.f);
 	void Invoke();
@@ -133,6 +130,8 @@ private:
 	std::string tag;
 public:
 	FTimerHandle();
+	FTimerHandle(const std::string& in);
+	FTimerHandle(std::string&& in);
 	~FTimerHandle();
 	explicit operator bool() const noexcept;
 	bool operator==(const FTimerHandle& other) const noexcept;
@@ -159,11 +158,10 @@ public:
 	template<auto tFunction, typename = typename std::enable_if_t<std::is_function_v<typename std::remove_pointer_t<decltype(tFunction)>>&& std::is_invocable_r_v<void, decltype(tFunction)>>>
 	FTimerHandle SetTimer(float inInitialDelay = 0.f, bool inLoop = false, float inDelay = 1.f)
 	{
-		Timer<void()> timer;
+		FTimerDelegate timer;
 		timer.SetTimer<tFunction>(inInitialDelay, inLoop, inDelay);
 
-		FTimerHandle handle;
-		handle.tag = std::to_string(timers.size());
+		FTimerHandle handle(GetTag());
 		timers.emplace(handle, timer);
 		return handle;
 	}
@@ -172,11 +170,10 @@ public:
 	template<auto tFunction, typename Type, typename = typename std::enable_if_t<std::is_member_function_pointer_v<decltype(tFunction)>&& std::is_invocable_r_v<void, decltype(tFunction), Type>>>
 	FTimerHandle SetTimer(Type& instance, float inInitialDelay = 0.f, bool inLoop = false, float inDelay = 1.f)
 	{
-		Timer<void()> timer;
+		FTimerDelegate timer;
 		timer.SetTimer<tFunction>(instance, inInitialDelay, inLoop, inDelay);
 
-		FTimerHandle handle;
-		handle.tag = std::to_string(timers.size());
+		FTimerHandle handle(GetTag());
 		timers.emplace(handle, timer);
 		return handle;
 	}
@@ -185,11 +182,10 @@ public:
 	template<typename Type>
 	FTimerHandle SetTimer(Type& funcPtr, float inInitialDelay = 0.f, bool inLoop = false, float inDelay = 1.f)
 	{
-		Timer<void()> timer;
+		FTimerDelegate timer;
 		timer.SetTimer(&funcPtr, inInitialDelay, inLoop, inDelay);
 
-		FTimerHandle handle;
-		handle.tag = std::to_string(timers.size());
+		FTimerHandle handle(GetTag());
 		timers.emplace(handle, timer);
 		return handle;
 	}
@@ -198,13 +194,19 @@ public:
 	template<typename Type>
 	FTimerHandle SetTimer(Type&& funcPtr, float inInitialDelay = 0.f, bool inLoop = false, float inDelay = 1.f)
 	{
-		Timer<void()> timer;
+		FTimerDelegate timer;
 		timer.SetTimer(std::move(funcPtr), inInitialDelay, inLoop, inDelay);
 
-		FTimerHandle handle;
-		handle.tag = std::to_string(timers.size());
+		FTimerHandle handle(GetTag());
 		timers.emplace(handle, timer);
 
+		return handle;
+	}
+
+	FTimerHandle SetTimer(FTimerDelegate in)
+	{
+		FTimerHandle handle(GetTag());
+		timers.emplace(handle, in);
 		return handle;
 	}
 
@@ -213,6 +215,8 @@ public:
 	void Tick();
 
 private:
-	std::map<FTimerHandle, Timer<void()>> timers;
+	std::string GetTag();
+
+	std::map<FTimerHandle, FTimerDelegate> timers;
 	bool bEnableTick = true;
 };

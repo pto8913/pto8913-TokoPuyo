@@ -185,13 +185,17 @@ public:
 		mFunctionTags.push_back(tag);
 	}
 
-	void Append(const MulticastDelegateType& inDelegate, std::string tag)
+	void Append(const MulticastDelegateType& inDelegate)
 	{
 		for (auto&& _delegate : inDelegate.mDelegates)
 		{
 			mDelegates.push_back(_delegate);
+
 		}
-		mFunctionTags.push_back(tag);
+		for (auto&& tag : inDelegate.mFunctionTags)
+		{
+			mFunctionTags.push_back(tag);
+		}
 	}
 
 	void Unbind(std::string tag)

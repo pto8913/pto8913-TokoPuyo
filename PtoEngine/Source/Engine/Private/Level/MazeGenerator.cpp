@@ -5,19 +5,16 @@
 #include "Level/Layer/EventTypes.h"
 #include "Object/Event/Event_DungeonExit.h"
 
-#include "Core/DirectX.h"
-
 #include "Algorithm/algo.h"
 #include "Math/Math.h"
 
 #include "GameSettings.h"
-#include "GameState/GameState_Dungeon.h"
-
+#include "GameState/GameStateBase.h"
 #include "Engine/World.h"
 
-#include "Controller/PlayerController.h"
-
-#include "UI/LandmarkUI.h"
+#include "Object/Ground/GroundBase.h"
+#include "Object/Event/EventBase.h"
+#include "Object/Item/ItemBase.h"
 
 using namespace DirectX;
 using namespace Math;
@@ -46,6 +43,11 @@ MazeGenerator::~MazeGenerator()
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
+void MazeGenerator::BeginPlay(DirectX11& dx)
+{
+	StartMoveToNextFloor();
+}
+
 void MazeGenerator::GenerateGroundLayer()
 {
 	Clear();
@@ -62,21 +64,33 @@ void MazeGenerator::GenerateGroundLayer()
 void MazeGenerator::GenerateEventLayer()
 {
 	SetEnterExit();
+
+	SetEnterBlockEvent();
 }
 void MazeGenerator::GenerateItemLayer()
 {
 }
 
-void MazeGenerator::Tick(DirectX11& dx, float deltaSec)
+FOnDungeonNextFloor& MazeGenerator::GetDungeonNextFloor()
 {
-	if (pLandmarkUI == nullptr)
+	return OnDungeonNextFloor;
+}
+FOnEnterBlock& MazeGenerator::GetEnterBlock()
+{
+	return OnEnterBlock;
+}
+
+bool MazeGenerator::MoveCenter(const int& x, const int& y)
+{
+	if (Level2D::MoveCenter(x, y))
 	{
-		Level2D::Tick(dx, deltaSec);
+		return true;
 	}
-	else
-	{
-		pLandmarkUI->Tick(dx, deltaSec);
-	}
+	return false;
+}
+void MazeGenerator::EnterBlock(const FEventData& inEventData)
+{
+	OnEnterBlock.Broadcast(GetCenter());
 }
 
 // ------------------------------------------------------
@@ -426,10 +440,7 @@ void MazeGenerator::MakeRoom()
 #if _DEBUG
 				OutputDebugStringA(std::format("PathRect : {} {}\n", rectX, rectY).c_str());
 #endif
-				const UINT16 Sx = LocalToWorld(x, rectX);
-				const UINT16 Sy = LocalToWorld(y, rectY);
-
-				SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), Sx, Sy);
+				SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), FVector2D(LocalToWorld(x, rectX), LocalToWorld(y, rectY)));
 			}
 			else
 			{
@@ -495,6 +506,7 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), currSx, borderX, currSy, true);
 			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), borderX, nextSx, nextSy, true);
 
+
 #if _DEBUG
 			//OutputDebugStringA(std::format("Make Path X {} {} {}\n", currSx, borderX, currSy).c_str());
 			//OutputDebugStringA(std::format("Make Path X {} {} {}\n", borderX, nextSx, nextSy).c_str());
@@ -558,7 +570,7 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 		}
 	}
 }
-void MazeGenerator::GetPathStartPos(const FRect& inRect, const EDirection& direction, UINT8& x, UINT8& y) const noexcept
+void MazeGenerator::GetPathStartPos(const FRect& inRect, const EDirection& direction, UINT8& x, UINT8& y)
 {
 	TArray<int> candidatePathStartPos;
 	switch (direction)
@@ -593,6 +605,53 @@ void MazeGenerator::GetPathStartPos(const FRect& inRect, const EDirection& direc
 
 	GetMazeXY(candidatePathStartPos.RandomValue(), x, y);
 }
+void MazeGenerator::SetEnterBlockEvent()
+{
+	int centerX = GetCenter().x;
+	int centerY = GetCenter().y;
+
+	for (int blockY = 0; blockY < actualBlockCountY; ++blockY)
+	{
+		for (int blockX = 0; blockX < actualBlockCountX; ++blockX)
+		{
+			const auto& block = blockIDs[blockY][blockX];
+			switch (block.id)
+			{
+			case EBlockID::Path:
+				CheckSetEnterBlockCount(blockX, blockY);
+				break;
+			case EBlockID::Room:
+				CheckSetEnterBlockCount(blockX, blockY);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+void MazeGenerator::SetEnterBlockEvent(const FVector2D& pos)
+{
+	auto EventData = std::make_shared<EventBase>(*pDX, EEventId::EnterRoom);
+	EventData->GetOnEnterVolume().Bind<&MazeGenerator::EnterBlock>(*this);
+	SetEventLayerID(EventData, pos);
+}
+void MazeGenerator::CheckSetEnterBlockCount(const int& blockX, const int& blockY)
+{
+	const auto& rect = RoomLocalRects[blockY][blockX];
+	const auto& block = blockIDs[blockY][blockX];
+	for (int ry = rect.top; ry <= rect.bottom; ++ry)
+	{
+		for (int rx = rect.left; rx <= rect.right; ++rx)
+		{
+			int x = LocalToWorld(blockX, rx);
+			int y = LocalToWorld(blockY, ry);
+			if (CheckIsEnter(block.id, x, y))
+			{
+				SetEnterBlockEvent(FVector2D(x, y));
+			}
+		}
+	}
+}
 
 // --------------------------
 // Main : Ground Layer : Utils
@@ -604,6 +663,60 @@ bool MazeGenerator::IsInMaze(const UINT8& x, const UINT8& y) const noexcept
 bool MazeGenerator::IsInBlock(const UINT8& x, const UINT8& y) const noexcept
 {
 	return (x >= 0 && x < actualBlockCountX) && (y >= 0 && y < actualBlockCountY);
+}
+
+bool MazeGenerator::CheckIsEnter(const EBlockID& blockID, const int& worldX, const int& worldY) const noexcept
+{
+	if (IsInWorld(worldX, worldY))
+	{
+		const auto& groundData = GroundLayer[worldY][worldX];
+		if (groundData != nullptr)
+		{
+			int PathCount = 0, RoomCount = 0;
+
+			auto CheckIsEnter = [this, &PathCount, &RoomCount](const int& worldX, const int& worldY)
+			{
+				auto groundData = GroundLayer[worldY][worldX];
+				if (groundData != nullptr)
+				{
+					switch (ConvertToGroundTile(groundData->GetGroundType()))
+					{
+					case EGroundTile::Path:
+						++PathCount;
+						break;
+					case EGroundTile::Room:
+						++RoomCount;
+						break;
+					default:
+						break;
+					}
+				}
+			};
+			CheckIsEnter(worldX - 1, worldY);
+			CheckIsEnter(worldX + 1, worldY);
+			CheckIsEnter(worldX, worldY - 1);
+			CheckIsEnter(worldX, worldY + 1);
+
+			switch (blockID)
+			{
+			case EBlockID::Path:
+				if (PathCount >= 3)
+				{
+					return true;
+				}
+				break;
+			case EBlockID::Room:
+				if (RoomCount >= 2 && PathCount >= 1)
+				{
+					return true;
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	return false;
 }
 
 void MazeGenerator::GetMazeXY(const UINT16& pos, UINT8& x, UINT8& y) const noexcept
@@ -717,7 +830,6 @@ void MazeGenerator::SetEnterExit()
 
 	float exitPossibility = enterPossibility - 0.25f;
 
-	UINT8 resX, resY;
 	FRect localRect;
 	int blockX = 0, blockY = 0;
 	bool ima = false;
@@ -735,10 +847,8 @@ void MazeGenerator::SetEnterExit()
 				{
 					if (RandomBool(enterPossibility))
 					{
-						resX = LocalToWorld(x, RandRange(localRect.left, localRect.right));
-						resY = LocalToWorld(y, RandRange(localRect.top, localRect.bottom));
+						SetEnter(blockX, blockY);
 
-						SetEventLayerID(EEventId::Enter, resX, resY);
 						makeEnter = true;
 						ima = true;
 					}
@@ -772,13 +882,26 @@ void MazeGenerator::SetEnterExit()
 	}
 	if (!makeEnter)
 	{
-		resX = LocalToWorld(blockX, RandRange(localRect.left, localRect.right));
-		resY = LocalToWorld(blockY, RandRange(localRect.top, localRect.bottom));
-		SetEventLayerID(EEventId::Enter, resX, resY);
+		SetEnter(blockX, blockY);
 	}
 	if (!makeExit)
 	{
 		SetExit(blockX, blockY);
+	}
+}
+void MazeGenerator::SetEnter(const UINT8& blockX, const UINT8& blockY)
+{
+	const FRect& localRect = RoomLocalRects[blockY][blockX];
+	UINT16 resX = LocalToWorld(blockX, RandRange(localRect.left, localRect.right));
+	UINT16 resY = LocalToWorld(blockY, RandRange(localRect.top, localRect.bottom));
+	if (CheckIsEnter(blockIDs[blockY][blockX].id, resX, resY))
+	{
+		SetEnter(blockX, blockY);
+	}
+	else
+	{
+		SetEventLayerID(EEventId::Enter, FVector2D(resX, resY));
+		SetStartPosition(FVector(resX, resY, 0));
 	}
 }
 void MazeGenerator::SetExit(const UINT8& blockX, const UINT8& blockY)
@@ -789,42 +912,27 @@ void MazeGenerator::SetExit(const UINT8& blockX, const UINT8& blockY)
 
 	pExit = GetWorld()->SpawnActor<Event_DungeonExit>(*pDX);
 	pExit->SetOuter(shared_from_this());
-	SetEventLayerID(pExit, resX, resY);
+	SetEventLayerID(pExit, FVector2D(resX, resY));
 
-	pExit->OnChoiceYes.Bind<&MazeGenerator::NextFloorWait>(*this, "MazeExit");
+	pExit->OnChoiceYes.Bind<&MazeGenerator::StartMoveToNextFloor>(*this, "MazeExit");
 }
-void MazeGenerator::NextFloorWait()
+
+void MazeGenerator::StartMoveToNextFloor()
 {
-	pExit->OnChoiceYes.Unbind("MazeExit");
+	if (pExit)
+	{
+		pExit->OnChoiceYes.Unbind("MazeExit");
+	}
 
-	FOnWidgetAnimationCompleted completed;
-	completed.Bind<&MazeGenerator::NextFloor>(*this, "MazeExit");
-
-	auto GameStateInterface = static_pointer_cast<GameState_Dungeon>(GetWorld()->GetGameState());
-	GameStateInterface->IncreaseDungeonFloor();
-
-	pLandmarkUI = std::make_shared<LandmarkUI>(GetWorld(), *pDX, GameStateInterface->GetDungeonFloorName(), 0.5f, completed);
-	pLandmarkUI->AddToViewport(-1);
-
-	GetWorld()->GetPlayerController()->DeactivateHUD();
-	GetWorld()->GetPlayerController()->DeactivatePlayer();
+	GetWorld()->GetGameState()->OnLandmarkClosed.Bind<&MazeGenerator::CompletedMoveToNextFloor>(*this, "MazeGenerator");
+	GetWorld()->GetGameState()->OpenLandmarkUI(*pDX, L"", 0.5f);
 }
-void MazeGenerator::NextFloor()
-{
-	pLandmarkUI->RemoveFromParent();
 
-	mNextFloorTimer = GetWorld()->GetTimerManager().SetTimer<&MazeGenerator::NextFloorAfter>(*this, 0.f, false, 0.05f);
-}
-void MazeGenerator::NextFloorAfter()
+void MazeGenerator::CompletedMoveToNextFloor()
 {
-	//GetWorld()->GetTimerManager().ClearTimer(mNextFloorTimer);
-	GetWorld()->GetPlayerController()->ActivateHUD();
-	GetWorld()->GetPlayerController()->ActivatePlayer();
-
 	Generate(*pDX);
 
-	pLandmarkUI.reset();
-	pLandmarkUI = nullptr;
+	OnDungeonNextFloor.Broadcast(this);
 }
 
 // ------------------------------------------------------
@@ -848,7 +956,7 @@ void MazeGenerator::SpawnItems()
 				resX = LocalToWorld(x, RandRange(localRect.left, localRect.right));
 				resY = LocalToWorld(y, RandRange(localRect.top, localRect.bottom));
 
-				SetEventLayerID(EEventId::Enter, resX, resY);
+				SetEventLayerID(EEventId::Enter, FVector2D(resX, resY));
 			}
 		}
 	}

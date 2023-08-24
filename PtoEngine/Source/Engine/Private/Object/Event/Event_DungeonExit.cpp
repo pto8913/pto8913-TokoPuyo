@@ -13,6 +13,9 @@ Event_DungeonExit::~Event_DungeonExit()
 	OnChoiceNo.ClearBind();
 }
 
+// ------------------------------------------------------------------------------------------------------------
+// Main
+// ------------------------------------------------------------------------------------------------------------
 void Event_DungeonExit::OnChoiceResult(const FChoiceInfos& inChoiceInfos)
 {
 	if (inChoiceInfos.tag == L"Yes")

@@ -14,7 +14,7 @@ class S_ChoiceBox;
 class EventChoiceBase : public EventBase
 {
 public:
-	EventChoiceBase(DirectX11& dx, const EEventId& inEventType);
+	EventChoiceBase(DirectX11& dx, const EEventId& inEventType, const TArray<FChoiceInfos>& inChoiceInfos = {});
 	virtual ~EventChoiceBase();
 
 	// ------------------------------------------------------------------------------------------------------------

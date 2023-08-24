@@ -5,7 +5,7 @@
 class Enemy : public CharacterBase
 {
 public:
-	Enemy(DirectX11& dx, const ECharacterId& CharacterType, const UINT16& inX, const UINT16& inY);
+	Enemy(DirectX11& dx, const ECharacterId& CharacterType);
 
 	// ------------------------------------------------------
 	// Main
@@ -13,11 +13,8 @@ public:
 
 	virtual void TurnElapsed() override {};
 
-	DirectX::XMFLOAT2 GetCoord();
-
 protected:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
-	UINT16 x, y;
 };

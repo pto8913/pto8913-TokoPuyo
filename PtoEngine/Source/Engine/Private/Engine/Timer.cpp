@@ -22,13 +22,13 @@ float WorldTimer::GetDelta() noexcept
 // ------------------------------------------------------------------------------------------------------------
 // Timer
 // ------------------------------------------------------------------------------------------------------------
-Timer<void()>::Timer()
+FTimerDelegate::FTimerDelegate()
 {
 	ClearTimer();
 
 	mLastTime = std::chrono::system_clock::now();
 }
-void Timer<void()>::Tick()
+void FTimerDelegate::Tick()
 {
 	if (*this)
 	{
@@ -63,7 +63,7 @@ void Timer<void()>::Tick()
 		}
 	}
 }
-void Timer<void()>::ClearTimer()
+void FTimerDelegate::ClearTimer()
 {
 	new (&mData) std::nullptr_t(nullptr);
 	mFunction = nullptr;
@@ -74,12 +74,16 @@ void Timer<void()>::ClearTimer()
 	mDelay = 1.f;
 }
 
-Timer<void()>::operator bool() const noexcept
+FTimerDelegate::operator bool() const noexcept
+{
+	return mFunction;
+}
+bool FTimerDelegate::IsBound() const noexcept
 {
 	return mFunction;
 }
 
-void Timer<void()>::Initialize(float inInitialDelay, bool inLoop, float inDelay)
+void FTimerDelegate::Initialize(float inInitialDelay, bool inLoop, float inDelay)
 {
 	if (inInitialDelay == 0.f)
 	{
@@ -89,7 +93,7 @@ void Timer<void()>::Initialize(float inInitialDelay, bool inLoop, float inDelay)
 	mDelay = inDelay;
 }
 
-void Timer<void()>::Invoke()
+void FTimerDelegate::Invoke()
 {
 	if (!*this)
 	{
@@ -104,6 +108,15 @@ void Timer<void()>::Invoke()
 FTimerHandle::FTimerHandle()
 	: tag("")
 {
+}
+FTimerHandle::FTimerHandle(const std::string& in)
+	: tag(in)
+{
+}
+FTimerHandle::FTimerHandle(std::string&& in)
+	: tag(std::move(in))
+{
+
 }
 FTimerHandle::~FTimerHandle()
 {
@@ -172,4 +185,9 @@ void TimerManager::Tick()
 			}
 		}
 	}
+}
+
+std::string TimerManager::GetTag()
+{
+	return std::to_string(timers.size());
 }

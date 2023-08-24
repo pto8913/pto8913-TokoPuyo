@@ -6,7 +6,7 @@
 GameState_Dungeon::GameState_Dungeon()
 {
 	mDungeonName = L"";
-	mDungeonFloor = 1;
+	mDungeonFloor = 0;
 }
 
 GameState_Dungeon::~GameState_Dungeon()
@@ -16,6 +16,13 @@ GameState_Dungeon::~GameState_Dungeon()
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
+void GameState_Dungeon::OpenLandmarkUI(DirectX11& dx, const std::wstring& inLandmarkName, const float& inPlayRate, const FOnWidgetAnimationCompleted& inCompleted, const float& inCompleteToDelay)
+{
+	IncreaseDungeonFloor();
+
+	GameStateBase::OpenLandmarkUI(dx, GetDungeonFloorName(), inPlayRate, inCompleted, inCompleteToDelay);
+}
+
 void GameState_Dungeon::SetDungeonName(const std::wstring& in)
 {
 	mDungeonName = in;

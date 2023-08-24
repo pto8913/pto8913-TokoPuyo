@@ -52,14 +52,14 @@ public:
 	FVector();
 	FVector(const float& inX, const float& inY, const float& inZ);
 
-	FVector operator+(const FVector& In);
-	FVector operator+(const float& In);
-	FVector operator-(const FVector& In);
-	FVector operator-(const float& In);
-	FVector operator*(const FVector& In);
-	FVector operator*(const float& In);
-	FVector operator/(const FVector& In);
-	FVector operator/(const float& In);
+	FVector operator+(const FVector& In) const;
+	FVector operator+(const float& In) const;
+	FVector operator-(const FVector& In) const;
+	FVector operator-(const float& In) const;
+	FVector operator*(const FVector& In) const;
+	FVector operator*(const float& In) const;
+	FVector operator/(const FVector& In) const;
+	FVector operator/(const float& In) const;
 
 	FVector& operator+=(const FVector& In);
 	FVector& operator+=(const float& In);
@@ -70,9 +70,15 @@ public:
 	FVector& operator/=(const FVector& In);
 	FVector& operator/=(const float& In);
 
+	bool operator<(const float& in);
+
 	std::string ToString() const;
 	float Length() const;
 	FVector Normalize();
+	FVector2D To2D() const;
+	FVector Abs() const;
+
+	static const FVector Zero;
 
 	float x;
 	float y;

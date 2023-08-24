@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine/Delegate.h"
+#include "Engine/Vector.h"
 #include <basetsd.h>
 
 enum EEventId : unsigned char
@@ -10,18 +11,18 @@ enum EEventId : unsigned char
 	Shop,
 	Transparent,
 	Block,
+	EnterRoom,
 	None
 };
 
 struct FEventData
 {
 public:
-	FEventData(const UINT16& inX, const UINT16& inY, const EEventId& inType)
-		: x(inX), y(inY), type(inType)
+	FEventData(const FVector& pos, const EEventId& inType)
+		: position(pos), type(inType)
 	{}
 
-	UINT16 x;
-	UINT16 y;
+	FVector position;
 	
 	EEventId type;
 	/* 

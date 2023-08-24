@@ -21,6 +21,7 @@ public:
 		float defaultYaw = 0.0f,
 		bool tethered = false
 	);
+	virtual ~Camera();
 
 	void Reset(DirectX11& dx) noexcept;
 
@@ -78,4 +79,6 @@ protected:
 
 	CameraProjection m_CameraProjection;
 	CameraIndicator m_CameraIndicator;
+
+	DirectX11* pDX = nullptr;
 };

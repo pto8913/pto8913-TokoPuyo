@@ -1,17 +1,12 @@
 #pragma once
 
-#include "Engine/World.h"
+#include "World/World_Dungeon.h"
 
-class World_SonoCave : public World
+class World_SonoCave : public World_Dungeon
 {
 public:
 	World_SonoCave();
 
 	virtual void SetLevel(DirectX11& dx) override;
-	virtual void SetGameMode(DirectX11& dx) override;
-	virtual void SetGameState(DirectX11& dx) override;
-	virtual void SetPlayerController(DirectX11& dx) override;
-
-private:
-	std::wstring mDungeonName = L"";
+	virtual void SetHUD(DirectX11& dx) override;
 };

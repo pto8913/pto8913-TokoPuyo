@@ -1,15 +1,11 @@
 
 #include "Controller/PlayerController.h"
 
-#include "Object/Character/Player.h"
-
-#include "Core/AppSettings.h"
+#include "Core/DirectX.h"
 
 #include "Input/Mouse.h"
 
-#include "UI/HUD.h"
-
-PlayerController::PlayerController(DirectX11& dx, std::shared_ptr<Object> inOuter)
+PlayerController::PlayerController(DirectX11& dx)
 	: Controller(dx)
 {
     SetTickEnabled(true);
@@ -23,12 +19,6 @@ PlayerController::PlayerController(DirectX11& dx, std::shared_ptr<Object> inOute
 
         pMouse = std::make_shared<Mouse>();
     }
-
-	pPlayer = std::make_shared<Player>(dx);
-    SetOuter(inOuter);
-
-	pHUD = std::make_shared<HUD>(pPlayer, dx, pMouse.get(), (int)AppSettings::windowSize.x, (int)AppSettings::windowSize.y);
-	pHUD->AddToViewport();
 }
 PlayerController::~PlayerController()
 {
@@ -38,32 +28,15 @@ PlayerController::~PlayerController()
 	mDirectMouse->Unacquire();
 	mDirectMouse = nullptr;
 
-    pPlayer.reset();
-    pPlayer = nullptr;
-    
-    pHUD.reset();
-    pHUD = nullptr;
-
     mDirectMouse = nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
-void PlayerController::SetOuter(std::shared_ptr<Object> inOuter)
-{
-    Actor::SetOuter(inOuter);
-
-    pPlayer->SetOuter(inOuter);
-}
 void PlayerController::Tick(DirectX11& dx, float deltaTime)
 {
 	InputUpdate(deltaTime);
-
-    if (pHUD->GetTickEnabled())
-    {
-        pHUD->Tick(dx, deltaTime);
-    }
 
 	ExecuteTasks(dx);
 }
@@ -148,31 +121,6 @@ void PlayerController::UpdateDirectInputMouse()
 DX::IMouseInterface* PlayerController::GetMouse()
 {
     return pMouse.get();
-}
-std::shared_ptr<Player>& PlayerController::GetPlayer()
-{
-	return pPlayer;
-}
-std::shared_ptr<HUD>& PlayerController::GetHUD()
-{
-	return pHUD;
-}
-
-void PlayerController::ActivatePlayer()
-{
-    pPlayer->SetTickEnabled(true);
-}
-void PlayerController::ActivateHUD()
-{
-    pHUD->SetTickEnabled(true);
-}
-void PlayerController::DeactivatePlayer()
-{
-    pPlayer->SetTickEnabled(false);
-}
-void PlayerController::DeactivateHUD()
-{
-    pHUD->SetTickEnabled(false);
 }
 
 // -----------------------------------

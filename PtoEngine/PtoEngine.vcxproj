@@ -209,8 +209,6 @@
     <ClInclude Include="Source\DirectX\Public\Input\Mouse.h" />
     <ClInclude Include="Source\DirectX\Public\Input\MouseInterface.h" />
     <ClInclude Include="Source\DirectX\Public\Math\Math.h" />
-    <ClInclude Include="Source\DirectX\Public\Math\Matrix.h" />
-    <ClInclude Include="Source\DirectX\Public\Math\Rotator.h" />
     <ClInclude Include="Source\DirectX\Public\Math\Vertex.h" />
     <ClInclude Include="Source\DirectX\Public\Object\DrawableObject2D.h" />
     <ClInclude Include="Source\DirectX\Public\Object\DrawableObject3D.h" />
@@ -256,26 +254,32 @@
     <ClInclude Include="Source\Engine\Public\Algorithm\Math2.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\Random.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\UnionFind.h" />
+    <ClInclude Include="Source\Engine\Public\Component\ActorComponent.h" />
+    <ClInclude Include="Source\Engine\Public\Component\InventoryComponentBase.h" />
+    <ClInclude Include="Source\Engine\Public\Component\MovementComponent.h" />
     <ClInclude Include="Source\Engine\Public\Controller\PlayerController.h" />
     <ClInclude Include="Source\Engine\Public\Controller\PlayerController_Dungeon.h" />
     <ClInclude Include="Source\Engine\Public\Controller\PlayerController_Town.h" />
-    <ClInclude Include="Source\Engine\Public\Copmonent\InventoryComponentBase.h" />
     <ClInclude Include="Source\Engine\Public\Core\App.h" />
     <ClInclude Include="Source\Engine\Public\Core\Audio.h" />
     <ClInclude Include="Source\Engine\Public\Core\AppSettings.h" />
     <ClInclude Include="Source\Engine\Public\Core\Window.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Color.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Delegate.h" />
+    <ClInclude Include="Source\Engine\Public\Engine\Matrix.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Rect.h" />
+    <ClInclude Include="Source\Engine\Public\Engine\Rotator.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Timer.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Vector.h" />
     <ClInclude Include="Source\Engine\Public\Engine\World.h" />
     <ClInclude Include="Source\Engine\Public\GameInstance.h" />
     <ClInclude Include="Source\Engine\Public\GameMode\GameModeBase.h" />
     <ClInclude Include="Source\Engine\Public\GameMode\GameMode_Dungeon.h" />
+    <ClInclude Include="Source\Engine\Public\GameMode\GameMode_Town.h" />
     <ClInclude Include="Source\Engine\Public\GameSettings.h" />
     <ClInclude Include="Source\Engine\Public\GameState\GameStateBase.h" />
     <ClInclude Include="Source\Engine\Public\GameState\GameState_Dungeon.h" />
+    <ClInclude Include="Source\Engine\Public\GameState\GameState_Town.h" />
     <ClInclude Include="Source\Engine\Public\Helper\ColorHelper.h" />
     <ClInclude Include="Source\Engine\Public\Helper\RectHelper.h" />
     <ClInclude Include="Source\Engine\Public\Level\Layer\BuildingTypes.h" />
@@ -286,16 +290,25 @@
     <ClInclude Include="Source\Engine\Public\Level\Layer\ItemTypes.h" />
     <ClInclude Include="Source\Engine\Public\Level\Layer\Layer.h" />
     <ClInclude Include="Source\Engine\Public\Level\Level.h" />
+    <ClInclude Include="Source\Engine\Public\Level\Level2D.h" />
+    <ClInclude Include="Source\Engine\Public\Level\LevelFactory.h" />
+    <ClInclude Include="Source\Engine\Public\Level\LevelTypes.h" />
+    <ClInclude Include="Source\Engine\Public\Level\Level_SonoTown.h" />
+    <ClInclude Include="Source\Engine\Public\Level\Level_SonoTown_House_0.h" />
     <ClInclude Include="Source\Engine\Public\Level\MazeGenerator.h" />
     <ClInclude Include="Source\Engine\Public\Object\Actor.h" />
     <ClInclude Include="Source\Engine\Public\Object\Building\BuildingBase.h" />
     <ClInclude Include="Source\Engine\Public\Object\Character\CharacterBase.h" />
     <ClInclude Include="Source\Engine\Public\Object\Character\Enemy.h" />
     <ClInclude Include="Source\Engine\Public\Object\Character\Player.h" />
+    <ClInclude Include="Source\Engine\Public\Object\Character\PlayerTypes.h" />
+    <ClInclude Include="Source\Engine\Public\Object\Character\Player_Dungeon.h" />
+    <ClInclude Include="Source\Engine\Public\Object\Character\Player_Town.h" />
     <ClInclude Include="Source\Engine\Public\Object\Effect\EffectBase.h" />
     <ClInclude Include="Source\Engine\Public\Object\Event\EventBase.h" />
     <ClInclude Include="Source\Engine\Public\Object\Event\EventChoiceBase.h" />
     <ClInclude Include="Source\Engine\Public\Object\Event\Event_DungeonExit.h" />
+    <ClInclude Include="Source\Engine\Public\Object\Event\Event_TownDoor.h" />
     <ClInclude Include="Source\Engine\Public\Object\Ground\GroundBase.h" />
     <ClInclude Include="Source\Engine\Public\Object\ItemManager.h" />
     <ClInclude Include="Source\Engine\Public\Object\Item\ItemBase.h" />
@@ -327,7 +340,11 @@
     <ClInclude Include="Source\Engine\Public\UI\Slate\VerticalBox.h" />
     <ClInclude Include="Source\Engine\Public\UI\UserWidget.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimation.h" />
+    <ClInclude Include="Source\Engine\Public\UI\WidgetAnimationTypes.h" />
+    <ClInclude Include="Source\Engine\Public\World\World_Dungeon.h" />
+    <ClInclude Include="Source\Engine\Public\World\World_Town.h" />
     <ClInclude Include="Source\Engine\Public\World\World_SonoCave.h" />
+    <ClInclude Include="Source\Engine\Public\World\World_SonoTown.h" />
     <ClInclude Include="Source\pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -383,14 +400,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Math\Math.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Math\Matrix.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Math\Rotator.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -542,10 +551,12 @@
     <ClCompile Include="Source\Engine\Private\Algorithm\Math2.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\Random.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\UnionFind.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\ActorComponent.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\InventoryComponentBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\MovementComponent.cpp" />
     <ClCompile Include="Source\Engine\Private\Controller\PlayerController.cpp" />
     <ClCompile Include="Source\Engine\Private\Controller\PlayerController_Dungeon.cpp" />
     <ClCompile Include="Source\Engine\Private\Controller\PlayerController_Town.cpp" />
-    <ClCompile Include="Source\Engine\Private\Copmonent\InventoryComponentBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Core\App.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -553,34 +564,44 @@
     <ClCompile Include="Source\Engine\Private\Core\AppSettings.cpp" />
     <ClCompile Include="Source\Engine\Private\Core\Window.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\Color.cpp" />
+    <ClCompile Include="Source\Engine\Private\Engine\Matrix.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\Rect.cpp" />
+    <ClCompile Include="Source\Engine\Private\Engine\Rotator.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\Timer.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\Vector.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\World.cpp" />
     <ClCompile Include="Source\Engine\Private\GameInstance.cpp" />
     <ClCompile Include="Source\Engine\Private\GameMode\GameModeBase.cpp" />
     <ClCompile Include="Source\Engine\Private\GameMode\GameMode_Dungeon.cpp" />
+    <ClCompile Include="Source\Engine\Private\GameMode\GameMode_Town.cpp" />
     <ClCompile Include="Source\Engine\Private\GameSettings.cpp" />
     <ClCompile Include="Source\Engine\Private\GameState\GameStateBase.cpp" />
     <ClCompile Include="Source\Engine\Private\GameState\GameState_Dungeon.cpp" />
+    <ClCompile Include="Source\Engine\Private\GameState\GameState_Town.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\ColorHelper.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\RectHelper.cpp" />
     <ClCompile Include="Source\Engine\Private\Level\Layer\GroundTypes.cpp" />
     <ClCompile Include="Source\Engine\Private\Level\Layer\Layer.cpp" />
     <ClCompile Include="Source\Engine\Private\Level\Level.cpp" />
+    <ClCompile Include="Source\Engine\Private\Level\Level2D.cpp" />
+    <ClCompile Include="Source\Engine\Private\Level\LevelFactory.cpp" />
+    <ClCompile Include="Source\Engine\Private\Level\Level_SonoTown.cpp" />
+    <ClCompile Include="Source\Engine\Private\Level\Level_SonoTown_House_0.cpp" />
     <ClCompile Include="Source\Engine\Private\Level\MazeGenerator.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Actor.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Building\BuildingBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Character\CharacterBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Character\Enemy.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Character\Player.cpp" />
+    <ClCompile Include="Source\Engine\Private\Object\Character\Player_Dungeon.cpp" />
+    <ClCompile Include="Source\Engine\Private\Object\Character\Player_Town.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Effect\EffectBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Event\EventBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Event\EventChoiceBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Event\Event_DungeonExit.cpp" />
+    <ClCompile Include="Source\Engine\Private\Object\Event\Event_TownDoor.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Ground\GroundBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Item\ItemBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\LayerInterface.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\LayerObjectBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Object.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\HUD.cpp" />
@@ -603,7 +624,10 @@
     <ClCompile Include="Source\Engine\Private\UI\Slate\VerticalBox.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\UserWidget.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\WidgetAnimation.cpp" />
+    <ClCompile Include="Source\Engine\Private\World\World_Dungeon.cpp" />
+    <ClCompile Include="Source\Engine\Private\World\World_Town.cpp" />
     <ClCompile Include="Source\Engine\Private\World\World_SonoCave.cpp" />
+    <ClCompile Include="Source\Engine\Private\World\World_SonoTown.cpp" />
     <ClCompile Include="Source\pch.cpp" />
   </ItemGroup>
   <ItemGroup>

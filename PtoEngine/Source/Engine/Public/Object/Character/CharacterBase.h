@@ -5,10 +5,10 @@
 
 #include "Engine/Delegate.h"
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnChracterMoved, int /* Id */, DirectX::XMFLOAT2 /* coords */)
-
 class CharacterManager;
 struct FCharacterSettings;
+
+class MovementComponent;
 
 struct FCharacterStatus
 {
@@ -21,7 +21,7 @@ public:
 
 };
 
-class CharacterBase : public LayerObject2DBase
+class CharacterBase : public LayerObject2DBase, public std::enable_shared_from_this<CharacterBase>
 {
 public:
 	CharacterBase(DirectX11& dx, const ECharacterId& inCharacterType);
@@ -29,10 +29,15 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+	virtual void BeginPlay(DirectX11& dx) override;
+
 	void SetCharacterType(const ECharacterId& inCharacterType);
 	const ECharacterId& GetCharacterType() const noexcept;
 
+	std::shared_ptr<MovementComponent> GetMovementComp();
+
 	virtual void TurnElapsed() {};
+
 protected:
 	CharacterManager& GetManager();
 public:
@@ -40,6 +45,6 @@ public:
 	// State
 	// ------------------------------------------------------
 	ECharacterId characterType;
-	
-	FOnChracterMoved OnChracterMoved;
+
+	std::shared_ptr<MovementComponent> pMovementComponent = nullptr;
 };

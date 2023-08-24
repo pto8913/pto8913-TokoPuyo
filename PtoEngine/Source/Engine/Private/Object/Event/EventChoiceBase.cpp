@@ -6,18 +6,24 @@
 #include "GameSettings.h"
 
 #include "Engine/World.h"
-#include "Controller/PlayerController.h"
 #include "UI/HUD.h"
 
-EventChoiceBase::EventChoiceBase(DirectX11& dx, const EEventId& inEventType)
+EventChoiceBase::EventChoiceBase(DirectX11& dx, const EEventId& inEventType, const TArray<FChoiceInfos>& inChoiceInfos)
 	: EventBase(dx, inEventType)
 {
+	if (inChoiceInfos.Size() > 0)
+	{
+		ChoiceInfos = inChoiceInfos;
+	}
 }
 EventChoiceBase::~EventChoiceBase()
 {
 	CloseChoiceUI();
 }
 
+// ------------------------------------------------------------------------------------------------------------
+// Main
+// ------------------------------------------------------------------------------------------------------------
 void EventChoiceBase::EnterVolume(const int& x, const int& y)
 {
 	OpenChoiceUI();
@@ -29,7 +35,7 @@ void EventChoiceBase::LeaveVolume(const int& x, const int& y)
 
 void EventChoiceBase::OpenChoiceUI()
 {
-	auto& pHUD = GetWorld()->GetPlayerController()->GetHUD();
+	auto& pHUD = GetWorld()->GetHUD();
 	pChoiceBox = std::make_shared<S_ChoiceBox>(pHUD->GetRt2D());
 	pChoiceBox->GetOnChoiceResult().Bind<&EventChoiceBase::OnChoiceResult>(*this, "choice");
 
@@ -48,7 +54,7 @@ void EventChoiceBase::CloseChoiceUI()
 	if (pChoiceBox)
 	{
 		//pChoiceBox->SetVisibility(true);
-		auto& pHUD = GetWorld()->GetPlayerController()->GetHUD();
+		auto& pHUD = GetWorld()->GetHUD();
 		pHUD->RemoveSlate(pChoiceBox);
 		pChoiceBox.reset();
 		pChoiceBox = nullptr;

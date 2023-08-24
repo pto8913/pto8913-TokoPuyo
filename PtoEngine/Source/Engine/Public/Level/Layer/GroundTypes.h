@@ -13,8 +13,6 @@ enum class EGroundTile
 	Room,
 	Wall,
 	Path,
-	Start,
-	Exit,
 	None,
 };
 

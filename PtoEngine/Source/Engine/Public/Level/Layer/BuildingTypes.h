@@ -1,6 +1,6 @@
 #pragma once
 
-enum class EBuildingLayer
+enum class EBuildingId
 {
-	
+	SonoTown_0,
 };

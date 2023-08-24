@@ -10,20 +10,15 @@ class DirectX11;
 
 class Mouse;
 
-class Player;
-class HUD;
-
-class PlayerController : public Controller, public Actor
+class PlayerController : public Controller, public Actor, public std::enable_shared_from_this<PlayerController>
 {
 public:
-	PlayerController(DirectX11& dx, std::shared_ptr<Object> inOuter);
+	PlayerController(DirectX11& dx);
 	virtual ~PlayerController();
 
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
-	virtual void SetOuter(std::shared_ptr<Object> inOuter) override;
-
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
 protected:
@@ -46,13 +41,7 @@ public:
 	// Main : Util
 	// -----------------------------------
 	DX::IMouseInterface* GetMouse();
-	std::shared_ptr<Player>& GetPlayer();
-	std::shared_ptr<HUD>& GetHUD();
 
-	void ActivatePlayer();
-	void ActivateHUD();
-	void DeactivatePlayer();
-	void DeactivateHUD();
 protected:
 	// -----------------------------------
 	// 
@@ -63,9 +52,6 @@ protected:
 	// ------------------------------------------------------------------------------------------------------------
 	// State
 	// ------------------------------------------------------------------------------------------------------------
-	std::shared_ptr<Player> pPlayer = nullptr;
-	std::shared_ptr<HUD> pHUD = nullptr;
-
 	DX::FInputMode mInputMode;
 
 	// -----------------------------------

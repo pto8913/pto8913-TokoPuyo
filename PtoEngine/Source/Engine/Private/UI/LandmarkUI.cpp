@@ -87,7 +87,7 @@ void LandmarkUI::AnimationStart()
 	blackout.OnWidgetAnimationCompleted.Bind<&LandmarkUI::Completed>(*this, "landmark");
 	if (mDelegate.IsBound())
 	{
-		blackout.OnWidgetAnimationCompleted.Append(mDelegate, "external");
+		blackout.OnWidgetAnimationCompleted.Append(mDelegate);
 	}
 	blackout.Activate();
 	AddAnimation(blackout);

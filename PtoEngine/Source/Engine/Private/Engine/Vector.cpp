@@ -1,6 +1,6 @@
 
 #include "Engine/Vector.h"
-#include "Math/Rotator.h"
+#include "Engine/Rotator.h"
 
 #include <format>
 
@@ -136,42 +136,42 @@ FVector::FVector(const float& inX, const float& inY, const float& inZ)
 {
 }
 
-FVector FVector::operator+(const FVector & in)
+FVector FVector::operator+(const FVector & in) const
 {
 	FVector Out = *this;
 	return Out += in;
 };
-FVector FVector::operator+(const float& in)
+FVector FVector::operator+(const float& in) const
 {
 	FVector Out = *this;
 	return Out += in;
 };
-FVector FVector::operator-(const FVector& in)
+FVector FVector::operator-(const FVector& in) const
 {
 	FVector Out = *this;
 	return Out -= in;
 };
-FVector FVector::operator-(const float& in)
+FVector FVector::operator-(const float& in) const
 {
 	FVector Out = *this;
 	return Out -= in;
 };
-FVector FVector::operator*(const FVector& in)
+FVector FVector::operator*(const FVector& in) const
 {
 	FVector Out = *this;
 	return Out *= in;
 };
-FVector FVector::operator*(const float& in)
+FVector FVector::operator*(const float& in) const
 {
 	FVector Out = *this;
 	return Out *= in;
 };
-FVector FVector::operator/(const FVector& in)
+FVector FVector::operator/(const FVector& in) const
 {
 	FVector Out = *this;
 	return Out /= in;
 };
-FVector FVector::operator/(const float& in)
+FVector FVector::operator/(const float& in) const
 {
 	FVector Out = *this;
 	return Out /= in;
@@ -234,6 +234,11 @@ FVector& FVector::operator/=(const float& in)
 	return *this;
 };
 
+bool FVector::operator<(const float& in)
+{
+	return Length() < in;
+}
+
 std::string FVector::ToString() const
 {
 	return std::format("x: {}, y: {}, z: {}", x, y, z);
@@ -251,6 +256,20 @@ FVector FVector::Normalize()
 	Out *= normLength;
 	return Out;
 }
+FVector2D FVector::To2D() const
+{
+	return FVector2D(x, y);
+}
+FVector FVector::Abs() const
+{
+	FVector out(*this);
+	out.x = fabs(out.x);
+	out.y = fabs(out.y);
+	out.z = fabs(out.z);
+	return out;
+}
+
+const FVector FVector::Zero = FVector();
 
 namespace Vector
 {

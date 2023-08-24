@@ -10,4 +10,6 @@ public:
 
 	GameModeBase(const GameModeBase&) = delete;
 	GameModeBase& operator=(const GameModeBase&) = delete;
+
+
 };

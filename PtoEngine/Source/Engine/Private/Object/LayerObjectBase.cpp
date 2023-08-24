@@ -15,16 +15,16 @@ FLayerObject2DSettings::FLayerObject2DSettings(const std::wstring& inFileName, c
 
 LayerObject2DBase::LayerObject2DBase(DirectX11& dx, const FLayerObject2DSettings& Settings, const float& inUpdateTime)
 	: Sprite(
-		dx, 
-		Settings.fileName, 
-		Settings.tag, 
+		dx,
+		Settings.fileName,
+		Settings.tag,
 		{ Settings.size.x, Settings.size.y },
-		{0, 0}
-	), 
+		{ 0, 0 }
+	),
 	DurationTime(0),
-	mUpdateTime(inUpdateTime),
-	mSize(Settings.size)
+	mUpdateTime(inUpdateTime)
 {
+	SetActorScale(FVector(Settings.size.x, Settings.size.y, 0));
 	LastTime = chrono::now();
 }
 
@@ -50,11 +50,31 @@ void LayerObject2DBase::ExecuteTasks(DirectX11& dx)
 	Sprite::ExecuteTasks(dx);
 }
 
-const FVector2D& LayerObject2DBase::GetSize() const noexcept
+
+// -----------------------------------
+// Main : Transform
+// -----------------------------------
+void LayerObject2DBase::SetActorLocation(const FVector& in)
 {
-	return mSize;
+	Actor::SetActorLocation(in);
+
+	DirectX::XMVECTOR vec;
+	DirectX::XMVectorSet(in.x, in.y, in.z, 0.f);
+	Sprite::SetLocation(vec);
 }
-const FVector2D& LayerObject2DBase::GetPosition() const noexcept
+void LayerObject2DBase::SetActorRotation(const FRotator& in)
 {
-	return mPosition;
+	Actor::SetActorRotation(in);
+
+	DirectX::XMVECTOR vec;
+	DirectX::XMVectorSet(in.roll, in.pitch, in.yaw, 0.f);
+	Sprite::SetRotation(vec);
+}
+void LayerObject2DBase::SetActorScale(const FVector& in)
+{
+	Actor::SetActorScale(in);
+
+	DirectX::XMVECTOR vec;
+	DirectX::XMVectorSet(in.x, in.y, in.z, 0.f);
+	Sprite::SetScale(vec);
 }
