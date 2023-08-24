@@ -26,7 +26,6 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
-	ID2D1RenderTarget* GetRt2D();
 
 	void AddSlate(std::shared_ptr<SlateBase> inSlate);
 	void RemoveSlate(std::shared_ptr<SlateBase> inSlate);

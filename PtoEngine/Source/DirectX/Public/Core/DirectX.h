@@ -19,15 +19,15 @@ public:
 	DirectX11(const DirectX11& CopyC) = delete;
 	DirectX11& operator=(const DirectX11& CopyC) = delete;
 
-	IDXGISwapChain* GetSwapChain() { return m_pSwapChain; }
+	IDXGISwapChain* GetSwapChain() { return pSwapChain; }
 	HINSTANCE GetHInstance() { return mhInstance; }
 	HWND& GetHWnd() { return mhWnd; }
 
 	// ------------------------------------------------------
 	// Main : Device3D
 	// ------------------------------------------------------
-	ID3D11Device* GetDevice() { return m_pID3DDevice; }
-	ID3D11DeviceContext* GetContext() { return m_pID3DContext; }
+	ID3D11Device* GetDevice() { return pID3DDevice; }
+	ID3D11DeviceContext* GetContext() { return pID3DContext; }
 
 	// ------------------------------------------------------
 	// Main : Frame
@@ -54,18 +54,18 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	bool bInitialized = false;
 
-	std::shared_ptr<RenderTargetView> m_pRenderTargetView;
-	std::shared_ptr<DepthStencilView> m_pDepthStencilView;
+	std::shared_ptr<RenderTargetView> pRenderTargetView;
+	std::shared_ptr<DepthStencilView> pDepthStencilView;
 private:
-	IDXGISwapChain* m_pSwapChain;
+	IDXGISwapChain* pSwapChain;
 	HINSTANCE mhInstance;
 	HWND mhWnd;
 
 	// ------------------------------------------------------
 	// State : Device3D
 	// ------------------------------------------------------
-	ID3D11Device* m_pID3DDevice;
-	ID3D11DeviceContext* m_pID3DContext;
+	ID3D11Device* pID3DDevice;
+	ID3D11DeviceContext* pID3DContext;
 
 	// ------------------------------------------------------
 	// State : Camera
@@ -102,7 +102,7 @@ void DirectX11::FreshPic(
 	DirectX::XMFLOAT2A uvRightBottom = DirectX::XMFLOAT2A(uvLeftTop.x + widthU, uvLeftTop.y + heightV);
 
 	D3D11_MAPPED_SUBRESOURCE mapResource;
-	HRESULT result = m_pID3DContext->Map(
+	HRESULT result = pID3DContext->Map(
 		pIVertexBuffer,
 		0,
 		D3D11_MAP_WRITE_DISCARD,
@@ -133,5 +133,5 @@ void DirectX11::FreshPic(
 	float halfWidth = picWidth / 2.0f;
 	float halfHeight = picHeight / 2.0f;
 
-	m_pID3DContext->Unmap(pIVertexBuffer, 0);
+	pID3DContext->Unmap(pIVertexBuffer, 0);
 }

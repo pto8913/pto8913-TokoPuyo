@@ -37,21 +37,21 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 {
 	SetTickEnabled(true);
 
-	pRootSlate = std::make_shared<S_CanvasPanel>(FVector2D(windowSizeW, windowSizeH), m_pRt2D);
+	pRootSlate = std::make_shared<S_CanvasPanel>(FVector2D(windowSizeW, windowSizeH), GetRt2D());
 
 	// HP Bar
 	{
 		FSlateInfos textInfos;
 		textInfos.HAlign = EHorizontalAlignment::Left;
 		textInfos.VAlign = EVerticalAlignment::Center;
-		auto pHPText = std::make_shared<S_TextBlock>(m_pRt2D, textInfos);
+		auto pHPText = std::make_shared<S_TextBlock>(GetRt2D(), textInfos);
 		pHPText->SetText(L"HP : ");
 
 		FSlateInfos infos;
 		infos.HAlign = EHorizontalAlignment::Center;
 		infos.VAlign = EVerticalAlignment::Center;
 
-		pHPBarText = std::make_shared<S_TextBlock>(m_pRt2D, infos);
+		pHPBarText = std::make_shared<S_TextBlock>(GetRt2D(), infos);
 		pHPBarText->SetText(L"0 / 0");
 
 		infos.padding = FRect(1.f, 1.f, 1.f, 1.f);
@@ -60,16 +60,16 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 		HPBarAppear.BackgroundColor = FColor(0.5f, 0.5f, 0.5f);
 		HPBarAppear.ProgressColor = FColor(0.f, 0.75f, 0.5f);
 
-		pHPBar = std::make_shared<S_ProgressBar>(m_pRt2D, infos, HPBarAppear);
+		pHPBar = std::make_shared<S_ProgressBar>(GetRt2D(), infos, HPBarAppear);
 		pHPBar->SetPercent(0.64f);
 
 		FSlateInfos hbInfos;
 		hbInfos.HAlign = EHorizontalAlignment::Fill;
 		hbInfos.VAlign = EVerticalAlignment::Center;
-		auto pHPBarOverlay = std::make_shared<S_Overlay>(m_pRt2D, hbInfos);
+		auto pHPBarOverlay = std::make_shared<S_Overlay>(GetRt2D(), hbInfos);
 		pHPBarOverlay->SetSize(FVector2D(200, 20));
 
-		auto pHPBarHB = std::make_shared<S_HorizontalBox>(FVector2D(400.f, 30.f), m_pRt2D);
+		auto pHPBarHB = std::make_shared<S_HorizontalBox>(FVector2D(400.f, 30.f), GetRt2D());
 		pHPBarHB->SetPosition(GameSettings::GAMESCREEN_PADDING);
 
 		pRootSlate->AddChild(pHPBarHB);
@@ -88,7 +88,7 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 
 	// Game Infos
 	{
-		auto pGameInfosVB = std::make_shared<S_VerticalBox>(FVector2D(300.f, GameSettings::GAMEUI_RIGHT_BOTTOM.y), m_pRt2D);
+		auto pGameInfosVB = std::make_shared<S_VerticalBox>(FVector2D(300.f, GameSettings::GAMEUI_RIGHT_BOTTOM.y), GetRt2D());
 		//pGameInfosVB->SetPosition(FVector2D(0,0));
 		pGameInfosVB->SetPosition({ GameSettings::GAMEUI_LEFT_TOP.x, GameSettings::GAMEUI_LEFT_TOP.y });
 		pRootSlate->AddChild(pGameInfosVB);
@@ -102,7 +102,7 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 			FSlateTextAppearance appearance;
 			appearance.hAlign = EHorizontalAlignment::Center;
 
-			pFloorText = std::make_shared<S_TextBlock>(m_pRt2D, infos, FSlateFont(), appearance);
+			pFloorText = std::make_shared<S_TextBlock>(GetRt2D(), infos, FSlateFont(), appearance);
 			auto gameState = static_pointer_cast<GameState_Dungeon>(GetWorld()->GetGameState());
 			pFloorText->SetText(gameState->GetDungeonFloorName());
 
@@ -116,7 +116,7 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 			boxInfos.padding.top = 0.f;
 			boxInfos.padding.bottom = 5.f;
 
-			auto pbox = std::make_shared<S_Border>(FVector2D(300.f, 50.f), m_pRt2D, boxInfos, boxAppearance);
+			auto pbox = std::make_shared<S_Border>(FVector2D(300.f, 50.f), GetRt2D(), boxInfos, boxAppearance);
 
 			pGameInfosVB->AddChild(pbox);
 			pbox->AddChild(pFloorText);
@@ -128,7 +128,7 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 			infos.HAlign = EHorizontalAlignment::Center;
 			infos.VAlign = EVerticalAlignment::Center;
 
-			pMapGP = std::make_shared<S_GridPanel>(m_pRt2D, infos);
+			pMapGP = std::make_shared<S_GridPanel>(GetRt2D(), infos);
 
 			FSlateBorderAppearance boxAppearance;
 			boxAppearance.bIsFill = false;
@@ -140,7 +140,7 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 			boxInfos.padding.top = 5.f;
 			boxInfos.padding.bottom = 5.f;
 
-			auto pbox = std::make_shared<S_Border>(FVector2D(300.f, 300.f), m_pRt2D, boxInfos, boxAppearance);
+			auto pbox = std::make_shared<S_Border>(FVector2D(300.f, 300.f), GetRt2D(), boxInfos, boxAppearance);
 			pGameInfosVB->AddChild(pbox);
 			pbox->AddChild(pMapGP);
 		}
@@ -163,11 +163,6 @@ HUD::HUD(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windo
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
-ID2D1RenderTarget* HUD::GetRt2D()
-{
-	return m_pRt2D;
-}
-
 void HUD::AddSlate(std::shared_ptr<SlateBase> inSlate)
 {
 	pRootSlate->AddChild(inSlate);
@@ -229,7 +224,7 @@ void HUD::ResetMap(const Level2D* pLevel)
 			FSlateInfos infos;
 			infos.HAlign = EHorizontalAlignment::Fill;
 			infos.VAlign = EVerticalAlignment::Fill;
-			auto cell = std::make_shared<S_Border>(m_pRt2D, infos);
+			auto cell = std::make_shared<S_Border>(GetRt2D(), infos);
 			cell->SetSize({ mapSize, mapSize });
 			const auto& ground = pLevel->GetGroundLayerID(x, y);
 			if (ground != nullptr)

@@ -53,7 +53,7 @@ void GameStateBase::OpenLandmarkUI(DirectX11& dx, const std::wstring& inLandmark
 	}
 
 	pLandmarkUI = std::make_shared<LandmarkUI>(GetWorld(), dx, inLandmarkName, inPlayRate, completed);
-	pLandmarkUI->AddToViewport(-1);
+	pLandmarkUI->AddToViewport(0);
 
 	GetWorld()->DeactivateHUD();
 	GetWorld()->DeactivatePlayer();

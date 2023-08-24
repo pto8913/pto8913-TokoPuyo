@@ -9,6 +9,8 @@
 
 #include "Engine/World.h"
 
+using namespace DirectX;
+
 PlayerController_Town::PlayerController_Town(DirectX11& dx)
 	: PlayerController(dx)
 {
@@ -31,12 +33,13 @@ void PlayerController_Town::Tick(DirectX11& dx, float deltaSec)
 
 	if (pCamera != nullptr)
 	{
-		//pCamera->ExecuteTasks(dx);
+		auto x = GetWorld()->GetPlayer()->GetLocation();
 		pCamera->SetLocation(
 			DirectX::XMVectorAdd(
 				GetWorld()->GetPlayer()->GetLocation(),
 				{ 0, 3, 0 }
 			)
 		);
+		pCamera->ExecuteTasks(dx);
 	}
 }

@@ -27,6 +27,7 @@ Player::Player(DirectX11& dx)
 void Player::BeginPlay(DirectX11& dx)
 {
 	CharacterBase::BeginPlay(dx);
+	SetActorLocation(FVector(0, 1, 0));
 }
 
 void Player::Tick(DirectX11& dx, float deltaTime)

@@ -58,7 +58,7 @@ void LayerObject2DBase::SetActorLocation(const FVector& in)
 {
 	Actor::SetActorLocation(in);
 
-	DirectX::XMVECTOR vec;
+	DirectX::XMVECTOR vec = { 0,0,0 };
 	DirectX::XMVectorSet(in.x, in.y, in.z, 0.f);
 	Sprite::SetLocation(vec);
 }

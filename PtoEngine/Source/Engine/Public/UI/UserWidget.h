@@ -35,7 +35,18 @@ public:
 	double GetZOrder() const noexcept;
 
 	virtual std::shared_ptr<World> GetWorld() override;
+
+	ID2D1RenderTarget* GetRt2D();
+
 protected:
+	// --------------------------
+	// Main : Slate
+	// --------------------------
+	template<typename TClass, typename ...Args>
+	std::shared_ptr<TClass> MakeSlate(Args&& ...args)
+	{
+		return std::make_shared<TClass>(GetRt2D(), std::forward<Args>(args)...);
+	}
 
 	// --------------------------
 	// Main : Animation
@@ -83,4 +94,5 @@ protected:
 	std::shared_ptr<Object> pOwner = nullptr;
 
 	TArray<WidgetAnimation> mAnimations;
+
 };

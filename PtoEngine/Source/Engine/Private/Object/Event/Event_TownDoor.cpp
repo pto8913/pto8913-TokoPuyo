@@ -8,7 +8,6 @@ Event_TownDoor::Event_TownDoor(DirectX11& dx, const ELevelId& inLevelId, const b
 	mOpenLevelId(inLevelId),
 	bIsOpenChoice(inOpenChoice)
 {
-	pDX = &dx;
 }
 Event_TownDoor::~Event_TownDoor()
 {

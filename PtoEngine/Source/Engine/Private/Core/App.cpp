@@ -12,6 +12,7 @@
 #include "GameInstance.h"
 
 #include "World/World_SonoTown.h"
+#include "World/World_SonoCave.h"
 
 Keyboard::InputAction InputEsc(DIK_ESCAPE);
 

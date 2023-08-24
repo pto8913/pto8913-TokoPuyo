@@ -20,8 +20,6 @@
 
 WidgetBase::WidgetBase(DirectX11& dx, UINT windowSizeW, UINT windowSizeH)
 {
-	m_ClearColor = D2D1::ColorF(0.f, 0.f, 0.f, 1.f);
-
 	AddTask(BlendState::Make(dx, 0));
 
 	//Compile Shaders from shader file
@@ -50,44 +48,45 @@ WidgetBase::WidgetBase(DirectX11& dx, UINT windowSizeW, UINT windowSizeH)
 	AddTask(m_pIndexBuffer);
 	AddTask(m_pVertexBuffer);
 
-	m_pScreenTextOnlyOutput = ScreenTextOnlyOutput::Make(dx, windowSizeW, windowSizeH);
-	AddTask(m_pScreenTextOnlyOutput);
-	m_pRt2D = m_pScreenTextOnlyOutput->GetRT2D();
-	m_pMutex11 = m_pScreenTextOnlyOutput->GetMutex11();
-	m_pMutex10 = m_pScreenTextOnlyOutput->GetMutex10();
+	m_pTCB = std::make_shared<TransformConstantBuffer>(dx);
+	m_pTCB->InitParentRefrence(*this);
+	//AddTask(m_pTCB);
+
+	auto pScreenTextOnlyOutput = ScreenTextOnlyOutput::Make(dx, windowSizeW, windowSizeH);
+	pRt2D = pScreenTextOnlyOutput->GetRT2D();
+	pMutex11 = pScreenTextOnlyOutput->GetMutex11();
+	pMutex10 = pScreenTextOnlyOutput->GetMutex10();
+	AddTask(pScreenTextOnlyOutput);
 
 	AddTask(SamplerState::Make(dx, 0));
 
 	AddTask(Rasterizer::Make(dx, Rasterizer::RasterizerType::Transparent2, m_pIndexBuffer.get()->GetCount()));
 
-	m_pTCB = std::make_shared<TransformConstantBuffer>(dx);
-	m_pTCB->InitParentRefrence(*this);
-
 	InitializeTasks();
 }
-void WidgetBase::DrawInternal()
+void WidgetBase::DrawInternal(DirectX11& dx)
 {
-	m_pMutex11->ReleaseSync(0);
-	m_pMutex10->AcquireSync(0, 5);
+	pMutex11->ReleaseSync(0);
+	pMutex10->AcquireSync(0, 5);
 
-	m_pRt2D->BeginDraw();
-	m_pRt2D->Clear(m_ClearColor);
+	pRt2D->BeginDraw();
+	pRt2D->Clear();
 
 	Draw();
 
-	m_pRt2D->EndDraw();
+	pRt2D->EndDraw();
 
-	m_pMutex10->ReleaseSync(1);
-	m_pMutex11->AcquireSync(1, 5);
+	pMutex10->ReleaseSync(1);
+	pMutex11->AcquireSync(1, 5);
 }
 
 void WidgetBase::ExecuteTasks(DirectX11& dx)
 {
-	dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
+	//dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
 
 	m_pTCB->Bind(dx, tf);
 
-	DrawInternal();
+	DrawInternal(dx);
 
 	DrawableObject::ExecuteTasks(dx);
 }

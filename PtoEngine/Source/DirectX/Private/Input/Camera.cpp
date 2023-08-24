@@ -73,28 +73,6 @@ void Camera::SetLocation(const DirectX::XMVECTOR& inPos) noexcept
 	location = inPos;
 	m_CameraIndicator.SetLocation(location);
 	m_CameraProjection.SetLocation(location);
-
-	XMMATRIX MRotation = XMMatrixRotationRollPitchYaw(camPitch, camYaw, camRoll);
-
-	camLookAt = XMVector3TransformCoord(WorldForwardVector, MRotation);
-	camUp = XMVector3TransformCoord(WorldUpVector, MRotation);
-
-	camForward = XMPlaneNormalize(camLookAt);
-	camRight = XMVector3Cross(camUp, camLookAt);
-	camRight = XMPlaneNormalize(camRight);
-
-	camLookAt = location + camLookAt;
-
-	camView = XMMatrixLookAtLH(location, camLookAt, WorldUpVector);
-
-	moveInputBackForward = 0.f;
-	moveInputLeftRight = 0.f;
-	moveInputUpDown = 0.f;
-
-	(*pDX).SetCameraView(camView);
-	(*pDX).SetCameraProjection(camProjection);
-	(*pDX).SetCameraLocation(location);
-	(*pDX).SetCameraRotation(rotation);
 }
 void Camera::SetRotation(const DirectX::XMVECTOR& inRot) noexcept
 {

@@ -22,5 +22,4 @@ protected:
 	// ------------------------------------------------------------------------------------------------------------
 	bool bIsOpenChoice = false;
 	ELevelId mOpenLevelId;
-	DirectX11* pDX = nullptr;
 };

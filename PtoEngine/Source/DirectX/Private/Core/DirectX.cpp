@@ -55,10 +55,10 @@ DirectX11::DirectX11(HINSTANCE hInstance, HWND hWnd, UINT width, UINT height)
 		(UINT)ARRAYSIZE(featureLevels),
 		D3D11_SDK_VERSION,
 		&swapChainDesc,
-		&m_pSwapChain,
-		&m_pID3DDevice,
+		&pSwapChain,
+		&pID3DDevice,
 		nullptr,
-		&m_pID3DContext
+		&pID3DContext
 	);
 
 	if (FAILED(result))
@@ -68,24 +68,24 @@ DirectX11::DirectX11(HINSTANCE hInstance, HWND hWnd, UINT width, UINT height)
 	}
 
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> pBackBuffer;
-	m_pSwapChain->GetBuffer(
+	pSwapChain->GetBuffer(
 		0,
 		__uuidof(ID3D11Texture2D),
 		&pBackBuffer
 	);
 
-	m_pRenderTargetView = std::make_shared<RenderTargetView>(*this, pBackBuffer.Get());
-	m_pDepthStencilView = std::make_shared<DepthStencilView>(*this, width, height);
+	pRenderTargetView = std::make_shared<RenderTargetView>(*this, pBackBuffer.Get());
+	pDepthStencilView = std::make_shared<DepthStencilView>(*this, width, height);
 
 	bInitialized = true;
 }
 DirectX11::~DirectX11()
 {
-	m_pSwapChain->SetFullscreenState(false, NULL);
+	pSwapChain->SetFullscreenState(false, NULL);
 
-	Util::SafeRelease(m_pSwapChain);
-	Util::SafeRelease(m_pID3DDevice);
-	Util::SafeRelease(m_pID3DContext);
+	Util::SafeRelease(pSwapChain);
+	Util::SafeRelease(pID3DDevice);
+	Util::SafeRelease(pID3DContext);
 }
 
 // ------------------------------------------------------
@@ -94,11 +94,11 @@ DirectX11::~DirectX11()
 void DirectX11::BeginFrame()
 {
 	// TODO: Add rendering logic here.
-	m_pRenderTargetView->Clear(*this);
-	m_pDepthStencilView->Clear(*this);
+	pRenderTargetView->Clear(*this);
+	pDepthStencilView->Clear(*this);
 
-	m_pID3DContext->OMSetRenderTargets(1, &m_pRenderTargetView->Get(), m_pDepthStencilView->Get());
-	m_pID3DContext->OMSetBlendState(0, 0, 0xffffffff);
+	pID3DContext->OMSetRenderTargets(1, &pRenderTargetView->Get(), pDepthStencilView->Get());
+	pID3DContext->OMSetBlendState(0, 0, 0xffffffff);
 
 	//Set the default blend state (no blending) for opaque objects
 }
@@ -107,12 +107,12 @@ HRESULT DirectX11::EndFrame()
 	// The first argument instructs DXGI to block until VSync, putting the application
 	// to sleep until the next VSync. This ensures we don't waste any cycles rendering
 	// frames that will never be displayed to the screen.
-	return m_pSwapChain->Present(0, 0);
+	return pSwapChain->Present(0, 0);
 }
 
 void DirectX11::DrawIndexed(UINT count)
 {
-	m_pID3DContext->DrawIndexed(count, 0, 0);
+	pID3DContext->DrawIndexed(count, 0, 0);
 }
 
 // ------------------------------------------------------

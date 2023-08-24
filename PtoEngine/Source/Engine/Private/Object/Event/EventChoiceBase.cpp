@@ -11,6 +11,7 @@
 EventChoiceBase::EventChoiceBase(DirectX11& dx, const EEventId& inEventType, const TArray<FChoiceInfos>& inChoiceInfos)
 	: EventBase(dx, inEventType)
 {
+	pDX = &dx;
 	if (inChoiceInfos.Size() > 0)
 	{
 		ChoiceInfos = inChoiceInfos;

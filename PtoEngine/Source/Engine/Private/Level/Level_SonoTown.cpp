@@ -6,13 +6,25 @@
 
 #include "Object/Ground/GroundBase.h"
 
+#include "Object/SkySphere.h"
+
 Level_SonoTown::Level_SonoTown(DirectX11& dx)
 	: Level2D(dx)
 {
 	mGroundType = EGroundType::Cave;
+
+	pSkySphere = std::make_shared<SkySphere>(dx, 50.f);
 }
 Level_SonoTown::~Level_SonoTown()
 {
+
+}
+
+void Level_SonoTown::Tick(DirectX11& dx, float deltaTime)
+{
+	pSkySphere->ExecuteTasks(dx);
+
+	Level2D::Tick(dx, deltaTime);
 
 }
 void Level_SonoTown::GenerateGroundLayer()

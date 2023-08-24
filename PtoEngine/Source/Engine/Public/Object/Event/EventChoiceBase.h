@@ -33,4 +33,5 @@ protected:
 	// ------------------------------------------------------------------------------------------------------------
 	TArray<FChoiceInfos> ChoiceInfos;
 	std::shared_ptr<S_ChoiceBox> pChoiceBox = nullptr;
+	DirectX11* pDX = nullptr;
 };

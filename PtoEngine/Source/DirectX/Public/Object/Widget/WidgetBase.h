@@ -4,8 +4,6 @@
 
 class DirectX11;
 
-class ScreenTextOnlyOutput;
-
 class WidgetBase : private DrawableObject2D
 {
 public:
@@ -17,18 +15,14 @@ public:
 
 protected:
 	virtual void Draw() = 0;
-	void DrawInternal();
-private:
-	std::shared_ptr<ScreenTextOnlyOutput> m_pScreenTextOnlyOutput = nullptr;
+	void DrawInternal(DirectX11& dx);
 
-protected:
 	const TransformConstantBuffer::Transforms tf = {
 		DirectX::XMMatrixIdentity(),
 		DirectX::XMMatrixIdentity()
 	};
 
-	ID2D1RenderTarget* m_pRt2D = nullptr;
-	IDXGIKeyedMutex* m_pMutex11 = nullptr;
-	IDXGIKeyedMutex* m_pMutex10 = nullptr;
-	D2D1_COLOR_F m_ClearColor;
+	ID2D1RenderTarget* pRt2D = nullptr;
+	IDXGIKeyedMutex* pMutex11 = nullptr;
+	IDXGIKeyedMutex* pMutex10 = nullptr;
 };

@@ -18,7 +18,7 @@ LandmarkUI::LandmarkUI(std::shared_ptr<Object> inOwner, DirectX11& dx, const std
 	mPlayRate(inPlayRate),
 	mDelegate(inCompleted)
 {
-	pRootSlate = std::make_shared<S_CanvasPanel>(AppSettings::windowSize, m_pRt2D);
+	pRootSlate = std::make_shared<S_CanvasPanel>(AppSettings::windowSize, GetRt2D());
 
 	/* Border */
 	{
@@ -26,7 +26,7 @@ LandmarkUI::LandmarkUI(std::shared_ptr<Object> inOwner, DirectX11& dx, const std
 		borderAppearance.Type = EBorderType::Box;
 		borderAppearance.bIsFill = true;
 		borderAppearance.color = FColor(0.f, 0.f, 0.f, 1.f);
-		pEffectBorder = std::make_shared<S_Border>(AppSettings::windowSize, m_pRt2D, FSlateInfos(), borderAppearance);
+		pEffectBorder = std::make_shared<S_Border>(AppSettings::windowSize, GetRt2D(), FSlateInfos(), borderAppearance);
 
 		FSlateInfos textInfos;
 		textInfos.HAlign = EHorizontalAlignment::Center;
@@ -37,7 +37,7 @@ LandmarkUI::LandmarkUI(std::shared_ptr<Object> inOwner, DirectX11& dx, const std
 
 		FSlateTextAppearance textAppearance;
 		textAppearance.color = FColor(1.f, 1.f, 1.f);
-		pText = std::make_shared<S_TextBlock>(m_pRt2D, textInfos, textFont, textAppearance);
+		pText = std::make_shared<S_TextBlock>(GetRt2D(), textInfos, textFont, textAppearance);
 		pText->SetText(mLandmarkName);
 
 		pRootSlate->AddChild(pEffectBorder);

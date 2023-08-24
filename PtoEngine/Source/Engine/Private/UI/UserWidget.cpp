@@ -57,6 +57,9 @@ UserWidget::~UserWidget()
 	pRootSlate->ClearChildren();
 	pRootSlate.reset();
 	pRootSlate = nullptr;
+
+	pOwner.reset();
+	pOwner = nullptr;
 }
 
 void UserWidget::Draw()
@@ -103,6 +106,11 @@ std::shared_ptr<World> UserWidget::GetWorld()
 	{
 		return pOwner->GetWorld();
 	}
+}
+
+ID2D1RenderTarget* UserWidget::GetRt2D()
+{
+	return pRt2D;
 }
 
 // --------------------------
