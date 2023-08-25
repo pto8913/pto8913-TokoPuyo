@@ -3,12 +3,15 @@
 #include "DirectX/DirectXHead.h"
 
 #include "Object/Object.h"
+#include "Object/Actor.h"
 
 #include "Engine/Timer.h"
 #include "Engine/Delegate.h"
 
 #include "Level/LevelTypes.h"
 #include "Level/Level.h"
+
+#include "Engine/CollisionCollection.h"
 
 class DirectX11;
 
@@ -19,7 +22,7 @@ class PlayerController;
 class Player;
 class HUD;
 
-class Actor;
+class BoxCollision;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnGameModeChanged, const std::shared_ptr<GameModeBase>&);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerControllerChanged, const std::shared_ptr<PlayerController>&);
@@ -64,6 +67,15 @@ public:
 	{
 		std::shared_ptr<TClass> out = std::make_shared<TClass>(std::forward<Args>(args)...);
 		out->SetOuter(pPersistentLevel);
+		out->SetID(mActorTotalCount);
+		++mActorTotalCount;
+
+		std::shared_ptr<BoxCollision> collision = out->GetComponent<BoxCollision>();
+		if (collision != nullptr)
+		{
+			mCollisionCollection.Add(collision);
+			OutputDebugStringA("Find Collision!!\n");
+		}
 		return out;
 	}
 	// -----------------------------------
@@ -119,5 +131,9 @@ protected:
 	std::shared_ptr<Player> pPlayer = nullptr;
 	std::shared_ptr<HUD> pHUD = nullptr;
 
+	CollisionCollection mCollisionCollection;
+
 	float mWorldDelta = 0.f;
+
+	int mActorTotalCount = 0;
 };

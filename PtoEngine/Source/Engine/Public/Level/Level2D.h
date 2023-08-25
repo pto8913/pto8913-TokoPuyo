@@ -52,7 +52,7 @@ public:
 	void Init(const int& x, const int& y);
 	void Activate();
 	void Deactivate();
-	virtual bool MoveCenter(const int& x, const int& y);
+	virtual bool MoveCenter(const float& x, const float& y);
 protected:
 	void UpdateSpriteOffset();
 

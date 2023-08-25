@@ -14,7 +14,7 @@ using namespace DirectX;
 PlayerController_Town::PlayerController_Town(DirectX11& dx)
 	: PlayerController(dx)
 {
-	pCamera = std::make_unique<Camera>(dx, "PlayerControllerTown", DirectX::XMFLOAT3(0, 3, 0), 9.f, PI / 2.f);
+	pCamera = std::make_unique<Camera>(dx, "PlayerControllerTown", DirectX::XMFLOAT3(0, -5, 0), 0.f, PI / 2.f);
 }
 PlayerController_Town::~PlayerController_Town()
 {
@@ -33,13 +33,7 @@ void PlayerController_Town::Tick(DirectX11& dx, float deltaSec)
 
 	if (pCamera != nullptr)
 	{
-		auto x = GetWorld()->GetPlayer()->GetLocation();
-		pCamera->SetLocation(
-			DirectX::XMVectorAdd(
-				GetWorld()->GetPlayer()->GetLocation(),
-				{ 0, 3, 0 }
-			)
-		);
+		pCamera->SetLocation(GetWorld()->GetPlayer()->GetLocation());
 		pCamera->ExecuteTasks(dx);
 	}
 }

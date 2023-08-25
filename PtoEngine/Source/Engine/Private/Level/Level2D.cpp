@@ -126,14 +126,14 @@ void Level2D::Deactivate()
 	bInitialized = false;
 }
 
-bool Level2D::MoveCenter(const int& x, const int& y)
+bool Level2D::MoveCenter(const float& x, const float& y)
 {
 #if _DEBUG
 	//OutputDebugStringA(std::format("x, y {} {}\n", mCenter.x, mCenter.y).c_str());
 #endif
 
-	const int nextX = Math::Clamp((int)mCenter.x + x, 0, (int)width);
-	const int nextY = Math::Clamp((int)mCenter.y + y, 0, (int)height);
+	const float nextX = Math::Clamp(mCenter.x + x, 0.f, (float)width);
+	const float nextY = Math::Clamp(mCenter.y + y, 0.f, (float)height);
 	if (IsInWorld(nextX, nextY))
 	{
 		/* GroundLayer */

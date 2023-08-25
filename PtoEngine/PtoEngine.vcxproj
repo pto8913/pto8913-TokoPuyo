@@ -255,6 +255,8 @@
     <ClInclude Include="Source\Engine\Public\Algorithm\Random.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\UnionFind.h" />
     <ClInclude Include="Source\Engine\Public\Component\ActorComponent.h" />
+    <ClInclude Include="Source\Engine\Public\Component\BoxCollision.h" />
+    <ClInclude Include="Source\Engine\Public\Component\CollisionComponent.h" />
     <ClInclude Include="Source\Engine\Public\Component\InventoryComponentBase.h" />
     <ClInclude Include="Source\Engine\Public\Component\MovementComponent.h" />
     <ClInclude Include="Source\Engine\Public\Controller\PlayerController.h" />
@@ -264,9 +266,11 @@
     <ClInclude Include="Source\Engine\Public\Core\Audio.h" />
     <ClInclude Include="Source\Engine\Public\Core\AppSettings.h" />
     <ClInclude Include="Source\Engine\Public\Core\Window.h" />
+    <ClInclude Include="Source\Engine\Public\Engine\CollisionCollection.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Color.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Delegate.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Matrix.h" />
+    <ClInclude Include="Source\Engine\Public\Engine\QuadTree.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Rect.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Rotator.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Timer.h" />
@@ -282,6 +286,7 @@
     <ClInclude Include="Source\Engine\Public\GameState\GameState_Town.h" />
     <ClInclude Include="Source\Engine\Public\Helper\ColorHelper.h" />
     <ClInclude Include="Source\Engine\Public\Helper\RectHelper.h" />
+    <ClInclude Include="Source\Engine\Public\Helper\VectorHelper.h" />
     <ClInclude Include="Source\Engine\Public\Level\Layer\BuildingTypes.h" />
     <ClInclude Include="Source\Engine\Public\Level\Layer\CharacterTypes.h" />
     <ClInclude Include="Source\Engine\Public\Level\Layer\EffectTypes.h" />
@@ -552,6 +557,8 @@
     <ClCompile Include="Source\Engine\Private\Algorithm\Random.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\UnionFind.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\ActorComponent.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\BoxCollision.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\CollisionComponent.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\InventoryComponentBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\MovementComponent.cpp" />
     <ClCompile Include="Source\Engine\Private\Controller\PlayerController.cpp" />
@@ -563,8 +570,10 @@
     <ClCompile Include="Source\Engine\Private\Core\Audio.cpp" />
     <ClCompile Include="Source\Engine\Private\Core\AppSettings.cpp" />
     <ClCompile Include="Source\Engine\Private\Core\Window.cpp" />
+    <ClCompile Include="Source\Engine\Private\Engine\CollisionCollection.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\Color.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\Matrix.cpp" />
+    <ClCompile Include="Source\Engine\Private\Engine\QuadTree.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\Rect.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\Rotator.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\Timer.cpp" />
@@ -580,6 +589,7 @@
     <ClCompile Include="Source\Engine\Private\GameState\GameState_Town.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\ColorHelper.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\RectHelper.cpp" />
+    <ClCompile Include="Source\Engine\Private\Helper\VectorHelper.cpp" />
     <ClCompile Include="Source\Engine\Private\Level\Layer\GroundTypes.cpp" />
     <ClCompile Include="Source\Engine\Private\Level\Layer\Layer.cpp" />
     <ClCompile Include="Source\Engine\Private\Level\Level.cpp" />

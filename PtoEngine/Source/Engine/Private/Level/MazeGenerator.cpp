@@ -631,7 +631,7 @@ void MazeGenerator::SetEnterBlockEvent()
 }
 void MazeGenerator::SetEnterBlockEvent(const FVector2D& pos)
 {
-	auto EventData = std::make_shared<EventBase>(*pDX, EEventId::EnterRoom);
+	auto EventData = GetWorld()->SpawnActor<EventBase>(*pDX, EEventId::EnterRoom);
 	EventData->GetOnEnterVolume().Bind<&MazeGenerator::EnterBlock>(*this);
 	SetEventLayerID(EventData, pos);
 }

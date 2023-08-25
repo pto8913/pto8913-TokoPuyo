@@ -32,12 +32,13 @@ public:
 protected:
 	// called per UpdateTime.
 	virtual void Update(DirectX11& dx) {};
-	virtual void ExecuteTasks(DirectX11& dx) override final;
 public:
+
 	// -----------------------------------
 	// Main : Transform
 	// -----------------------------------
 	virtual void SetActorLocation(const FVector& in) override;
+	virtual void AddActorLocation(const FVector& in) override;
 	virtual void SetActorRotation(const FRotator& in) override;
 	virtual void SetActorScale(const FVector& in) override;
 
@@ -55,4 +56,5 @@ protected:
 	using chrono = std::chrono::system_clock;
 	chrono::time_point LastTime;
 	chrono::duration DurationTime;
+
 };

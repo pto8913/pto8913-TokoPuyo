@@ -132,7 +132,7 @@ void S_Overlay::Update()
 			break;
 		}
 #if _DEBUG
-		OutputDebugStringA(std::format("Overlay child size {}, {} pos {}, {}\n", NewSize.x, NewSize.y, NewPos.x, NewPos.y).c_str());
+		//OutputDebugStringA(std::format("Overlay child size {}, {} pos {}, {}\n", NewSize.x, NewSize.y, NewPos.x, NewPos.y).c_str());
 #endif
 		pChild->SetSize(NewSize);
 		pChild->SetPosition(NewPos);

@@ -4,7 +4,8 @@
 
 class DirectX11;
 
-class SkySphere;
+class DrawPlane;
+class SkyLight;
 
 class Level_SonoTown : public Level2D
 {
@@ -24,5 +25,9 @@ protected:
 
 	std::shared_ptr<GroundBase> G(const EGroundTile& id);
 
-	std::shared_ptr<SkySphere> pSkySphere = nullptr;
+	std::shared_ptr<SkyLight> pSkyLight = nullptr;
+	std::shared_ptr<DrawPlane> pDrawPlane = nullptr;
+
+	std::shared_ptr<class EventBase> pEventBase = nullptr;
+
 };

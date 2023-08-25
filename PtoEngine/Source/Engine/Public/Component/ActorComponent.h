@@ -7,17 +7,17 @@ class Actor;
 class ActorComponent : public Object
 {
 public:
-	ActorComponent(std::shared_ptr<Actor> inOwner);
+	ActorComponent(Actor* inOwner);
 	virtual ~ActorComponent();
 
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
-	std::shared_ptr<Actor> GetOwner();
-
+	Actor* GetOwner();
+	virtual std::shared_ptr<World> GetWorld() override final;
 protected:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
-	std::shared_ptr<Actor> pOwner = nullptr;
+	Actor* pOwner = nullptr;
 };

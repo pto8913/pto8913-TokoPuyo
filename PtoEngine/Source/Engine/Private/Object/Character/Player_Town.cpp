@@ -15,12 +15,20 @@ Player_Town::~Player_Town()
 
 }
 
-// ---------------------------
-// Main : Transform
-// ---------------------------
-void Player_Town::SetActorLocation(const FVector& in)
+// ------------------------------------------------------
+// Main
+// ------------------------------------------------------
+void Player_Town::BeginPlay(DirectX11& dx)
 {
-	Player::SetActorLocation(in);
+	Player::BeginPlay(dx);
+
+	SetActorLocation(FVector(0,0,0));
+	SetOffset(GetTypedOuter<Level2D>()->WorldToScreen(0, 0, GetActorScale().To2D()));
+}
+void Player_Town::Tick(DirectX11& dx, float deltaTime)
+{
+	Player::Tick(dx, deltaTime);
+
 	SetOffset(GetTypedOuter<Level2D>()->WorldToScreen(GetActorLocation().x, GetActorLocation().y, GetActorScale().To2D()));
 }
 
@@ -29,78 +37,25 @@ void Player_Town::SetActorLocation(const FVector& in)
 // ---------------------------
 void Player_Town::InputUpdate()
 {
-	if (InputW)
-	{
-		Move(0, -1);
-	}
-	else
-	{
-		if (InputAxisW.IsPressed())
-		{
-			GetMovementComp()->StartInput();
-		}
-		if (InputAxisW)
-		{
-			Move(0, -1);
-		}
-		else
-		{
-			GetMovementComp()->EndInput();
-		}
-	}
-	if (InputS)
+	if (InputAxisW)
 	{
 		Move(0, 1);
 	}
-	else
+	if (InputAxisS)
 	{
-		if (InputAxisS.IsPressed())
-		{
-			GetMovementComp()->StartInput();
-		}
-		if (InputAxisS)
-		{
-			Move(0, 1);
-		}
-		else
-		{
-			GetMovementComp()->EndInput();
-		}
+		Move(0, -1);
 	}
-	if (InputA)
+	if (InputAxisA)
 	{
 		Move(-1, 0);
 	}
-	else
-	{
-		if (InputAxisA.IsPressed())
-		{
-			GetMovementComp()->StartInput();
-		}
-		if (InputAxisA)
-		{
-			Move(-1, 0);
-		}
-		else
-		{
-			GetMovementComp()->EndInput();
-		}
-	}
-	if (InputD)
+	if (InputAxisD)
 	{
 		Move(1, 0);
 	}
-	else
+	if (!InputAxisW && !InputAxisS && !InputAxisA && !InputAxisD)
 	{
-		if (InputAxisD.IsPressed())
-		{
-			GetMovementComp()->StartInput();
-		}
-		if (InputAxisD)
-		{
-			Move(1, 0);
-		}
-		else
+		if (GetMovementComp()->IsStarted())
 		{
 			GetMovementComp()->EndInput();
 		}
@@ -123,8 +78,13 @@ void Player_Town::Move(const int& x, const int& y)
 {
 	if (bCanMove)
 	{
-		GetMovementComp()->AddVelocity(FVector(x, y, 0));
-		//GetTypedOuter<Level2D>()->MoveCenter(x, y);
+		if (!GetMovementComp()->IsStarted())
+		{
+			GetMovementComp()->StartInput();
+			return;
+		}
+
+		GetMovementComp()->AddVelocity(FVector(x, 0, y));
 
 		OnPlayerMoved.Broadcast(GetActorLocation());
 	}

@@ -1,21 +1,26 @@
 
 #include "Component/ActorComponent.h"
 
-ActorComponent::ActorComponent(std::shared_ptr<Actor> inOwner)
+#include "Object/Actor.h"
+
+ActorComponent::ActorComponent(Actor* inOwner)
 	: pOwner(inOwner)
 {
 }
 ActorComponent::~ActorComponent()
 {
-	pOwner.reset();
 	pOwner = nullptr;
 }
 
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
-std::shared_ptr<Actor> ActorComponent::GetOwner()
+Actor* ActorComponent::GetOwner()
 {
 	return pOwner;
 }
 
+std::shared_ptr<World> ActorComponent::GetWorld()
+{
+	return pOwner->GetWorld();
+}

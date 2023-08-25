@@ -705,6 +705,19 @@
     <ClInclude Include="Source\Engine\Public\Level\Level_SonoTown_House_0.h">
       <Filter>Source\Engine\Public\Level</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Helper\VectorHelper.h" />
+    <ClInclude Include="Source\Engine\Public\Component\CollisionComponent.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Component\BoxCollision.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Engine\QuadTree.h">
+      <Filter>Source\Engine\Public\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Engine\CollisionCollection.h">
+      <Filter>Source\Engine\Public\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
@@ -1100,6 +1113,19 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Level\Level_SonoTown_House_0.cpp">
       <Filter>Source\Engine\Private\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Helper\VectorHelper.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\CollisionComponent.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Component\BoxCollision.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Engine\QuadTree.cpp">
+      <Filter>Source\Engine\Private\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Engine\CollisionCollection.cpp">
+      <Filter>Source\Engine\Private\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

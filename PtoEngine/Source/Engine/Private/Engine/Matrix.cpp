@@ -2,6 +2,8 @@
 #include "Engine/Matrix.h"
 #include "Engine/Rotator.h"
 
+#include "Helper/VectorHelper.h"
+
 FMatrix::FMatrix(
 	float m00, float m01, float m02, float m03,
 	float m10, float m11, float m12, float m13,

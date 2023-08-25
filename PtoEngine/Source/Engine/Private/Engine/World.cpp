@@ -93,7 +93,7 @@ void World::SetPlayer(DirectX11& dx)
 {
 	if (pPlayer == nullptr)
 	{
-		pPlayer = std::make_shared<Player>(dx);
+		pPlayer = SpawnActor<Player>(dx);
 	}
 	pPlayer->SetOuter(pPersistentLevel);
 	pPlayer->SetActorLocation(pPersistentLevel->GetStartPosition());
@@ -188,6 +188,8 @@ void World::Tick(DirectX11& dx, float deltaSec)
 			pPlayer->Tick(dx, deltaSec);
 		}
 	}
+
+	mCollisionCollection.Tick();
 }
 
 // -----------------------------------

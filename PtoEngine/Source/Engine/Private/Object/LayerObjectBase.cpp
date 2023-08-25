@@ -3,6 +3,8 @@
 
 #include "GameSettings.h"
 
+using namespace DirectX;
+
 FLayerObject2DSettings::FLayerObject2DSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
 	: fileName(inFileName), tag(inTag), size(inSize)
 {
@@ -34,6 +36,7 @@ LayerObject2DBase::LayerObject2DBase(DirectX11& dx, const FLayerObject2DSettings
 void LayerObject2DBase::Tick(DirectX11& dx, float deltaTime)
 {
 	ExecuteTasks(dx);
+	Actor::Tick(dx, deltaTime);
 
 	if (mUpdateTime != -1.f)
 	{
@@ -45,36 +48,36 @@ void LayerObject2DBase::Tick(DirectX11& dx, float deltaTime)
 		}
 	}
 }
-void LayerObject2DBase::ExecuteTasks(DirectX11& dx)
-{
-	Sprite::ExecuteTasks(dx);
-}
-
 
 // -----------------------------------
 // Main : Transform
 // -----------------------------------
 void LayerObject2DBase::SetActorLocation(const FVector& in)
 {
+	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
+	vec = XMVectorSet(in.x, in.z, in.y, 0.f);
+	SetLocation(vec);
 	Actor::SetActorLocation(in);
-
-	DirectX::XMVECTOR vec = { 0,0,0 };
-	DirectX::XMVectorSet(in.x, in.y, in.z, 0.f);
-	Sprite::SetLocation(vec);
+}
+void LayerObject2DBase::AddActorLocation(const FVector& in)
+{
+	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
+	vec = XMVectorSet(in.x, in.z, in.y, 0.f);
+	vec = DirectX::XMVectorAdd(GetLocation(), vec);
+	SetLocation(vec);
+	Actor::AddActorLocation(in);
 }
 void LayerObject2DBase::SetActorRotation(const FRotator& in)
 {
+	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
+	vec = XMVectorSet(in.roll, in.pitch, in.yaw, 0.f);
+	SetRotation(vec);
 	Actor::SetActorRotation(in);
-
-	DirectX::XMVECTOR vec;
-	DirectX::XMVectorSet(in.roll, in.pitch, in.yaw, 0.f);
-	Sprite::SetRotation(vec);
 }
 void LayerObject2DBase::SetActorScale(const FVector& in)
 {
+	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
+	vec = XMVectorSet(in.x, in.z, in.y, 0.f);
+	SetScale(vec);
 	Actor::SetActorScale(in);
-
-	DirectX::XMVECTOR vec;
-	DirectX::XMVectorSet(in.x, in.y, in.z, 0.f);
-	Sprite::SetScale(vec);
 }

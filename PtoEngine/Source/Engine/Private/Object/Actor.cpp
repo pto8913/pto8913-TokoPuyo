@@ -7,6 +7,10 @@
 
 #include "Component/ActorComponent.h"
 
+#include "Math/Math.h"
+
+#include "Helper/VectorHelper.h"
+
 Actor::Actor()
 {
 
@@ -41,6 +45,15 @@ void Actor::Tick(DirectX11& dx, float deltaTime)
 	}
 }
 
+void Actor::SetID(int inID)
+{
+	mID = inID;
+}
+int Actor::GetID() const
+{
+	return mID;
+}
+
 void Actor::RemoveComponent(const std::string& tag)
 {
 	auto& comp = pComponents.at(tag);
@@ -61,6 +74,10 @@ void Actor::SetActorLocation(const FVector& in)
 {
 	mLocation = in;
 }
+void Actor::AddActorLocation(const FVector& in)
+{
+	mLocation += in;
+}
 FRotator Actor::GetActorRotation()
 {
 	return mRotation;
@@ -76,6 +93,33 @@ FVector Actor::GetActorScale()
 void Actor::SetActorScale(const FVector& in)
 {
 	mScale = in;
+}
+
+FVector Actor::GetActorForwardVector()
+{
+	return FVector(
+		std::cos(mRotation.pitch) * std::sin(mRotation.yaw),
+		-std::sin(mRotation.pitch),
+		std::cos(mRotation.pitch) * std::cos(mRotation.yaw)
+	);
+}
+FVector Actor::GetActorUpVector()
+{
+	//return XMVector3NormalizeEst(
+	//	{
+	//		cos(rotation.y), 0, -sin(rotation.y)
+	//	}
+	//);
+
+	return Vector::CrossProduct(
+		FVector(0, 0, 1), GetActorForwardVector()
+	);
+}
+FVector Actor::GetActorRightVector()
+{
+	return Vector::CrossProduct(
+		GetActorUpVector(), GetActorForwardVector()
+	);
 }
 
 

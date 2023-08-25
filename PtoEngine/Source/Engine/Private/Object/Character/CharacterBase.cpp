@@ -4,6 +4,7 @@
 #include "GameSettings.h"
 
 #include "Component/MovementComponent.h"
+#include "Component/BoxCollision.h"
 
 class CharacterManager
 {
@@ -50,18 +51,13 @@ CharacterBase::CharacterBase(DirectX11& dx, const ECharacterId& inCharacterType)
 	),
 	characterType(inCharacterType)
 {
+	pMovementComponent = AddComponent<MovementComponent>("Movement", this);
+	pBoxCollision = AddComponent<BoxCollision>("Collision", this);
 }
 
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
-void CharacterBase::BeginPlay(DirectX11& dx)
-{
-	LayerObject2DBase::BeginPlay(dx);
-
-	pMovementComponent = AddComponent<MovementComponent>("Movement", shared_from_this());
-}
-
 void CharacterBase::SetCharacterType(const ECharacterId& inCharacterType)
 {
 	UpdateTexture(CharacterList.at(inCharacterType).fileName);

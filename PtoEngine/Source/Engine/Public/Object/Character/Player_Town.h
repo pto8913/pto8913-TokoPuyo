@@ -8,10 +8,11 @@ public:
 	Player_Town(DirectX11& dx);
 	virtual ~Player_Town();
 
-	// ---------------------------
-	// Main : Transform
-	// ---------------------------
-	virtual void SetActorLocation(const FVector& in) override;
+	// ------------------------------------------------------
+	// Main
+	// ------------------------------------------------------
+	virtual void BeginPlay(DirectX11& dx) override;
+	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
 protected:
 	// ---------------------------

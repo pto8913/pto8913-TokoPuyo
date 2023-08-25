@@ -9,6 +9,7 @@ class CharacterManager;
 struct FCharacterSettings;
 
 class MovementComponent;
+class BoxCollision;
 
 struct FCharacterStatus
 {
@@ -29,7 +30,6 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
-	virtual void BeginPlay(DirectX11& dx) override;
 
 	void SetCharacterType(const ECharacterId& inCharacterType);
 	const ECharacterId& GetCharacterType() const noexcept;
@@ -47,4 +47,5 @@ public:
 	ECharacterId characterType;
 
 	std::shared_ptr<MovementComponent> pMovementComponent = nullptr;
+	std::shared_ptr<BoxCollision> pBoxCollision = nullptr;
 };

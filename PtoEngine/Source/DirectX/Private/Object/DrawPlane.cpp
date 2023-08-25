@@ -16,15 +16,12 @@
 #include "Render/Factory/SamplerState.h"
 #include "Render/Factory/TransformConstantBuffer.h"
 
-DrawPlane::DrawPlane(DirectX11& dx, float size)
+DrawPlane::DrawPlane(DirectX11& dx, float sizeX, float sizeZ, std::wstring inFileName, std::wstring inVShaderName, std::wstring inPShaderName)
 {
-	//SetWorldLocation(location);
-	//SetWorldRotation(rotation);
-	//SetWorldScale(scale);
-	//SetWorldTransform();
-
 	auto model = Plane::Make();
-	model.SetTransform(DirectX::XMMatrixScaling(size, 1, size));
+	model.SetTransform(DirectX::XMMatrixScaling(sizeX, 1, sizeZ));
+
+	SetLocation({ 0.f });
 
 	m_pIndexBuffer = IndexBuffer::Make(dx, "Plane", model.indices);
 	m_pVertexBuffer = VertexBuffer<DX::FVertex>::Make(dx, "Plane", model.vertices);
@@ -32,13 +29,13 @@ DrawPlane::DrawPlane(DirectX11& dx, float size)
 
 	auto pTCB = std::make_shared<TransformConstantBuffer>(dx, 0);
 	
-	AddTask(Texture::Make(dx, Texture::TextureType::WIC, L"Content/Textures/grass.jpg"));
+	AddTask(Texture::Make(dx, Texture::TextureType::WIC, inFileName));
 	AddTask(SamplerState::Make(dx));
 
-	auto pVS = VertexShader::Make(dx, L"Shader/Shader.hlsl", "VS");
+	auto pVS = VertexShader::Make(dx, inVShaderName, "VS");
 	AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V3D, pVS.get()));
 	AddTask(std::move(pVS));
-	AddTask(PixelShader::Make(dx, L"Shader/Shader.hlsl", "PS"));
+	AddTask(PixelShader::Make(dx, inPShaderName, "PS"));
 
 	AddTask(pTCB);
 

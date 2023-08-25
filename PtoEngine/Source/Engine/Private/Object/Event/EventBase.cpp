@@ -1,5 +1,6 @@
 
 #include "Object/Event/EventBase.h"
+#include "Component/BoxCollision.h"
 
 struct FEventSettings : public FLayerObject2DSettings
 {
@@ -19,6 +20,7 @@ const std::map<EEventId, FEventSettings> EventSettings =
 	{EEventId::Enter, FEventSettings(L"Content/Textures/T_Transparent.png", L"Enter")},
 	{EEventId::Exit, FEventSettings(L"Content/Textures/T_Dungeon_Exit.png", L"Exit")},
 	{EEventId::EnterRoom, FEventSettings(L"Content/Textures/T_Transparent.png", L"EnterRoom")},
+	{EEventId::Block, FEventSettings(L"Content/Textures/T_Transparent.png", L"Block")},
 };
 
 EventBase::EventBase(DirectX11& dx, const EEventId& inEventType)
@@ -29,6 +31,7 @@ EventBase::EventBase(DirectX11& dx, const EEventId& inEventType)
 	),
 	EventType(inEventType)
 {
+	AddComponent<BoxCollision>("collision", this);
 }
 
 // ------------------------------------------------------
