@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Object/LayerObjectBase.h"
+#include "Object/Actor2D.h"
 #include "Level/Layer/GroundTypes.h"
 
 class DirectX11;
 
-class GroundBase : public LayerObject2DBase
+class GroundBase : public Actor2D
 {
 public:
 	GroundBase(DirectX11& dx, const EGroundId& inGroundType);

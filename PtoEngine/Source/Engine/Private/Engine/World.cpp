@@ -188,8 +188,6 @@ void World::Tick(DirectX11& dx, float deltaSec)
 			pPlayer->Tick(dx, deltaSec);
 		}
 	}
-
-	mCollisionCollection.Tick();
 }
 
 // -----------------------------------

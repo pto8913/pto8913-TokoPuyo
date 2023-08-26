@@ -3,27 +3,29 @@
 #include "Object/Sprite.h"
 #include "Object/Actor.h"
 
+#include "Actor2DTypes.h"
+
 #include <chrono>
 
 class DirectX11;
 
 //DECLARE_MULTICAST_DELEGATE_OneParam(FOnTransformChanged, );
 
-struct FLayerObject2DSettings
+struct FActor2DSettings
 {
 public:
-	FLayerObject2DSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize);
-	FLayerObject2DSettings(const std::wstring& inFileName, const std::wstring& inTag);
+	FActor2DSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize);
+	FActor2DSettings(const std::wstring& inFileName, const std::wstring& inTag);
 
 	std::wstring fileName;
 	std::wstring tag;
 	FVector2D size;
 };
 
-class LayerObject2DBase : public Sprite, public Actor
+class Actor2D : public Sprite, public Actor
 {
 public:
-	LayerObject2DBase(DirectX11& dx, const FLayerObject2DSettings& Settings, const float& inUpdateTime = -1);
+	Actor2D(DirectX11& dx, const FActor2DSettings& Settings, const float& inUpdateTime = -1);
 
 	// ------------------------------------------------------
 	// Main
@@ -33,6 +35,10 @@ protected:
 	// called per UpdateTime.
 	virtual void Update(DirectX11& dx) {};
 public:
+	void SetSortOrder(int inSortOrder);
+	int GetSortOrder() const;
+	const EActor2DLayer& GetLayer() const;
+	void SetLayer(const EActor2DLayer& in);
 
 	// -----------------------------------
 	// Main : Transform
@@ -47,6 +53,8 @@ protected:
 	// State
 	// ------------------------------------------------------
 	std::wstring tag = L"";
+	int mSortOrder = 99999;
+	EActor2DLayer mLayer;
 
 	// -------------------------
 	// State : Tick

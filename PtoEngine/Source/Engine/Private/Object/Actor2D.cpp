@@ -1,21 +1,21 @@
 
-#include "Object/LayerObjectBase.h"
+#include "Object/Actor2D.h"
 
 #include "GameSettings.h"
 
 using namespace DirectX;
 
-FLayerObject2DSettings::FLayerObject2DSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
+FActor2DSettings::FActor2DSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
 	: fileName(inFileName), tag(inTag), size(inSize)
 {
 }
 
-FLayerObject2DSettings::FLayerObject2DSettings(const std::wstring& inFileName, const std::wstring& inTag)
+FActor2DSettings::FActor2DSettings(const std::wstring& inFileName, const std::wstring& inTag)
 	: fileName(inFileName), tag(inTag), size({ GameSettings::CELL, GameSettings::CELL })
 {
 }
 
-LayerObject2DBase::LayerObject2DBase(DirectX11& dx, const FLayerObject2DSettings& Settings, const float& inUpdateTime)
+Actor2D::Actor2D(DirectX11& dx, const FActor2DSettings& Settings, const float& inUpdateTime)
 	: Sprite(
 		dx,
 		Settings.fileName,
@@ -33,7 +33,7 @@ LayerObject2DBase::LayerObject2DBase(DirectX11& dx, const FLayerObject2DSettings
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
-void LayerObject2DBase::Tick(DirectX11& dx, float deltaTime)
+void Actor2D::Tick(DirectX11& dx, float deltaTime)
 {
 	ExecuteTasks(dx);
 	Actor::Tick(dx, deltaTime);
@@ -48,18 +48,34 @@ void LayerObject2DBase::Tick(DirectX11& dx, float deltaTime)
 		}
 	}
 }
+void Actor2D::SetSortOrder(int inSortOrder)
+{
+	mSortOrder = inSortOrder;
+}
+int Actor2D::GetSortOrder() const
+{
+	return mSortOrder;
+}
+const EActor2DLayer& Actor2D::GetLayer() const
+{
+	return mLayer;
+}
+void Actor2D::SetLayer(const EActor2DLayer& in)
+{
+	mLayer = in;
+}
 
 // -----------------------------------
 // Main : Transform
 // -----------------------------------
-void LayerObject2DBase::SetActorLocation(const FVector& in)
+void Actor2D::SetActorLocation(const FVector& in)
 {
 	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
 	vec = XMVectorSet(in.x, in.z, in.y, 0.f);
 	SetLocation(vec);
 	Actor::SetActorLocation(in);
 }
-void LayerObject2DBase::AddActorLocation(const FVector& in)
+void Actor2D::AddActorLocation(const FVector& in)
 {
 	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
 	vec = XMVectorSet(in.x, in.z, in.y, 0.f);
@@ -67,14 +83,14 @@ void LayerObject2DBase::AddActorLocation(const FVector& in)
 	SetLocation(vec);
 	Actor::AddActorLocation(in);
 }
-void LayerObject2DBase::SetActorRotation(const FRotator& in)
+void Actor2D::SetActorRotation(const FRotator& in)
 {
 	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
 	vec = XMVectorSet(in.roll, in.pitch, in.yaw, 0.f);
 	SetRotation(vec);
 	Actor::SetActorRotation(in);
 }
-void LayerObject2DBase::SetActorScale(const FVector& in)
+void Actor2D::SetActorScale(const FVector& in)
 {
 	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
 	vec = XMVectorSet(in.x, in.z, in.y, 0.f);

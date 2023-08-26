@@ -2,15 +2,15 @@
 #include "Object/Event/EventBase.h"
 #include "Component/BoxCollision.h"
 
-struct FEventSettings : public FLayerObject2DSettings
+struct FEventSettings : public FActor2DSettings
 {
 	FEventSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
-		: FLayerObject2DSettings(inFileName, inTag, inSize)
+		: FActor2DSettings(inFileName, inTag, inSize)
 	{
 	}
 
 	FEventSettings(const std::wstring& inFileName, const std::wstring& inTag)
-		: FLayerObject2DSettings(inFileName, inTag)
+		: FActor2DSettings(inFileName, inTag)
 	{
 	}
 };
@@ -24,7 +24,7 @@ const std::map<EEventId, FEventSettings> EventSettings =
 };
 
 EventBase::EventBase(DirectX11& dx, const EEventId& inEventType)
-	: LayerObject2DBase(
+	: Actor2D(
 		dx, 
 		EventSettings.at(inEventType),
 		1.f

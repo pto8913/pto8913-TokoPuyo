@@ -1,16 +1,16 @@
 
 #include "Object/Item/ItemBase.h"
 
-struct FItemSettings : public FLayerObject2DSettings
+struct FItemSettings : public FActor2DSettings
 {
 public:
 	FItemSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
-		: FLayerObject2DSettings(inFileName, inTag, inSize)
+		: FActor2DSettings(inFileName, inTag, inSize)
 	{
 	}
 
 	FItemSettings(const std::wstring& inFileName, const std::wstring& inTag)
-		: FLayerObject2DSettings(inFileName, inTag)
+		: FActor2DSettings(inFileName, inTag)
 	{
 	}
 };
@@ -21,7 +21,7 @@ const std::map<EItemId, FItemSettings> ItemList =
 };
 
 ItemBase::ItemBase(DirectX11& dx, const EItemId& inItemType)
-	: LayerObject2DBase(
+	: Actor2D(
 		dx,
 		ItemList.at(inItemType)
 	),

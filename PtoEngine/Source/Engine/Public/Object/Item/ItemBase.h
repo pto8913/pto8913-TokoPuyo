@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Object/LayerObjectBase.h"
+#include "Object/Actor2D.h"
 
 #include "Level/Layer/ItemTypes.h"
 
-class ItemBase : public LayerObject2DBase
+class ItemBase : public Actor2D
 {
 public:
 	ItemBase(DirectX11& dx, const EItemId& inItemType);

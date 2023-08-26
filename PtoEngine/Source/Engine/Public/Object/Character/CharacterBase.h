@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Object/LayerObjectBase.h"
-#include "Level/Layer/CharacterTypes.h"
+#include "Object/Actor2D.h"
+#include "Object/Character/CharacterTypes.h"
 
 #include "Engine/Delegate.h"
 
@@ -22,7 +22,7 @@ public:
 
 };
 
-class CharacterBase : public LayerObject2DBase, public std::enable_shared_from_this<CharacterBase>
+class CharacterBase : public Actor2D, public std::enable_shared_from_this<CharacterBase>
 {
 public:
 	CharacterBase(DirectX11& dx, const ECharacterId& inCharacterType);

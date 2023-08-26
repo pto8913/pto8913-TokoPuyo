@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Object/LayerObjectBase.h"
+#include "Object/Actor2D.h"
 #include "Level/Layer/EventTypes.h"
 
 class DirectX11;
 
-class EventBase : public LayerObject2DBase
+class EventBase : public Actor2D
 {
 public:
 	EventBase(DirectX11& dx, const EEventId& inEventType);

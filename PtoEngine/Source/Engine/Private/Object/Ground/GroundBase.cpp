@@ -3,15 +3,15 @@
 
 #include <format>
 
-struct FGroundSettings : public FLayerObject2DSettings
+struct FGroundSettings : public FActor2DSettings
 {
 	FGroundSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
-		: FLayerObject2DSettings(inFileName, inTag, inSize)
+		: FActor2DSettings(inFileName, inTag, inSize)
 	{
 	}
 
 	FGroundSettings(const std::wstring& inFileName, const std::wstring& inTag)
-		: FLayerObject2DSettings(inFileName, inTag)
+		: FActor2DSettings(inFileName, inTag)
 	{
 	}
 };
@@ -37,7 +37,7 @@ const std::map<EGroundId, FGroundSettings> GroundSettings =
 };
 
 GroundBase::GroundBase(DirectX11& dx, const EGroundId& inGroundType)
-	: LayerObject2DBase(
+	: Actor2D(
 		dx, 
 		GroundSettings.at(inGroundType),
 		1.f

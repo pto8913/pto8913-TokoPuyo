@@ -24,16 +24,16 @@ private:
 	UINT8 maxSpawnEnemy = 6;
 };
 
-struct FCharacterSettings : public FLayerObject2DSettings
+struct FCharacterSettings : public FActor2DSettings
 {
 public:
 	FCharacterSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
-		: FLayerObject2DSettings(inFileName, inTag, inSize)
+		: FActor2DSettings(inFileName, inTag, inSize)
 	{
 	}
 
 	FCharacterSettings(const std::wstring& inFileName, const std::wstring& inTag)
-		: FLayerObject2DSettings(inFileName, inTag)
+		: FActor2DSettings(inFileName, inTag)
 	{
 	}
 };
@@ -44,7 +44,7 @@ const std::map<ECharacterId, FCharacterSettings> CharacterList =
 };
 
 CharacterBase::CharacterBase(DirectX11& dx, const ECharacterId& inCharacterType)
-	: LayerObject2DBase(
+	: Actor2D(
 		dx,
 		CharacterList.at(inCharacterType),
 		1.f

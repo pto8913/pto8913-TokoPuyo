@@ -1,16 +1,16 @@
 
 #include "Object/Building/BuildingBase.h"
 
-struct FBuildingSettings : public FLayerObject2DSettings
+struct FBuildingSettings : public FActor2DSettings
 {
 public:
 	FBuildingSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
-		: FLayerObject2DSettings(inFileName, inTag, inSize)
+		: FActor2DSettings(inFileName, inTag, inSize)
 	{
 	}
 
 	FBuildingSettings(const std::wstring& inFileName, const std::wstring& inTag)
-		: FLayerObject2DSettings(inFileName, inTag)
+		: FActor2DSettings(inFileName, inTag)
 	{
 	}
 };
@@ -21,7 +21,7 @@ const std::map<EBuildingId, FBuildingSettings> BuildingList =
 };
 
 BuildingBase::BuildingBase(DirectX11& dx, const EBuildingId& inBuildingType)
-	: LayerObject2DBase(
+	: Actor2D(
 		dx,
 		BuildingList.at(inBuildingType),
 		1.f

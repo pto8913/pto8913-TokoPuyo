@@ -11,8 +11,6 @@
 #include "Level/LevelTypes.h"
 #include "Level/Level.h"
 
-#include "Engine/CollisionCollection.h"
-
 class DirectX11;
 
 class Level;
@@ -69,15 +67,17 @@ public:
 		out->SetOuter(pPersistentLevel);
 		out->SetID(mActorTotalCount);
 		++mActorTotalCount;
+		pPersistentLevel->GetObjectCollection().Add(out);
 
 		std::shared_ptr<BoxCollision> collision = out->GetComponent<BoxCollision>();
 		if (collision != nullptr)
 		{
-			mCollisionCollection.Add(collision);
+			pPersistentLevel->GetCollisionCollection().Add(collision);
 			OutputDebugStringA("Find Collision!!\n");
 		}
 		return out;
 	}
+
 	// -----------------------------------
 	// Main : Util : Level
 	// -----------------------------------
@@ -130,8 +130,6 @@ protected:
 	std::shared_ptr<PlayerController> pPlayerController = nullptr;
 	std::shared_ptr<Player> pPlayer = nullptr;
 	std::shared_ptr<HUD> pHUD = nullptr;
-
-	CollisionCollection mCollisionCollection;
 
 	float mWorldDelta = 0.f;
 

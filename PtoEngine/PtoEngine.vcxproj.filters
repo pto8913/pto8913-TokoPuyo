@@ -227,12 +227,6 @@
     <Filter Include="Source\Engine\Private\World">
       <UniqueIdentifier>{28b33b12-4641-4296-b303-4495401285ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Engine\Private\Level\Layer">
-      <UniqueIdentifier>{76dd1605-8ce2-430b-aa1a-ebd8ef124e2e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Engine\Public\Level\Layer">
-      <UniqueIdentifier>{e0e22b3f-6a44-4896-8e5d-4628a2534029}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DirectX\DirectXHead.h">
@@ -457,7 +451,7 @@
     <ClInclude Include="Source\Engine\Public\Object\Item\ItemBase.h">
       <Filter>Source\Engine\Public\Object\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Object\LayerObjectBase.h">
+    <ClInclude Include="Source\Engine\Public\Object\Actor2D.h">
       <Filter>Source\Engine\Public\Object</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Object\LibraryInterface.h">
@@ -628,27 +622,6 @@
     <ClInclude Include="Source\Engine\Public\Engine\Rect.h">
       <Filter>Source\Engine\Public\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Level\Layer\BuildingTypes.h">
-      <Filter>Source\Engine\Public\Level\Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Level\Layer\CharacterTypes.h">
-      <Filter>Source\Engine\Public\Level\Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Level\Layer\EffectTypes.h">
-      <Filter>Source\Engine\Public\Level\Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Level\Layer\EventTypes.h">
-      <Filter>Source\Engine\Public\Level\Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Level\Layer\GroundTypes.h">
-      <Filter>Source\Engine\Public\Level\Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Level\Layer\ItemTypes.h">
-      <Filter>Source\Engine\Public\Level\Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Level\Layer\Layer.h">
-      <Filter>Source\Engine\Public\Level\Layer</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Level\Level2D.h" />
     <ClInclude Include="Source\Engine\Public\Object\Character\PlayerTypes.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimationTypes.h">
@@ -716,6 +689,30 @@
       <Filter>Source\Engine\Public\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Engine\CollisionCollection.h">
+      <Filter>Source\Engine\Public\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Building\BuildingTypes.h">
+      <Filter>Source\Engine\Public\Object\Building</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Character\CharacterTypes.h">
+      <Filter>Source\Engine\Public\Object\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Effect\EffectTypes.h">
+      <Filter>Source\Engine\Public\Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Event\EventTypes.h">
+      <Filter>Source\Engine\Public\Object\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Ground\GroundTypes.h">
+      <Filter>Source\Engine\Public\Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Item\ItemTypes.h">
+      <Filter>Source\Engine\Public\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Actor2DTypes.h">
+      <Filter>Source\Engine\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Engine\ObjectCollection.h">
       <Filter>Source\Engine\Public\Engine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -909,7 +906,7 @@
     <ClCompile Include="Source\Engine\Private\Object\Item\ItemBase.cpp">
       <Filter>Source\Engine\Private\Object\Item</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Object\LayerObjectBase.cpp">
+    <ClCompile Include="Source\Engine\Private\Object\Actor2D.cpp">
       <Filter>Source\Engine\Private\Object</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Object\Event\EventBase.cpp">
@@ -1059,12 +1056,6 @@
     <ClCompile Include="Source\Engine\Private\Engine\Rect.cpp">
       <Filter>Source\Engine\Private\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Level\Layer\GroundTypes.cpp">
-      <Filter>Source\Engine\Private\Level\Layer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Level\Layer\Layer.cpp">
-      <Filter>Source\Engine\Private\Level\Layer</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Private\Level\Level2D.cpp" />
     <ClCompile Include="Source\Engine\Private\World\World_SonoTown.cpp">
       <Filter>Source\Engine\Private\World</Filter>
@@ -1125,6 +1116,12 @@
       <Filter>Source\Engine\Private\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Engine\CollisionCollection.cpp">
+      <Filter>Source\Engine\Private\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Object\Ground\GroundTypes.cpp">
+      <Filter>Source\Engine\Private\Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Engine\ObjectCollection.cpp">
       <Filter>Source\Engine\Private\Engine</Filter>
     </ClCompile>
   </ItemGroup>
