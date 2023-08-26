@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Object/Actor2D.h"
-#include "Level/Layer/EventTypes.h"
+#include "EventTypes.h"
 
 class DirectX11;
 

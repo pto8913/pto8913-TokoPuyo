@@ -23,13 +23,10 @@ void Player_Town::BeginPlay(DirectX11& dx)
 	Player::BeginPlay(dx);
 
 	SetActorLocation(FVector(0,0,0));
-	SetOffset(GetTypedOuter<Level2D>()->WorldToScreen(0, 0, GetActorScale().To2D()));
 }
 void Player_Town::Tick(DirectX11& dx, float deltaTime)
 {
 	Player::Tick(dx, deltaTime);
-
-	SetOffset(GetTypedOuter<Level2D>()->WorldToScreen(GetActorLocation().x, GetActorLocation().y, GetActorScale().To2D()));
 }
 
 // ---------------------------

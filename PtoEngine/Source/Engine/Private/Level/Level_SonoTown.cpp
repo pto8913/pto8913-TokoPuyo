@@ -33,7 +33,7 @@ void Level_SonoTown::Tick(DirectX11& dx, float deltaTime)
 	pSkyLight->ExecuteTasks(dx);
 	pDrawPlane->ExecuteTasks(dx);
 
-	//Level2D::Tick(dx, deltaTime);
+	Level2D::Tick(dx, deltaTime);
 
 	pEventBase->Tick(dx, deltaTime);
 }
@@ -47,13 +47,12 @@ void Level_SonoTown::GenerateGroundLayer()
 
 	pEventBase = GetWorld()->SpawnActor<EventBase>(*pDX, EEventId::Block);
 	pEventBase->SetActorLocation(FVector(1, 0, 0));
-	pEventBase->SetOffset(WorldToScreen(1, 0, pEventBase->GetActorScale().To2D()));
 }
 void Level_SonoTown::GenerateEventLayer()
 {
-	SetEventLayerID(EEventId::Enter, FVector2D(0, 0));
+	SetEventLayerID(EEventId::Enter, 0, 0);
 
-	SetEventLayerID(EEventId::Enter, FVector2D(5, 0));
+	SetEventLayerID(EEventId::Enter, 5, 0);
 }
 void Level_SonoTown::GenerateItemLayer()
 {

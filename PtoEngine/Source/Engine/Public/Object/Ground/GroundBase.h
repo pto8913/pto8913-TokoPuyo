@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Object/Actor2D.h"
-#include "Level/Layer/GroundTypes.h"
+#include "GroundTypes.h"
 
 class DirectX11;
 

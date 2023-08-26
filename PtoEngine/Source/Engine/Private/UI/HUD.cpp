@@ -35,8 +35,6 @@ using namespace DirectX;
 HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
 	: UserWidget(inOwner, dx, mouse, windowSizeW, windowSizeH)
 {
-	SetTickEnabled(true);
-
 	pRootSlate = std::make_shared<S_CanvasPanel>(FVector2D(windowSizeW, windowSizeH), GetRt2D());
 
 	// HP Bar
@@ -226,7 +224,7 @@ void HUD::ResetMap(const Level2D* pLevel)
 			infos.VAlign = EVerticalAlignment::Fill;
 			auto cell = std::make_shared<S_Border>(GetRt2D(), infos);
 			cell->SetSize({ mapSize, mapSize });
-			const auto& ground = pLevel->GetGroundLayerID(x, y);
+			const auto& ground = pLevel->GetGroundLayer(x, y);
 			if (ground != nullptr)
 			{
 				FSlateBorderAppearance apperance;
@@ -235,7 +233,7 @@ void HUD::ResetMap(const Level2D* pLevel)
 				cell->SetAppearance(apperance);
 			}
 
-			const auto& eventData = pLevel->GetEventLayerID(x, y);
+			const auto& eventData = pLevel->GetEventLayer(x, y);
 			if (eventData != nullptr)
 			{
 				if (eventData->GetEventType() == EEventId::Exit)
@@ -247,7 +245,7 @@ void HUD::ResetMap(const Level2D* pLevel)
 				}
 			}
 
-			const auto& character = pLevel->GetCharacterLayerID(x, y);
+			const auto& character = pLevel->GetCharacterLayer(x, y);
 			if (character != nullptr)
 			{
 				if (character->GetCharacterType() != ECharacterId::Player)
@@ -258,12 +256,7 @@ void HUD::ResetMap(const Level2D* pLevel)
 					apperance.roundSize = { 2.5f, 2.5f };
 					cell->SetAppearance(apperance);
 				}
-			}
-
-			const auto& character2 = pLevel->GetCharacter2LayerID(x, y);
-			if (character2 != nullptr)
-			{
-				if (character2->GetCharacterType() == ECharacterId::Player)
+				else
 				{
 					FSlateBorderAppearance apperance;
 					apperance.Type = EBorderType::Border;
@@ -294,7 +287,7 @@ void HUD::UpdateMap(const Level2D* pLevel)
 				auto cell = static_pointer_cast<S_Border>(slot);
 				cell->GetAppearance().color = FColor(0, 0, 0);
 
-				const auto& ground = pLevel->GetGroundLayerID(x, y);
+				const auto& ground = pLevel->GetGroundLayer(x, y);
 				if (ground != nullptr)
 				{
 					FSlateBorderAppearance apperance;
@@ -303,7 +296,7 @@ void HUD::UpdateMap(const Level2D* pLevel)
 					cell->SetAppearance(apperance);
 				}
 
-				const auto& eventData = pLevel->GetEventLayerID(x, y);
+				const auto& eventData = pLevel->GetEventLayer(x, y);
 				if (eventData != nullptr)
 				{
 					if (eventData->GetEventType() == EEventId::Exit)
@@ -315,7 +308,7 @@ void HUD::UpdateMap(const Level2D* pLevel)
 					}
 				}
 
-				const auto& character = pLevel->GetCharacterLayerID(x, y);
+				const auto& character = pLevel->GetCharacterLayer(x, y);
 				if (character != nullptr)
 				{
 					if (character->GetCharacterType() != ECharacterId::Player)
@@ -326,12 +319,7 @@ void HUD::UpdateMap(const Level2D* pLevel)
 						apperance.roundSize = { 2.5f, 2.5f };
 						cell->SetAppearance(apperance);
 					}
-				}
-
-				const auto& character2 = pLevel->GetCharacter2LayerID(x, y);
-				if (character2 != nullptr)
-				{
-					if (character2->GetCharacterType() == ECharacterId::Player)
+					else
 					{
 						FSlateBorderAppearance apperance;
 						apperance.Type = EBorderType::Border;

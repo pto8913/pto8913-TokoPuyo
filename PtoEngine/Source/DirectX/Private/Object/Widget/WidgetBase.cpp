@@ -60,7 +60,7 @@ WidgetBase::WidgetBase(DirectX11& dx, UINT windowSizeW, UINT windowSizeH)
 
 	AddTask(SamplerState::Make(dx, 0));
 
-	AddTask(Rasterizer::Make(dx, Rasterizer::RasterizerType::Transparent2, m_pIndexBuffer.get()->GetCount()));
+	AddTask(Rasterizer::Make(dx, Rasterizer::Transparent2, m_pIndexBuffer->GetCount()));
 
 	InitializeTasks();
 }

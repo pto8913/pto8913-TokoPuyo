@@ -8,11 +8,12 @@ public:
 	Player_Dungeon(DirectX11& dx);
 	virtual ~Player_Dungeon();
 
+	virtual void BeginPlay(DirectX11& dx) override;
+
 	// ---------------------------
 	// Main : Transform
 	// ---------------------------
 	virtual void SetActorLocation(const FVector& in) override;
-
 protected:
 	// ---------------------------
 	// Main : Movement

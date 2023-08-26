@@ -109,7 +109,6 @@ public:
 	FOnDungeonNextFloor& GetDungeonNextFloor();
 	FOnEnterBlock& GetEnterBlock();
 
-	virtual bool MoveCenter(const int& x, const int& y) override;
 	void EnterBlock(const FEventData& inEventData);
 protected:
 	// ------------------------------------------------------
@@ -139,7 +138,7 @@ protected:
 	void MakePath(const UINT8& x, const UINT8& y, const FBlock& block);
 	void GetPathStartPos(const FRect& inRect, const EDirection& direction, UINT8& x, UINT8& y);
 	void SetEnterBlockEvent();
-	void SetEnterBlockEvent(const FVector2D& pos);
+	void SetEnterBlockEvent(const int& worldX, const int& worldY);
 	void CheckSetEnterBlockCount(const int& blockX, const int& blockY);
 
 	// --------------------------
@@ -157,8 +156,8 @@ protected:
 	UINT16 GetPosMaze(const UINT8& x, const UINT8& y) const noexcept;
 	UINT16 GetPosBlock(const UINT8& x, const UINT8& y) const noexcept;
 
-	UINT16 LocalToWorld(const UINT8& blockXorY, const UINT8& offsetXorY = 0) const noexcept;
-	UINT8 WorldToLocal(const UINT8& worldXorY, const UINT8& blockXorY) const noexcept;
+	UINT16 BlockToMaze(const UINT8& blockXorY, const UINT8& offsetXorY = 0) const noexcept;
+	UINT8 MazeToBlock(const UINT8& worldXorY, const UINT8& blockXorY) const noexcept;
 
 	// --------------------------
 	// Main : Ground Layer : Debug

@@ -17,14 +17,14 @@ World_Town::World_Town()
 
 void World_Town::SetGameMode(DirectX11& dx)
 {
-	pGameMode = SpawnActor<GameMode_Town>();
+	pGameMode = std::make_shared<GameMode_Town>();
 
 	World::SetGameMode(dx);
 }
 
 void World_Town::SetGameState(DirectX11& dx)
 {
-	pGameState = SpawnActor<GameState_Town>();
+	pGameState = std::make_shared<GameState_Town>();
 	auto gameState = static_pointer_cast<GameState_Town>(pGameState);
 	gameState->SetTownName(mTownName);
 
@@ -33,7 +33,7 @@ void World_Town::SetGameState(DirectX11& dx)
 
 void World_Town::SetPlayerController(DirectX11& dx)
 {
-	pPlayerController = SpawnActor<PlayerController_Town>(dx);
+	pPlayerController = std::make_shared<PlayerController_Town>(dx);
 
 	World::SetPlayerController(dx);
 }

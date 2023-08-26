@@ -3,4 +3,5 @@
 
 EffectBase::EffectBase()
 {
+
 }

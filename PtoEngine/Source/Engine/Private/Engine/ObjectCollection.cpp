@@ -2,26 +2,28 @@
 #include "Engine/ObjectCollection.h"
 #include "Object/Actor2D.h"
 
-void ObjectCollection::Add(std::shared_ptr<Actor2D>& in)
+void ObjectCollection::Add(const EActor2DLayer& inLayer, std::shared_ptr<Actor2D> in, bool sort)
 {
-	auto layer = in->GetLayer();
-	auto itr = pActors.find(layer);
+	auto itr = pActors.find(inLayer);
 	if (itr != pActors.end())
 	{
-		pActors[layer].push_back(in);
+		pActors[inLayer].push_back(in);
 	}
 	else
 	{
 		std::vector<std::shared_ptr<Actor2D>> arr(1, in);
-		pActors.insert(std::make_pair(layer, arr));
+		pActors.insert(std::make_pair(inLayer, arr));
 	}
-	pActors.emplace(layer, in);
+	if (sort)
+	{
+		Sort();
+	}
 }
 void ObjectCollection::Append(std::vector<std::shared_ptr<Actor2D>>& in)
 {
 	for (auto&& elem : in)
 	{
-		Add(elem);
+		Add(elem, false);
 	}
 	Sort();
 }

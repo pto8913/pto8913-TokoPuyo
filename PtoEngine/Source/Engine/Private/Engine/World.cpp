@@ -158,6 +158,14 @@ void World::Tick(DirectX11& dx, float deltaSec)
 		}
 	}
 
+	if (pHUD != nullptr)
+	{
+		if (pHUD->GetTickEnabled())
+		{
+			pHUD->Tick(dx, deltaSec);
+		}
+	}
+
 	if (pSubLevel != nullptr)
 	{
 		pSubLevel->Tick(dx, deltaSec);
@@ -170,14 +178,6 @@ void World::Tick(DirectX11& dx, float deltaSec)
 			{
 				pPersistentLevel->Tick(dx, deltaSec);
 			}
-		}
-	}
-
-	if (pHUD != nullptr)
-	{
-		if (pHUD->GetTickEnabled())
-		{
-			pHUD->Tick(dx, deltaSec);
 		}
 	}
 

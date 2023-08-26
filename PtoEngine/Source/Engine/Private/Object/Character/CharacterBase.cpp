@@ -53,6 +53,9 @@ CharacterBase::CharacterBase(DirectX11& dx, const ECharacterId& inCharacterType)
 {
 	pMovementComponent = AddComponent<MovementComponent>("Movement", this);
 	pBoxCollision = AddComponent<BoxCollision>("Collision", this);
+
+	mSortOrder = Layer::Character;
+	mLayer = EActor2DLayer::Entities;
 }
 
 // ------------------------------------------------------

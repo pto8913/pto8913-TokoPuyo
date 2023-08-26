@@ -29,7 +29,7 @@ App::App()
     GameInstance& gameInstance = GameInstance::Get();
     gameInstance.Initialize(*pDX);
 
-    pWorld = std::make_shared<World_SonoTown>();
+    pWorld = std::make_shared<World_SonoCave>();
     pWorld->Init(*pDX);
     pWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
     OnPlayerControllerChanged(pWorld->GetPlayerController());

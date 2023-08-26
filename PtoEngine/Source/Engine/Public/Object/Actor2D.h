@@ -9,8 +9,6 @@
 
 class DirectX11;
 
-//DECLARE_MULTICAST_DELEGATE_OneParam(FOnTransformChanged, );
-
 struct FActor2DSettings
 {
 public:
@@ -35,8 +33,9 @@ protected:
 	// called per UpdateTime.
 	virtual void Update(DirectX11& dx) {};
 public:
-	void SetSortOrder(int inSortOrder);
-	int GetSortOrder() const;
+	void SetSortOrder(Layer::EOrder inSortOrder);
+	Layer::EOrder GetSortOrder() const;
+
 	const EActor2DLayer& GetLayer() const;
 	void SetLayer(const EActor2DLayer& in);
 
@@ -52,8 +51,7 @@ protected:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
-	std::wstring tag = L"";
-	int mSortOrder = 99999;
+	Layer::EOrder mSortOrder = Layer::UnOrder;
 	EActor2DLayer mLayer;
 
 	// -------------------------
@@ -64,5 +62,4 @@ protected:
 	using chrono = std::chrono::system_clock;
 	chrono::time_point LastTime;
 	chrono::duration DurationTime;
-
 };

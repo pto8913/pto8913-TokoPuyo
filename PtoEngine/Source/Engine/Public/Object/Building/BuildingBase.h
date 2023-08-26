@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Object/Actor2D.h"
-#include "Level/Layer/BuildingTypes.h"
+#include "BuildingTypes.h"
 
 #include "Engine/Delegate.h"
 

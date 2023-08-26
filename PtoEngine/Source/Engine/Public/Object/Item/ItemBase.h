@@ -2,7 +2,7 @@
 
 #include "Object/Actor2D.h"
 
-#include "Level/Layer/ItemTypes.h"
+#include "ItemTypes.h"
 
 class ItemBase : public Actor2D
 {

@@ -16,14 +16,14 @@ World_Dungeon::World_Dungeon()
 
 void World_Dungeon::SetGameMode(DirectX11& dx)
 {
-	pGameMode = SpawnActor<GameMode_Dungeon>();
+	pGameMode = std::make_shared<GameMode_Dungeon>();
 
 	World::SetGameMode(dx);
 }
 
 void World_Dungeon::SetGameState(DirectX11& dx)
 {
-	pGameState = SpawnActor<GameState_Dungeon>();
+	pGameState = std::make_shared<GameState_Dungeon>();
 	auto gameState = static_pointer_cast<GameState_Dungeon>(pGameState);
 	gameState->SetDungeonName(mDungeonName);
 
@@ -32,7 +32,7 @@ void World_Dungeon::SetGameState(DirectX11& dx)
 
 void World_Dungeon::SetPlayerController(DirectX11& dx)
 {
-	pPlayerController = SpawnActor<PlayerController_Dungeon>(dx);
+	pPlayerController = std::make_shared<PlayerController_Dungeon>(dx);
 
 	World::SetPlayerController(dx);
 }

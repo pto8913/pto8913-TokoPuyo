@@ -18,7 +18,7 @@ public:
 	void UpdateTexture(const std::wstring& inFileName);
 
 	virtual void Bind(DirectX11& dx) override;
-	void Bind(DirectX::XMFLOAT2 offset);
+	void Bind(DirectX::XMVECTOR offset);
 
 	static std::string GenerateID(const std::wstring& inFileName, FLOAT inWidth, FLOAT inHeight)
 	{

@@ -2,16 +2,19 @@
 
 #include "Level.h"
 
-#include "Layer/Layer.h"
+#include "Object/Ground/GroundTypes.h"
+#include "Object/Event/EventTypes.h"
+#include "Object/Item/ItemTypes.h"
+#include "Object/Character/CharacterTypes.h"
+#include "Object/Building/BuildingTypes.h"
+#include "Object/Effect/EffectTypes.h"
 
-class LayerObject2DBase;
+class Actor2D;
 
 class GroundBase;
 class EventBase;
 class ItemBase;
 class CharacterBase;
-
-class WorldTimer;
 
 // ------------------------------------------------------------------------------------------------------------
 // Level 2D
@@ -53,10 +56,7 @@ public:
 	void Activate();
 	void Deactivate();
 	virtual bool MoveCenter(const float& x, const float& y);
-protected:
-	void UpdateSpriteOffset();
 
-public:
 	virtual void Clear();
 	template<typename T>
 	void Clear(TArray<TArray<T>>& in)
@@ -77,45 +77,44 @@ public:
 	// --------------------------
 	const int& GetWidth() const noexcept;
 	const int& GetHeight() const noexcept;
-	FVector2D GetCenter() const noexcept;
 
-	bool IsInScreen(const int& x, const int& y) const noexcept;
+	bool IsInScreen(const int& x, const int& y, const int& buffer = 0) const noexcept;
+	bool IsInScreen(const float& x, const float& y) const noexcept;
 	bool IsInWorld(const int& x, const int& y) const noexcept;
-	bool IsEmptyGround(const int& x, const int& y) const noexcept;
 
-	/* move  */
-	bool CanMove(const int& x, const int& y) const noexcept;
-
-	DirectX::XMFLOAT2 WorldToScreen(const int& x, const int& y, const FVector2D& size);
+	DirectX::XMFLOAT2 WorldToScreen(const int& x, const int& y, const FVector& size);
+	void ScreenToWorld(const FVector& world, const FVector& size, int& x, int& y) const;
 
 	// --------------------------
 	// Main : Utils : Ground
 	// --------------------------
-	void SetGroundLayerID(const EGroundId& groundType, const FVector2D& pos);
+	void SetGroundLayerID(const EGroundId& groundType, const float& worldX, const float& worldY);
 	void SetGroundLayerID(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal = false, INT16 inConstantXY2 = -1);
-	const std::shared_ptr<GroundBase>& GetGroundLayerID(const int& x, const int& y) const;
+	std::shared_ptr<GroundBase> GetGroundLayer(const int& worldX, const int& worldY) const;
 
 	// --------------------------
 	// Main : Utils : Event
 	// --------------------------
-	void SetEventLayerID(const EEventId& eventType, const FVector2D& pos);
-	void SetEventLayerID(std::shared_ptr<EventBase>& inEventData, const FVector2D& pos);
-	void SetEventLayerID(std::shared_ptr<EventBase>&& inEventData, const FVector2D& pos);
-	const std::shared_ptr<EventBase>& GetEventLayerID(const int& x, const int& y) const;
+	void SetEventLayerID(const EEventId& eventType, const float& worldX, const float& worldY);
+	void SetEventLayerID(std::shared_ptr<EventBase>& inEventData, const float& worldX, const float& worldY);
+	void SetEventLayerID(std::shared_ptr<EventBase>&& inEventData, const float& worldX, const float& worldY);
+	std::shared_ptr<EventBase> GetEventLayer(const int& worldX, const int& worldY) const;
 
 	// --------------------------
 	// Main : Utils : Item
 	// --------------------------
-	void SetItemLayerID(const EItemId& itemType, const FVector2D& pos);
-	const std::shared_ptr<ItemBase>& GetItemLayerID(const int& x, const int& y) const;
+	void SetItemLayerID(const EItemId& itemType, const float& worldX, const float& worldY);
+	std::shared_ptr<ItemBase> GetItemLayer(const int& worldX, const int& worldY) const;
 
 	// --------------------------
 	// Main : Utils : Character
 	// --------------------------
-	void SetCharacterLayerID(const ECharacterId& characterType, const FVector2D& pos);
-	const std::shared_ptr<CharacterBase>& GetCharacterLayerID(const int& x, const int& y) const;
-	const std::shared_ptr<CharacterBase>& GetCharacter2LayerID(const int& x, const int& y) const;
+	void SetCharacterLayerID(const ECharacterId& characterType, const float& worldX, const float& worldY);
+	std::shared_ptr<CharacterBase> GetCharacterLayer(const int& worldX, const int& worldY) const;
 
+protected:
+	void SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY);
+	std::shared_ptr<Actor2D> GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const EActor2DLayer& inLayer) const;
 public:
 	// --------------------------
 	// Main : Debug
@@ -125,16 +124,6 @@ public:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
-	TArray<TArray<std::shared_ptr<GroundBase>>> GroundLayer;
-	TArray<TArray<std::shared_ptr<EventBase>>> EventLayer;
-
-	TArray<TArray<std::shared_ptr<ItemBase>>> ItemLayer;
-	//TArray<TArray<std::shared_ptr<CharacterBase>>> BuildingLayer;
-
-	TArray<TArray<std::shared_ptr<CharacterBase>>> CharacterLayer;
-	TArray<TArray<std::shared_ptr<CharacterBase>>> Character2Layer;
-	//TArray<TArray<std::shared_ptr<CharacterBase>>> EffectLayer;
-
 	int width = 0;
 	int height = 0;
 protected:
@@ -145,15 +134,10 @@ protected:
 	// State : Display
 	// --------------------------
 
-	FVector2D mCenter;
+	int centerX = 0;
+	int centerY = 0;
 	int screenLeftX = 0;
 	int screenLeftY = 0;
 	int screenRightX = 0;
 	int screenRightY = 0;
-
-	// --------------------------
-	// State : WorldTimer
-	// --------------------------
-	std::unique_ptr<WorldTimer> pWorldTimer = nullptr;
-	float worldTimerSpeed = 1.f;
 };

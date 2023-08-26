@@ -20,13 +20,12 @@ Actor2D::Actor2D(DirectX11& dx, const FActor2DSettings& Settings, const float& i
 		dx,
 		Settings.fileName,
 		Settings.tag,
-		{ Settings.size.x, Settings.size.y },
-		{ 0, 0 }
+		{ Settings.size.x, Settings.size.y }
 	),
 	DurationTime(0),
 	mUpdateTime(inUpdateTime)
 {
-	SetActorScale(FVector(Settings.size.x, Settings.size.y, 0));
+	SetActorScale(FVector(Settings.size.x, 0, Settings.size.y));
 	LastTime = chrono::now();
 }
 
@@ -48,14 +47,16 @@ void Actor2D::Tick(DirectX11& dx, float deltaTime)
 		}
 	}
 }
-void Actor2D::SetSortOrder(int inSortOrder)
+
+void Actor2D::SetSortOrder(Layer::EOrder inSortOrder)
 {
 	mSortOrder = inSortOrder;
 }
-int Actor2D::GetSortOrder() const
+Layer::EOrder Actor2D::GetSortOrder() const
 {
 	return mSortOrder;
 }
+
 const EActor2DLayer& Actor2D::GetLayer() const
 {
 	return mLayer;
