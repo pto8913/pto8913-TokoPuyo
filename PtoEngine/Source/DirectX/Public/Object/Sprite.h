@@ -16,8 +16,10 @@ public:
 	virtual void ExecuteTasks(DirectX11& dx) override;
 	virtual DirectX::XMMATRIX GetTransformXM(DirectX11& dx) const noexcept override;
 
+	void SetOffset(DirectX::XMFLOAT2 inOffset);
 	void UpdateTexture(const std::wstring& inFileName);
 protected:
+	DirectX::XMFLOAT2 offset;
 	TransformConstantBuffer::Transforms tf = {
 		DirectX::XMMatrixIdentity(),
 		DirectX::XMMatrixIdentity()

@@ -21,8 +21,6 @@ DrawPlane::DrawPlane(DirectX11& dx, float sizeX, float sizeZ, std::wstring inFil
 	auto model = Plane::Make();
 	model.SetTransform(DirectX::XMMatrixScaling(sizeX, 1, sizeZ));
 
-	SetLocation({ 0.f });
-
 	m_pIndexBuffer = IndexBuffer::Make(dx, "Plane", model.indices);
 	m_pVertexBuffer = VertexBuffer<DX::FVertex>::Make(dx, "Plane", model.vertices);
 	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

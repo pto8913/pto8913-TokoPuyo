@@ -10,8 +10,6 @@
 
 #include "SDK/DXTex/include/Public/WICTextureLoader11.h"
 
-using namespace DirectX;
-
 ScreenTexture::ScreenTexture(DirectX11& dx, const std::wstring& inFileName, FLOAT inWidth, FLOAT inHeight)
 	: fileName(inFileName), width(inWidth), height(inHeight)
 {
@@ -152,7 +150,7 @@ void ScreenTexture::Bind(DirectX11& dx)
 	GetContext(dx)->PSSetShaderResources(0, 1, &d2dTexture);
 }
 
-void ScreenTexture::Bind(DirectX::XMVECTOR offset)
+void ScreenTexture::Bind(DirectX::XMFLOAT2 offset)
 {
 	////Release the D3D 11 Device
 	//keyedMutex11->ReleaseSync(0);
@@ -167,15 +165,13 @@ void ScreenTexture::Bind(DirectX::XMVECTOR offset)
 	//D2DRenderTarget->Clear(D2D1::ColorF(0.0f, 0.0f, 0.0f, 0.0f));
 
 	//Create the D2D Render Area
-	float x = XMVectorGetX(offset);
-	float y = XMVectorGetY(offset);
-	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, (FLOAT)width + x, (FLOAT)height + y);
-	
+	D2D1_RECT_F layoutRect = D2D1::RectF(offset.x, offset.y, (FLOAT)width + offset.x, (FLOAT)height + offset.y);
+
 	D2DRenderTarget->DrawBitmap(
-		m_pBitmap, 
-		layoutRect, 
-		1.f, 
-		D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, 
+		m_pBitmap,
+		layoutRect,
+		1.f,
+		D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
 		nullptr
 	);
 
