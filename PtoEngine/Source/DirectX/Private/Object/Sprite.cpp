@@ -49,11 +49,11 @@ Sprite::Sprite(DirectX11& dx, const std::wstring& inFileName, std::wstring Tag, 
 
 void Sprite::ExecuteTasks(DirectX11& dx)
 {
-	dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
+	//dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
 
 	m_pTCB->Bind(dx, tf);
 
-	m_pScreenTexture->Bind(offset);
+	m_pScreenTexture->Bind(offset);// { DirectX::XMVectorGetX(GetLocation()), DirectX::XMVectorGetY(GetLocation()) });
 
 	DrawableObject::ExecuteTasks(dx);
 }

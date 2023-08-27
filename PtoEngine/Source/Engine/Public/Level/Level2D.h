@@ -55,7 +55,7 @@ public:
 	void Init(const int& x, const int& y);
 	void Activate();
 	void Deactivate();
-	virtual bool MoveCenter(const float& x, const float& y);
+	virtual bool MoveCenter(const int& x, const int& y);
 
 	virtual void Clear();
 	template<typename T>

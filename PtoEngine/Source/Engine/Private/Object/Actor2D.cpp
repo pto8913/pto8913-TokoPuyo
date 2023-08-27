@@ -25,7 +25,7 @@ Actor2D::Actor2D(DirectX11& dx, const FActor2DSettings& Settings, const float& i
 	DurationTime(0),
 	mUpdateTime(inUpdateTime)
 {
-	SetActorScale(FVector(Settings.size.x, 0, Settings.size.y));
+	SetActorScale(FVector(Settings.size.x, Settings.size.y, 0));
 	LastTime = chrono::now();
 }
 
@@ -72,14 +72,14 @@ void Actor2D::SetLayer(const EActor2DLayer& in)
 void Actor2D::SetActorLocation(const FVector& in)
 {
 	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
-	vec = XMVectorSet(in.x, in.z, in.y, 0.f);
+	vec = XMVectorSet(in.x, in.y, in.z, 0.f);
 	SetLocation(vec);
 	Actor::SetActorLocation(in);
 }
 void Actor2D::AddActorLocation(const FVector& in)
 {
 	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
-	vec = XMVectorSet(in.x, in.z, in.y, 0.f);
+	vec = XMVectorSet(in.x, in.y, in.z, 0.f);
 	vec = DirectX::XMVectorAdd(GetLocation(), vec);
 	SetLocation(vec);
 	Actor::AddActorLocation(in);
@@ -94,7 +94,7 @@ void Actor2D::SetActorRotation(const FRotator& in)
 void Actor2D::SetActorScale(const FVector& in)
 {
 	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
-	vec = XMVectorSet(in.x, in.z, in.y, 0.f);
+	vec = XMVectorSet(in.x, in.y, in.z, 0.f);
 	SetScale(vec);
 	Actor::SetActorScale(in);
 }

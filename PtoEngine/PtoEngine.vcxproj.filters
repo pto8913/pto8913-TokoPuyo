@@ -622,8 +622,6 @@
     <ClInclude Include="Source\Engine\Public\Engine\Rect.h">
       <Filter>Source\Engine\Public\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Level\Level2D.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Character\PlayerTypes.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimationTypes.h">
       <Filter>Source\Engine\Public\UI</Filter>
     </ClInclude>
@@ -678,7 +676,6 @@
     <ClInclude Include="Source\Engine\Public\Level\Level_SonoTown_House_0.h">
       <Filter>Source\Engine\Public\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Helper\VectorHelper.h" />
     <ClInclude Include="Source\Engine\Public\Component\CollisionComponent.h">
       <Filter>Source\Engine\Public\Component</Filter>
     </ClInclude>
@@ -714,6 +711,15 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Engine\ObjectCollection.h">
       <Filter>Source\Engine\Public\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Level\Level2D.h">
+      <Filter>Source\Engine\Public\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Helper\VectorHelper.h">
+      <Filter>Source\Engine\Public\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Object\Character\PlayerTypes.h">
+      <Filter>Source\Engine\Public\Object\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1056,7 +1062,6 @@
     <ClCompile Include="Source\Engine\Private\Engine\Rect.cpp">
       <Filter>Source\Engine\Private\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Level\Level2D.cpp" />
     <ClCompile Include="Source\Engine\Private\World\World_SonoTown.cpp">
       <Filter>Source\Engine\Private\World</Filter>
     </ClCompile>
@@ -1105,7 +1110,6 @@
     <ClCompile Include="Source\Engine\Private\Level\Level_SonoTown_House_0.cpp">
       <Filter>Source\Engine\Private\Level</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Helper\VectorHelper.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\CollisionComponent.cpp">
       <Filter>Source\Engine\Private\Component</Filter>
     </ClCompile>
@@ -1123,6 +1127,12 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Engine\ObjectCollection.cpp">
       <Filter>Source\Engine\Private\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Helper\VectorHelper.cpp">
+      <Filter>Source\Engine\Private\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Level\Level2D.cpp">
+      <Filter>Source\Engine\Private\Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -81,7 +81,7 @@ void Player_Town::Move(const int& x, const int& y)
 			return;
 		}
 
-		GetMovementComp()->AddVelocity(FVector(x, 0, y));
+		GetMovementComp()->AddVelocity(FVector(x, y, 0));
 
 		OnPlayerMoved.Broadcast(GetActorLocation());
 	}

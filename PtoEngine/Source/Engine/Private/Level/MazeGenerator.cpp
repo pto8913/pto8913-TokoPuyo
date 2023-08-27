@@ -889,7 +889,7 @@ void MazeGenerator::SetEnter(const UINT8& blockX, const UINT8& blockY)
 	else
 	{
 		SetEventLayerID(EEventId::Enter, resX, resY);
-		SetStartPosition(FVector(resX, 0, resY));
+		SetStartPosition(FVector(resX, resY, 0));
 	}
 }
 void MazeGenerator::SetExit(const UINT8& blockX, const UINT8& blockY)
@@ -911,9 +911,10 @@ void MazeGenerator::StartMoveToNextFloor()
 	{
 		pExit->OnChoiceYes.Unbind("MazeExit");
 	}
+	Generate(*pDX);
 
-	GetWorld()->GetGameState()->OnLandmarkClosed.Bind<&MazeGenerator::CompletedMoveToNextFloor>(*this, "MazeGenerator");
-	GetWorld()->GetGameState()->OpenLandmarkUI(*pDX, L"", 0.5f);
+	//GetWorld()->GetGameState()->OnLandmarkClosed.Bind<&MazeGenerator::CompletedMoveToNextFloor>(*this, "MazeGenerator");
+	//GetWorld()->GetGameState()->OpenLandmarkUI(*pDX, L"", 0.5f);
 }
 
 void MazeGenerator::CompletedMoveToNextFloor()

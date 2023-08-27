@@ -22,18 +22,14 @@ void Player_Dungeon::BeginPlay(DirectX11& dx)
 	//DirectX::XMFLOAT2 pos = level->WorldToScreen(vec.x, vec.y, GetActorScale());
 	//SetActorLocation(FVector(pos.x, 0.f, pos.y));
 }
-
 // ---------------------------
 // Main : Transform
 // ---------------------------
 void Player_Dungeon::SetActorLocation(const FVector& in)
 {
 	Player::SetActorLocation(in);
-#if _DEBUG
-	OutputDebugStringA(("Player : " + GetActorLocation().ToString() + "\n").c_str());
-#endif
+	SetOffset(GetTypedOuter<Level2D>()->WorldToScreen(GetActorLocation().x, GetActorLocation().y, GetActorScale()));
 }
-
 // ---------------------------
 // Main : Movement
 // ---------------------------

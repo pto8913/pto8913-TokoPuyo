@@ -74,9 +74,6 @@ void Level2D::Activate()
 #endif
 	MoveCenter(mStartPosition.x, mStartPosition.y);
 
-	auto pos = WorldToScreen(centerX, centerY, GetWorld()->GetPlayer()->GetActorScale());
-	GetWorld()->GetPlayer()->SetActorLocation(FVector(pos.x, 0, pos.y));
-
 	bInitialized = true;
 }
 void Level2D::Deactivate()
@@ -84,7 +81,7 @@ void Level2D::Deactivate()
 	bInitialized = false;
 }
 
-bool Level2D::MoveCenter(const float& x, const float& y)
+bool Level2D::MoveCenter(const int& x, const int& y)
 {
 #if _DEBUG
 	OutputDebugStringA(std::format("move center x, y {} {}\n", centerX, centerY).c_str());
@@ -102,41 +99,35 @@ bool Level2D::MoveCenter(const float& x, const float& y)
 		screenRightX = centerX + GameSettings::GAMESCREEN_CENTER_X + 2;
 		screenRightY = centerY + GameSettings::GAMESCREEN_CENTER_Y + 2;
 
-		OutputDebugStringA(std::format("next x, y {} {}\n", centerX, centerY).c_str());
-		OutputDebugStringA(std::format("screen Rect {} {} {} {}\n", screenLeftX, screenLeftY, screenRightX, screenRightY).c_str());
+		SetSpriteLocation(GetWorld()->GetPlayer(), centerX, centerY);
 
-		auto pos = WorldToScreen(centerX, centerY, GetWorld()->GetPlayer()->GetActorScale());
-		GetWorld()->GetPlayer()->SetActorLocation(FVector(pos.x, 0, pos.y));
-
-		//int sx = 0, sy = 0;
-		//for (auto&& layer : mObjectCollection.pActors)
-		//{
-		//	for (auto&& actor : layer.second)
-		//	{
-		//		ScreenToWorld(actor->GetActorLocation(), actor->GetActorScale(), sx, sy);
-		//		if (IsInScreen(sx, sy))
-		//		{
-		//			if (actor->GetSortOrder() == Layer::EOrder::Character)
-		//			{
-		//				if (auto obj = static_pointer_cast<CharacterBase>(actor))
-		//				{
-		//					if (obj->GetCharacterType() == ECharacterId::Player)
-		//					{
-		//						continue;
-		//					}
-		//				}
-		//			}
-		//			DirectX::XMFLOAT2 pos = WorldToScreen(sx, sy, actor->GetActorScale());
-		//			actor->SetActorLocation(FVector(pos.x, 0.f, pos.y));
-		//			actor->SetVisibility(true);
-		//			//OutputDebugStringA(std::format("screen x, y {} {}\n", pos.x, pos.y).c_str());
-		//		}
-		//		else
-		//		{
-		//			actor->SetVisibility(false);
-		//		}
-		//	}
-		//}
+		int sx = 0, sy = 0;
+		for (auto&& layer : mObjectCollection.pActors)
+		{
+			for (auto&& actor : layer.second)
+			{
+				ScreenToWorld(actor->GetActorLocation(), actor->GetActorScale(), sx, sy);
+				if (IsInScreen(sx, sy))
+				{
+					if (actor->GetSortOrder() == Layer::EOrder::Character)
+					{
+						if (auto obj = static_pointer_cast<CharacterBase>(actor))
+						{
+							if (obj->GetCharacterType() == ECharacterId::Player)
+							{
+								continue;
+							}
+						}
+					}
+					SetSpriteLocation(actor, sx, sy);
+					actor->SetVisibility(true);
+				}
+				else
+				{
+					actor->SetVisibility(false);
+				}
+			}
+		}
 		return true;
 	}
 	return false;
@@ -185,13 +176,13 @@ DirectX::XMFLOAT2 Level2D::WorldToScreen(const int& x, const int& y, const FVect
 {
 	return {
 		GameSettings::GAMESCREEN_LEFT_TOP.x + size.x * (x - screenLeftX),
-		GameSettings::GAMESCREEN_LEFT_TOP.y * 2.f + 64.f + size.z * (y - screenLeftY)
+		GameSettings::GAMESCREEN_LEFT_TOP.y * 2.f + 64.f + size.y * (y - screenLeftY)
 	};
 }
 void Level2D::ScreenToWorld(const FVector& world, const FVector& size, int& x, int& y) const
 {
 	x = ((world.x - GameSettings::GAMESCREEN_LEFT_TOP.x) / size.x) + screenLeftX;
-	y = ((world.z - (GameSettings::GAMESCREEN_LEFT_TOP.y * 2.f) - 64.f) / size.z) + screenLeftY;
+	y = ((world.y - (GameSettings::GAMESCREEN_LEFT_TOP.y * 2.f) - 64.f) / size.y) + screenLeftY;
 }
 
 // --------------------------
@@ -290,8 +281,7 @@ void Level2D::SetEventLayerID(std::shared_ptr<EventBase>& sprite, const float& w
 {
 	if (IsInWorld(worldX, worldY))
 	{
-		DirectX::XMFLOAT2 pos = WorldToScreen(worldX, worldY, sprite->GetActorScale());
-		sprite->SetActorLocation(FVector(pos.x, 0.f, pos.y));
+		SetSpriteLocation(sprite, worldX, worldY);
 	}
 }
 void Level2D::SetEventLayerID(std::shared_ptr<EventBase>&& sprite, const float& worldX, const float& worldY)
@@ -353,7 +343,8 @@ std::shared_ptr<CharacterBase> Level2D::GetCharacterLayer(const int& worldX, con
 void Level2D::SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY)
 {
 	DirectX::XMFLOAT2 pos = WorldToScreen(worldX, worldY, sprite->GetActorScale());
-	sprite->SetActorLocation(FVector(pos.x, 0.f, pos.y));
+	sprite->SetActorLocation(FVector(pos.x, pos.y, 0.f));
+	sprite->SetOffset(DirectX::XMFLOAT2(pos.x, pos.y));
 }
 std::shared_ptr<Actor2D> Level2D::GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const EActor2DLayer& inLayer) const
 {
