@@ -10,6 +10,8 @@
 
 #include "SDK/DXTex/include/Public/WICTextureLoader11.h"
 
+IWICImagingFactory* pImageFactory;
+
 ScreenTexture::ScreenTexture(DirectX11& dx, const std::wstring& inFileName, FLOAT inWidth, FLOAT inHeight)
 	: fileName(inFileName), width(inWidth), height(inHeight)
 {
@@ -122,11 +124,13 @@ void ScreenTexture::UpdateTexture(const std::wstring& inFileName)
 		m_pBitmap = nullptr;
 	}
 
-	IWICImagingFactory* pImageFactory;
 	IWICBitmapDecoder* pBitmapDecoder;
 	IWICBitmapFrameDecode* pBitmapFrameDecode;
 	IWICFormatConverter* pImageConverter;
-	CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, (LPVOID*)&pImageFactory);
+	if (pImageFactory == nullptr)
+	{
+		HRESULT result = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, (LPVOID*)&pImageFactory);
+	}
 	pImageFactory->CreateDecoderFromFilename(inFileName.c_str(), nullptr, GENERIC_READ, WICDecodeMetadataCacheOnLoad, &pBitmapDecoder);
 	pBitmapDecoder->GetFrame(0, &pBitmapFrameDecode);
 	pImageFactory->CreateFormatConverter(&pImageConverter);
@@ -139,33 +143,46 @@ void ScreenTexture::UpdateTexture(const std::wstring& inFileName)
 		assert(false);
 	}
 
-	pImageFactory->Release();
 	pBitmapDecoder->Release();
 	pBitmapFrameDecode->Release();
 	pImageConverter->Release();
+}
+void ScreenTexture::UpdateWidth(const float& inWidth)
+{
+	width = inWidth;
+}
+void ScreenTexture::UpdateHeight(const float& inHeight)
+{
+	height = inHeight;
+}
+void ScreenTexture::UpdateSize(const float& inWidth, const float& inHeight)
+{
+	width = inWidth;
+	height = inHeight;
 }
 
 void ScreenTexture::Bind(DirectX11& dx)
 {
 	GetContext(dx)->PSSetShaderResources(0, 1, &d2dTexture);
 }
-
-void ScreenTexture::Bind(DirectX::XMFLOAT2 offset)
+void ScreenTexture::Bind(DirectX::XMVECTOR loc)
 {
 	////Release the D3D 11 Device
-	//keyedMutex11->ReleaseSync(0);
+//keyedMutex11->ReleaseSync(0);
 
-	////Use D3D10.1 device
-	//keyedMutex10->AcquireSync(0, 5);
+////Use D3D10.1 device
+//keyedMutex10->AcquireSync(0, 5);
 
-	//Draw D2D content		
+//Draw D2D content		
 	D2DRenderTarget->BeginDraw();
 
 	//Clear D2D Background
 	//D2DRenderTarget->Clear(D2D1::ColorF(0.0f, 0.0f, 0.0f, 0.0f));
 
 	//Create the D2D Render Area
-	D2D1_RECT_F layoutRect = D2D1::RectF(offset.x, offset.y, (FLOAT)width + offset.x, (FLOAT)height + offset.y);
+	float x = DirectX::XMVectorGetX(loc);
+	float y = DirectX::XMVectorGetY(loc);
+	D2D1_RECT_F layoutRect = D2D1::RectF(x, y, width + x, height + y);
 
 	D2DRenderTarget->DrawBitmap(
 		m_pBitmap,

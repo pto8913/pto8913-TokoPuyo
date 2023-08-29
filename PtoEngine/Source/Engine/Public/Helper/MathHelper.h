@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine/Vector.h"
+#include "Engine/Box.h"
 
 namespace Vector
 {
@@ -10,3 +11,9 @@ namespace Vector
 	FVector RotateVector(FVector Target, float yaw, float pitch, float roll);
 	FVector Clamp(FVector v, float inMin, float inMax);
 };
+
+namespace Box
+{
+	bool IsInBox(const FBox& a, const FBox& b);
+	bool IsPointInBox(const FBox& a, const FVector& b);
+}

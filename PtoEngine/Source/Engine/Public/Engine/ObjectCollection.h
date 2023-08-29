@@ -8,6 +8,15 @@
 class Actor2D;
 class DirectX11;
 
+template<typename TClass, typename = typename std::enable_if_t<std::is_base_of_v<Actor2D, TClass>>>
+struct LayerObject
+{
+public:
+
+
+	std::vector<std::vector<TClass>> pActors;
+};
+
 class ObjectCollection
 {
 	friend class Level2D;

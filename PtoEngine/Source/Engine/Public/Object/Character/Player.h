@@ -30,7 +30,7 @@ public:
 	bool IsEnableInput() const noexcept;
 protected:
 	virtual void InputUpdate();
-	virtual void Move(const int& x, const int& y);
+	virtual void Move(const float& x, const float& y);
 public:
 
 	// ---------------------------

@@ -715,11 +715,17 @@
     <ClInclude Include="Source\Engine\Public\Level\Level2D.h">
       <Filter>Source\Engine\Public\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Helper\VectorHelper.h">
-      <Filter>Source\Engine\Public\Helper</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Object\Character\PlayerTypes.h">
       <Filter>Source\Engine\Public\Object\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Component\BoxCollision2D.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Helper\MathHelper.h">
+      <Filter>Source\Engine\Public\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Engine\Box.h">
+      <Filter>Source\Engine\Public\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1128,11 +1134,17 @@
     <ClCompile Include="Source\Engine\Private\Engine\ObjectCollection.cpp">
       <Filter>Source\Engine\Private\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Helper\VectorHelper.cpp">
-      <Filter>Source\Engine\Private\Helper</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Private\Level\Level2D.cpp">
       <Filter>Source\Engine\Private\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Component\BoxCollision2D.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Helper\MathHelper.cpp">
+      <Filter>Source\Engine\Private\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Engine\Box.cpp">
+      <Filter>Source\Engine\Private\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

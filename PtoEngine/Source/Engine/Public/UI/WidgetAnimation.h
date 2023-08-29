@@ -77,6 +77,11 @@ public:
 		new (&mStart) T(start);
 		new (&mEnd) T(end);
 		
+		if (Algo::has_ToString<T>::value)
+		{
+			OutputDebugStringA(std::format("start {}", start.ToString()).c_str());
+			OutputDebugStringA(std::format("end   {}", end.ToString()).c_str());
+		}
 		offset = GetOffset(member);
 
 		mFunction = +[](StoragePtr data, std::ptrdiff_t offset, StorageT start, StorageT end, float alpha)
@@ -89,8 +94,6 @@ public:
 			*ptr = Algo::lerp(s, e, Math::Clamp(alpha, 0.f, 1.f));
 			if (Algo::has_ToString<T>::value)
 			{
-				OutputDebugStringA(std::format("s {}", s.ToString()).c_str());
-				OutputDebugStringA(std::format("e {}", e.ToString()).c_str());
 				OutputDebugStringA(std::format("c {}", (*ptr).ToString()).c_str());
 			}
 		};

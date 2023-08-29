@@ -19,5 +19,5 @@ protected:
 	// Main : Movement
 	// ---------------------------
 	virtual void InputUpdate() override;
-	virtual void Move(const int& x, const int& y) override;
+	virtual void Move(const float& x, const float& y) override;
 };

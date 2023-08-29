@@ -23,8 +23,6 @@ protected:
 	virtual void GenerateCharacterLayer() override;
 	virtual void GenerateEffectLayer() override;
 
-	std::shared_ptr<GroundBase> G(const EGroundTile& id);
-
 	std::shared_ptr<SkyLight> pSkyLight = nullptr;
 	std::shared_ptr<DrawPlane> pDrawPlane = nullptr;
 

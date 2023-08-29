@@ -4,7 +4,7 @@
 #include "GameSettings.h"
 
 #include "Component/MovementComponent.h"
-#include "Component/BoxCollision.h"
+#include "Component/BoxCollision2D.h"
 
 class CharacterManager
 {
@@ -52,7 +52,7 @@ CharacterBase::CharacterBase(DirectX11& dx, const ECharacterId& inCharacterType)
 	characterType(inCharacterType)
 {
 	pMovementComponent = AddComponent<MovementComponent>("Movement", this);
-	pBoxCollision = AddComponent<BoxCollision>("Collision", this);
+	pBoxCollision2D = AddComponent<BoxCollision2D>("Collision2D", this);
 
 	mSortOrder = Layer::Character;
 	mLayer = EActor2DLayer::Entities;

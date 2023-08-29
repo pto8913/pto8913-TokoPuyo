@@ -9,7 +9,7 @@ class CharacterManager;
 struct FCharacterSettings;
 
 class MovementComponent;
-class BoxCollision;
+class BoxCollision2D;
 
 struct FCharacterStatus
 {
@@ -47,5 +47,5 @@ public:
 	ECharacterId characterType;
 
 	std::shared_ptr<MovementComponent> pMovementComponent = nullptr;
-	std::shared_ptr<BoxCollision> pBoxCollision = nullptr;
+	std::shared_ptr<BoxCollision2D> pBoxCollision2D = nullptr;
 };

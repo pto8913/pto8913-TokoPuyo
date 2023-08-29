@@ -8,6 +8,7 @@
 #include "GameState/GameState_Dungeon.h"
 #include "Object/Character/Player_Dungeon.h"
 #include "UI/HUD.h"
+#include "Level/Level2D.h"
 
 World_Dungeon::World_Dungeon()
 	: World()
@@ -48,5 +49,6 @@ void World_Dungeon::SetHUD(DirectX11& dx)
 {
 	World::SetHUD(dx);
 
+	pHUD->UpdateMap(static_pointer_cast<Level2D>(pPersistentLevel).get());
 	pPlayer->OnPlayerMoved.Bind<&HUD::PlayerMoved>(*pHUD.get(), "HUD");
 }

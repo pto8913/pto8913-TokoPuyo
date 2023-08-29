@@ -24,7 +24,7 @@ void Level::Tick(DirectX11& dx, float deltaSec)
 {
 	Object::Tick(dx, deltaSec);
 
-	mCollisionCollection.Tick();
+	//mCollisionCollection.Tick();
 	mObjectCollection.Tick(dx, deltaSec);
 }
 

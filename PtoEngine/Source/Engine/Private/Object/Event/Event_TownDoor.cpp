@@ -16,7 +16,7 @@ Event_TownDoor::~Event_TownDoor()
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
-void Event_TownDoor::EnterVolume(const int& x, const int& y)
+void Event_TownDoor::EnterVolume(const float& x, const float& y)
 {
 	if (bIsOpenChoice)
 	{
@@ -29,7 +29,7 @@ void Event_TownDoor::EnterVolume(const int& x, const int& y)
 		//pLevelFactory->Create(*pDX, mOpenLevelId);
 	}
 }
-void Event_TownDoor::LeaveVolume(const int& x, const int& y)
+void Event_TownDoor::LeaveVolume(const float& x, const float& y)
 {
 	if (bIsOpenChoice)
 	{

@@ -73,8 +73,8 @@ public:
 		if (collision != nullptr)
 		{
 			pPersistentLevel->GetCollisionCollection().Add(collision);
-			OutputDebugStringA("Find Collision!!\n");
 		}
+
 		return out;
 	}
 

@@ -45,11 +45,14 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 Window::Window()
     : mClass()
 {
+    int appWindowX = (int)AppSettings::windowSize.x;
+    int appWindowY = (int)AppSettings::windowSize.y;
+
     RECT wr;
-    wr.left = 100;
-    wr.right = (int)AppSettings::windowSize.x + wr.left;
-    wr.top = 100;
-    wr.bottom = (int)AppSettings::windowSize.y + wr.top;
+    wr.left = 0;
+    wr.right = appWindowX + wr.left;
+    wr.top = 0;
+    wr.bottom = appWindowY + wr.top;
     if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_OVERLAPPEDWINDOW, FALSE) == 0)
     {
         return;
@@ -57,6 +60,10 @@ Window::Window()
 
     width = wr.right - wr.left;
     height = wr.bottom - wr.top;
+    AppSettings::aspectWidthRatio = float(width) / float(appWindowX);
+    AppSettings::aspectHeightRatio = float(height) / float(appWindowY);
+    OutputDebugStringA(("window Aspect : " + std::to_string(AppSettings::aspectWidthRatio) + ", " + std::to_string(AppSettings::aspectHeightRatio) + "\n").c_str());
+    OutputDebugStringA(("window InSize : " + std::to_string(width) + ", " + std::to_string(height) + "\n").c_str());
 
     //width = inWidth;
     //height = inHeight;
@@ -126,7 +133,6 @@ UINT Window::GetHeight() const noexcept
 {
     return height;
 }
-
 void Window::ConfineCursor() noexcept
 {
     RECT rect;

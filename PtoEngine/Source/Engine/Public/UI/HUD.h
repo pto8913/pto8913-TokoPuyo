@@ -19,13 +19,13 @@ class Level2D;
 class HUD : public UserWidget
 {
 public:
-	HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH);
-	HUD(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH);
+	HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse);
+	HUD(DirectX11& dx, DX::IMouseInterface* mouse);
 
-public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
+	virtual void Draw() override;
 
 	void AddSlate(std::shared_ptr<SlateBase> inSlate);
 	void RemoveSlate(std::shared_ptr<SlateBase> inSlate);
@@ -44,8 +44,25 @@ public:
 	void SetFloorName(const std::wstring in);
 	void ResetMap(const Level2D* pLevel);
 	void UpdateMap(const Level2D* pLevel);
+protected:
+	void SetMap(const Level2D* pLevel, std::shared_ptr<S_Border> pCell, const int& x, const int& y);
+
+public:
+	// -----------------------------------------------------
+	// Main : Debug
+	// -----------------------------------------------------
+	void AddBoxDebug(std::shared_ptr<class BoxCollision2D> in);
+	void DrawDebugScreen();
 
 protected:
+#if _DEBUG
+	// --------------------------
+	// State : Debug
+	// --------------------------
+	std::vector<std::shared_ptr<class BoxCollision2D>> pBoxDebug;
+	std::vector<std::shared_ptr<S_Border>> pScreenGrid;
+#endif
+
 	// ------------------------------------------------------------------------------------------------------------
 	// Settings
 	// ------------------------------------------------------------------------------------------------------------
@@ -55,7 +72,6 @@ protected:
 	// --------------------------
 	float mapSize = 6.f;
 
-protected:
 	// ------------------------------------------------------------------------------------------------------------
 	// State
 	// ------------------------------------------------------------------------------------------------------------

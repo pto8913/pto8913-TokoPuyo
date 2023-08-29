@@ -39,14 +39,14 @@ EventBase::EventBase(DirectX11& dx, const EEventId& inEventType)
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
-void EventBase::EnterVolume(const int& x, const int& y)
+void EventBase::EnterVolume(const float& x, const float& y)
 {
 	if (OnEnterVolume.IsBound())
 	{
 		OnEnterVolume.Broadcast(FEventData(FVector(x, y, 0), EventType));
 	}
 }
-void EventBase::LeaveVolume(const int& x, const int& y)
+void EventBase::LeaveVolume(const float& x, const float& y)
 {
 	if (OnLeaveVolume.IsBound())
 	{

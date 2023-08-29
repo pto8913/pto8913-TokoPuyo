@@ -16,15 +16,16 @@ struct FVector2D
 {
 	FVector2D();
 	FVector2D(const float& inX, const float& inY);
+	FVector2D(float&& inX, float&& inY);
 
-	FVector2D operator+(const FVector2D& In);
-	FVector2D operator+(const float& In);
-	FVector2D operator-(const FVector2D& In);
-	FVector2D operator-(const float& In);
-	FVector2D operator*(const FVector2D& In);
-	FVector2D operator*(const float& In);
-	FVector2D operator/(const FVector2D& In);
-	FVector2D operator/(const float& In);
+	FVector2D operator+(const FVector2D& In) const;
+	FVector2D operator+(const float& In) const;
+	FVector2D operator-(const FVector2D& In) const;
+	FVector2D operator-(const float& In) const;
+	FVector2D operator*(const FVector2D& In) const;
+	FVector2D operator*(const float& In) const;
+	FVector2D operator/(const FVector2D& In) const;
+	FVector2D operator/(const float& In) const;
 
 	FVector2D& operator+=(const FVector2D& In);
 	FVector2D& operator+=(const float& In);
@@ -51,6 +52,7 @@ struct FVector
 public:
 	FVector();
 	FVector(const float& inX, const float& inY, const float& inZ);
+	FVector(float&& inX, float&& inY, float&& inZ);
 
 	FVector operator+(const FVector& In) const;
 	FVector operator+(const float& In) const;

@@ -39,9 +39,13 @@ public:
 	const EActor2DLayer& GetLayer() const;
 	void SetLayer(const EActor2DLayer& in);
 
+	const FVector2D& Get2DIdx() const;
+	void Set2DIdx(const FVector2D& in);
+
 	// -----------------------------------
 	// Main : Transform
 	// -----------------------------------
+	virtual FVector GetActorLocation() override;
 	virtual void SetActorLocation(const FVector& in) override;
 	virtual void AddActorLocation(const FVector& in) override;
 	virtual void SetActorRotation(const FRotator& in) override;
@@ -53,6 +57,8 @@ protected:
 	// ------------------------------------------------------
 	Layer::EOrder mSortOrder = Layer::UnOrder;
 	EActor2DLayer mLayer;
+
+	FVector2D m2DIdx;
 
 	// -------------------------
 	// State : Tick

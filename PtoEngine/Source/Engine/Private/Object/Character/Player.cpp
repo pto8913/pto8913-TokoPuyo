@@ -65,6 +65,6 @@ void Player::InputUpdate()
 #endif
 	}
 }
-void Player::Move(const int& x, const int& y)
+void Player::Move(const float& x, const float& y)
 {
 }

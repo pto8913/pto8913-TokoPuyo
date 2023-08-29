@@ -1,15 +1,14 @@
 
 #include "UI/Slate/HorizontalBox.h"
 
-#define _DEBUG 0
-
-#if _DEBUG
-#include <format>
-#endif
-
 S_HorizontalBox::S_HorizontalBox(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
 	: SlateContainerBase(inSize, inD2DRT, inSlateInfos)
 {
+#if _DEBUG
+	pBrush->SetColor(
+		D2D1::ColorF(D2D1::ColorF::Red)
+	);
+#endif
 }
 
 S_HorizontalBox::S_HorizontalBox(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
@@ -30,16 +29,6 @@ void S_HorizontalBox::Draw()
 		return;
 	}
 	SlateContainerBase::Draw();
-#if _DEBUG
-	ID2D1SolidColorBrush* brush = nullptr;
-	pD2DRT->CreateSolidColorBrush(
-		D2D1::ColorF(1, 0, 1, 1),
-		&brush
-	);
-	pD2DRT->DrawRectangle(
-		GetRect(), brush
-	);
-#endif
 }
 
 void S_HorizontalBox::Update()
@@ -119,16 +108,8 @@ void S_HorizontalBox::Update()
 			break;
 		}
 
-#if _DEBUG
-		OutputDebugStringA(std::format("HB child size {}, {} pos {}, {}\n", NewSize.x, NewSize.y, NewPos.x, NewPos.y).c_str());
-#endif
 		pChild->SetSize(NewSize);
 		pChild->SetPosition(NewPos);
 		pChild->Draw();
 	}
-#if _DEBUG
-	pBrush->SetColor(
-		D2D1::ColorF(D2D1::ColorF::Red)
-	);
-#endif
 }

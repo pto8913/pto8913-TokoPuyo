@@ -5,7 +5,26 @@
 // -------------------------------------------------
 // GameSettings : Game
 // -------------------------------------------------
-const float        GameSettings::CELL = 82.f;
+const float        GameSettings::CELL = 80.f;
+const FVector2D GameSettings::GetCELL()
+{
+	return FVector2D(
+		AppSettings::aspectWidthRatio * GameSettings::CELL,
+		AppSettings::aspectHeightRatio * GameSettings::CELL
+	);
+}
+const FVector2D GameSettings::GET_CELL(const float& x, const float& y)
+{
+	//const auto ratio = min(AppSettings::aspectWidthRatio, AppSettings::aspectHeightRatio);
+	//return FVector2D(
+	//	ratio * x,
+	//	ratio * y
+	//);
+	return FVector2D(
+		AppSettings::aspectWidthRatio * x,
+		AppSettings::aspectHeightRatio * y
+	);
+}
 const int          GameSettings::INDEX_NONE = -1;
 
 const FVector2D GameSettings::GAMESCREEN_PADDING = { 16.f, 16.f };

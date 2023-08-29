@@ -137,9 +137,30 @@ protected:
 	void MakePath();
 	void MakePath(const UINT8& x, const UINT8& y, const FBlock& block);
 	void GetPathStartPos(const FRect& inRect, const EDirection& direction, UINT8& x, UINT8& y);
+
+	// ------------------------------------------------------
+	// Main : Event Layer
+	// ------------------------------------------------------
 	void SetEnterBlockEvent();
 	void SetEnterBlockEvent(const int& worldX, const int& worldY);
 	void CheckSetEnterBlockCount(const int& blockX, const int& blockY);
+
+	void SetEnterExit();
+	void SetEnter(const UINT8& blockX, const UINT8& blockY);
+	void SetExit(const UINT8& blockX, const UINT8& blockY);
+
+	void StartMoveToNextFloor();
+	void CompletedMoveToNextFloor();
+
+	// ------------------------------------------------------
+	// Main : Item Layer
+	// ------------------------------------------------------
+	void SpawnItems();
+
+	// --------------------------
+	// Main : Debug
+	// --------------------------
+	void ShowBlock();
 
 	// --------------------------
 	// Main : Ground Layer : Utils
@@ -158,26 +179,6 @@ protected:
 
 	UINT16 BlockToMaze(const UINT8& blockXorY, const UINT8& offsetXorY = 0) const noexcept;
 	UINT8 MazeToBlock(const UINT8& worldXorY, const UINT8& blockXorY) const noexcept;
-
-	// --------------------------
-	// Main : Ground Layer : Debug
-	// --------------------------
-	void ShowBlock();
-
-	// ------------------------------------------------------
-	// Main : Event Layer
-	// ------------------------------------------------------
-	void SetEnterExit();
-	void SetEnter(const UINT8& blockX, const UINT8& blockY);
-	void SetExit(const UINT8& blockX, const UINT8& blockY);
-
-	void StartMoveToNextFloor();
-	void CompletedMoveToNextFloor();
-
-	// ------------------------------------------------------
-	// Main : Item Layer
-	// ------------------------------------------------------
-	void SpawnItems();
 
 	// ------------------------------------------------------
 	// Main : Delegate

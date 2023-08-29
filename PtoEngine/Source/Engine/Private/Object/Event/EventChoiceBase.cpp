@@ -25,11 +25,11 @@ EventChoiceBase::~EventChoiceBase()
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
-void EventChoiceBase::EnterVolume(const int& x, const int& y)
+void EventChoiceBase::EnterVolume(const float& x, const float& y)
 {
 	OpenChoiceUI();
 }
-void EventChoiceBase::LeaveVolume(const int& x, const int& y)
+void EventChoiceBase::LeaveVolume(const float& x, const float& y)
 {
 	CloseChoiceUI();
 }

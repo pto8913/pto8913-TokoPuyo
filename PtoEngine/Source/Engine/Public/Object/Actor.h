@@ -21,6 +21,7 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+	virtual void BeginPlay(DirectX11& dx) override;
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
 	void SetID(int inID);
@@ -83,7 +84,11 @@ public:
 protected:
 	std::shared_ptr<Object> pOuter = nullptr;
 	int mID = -1;
-
+	/* NOTE : 
+		Is not same Actor::mLocation to ObjectBase::location.
+		Actor::mLocation is location in screen.
+		ObjectBase::location is location in window. this is include menubar, window title...etc.
+	*/
 	FVector mLocation;
 	FRotator mRotation;
 	FVector mScale;

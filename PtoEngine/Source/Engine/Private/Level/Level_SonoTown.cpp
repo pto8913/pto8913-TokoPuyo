@@ -46,6 +46,7 @@ void Level_SonoTown::GenerateGroundLayer()
 	ShowTiles();
 
 	pEventBase = GetWorld()->SpawnActor<EventBase>(*pDX, EEventId::Block);
+	pEventBase->BeginPlay(*pDX);
 	pEventBase->SetActorLocation(FVector(1, 0, 0));
 }
 void Level_SonoTown::GenerateEventLayer()
@@ -65,9 +66,4 @@ void Level_SonoTown::GenerateCharacterLayer()
 }
 void Level_SonoTown::GenerateEffectLayer()
 {
-}
-
-std::shared_ptr<GroundBase> Level_SonoTown::G(const EGroundTile& id)
-{
-	return GetWorld()->SpawnActor<GroundBase>(*pDX, ConvertToGround(id, mGroundType));
 }

@@ -16,4 +16,6 @@ public:
 	// -------------------------------------------------
 	static const FVector2D windowSize;
 	static const std::wstring windowTitle;
+	static float aspectHeightRatio;
+	static float aspectWidthRatio;
 };

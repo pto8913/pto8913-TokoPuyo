@@ -7,18 +7,25 @@ FRect::FRect(const float& leftTopX, const float& leftTopY, const float& rightBot
 	: left(leftTopX), right(rightBottomX), top(leftTopY), bottom(rightBottomY)
 {
 }
+FRect::FRect(float&& leftTopX, float&& leftTopY, float&& rightBottomX, float&& rightBottomY)
+	: left(std::move(leftTopX)), right(std::move(rightBottomX)), top(std::move(leftTopY)), bottom(std::move(rightBottomY))
+{
+}
 FRect::FRect(const float& x)
 	: left(x), right(x), top(x), bottom(x)
 {
-
 }
-FRect::FRect(FRect&& other) noexcept
+FRect::FRect(float&& x)
+	: left(x), right(x), top(x), bottom(std::move(x))
 {
-	*this = std::move(other);
 }
 FRect::FRect(const FRect& other)
 {
 	*this = other;
+}
+FRect::FRect(FRect&& other) noexcept
+{
+	*this = std::move(other);
 }
 FRect& FRect::operator=(const FRect& other)
 {

@@ -32,11 +32,11 @@ FOnChoceResult& S_ChoiceBox::GetOnChoiceResult()
 // --------------------------
 void S_ChoiceBox::SetChoiceButton(const TArray<FChoiceInfos>& inChoiceInfos)
 {
-	int numOfButton = inChoiceInfos.Size();
+	int numOfButton = (int)inChoiceInfos.Size();
 	//static_assert(numOfButton > 0, "ChoiceBox Error : ChoiceInfos must greater than 0.");
 	if (numOfButton > 0)
 	{
-		int currNumOfButton = pChildren.size();
+		int currNumOfButton = (int)pChildren.size();
 		if (numOfButton > currNumOfButton)
 		{
 			FSlateInfos info;

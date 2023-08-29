@@ -13,8 +13,8 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
-	virtual void EnterVolume(const int& x, const int& y);
-	virtual void LeaveVolume(const int& x, const int& y);
+	virtual void EnterVolume(const float& x, const float& y);
+	virtual void LeaveVolume(const float& x, const float& y);
 
 	FOnSendEvent& GetOnEnterVolume();
 	FOnSendEvent& GetOnLeaveVolume();

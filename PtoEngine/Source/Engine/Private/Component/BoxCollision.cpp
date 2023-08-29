@@ -3,38 +3,11 @@
 
 #include "Object/Actor.h"
 
+#include "Helper/MathHelper.h"
+
 #include "Engine/Rect.h"
-
-
-// ------------------------------------------------------
-// FBox
-// ------------------------------------------------------
-FBox::FBox(const FVector& left, const FVector& right)
-	: leftTop(left), rightBottom(right)
-{
-}
-FBox::FBox(FVector&& left, FVector&& right)
-	: leftTop(std::move(left)), rightBottom(std::move(right))
-{
-}
-bool FBox::IsPointInBox(const FVector& point) const
-{
-	return (leftTop.x <= point.x && point.x <= rightBottom.x) &&
-		(leftTop.y <= point.y && point.y <= rightBottom.y) &&
-		(leftTop.z >= point.z && point.z >= rightBottom.z);
-}
-bool FBox::IsInBox(const FBox& box) const
-{
-	return IsPointInBox(box.leftTop) || IsPointInBox(box.rightBottom);
-}
-float FBox::GetWidth() const
-{
-	return abs(leftTop.x - rightBottom.x);
-}
-float FBox::GetHeight() const
-{
-	return abs(leftTop.z - rightBottom.z);
-}
+#include "Engine/World.h"
+#include "UI/HUD.h"
 
 // ------------------------------------------------------
 // Box Collision
@@ -51,8 +24,7 @@ BoxCollision::~BoxCollision()
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
-#include "Engine/World.h"
-#include "UI/HUD.h"
+
 void BoxCollision::Tick(DirectX11& dx, float deltaSec)
 {
 	CollisionComponent::Tick(dx, deltaSec);
@@ -69,9 +41,9 @@ void BoxCollision::Tick(DirectX11& dx, float deltaSec)
 	rt2d->DrawRectangle(
 		D2D1::RectF(
 			location.x - halfScale.x,
-			location.z + halfScale.z,
+			location.y + halfScale.y,
 			location.x + halfScale.x,
-			location.z - halfScale.z
+			location.y - halfScale.y
 		),
 		brush
 	);
@@ -85,7 +57,7 @@ bool BoxCollision::InBoundingVolume(Actor* other)
 	{
 		if (auto boxCollision = static_pointer_cast<BoxCollision>(otherCollision))
 		{
-			if (box.IsInBox(boxCollision->GetBoundingBox()))
+			if (Box::IsInBox(box, boxCollision->GetBoundingBox()))
 			{
 				return true;
 			}
@@ -98,7 +70,7 @@ bool BoxCollision::InBoundingVolume(Actor* other)
 	else
 	{
 		const auto target = other->GetActorLocation();
-		if (box.IsPointInBox(target))
+		if (Box::IsPointInBox(box, target))
 		{
 			return true;
 		}
@@ -151,8 +123,8 @@ void BoxCollision::ResolveBlock(std::shared_ptr<CollisionComponent> other)
 	const FBox& box2 = otherBox->GetBoundingBox();
 
 	float diffX = (box1.leftTop.x + (box1.GetWidth() / 2)) - (box2.leftTop.x + (box2.GetWidth() / 2));
-	float diffY = (box1.leftTop.y + (box1.GetWidth() / 2)) - (box2.leftTop.y + (box2.GetWidth() / 2));
-	float diffZ = (box1.leftTop.z + (box1.GetHeight() / 2)) - (box2.leftTop.z + (box2.GetHeight() / 2));
+	float diffY = (box1.leftTop.y + (box1.GetHeight() / 2)) - (box2.leftTop.y + (box2.GetHeight() / 2));
+	float diffZ = (box1.leftTop.z + (box1.GetWidth() / 2)) - (box2.leftTop.z + (box2.GetWidth() / 2));
 
 	float x = 0, y = 0, z = 0;
 	if (diffX > 0)
@@ -166,21 +138,22 @@ void BoxCollision::ResolveBlock(std::shared_ptr<CollisionComponent> other)
 
 	if (diffY > 0)
 	{
-		y = (box2.leftTop.y + box2.GetWidth()) - box1.leftTop.y;
+		y = (box2.leftTop.y + box2.GetHeight()) - box1.leftTop.y;
 	}
 	else if (diffY < 0)
 	{
-		y = -(box1.leftTop.y + box1.GetWidth()) - box2.leftTop.y;
+		y = -(box1.leftTop.y + box1.GetHeight()) - box2.leftTop.y;
 	}
 
 	if (diffZ > 0)
 	{
-		z = (box2.leftTop.z + box2.GetHeight()) - box1.leftTop.z;
+		z = (box2.leftTop.z + box2.GetWidth()) - box1.leftTop.z;
 	}
 	else if (diffZ < 0)
 	{
-		z = -(box1.leftTop.z + box1.GetHeight()) - box2.leftTop.z;
+		z = -(box1.leftTop.z + box1.GetWidth()) - box2.leftTop.z;
 	}
 
 	pOwner->AddActorLocation(FVector(x, y, z));
 }
+

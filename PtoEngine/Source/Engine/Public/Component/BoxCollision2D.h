@@ -1,32 +1,42 @@
 #pragma once
 
 #include "Component/CollisionComponent.h"
-#include "Engine/Box.h"
+#include "Engine/Rect.h"
+
+#include <d2d1.h>
 
 // ------------------------------------------------------
-// Box Collision
+// Box Collision 2D
 // ------------------------------------------------------
-class BoxCollision : public CollisionComponent
+class BoxCollision2D : public CollisionComponent, public std::enable_shared_from_this<BoxCollision2D>
 {
 	friend class CollisionCollection;
 public:
-	BoxCollision(Actor* inOwner);
-	virtual ~BoxCollision();
+	BoxCollision2D(Actor* inOwner);
+	virtual ~BoxCollision2D();
 
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
-	virtual void Tick(DirectX11& dx, float deltaSec) override;
+	virtual void BeginPlay(DirectX11& dx) override;
 
 	virtual bool InBoundingVolume(Actor* other) override;
-	FBox GetBoundingBox();
+	FRect GetRect();
 protected:
 	virtual void EnterVolume(std::shared_ptr<CollisionComponent> other) override;
 	virtual void LeaveVolume(std::shared_ptr<CollisionComponent> other) override;
 
 	virtual void ResolveBlock(std::shared_ptr<CollisionComponent> other) override;
+public:
+
+	// ----------------------------
+	// Main : Debug
+	// ----------------------------
+	void DrawDebug(ID2D1RenderTarget* Rt2D);
+protected:
 
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
+	ID2D1SolidColorBrush* pBrush = nullptr;
 };

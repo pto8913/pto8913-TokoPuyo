@@ -38,11 +38,9 @@ public:
 	// Main
 	// ------------------------------------------------------
 	virtual void BeginPlay(DirectX11& dx) override;
-	void Generate(DirectX11& dx);
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
-	void SetGroundType(const EGroundType& inGroundType);
-
+	void Generate(DirectX11& dx);
 protected:
 	virtual void GenerateGroundLayer() = 0;
 	virtual void GenerateEventLayer() = 0;
@@ -53,9 +51,7 @@ protected:
 
 public:
 	void Init(const int& x, const int& y);
-	void Activate();
-	void Deactivate();
-	virtual bool MoveCenter(const int& x, const int& y);
+	virtual bool MoveCenter(const float& x, const float& y);
 
 	virtual void Clear();
 	template<typename T>
@@ -79,17 +75,20 @@ public:
 	const int& GetHeight() const noexcept;
 
 	bool IsInScreen(const int& x, const int& y, const int& buffer = 0) const noexcept;
-	bool IsInScreen(const float& x, const float& y) const noexcept;
 	bool IsInWorld(const int& x, const int& y) const noexcept;
 
 	DirectX::XMFLOAT2 WorldToScreen(const int& x, const int& y, const FVector& size);
-	void ScreenToWorld(const FVector& world, const FVector& size, int& x, int& y) const;
-
+protected:
+	void SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY);
+	std::shared_ptr<Actor2D> GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const EActor2DLayer& inLayer) const;
+public:
 	// --------------------------
 	// Main : Utils : Ground
 	// --------------------------
 	void SetGroundLayerID(const EGroundId& groundType, const float& worldX, const float& worldY);
 	void SetGroundLayerID(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal = false, INT16 inConstantXY2 = -1);
+	void SetGroundLayerIDChecked(const EGroundId& groundType, const float& worldX, const float& worldY);
+	void SetGroundLayerIDChecked(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal = false, INT16 inConstantXY2 = -1);
 	std::shared_ptr<GroundBase> GetGroundLayer(const int& worldX, const int& worldY) const;
 
 	// --------------------------
@@ -112,9 +111,6 @@ public:
 	void SetCharacterLayerID(const ECharacterId& characterType, const float& worldX, const float& worldY);
 	std::shared_ptr<CharacterBase> GetCharacterLayer(const int& worldX, const int& worldY) const;
 
-protected:
-	void SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY);
-	std::shared_ptr<Actor2D> GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const EActor2DLayer& inLayer) const;
 public:
 	// --------------------------
 	// Main : Debug

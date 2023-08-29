@@ -13,23 +13,6 @@ Player_Dungeon::~Player_Dungeon()
 
 }
 
-void Player_Dungeon::BeginPlay(DirectX11& dx)
-{
-	Player::BeginPlay(dx);
-
-	//auto level = GetTypedOuter<Level2D>();
-	//auto vec = level->GetCenter();
-	//DirectX::XMFLOAT2 pos = level->WorldToScreen(vec.x, vec.y, GetActorScale());
-	//SetActorLocation(FVector(pos.x, 0.f, pos.y));
-}
-// ---------------------------
-// Main : Transform
-// ---------------------------
-void Player_Dungeon::SetActorLocation(const FVector& in)
-{
-	Player::SetActorLocation(in);
-	SetOffset(GetTypedOuter<Level2D>()->WorldToScreen(GetActorLocation().x, GetActorLocation().y, GetActorScale()));
-}
 // ---------------------------
 // Main : Movement
 // ---------------------------
@@ -121,7 +104,7 @@ void Player_Dungeon::InputUpdate()
 #endif
 	}
 }
-void Player_Dungeon::Move(const int& x, const int& y)
+void Player_Dungeon::Move(const float& x, const float& y)
 {
 	if (bCanMove)
 	{
@@ -129,8 +112,6 @@ void Player_Dungeon::Move(const int& x, const int& y)
 		{
 			if (pLevel->MoveCenter(x, y))
 			{
-				//SetActorLocation(FVector(pLevel->GetCenter().x, pLevel->GetCenter().y, 0));
-
 				OnPlayerMoved.Broadcast(GetActorLocation());
 			}
 			else

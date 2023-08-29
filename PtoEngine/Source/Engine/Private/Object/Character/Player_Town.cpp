@@ -71,7 +71,7 @@ void Player_Town::InputUpdate()
 #endif
 	}
 }
-void Player_Town::Move(const int& x, const int& y)
+void Player_Town::Move(const float& x, const float& y)
 {
 	if (bCanMove)
 	{

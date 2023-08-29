@@ -5,14 +5,15 @@
 #include "Helper/ColorHelper.h"
 #include "Helper/RectHelper.h"
 
-#if _DEBUG
-#include <format>
-#endif
-
 S_Border::S_Border(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateBorderAppearance inAppearance)
 	: SlotContainerOnlyOne(inSize, inD2DRT, inSlateInfos)
 {
 	SetAppearance(inAppearance);
+#if _DEBUG
+	pBrush->SetColor(
+		D2D1::ColorF(D2D1::ColorF::Yellow)
+	);
+#endif
 }
 S_Border::S_Border(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateBorderAppearance inAppearance)
 	: S_Border({ 0,0 }, inD2DRT, inSlateInfos, inAppearance)
@@ -225,15 +226,8 @@ void S_Border::Update()
 		NewPos.y = SrcPos.y + childSlateInfos.padding.top;
 		break;
 	}
-#if _DEBUG
-	OutputDebugStringA(std::format("Overlay child size {}, {} pos {}, {}\n", NewSize.x, NewSize.y, NewPos.x, NewPos.y).c_str());
-#endif
 	pChild->SetSize(NewSize);
 	pChild->SetPosition(NewPos);
 	pChild->Draw();
-#if _DEBUG
-	pBrush->SetColor(
-		D2D1::ColorF(D2D1::ColorF::Yellow)
-	);
-#endif
+
 }

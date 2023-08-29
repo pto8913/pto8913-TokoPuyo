@@ -9,7 +9,7 @@
 
 #include "Math/Math.h"
 
-#include "Helper/VectorHelper.h"
+#include "Helper/MathHelper.h"
 
 Actor::Actor()
 {
@@ -31,6 +31,16 @@ Actor::~Actor()
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
+void Actor::BeginPlay(DirectX11& dx)
+{
+	for (auto&& pair : pComponents)
+	{
+		if (pair.second != nullptr)
+		{
+			pair.second->BeginPlay(dx);
+		}
+	}
+}
 void Actor::Tick(DirectX11& dx, float deltaTime)
 {
 	for (auto&& pair : pComponents)
@@ -56,11 +66,17 @@ int Actor::GetID() const
 
 void Actor::RemoveComponent(const std::string& tag)
 {
-	auto& comp = pComponents.at(tag);
-	comp.reset();
-	comp = nullptr;
+	if (pComponents.contains(tag))
+	{
+		auto& comp = pComponents.at(tag);
+		if (comp)
+		{
+			comp.reset();
+			comp = nullptr;
+		}
 
-	pComponents.erase(tag);
+		pComponents.erase(tag);
+	}
 }
 
 // -----------------------------------

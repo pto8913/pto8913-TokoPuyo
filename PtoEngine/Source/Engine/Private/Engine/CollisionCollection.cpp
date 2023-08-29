@@ -3,6 +3,8 @@
 
 #include "Object/Actor.h"
 
+#include "Helper/MathHelper.h"
+
 CollisionCollection::CollisionCollection()
 {
 
@@ -79,7 +81,7 @@ void CollisionCollection::Resolve()
 				continue;
 			}
 
-			if (collision->GetBoundingBox().IsInBox(treeCollision->GetBoundingBox()))
+			if (Box::IsInBox(collision->GetBoundingBox(), treeCollision->GetBoundingBox()))
 			{
 				collision->EnterVolume(treeCollision);
 			}

@@ -16,9 +16,12 @@ public:
 	static std::shared_ptr<ScreenTexture> Make(DirectX11& dx, const std::wstring& inFileName, FLOAT inWidth, FLOAT inHeight);
 
 	void UpdateTexture(const std::wstring& inFileName);
+	void UpdateWidth(const float& inWidth);
+	void UpdateHeight(const float& inHeight);
+	void UpdateSize(const float& inWidth, const float& inHeight);
 
 	virtual void Bind(DirectX11& dx) override;
-	void Bind(DirectX::XMFLOAT2 offset);
+	void Bind(DirectX::XMVECTOR loc);
 
 	static std::string GenerateID(const std::wstring& inFileName, FLOAT inWidth, FLOAT inHeight)
 	{
@@ -32,8 +35,8 @@ public:
 	}
 protected:
 	const std::wstring fileName;
-	FLOAT width;
-	FLOAT height;
+	float width;
+	float height;
 
 	ID2D1Bitmap* m_pBitmap = nullptr;
 

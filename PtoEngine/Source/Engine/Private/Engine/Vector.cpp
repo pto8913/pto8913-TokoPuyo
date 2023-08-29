@@ -15,43 +15,47 @@ FVector2D::FVector2D(const float& inX, const float& inY)
 	: x(inX), y(inY)
 {
 }
+FVector2D::FVector2D(float&& inX, float&& inY)
+	: x(std::move(inX)), y(std::move(inY))
+{
+}
 
-FVector2D FVector2D::operator+(const FVector2D& in)
+FVector2D FVector2D::operator+(const FVector2D& in) const
 {
 	FVector2D Out = *this;
 	return Out += in;
 };
-FVector2D FVector2D::operator+(const float& in)
+FVector2D FVector2D::operator+(const float& in) const
 {
 	FVector2D Out = *this;
 	return Out += in;
 };
-FVector2D FVector2D::operator-(const FVector2D & in)
+FVector2D FVector2D::operator-(const FVector2D& in) const
 {
 	FVector2D Out = *this;
 	return Out += in;
 };
-FVector2D FVector2D::operator-(const float& in)
+FVector2D FVector2D::operator-(const float& in) const
 {
 	FVector2D Out = *this;
 	return Out += in;
 };
-FVector2D FVector2D::operator*(const FVector2D& in)
+FVector2D FVector2D::operator*(const FVector2D& in) const
 {
 	FVector2D Out = *this;
 	return Out += in;
 };
-FVector2D FVector2D::operator*(const float& in)
+FVector2D FVector2D::operator*(const float& in) const
 {
 	FVector2D Out = *this;
 	return Out += in;
 };
-FVector2D FVector2D::operator/(const FVector2D& in)
+FVector2D FVector2D::operator/(const FVector2D& in) const
 {
 	FVector2D Out = *this;
 	return Out += in;
 };
-FVector2D FVector2D::operator/(const float& in)
+FVector2D FVector2D::operator/(const float& in) const
 {
 	FVector2D Out = *this;
 	return Out += in;
@@ -135,7 +139,10 @@ FVector::FVector(const float& inX, const float& inY, const float& inZ)
 	: x(inX), y(inY), z(inZ)
 {
 }
-
+FVector::FVector(float&& inX, float&& inY, float&& inZ)
+	: x(std::move(inX)), y(std::move(inY)), z(std::move(inZ))
+{
+}
 FVector FVector::operator+(const FVector & in) const
 {
 	FVector Out = *this;

@@ -409,7 +409,7 @@ void MazeGenerator::MakeRoom()
 
 				BlockRect.Add(FRect(actualRoomLeftTopX, actualRoomLeftTopY, actualRoomRightBottomX, actualRoomRightBottomY));
 #if _DEBUG
-				OutputDebugStringA(std::format("RoomRect : {} {} {} {}\n", actualRoomLeftTopX, actualRoomLeftTopY, actualRoomRightBottomX, actualRoomRightBottomY).c_str());
+				//OutputDebugStringA(std::format("RoomRect : {} {} {} {}\n", actualRoomLeftTopX, actualRoomLeftTopY, actualRoomRightBottomX, actualRoomRightBottomY).c_str());
 #endif
 
 				const UINT16 Sy = BlockToMaze(y, actualRoomLeftTopY);
@@ -422,6 +422,10 @@ void MazeGenerator::MakeRoom()
 				{
 					SetGroundLayerID(ConvertToGround(EGroundTile::Room, mGroundType), Sx, Ex, constantY, true);
 				}
+				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), Sx, Ex, Sy - 1, true);
+				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), Sx, Ex, Ey + 1, true);
+				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), Sy, Ey, Sx - 1);
+				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), Sy, Ey, Ex + 1);
 			}
 			else if (block.id == EBlockID::Path)
 			{
@@ -429,15 +433,21 @@ void MazeGenerator::MakeRoom()
 				const int rectY = RandRange(blockLeftTop, blockRightBottom);
 				BlockRect.Add(FRect(rectX, rectY, rectX, rectY));
 #if _DEBUG
-				OutputDebugStringA(std::format("PathRect : {} {}\n", rectX, rectY).c_str());
+				//OutputDebugStringA(std::format("PathRect : {} {}\n", rectX, rectY).c_str());
 #endif
-				SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), BlockToMaze(x, rectX), BlockToMaze(y, rectY));
+				int px = BlockToMaze(x, rectX);
+				int py = BlockToMaze(y, rectY);
+				SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), px, py);
+				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), px - 1, py);
+				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), px + 1, py);
+				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), px, py - 1);
+				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), px, py + 1);
 			}
 			else
 			{
 				BlockRect.Add(FRect(x, y, x, y));
 #if _DEBUG
-				OutputDebugStringA(std::format("None {} {}\n", x, y).c_str());
+				//OutputDebugStringA(std::format("None {} {}\n", x, y).c_str());
 #endif
 			}
 		}
@@ -470,16 +480,12 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 	}
 	const FRect& roomRect = RoomLocalRects[y][x];
 
+	/* Draw Right Direction Path */
 	UINT8 currSx, currSy, nextSx, nextSy;
 	if (JOINED_BLOCK(block.JoinR))
 	{
 		if (IsInBlock(x + 1, y))
 		{
-#if _DEBUG
-			//OutputDebugStringA("----------------------------------------------------------------------\n");
-			//OutputDebugStringA(std::format("Make Path JoinR {} {} to {} {}\n", x, y, x + 1, y).c_str());
-#endif
-
 			GetPathStartPos(roomRect, EDirection::Right, currSx, currSy);
 
 			const FBlock& nextBlock = blockIDs[y][x + 1];
@@ -495,13 +501,12 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 			int borderX = RandRange(currSx + 1, nextSx - 1);
 
 			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), currSx, borderX, currSy, true);
+			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSx, borderX, currSy - 1, true);
+			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSx, borderX, currSy + 1, true);
+
 			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), borderX, nextSx, nextSy, true);
-
-
-#if _DEBUG
-			//OutputDebugStringA(std::format("Make Path X {} {} {}\n", currSx, borderX, currSy).c_str());
-			//OutputDebugStringA(std::format("Make Path X {} {} {}\n", borderX, nextSx, nextSy).c_str());
-#endif
+			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), borderX, nextSx, nextSy - 1, true);
+			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), borderX, nextSx, nextSy + 1, true);
 
 			// Merge Path
 			if (currSy > nextSy)
@@ -509,22 +514,15 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 				swap(currSy, nextSy);
 			}
 			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), currSy, nextSy, borderX);
-
-#if _DEBUG
-			//OutputDebugStringA(std::format("Merge Path V {} {} {}\n", currSy, nextSy, borderX).c_str());
-			//OutputDebugStringA("----------------------------------------------------------------------\n");
-#endif
+			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSy, nextSy, borderX - 1);
+			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSy, nextSy, borderX + 1);
 		}
 	}
+	/* Draw Down Direction Path */
 	if (JOINED_BLOCK(block.JoinD))
 	{
 		if (IsInBlock(x, y + 1))
 		{
-#if _DEBUG
-			//OutputDebugStringA("----------------------------------------------------------------------\n");
-			//OutputDebugStringA(std::format("Make Path JoinD {} {} to {} {}\n", x, y, x, y + 1).c_str());
-#endif
-
 			GetPathStartPos(roomRect, EDirection::Down, currSx, currSy);
 
 			const FBlock& nextBlock = blockIDs[y + 1][x];
@@ -540,12 +538,12 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 			int borderY = RandRange(currSy + 1, nextSy - 1);
 
 			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), currSy, borderY, currSx);
-			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), borderY, nextSy, nextSx);
+			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSy, borderY, currSx - 1);
+			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSy, borderY, currSx + 1);
 
-#if _DEBUG
-			//OutputDebugStringA(std::format("Make Path Y {} {} {}\n", currSy, borderY, currSx).c_str());
-			//OutputDebugStringA(std::format("Make Path Y {} {} {}\n", borderY, nextSy, nextSx).c_str());
-#endif
+			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), borderY, nextSy, nextSx);
+			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), borderY, nextSy, nextSx - 1);
+			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), borderY, nextSy, nextSx + 1);
 
 			// Merge Path
 			if (currSx > nextSx)
@@ -553,11 +551,8 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 				swap(currSx, nextSx);
 			}
 			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), currSx, nextSx, borderY, true);
-
-#if _DEBUG
-			//OutputDebugStringA(std::format("Merge Path H {} {} {}\n", currSx, nextSx, borderY).c_str());
-			//OutputDebugStringA("----------------------------------------------------------------------\n");
-#endif
+			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSx, nextSx, borderY - 1, true);
+			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSx, nextSx, borderY + 1, true);
 		}
 	}
 }
@@ -596,6 +591,10 @@ void MazeGenerator::GetPathStartPos(const FRect& inRect, const EDirection& direc
 
 	GetMazeXY(candidatePathStartPos.RandomValue(), x, y);
 }
+
+// ------------------------------------------------------
+// Main : Event Layer
+// ------------------------------------------------------
 void MazeGenerator::SetEnterBlockEvent()
 {
 	for (int blockY = 0; blockY < actualBlockCountY; ++blockY)
@@ -620,6 +619,7 @@ void MazeGenerator::SetEnterBlockEvent()
 void MazeGenerator::SetEnterBlockEvent(const int& worldX, const int& worldY)
 {
 	auto EventData = GetWorld()->SpawnActor<EventBase>(*pDX, EEventId::EnterRoom);
+	EventData->BeginPlay(*pDX);
 	EventData->GetOnEnterVolume().Bind<&MazeGenerator::EnterBlock>(*this);
 	SetEventLayerID(EventData, worldX, worldY);
 }
@@ -639,6 +639,218 @@ void MazeGenerator::CheckSetEnterBlockCount(const int& blockX, const int& blockY
 			}
 		}
 	}
+}
+
+void MazeGenerator::SetEnterExit()
+{
+	bool makeEnter = false, makeExit = false;
+
+	float additionalPossibility = 1.f / actualRoomCount;
+	float enterPossibility = 1.f / actualRoomCount;
+
+	float exitPossibility = enterPossibility - 0.25f;
+
+	FRect localRect;
+	int blockX = 0, blockY = 0;
+	bool ima = false;
+	for (int y = 0; y < actualBlockCountY; ++y)
+	{
+		for (int x = 0; x < actualBlockCountX; ++x)
+		{
+			const FBlock& block = blockIDs[y][x];
+			if (block.id == EBlockID::Room)
+			{
+				localRect = RoomLocalRects[y][x];
+				blockX = x;
+				blockY = y;
+				if (!makeEnter)
+				{
+					if (RandomBool(enterPossibility))
+					{
+						SetEnter(blockX, blockY);
+
+						makeEnter = true;
+						ima = true;
+					}
+				}
+				if (!makeEnter)
+				{
+					enterPossibility += additionalPossibility;
+				}
+				if (!makeExit)
+				{
+					if (!ima)
+					{
+						if (RandomBool(exitPossibility))
+						{
+							SetExit(x, y);
+							makeExit = true;
+						}
+					}
+				}
+				if (!makeExit)
+				{
+					exitPossibility += additionalPossibility;
+				}
+				ima = false;
+			}
+			if (makeEnter && makeExit)
+			{
+				return;
+			}
+		}
+	}
+	if (!makeEnter)
+	{
+		SetEnter(blockX, blockY);
+	}
+	if (!makeExit)
+	{
+		SetExit(blockX, blockY);
+	}
+}
+void MazeGenerator::SetEnter(const UINT8& blockX, const UINT8& blockY)
+{
+	const FRect& localRect = RoomLocalRects[blockY][blockX];
+	UINT16 resX = BlockToMaze(blockX, RandRange(localRect.left, localRect.right));
+	UINT16 resY = BlockToMaze(blockY, RandRange(localRect.top, localRect.bottom));
+	if (CheckIsEnter(blockIDs[blockY][blockX].id, resX, resY))
+	{
+		SetEnter(blockX, blockY);
+	}
+	else
+	{
+		SetEventLayerID(EEventId::Enter, resX, resY);
+		SetStartPosition(FVector(resX, resY, 0));
+	}
+}
+void MazeGenerator::SetExit(const UINT8& blockX, const UINT8& blockY)
+{
+	const FRect& localRect = RoomLocalRects[blockY][blockX];
+	UINT16 resX = BlockToMaze(blockX, RandRange(localRect.left, localRect.right));
+	UINT16 resY = BlockToMaze(blockY, RandRange(localRect.top, localRect.bottom));
+
+	pExit = GetWorld()->SpawnActor<Event_DungeonExit>(*pDX);
+	pExit->BeginPlay(*pDX);
+	pExit->SetOuter(shared_from_this());
+	SetEventLayerID(pExit, resX, resY);
+
+	pExit->OnChoiceYes.Bind<&MazeGenerator::StartMoveToNextFloor>(*this, "MazeExit");
+}
+
+void MazeGenerator::StartMoveToNextFloor()
+{
+	if (pExit)
+	{
+		pExit->OnChoiceYes.Unbind("MazeExit");
+	}
+
+	Generate(*pDX);
+
+	//GetWorld()->GetGameState()->OnLandmarkClosed.Bind<&MazeGenerator::CompletedMoveToNextFloor>(*this, "MazeGenerator");
+	//GetWorld()->GetGameState()->OpenLandmarkUI(*pDX, L"", 0.5f);
+}
+
+void MazeGenerator::CompletedMoveToNextFloor()
+{
+	Generate(*pDX);
+
+	OnDungeonNextFloor.Broadcast(this);
+}
+
+// ------------------------------------------------------
+// Main : Item Layer
+// ------------------------------------------------------
+void MazeGenerator::SpawnItems()
+{
+	UINT16 resX, resY;
+	FRect localRect;
+	int blockX = 0, blockY = 0;
+	for (int y = 0; y < actualBlockCountY; ++y)
+	{
+		for (int x = 0; x < actualBlockCountX; ++x)
+		{
+			const FBlock& block = blockIDs[y][x];
+			if (block.id == EBlockID::Room)
+			{
+				localRect = RoomLocalRects[y][x];
+				blockX = x;
+				blockY = y;
+				resX = BlockToMaze(x, RandRange(localRect.left, localRect.right));
+				resY = BlockToMaze(y, RandRange(localRect.top, localRect.bottom));
+
+				SetEventLayerID(EEventId::Enter, resX, resY);
+			}
+		}
+	}
+}
+
+// --------------------------
+// Main : Debug
+// --------------------------
+void MazeGenerator::ShowBlock()
+{
+#if _DEBUG
+	OutputDebugStringA("-------- Show Block -------\n");
+	for (int y = 0; y < actualBlockCountY; ++y)
+	{
+		std::string str, strB;
+		for (int x = 0; x < actualBlockCountX; ++x)
+		{
+			const FBlock& t = blockIDs[y][x];
+
+			if (x > 1 && x < actualBlockCountX)
+			{
+				if (JOINED_BLOCK(t.JoinL))
+				{
+					str += "+";
+				}
+				else
+				{
+					str += " ";
+				}
+			}
+
+			switch (t.id)
+			{
+			case EBlockID::None:
+				str += " ";
+				break;
+			case EBlockID::Room:
+				str += "R";
+				break;
+			case EBlockID::Path:
+				str += "C";
+				break;
+			default:
+				break;
+			}
+			if (x == 0)
+			{
+				if (JOINED_BLOCK(t.JoinR))
+				{
+					str += "+";
+				}
+				else
+				{
+					str += " ";
+				}
+			}
+			if (JOINED_BLOCK(t.JoinD))
+			{
+				strB += "+ ";
+			}
+			else
+			{
+				strB += "  ";
+			}
+		}
+		OutputDebugStringA((str + "\n").c_str());
+		OutputDebugStringA((strB + "\n").c_str());
+	}
+	OutputDebugStringA("-------- Show Block -------\n");
+	OutputDebugStringA("\n\n");
+#endif
 }
 
 // --------------------------
@@ -736,219 +948,6 @@ UINT16 MazeGenerator::BlockToMaze(const UINT8& blockXorY, const UINT8& offsetXor
 UINT8 MazeGenerator::MazeToBlock(const UINT8& worldXorY, const UINT8& blockXorY) const noexcept
 {
 	return worldXorY / GameSettings::BLOCK_SIZE - blockXorY;
-}
-
-// --------------------------
-// Main : Ground Layer : Debug
-// --------------------------
-void MazeGenerator::ShowBlock()
-{
-#if _DEBUG
-	OutputDebugStringA("-------- Show Block -------\n");
-	for (int y = 0; y < actualBlockCountY; ++y)
-	{
-		std::string str, strB;
-		for (int x = 0; x < actualBlockCountX; ++x)
-		{
-			const FBlock& t = blockIDs[y][x];
-
-			if (x > 1 && x < actualBlockCountX)
-			{
-				if (JOINED_BLOCK(t.JoinL))
-				{
-					str += "+";
-				}
-				else
-				{
-					str += " ";
-				}
-			}
-
-			switch (t.id)
-			{
-			case EBlockID::None:
-				str += " ";
-				break;
-			case EBlockID::Room:
-				str += "R";
-				break;
-			case EBlockID::Path:
-				str += "C";
-				break;
-			default:
-				break;
-			}
-			if (x == 0)
-			{
-				if (JOINED_BLOCK(t.JoinR))
-				{
-					str += "+";
-				}
-				else
-				{
-					str += " ";
-				}
-			}
-			if (JOINED_BLOCK(t.JoinD))
-			{
-				strB += "+ ";
-			}
-			else
-			{
-				strB += "  ";
-			}
-		}
-		OutputDebugStringA((str + "\n").c_str());
-		OutputDebugStringA((strB + "\n").c_str());
-	}
-	OutputDebugStringA("-------- Show Block -------\n");
-	OutputDebugStringA("\n\n");
-#endif
-}
-
-// ------------------------------------------------------
-// Main : Event Layer
-// ------------------------------------------------------
-void MazeGenerator::SetEnterExit()
-{
-	bool makeEnter = false, makeExit = false;
-
-	float additionalPossibility = 1.f / actualRoomCount;
-	float enterPossibility = 1.f / actualRoomCount;
-
-	float exitPossibility = enterPossibility - 0.25f;
-
-	FRect localRect;
-	int blockX = 0, blockY = 0;
-	bool ima = false;
-	for (int y = 0; y < actualBlockCountY; ++y)
-	{
-		for (int x = 0; x < actualBlockCountX; ++x)
-		{
-			const FBlock& block = blockIDs[y][x];
-			if (block.id == EBlockID::Room)
-			{
-				localRect = RoomLocalRects[y][x];
-				blockX = x;
-				blockY = y;
-				if (!makeEnter)
-				{
-					if (RandomBool(enterPossibility))
-					{
-						SetEnter(blockX, blockY);
-
-						makeEnter = true;
-						ima = true;
-					}
-				}
-				if (!makeEnter)
-				{
-					enterPossibility += additionalPossibility;
-				}
-				if (!makeExit)
-				{
-					if (!ima)
-					{
-						if (RandomBool(exitPossibility))
-						{
-							SetExit(x, y);
-							makeExit = true;
-						}
-					}
-				}
-				if (!makeExit)
-				{
-					exitPossibility += additionalPossibility;
-				}
-				ima = false;
-			}
-			if (makeEnter && makeExit)
-			{
-				return;
-			}
-		}
-	}
-	if (!makeEnter)
-	{
-		SetEnter(blockX, blockY);
-	}
-	if (!makeExit)
-	{
-		SetExit(blockX, blockY);
-	}
-}
-void MazeGenerator::SetEnter(const UINT8& blockX, const UINT8& blockY)
-{
-	const FRect& localRect = RoomLocalRects[blockY][blockX];
-	UINT16 resX = BlockToMaze(blockX, RandRange(localRect.left, localRect.right));
-	UINT16 resY = BlockToMaze(blockY, RandRange(localRect.top, localRect.bottom));
-	if (CheckIsEnter(blockIDs[blockY][blockX].id, resX, resY))
-	{
-		SetEnter(blockX, blockY);
-	}
-	else
-	{
-		SetEventLayerID(EEventId::Enter, resX, resY);
-		SetStartPosition(FVector(resX, resY, 0));
-	}
-}
-void MazeGenerator::SetExit(const UINT8& blockX, const UINT8& blockY)
-{
-	const FRect& localRect = RoomLocalRects[blockY][blockX];
-	UINT16 resX = BlockToMaze(blockX, RandRange(localRect.left, localRect.right));
-	UINT16 resY = BlockToMaze(blockY, RandRange(localRect.top, localRect.bottom));
-
-	pExit = GetWorld()->SpawnActor<Event_DungeonExit>(*pDX);
-	pExit->SetOuter(shared_from_this());
-	SetEventLayerID(pExit, resX, resY);
-
-	pExit->OnChoiceYes.Bind<&MazeGenerator::StartMoveToNextFloor>(*this, "MazeExit");
-}
-
-void MazeGenerator::StartMoveToNextFloor()
-{
-	if (pExit)
-	{
-		pExit->OnChoiceYes.Unbind("MazeExit");
-	}
-	Generate(*pDX);
-
-	//GetWorld()->GetGameState()->OnLandmarkClosed.Bind<&MazeGenerator::CompletedMoveToNextFloor>(*this, "MazeGenerator");
-	//GetWorld()->GetGameState()->OpenLandmarkUI(*pDX, L"", 0.5f);
-}
-
-void MazeGenerator::CompletedMoveToNextFloor()
-{
-	Generate(*pDX);
-
-	OnDungeonNextFloor.Broadcast(this);
-}
-
-// ------------------------------------------------------
-// Main : Item Layer
-// ------------------------------------------------------
-void MazeGenerator::SpawnItems()
-{
-	UINT8 resX, resY;
-	FRect localRect;
-	int blockX = 0, blockY = 0;
-	for (int y = 0; y < actualBlockCountY; ++y)
-	{
-		for (int x = 0; x < actualBlockCountX; ++x)
-		{
-			const FBlock& block = blockIDs[y][x];
-			if (block.id == EBlockID::Room)
-			{
-				localRect = RoomLocalRects[y][x];
-				blockX = x;
-				blockY = y;
-				resX = BlockToMaze(x, RandRange(localRect.left, localRect.right));
-				resY = BlockToMaze(y, RandRange(localRect.top, localRect.bottom));
-
-				SetEventLayerID(EEventId::Enter, resX, resY);
-			}
-		}
-	}
 }
 
 // ------------------------------------------------------

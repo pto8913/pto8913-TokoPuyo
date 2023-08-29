@@ -73,8 +73,8 @@ private:
 	UINT width = 800;
 	UINT height = 600;
 
-	UINT defaultWidth;
-	UINT defaultHeight;
+	UINT defaultWidth = 800;
+	UINT defaultHeight = 600;
 
 public:
 	// ----------------------------------

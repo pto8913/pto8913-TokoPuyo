@@ -105,9 +105,7 @@ void World::SetHUD(DirectX11& dx)
 		pHUD = std::make_shared<HUD>(
 			shared_from_this(),
 			dx,
-			GetPlayerController()->GetMouse(),
-			(int)AppSettings::windowSize.x,
-			(int)AppSettings::windowSize.y
+			GetPlayerController()->GetMouse()
 		);
 	}
 }
@@ -158,13 +156,6 @@ void World::Tick(DirectX11& dx, float deltaSec)
 		}
 	}
 
-	if (pHUD != nullptr)
-	{
-		if (pHUD->GetTickEnabled())
-		{
-			pHUD->Tick(dx, deltaSec);
-		}
-	}
 
 	if (pSubLevel != nullptr)
 	{
@@ -186,6 +177,14 @@ void World::Tick(DirectX11& dx, float deltaSec)
 		if (pPlayer->GetTickEnabled())
 		{
 			pPlayer->Tick(dx, deltaSec);
+		}
+	}
+
+	if (pHUD != nullptr)
+	{
+		if (pHUD->GetTickEnabled())
+		{
+			pHUD->Tick(dx, deltaSec);
 		}
 	}
 }

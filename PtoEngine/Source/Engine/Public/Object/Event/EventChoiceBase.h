@@ -20,8 +20,8 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
-	virtual void EnterVolume(const int& x, const int& y) override;
-	virtual void LeaveVolume(const int& x, const int& y) override;
+	virtual void EnterVolume(const float& x, const float& y) override;
+	virtual void LeaveVolume(const float& x, const float& y) override;
 
 protected:
 	void OpenChoiceUI();

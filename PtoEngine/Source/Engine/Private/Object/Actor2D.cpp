@@ -2,6 +2,7 @@
 #include "Object/Actor2D.h"
 
 #include "GameSettings.h"
+#include "Core/AppSettings.h"
 
 using namespace DirectX;
 
@@ -25,7 +26,9 @@ Actor2D::Actor2D(DirectX11& dx, const FActor2DSettings& Settings, const float& i
 	DurationTime(0),
 	mUpdateTime(inUpdateTime)
 {
-	SetActorScale(FVector(Settings.size.x, Settings.size.y, 0));
+	auto c = GameSettings::GET_CELL(Settings.size.x, Settings.size.y);
+	SetActorScale({ c.x, c.y, 0 });
+	//SetActorScale({ Settings.size.x, Settings.size.y, 0 });
 	LastTime = chrono::now();
 }
 
@@ -66,9 +69,27 @@ void Actor2D::SetLayer(const EActor2DLayer& in)
 	mLayer = in;
 }
 
+const FVector2D& Actor2D::Get2DIdx() const
+{
+	return m2DIdx;
+}
+void Actor2D::Set2DIdx(const FVector2D& in)
+{
+	m2DIdx = in;
+}
+
 // -----------------------------------
 // Main : Transform
 // -----------------------------------
+FVector Actor2D::GetActorLocation()
+{
+	const auto vec = Actor::GetActorLocation();
+	return {
+		vec.x / AppSettings::aspectWidthRatio,
+		vec.y / AppSettings::aspectHeightRatio,
+		vec.z
+	};
+}
 void Actor2D::SetActorLocation(const FVector& in)
 {
 	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });

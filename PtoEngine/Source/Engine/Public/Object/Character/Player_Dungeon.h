@@ -8,18 +8,12 @@ public:
 	Player_Dungeon(DirectX11& dx);
 	virtual ~Player_Dungeon();
 
-	virtual void BeginPlay(DirectX11& dx) override;
-
-	// ---------------------------
-	// Main : Transform
-	// ---------------------------
-	virtual void SetActorLocation(const FVector& in) override;
 protected:
 	// ---------------------------
 	// Main : Movement
 	// ---------------------------
 	virtual void InputUpdate() override;
-	virtual void Move(const int& x, const int& y) override;
+	virtual void Move(const float& x, const float& y) override;
 public:
 	void EnterDungeonBlock(const FVector2D& in);
 };

@@ -23,19 +23,28 @@
 #include "Object/Event/EventBase.h"
 
 #include "GameState/GameState_Dungeon.h"
+#include <memory>
 
 #define _DEBUG 1
 
 #if _DEBUG
 #include <format>
+#include "Component/BoxCollision2D.h"
+#include "Object/Actor2D.h"
 #endif
 
 using namespace DirectX;
 
-HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
-	: UserWidget(inOwner, dx, mouse, windowSizeW, windowSizeH)
+HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
+	: UserWidget(
+		inOwner, 
+		dx, 
+		mouse, 
+		(int)AppSettings::windowSize.x,
+		(int)AppSettings::windowSize.y
+	)
 {
-	pRootSlate = std::make_shared<S_CanvasPanel>(FVector2D(windowSizeW, windowSizeH), GetRt2D());
+	pRootSlate = std::make_shared<S_CanvasPanel>(FVector2D(AppSettings::windowSize.x, AppSettings::windowSize.y), GetRt2D());
 
 	// HP Bar
 	{
@@ -149,18 +158,56 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 
 		pGameInfosVB->UpdateWidget();
 	}
+#if _DEBUG
+	DrawDebugScreen();
+#endif
 
 	pRootSlate->SetPosition({ 0, 0 });
 	pRootSlate->UpdateWidget();
 }
-HUD::HUD(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
-	: HUD(nullptr, dx, mouse, windowSizeW, windowSizeH)
+HUD::HUD(DirectX11& dx, DX::IMouseInterface* mouse)
+	: HUD(nullptr, dx, mouse)
 {
 }
 
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
+
+void HUD::Draw()
+{
+	UserWidget::Draw();
+
+#if _DEBUG
+	for (auto elem : pBoxDebug)
+	{
+		auto ptr = static_cast<Actor2D*>(elem->GetOwner());
+		auto v = ptr->Get2DIdx();
+		auto level = static_pointer_cast<Level2D>(GetWorld()->GetLevel());
+		if (level->IsInScreen(v.x, v.y))
+		{
+			auto ground = level->GetGroundLayer(v.x, v.y);
+			if (ground != nullptr)
+			{
+				auto s = ptr->GetActorLocation();
+				switch (ConvertToGroundTile(ground->GetGroundType()))
+				{
+				case EGroundTile::Wall:
+					elem->DrawDebug(GetRt2D());
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+	for (auto&& elem : pScreenGrid)
+	{
+		elem->Draw();
+	}
+#endif
+}
+
 void HUD::AddSlate(std::shared_ptr<SlateBase> inSlate)
 {
 	pRootSlate->AddChild(inSlate);
@@ -177,7 +224,7 @@ void HUD::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
 // --------------------------
 void HUD::OnHPChanged(int inCurrent, int inMax)
 {
-	pHPBar->SetPercent(inCurrent / inMax);
+	pHPBar->SetPercent(float(inCurrent / inMax));
 	pHPBarText->SetText(std::format(L"{} / {}", inCurrent, inMax).c_str());
 }
 
@@ -222,15 +269,23 @@ void HUD::ResetMap(const Level2D* pLevel)
 			FSlateInfos infos;
 			infos.HAlign = EHorizontalAlignment::Fill;
 			infos.VAlign = EVerticalAlignment::Fill;
-			auto cell = std::make_shared<S_Border>(GetRt2D(), infos);
-			cell->SetSize({ mapSize, mapSize });
+			auto pCell = std::make_shared<S_Border>(GetRt2D(), infos);
 			const auto& ground = pLevel->GetGroundLayer(x, y);
 			if (ground != nullptr)
 			{
 				FSlateBorderAppearance apperance;
 				apperance.Type = EBorderType::Box;
-				apperance.color = FColor(0.f, 0.f, 1.f);
-				cell->SetAppearance(apperance);
+				switch (ConvertToGroundTile(ground->GetGroundType()))
+				{
+				case EGroundTile::Room:
+				case EGroundTile::Path:
+					apperance.color = FColor(0.f, 0.f, 1.f);
+					break;
+				default:
+					apperance.color = FColor(0.f, 0.f, 0.f);
+					break;
+				}
+				pCell->SetAppearance(apperance);
 			}
 
 			const auto& eventData = pLevel->GetEventLayer(x, y);
@@ -241,7 +296,7 @@ void HUD::ResetMap(const Level2D* pLevel)
 					FSlateBorderAppearance apperance;
 					apperance.Type = EBorderType::Box;
 					apperance.color = FColor(1.f, 0.f, 1.f);
-					cell->SetAppearance(apperance);
+					pCell->SetAppearance(apperance);
 				}
 			}
 
@@ -252,9 +307,9 @@ void HUD::ResetMap(const Level2D* pLevel)
 				{
 					FSlateBorderAppearance apperance;
 					apperance.Type = EBorderType::Border;
-					apperance.color = FColor(1.f, 1.f, 0.f);
+					apperance.color = FColor(0.f, 1.f, 1.f);
 					apperance.roundSize = { 2.5f, 2.5f };
-					cell->SetAppearance(apperance);
+					pCell->SetAppearance(apperance);
 				}
 				else
 				{
@@ -262,10 +317,11 @@ void HUD::ResetMap(const Level2D* pLevel)
 					apperance.Type = EBorderType::Border;
 					apperance.color = FColor(1.f, 1.f, 1.f);
 					apperance.roundSize = { 2.5f, 2.5f };
-					cell->SetAppearance(apperance);
+					pCell->SetAppearance(apperance);
 				}
 			}
-			pMapGP->AddChild(cell);
+			//pCell->SetSize({ mapSize, mapSize });
+			pMapGP->AddChild(pCell);
 		}
 	}
 
@@ -284,30 +340,8 @@ void HUD::UpdateMap(const Level2D* pLevel)
 			for (int x = 0; x < pLevel->GetWidth(); ++x)
 			{
 				auto& slot = pMapGP->GetChildAt(x, y);
-				auto cell = static_pointer_cast<S_Border>(slot);
-				cell->GetAppearance().color = FColor(0, 0, 0);
-
-				const auto& ground = pLevel->GetGroundLayer(x, y);
-				if (ground != nullptr)
-				{
-					FSlateBorderAppearance apperance;
-					apperance.Type = EBorderType::Box;
-					apperance.color = FColor(0.f, 0.f, 1.f);
-					cell->SetAppearance(apperance);
-				}
-
-				const auto& eventData = pLevel->GetEventLayer(x, y);
-				if (eventData != nullptr)
-				{
-					if (eventData->GetEventType() == EEventId::Exit)
-					{
-						FSlateBorderAppearance apperance;
-						apperance.Type = EBorderType::Box;
-						apperance.color = FColor(1.f, 0.f, 1.f);
-						cell->SetAppearance(apperance);
-					}
-				}
-
+				auto pCell = static_pointer_cast<S_Border>(slot);
+				//pCell->GetAppearance().color = FColor(0, 0, 0);
 				const auto& character = pLevel->GetCharacterLayer(x, y);
 				if (character != nullptr)
 				{
@@ -317,7 +351,7 @@ void HUD::UpdateMap(const Level2D* pLevel)
 						apperance.Type = EBorderType::Border;
 						apperance.color = FColor(0.f, 1.f, 1.f);
 						apperance.roundSize = { 2.5f, 2.5f };
-						cell->SetAppearance(apperance);
+						pCell->SetAppearance(apperance);
 					}
 					else
 					{
@@ -325,10 +359,97 @@ void HUD::UpdateMap(const Level2D* pLevel)
 						apperance.Type = EBorderType::Border;
 						apperance.color = FColor(1.f, 1.f, 1.f);
 						apperance.roundSize = { 2.5f, 2.5f };
-						cell->SetAppearance(apperance);
+						pCell->SetAppearance(apperance);
 					}
 				}
+				//SetMap(pLevel, pCell, x, y);
 			}
 		}
 	}
+}
+void HUD::SetMap(const Level2D* pLevel, std::shared_ptr<S_Border> pCell, const int& x, const int& y)
+{
+	const auto& ground = pLevel->GetGroundLayer(x, y);
+	if (ground != nullptr)
+	{
+		FSlateBorderAppearance apperance;
+		apperance.Type = EBorderType::Box;
+		switch (ConvertToGroundTile(ground->GetGroundType()))
+		{
+		case EGroundTile::Room:
+		case EGroundTile::Path:
+			apperance.color = FColor(0.f, 0.f, 1.f);
+			break;
+		default:
+			apperance.color = FColor(0.f, 0.f, 0.f);
+			break;
+		}
+		pCell->SetAppearance(apperance);
+	}
+
+	const auto& eventData = pLevel->GetEventLayer(x, y);
+	if (eventData != nullptr)
+	{
+		if (eventData->GetEventType() == EEventId::Exit)
+		{
+			FSlateBorderAppearance apperance;
+			apperance.Type = EBorderType::Box;
+			apperance.color = FColor(1.f, 0.f, 1.f);
+			pCell->SetAppearance(apperance);
+		}
+	}
+
+	const auto& character = pLevel->GetCharacterLayer(x, y);
+	if (character != nullptr)
+	{
+		if (character->GetCharacterType() != ECharacterId::Player)
+		{
+			FSlateBorderAppearance apperance;
+			apperance.Type = EBorderType::Border;
+			apperance.color = FColor(0.f, 1.f, 1.f);
+			apperance.roundSize = { 2.5f, 2.5f };
+			pCell->SetAppearance(apperance);
+		}
+		else
+		{
+			FSlateBorderAppearance apperance;
+			apperance.Type = EBorderType::Border;
+			apperance.color = FColor(1.f, 1.f, 1.f);
+			apperance.roundSize = { 2.5f, 2.5f };
+			pCell->SetAppearance(apperance);
+		}
+	}
+}
+
+// -----------------------------------------------------
+// Main : Debug
+// -----------------------------------------------------
+void HUD::AddBoxDebug(std::shared_ptr<BoxCollision2D> in)
+{
+#if _DEBUG
+	pBoxDebug.push_back(in);
+#endif
+}
+
+void HUD::DrawDebugScreen()
+{
+#if _DEBUG
+	FSlateInfos infos;
+	infos.HAlign = EHorizontalAlignment::Fill;
+	infos.VAlign = EVerticalAlignment::Fill;
+
+	FSlateBorderAppearance apperance;
+	apperance.Type = EBorderType::Box;
+	apperance.color = FColor(1.f, 1.f, 0.f);
+	apperance.bIsFill = true;
+	for (int y = 0; y < 20; ++y)
+	{
+		for (int x = 0; x < 20; x++)
+		{
+			auto ptr = std::make_shared<S_Border>(FVector2D(2.f, 2.f), GetRt2D(), infos, apperance);
+			ptr->SetPosition(FVector2D(GameSettings::CELL * x, GameSettings::CELL * y));
+			pScreenGrid.push_back(ptr);
+		}
+	}
+#endif
 }

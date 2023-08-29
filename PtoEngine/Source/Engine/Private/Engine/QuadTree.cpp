@@ -4,6 +4,7 @@
 #include "Core/AppSettings.h"
 
 #include "Component/BoxCollision.h"
+#include "Helper/MathHelper.h"
 
 QuadTree::QuadTree(int inMaxObj, int inMaxLevel, int inLevel, FBox inBound, QuadTree* inParent)
 	:
@@ -130,7 +131,7 @@ std::vector<std::shared_ptr<BoxCollision>> QuadTree::Search(const FBox& area)
 	{
 		if (collision != nullptr)
 		{
-			if (area.IsInBox(collision->GetBoundingBox()))
+			if (Box::IsInBox(area, collision->GetBoundingBox()))
 			{
 				out.emplace_back(collision);
 			}
@@ -150,7 +151,7 @@ void QuadTree::Search(const FBox& area, std::vector<std::shared_ptr<BoxCollision
 		{
 			for (int i = 0; i < 4; ++i)
 			{
-				if (pChildren[i]->GetBounds().IsInBox(area))
+				if (Box::IsInBox(pChildren[i]->GetBounds(), area))
 				{
 					pChildren[i]->Search(area, out);
 				}
@@ -215,8 +216,8 @@ void QuadTree::Split()
 		mMaxLevels,
 		mLevel + 1,
 		FBox(
-			FVector(mBounds.leftTop.x,              0.f, mBounds.leftTop.z), 
-			FVector(mBounds.leftTop.x + childWidth, 0.f, mBounds.leftTop.z - childHeight)
+			FVector(mBounds.leftTop.x,              mBounds.leftTop.z              , 0.f), 
+			FVector(mBounds.leftTop.x + childWidth, mBounds.leftTop.z - childHeight, 0.f)
 		),
 		this
 	);
@@ -225,8 +226,8 @@ void QuadTree::Split()
 		mMaxLevels, 
 		mLevel + 1,
 		FBox(
-			FVector(mBounds.leftTop.x + childWidth    , 0.f, mBounds.leftTop.z),
-			FVector(mBounds.leftTop.x + childWidth * 2, 0.f, mBounds.leftTop.z - childHeight)
+			FVector(mBounds.leftTop.x + childWidth    , mBounds.leftTop.z              , 0.f),
+			FVector(mBounds.leftTop.x + childWidth * 2, mBounds.leftTop.z - childHeight, 0.f)
 		),
 		this
 	);
@@ -235,8 +236,8 @@ void QuadTree::Split()
 		mMaxLevels, 
 		mLevel + 1,
 		FBox(
-			FVector(mBounds.leftTop.x             , 0.f, mBounds.leftTop.z - childHeight),
-			FVector(mBounds.leftTop.x + childWidth, 0.f, mBounds.leftTop.z - childHeight * 2.f)
+			FVector(mBounds.leftTop.x             , mBounds.leftTop.z - childHeight      , 0.f),
+			FVector(mBounds.leftTop.x + childWidth, mBounds.leftTop.z - childHeight * 2.f, 0.f)
 		),
 		this
 	);
@@ -245,8 +246,8 @@ void QuadTree::Split()
 		mMaxLevels, 
 		mLevel + 1,
 		FBox(
-			FVector(mBounds.leftTop.x + childWidth      , 0.f, mBounds.leftTop.z - childHeight),
-			FVector(mBounds.leftTop.x + childWidth * 2.f, 0.f, mBounds.leftTop.z - childHeight * 2.f)
+			FVector(mBounds.leftTop.x + childWidth      , mBounds.leftTop.z - childHeight      , 0.f),
+			FVector(mBounds.leftTop.x + childWidth * 2.f, mBounds.leftTop.z - childHeight * 2.f, 0.f)
 		),
 		this
 	);

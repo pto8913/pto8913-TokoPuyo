@@ -53,7 +53,8 @@ void Sprite::ExecuteTasks(DirectX11& dx)
 
 	m_pTCB->Bind(dx, tf);
 
-	m_pScreenTexture->Bind(offset);// { DirectX::XMVectorGetX(GetLocation()), DirectX::XMVectorGetY(GetLocation()) });
+	m_pScreenTexture->Bind(GetLocation());
+	//m_pScreenTexture->Bind(offset);// { DirectX::XMVectorGetX(GetLocation()), DirectX::XMVectorGetY(GetLocation()) });
 
 	DrawableObject::ExecuteTasks(dx);
 }
@@ -62,11 +63,15 @@ DirectX::XMMATRIX Sprite::GetTransformXM(DirectX11&) const noexcept
 {
 	return DirectX::XMMatrixIdentity();
 }
-
-void Sprite::SetOffset(DirectX::XMFLOAT2 inOffset)
+void Sprite::SetScale(const DirectX::XMVECTOR& inScale) noexcept
 {
-	offset = inOffset;
+	DrawableObject2D::SetScale(inScale);
+
+	const auto x = DirectX::XMVectorGetX(inScale);
+	const auto y = DirectX::XMVectorGetY(inScale);
+	m_pScreenTexture->UpdateSize(x, y);
 }
+
 void Sprite::UpdateTexture(const std::wstring& inFileName)
 {
 	if (m_pScreenTexture)

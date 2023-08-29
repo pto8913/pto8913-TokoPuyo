@@ -15,6 +15,8 @@ public:
 	// Settings : Game
 	// -------------------------------------------------
 	static const float CELL;
+	static const FVector2D GetCELL();
+	static const FVector2D GET_CELL(const float& x, const float& y);
 	static const int   INDEX_NONE;
 
 	static const FVector2D GAMESCREEN_LEFT_TOP;

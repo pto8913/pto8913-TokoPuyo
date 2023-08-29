@@ -25,6 +25,7 @@ App::App()
     : mWindow()
 {
     pDX = std::make_unique<DirectX11>(mWindow.GetHInstance(), mWindow.GetHWnd(), mWindow.GetWidth(), mWindow.GetHeight());
+    OutputDebugStringA(("dx InSize : " + std::to_string((float)mWindow.GetWidth()) + ", " + std::to_string((float)mWindow.GetHeight()) + "\n").c_str());
 
     GameInstance& gameInstance = GameInstance::Get();
     gameInstance.Initialize(*pDX);

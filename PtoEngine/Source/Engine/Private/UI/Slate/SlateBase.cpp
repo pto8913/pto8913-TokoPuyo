@@ -1,8 +1,6 @@
 
 #include "UI/Slate/SlateBase.h"
 
-#define _DEBUG 0
-
 SlateBase::SlateBase(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
 	: mSize(inSize),
 	pD2DRT(inD2DRT),
@@ -75,7 +73,7 @@ bool SlateBase::OnMouseMove(DX::MouseEvent inMouseEvent)
 			OnMouseEnter(inMouseEvent);
 			bIsLastInRect = true;
 #if _DEBUG
-			OutputDebugStringA("OnMouseEnter\n");
+			//OutputDebugStringA("OnMouseEnter\n");
 #endif
 		}
 	}
@@ -84,7 +82,7 @@ bool SlateBase::OnMouseMove(DX::MouseEvent inMouseEvent)
 		OnMouseLeave(inMouseEvent);
 		bIsLastInRect = false;
 #if _DEBUG
-		OutputDebugStringA("OnMouseLeave\n");
+		//OutputDebugStringA("OnMouseLeave\n");
 #endif
 	}
 	return true;
