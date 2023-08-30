@@ -25,7 +25,7 @@
 #include "GameState/GameState_Dungeon.h"
 #include <memory>
 
-#define _DEBUG 1
+#define _DEBUG 0
 
 #if _DEBUG
 #include <format>
@@ -270,57 +270,7 @@ void HUD::ResetMap(const Level2D* pLevel)
 			infos.HAlign = EHorizontalAlignment::Fill;
 			infos.VAlign = EVerticalAlignment::Fill;
 			auto pCell = std::make_shared<S_Border>(GetRt2D(), infos);
-			const auto& ground = pLevel->GetGroundLayer(x, y);
-			if (ground != nullptr)
-			{
-				FSlateBorderAppearance apperance;
-				apperance.Type = EBorderType::Box;
-				switch (ConvertToGroundTile(ground->GetGroundType()))
-				{
-				case EGroundTile::Room:
-				case EGroundTile::Path:
-					apperance.color = FColor(0.f, 0.f, 1.f);
-					break;
-				default:
-					apperance.color = FColor(0.f, 0.f, 0.f);
-					break;
-				}
-				pCell->SetAppearance(apperance);
-			}
-
-			const auto& eventData = pLevel->GetEventLayer(x, y);
-			if (eventData != nullptr)
-			{
-				if (eventData->GetEventType() == EEventId::Exit)
-				{
-					FSlateBorderAppearance apperance;
-					apperance.Type = EBorderType::Box;
-					apperance.color = FColor(1.f, 0.f, 1.f);
-					pCell->SetAppearance(apperance);
-				}
-			}
-
-			const auto& character = pLevel->GetCharacterLayer(x, y);
-			if (character != nullptr)
-			{
-				if (character->GetCharacterType() != ECharacterId::Player)
-				{
-					FSlateBorderAppearance apperance;
-					apperance.Type = EBorderType::Border;
-					apperance.color = FColor(0.f, 1.f, 1.f);
-					apperance.roundSize = { 2.5f, 2.5f };
-					pCell->SetAppearance(apperance);
-				}
-				else
-				{
-					FSlateBorderAppearance apperance;
-					apperance.Type = EBorderType::Border;
-					apperance.color = FColor(1.f, 1.f, 1.f);
-					apperance.roundSize = { 2.5f, 2.5f };
-					pCell->SetAppearance(apperance);
-				}
-			}
-			//pCell->SetSize({ mapSize, mapSize });
+			pCell->SetSize({ mapSize, mapSize });
 			pMapGP->AddChild(pCell);
 		}
 	}
@@ -341,28 +291,8 @@ void HUD::UpdateMap(const Level2D* pLevel)
 			{
 				auto& slot = pMapGP->GetChildAt(x, y);
 				auto pCell = static_pointer_cast<S_Border>(slot);
-				//pCell->GetAppearance().color = FColor(0, 0, 0);
-				const auto& character = pLevel->GetCharacterLayer(x, y);
-				if (character != nullptr)
-				{
-					if (character->GetCharacterType() != ECharacterId::Player)
-					{
-						FSlateBorderAppearance apperance;
-						apperance.Type = EBorderType::Border;
-						apperance.color = FColor(0.f, 1.f, 1.f);
-						apperance.roundSize = { 2.5f, 2.5f };
-						pCell->SetAppearance(apperance);
-					}
-					else
-					{
-						FSlateBorderAppearance apperance;
-						apperance.Type = EBorderType::Border;
-						apperance.color = FColor(1.f, 1.f, 1.f);
-						apperance.roundSize = { 2.5f, 2.5f };
-						pCell->SetAppearance(apperance);
-					}
-				}
-				//SetMap(pLevel, pCell, x, y);
+				pCell->GetAppearance().color = FColor(0, 0, 0);
+				SetMap(pLevel, pCell, x, y);
 			}
 		}
 	}
