@@ -1,6 +1,9 @@
 
 .vs
 x64
+<<<<<<< HEAD
 *.pfx
 *.pvk
 *.cer
+=======
+>>>>>>> engine/MazeDX11-4-1
