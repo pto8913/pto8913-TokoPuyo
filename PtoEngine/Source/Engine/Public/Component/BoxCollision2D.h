@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component/CollisionComponent.h"
-#include "Engine/Rect.h"
+#include "Math/Rect.h"
 
 #include <d2d1.h>
 

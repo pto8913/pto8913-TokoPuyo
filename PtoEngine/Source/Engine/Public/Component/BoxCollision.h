@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component/CollisionComponent.h"
-#include "Engine/Box.h"
+#include "Math/Box.h"
 
 // ------------------------------------------------------
 // Box Collision
@@ -16,8 +16,6 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
-	virtual void Tick(DirectX11& dx, float deltaSec) override;
-
 	virtual bool InBoundingVolume(Actor* other) override;
 	FBox GetBoundingBox();
 protected:

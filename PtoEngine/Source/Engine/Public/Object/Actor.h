@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Object.h"
-#include "Engine/Vector.h"
-#include "Engine/Rotator.h"
+#include "Math/Vector.h"
+#include "Math/Rotator.h"
 
 #include <map>
 
@@ -10,7 +10,7 @@ class DirectX11;
 
 class Level;
 class World;
-class ActorComponent;
+class ComponentBase;
 
 class Actor : public Object
 {
@@ -93,5 +93,5 @@ protected:
 	FRotator mRotation;
 	FVector mScale;
 
-	std::map<std::string, std::shared_ptr<ActorComponent>> pComponents;
+	std::map<std::string, std::shared_ptr<ComponentBase>> pComponents;
 };

@@ -1,15 +1,14 @@
 
 #include "Object/Actor.h"
 
-#include "Level/Level.h"
+#include "Framework/World.h"
+#include "Framework/Level/Level.h"
 
-#include "Engine/World.h"
-
-#include "Component/ActorComponent.h"
+#include "Component/ComponentBase.h"
 
 #include "Math/Math.h"
 
-#include "Helper/MathHelper.h"
+#include "Helper/VectorHelper.h"
 
 Actor::Actor()
 {

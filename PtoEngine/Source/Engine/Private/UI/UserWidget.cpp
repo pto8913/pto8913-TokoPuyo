@@ -3,9 +3,9 @@
 
 #include "Math/Math.h"
 
-#include "Engine/World.h"
+#include "Framework/World.h"
 
-UserWidget::UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
+UserWidget::UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH)
 	: WidgetBase(dx, windowSizeW, windowSizeH),
 	pMouse(mouse)
 {
@@ -28,7 +28,7 @@ UserWidget::UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSiz
 		pMouse->GetMouseMove().Bind<&UserWidget::OnMouseMove>(*this, "UserWidget");
 	}
 }
-UserWidget::UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH)
+UserWidget::UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH)
 	: UserWidget(dx, mouse, windowSizeW, windowSizeH)
 {
 	if (inOwner != nullptr)

@@ -18,7 +18,7 @@
 
 #include "Render/Factory/Rasterizer.h"
 
-WidgetBase::WidgetBase(DirectX11& dx, UINT windowSizeW, UINT windowSizeH)
+WidgetBase::WidgetBase(DirectX11& dx, float windowSizeW, float windowSizeH)
 {
 	AddTask(BlendState::Make(dx, 0));
 

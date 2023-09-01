@@ -4,13 +4,13 @@
 #include "Render/Manager/BindableManager.h"
 #include <dwrite.h>
 
-ScreenText::ScreenText(DirectX11& dx, UINT inWidth, UINT inHeight)
+ScreenText::ScreenText(DirectX11& dx, float inWidth, float inHeight)
 	: width(inWidth), height(inHeight)
 {
 	D3D11_TEXTURE2D_DESC texDesc;
 	ZeroMemory(&texDesc, sizeof(texDesc));
-	texDesc.Width = width;
-	texDesc.Height = height;
+	texDesc.Width = (UINT)width;
+	texDesc.Height = (UINT)height;
 	texDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 	texDesc.MipLevels = 1;
 	texDesc.ArraySize = 1;
@@ -95,7 +95,7 @@ ScreenText::~ScreenText()
 	TextFormat->Release();
 }
 
-std::shared_ptr<ScreenText> ScreenText::Make(DirectX11& dx, UINT inWidth, UINT inHeight)
+std::shared_ptr<ScreenText> ScreenText::Make(DirectX11& dx, float inWidth, float inHeight)
 {
 	return BindableManager::Make<ScreenText>(dx, inWidth, inHeight);
 }
@@ -160,13 +160,13 @@ void ScreenText::Bind(std::wstring text, D2D1_RECT_F rect)
 	keyedMutex11->AcquireSync(1, 5);
 }
 
-ScreenTextOnlyOutput::ScreenTextOnlyOutput(DirectX11& dx, UINT inWidth, UINT inHeight)
+ScreenTextOnlyOutput::ScreenTextOnlyOutput(DirectX11& dx, float inWidth, float inHeight)
 	: width(inWidth), height(inHeight)
 {
 	D3D11_TEXTURE2D_DESC texDesc;
 	ZeroMemory(&texDesc, sizeof(texDesc));
-	texDesc.Width = width;
-	texDesc.Height = height;
+	texDesc.Width = (UINT)width;
+	texDesc.Height = (UINT)height;
 	texDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 	texDesc.MipLevels = 1;
 	texDesc.ArraySize = 1;
@@ -224,7 +224,7 @@ ScreenTextOnlyOutput::~ScreenTextOnlyOutput()
 	d2dTexture->Release();
 }
 
-std::shared_ptr<ScreenTextOnlyOutput> ScreenTextOnlyOutput::Make(DirectX11& dx, UINT inWidth, UINT inHeight)
+std::shared_ptr<ScreenTextOnlyOutput> ScreenTextOnlyOutput::Make(DirectX11& dx, float inWidth, float inHeight)
 {
 	return BindableManager::Make<ScreenTextOnlyOutput>(dx, inWidth, inHeight);
 }
