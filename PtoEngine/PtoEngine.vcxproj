@@ -109,7 +109,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)SDK/DXTex/include/Public;$(ProjectDir)Source/DirectX/Public;$(ProjectDir);$(ProjectDir)Source/Engine/Public;$(ProjectDir)Source/DirectX/Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)SDK;$(ProjectDir)SDK/DXTex/include/Public;$(ProjectDir)Source/DirectX/Public;$(ProjectDir);$(ProjectDir)Source/Engine/Public;$(ProjectDir)Source/DirectX/Public;$(ProjectDir)Source/Application/Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
@@ -160,7 +160,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)SDK/DXTex/include/Public;$(ProjectDir)Source/DirectX/Public;$(ProjectDir);$(ProjectDir)Source/Engine/Public;$(ProjectDir)Source/DirectX/Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)SDK;$(ProjectDir)SDK/DXTex/include/Public;$(ProjectDir)Source/DirectX/Public;$(ProjectDir);$(ProjectDir)Source/Engine/Public;$(ProjectDir)Source/DirectX/Public;$(ProjectDir)Source/Application/Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
@@ -190,6 +190,55 @@
   <ItemGroup>
     <ClInclude Include="SDK\DXTex\include\Public\DDSTextureLoader11.h" />
     <ClInclude Include="SDK\DXTex\include\Public\WICTextureLoader11.h" />
+    <ClInclude Include="SDK\nlohmann\json.hpp" />
+    <ClInclude Include="Source\Application\Public\Actor\Actor2D.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Actor2DTypes.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Building\BuildingBase.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Building\BuildingTypes.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Character\CharacterBase.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Character\CharacterTypes.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Character\Enemy.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Character\Player.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Character\PlayerTypes.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Character\Player_Dungeon.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Character\Player_Town.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Effect\EffectBase.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Effect\EffectTypes.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Event\EventBase.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Event\EventChoiceBase.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Event\EventTypes.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Event\Event_DungeonExit.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Event\Event_TownDoor.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Ground\GroundBase.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Ground\GroundTypes.h" />
+    <ClInclude Include="Source\Application\Public\Actor\ItemManager.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Item\ItemBase.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Item\ItemTypes.h" />
+    <ClInclude Include="Source\Application\Public\Actor\LibraryInterface.h" />
+    <ClInclude Include="Source\Application\Public\Actor\StatusTypes.h" />
+    <ClInclude Include="Source\Application\Public\App.h" />
+    <ClInclude Include="Source\Application\Public\AppSettings.h" />
+    <ClInclude Include="Source\Application\Public\Controller\PlayerController_Dungeon.h" />
+    <ClInclude Include="Source\Application\Public\Controller\PlayerController_Town.h" />
+    <ClInclude Include="Source\Application\Public\GameMode\GameMode_Dungeon.h" />
+    <ClInclude Include="Source\Application\Public\GameMode\GameMode_Town.h" />
+    <ClInclude Include="Source\Application\Public\GameSettings.h" />
+    <ClInclude Include="Source\Application\Public\GameState\GameState.h" />
+    <ClInclude Include="Source\Application\Public\GameState\GameState_Dungeon.h" />
+    <ClInclude Include="Source\Application\Public\GameState\GameState_Town.h" />
+    <ClInclude Include="Source\Application\Public\Level\Level2D.h" />
+    <ClInclude Include="Source\Application\Public\Level\LevelFactory.h" />
+    <ClInclude Include="Source\Application\Public\Level\Level_SonoTown.h" />
+    <ClInclude Include="Source\Application\Public\Level\Level_SonoTown_House_0.h" />
+    <ClInclude Include="Source\Application\Public\Level\MazeGenerator.h" />
+    <ClInclude Include="Source\Application\Public\UI\HUD.h" />
+    <ClInclude Include="Source\Application\Public\UI\HUDInterface.h" />
+    <ClInclude Include="Source\Application\Public\UI\LandmarkUI.h" />
+    <ClInclude Include="Source\Application\Public\Window.h" />
+    <ClInclude Include="Source\Application\Public\World\World_Dungeon.h" />
+    <ClInclude Include="Source\Application\Public\World\World_SonoCave.h" />
+    <ClInclude Include="Source\Application\Public\World\World_SonoTown.h" />
+    <ClInclude Include="Source\Application\Public\World\World_Town.h" />
     <ClInclude Include="Source\DirectX\DirectXHead.h" />
     <ClInclude Include="Source\DirectX\Public\Core\DirectX.h" />
     <ClInclude Include="Source\DirectX\Public\Core\DirectXResource.h" />
@@ -258,101 +307,58 @@
     <ClInclude Include="Source\Engine\Public\Component\BoxCollision.h" />
     <ClInclude Include="Source\Engine\Public\Component\BoxCollision2D.h" />
     <ClInclude Include="Source\Engine\Public\Component\CollisionComponent.h" />
+    <ClInclude Include="Source\Engine\Public\Component\ComponentBase.h" />
     <ClInclude Include="Source\Engine\Public\Component\InventoryComponentBase.h" />
     <ClInclude Include="Source\Engine\Public\Component\MovementComponent.h" />
-    <ClInclude Include="Source\Engine\Public\Controller\PlayerController.h" />
-    <ClInclude Include="Source\Engine\Public\Controller\PlayerController_Dungeon.h" />
-    <ClInclude Include="Source\Engine\Public\Controller\PlayerController_Town.h" />
-    <ClInclude Include="Source\Engine\Public\Core\App.h" />
-    <ClInclude Include="Source\Engine\Public\Core\Audio.h" />
-    <ClInclude Include="Source\Engine\Public\Core\AppSettings.h" />
-    <ClInclude Include="Source\Engine\Public\Core\Window.h" />
-    <ClInclude Include="Source\Engine\Public\Engine\Box.h" />
+    <ClInclude Include="Source\Engine\Public\Component\SpriteComponent.h" />
+    <ClInclude Include="Source\Engine\Public\EngineSettings.h" />
+    <ClInclude Include="Source\Engine\Public\Engine\Audio.h" />
     <ClInclude Include="Source\Engine\Public\Engine\CollisionCollection.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Color.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Delegate.h" />
-    <ClInclude Include="Source\Engine\Public\Engine\Matrix.h" />
     <ClInclude Include="Source\Engine\Public\Engine\ObjectCollection.h" />
     <ClInclude Include="Source\Engine\Public\Engine\QuadTree.h" />
-    <ClInclude Include="Source\Engine\Public\Engine\Rect.h" />
-    <ClInclude Include="Source\Engine\Public\Engine\Rotator.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Timer.h" />
-    <ClInclude Include="Source\Engine\Public\Engine\Vector.h" />
-    <ClInclude Include="Source\Engine\Public\Engine\World.h" />
-    <ClInclude Include="Source\Engine\Public\GameInstance.h" />
-    <ClInclude Include="Source\Engine\Public\GameMode\GameModeBase.h" />
-    <ClInclude Include="Source\Engine\Public\GameMode\GameMode_Dungeon.h" />
-    <ClInclude Include="Source\Engine\Public\GameMode\GameMode_Town.h" />
-    <ClInclude Include="Source\Engine\Public\GameSettings.h" />
-    <ClInclude Include="Source\Engine\Public\GameState\GameStateBase.h" />
-    <ClInclude Include="Source\Engine\Public\GameState\GameState_Dungeon.h" />
-    <ClInclude Include="Source\Engine\Public\GameState\GameState_Town.h" />
+    <ClInclude Include="Source\Engine\Public\Framework\GameInstance.h" />
+    <ClInclude Include="Source\Engine\Public\Framework\GameModeBase.h" />
+    <ClInclude Include="Source\Engine\Public\Framework\GameStateBase.h" />
+    <ClInclude Include="Source\Engine\Public\Framework\Level\Level.h" />
+    <ClInclude Include="Source\Engine\Public\Framework\Level\LevelTypes.h" />
+    <ClInclude Include="Source\Engine\Public\Framework\PlayerController.h" />
+    <ClInclude Include="Source\Engine\Public\Framework\World.h" />
+    <ClInclude Include="Source\Engine\Public\Helper\BoxHelper.h" />
     <ClInclude Include="Source\Engine\Public\Helper\ColorHelper.h" />
     <ClInclude Include="Source\Engine\Public\Helper\RectHelper.h" />
-    <ClInclude Include="Source\Engine\Public\Helper\MathHelper.h" />
-    <ClInclude Include="Source\Engine\Public\Level\Level.h" />
-    <ClInclude Include="Source\Engine\Public\Level\Level2D.h" />
-    <ClInclude Include="Source\Engine\Public\Level\LevelFactory.h" />
-    <ClInclude Include="Source\Engine\Public\Level\LevelTypes.h" />
-    <ClInclude Include="Source\Engine\Public\Level\Level_SonoTown.h" />
-    <ClInclude Include="Source\Engine\Public\Level\Level_SonoTown_House_0.h" />
-    <ClInclude Include="Source\Engine\Public\Level\MazeGenerator.h" />
+    <ClInclude Include="Source\Engine\Public\Helper\VectorHelper.h" />
+    <ClInclude Include="Source\Engine\Public\Math\Box.h" />
+    <ClInclude Include="Source\Engine\Public\Math\Matrix.h" />
+    <ClInclude Include="Source\Engine\Public\Math\Rect.h" />
+    <ClInclude Include="Source\Engine\Public\Math\Rotator.h" />
+    <ClInclude Include="Source\Engine\Public\Math\Vector.h" />
     <ClInclude Include="Source\Engine\Public\Object\Actor.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Actor2DTypes.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Building\BuildingBase.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Building\BuildingTypes.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Character\CharacterBase.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Character\CharacterTypes.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Character\Enemy.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Character\Player.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Character\PlayerTypes.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Character\Player_Dungeon.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Character\Player_Town.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Effect\EffectBase.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Effect\EffectTypes.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Event\EventBase.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Event\EventChoiceBase.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Event\EventTypes.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Event\Event_DungeonExit.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Event\Event_TownDoor.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Ground\GroundBase.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Ground\GroundTypes.h" />
-    <ClInclude Include="Source\Engine\Public\Object\ItemManager.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Item\ItemBase.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Actor2D.h" />
-    <ClInclude Include="Source\Engine\Public\Object\Item\ItemTypes.h" />
-    <ClInclude Include="Source\Engine\Public\Object\LibraryInterface.h" />
+    <ClInclude Include="Source\Engine\Public\Object\Character.h" />
     <ClInclude Include="Source\Engine\Public\Object\Object.h" />
-    <ClInclude Include="Source\Engine\Public\Object\StatusTypes.h" />
-    <ClInclude Include="Source\Engine\Public\UI\GameUIController.h" />
-    <ClInclude Include="Source\Engine\Public\UI\HUD.h" />
-    <ClInclude Include="Source\Engine\Public\UI\HUDInterface.h" />
-    <ClInclude Include="Source\Engine\Public\UI\LandmarkUI.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Message\ChoiceTypes.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Message\S_ChoiceBox.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Message\S_ChoiceButton.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\Border.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\Button.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\CanvasPanel.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\GridPanel.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\HorizontalBox.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\Image.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\Overlay.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\ProgressBar.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\SlateBase.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\SlateContainerBase.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\SlateInterface.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\SlateSlotBase.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\Spacer.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\TextBlock.h" />
-    <ClInclude Include="Source\Engine\Public\UI\Slate\VerticalBox.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\Border.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\Button.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\CanvasPanel.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\GridPanel.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\HorizontalBox.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\Image.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\Message\ChoiceTypes.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\Message\S_ChoiceBox.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\Message\S_ChoiceButton.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\Overlay.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\ProgressBar.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\SlateBase.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\SlateContainerBase.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\SlateInterface.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\SlateSlotBase.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\Spacer.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\TextBlock.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\VerticalBox.h" />
     <ClInclude Include="Source\Engine\Public\UI\UserWidget.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimation.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimationTypes.h" />
-    <ClInclude Include="Source\Engine\Public\World\World_Dungeon.h" />
-    <ClInclude Include="Source\Engine\Public\World\World_Town.h" />
-    <ClInclude Include="Source\Engine\Public\World\World_SonoCave.h" />
-    <ClInclude Include="Source\Engine\Public\World\World_SonoTown.h" />
     <ClInclude Include="Source\pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -362,6 +368,43 @@
     <ClCompile Include="SDK\DXTex\include\Private\WICTextureLoader11.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\Application\Private\Actor\Actor2D.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Building\BuildingBase.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Character\CharacterBase.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Character\Enemy.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Character\Player.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Character\Player_Dungeon.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Character\Player_Town.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Effect\EffectBase.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Event\EventBase.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Event\EventChoiceBase.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Event\Event_DungeonExit.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Event\Event_TownDoor.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Ground\GroundBase.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Ground\GroundTypes.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Item\ItemBase.cpp" />
+    <ClCompile Include="Source\Application\Private\App.cpp" />
+    <ClCompile Include="Source\Application\Private\AppSettings.cpp" />
+    <ClCompile Include="Source\Application\Private\Controller\PlayerController_Dungeon.cpp" />
+    <ClCompile Include="Source\Application\Private\Controller\PlayerController_Town.cpp" />
+    <ClCompile Include="Source\Application\Private\GameMode\GameMode_Dungeon.cpp" />
+    <ClCompile Include="Source\Application\Private\GameMode\GameMode_Town.cpp" />
+    <ClCompile Include="Source\Application\Private\GameSettings.cpp" />
+    <ClCompile Include="Source\Application\Private\GameState\GameState.cpp" />
+    <ClCompile Include="Source\Application\Private\GameState\GameState_Dungeon.cpp" />
+    <ClCompile Include="Source\Application\Private\GameState\GameState_Town.cpp" />
+    <ClCompile Include="Source\Application\Private\Level\Level2D.cpp" />
+    <ClCompile Include="Source\Application\Private\Level\LevelFactory.cpp" />
+    <ClCompile Include="Source\Application\Private\Level\Level_SonoTown.cpp" />
+    <ClCompile Include="Source\Application\Private\Level\Level_SonoTown_House_0.cpp" />
+    <ClCompile Include="Source\Application\Private\Level\MazeGenerator.cpp" />
+    <ClCompile Include="Source\Application\Private\UI\HUD.cpp" />
+    <ClCompile Include="Source\Application\Private\UI\LandmarkUI.cpp" />
+    <ClCompile Include="Source\Application\Private\Window.cpp" />
+    <ClCompile Include="Source\Application\Private\World\World_Dungeon.cpp" />
+    <ClCompile Include="Source\Application\Private\World\World_SonoCave.cpp" />
+    <ClCompile Include="Source\Application\Private\World\World_SonoTown.cpp" />
+    <ClCompile Include="Source\Application\Private\World\World_Town.cpp" />
     <ClCompile Include="Source\DirectX\Private\Core\DirectX.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -563,86 +606,53 @@
     <ClCompile Include="Source\Engine\Private\Component\BoxCollision.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\BoxCollision2D.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\CollisionComponent.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\ComponentBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\InventoryComponentBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\MovementComponent.cpp" />
-    <ClCompile Include="Source\Engine\Private\Controller\PlayerController.cpp" />
-    <ClCompile Include="Source\Engine\Private\Controller\PlayerController_Dungeon.cpp" />
-    <ClCompile Include="Source\Engine\Private\Controller\PlayerController_Town.cpp" />
-    <ClCompile Include="Source\Engine\Private\Core\App.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Core\Audio.cpp" />
-    <ClCompile Include="Source\Engine\Private\Core\AppSettings.cpp" />
-    <ClCompile Include="Source\Engine\Private\Core\Window.cpp" />
-    <ClCompile Include="Source\Engine\Private\Engine\Box.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\SpriteComponent.cpp" />
+    <ClCompile Include="Source\Engine\Private\EngineSettings.cpp" />
+    <ClCompile Include="Source\Engine\Private\Engine\Audio.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\CollisionCollection.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\Color.cpp" />
-    <ClCompile Include="Source\Engine\Private\Engine\Matrix.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\ObjectCollection.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\QuadTree.cpp" />
-    <ClCompile Include="Source\Engine\Private\Engine\Rect.cpp" />
-    <ClCompile Include="Source\Engine\Private\Engine\Rotator.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\Timer.cpp" />
-    <ClCompile Include="Source\Engine\Private\Engine\Vector.cpp" />
-    <ClCompile Include="Source\Engine\Private\Engine\World.cpp" />
-    <ClCompile Include="Source\Engine\Private\GameInstance.cpp" />
-    <ClCompile Include="Source\Engine\Private\GameMode\GameModeBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\GameMode\GameMode_Dungeon.cpp" />
-    <ClCompile Include="Source\Engine\Private\GameMode\GameMode_Town.cpp" />
-    <ClCompile Include="Source\Engine\Private\GameSettings.cpp" />
-    <ClCompile Include="Source\Engine\Private\GameState\GameStateBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\GameState\GameState_Dungeon.cpp" />
-    <ClCompile Include="Source\Engine\Private\GameState\GameState_Town.cpp" />
+    <ClCompile Include="Source\Engine\Private\Framework\GameInstance.cpp" />
+    <ClCompile Include="Source\Engine\Private\Framework\GameModeBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Framework\GameStateBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Framework\Level\Level.cpp" />
+    <ClCompile Include="Source\Engine\Private\Framework\PlayerController.cpp" />
+    <ClCompile Include="Source\Engine\Private\Framework\World.cpp" />
+    <ClCompile Include="Source\Engine\Private\Helper\BoxHelper.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\ColorHelper.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\RectHelper.cpp" />
-    <ClCompile Include="Source\Engine\Private\Helper\MathHelper.cpp" />
-    <ClCompile Include="Source\Engine\Private\Level\Level.cpp" />
-    <ClCompile Include="Source\Engine\Private\Level\Level2D.cpp" />
-    <ClCompile Include="Source\Engine\Private\Level\LevelFactory.cpp" />
-    <ClCompile Include="Source\Engine\Private\Level\Level_SonoTown.cpp" />
-    <ClCompile Include="Source\Engine\Private\Level\Level_SonoTown_House_0.cpp" />
-    <ClCompile Include="Source\Engine\Private\Level\MazeGenerator.cpp" />
+    <ClCompile Include="Source\Engine\Private\Helper\VectorHelper.cpp" />
+    <ClCompile Include="Source\Engine\Private\Math\Box.cpp" />
+    <ClCompile Include="Source\Engine\Private\Math\Matrix.cpp" />
+    <ClCompile Include="Source\Engine\Private\Math\Rect.cpp" />
+    <ClCompile Include="Source\Engine\Private\Math\Rotator.cpp" />
+    <ClCompile Include="Source\Engine\Private\Math\Vector.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Actor.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Building\BuildingBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Character\CharacterBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Character\Enemy.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Character\Player.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Character\Player_Dungeon.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Character\Player_Town.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Effect\EffectBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Event\EventBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Event\EventChoiceBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Event\Event_DungeonExit.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Event\Event_TownDoor.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Ground\GroundBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Ground\GroundTypes.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Item\ItemBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\Object\Actor2D.cpp" />
+    <ClCompile Include="Source\Engine\Private\Object\Character.cpp" />
     <ClCompile Include="Source\Engine\Private\Object\Object.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\HUD.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\LandmarkUI.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Message\S_ChoiceBox.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Message\S_ChoiceButton.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\Border.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\Button.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\CanvasPanel.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\GridPanel.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\HorizontalBox.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\Image.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\Overlay.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\ProgressBar.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\SlateBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\SlateContainerBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\SlateSlotBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\Spacer.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\TextBlock.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\Slate\VerticalBox.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\Border.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\Button.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\CanvasPanel.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\GridPanel.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\HorizontalBox.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\Image.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\Message\S_ChoiceBox.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\Message\S_ChoiceButton.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\Overlay.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\ProgressBar.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\SlateBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\SlateContainerBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\SlateSlotBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\Spacer.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\TextBlock.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\VerticalBox.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\UserWidget.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\WidgetAnimation.cpp" />
-    <ClCompile Include="Source\Engine\Private\World\World_Dungeon.cpp" />
-    <ClCompile Include="Source\Engine\Private\World\World_Town.cpp" />
-    <ClCompile Include="Source\Engine\Private\World\World_SonoCave.cpp" />
-    <ClCompile Include="Source\Engine\Private\World\World_SonoTown.cpp" />
     <ClCompile Include="Source\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -724,6 +734,7 @@
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <None Include="Config\PtoEngineSettings.json" />
     <None Include="Shader\PointLight.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

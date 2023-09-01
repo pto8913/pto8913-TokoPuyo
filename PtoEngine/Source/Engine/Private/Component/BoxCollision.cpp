@@ -3,11 +3,7 @@
 
 #include "Object/Actor.h"
 
-#include "Helper/MathHelper.h"
-
-#include "Engine/Rect.h"
-#include "Engine/World.h"
-#include "UI/HUD.h"
+#include "Helper/BoxHelper.h"
 
 // ------------------------------------------------------
 // Box Collision
@@ -24,31 +20,6 @@ BoxCollision::~BoxCollision()
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
-
-void BoxCollision::Tick(DirectX11& dx, float deltaSec)
-{
-	CollisionComponent::Tick(dx, deltaSec);
-
-	const auto location = GetOwner()->GetActorLocation();
-	const auto halfScale = GetOwner()->GetActorScale() / 2;
-	
-	auto rt2d = GetWorld()->GetHUD()->GetRt2D();
-	ID2D1SolidColorBrush* brush = nullptr;
-	rt2d->CreateSolidColorBrush(
-		D2D1::ColorF(1.f, 0.f, 0.f, 1.f),
-		&brush
-	);
-	rt2d->DrawRectangle(
-		D2D1::RectF(
-			location.x - halfScale.x,
-			location.y + halfScale.y,
-			location.x + halfScale.x,
-			location.y - halfScale.y
-		),
-		brush
-	);
-}
-
 bool BoxCollision::InBoundingVolume(Actor* other)
 {
 	const auto box = GetBoundingBox();

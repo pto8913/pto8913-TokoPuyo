@@ -5,10 +5,10 @@
 
 #include "Helper/RectHelper.h"
 
-#include "Engine/Rect.h"
+#include "Math/Rect.h"
 
 #if _DEBUG
-#include "Engine/World.h"
+#include "Framework/World.h"
 #include "UI/HUD.h"
 #endif
 

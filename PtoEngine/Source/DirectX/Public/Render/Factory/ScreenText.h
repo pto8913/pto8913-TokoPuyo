@@ -7,15 +7,15 @@ class DirectX11;
 class ScreenText : public Bindable
 {
 public:
-	ScreenText(DirectX11& dx, UINT inWidth, UINT inHeight);
+	ScreenText(DirectX11& dx, float inWidth, float inHeight);
 	~ScreenText();
 
-	static std::shared_ptr<ScreenText> Make(DirectX11& dx, UINT inWidth, UINT inHeight);
+	static std::shared_ptr<ScreenText> Make(DirectX11& dx, float inWidth, float inHeight);
 
 	virtual void Bind(DirectX11& dx) override;
 	void Bind(std::wstring text, D2D1_RECT_F rect);
 
-	static std::string GenerateID(UINT inWidth, UINT inHeight)
+	static std::string GenerateID(float inWidth, float inHeight)
 	{
 		inWidth; inHeight;
 		using namespace std::string_literals;
@@ -26,8 +26,8 @@ public:
 		return GenerateID(0, 0);
 	}
 protected:
-	UINT width;
-	UINT height;
+	float width;
+	float height;
 
 	IDXGIKeyedMutex* keyedMutex11 = nullptr;
 	IDXGIKeyedMutex* keyedMutex10 = nullptr;
@@ -42,14 +42,14 @@ protected:
 class ScreenTextOnlyOutput : public Bindable
 {
 public:
-	ScreenTextOnlyOutput(DirectX11& dx, UINT inWidth, UINT inHeight);
+	ScreenTextOnlyOutput(DirectX11& dx, float inWidth, float inHeight);
 	~ScreenTextOnlyOutput();
 
-	static std::shared_ptr<ScreenTextOnlyOutput> Make(DirectX11& dx, UINT inWidth, UINT inHeight);
+	static std::shared_ptr<ScreenTextOnlyOutput> Make(DirectX11& dx, float inWidth, float inHeight);
 
 	virtual void Bind(DirectX11& dx) override;
 
-	static std::string GenerateID(UINT inWidth, UINT inHeight)
+	static std::string GenerateID(float inWidth, float inHeight)
 	{
 		inWidth; inHeight;
 		using namespace std::string_literals;
@@ -64,8 +64,8 @@ public:
 	IDXGIKeyedMutex*& GetMutex11() noexcept { return keyedMutex11; }
 	IDXGIKeyedMutex*& GetMutex10() noexcept { return keyedMutex10; }
 protected:
-	UINT width;
-	UINT height;
+	float width;
+	float height;
 
 	ID3D11ShaderResourceView* d2dTexture = nullptr;
 	ID2D1RenderTarget* D2DRenderTarget = nullptr;

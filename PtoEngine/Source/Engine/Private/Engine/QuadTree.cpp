@@ -1,10 +1,10 @@
 
 #include "Engine/QuadTree.h"
 
-#include "Core/AppSettings.h"
+#include "EngineSettings.h"
 
 #include "Component/BoxCollision.h"
-#include "Helper/MathHelper.h"
+#include "Helper/BoxHelper.h"
 
 QuadTree::QuadTree(int inMaxObj, int inMaxLevel, int inLevel, FBox inBound, QuadTree* inParent)
 	:
@@ -21,7 +21,7 @@ QuadTree::QuadTree()
 		5,
 		5,
 		0,
-		FBox(FVector(0.f, 0.f, 0.f), FVector(AppSettings::windowSize.x, 0.f, AppSettings::windowSize.y)),
+		FBox(FVector(0.f, 0.f, 0.f), FVector(EngineSettings::GetWindowSize().x, 0.f, EngineSettings::GetWindowSize().y)),
 		nullptr
 	)
 {

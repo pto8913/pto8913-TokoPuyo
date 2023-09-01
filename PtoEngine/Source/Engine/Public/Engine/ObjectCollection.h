@@ -3,7 +3,7 @@
 #include <map>
 #include <memory>
 #include <vector>
-#include "Object/Actor2DTypes.h"
+#include "Actor/Actor2DTypes.h"
 
 class Actor2D;
 class DirectX11;

@@ -5,7 +5,7 @@
 
 #include "Input/MouseInterface.h"
 
-#include "UI/Slate/SlateContainerBase.h"
+#include "Slate/SlateContainerBase.h"
 #include "UI/WidgetAnimation.h"
 
 class DirectX11;
@@ -15,8 +15,8 @@ class WidgetAnimation;
 class UserWidget : public WidgetBase, public Object
 {
 public:
-	UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH);
-	UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, UINT windowSizeW, UINT windowSizeH);
+	UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH);
+	UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH);
 	virtual ~UserWidget();
 protected:
 	virtual void Draw() override;

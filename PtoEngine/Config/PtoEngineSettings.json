@@ -1,0 +1,23 @@
+{
+    "game2DCellSize": [
+        80.0,
+        80.0
+    ],
+    "gameScreen2DCellSize": [
+        9,
+        7
+    ],
+    "gameScreen2DCenter": [
+        5,
+        4
+    ],
+    "windowAspectRatio": [
+        1.014062523841858,
+        1.0652778148651123
+    ],
+    "windowSize": [
+        1280,
+        720
+    ],
+    "windowTitle": "pto8913"
+}

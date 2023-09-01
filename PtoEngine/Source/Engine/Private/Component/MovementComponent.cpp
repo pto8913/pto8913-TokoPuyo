@@ -5,7 +5,7 @@
 
 #include "Object/Actor.h"
 
-#include "Helper/MathHelper.h"
+#include "Helper/VectorHelper.h"
 
 MovementComponent::MovementComponent(Actor* inOwner)
 	: ActorComponent(inOwner)

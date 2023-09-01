@@ -3,7 +3,7 @@
 
 #include "Object/Actor.h"
 
-#include "Helper/MathHelper.h"
+#include "Helper/BoxHelper.h"
 
 CollisionCollection::CollisionCollection()
 {
