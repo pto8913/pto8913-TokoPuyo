@@ -33,32 +33,32 @@ FVector2D FVector2D::operator+(const float& in) const
 FVector2D FVector2D::operator-(const FVector2D& in) const
 {
 	FVector2D Out = *this;
-	return Out += in;
+	return Out -= in;
 };
 FVector2D FVector2D::operator-(const float& in) const
 {
 	FVector2D Out = *this;
-	return Out += in;
+	return Out -= in;
 };
 FVector2D FVector2D::operator*(const FVector2D& in) const
 {
 	FVector2D Out = *this;
-	return Out += in;
+	return Out *= in;
 };
 FVector2D FVector2D::operator*(const float& in) const
 {
 	FVector2D Out = *this;
-	return Out += in;
+	return Out *= in;
 };
 FVector2D FVector2D::operator/(const FVector2D& in) const
 {
 	FVector2D Out = *this;
-	return Out += in;
+	return Out /= in;
 };
 FVector2D FVector2D::operator/(const float& in) const
 {
 	FVector2D Out = *this;
-	return Out += in;
+	return Out /= in;
 };
 
 FVector2D& FVector2D::operator+=(const FVector2D& in)

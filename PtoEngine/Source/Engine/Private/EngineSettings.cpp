@@ -127,8 +127,7 @@ void EngineSettings::SetGameScreen2DSize(const FVector2D& inGameScreen2DSize)
 FVector2D EngineSettings::GetGameScreen2DSize()
 {
 	json jsonEngineSettings = GetJson();
-
-	std::vector<int> v;
+	std::vector<float> v;
 	jsonEngineSettings["gameScreen2DCellSize"].get_to(v);
 	return FVector2D(v[0], v[1]);
 }

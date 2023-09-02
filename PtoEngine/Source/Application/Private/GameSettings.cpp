@@ -1,13 +1,10 @@
 
 #include "GameSettings.h"
-#include "AppSettings.h"
+#include "EngineSettings.h"
 
 // -------------------------------------------------
 // GameSettings : Game
 // -------------------------------------------------
-
-const int          GameSettings::INDEX_NONE = -1;
-
 const FVector2D GameSettings::GAMESCREEN_PADDING = { 16.f, 16.f };
 
 const FVector2D GameSettings::GAMESCREEN_LEFT_TOP = {
@@ -15,8 +12,8 @@ const FVector2D GameSettings::GAMESCREEN_LEFT_TOP = {
 	GAMESCREEN_PADDING.y ,
 };
 
-const float GameSettings::GAMESCREEN_SIZE_WIDTH = AppSettings::GetWindowSize().x - GAMESCREEN_PADDING.x * 2.f;
-const float GameSettings::GAMESCREEN_SIZE_HEIGHT = AppSettings::GetWindowSize().y - GAMESCREEN_PADDING.y * 2.f;
+const float GameSettings::GAMESCREEN_SIZE_WIDTH = EngineSettings::GetWindowSize().x - GAMESCREEN_PADDING.x * 2.f;
+const float GameSettings::GAMESCREEN_SIZE_HEIGHT = EngineSettings::GetWindowSize().y - GAMESCREEN_PADDING.y * 2.f;
 
 const UINT8 GameSettings::BLOCK_SIZE = 9;
 
@@ -29,7 +26,7 @@ const UINT8 GameSettings::BLOCK_MAX_COUNT_Y = 5;
 // -------------------------------------------------
 const FVector2D GameSettings::MESSAGEBOX_LEFT_TOP = {
 	GAMESCREEN_PADDING.x,
-	GAMESCREEN_PADDING.y * 2 + AppSettings::GetWindowSize().y / 2.f,
+	GAMESCREEN_PADDING.y * 2 + EngineSettings::GetWindowSize().y / 2.f,
 };
 
 const FVector2D GameSettings::GAMEUI_SIZE = {
@@ -37,7 +34,7 @@ const FVector2D GameSettings::GAMEUI_SIZE = {
 };
 
 const FVector2D GameSettings::GAMEUI_LEFT_TOP = {
-	GAMESCREEN_PADDING.x * 2 + AppSettings::GetWindowSize().x / 1.5f,
+	GAMESCREEN_PADDING.x * 2 + EngineSettings::GetWindowSize().x / 1.5f,
 	GAMESCREEN_PADDING.y,
 };
 

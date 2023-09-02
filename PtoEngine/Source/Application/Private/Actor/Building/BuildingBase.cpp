@@ -29,7 +29,7 @@ BuildingBase::BuildingBase(DirectX11& dx, const EBuildingId& inBuildingType)
 	mBuildingType(inBuildingType)
 {
 	mSortOrder = Layer::Building;
-	mLayer = EActor2DLayer::Background;
+	mLayer = Layer::EActorLayer::Background;
 }
 
 // ------------------------------------------------------

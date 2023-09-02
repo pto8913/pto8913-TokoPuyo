@@ -133,11 +133,23 @@ protected:
 	void JoinBlockAdditional();
 	bool JoinClosedBlock();
 
+	// --------------------------
+	// Main : Ground Layer : Room
+	// --------------------------
 	void MakeRoom();
 
+	// --------------------------
+	// Main : Ground Layer : Path
+	// --------------------------
 	void MakePath();
 	void MakePath(const UINT8& x, const UINT8& y, const FBlock& block);
 	void GetPathStartPos(const FRect& inRect, const EDirection& direction, UINT8& x, UINT8& y);
+
+	// --------------------------
+	// Main : Ground Layer : Wall
+	// --------------------------
+	void MakeWall();
+
 
 	// ------------------------------------------------------
 	// Main : Event Layer

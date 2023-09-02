@@ -12,6 +12,8 @@
 #include "UI/HUD.h"
 #endif
 
+#include "EngineSettings.h"
+
 // ------------------------------------------------------
 // Box Collision
 // ------------------------------------------------------
@@ -78,11 +80,12 @@ FRect BoxCollision2D::GetRect()
 	//);
 
 	const auto scale = GetOwner()->GetActorScale();
+	const auto ratio = EngineSettings::GetWindowAspectRatio();
 	return FRect(
 		location.x,
 		location.y,
-		location.x + scale.x,
-		location.y + scale.y
+		location.x + scale.x / ratio.x,
+		location.y + scale.y / ratio.y
 	);
 }
 void BoxCollision2D::EnterVolume(std::shared_ptr<CollisionComponent> other)

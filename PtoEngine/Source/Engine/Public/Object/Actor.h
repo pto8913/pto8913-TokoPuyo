@@ -3,6 +3,7 @@
 #include "Object.h"
 #include "Math/Vector.h"
 #include "Math/Rotator.h"
+#include "Framework/Level/Layer.h"
 
 #include <map>
 
@@ -18,6 +19,8 @@ public:
 	Actor();
 	virtual ~Actor();
 
+	virtual void Construct();
+
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
@@ -27,7 +30,13 @@ public:
 	void SetID(int inID);
 	int GetID() const;
 
-	template<typename TClass, typename ...Args>
+	const Layer::EActorLayer& GetLayer() const;
+	void SetLayer(const Layer::EActorLayer& in);
+
+	// -----------------------------------
+	// Main : Component
+	// -----------------------------------
+	template<typename TClass, typename ...Args, typename = typename std::enable_if_t<std::is_base_of_v<ComponentBase, TClass>>>
 	std::shared_ptr<TClass> AddComponent(const std::string& tag, Args&& ...args)
 	{
 		auto ptr = std::make_shared<TClass>(std::forward<Args>(args)...);
@@ -81,10 +90,15 @@ public:
 	{
 		return std::static_pointer_cast<T>(pOuter);
 	}
+
 protected:
+	// ------------------------------------------------------
+	// State
+	// ------------------------------------------------------
 	std::shared_ptr<Object> pOuter = nullptr;
 	int mID = -1;
-	/* NOTE : 
+	Layer::EActorLayer mLayer;
+	/* NOTE :
 		Is not same Actor::mLocation to ObjectBase::location.
 		Actor::mLocation is location in screen.
 		ObjectBase::location is location in window. this is include menubar, window title...etc.

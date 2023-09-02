@@ -33,7 +33,7 @@ EventBase::EventBase(DirectX11& dx, const EEventId& inEventType)
 {
 	AddComponent<BoxCollision>("collision", this);
 	mSortOrder = Layer::Event;
-	mLayer = EActor2DLayer::Entities;
+	mLayer = Layer::EActorLayer::Entities;
 }
 
 // ------------------------------------------------------

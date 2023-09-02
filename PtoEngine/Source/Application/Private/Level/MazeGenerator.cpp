@@ -382,6 +382,9 @@ bool MazeGenerator::JoinClosedBlock()
 	return false;
 }
 
+// --------------------------
+// Main : Ground Layer : Room
+// --------------------------
 void MazeGenerator::MakeRoom()
 {
 	const int blockLeftTop = 2;
@@ -455,6 +458,9 @@ void MazeGenerator::MakeRoom()
 	}
 }
 
+// --------------------------
+// Main : Ground Layer : Path
+// --------------------------
 void MazeGenerator::MakePath()
 {
 	for (int y = 0; y < actualBlockCountY; ++y)
@@ -590,6 +596,30 @@ void MazeGenerator::GetPathStartPos(const FRect& inRect, const EDirection& direc
 	}
 
 	GetMazeXY(candidatePathStartPos.RandomValue(), x, y);
+}
+
+// --------------------------
+// Main : Ground Layer : Wall
+// --------------------------
+void MazeGenerator::MakeWall()
+{
+	for (int blockY = 0; blockY < actualBlockCountY; ++blockY)
+	{
+		for (int blockX = 0; blockX < actualBlockCountX; ++blockX)
+		{
+			const auto& block = blockIDs[blockY][blockX];
+			
+		}
+	}
+	//for (const auto& layer : pObjectCollection->GetActors())
+	//{
+	//	for (const auto& actor : layer.second)
+	//	{
+	//		int x = 0, y = 0;
+	//		auto p = actor->Get2DIdx();
+	//		x = p.x; y = p.y;
+	//	}
+	//}
 }
 
 // ------------------------------------------------------

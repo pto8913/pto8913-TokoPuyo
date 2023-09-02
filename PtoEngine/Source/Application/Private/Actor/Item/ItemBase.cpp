@@ -28,7 +28,7 @@ ItemBase::ItemBase(DirectX11& dx, const EItemId& inItemType)
 	itemType(inItemType)
 {
 	mSortOrder = Layer::Item;
-	mLayer = EActor2DLayer::Entities;
+	mLayer = Layer::EActorLayer::Entities;
 }
 
 // ------------------------------------------------------

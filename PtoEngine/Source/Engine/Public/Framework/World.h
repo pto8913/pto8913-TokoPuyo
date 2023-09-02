@@ -67,7 +67,7 @@ public:
 		out->SetOuter(pPersistentLevel);
 		out->SetID(mActorTotalCount);
 		++mActorTotalCount;
-		pPersistentLevel->GetObjectCollection().Add(out);
+		pPersistentLevel->GetObjectCollection()->Add(out);
 
 		std::shared_ptr<BoxCollision> collision = out->GetComponent<BoxCollision>();
 		if (collision != nullptr)
@@ -75,6 +75,7 @@ public:
 			pPersistentLevel->GetCollisionCollection().Add(collision);
 		}
 
+		out->Construct();
 		return out;
 	}
 

@@ -1,6 +1,6 @@
 
 #include "App.h"
-#include "AppSettings.h"
+#include "EngineSettings.h"
 
 #include "Core/DirectX.h"
 

@@ -36,9 +36,6 @@ public:
 	void SetSortOrder(Layer::EOrder inSortOrder);
 	Layer::EOrder GetSortOrder() const;
 
-	const EActor2DLayer& GetLayer() const;
-	void SetLayer(const EActor2DLayer& in);
-
 	const FVector2D& Get2DIdx() const;
 	void Set2DIdx(const FVector2D& in);
 
@@ -56,7 +53,6 @@ protected:
 	// State
 	// ------------------------------------------------------
 	Layer::EOrder mSortOrder = Layer::UnOrder;
-	EActor2DLayer mLayer;
 
 	FVector2D m2DIdx;
 

@@ -46,7 +46,7 @@ GroundBase::GroundBase(DirectX11& dx, const EGroundId& inGroundType)
 	)
 {
 	mSortOrder = Layer::Ground;
-	mLayer = EActor2DLayer::Background;
+	mLayer = Layer::EActorLayer::Background;
 
 	SetGroundType(inGroundType);
 }

@@ -16,7 +16,7 @@
 #include "Framework/World.h"
 #include "Level/Level2D.h"
 
-#include "AppSettings.h"
+#include "EngineSettings.h"
 
 #include "Actor/Ground/GroundBase.h"
 #include "Actor/Character/CharacterBase.h"
@@ -25,7 +25,7 @@
 #include "GameState/GameState_Dungeon.h"
 #include <memory>
 
-#define _DEBUG 0
+#define _DEBUG 1
 
 #if _DEBUG
 #include <format>
@@ -40,11 +40,11 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 		inOwner, 
 		dx, 
 		mouse, 
-		AppSettings::GetWindowSize().x,
-		AppSettings::GetWindowSize().y
+		EngineSettings::GetWindowSize().x,
+		EngineSettings::GetWindowSize().y
 	)
 {
-	pRootSlate = std::make_shared<S_CanvasPanel>(FVector2D(AppSettings::GetWindowSize().x, AppSettings::GetWindowSize().y), GetRt2D());
+	pRootSlate = std::make_shared<S_CanvasPanel>(FVector2D(EngineSettings::GetWindowSize().x, EngineSettings::GetWindowSize().y), GetRt2D());
 
 	// HP Bar
 	{
@@ -372,12 +372,13 @@ void HUD::DrawDebugScreen()
 	apperance.Type = EBorderType::Box;
 	apperance.color = FColor(1.f, 1.f, 0.f);
 	apperance.bIsFill = true;
+	auto cell = EngineSettings::GetGameScreen2DCellSize();
 	for (int y = 0; y < 20; ++y)
 	{
 		for (int x = 0; x < 20; x++)
 		{
 			auto ptr = std::make_shared<S_Border>(FVector2D(2.f, 2.f), GetRt2D(), infos, apperance);
-			ptr->SetPosition(FVector2D(GameSettings::CELL * x, GameSettings::CELL * y));
+			ptr->SetPosition(FVector2D(cell.x * x, cell.y * y));
 			pScreenGrid.push_back(ptr);
 		}
 	}

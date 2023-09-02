@@ -35,16 +35,19 @@ Actor2D::Actor2D(DirectX11& dx, const FActor2DSettings& Settings, const float& i
 // ------------------------------------------------------
 void Actor2D::Tick(DirectX11& dx, float deltaTime)
 {
-	ExecuteTasks(dx);
-	Actor::Tick(dx, deltaTime);
-
-	if (mUpdateTime != -1.f)
+	if (GetTickEnabled())
 	{
-		DurationTime = chrono::now() - LastTime;
-		if (std::chrono::duration_cast<std::chrono::microseconds>(DurationTime).count() / 1000 >= mUpdateTime)
+		ExecuteTasks(dx);
+		Actor::Tick(dx, deltaTime);
+
+		if (mUpdateTime != -1.f)
 		{
-			LastTime = chrono::now();
-			Update(dx);
+			DurationTime = chrono::now() - LastTime;
+			if (std::chrono::duration_cast<std::chrono::microseconds>(DurationTime).count() / 1000 >= mUpdateTime)
+			{
+				LastTime = chrono::now();
+				Update(dx);
+			}
 		}
 	}
 }
@@ -56,15 +59,6 @@ void Actor2D::SetSortOrder(Layer::EOrder inSortOrder)
 Layer::EOrder Actor2D::GetSortOrder() const
 {
 	return mSortOrder;
-}
-
-const EActor2DLayer& Actor2D::GetLayer() const
-{
-	return mLayer;
-}
-void Actor2D::SetLayer(const EActor2DLayer& in)
-{
-	mLayer = in;
 }
 
 const FVector2D& Actor2D::Get2DIdx() const

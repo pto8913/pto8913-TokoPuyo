@@ -134,9 +134,6 @@
     <Filter Include="Source\Engine\Public\Helper">
       <UniqueIdentifier>{66b1c244-b0f7-4d25-8fca-90ddf04f4916}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Engine\Private\Helper">
-      <UniqueIdentifier>{0cc79391-c1c4-4f3d-98ba-73faafb4d946}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Engine\Public\Engine">
       <UniqueIdentifier>{48089475-6725-4da1-841f-051e3de93dfa}</UniqueIdentifier>
     </Filter>
@@ -265,6 +262,9 @@
     </Filter>
     <Filter Include="Config">
       <UniqueIdentifier>{8c6aad6f-6f7b-4722-9143-b3d1f47da498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Private\Helper">
+      <UniqueIdentifier>{0cc79391-c1c4-4f3d-98ba-73faafb4d946}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -514,23 +514,11 @@
     <ClInclude Include="Source\Engine\Public\Component\BoxCollision.h">
       <Filter>Source\Engine\Public\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Engine\QuadTree.h">
-      <Filter>Source\Engine\Public\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Engine\CollisionCollection.h">
-      <Filter>Source\Engine\Public\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Engine\ObjectCollection.h">
-      <Filter>Source\Engine\Public\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Component\BoxCollision2D.h">
       <Filter>Source\Engine\Public\Component</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Helper\VectorHelper.h">
       <Filter>Source\Engine\Public\Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\AppSettings.h">
-      <Filter>Source\Application\Public</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application\Public\App.h">
       <Filter>Source\Application\Public</Filter>
@@ -784,6 +772,21 @@
     <ClInclude Include="SDK\nlohmann\json.hpp">
       <Filter>SDK\nlohmann</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Application\Public\Level\ObjectCollection2D.h">
+      <Filter>Source\Application\Public\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Framework\Level\ObjectCollection.h">
+      <Filter>Source\Engine\Public\Framework\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Framework\Level\CollisionCollection.h">
+      <Filter>Source\Engine\Public\Framework\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Framework\Level\Layer.h">
+      <Filter>Source\Engine\Public\Framework\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Framework\Level\QuadTree.h">
+      <Filter>Source\Engine\Public\Framework\Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
@@ -996,15 +999,6 @@
     <ClCompile Include="Source\Engine\Private\Component\BoxCollision.cpp">
       <Filter>Source\Engine\Private\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Engine\QuadTree.cpp">
-      <Filter>Source\Engine\Private\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Engine\CollisionCollection.cpp">
-      <Filter>Source\Engine\Private\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Engine\ObjectCollection.cpp">
-      <Filter>Source\Engine\Private\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Private\Component\BoxCollision2D.cpp">
       <Filter>Source\Engine\Private\Component</Filter>
     </ClCompile>
@@ -1012,9 +1006,6 @@
       <Filter>Source\Engine\Private\Helper</Filter>
     </ClCompile>
     <ClCompile Include="Source\Application\Private\App.cpp">
-      <Filter>Source\Application\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Application\Private\AppSettings.cpp">
       <Filter>Source\Application\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Slate\Border.cpp">
@@ -1220,6 +1211,18 @@
     </ClCompile>
     <ClCompile Include="Source\Application\Private\Controller\PlayerController_Town.cpp">
       <Filter>Source\Application\Private\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Level\ObjectCollection2D.cpp">
+      <Filter>Source\Application\Private\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Framework\Level\CollisionCollection.cpp">
+      <Filter>Source\Engine\Private\Framework\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Framework\Level\ObjectCollection.cpp">
+      <Filter>Source\Engine\Private\Framework\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Framework\Level\QuadTree.cpp">
+      <Filter>Source\Engine\Private\Framework\Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

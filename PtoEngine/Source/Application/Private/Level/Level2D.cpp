@@ -13,6 +13,8 @@
 
 #include "Framework/World.h"
 
+#include "Level/ObjectCollection2D.h"
+
 #if _DEBUG
 #include <format>
 #endif
@@ -27,6 +29,14 @@ Level2D::Level2D(DirectX11& dx)
 Level2D::~Level2D()
 {
 	Clear();
+}
+
+void Level2D::SetObjectCollection()
+{
+	if (pObjectCollection == nullptr)
+	{
+		pObjectCollection = std::make_shared<ObjectCollection2D>();
+	}
 }
 
 // ------------------------------------------------------
@@ -77,7 +87,7 @@ bool Level2D::MoveCenter(const float& x, const float& y)
 		centerX = nextX;
 		centerY = nextY;
 #if _DEBUG
-		//OutputDebugStringA(std::format("move center x, y {} {}\n", centerX, centerY).c_str());
+		OutputDebugStringA(std::format("move center x, y {} {}\n", centerX, centerY).c_str());
 #endif
 		const auto center = EngineSettings::GetGameScreen2DCenter();
 		screenLeftX = centerX - center.x - 1;
@@ -87,33 +97,7 @@ bool Level2D::MoveCenter(const float& x, const float& y)
 
 		SetSpriteLocation(GetWorld()->GetPlayer(), centerX, centerY);
 
-		for (auto&& layer : mObjectCollection.pActors)
-		{
-			for (auto&& actor : layer.second)
-			{
-				auto idx = actor->Get2DIdx();
-				if (IsInScreen(idx.x, idx.y))
-				{
-					if (actor->GetSortOrder() == Layer::EOrder::Character)
-					{
-						if (auto obj = static_pointer_cast<CharacterBase>(actor))
-						{
-							if (obj->GetCharacterType() == ECharacterId::Player)
-							{
-								continue;
-							}
-						}
-					}
-					SetSpriteLocation(actor, idx.x, idx.y);
-					actor->SetVisibility(true);
-				}
-				else
-				{
-					SetSpriteLocation(actor, idx.x, idx.y);
-					actor->SetVisibility(false);
-				}
-			}
-		}
+		UpdateSpriteInScreen();
 		return true;
 	}
 	return false;
@@ -132,6 +116,38 @@ void Level2D::Clear()
 	screenLeftY = 0;
 	screenRightX = 0;
 	screenRightY = 0;
+}
+
+void Level2D::UpdateSpriteInScreen()
+{
+	for (auto&& layer : pObjectCollection->GetActors())
+	{
+		for (auto&& actor : layer.second)
+		{
+			auto actor2d = static_pointer_cast<Actor2D>(actor);
+			auto idx = actor2d->Get2DIdx();
+			if (IsInScreen(idx.x, idx.y))
+			{
+				if (actor2d->GetSortOrder() == Layer::EOrder::Character)
+				{
+					if (auto obj = static_pointer_cast<CharacterBase>(actor2d))
+					{
+						if (obj->GetCharacterType() == ECharacterId::Player)
+						{
+							continue;
+						}
+					}
+				}
+				SetSpriteLocation(actor2d, idx.x, idx.y);
+				actor2d->SetTickEnabled(true);
+			}
+			else
+			{
+				SetSpriteLocation(actor2d, idx.x, idx.y);
+				actor2d->SetTickEnabled(false);
+			}
+		}
+	}
 }
 
 // --------------------------
@@ -168,21 +184,23 @@ void Level2D::SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& wo
 	sprite->SetActorLocation(FVector(pos.x, pos.y, 0.f));
 	sprite->Set2DIdx(FVector2D(worldX, worldY));
 }
-std::shared_ptr<Actor2D> Level2D::GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const EActor2DLayer& inLayer) const
+std::shared_ptr<Actor2D> Level2D::GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const Layer::EActorLayer& inLayer) const
 {
-	if (mObjectCollection.pActors.contains(inLayer))
+	const auto& actors = pObjectCollection->GetActors();
+	if (actors.contains(inLayer))
 	{
-		auto elem = mObjectCollection.pActors.at(inLayer);
+		auto elem = actors.at(inLayer);
 		if (elem.size() > 0)
 		{
-			for (auto&& actor : elem)
+			for (const auto& actor : elem)
 			{
-				if (actor->GetSortOrder() == inOrder)
+				const auto actor2d = static_pointer_cast<Actor2D>(actor);
+				if (actor2d->GetSortOrder() == inOrder)
 				{
-					auto idx = actor->Get2DIdx();
+					auto idx = actor2d->Get2DIdx();
 					if (worldX == idx.x && worldY == idx.y)
 					{
-						return actor;
+						return actor2d;
 					}
 				}
 			}
@@ -372,7 +390,7 @@ void Level2D::SetGroundLayerIDChecked(const EGroundId& groundType, const UINT16&
 }
 std::shared_ptr<GroundBase> Level2D::GetGroundLayer(const int& worldX, const int& worldY) const
 {
-	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Ground, EActor2DLayer::Background))
+	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Ground, Layer::EActorLayer::Background))
 	{
 		return static_pointer_cast<GroundBase>(obj);
 	}
@@ -407,7 +425,7 @@ void Level2D::SetEventLayerID(std::shared_ptr<EventBase>&& sprite, const float& 
 }
 std::shared_ptr<EventBase> Level2D::GetEventLayer(const int& worldX, const int& worldY) const
 {
-	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Event, EActor2DLayer::Entities))
+	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Event, Layer::EActorLayer::Entities))
 	{
 		return static_pointer_cast<EventBase>(obj);
 	}
@@ -428,7 +446,7 @@ void Level2D::SetItemLayerID(const EItemId& itemType, const float& worldX, const
 }
 std::shared_ptr<ItemBase> Level2D::GetItemLayer(const int& worldX, const int& worldY) const
 {
-	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Item, EActor2DLayer::Entities))
+	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Item, Layer::EActorLayer::Entities))
 	{
 		return static_pointer_cast<ItemBase>(obj);
 	}
@@ -449,7 +467,7 @@ void Level2D::SetCharacterLayerID(const ECharacterId& characterType, const float
 }
 std::shared_ptr<CharacterBase> Level2D::GetCharacterLayer(const int& worldX, const int& worldY) const
 {
-	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Character, EActor2DLayer::Entities))
+	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Character, Layer::EActorLayer::Entities))
 	{
 		return static_pointer_cast<CharacterBase>(obj);
 	}
@@ -461,18 +479,20 @@ std::shared_ptr<CharacterBase> Level2D::GetCharacterLayer(const int& worldX, con
 // --------------------------
 void Level2D::ShowTiles()
 {
+#if _DEBUG
 	OutputDebugStringA("-------- Show Tiles -------\n");
 
 	std::vector<std::string> x(int(width), " ");
 	std::vector<std::vector<std::string>> tiles(int(height), x);
-	for (const auto& layer : mObjectCollection.pActors)
+	for (const auto& layer : pObjectCollection->GetActors())
 	{
 		for (const auto& actor : layer.second)
 		{
+			const auto actor2d = static_pointer_cast<Actor2D>(actor);
 			int x = 0, y = 0;
-			auto p = actor->Get2DIdx();
+			auto p = actor2d->Get2DIdx();
 			x = p.x; y = p.y;
-			switch (actor->GetSortOrder())
+			switch (actor2d->GetSortOrder())
 			{
 			case Layer::EOrder::Ground:
 				switch (ConvertToGroundTile(static_pointer_cast<GroundBase>(actor)->GetGroundType()))
@@ -518,4 +538,5 @@ void Level2D::ShowTiles()
 	}
 	OutputDebugStringA("-------- Show GroundLayer -------\n");
 	OutputDebugStringA("\n\n");
+#endif
 }

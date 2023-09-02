@@ -49,8 +49,8 @@ public:
 	/* default (x, y) = (9, 7) */
 	static FVector2D GetGameScreen2DSize();
 
-	/* default (x, y) = (5, 4) */
+	/* default (x, y) = (3, 2) */
 	static void SetGameScreen2DCenter(const FVector2D& inGameScreen2DCenter);
-	/* default (x, y) = (5, 4) */
+	/* default (x, y) = (3, 2) */
 	static FVector2D GetGameScreen2DCenter();
 };

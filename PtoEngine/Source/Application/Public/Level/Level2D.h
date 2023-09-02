@@ -9,6 +9,8 @@
 #include "Actor/Building/BuildingTypes.h"
 #include "Actor/Effect/EffectTypes.h"
 
+#include "Actor/Actor2DTypes.h"
+
 class Actor2D;
 
 class GroundBase;
@@ -33,6 +35,7 @@ class Level2D : public Level
 public:
 	Level2D(DirectX11& dx);
 	virtual ~Level2D();
+	virtual void SetObjectCollection() override;
 
 	// ------------------------------------------------------
 	// Main
@@ -52,8 +55,10 @@ protected:
 public:
 	void Init(const int& x, const int& y);
 	virtual bool MoveCenter(const float& x, const float& y);
-
 	virtual void Clear();
+protected:
+	void UpdateSpriteInScreen();
+
 	template<typename T>
 	void Clear(TArray<TArray<T>>& in)
 	{
@@ -67,7 +72,7 @@ public:
 		}
 		in.Clear();
 	}
-
+public:
 	// --------------------------
 	// Main : Utils
 	// --------------------------
@@ -80,7 +85,7 @@ public:
 	DirectX::XMFLOAT2 WorldToScreen(const int& x, const int& y, const FVector& size);
 protected:
 	void SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY);
-	std::shared_ptr<Actor2D> GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const EActor2DLayer& inLayer) const;
+	std::shared_ptr<Actor2D> GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const Layer::EActorLayer& inLayer) const;
 public:
 	// --------------------------
 	// Main : Utils : Ground

@@ -35,7 +35,7 @@ Character::Character(DirectX11& dx, const ECharacterId& inCharacterType)
 	pBoxCollision2D = AddComponent<BoxCollision2D>("Collision2D", this);
 
 	mSortOrder = Layer::Character;
-	mLayer = EActor2DLayer::Entities;
+	mLayer = Layer::EActorLayer::Entities;
 }
 
 // ------------------------------------------------------
