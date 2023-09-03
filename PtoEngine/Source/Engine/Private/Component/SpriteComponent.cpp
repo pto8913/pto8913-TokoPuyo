@@ -15,7 +15,6 @@ SpriteComponent::SpriteComponent(Actor* inOwner, DirectX11& dx, const std::wstri
 		inSize
 	)
 {
-
 	auto c = EngineSettings::GETCELL(Vector::ConvertDXToVector2D(inSize));
 	SetActorScale({ c.x, c.y, 0 });
 }
@@ -29,8 +28,11 @@ SpriteComponent::~SpriteComponent()
 // ------------------------------------------------------
 void SpriteComponent::Tick(DirectX11& dx, float deltaTime)
 {
-	ExecuteTasks(dx);
-	ActorComponent::Tick(dx, deltaTime);
+	if (GetTickEnabled())
+	{
+		ExecuteTasks(dx);
+		ActorComponent::Tick(dx, deltaTime);
+	}
 }
 
 // -----------------------------------

@@ -25,7 +25,7 @@
 #include "GameState/GameState_Dungeon.h"
 #include <memory>
 
-#define _DEBUG 1
+#define _DEBUG 0
 
 #if _DEBUG
 #include <format>

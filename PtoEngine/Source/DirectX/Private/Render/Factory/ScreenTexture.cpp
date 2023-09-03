@@ -200,3 +200,8 @@ void ScreenTexture::Bind(DirectX::XMVECTOR loc)
 	////Use the D3D11 Device
 	//keyedMutex11->AcquireSync(1, 5);
 }
+
+ID2D1RenderTarget* ScreenTexture::GetRt2D()
+{
+	return D2DRenderTarget;
+}

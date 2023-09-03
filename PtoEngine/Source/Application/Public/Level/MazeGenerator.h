@@ -149,7 +149,7 @@ protected:
 	// Main : Ground Layer : Wall
 	// --------------------------
 	void MakeWall();
-
+	void MakeWall(const int& x, const int& y);
 
 	// ------------------------------------------------------
 	// Main : Event Layer
@@ -178,6 +178,7 @@ protected:
 	// --------------------------
 	// Main : Ground Layer : Utils
 	// --------------------------
+	virtual std::shared_ptr<GroundBase> SetGroundLayerIDSpe(const EGroundId& groundType, const float& worldX, const float& worldY) override;
 
 	bool IsInMaze(const UINT8& x, const UINT8& y) const noexcept;
 	bool IsInBlock(const UINT8& x, const UINT8& y) const noexcept;
@@ -226,6 +227,8 @@ protected:
 
 	TArray<TArray<FRect>> RoomLocalRects;
 	UINT8 actualRoomCount = 0;
+
+	TArray<TArray<EGroundTile>> mazeTils;
 
 	// --------------------------
 	// State : Event Layer 

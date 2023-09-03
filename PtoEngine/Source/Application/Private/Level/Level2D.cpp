@@ -33,10 +33,7 @@ Level2D::~Level2D()
 
 void Level2D::SetObjectCollection()
 {
-	if (pObjectCollection == nullptr)
-	{
-		pObjectCollection = std::make_shared<ObjectCollection2D>();
-	}
+	pObjectCollection = std::make_shared<ObjectCollection2D>();
 }
 
 // ------------------------------------------------------
@@ -120,7 +117,7 @@ void Level2D::Clear()
 
 void Level2D::UpdateSpriteInScreen()
 {
-	for (auto&& layer : pObjectCollection->GetActors())
+	for (auto&& layer : pObjectCollection->pActors)
 	{
 		for (auto&& actor : layer.second)
 		{
@@ -186,7 +183,7 @@ void Level2D::SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& wo
 }
 std::shared_ptr<Actor2D> Level2D::GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const Layer::EActorLayer& inLayer) const
 {
-	const auto& actors = pObjectCollection->GetActors();
+	const auto& actors = pObjectCollection->pActors;
 	if (actors.contains(inLayer))
 	{
 		auto elem = actors.at(inLayer);
@@ -212,7 +209,7 @@ std::shared_ptr<Actor2D> Level2D::GetLayer(const int& worldX, const int& worldY,
 // --------------------------
 // Main : Utils : Ground
 // --------------------------
-void Level2D::SetGroundLayerID(const EGroundId& groundType, const float& worldX, const float& worldY)
+std::shared_ptr<GroundBase> Level2D::SetGroundLayerIDSpe(const EGroundId& groundType, const float& worldX, const float& worldY)
 {
 	if (IsInWorld(worldX, worldY))
 	{
@@ -227,6 +224,7 @@ void Level2D::SetGroundLayerID(const EGroundId& groundType, const float& worldX,
 			sprite->BeginPlay(*pDX);
 			SetSpriteLocation(sprite, worldX, worldY);
 		}
+		return sprite;
 	}
 }
 void Level2D::SetGroundLayerID(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal, INT16 inConstantXY2)
@@ -271,21 +269,21 @@ void Level2D::SetGroundLayerID(const EGroundId& groundType, const UINT16& inMinX
 	{
 		if (bConstantHorizontal)
 		{
-			SetGroundLayerID(groundType, i, inConstantXY);
+			SetGroundLayerIDSpe(groundType, i, inConstantXY);
 		}
 		else
 		{
-			SetGroundLayerID(groundType, inConstantXY, i);
+			SetGroundLayerIDSpe(groundType, inConstantXY, i);
 		}
 		if (inConstantXY2 > -1)
 		{
 			if (bConstantHorizontal)
 			{
-				SetGroundLayerID(groundType, i, inConstantXY2);
+				SetGroundLayerIDSpe(groundType, i, inConstantXY2);
 			}
 			else
 			{
-				SetGroundLayerID(groundType, inConstantXY2, i);
+				SetGroundLayerIDSpe(groundType, inConstantXY2, i);
 			}
 		}
 	}
@@ -484,7 +482,7 @@ void Level2D::ShowTiles()
 
 	std::vector<std::string> x(int(width), " ");
 	std::vector<std::vector<std::string>> tiles(int(height), x);
-	for (const auto& layer : pObjectCollection->GetActors())
+	for (const auto& layer : pObjectCollection->pActors)
 	{
 		for (const auto& actor : layer.second)
 		{

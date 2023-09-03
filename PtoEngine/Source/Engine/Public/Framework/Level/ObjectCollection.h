@@ -25,15 +25,6 @@ public:
 	using IterType = MapType::iterator;
 	using ConstIterType = MapType::const_iterator;
 
-	MapType& GetActors()
-	{
-		return pActors;
-	}
-	const MapType& GetConstActors() const
-	{
-		return pActors;
-	}
-protected:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------

@@ -44,6 +44,10 @@ public:
 	{
 		ClearBind();
 	}
+	virtual ~Delegate()
+	{
+		ClearBind();
+	}
 
 	// ƒOƒ[ƒoƒ‹ŠÖ”‚Ì•Û‘¶
 	template<auto Function, typename = typename std::enable_if_t<std::is_function_v<typename std::remove_pointer_t<decltype(Function)>>&& std::is_invocable_r_v<Ret, decltype(Function), Args...>>>

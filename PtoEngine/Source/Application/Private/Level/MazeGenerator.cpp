@@ -16,6 +16,8 @@
 
 #include "GameSettings.h"
 
+#include "Component/SpriteComponent.h"
+
 using namespace DirectX;
 using namespace Math;
 using namespace Algo;
@@ -131,6 +133,9 @@ void MazeGenerator::InitializeMaze()
 
 	blockUnionFind = UnionFind(actualBlockCount);
 
+	TArray<EGroundTile> mazeRows(actualMazeCountX, EGroundTile::None);
+	mazeTils.Init(actualMazeCountY, mazeRows);
+
 #if _DEBUG
 	OutputDebugStringA(std::format("block size : x:{} y:{} s:{}\n", actualBlockCountX, actualBlockCountY, actualBlockCount).c_str());
 	OutputDebugStringA(std::format("maze size: x:{} y:{} s:{}\n", actualMazeCountX, actualMazeCountY, actualMazeCount).c_str());
@@ -185,6 +190,8 @@ void MazeGenerator::InitializeBlock()
 	MakeRoom();
 
 	MakePath();
+
+	MakeWall();
 }
 
 void MazeGenerator::JoinBlock()
@@ -425,26 +432,16 @@ void MazeGenerator::MakeRoom()
 				{
 					SetGroundLayerID(ConvertToGround(EGroundTile::Room, mGroundType), Sx, Ex, constantY, true);
 				}
-				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), Sx, Ex, Sy - 1, true);
-				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), Sx, Ex, Ey + 1, true);
-				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), Sy, Ey, Sx - 1);
-				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), Sy, Ey, Ex + 1);
 			}
 			else if (block.id == EBlockID::Path)
 			{
 				const int rectX = RandRange(blockLeftTop, blockRightBottom);
 				const int rectY = RandRange(blockLeftTop, blockRightBottom);
 				BlockRect.Add(FRect(rectX, rectY, rectX, rectY));
-#if _DEBUG
-				//OutputDebugStringA(std::format("PathRect : {} {}\n", rectX, rectY).c_str());
-#endif
+
 				int px = BlockToMaze(x, rectX);
 				int py = BlockToMaze(y, rectY);
-				SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), px, py);
-				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), px - 1, py);
-				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), px + 1, py);
-				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), px, py - 1);
-				SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), px, py + 1);
+				SetGroundLayerIDSpe(ConvertToGround(EGroundTile::Path, mGroundType), px, py);
 			}
 			else
 			{
@@ -507,12 +504,7 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 			int borderX = RandRange(currSx + 1, nextSx - 1);
 
 			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), currSx, borderX, currSy, true);
-			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSx, borderX, currSy - 1, true);
-			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSx, borderX, currSy + 1, true);
-
 			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), borderX, nextSx, nextSy, true);
-			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), borderX, nextSx, nextSy - 1, true);
-			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), borderX, nextSx, nextSy + 1, true);
 
 			// Merge Path
 			if (currSy > nextSy)
@@ -520,8 +512,6 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 				swap(currSy, nextSy);
 			}
 			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), currSy, nextSy, borderX);
-			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSy, nextSy, borderX - 1);
-			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSy, nextSy, borderX + 1);
 		}
 	}
 	/* Draw Down Direction Path */
@@ -544,12 +534,7 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 			int borderY = RandRange(currSy + 1, nextSy - 1);
 
 			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), currSy, borderY, currSx);
-			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSy, borderY, currSx - 1);
-			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSy, borderY, currSx + 1);
-
 			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), borderY, nextSy, nextSx);
-			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), borderY, nextSy, nextSx - 1);
-			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), borderY, nextSy, nextSx + 1);
 
 			// Merge Path
 			if (currSx > nextSx)
@@ -557,8 +542,6 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 				swap(currSx, nextSx);
 			}
 			SetGroundLayerID(ConvertToGround(EGroundTile::Path, mGroundType), currSx, nextSx, borderY, true);
-			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSx, nextSx, borderY - 1, true);
-			SetGroundLayerIDChecked(ConvertToGround(EGroundTile::Wall, mGroundType), currSx, nextSx, borderY + 1, true);
 		}
 	}
 }
@@ -603,23 +586,72 @@ void MazeGenerator::GetPathStartPos(const FRect& inRect, const EDirection& direc
 // --------------------------
 void MazeGenerator::MakeWall()
 {
-	for (int blockY = 0; blockY < actualBlockCountY; ++blockY)
+	const auto layer = pObjectCollection->pActors[Layer::EActorLayer::Background];
+	for (const auto& actor : layer)
 	{
-		for (int blockX = 0; blockX < actualBlockCountX; ++blockX)
+		if (actor != nullptr)
 		{
-			const auto& block = blockIDs[blockY][blockX];
-			
+			if (const auto& actor2d = static_pointer_cast<Actor2D>(actor))
+			{
+				auto p = actor2d->Get2DIdx();
+				int x = p.x, y = p.y;
+				if (const auto& ground = static_pointer_cast<GroundBase>(actor2d))
+				{
+					const auto& tile = ConvertToGroundTile(ground->GetGroundType());
+					switch (tile)
+					{
+					case EGroundTile::Room:
+					case EGroundTile::Path:
+						MakeWall(x, y - 1);
+						MakeWall(x, y + 1);
+						MakeWall(x - 1, y);
+						MakeWall(x + 1, y);
+						MakeWall(x - 1, y - 1);
+						MakeWall(x + 1, y - 1);
+						MakeWall(x - 1, y + 1);
+						MakeWall(x + 1, y + 1);
+						break;
+					default:
+						break;
+					}
+				}
+			}
 		}
 	}
-	//for (const auto& layer : pObjectCollection->GetActors())
-	//{
-	//	for (const auto& actor : layer.second)
-	//	{
-	//		int x = 0, y = 0;
-	//		auto p = actor->Get2DIdx();
-	//		x = p.x; y = p.y;
-	//	}
-	//}
+}
+void MazeGenerator::MakeWall(const int& x, const int& y)
+{
+	if (mazeTils[y][x] == EGroundTile::None)
+	{
+		auto actor = SetGroundLayerIDSpe(ConvertToGround(EGroundTile::Wall, mGroundType), x, y);
+		auto sprite = actor->GetSpriteComp();
+		const auto normal = ConvertToDirection(x, y);
+		actor->SetNormal(normal);
+		actor->SetActorRotation({ 180.f, 0.f, 0.f });
+		switch (normal)
+		{
+		case EDirection::Left:
+			break;
+		case EDirection::Right:
+			actor->SetActorRotation({ 180.f, 0.f, 0.f });
+			break;
+		case EDirection::Up:
+			actor->SetActorRotation({ -90.f, 0.f, 0.f });
+			break;
+		case EDirection::Down:
+			break;
+		case EDirection::LeftUp:
+			break;
+		case EDirection::LeftDown:
+			break;
+		case EDirection::RightUp:
+			break;
+		case EDirection::RightDown:
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 // ------------------------------------------------------
@@ -886,6 +918,11 @@ void MazeGenerator::ShowBlock()
 // --------------------------
 // Main : Ground Layer : Utils
 // --------------------------
+std::shared_ptr<GroundBase> MazeGenerator::SetGroundLayerIDSpe(const EGroundId& groundType, const float& worldX, const float& worldY)
+{
+	mazeTils[worldY][worldX] = ConvertToGroundTile(groundType);
+	return Level2D::SetGroundLayerIDSpe(groundType, worldX, worldY);
+}
 bool MazeGenerator::IsInMaze(const UINT8& x, const UINT8& y) const noexcept
 {
 	return (x >= 0 && x < actualMazeCountX) && (y >= 0 && y < actualMazeCountY);

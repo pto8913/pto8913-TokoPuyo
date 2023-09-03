@@ -33,6 +33,8 @@ public:
 	{
 		return GenerateID(fileName, 0, 0);
 	}
+
+	ID2D1RenderTarget* GetRt2D();
 protected:
 	const std::wstring fileName;
 	float width;

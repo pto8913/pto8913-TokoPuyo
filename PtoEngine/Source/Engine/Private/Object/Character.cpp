@@ -3,17 +3,18 @@
 
 #include "Component/MovementComponent.h"
 #include "Component/BoxCollision2D.h"
+#include "Component/SpriteComponent.h"
 
 struct FCharacterSettings : public FActor2DSettings
 {
 public:
 	FCharacterSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
-		: FActor2DSettings(inFileName, inTag, inSize)
+		: FActor2DSettings(inFileName, inTag, inSize, Layer::Character)
 	{
 	}
 
 	FCharacterSettings(const std::wstring& inFileName, const std::wstring& inTag)
-		: FActor2DSettings(inFileName, inTag)
+		: FActor2DSettings(inFileName, inTag, Layer::Character)
 	{
 	}
 };
@@ -43,7 +44,7 @@ Character::Character(DirectX11& dx, const ECharacterId& inCharacterType)
 // ------------------------------------------------------
 void Character::SetCharacterType(const ECharacterId& inCharacterType)
 {
-	UpdateTexture(CharacterList.at(inCharacterType).fileName);
+	GetSpriteComp()->UpdateTexture(CharacterList.at(inCharacterType).fileName);
 	characterType = inCharacterType;
 }
 const ECharacterId& Character::GetCharacterType() const noexcept

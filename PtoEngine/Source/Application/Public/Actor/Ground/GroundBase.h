@@ -19,14 +19,14 @@ public:
 	void SetGroundType(const EGroundId& inGroundType);
 	const EGroundId& GetGroundType() const noexcept;
 
-	void SetNormal(const FVector2D& in);
-	FVector2D GetNormal() const;
+	void SetNormal(const EDirection& in);
+	EDirection GetNormal() const;
 protected:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
 	EGroundId mGroundType;
-	FVector2D mNormal;
+	EDirection mNormal = EDirection::InValid;
 
 	std::shared_ptr<BoxCollision2D> pBoxCollision = nullptr;
 };

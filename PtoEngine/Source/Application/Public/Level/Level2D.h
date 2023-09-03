@@ -21,15 +21,6 @@ class CharacterBase;
 // ------------------------------------------------------------------------------------------------------------
 // Level 2D
 // ------------------------------------------------------------------------------------------------------------
-enum class EDirection
-{
-	Left,
-	Right,
-	Up,
-	Down,
-	InValid
-};
-
 class Level2D : public Level
 {
 public:
@@ -90,7 +81,7 @@ public:
 	// --------------------------
 	// Main : Utils : Ground
 	// --------------------------
-	void SetGroundLayerID(const EGroundId& groundType, const float& worldX, const float& worldY);
+	virtual std::shared_ptr<GroundBase> SetGroundLayerIDSpe(const EGroundId& groundType, const float& worldX, const float& worldY);
 	void SetGroundLayerID(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal = false, INT16 inConstantXY2 = -1);
 	void SetGroundLayerIDChecked(const EGroundId& groundType, const float& worldX, const float& worldY);
 	void SetGroundLayerIDChecked(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal = false, INT16 inConstantXY2 = -1);

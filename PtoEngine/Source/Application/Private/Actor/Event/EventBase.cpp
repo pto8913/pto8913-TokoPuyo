@@ -1,16 +1,18 @@
 
 #include "Actor/Event/EventBase.h"
+
 #include "Component/BoxCollision.h"
+#include "Component/SpriteComponent.h"
 
 struct FEventSettings : public FActor2DSettings
 {
 	FEventSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
-		: FActor2DSettings(inFileName, inTag, inSize)
+		: FActor2DSettings(inFileName, inTag, inSize, Layer::Event)
 	{
 	}
 
 	FEventSettings(const std::wstring& inFileName, const std::wstring& inTag)
-		: FActor2DSettings(inFileName, inTag)
+		: FActor2DSettings(inFileName, inTag, Layer::Event)
 	{
 	}
 };
@@ -32,8 +34,8 @@ EventBase::EventBase(DirectX11& dx, const EEventId& inEventType)
 	EventType(inEventType)
 {
 	AddComponent<BoxCollision>("collision", this);
-	mSortOrder = Layer::Event;
 	mLayer = Layer::EActorLayer::Entities;
+	mSortOrder = Layer::Event;
 }
 
 // ------------------------------------------------------
@@ -65,7 +67,7 @@ FOnSendEvent& EventBase::GetOnLeaveVolume()
 
 void EventBase::SetEventType(const EEventId& inEventType)
 {
-	UpdateTexture(EventSettings.at(inEventType).fileName);
+	GetSpriteComp()->UpdateTexture(EventSettings.at(inEventType).fileName);
 	EventType = inEventType;
 }
 const EEventId& EventBase::GetEventType() const noexcept
