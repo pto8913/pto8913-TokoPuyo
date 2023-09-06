@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <Windows.h>
+#include "Engine/Delegate.h"
 
 class DirectX11;
 

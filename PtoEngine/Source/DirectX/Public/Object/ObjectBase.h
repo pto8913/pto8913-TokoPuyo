@@ -14,15 +14,15 @@ public:
 	// ----------------------------------------------------
 	// Main: Transform
 	// ----------------------------------------------------
-	DirectX::XMVECTOR GetLocation() const noexcept;
+	virtual DirectX::XMVECTOR GetLocation() const noexcept;
 	virtual void SetLocation(const DirectX::XMVECTOR& inPos) noexcept;
 
 	// x: pitch, y: yaw, z: roll
-	DirectX::XMVECTOR GetRotation() const noexcept;
+	virtual DirectX::XMVECTOR GetRotation() const noexcept;
 	// x: pitch, y: yaw, z: roll
 	virtual void SetRotation(const DirectX::XMVECTOR& inRotation) noexcept;
 
-	DirectX::XMVECTOR GetScale() const noexcept;
+	virtual DirectX::XMVECTOR GetScale() const noexcept;
 	virtual void SetScale(const DirectX::XMVECTOR& inScale) noexcept;
 
 	virtual DirectX::XMMATRIX GetTransformXM(DirectX11& dx) const noexcept;

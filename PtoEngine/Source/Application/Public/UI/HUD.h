@@ -27,9 +27,6 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	virtual void Draw() override;
 
-	void AddSlate(std::shared_ptr<SlateBase> inSlate);
-	void RemoveSlate(std::shared_ptr<SlateBase> inSlate);
-
 	// --------------------------
 	// Main : Status
 	// --------------------------

@@ -16,7 +16,7 @@
 #include "Framework/World.h"
 #include "Level/Level2D.h"
 
-#include "AppSettings.h"
+#include "EngineSettings.h"
 
 #include "Actor/Ground/GroundBase.h"
 #include "Actor/Character/CharacterBase.h"
@@ -25,9 +25,9 @@
 #include "GameState/GameState_Dungeon.h"
 #include <memory>
 
-#define _DEBUG 0
+#define __DEBUG 0
 
-#if _DEBUG
+#if __DEBUG
 #include <format>
 #include "Component/BoxCollision2D.h"
 #include "Actor/Actor2D.h"
@@ -40,11 +40,11 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 		inOwner, 
 		dx, 
 		mouse, 
-		AppSettings::GetWindowSize().x,
-		AppSettings::GetWindowSize().y
+		EngineSettings::GetWindowSize().x,
+		EngineSettings::GetWindowSize().y
 	)
 {
-	pRootSlate = std::make_shared<S_CanvasPanel>(FVector2D(AppSettings::GetWindowSize().x, AppSettings::GetWindowSize().y), GetRt2D());
+	pRootSlate = std::make_shared<S_CanvasPanel>(FVector2D(EngineSettings::GetWindowSize().x, EngineSettings::GetWindowSize().y), GetRt2D());
 
 	// HP Bar
 	{
@@ -158,7 +158,7 @@ HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mo
 
 		pGameInfosVB->UpdateWidget();
 	}
-#if _DEBUG
+#if __DEBUG
 	DrawDebugScreen();
 #endif
 
@@ -178,7 +178,7 @@ void HUD::Draw()
 {
 	UserWidget::Draw();
 
-#if _DEBUG
+#if __DEBUG
 	for (auto elem : pBoxDebug)
 	{
 		auto ptr = static_cast<Actor2D*>(elem->GetOwner());
@@ -206,17 +206,6 @@ void HUD::Draw()
 		elem->Draw();
 	}
 #endif
-}
-
-void HUD::AddSlate(std::shared_ptr<SlateBase> inSlate)
-{
-	pRootSlate->AddChild(inSlate);
-	pRootSlate->UpdateWidget();
-}
-void HUD::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
-{
-	pRootSlate->RemoveChild(inSlate);
-	pRootSlate->UpdateWidget();
 }
 
 // --------------------------
@@ -279,20 +268,23 @@ void HUD::ResetMap(const Level2D* pLevel)
 }
 void HUD::UpdateMap(const Level2D* pLevel)
 {
-	if (pMapGP->GetChildrenCount() == 0)
+	if (pMapGP != nullptr)
 	{
-		ResetMap(pLevel);
-	}
-	else
-	{
-		for (int y = 0; y < pLevel->GetHeight(); ++y)
+		if (pMapGP->GetChildrenCount() == 0)
 		{
-			for (int x = 0; x < pLevel->GetWidth(); ++x)
+			ResetMap(pLevel);
+		}
+		else
+		{
+			for (int y = 0; y < pLevel->GetHeight(); ++y)
 			{
-				auto& slot = pMapGP->GetChildAt(x, y);
-				auto pCell = static_pointer_cast<S_Border>(slot);
-				pCell->GetAppearance().color = FColor(0, 0, 0);
-				SetMap(pLevel, pCell, x, y);
+				for (int x = 0; x < pLevel->GetWidth(); ++x)
+				{
+					auto& slot = pMapGP->GetChildAt(x, y);
+					auto pCell = static_pointer_cast<S_Border>(slot);
+					pCell->GetAppearance().color = FColor(0, 0, 0);
+					SetMap(pLevel, pCell, x, y);
+				}
 			}
 		}
 	}
@@ -356,14 +348,14 @@ void HUD::SetMap(const Level2D* pLevel, std::shared_ptr<S_Border> pCell, const i
 // -----------------------------------------------------
 void HUD::AddBoxDebug(std::shared_ptr<BoxCollision2D> in)
 {
-#if _DEBUG
+#if __DEBUG
 	pBoxDebug.push_back(in);
 #endif
 }
 
 void HUD::DrawDebugScreen()
 {
-#if _DEBUG
+#if __DEBUG
 	FSlateInfos infos;
 	infos.HAlign = EHorizontalAlignment::Fill;
 	infos.VAlign = EVerticalAlignment::Fill;
@@ -372,12 +364,13 @@ void HUD::DrawDebugScreen()
 	apperance.Type = EBorderType::Box;
 	apperance.color = FColor(1.f, 1.f, 0.f);
 	apperance.bIsFill = true;
+	auto cell = EngineSettings::GetGameScreen2DCellSize();
 	for (int y = 0; y < 20; ++y)
 	{
 		for (int x = 0; x < 20; x++)
 		{
 			auto ptr = std::make_shared<S_Border>(FVector2D(2.f, 2.f), GetRt2D(), infos, apperance);
-			ptr->SetPosition(FVector2D(GameSettings::CELL * x, GameSettings::CELL * y));
+			ptr->SetPosition(FVector2D(cell.x * x, cell.y * y));
 			pScreenGrid.push_back(ptr);
 		}
 	}

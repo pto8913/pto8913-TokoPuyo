@@ -1,6 +1,6 @@
 
 #include "Window.h"
-#include "AppSettings.h"
+#include "EngineSettings.h"
 
 #include <sstream>
 #include "pch.h"
@@ -60,7 +60,7 @@ Window::Window(const float& inWidth, const float& inHeight)
 
     width = wr.right - wr.left;
     height = wr.bottom - wr.top;
-    AppSettings::SetWindowAspectRatio({ float(width) / float(appWindowX), float(height) / float(appWindowY) });
+    EngineSettings::SetWindowAspectRatio({ float(width) / float(appWindowX), float(height) / float(appWindowY) });
 
     //width = inWidth;
     //height = inHeight;
@@ -69,7 +69,7 @@ Window::Window(const float& inWidth, const float& inHeight)
     // create window & get hWnd
     m_hWnd = CreateWindow(
         mClass.GetName(),
-        AppSettings::GetWindowTitle().c_str(),
+        EngineSettings::GetWindowTitle().c_str(),
         WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT,
         CW_USEDEFAULT,

@@ -12,7 +12,7 @@ class ScreenText;
 class DrawScreenText : public DrawableObject2D
 {
 public:
-	DrawScreenText(DirectX11& dx, UINT inWidth, UINT inHeight);
+	DrawScreenText(DirectX11& dx, float inWidth, float inHeight);
 
 	void UpdateText(std::wstring inText, D2D1_RECT_F inRect);
 

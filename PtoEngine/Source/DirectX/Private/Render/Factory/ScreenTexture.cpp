@@ -8,7 +8,7 @@
 
 #include <wincodec.h>
 
-#include "SDK/DXTex/include/Public/WICTextureLoader11.h"
+#include "WICTextureLoader11.h"
 
 IWICImagingFactory* pImageFactory;
 
@@ -165,15 +165,15 @@ void ScreenTexture::Bind(DirectX11& dx)
 {
 	GetContext(dx)->PSSetShaderResources(0, 1, &d2dTexture);
 }
-void ScreenTexture::Bind(DirectX::XMVECTOR loc)
+void ScreenTexture::Bind(const DirectX::XMVECTOR& loc, const float& angle)
 {
 	////Release the D3D 11 Device
-//keyedMutex11->ReleaseSync(0);
+	//keyedMutex11->ReleaseSync(0);
 
-////Use D3D10.1 device
-//keyedMutex10->AcquireSync(0, 5);
+	////Use D3D10.1 device
+	//keyedMutex10->AcquireSync(0, 5);
 
-//Draw D2D content		
+	//Draw D2D content		
 	D2DRenderTarget->BeginDraw();
 
 	//Clear D2D Background
@@ -191,7 +191,18 @@ void ScreenTexture::Bind(DirectX::XMVECTOR loc)
 		D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
 		nullptr
 	);
-
+	if (angle != 0.f)
+	{
+		D2DRenderTarget->SetTransform(
+			D2D1::Matrix3x2F::Rotation(
+				angle,
+				D2D1::Point2F(
+					x,// + width / 2.f,
+					y// + height / 2.f
+				)
+			)
+		);
+	}
 	D2DRenderTarget->EndDraw();
 
 	////Release the D3D10.1 Device
@@ -199,4 +210,9 @@ void ScreenTexture::Bind(DirectX::XMVECTOR loc)
 
 	////Use the D3D11 Device
 	//keyedMutex11->AcquireSync(1, 5);
+}
+
+ID2D1RenderTarget* ScreenTexture::GetRt2D()
+{
+	return D2DRenderTarget;
 }

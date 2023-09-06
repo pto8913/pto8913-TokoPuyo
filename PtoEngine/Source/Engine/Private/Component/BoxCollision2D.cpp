@@ -12,6 +12,8 @@
 #include "UI/HUD.h"
 #endif
 
+#include "EngineSettings.h"
+
 // ------------------------------------------------------
 // Box Collision
 // ------------------------------------------------------
@@ -33,7 +35,7 @@ void BoxCollision2D::BeginPlay(DirectX11& dx)
 #if _DEBUG
 
 	auto hud = GetWorld()->GetHUD();
-	hud->AddBoxDebug(shared_from_this());
+	static_pointer_cast<HUD>(hud)->AddBoxDebug(shared_from_this());
 #endif
 }
 
@@ -78,11 +80,12 @@ FRect BoxCollision2D::GetRect()
 	//);
 
 	const auto scale = GetOwner()->GetActorScale();
+	const auto ratio = EngineSettings::GetWindowAspectRatio();
 	return FRect(
 		location.x,
 		location.y,
-		location.x + scale.x,
-		location.y + scale.y
+		location.x + scale.x / ratio.x,
+		location.y + scale.y / ratio.y
 	);
 }
 void BoxCollision2D::EnterVolume(std::shared_ptr<CollisionComponent> other)

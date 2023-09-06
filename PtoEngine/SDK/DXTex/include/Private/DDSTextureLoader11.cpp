@@ -14,7 +14,7 @@
 // http://go.microsoft.com/fwlink/?LinkId=248929
 //--------------------------------------------------------------------------------------
 
-#include "SDK/DXTex/include/Public/DDSTextureLoader11.h"
+#include "DDSTextureLoader11.h"
 
 #include <algorithm>
 #include <cassert>

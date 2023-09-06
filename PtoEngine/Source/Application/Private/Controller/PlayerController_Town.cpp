@@ -9,6 +9,8 @@
 
 #include "Framework/World.h"
 
+#include "Component/SpriteComponent.h"
+
 using namespace DirectX;
 
 PlayerController_Town::PlayerController_Town(DirectX11& dx)
@@ -33,7 +35,13 @@ void PlayerController_Town::Tick(DirectX11& dx, float deltaSec)
 
 	if (pCamera != nullptr)
 	{
-		pCamera->SetLocation(GetWorld()->GetPlayer()->GetLocation());
-		pCamera->ExecuteTasks(dx);
+		if (const auto playerActor = GetWorld()->GetPlayer())
+		{
+			if (const auto player = static_pointer_cast<Player>(playerActor))
+			{
+				pCamera->SetLocation(player->GetSpriteComp()->GetLocation());
+				pCamera->ExecuteTasks(dx);
+			}
+		}
 	}
 }

@@ -2,18 +2,17 @@
 #include "Actor/Ground/GroundBase.h"
 
 #include "Component/BoxCollision2D.h"
-
-#include <format>
+#include "Component/SpriteComponent.h"
 
 struct FGroundSettings : public FActor2DSettings
 {
 	FGroundSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
-		: FActor2DSettings(inFileName, inTag, inSize)
+		: FActor2DSettings(inFileName, inTag, inSize, Layer::Ground)
 	{
 	}
 
 	FGroundSettings(const std::wstring& inFileName, const std::wstring& inTag)
-		: FActor2DSettings(inFileName, inTag)
+		: FActor2DSettings(inFileName, inTag, Layer::Ground)
 	{
 	}
 };
@@ -45,8 +44,8 @@ GroundBase::GroundBase(DirectX11& dx, const EGroundId& inGroundType)
 		1.f
 	)
 {
+	mLayer = Layer::EActorLayer::Background;
 	mSortOrder = Layer::Ground;
-	mLayer = EActor2DLayer::Background;
 
 	SetGroundType(inGroundType);
 }
@@ -72,18 +71,18 @@ void GroundBase::SetGroundType(const EGroundId& inGroundType)
 		}
 		break;
 	}
-	UpdateTexture(GroundSettings.at(mGroundType).fileName);
+	GetSpriteComp()->UpdateTexture(GroundSettings.at(mGroundType).fileName);
 }
 const EGroundId& GroundBase::GetGroundType() const noexcept
 {
 	return mGroundType;
 }
 
-void GroundBase::SetNormal(const FVector2D& in)
+void GroundBase::SetNormal(const EDirection& in)
 {
 	mNormal = in;
 }
-FVector2D GroundBase::GetNormal() const
+EDirection GroundBase::GetNormal() const
 {
 	return mNormal;
 }

@@ -9,10 +9,7 @@ namespace Algo
 {
 	int RandRange(int inMin, int inMax)
 	{
-		if (inMin > inMax)
-		{
-			assert(false);
-		}
+		assert(inMin <= inMax);
 		if (inMin == inMax)
 		{
 			return inMin;

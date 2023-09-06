@@ -30,8 +30,8 @@ Sprite::Sprite(DirectX11& dx, const std::wstring& inFileName, std::wstring Tag, 
 	m_pVertexBuffer = VertexBuffer<DX::FVertex2D>::Make(dx, Util::w2String(Tag), model.vertices);
 	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	m_pScreenTexture = ScreenTexture::Make(dx, inFileName, inSize.x, inSize.y);
-	//AddTask(m_pScreenTexture);
+	pScreenTexture = ScreenTexture::Make(dx, inFileName, inSize.x, inSize.y);
+	//AddTask(pScreenTexture);
 	AddTask(SamplerState::Make(dx));
 
 	auto pVS = VertexShader::Make(dx, L"Shader/Sprite.hlsl", "VS");
@@ -41,8 +41,8 @@ Sprite::Sprite(DirectX11& dx, const std::wstring& inFileName, std::wstring Tag, 
 
 	AddTask(Rasterizer::Make(dx, Rasterizer::Transparent2, (UINT)model.indices.size()));
 
-	m_pTCB = std::make_shared<TransformConstantBuffer>(dx, 0);
-	m_pTCB->InitParentRefrence(*this);
+	pTCB = std::make_shared<TransformConstantBuffer>(dx, 0);
+	pTCB->InitParentRefrence(*this);
 
 	InitializeTasks();
 }
@@ -51,17 +51,54 @@ void Sprite::ExecuteTasks(DirectX11& dx)
 {
 	//dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
 
-	m_pTCB->Bind(dx, tf);
+	pTCB->Bind(dx, tf);
 
-	m_pScreenTexture->Bind(GetLocation());
-	//m_pScreenTexture->Bind(offset);// { DirectX::XMVectorGetX(GetLocation()), DirectX::XMVectorGetY(GetLocation()) });
+	pScreenTexture->Bind(GetLocation(), DirectX::XMVectorGetY(GetRotation()));
+	//pScreenTexture->Bind(offset);// { DirectX::XMVectorGetX(GetLocation()), DirectX::XMVectorGetY(GetLocation()) });
 
 	DrawableObject::ExecuteTasks(dx);
 }
-
-DirectX::XMMATRIX Sprite::GetTransformXM(DirectX11&) const noexcept
+void Sprite::UpdateTexture(const std::wstring& inFileName)
 {
-	return DirectX::XMMatrixIdentity();
+	if (pScreenTexture)
+	{
+		pScreenTexture->UpdateTexture(inFileName);
+	}
+}
+
+// ----------------------------------------------------
+// Main: Transform
+// ----------------------------------------------------
+D2D_POINT_2F Sprite::GetCenter()
+{
+	const auto loc = GetLocation();
+
+	const auto x = DirectX::XMVectorGetX(loc);
+	const auto y = DirectX::XMVectorGetY(loc);
+
+	const auto scale = GetScale();
+
+	const auto sx = DirectX::XMVectorGetX(scale);
+	const auto sy = DirectX::XMVectorGetY(scale);
+
+	return D2D1::Point2F(
+		x + sx / 2.f,
+		y + sy / 2.f
+	);
+}
+
+void Sprite::SetRotation(const DirectX::XMVECTOR& inRotation) noexcept
+{
+	DrawableObject2D::SetRotation(inRotation);
+
+	//const auto angle = DirectX::XMVectorGetZ(inRotation);
+	//auto rt2d = pScreenTexture->GetRt2D();
+	//rt2d->SetTransform(
+	//	D2D1::Matrix3x2F::Rotation(
+	//		angle, 
+	//		GetCenter()
+	//	)
+	//);
 }
 void Sprite::SetScale(const DirectX::XMVECTOR& inScale) noexcept
 {
@@ -69,13 +106,11 @@ void Sprite::SetScale(const DirectX::XMVECTOR& inScale) noexcept
 
 	const auto x = DirectX::XMVectorGetX(inScale);
 	const auto y = DirectX::XMVectorGetY(inScale);
-	m_pScreenTexture->UpdateSize(x, y);
+	pScreenTexture->UpdateSize(x, y);
 }
 
-void Sprite::UpdateTexture(const std::wstring& inFileName)
+DirectX::XMMATRIX Sprite::GetTransformXM(DirectX11& dx) const noexcept
 {
-	if (m_pScreenTexture)
-	{
-		m_pScreenTexture->UpdateTexture(inFileName);
-	}
+	return DrawableObject2D::GetTransformXM(dx);
+	return DirectX::XMMatrixIdentity();
 }

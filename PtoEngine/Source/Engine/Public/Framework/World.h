@@ -2,13 +2,11 @@
 
 #include "DirectX/DirectXHead.h"
 
-#include "Object/Object.h"
 #include "Object/Actor.h"
 
 #include "Engine/Timer.h"
 #include "Engine/Delegate.h"
 
-#include "Level/LevelTypes.h"
 #include "Level/Level.h"
 
 class DirectX11;
@@ -17,8 +15,8 @@ class Level;
 class GameModeBase;
 class GameStateBase;
 class PlayerController;
-class Player;
-class HUD;
+class Actor;
+class UserWidget;
 
 class BoxCollision;
 
@@ -67,7 +65,7 @@ public:
 		out->SetOuter(pPersistentLevel);
 		out->SetID(mActorTotalCount);
 		++mActorTotalCount;
-		pPersistentLevel->GetObjectCollection().Add(out);
+		pPersistentLevel->GetObjectCollection()->Add(out);
 
 		std::shared_ptr<BoxCollision> collision = out->GetComponent<BoxCollision>();
 		if (collision != nullptr)
@@ -75,6 +73,7 @@ public:
 			pPersistentLevel->GetCollisionCollection().Add(collision);
 		}
 
+		out->Construct();
 		return out;
 	}
 
@@ -84,8 +83,8 @@ public:
 	std::shared_ptr<Level>& GetLevel();
 	void ActivateLevel();
 	void DeactivateLevel();
-	void OpenSubLevel(DirectX11& dx, const ELevelId& id);
-	void CloseSubLevel();
+	void OpenSubLevel(DirectX11& dx, std::shared_ptr<Level> inNewLevel);
+	void CloseSubLevel(DirectX11& dx);
 
 	// -----------------------------------
 	// Main : Util : GameMode
@@ -102,14 +101,14 @@ public:
 	// -----------------------------------
 	// Main : Util : Player
 	// -----------------------------------
-	std::shared_ptr<Player>& GetPlayer();
+	std::shared_ptr<Actor>& GetPlayer();
 	void ActivatePlayer();
 	void DeactivatePlayer();
 
 	// -----------------------------------
 	// Main : Util : HUD
 	// -----------------------------------
-	std::shared_ptr<HUD>& GetHUD();
+	std::shared_ptr<UserWidget>& GetHUD();
 	void ActivateHUD();
 	void DeactivateHUD();
 
@@ -124,12 +123,13 @@ protected:
 	TimerManager mTimerManager;
 
 	std::shared_ptr<Level> pPersistentLevel = nullptr;
-	std::shared_ptr<Level> pSubLevel = nullptr;
+	/* cache only persistent */
+	std::shared_ptr<Level> pCachedPersistentLevel = nullptr;
 	std::shared_ptr<GameModeBase> pGameMode = nullptr;
 	std::shared_ptr<GameStateBase> pGameState = nullptr;
 	std::shared_ptr<PlayerController> pPlayerController = nullptr;
-	std::shared_ptr<Player> pPlayer = nullptr;
-	std::shared_ptr<HUD> pHUD = nullptr;
+	std::shared_ptr<Actor> pPlayer = nullptr;
+	std::shared_ptr<UserWidget> pHUD = nullptr;
 
 	float mWorldDelta = 0.f;
 

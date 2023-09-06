@@ -44,7 +44,7 @@ FQuaternion FQuaternion::Inverse()
 // Rotator
 // -----------------------------------------------------------------------------------
 FRotator::FRotator(const float& inYaw, const float& inPitch, const float& inRoll)
-	: roll(inYaw), pitch(inPitch), yaw(inRoll)
+	: yaw(inYaw), pitch(inPitch), roll(inRoll)
 {
 }
 FRotator::FRotator(const FQuaternion& in)

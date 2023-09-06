@@ -21,7 +21,7 @@ public:
 	void UpdateSize(const float& inWidth, const float& inHeight);
 
 	virtual void Bind(DirectX11& dx) override;
-	void Bind(DirectX::XMVECTOR loc);
+	void Bind(const DirectX::XMVECTOR& loc, const float& angle = 0.f);
 
 	static std::string GenerateID(const std::wstring& inFileName, FLOAT inWidth, FLOAT inHeight)
 	{
@@ -33,6 +33,9 @@ public:
 	{
 		return GenerateID(fileName, 0, 0);
 	}
+
+	ID2D1RenderTarget* GetRt2D();
+	
 protected:
 	const std::wstring fileName;
 	float width;

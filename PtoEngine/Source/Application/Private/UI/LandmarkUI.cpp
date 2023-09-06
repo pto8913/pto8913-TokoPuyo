@@ -4,7 +4,7 @@
 #include "Slate/TextBlock.h"
 #include "Slate/CanvasPanel.h"
 
-#include "AppSettings.h"
+#include "EngineSettings.h"
 #include "Core/DirectX.h"
 
 #include "Framework/World.h"
@@ -13,12 +13,12 @@
 using namespace DirectX;
 
 LandmarkUI::LandmarkUI(std::shared_ptr<Object> inOwner, DirectX11& dx, const std::wstring& inLandmarkName, const float& inPlayRate, const FOnWidgetAnimationCompleted& inCompleted)
-	: UserWidget(inOwner, dx, nullptr, AppSettings::GetWindowSize().x, AppSettings::GetWindowSize().y),
+	: UserWidget(inOwner, dx, nullptr, EngineSettings::GetWindowSize().x, EngineSettings::GetWindowSize().y),
 	mLandmarkName(inLandmarkName), 
 	mPlayRate(inPlayRate),
 	mDelegate(inCompleted)
 {
-	pRootSlate = std::make_shared<S_CanvasPanel>(AppSettings::GetWindowSize(), GetRt2D());
+	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), GetRt2D());
 
 	/* Border */
 	{
@@ -26,7 +26,7 @@ LandmarkUI::LandmarkUI(std::shared_ptr<Object> inOwner, DirectX11& dx, const std
 		borderAppearance.Type = EBorderType::Box;
 		borderAppearance.bIsFill = true;
 		borderAppearance.color = FColor(0.f, 0.f, 0.f, 1.f);
-		pEffectBorder = std::make_shared<S_Border>(AppSettings::GetWindowSize(), GetRt2D(), FSlateInfos(), borderAppearance);
+		pEffectBorder = std::make_shared<S_Border>(EngineSettings::GetWindowSize(), GetRt2D(), FSlateInfos(), borderAppearance);
 
 		FSlateInfos textInfos;
 		textInfos.HAlign = EHorizontalAlignment::Center;

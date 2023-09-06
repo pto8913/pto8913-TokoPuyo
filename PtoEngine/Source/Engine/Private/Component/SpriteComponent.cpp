@@ -15,7 +15,6 @@ SpriteComponent::SpriteComponent(Actor* inOwner, DirectX11& dx, const std::wstri
 		inSize
 	)
 {
-
 	auto c = EngineSettings::GETCELL(Vector::ConvertDXToVector2D(inSize));
 	SetActorScale({ c.x, c.y, 0 });
 }
@@ -29,8 +28,11 @@ SpriteComponent::~SpriteComponent()
 // ------------------------------------------------------
 void SpriteComponent::Tick(DirectX11& dx, float deltaTime)
 {
-	ExecuteTasks(dx);
-	ActorComponent::Tick(dx, deltaTime);
+	if (GetTickEnabled())
+	{
+		ExecuteTasks(dx);
+		ActorComponent::Tick(dx, deltaTime);
+	}
 }
 
 // -----------------------------------
@@ -68,7 +70,7 @@ void SpriteComponent::AddActorLocation(const FVector& in)
 void SpriteComponent::SetActorRotation(const FRotator& in)
 {
 	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
-	vec = XMVectorSet(in.roll, in.pitch, in.yaw, 0.f);
+	vec = XMVectorSet(in.pitch, in.yaw, in.roll, 0.f);
 	SetRotation(vec);
 	ActorComponent::SetActorRotation(in);
 }

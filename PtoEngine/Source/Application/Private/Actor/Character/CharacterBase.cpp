@@ -3,6 +3,7 @@
 
 #include "Component/MovementComponent.h"
 #include "Component/BoxCollision2D.h"
+#include "Component/SpriteComponent.h"
 
 class CharacterManager
 {
@@ -26,12 +27,12 @@ struct FCharacterSettings : public FActor2DSettings
 {
 public:
 	FCharacterSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
-		: FActor2DSettings(inFileName, inTag, inSize)
+		: FActor2DSettings(inFileName, inTag, inSize, Layer::Character)
 	{
 	}
 
 	FCharacterSettings(const std::wstring& inFileName, const std::wstring& inTag)
-		: FActor2DSettings(inFileName, inTag)
+		: FActor2DSettings(inFileName, inTag, Layer::Character)
 	{
 	}
 };
@@ -52,8 +53,8 @@ CharacterBase::CharacterBase(DirectX11& dx, const ECharacterId& inCharacterType)
 	pMovementComponent = AddComponent<MovementComponent>("Movement", this);
 	pBoxCollision2D = AddComponent<BoxCollision2D>("Collision2D", this);
 
+	mLayer = Layer::EActorLayer::Entities;
 	mSortOrder = Layer::Character;
-	mLayer = EActor2DLayer::Entities;
 }
 
 // ------------------------------------------------------
@@ -61,7 +62,7 @@ CharacterBase::CharacterBase(DirectX11& dx, const ECharacterId& inCharacterType)
 // ------------------------------------------------------
 void CharacterBase::SetCharacterType(const ECharacterId& inCharacterType)
 {
-	UpdateTexture(CharacterList.at(inCharacterType).fileName);
+	GetSpriteComp()->UpdateTexture(CharacterList.at(inCharacterType).fileName);
 	characterType = inCharacterType;
 }
 const ECharacterId& CharacterBase::GetCharacterType() const noexcept

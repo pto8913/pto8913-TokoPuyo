@@ -3,28 +3,35 @@
 
 #include "EngineSettings.h"
 
+#include "Component/SpriteComponent.h"
+#include "Component/Actor2DComponent.h"
+
 using namespace DirectX;
 
-FActor2DSettings::FActor2DSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
-	: fileName(inFileName), tag(inTag), size(inSize)
+FActor2DSettings::FActor2DSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize, const Layer::EOrder& inOrder)
+	: fileName(inFileName), tag(inTag), size(inSize), sortOrder(inOrder)
 {
 }
 
-FActor2DSettings::FActor2DSettings(const std::wstring& inFileName, const std::wstring& inTag)
-	: fileName(inFileName), tag(inTag), size(EngineSettings::GetGameScreen2DCellSize())
+FActor2DSettings::FActor2DSettings(const std::wstring& inFileName, const std::wstring& inTag, const Layer::EOrder& inOrder)
+	: fileName(inFileName), tag(inTag), size(EngineSettings::GetGameScreen2DCellSize()), sortOrder(inOrder)
 {
 }
 
 Actor2D::Actor2D(DirectX11& dx, const FActor2DSettings& Settings, const float& inUpdateTime)
-	: Sprite(
-		dx,
-		Settings.fileName,
-		Settings.tag,
-		{ Settings.size.x, Settings.size.y }
-	),
-	DurationTime(0),
+	: DurationTime(0),
 	mUpdateTime(inUpdateTime)
 {
+	pSpriteComp = AddComponent<SpriteComponent>(
+		"sprite", 
+		this, 
+		dx, 
+		Settings.fileName,
+		Settings.tag,
+		XMFLOAT2(Settings.size.x, Settings.size.y)
+	);
+	pActor2DComp = AddComponent<Actor2DComponent>("actor2d", this, Settings.sortOrder);
+
 	auto c = EngineSettings::GETCELL(Settings.size);
 	SetActorScale({ c.x, c.y, 0 });
 	LastTime = chrono::now();
@@ -35,20 +42,30 @@ Actor2D::Actor2D(DirectX11& dx, const FActor2DSettings& Settings, const float& i
 // ------------------------------------------------------
 void Actor2D::Tick(DirectX11& dx, float deltaTime)
 {
-	ExecuteTasks(dx);
-	Actor::Tick(dx, deltaTime);
-
-	if (mUpdateTime != -1.f)
+	if (GetTickEnabled())
 	{
-		DurationTime = chrono::now() - LastTime;
-		if (std::chrono::duration_cast<std::chrono::microseconds>(DurationTime).count() / 1000 >= mUpdateTime)
+		Actor::Tick(dx, deltaTime);
+
+		if (mUpdateTime != -1.f)
 		{
-			LastTime = chrono::now();
-			Update(dx);
+			DurationTime = chrono::now() - LastTime;
+			if (std::chrono::duration_cast<std::chrono::microseconds>(DurationTime).count() / 1000 >= mUpdateTime)
+			{
+				LastTime = chrono::now();
+				Update(dx);
+			}
 		}
 	}
 }
 
+std::shared_ptr<SpriteComponent> Actor2D::GetSpriteComp()
+{
+	return pSpriteComp;
+}
+std::shared_ptr<Actor2DComponent> Actor2D::GetActor2DComp()
+{
+	return pActor2DComp;
+}
 void Actor2D::SetSortOrder(Layer::EOrder inSortOrder)
 {
 	mSortOrder = inSortOrder;
@@ -56,15 +73,6 @@ void Actor2D::SetSortOrder(Layer::EOrder inSortOrder)
 Layer::EOrder Actor2D::GetSortOrder() const
 {
 	return mSortOrder;
-}
-
-const EActor2DLayer& Actor2D::GetLayer() const
-{
-	return mLayer;
-}
-void Actor2D::SetLayer(const EActor2DLayer& in)
-{
-	mLayer = in;
 }
 
 const FVector2D& Actor2D::Get2DIdx() const
@@ -91,30 +99,21 @@ FVector Actor2D::GetActorLocation()
 }
 void Actor2D::SetActorLocation(const FVector& in)
 {
-	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
-	vec = XMVectorSet(in.x, in.y, in.z, 0.f);
-	SetLocation(vec);
+	pSpriteComp->SetActorLocation(in);
 	Actor::SetActorLocation(in);
 }
 void Actor2D::AddActorLocation(const FVector& in)
 {
-	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
-	vec = XMVectorSet(in.x, in.y, in.z, 0.f);
-	vec = DirectX::XMVectorAdd(GetLocation(), vec);
-	SetLocation(vec);
+	pSpriteComp->AddActorLocation(in);
 	Actor::AddActorLocation(in);
 }
 void Actor2D::SetActorRotation(const FRotator& in)
 {
-	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
-	vec = XMVectorSet(in.roll, in.pitch, in.yaw, 0.f);
-	SetRotation(vec);
+	pSpriteComp->SetActorRotation(in);
 	Actor::SetActorRotation(in);
 }
 void Actor2D::SetActorScale(const FVector& in)
 {
-	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
-	vec = XMVectorSet(in.x, in.y, in.z, 0.f);
-	SetScale(vec);
+	pSpriteComp->SetActorScale(in);
 	Actor::SetActorScale(in);
 }

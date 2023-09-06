@@ -26,7 +26,8 @@ void World_PuyoPuyo::SetHUD(DirectX11& dx)
 {
 	World::SetHUD(dx);
 
+	auto hud = static_pointer_cast<HUD>(pHUD);
 	auto maze = static_pointer_cast<MazeGenerator>(pPersistentLevel);
-	maze->GetDungeonNextFloor().Bind<&HUD::NextFloor>(*pHUD.get(), "HUD");
+	maze->GetDungeonNextFloor().Bind<&HUD::NextFloor>(*hud.get(), "HUD");
 	maze->GetEnterBlock().Bind<&Player_Dungeon::EnterDungeonBlock>(*static_pointer_cast<Player_Dungeon>(pPlayer).get(), "Player");
 }

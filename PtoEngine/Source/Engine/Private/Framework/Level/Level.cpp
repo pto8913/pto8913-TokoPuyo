@@ -7,7 +7,7 @@
 Level::Level(DirectX11& dx)
 	: pDX(&dx)
 {
-	SetTickEnabled(true);
+	SetObjectCollection();
 }
 Level::~Level()
 {
@@ -15,6 +15,14 @@ Level::~Level()
 
 	pOwningWorld.reset();
 	pOwningWorld = nullptr;
+}
+
+void Level::SetObjectCollection()
+{
+	if (pObjectCollection == nullptr)
+	{
+		pObjectCollection = std::make_shared<ObjectCollection>();
+	}
 }
 
 // ------------------------------------------------------
@@ -25,7 +33,10 @@ void Level::Tick(DirectX11& dx, float deltaSec)
 	Object::Tick(dx, deltaSec);
 
 	//mCollisionCollection.Tick();
-	mObjectCollection.Tick(dx, deltaSec);
+	if (pObjectCollection != nullptr)
+	{
+		pObjectCollection->Tick(dx, deltaSec);
+	}
 }
 
 void Level::SetWorld(std::shared_ptr<World> in)
@@ -41,9 +52,10 @@ CollisionCollection& Level::GetCollisionCollection()
 {
 	return mCollisionCollection;
 }
-ObjectCollection& Level::GetObjectCollection()
+
+std::shared_ptr<ObjectCollection> Level::GetObjectCollection()
 {
-	return mObjectCollection;
+	return pObjectCollection;
 }
 
 // ---------------------------

@@ -1,16 +1,18 @@
 
 #include "Actor/Building/BuildingBase.h"
 
+#include "Component/SpriteComponent.h"
+
 struct FBuildingSettings : public FActor2DSettings
 {
 public:
 	FBuildingSettings(const std::wstring& inFileName, const std::wstring& inTag, const FVector2D& inSize)
-		: FActor2DSettings(inFileName, inTag, inSize)
+		: FActor2DSettings(inFileName, inTag, inSize, Layer::Building)
 	{
 	}
 
 	FBuildingSettings(const std::wstring& inFileName, const std::wstring& inTag)
-		: FActor2DSettings(inFileName, inTag)
+		: FActor2DSettings(inFileName, inTag, Layer::Building)
 	{
 	}
 };
@@ -28,8 +30,8 @@ BuildingBase::BuildingBase(DirectX11& dx, const EBuildingId& inBuildingType)
 	),
 	mBuildingType(inBuildingType)
 {
+	mLayer = Layer::EActorLayer::Background;
 	mSortOrder = Layer::Building;
-	mLayer = EActor2DLayer::Background;
 }
 
 // ------------------------------------------------------
@@ -37,7 +39,7 @@ BuildingBase::BuildingBase(DirectX11& dx, const EBuildingId& inBuildingType)
 // ------------------------------------------------------
 void BuildingBase::SetBuildingType(const EBuildingId& inBuildingType)
 {
-	UpdateTexture(BuildingList.at(inBuildingType).fileName);
+	GetSpriteComp()->UpdateTexture(BuildingList.at(inBuildingType).fileName);
 	mBuildingType = inBuildingType;
 }
 const EBuildingId& BuildingBase::GetBuildingType() const noexcept

@@ -27,6 +27,10 @@ Actor::~Actor()
 	pComponents.clear();
 }
 
+void Actor::Construct()
+{
+}
+
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
@@ -63,6 +67,18 @@ int Actor::GetID() const
 	return mID;
 }
 
+const Layer::EActorLayer& Actor::GetLayer() const
+{
+	return mLayer;
+}
+void Actor::SetLayer(const Layer::EActorLayer& in)
+{
+	mLayer = in;
+}
+
+// -----------------------------------
+// Main : Component
+// -----------------------------------
 void Actor::RemoveComponent(const std::string& tag)
 {
 	if (pComponents.contains(tag))
@@ -160,4 +176,5 @@ std::shared_ptr<World> Actor::GetWorld()
 	{
 		return pLevel->GetWorld();
 	}
+	return nullptr;
 }
