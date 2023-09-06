@@ -1,11 +1,11 @@
 #pragma once
 
-#include "World/World_Dungeon.h"
+#include "Framework/World.h"
 
-class World_SonoCave : public World_Dungeon
+class World_PuyoPuyo : public World
 {
 public:
-	World_SonoCave();
+	World_PuyoPuyo();
 
 	virtual void SetLevel(DirectX11& dx) override;
 	virtual void SetHUD(DirectX11& dx) override;

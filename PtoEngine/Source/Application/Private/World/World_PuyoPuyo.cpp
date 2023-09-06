@@ -1,5 +1,5 @@
 
-#include "World/World_SonoCave.h"
+#include "World/World_PuyoPuyo.h"
 
 #include "Core/DirectX.h"
 
@@ -9,23 +9,22 @@
 #include "Level/LevelFactory.h"
 #include "Level/MazeGenerator.h"
 
-World_SonoCave::World_SonoCave()
-	: World_Dungeon()
+World_PuyoPuyo::World_PuyoPuyo()
+	: World()
 {
-	mDungeonName = L"É\ÉmçzéR";
 }
 
-void World_SonoCave::SetLevel(DirectX11& dx)
+void World_PuyoPuyo::SetLevel(DirectX11& dx)
 {
 	auto pLevelFactory = std::make_shared<LevelFactory>();
-	pPersistentLevel = pLevelFactory->Create(dx, ELevelId::SonoCave);
+	pPersistentLevel = pLevelFactory->Create(dx, ELevelId::TokoPuyo);
 
 	World::SetLevel(dx);
 }
 
-void World_SonoCave::SetHUD(DirectX11& dx)
+void World_PuyoPuyo::SetHUD(DirectX11& dx)
 {
-	World_Dungeon::SetHUD(dx);
+	World::SetHUD(dx);
 
 	auto maze = static_pointer_cast<MazeGenerator>(pPersistentLevel);
 	maze->GetDungeonNextFloor().Bind<&HUD::NextFloor>(*pHUD.get(), "HUD");

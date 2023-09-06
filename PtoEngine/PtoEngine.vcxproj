@@ -193,13 +193,11 @@
     <ClInclude Include="SDK\nlohmann\json.hpp" />
     <ClInclude Include="Source\Application\Public\Actor\Actor2D.h" />
     <ClInclude Include="Source\Application\Public\Actor\Actor2DTypes.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Building\BuildingBase.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Building\BuildingTypes.h" />
     <ClInclude Include="Source\Application\Public\Actor\Character\CharacterBase.h" />
     <ClInclude Include="Source\Application\Public\Actor\Character\CharacterTypes.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Character\Enemy.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Character\Puyo.h" />
     <ClInclude Include="Source\Application\Public\Actor\Character\Player.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Character\PlayerTypes.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Character\PuyoTypes.h" />
     <ClInclude Include="Source\Application\Public\Actor\Character\Player_Dungeon.h" />
     <ClInclude Include="Source\Application\Public\Actor\Character\Player_Town.h" />
     <ClInclude Include="Source\Application\Public\Actor\Effect\EffectBase.h" />
@@ -212,33 +210,22 @@
     <ClInclude Include="Source\Application\Public\Actor\Ground\GroundBase.h" />
     <ClInclude Include="Source\Application\Public\Actor\Ground\GroundTypes.h" />
     <ClInclude Include="Source\Application\Public\Actor\ItemManager.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Item\ItemBase.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Item\ItemTypes.h" />
-    <ClInclude Include="Source\Application\Public\Actor\LibraryInterface.h" />
-    <ClInclude Include="Source\Application\Public\Actor\StatusTypes.h" />
     <ClInclude Include="Source\Application\Public\App.h" />
     <ClInclude Include="Source\Application\Public\AppSettings.h" />
     <ClInclude Include="Source\Application\Public\Controller\PlayerController_Dungeon.h" />
     <ClInclude Include="Source\Application\Public\Controller\PlayerController_Town.h" />
-    <ClInclude Include="Source\Application\Public\GameMode\GameMode_Dungeon.h" />
-    <ClInclude Include="Source\Application\Public\GameMode\GameMode_Town.h" />
     <ClInclude Include="Source\Application\Public\GameSettings.h" />
     <ClInclude Include="Source\Application\Public\GameState\GameState.h" />
-    <ClInclude Include="Source\Application\Public\GameState\GameState_Dungeon.h" />
-    <ClInclude Include="Source\Application\Public\GameState\GameState_Town.h" />
     <ClInclude Include="Source\Application\Public\Level\Level2D.h" />
     <ClInclude Include="Source\Application\Public\Level\LevelFactory.h" />
-    <ClInclude Include="Source\Application\Public\Level\Level_SonoTown.h" />
+    <ClInclude Include="Source\Application\Public\Level\Level_TokoPuyo.h" />
     <ClInclude Include="Source\Application\Public\Level\Level_SonoTown_House_0.h" />
     <ClInclude Include="Source\Application\Public\Level\MazeGenerator.h" />
     <ClInclude Include="Source\Application\Public\UI\HUD.h" />
     <ClInclude Include="Source\Application\Public\UI\HUDInterface.h" />
     <ClInclude Include="Source\Application\Public\UI\LandmarkUI.h" />
     <ClInclude Include="Source\Application\Public\Window.h" />
-    <ClInclude Include="Source\Application\Public\World\World_Dungeon.h" />
-    <ClInclude Include="Source\Application\Public\World\World_SonoCave.h" />
-    <ClInclude Include="Source\Application\Public\World\World_SonoTown.h" />
-    <ClInclude Include="Source\Application\Public\World\World_Town.h" />
+    <ClInclude Include="Source\Application\Public\World\World_PuyoPuyo.h" />
     <ClInclude Include="Source\DirectX\DirectXHead.h" />
     <ClInclude Include="Source\DirectX\Public\Core\DirectX.h" />
     <ClInclude Include="Source\DirectX\Public\Core\DirectXResource.h" />
@@ -369,7 +356,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\Application\Private\Actor\Actor2D.cpp" />
-    <ClCompile Include="Source\Application\Private\Actor\Building\BuildingBase.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Character\CharacterBase.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Character\Enemy.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Character\Player.cpp" />
@@ -382,7 +368,6 @@
     <ClCompile Include="Source\Application\Private\Actor\Event\Event_TownDoor.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Ground\GroundBase.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Ground\GroundTypes.cpp" />
-    <ClCompile Include="Source\Application\Private\Actor\Item\ItemBase.cpp" />
     <ClCompile Include="Source\Application\Private\App.cpp" />
     <ClCompile Include="Source\Application\Private\AppSettings.cpp" />
     <ClCompile Include="Source\Application\Private\Controller\PlayerController_Dungeon.cpp" />
@@ -395,16 +380,13 @@
     <ClCompile Include="Source\Application\Private\GameState\GameState_Town.cpp" />
     <ClCompile Include="Source\Application\Private\Level\Level2D.cpp" />
     <ClCompile Include="Source\Application\Private\Level\LevelFactory.cpp" />
-    <ClCompile Include="Source\Application\Private\Level\Level_SonoTown.cpp" />
+    <ClCompile Include="Source\Application\Private\Level\Level_TokoPuyo.cpp" />
     <ClCompile Include="Source\Application\Private\Level\Level_SonoTown_House_0.cpp" />
     <ClCompile Include="Source\Application\Private\Level\MazeGenerator.cpp" />
     <ClCompile Include="Source\Application\Private\UI\HUD.cpp" />
     <ClCompile Include="Source\Application\Private\UI\LandmarkUI.cpp" />
     <ClCompile Include="Source\Application\Private\Window.cpp" />
-    <ClCompile Include="Source\Application\Private\World\World_Dungeon.cpp" />
-    <ClCompile Include="Source\Application\Private\World\World_SonoCave.cpp" />
-    <ClCompile Include="Source\Application\Private\World\World_SonoTown.cpp" />
-    <ClCompile Include="Source\Application\Private\World\World_Town.cpp" />
+    <ClCompile Include="Source\Application\Private\World\World_PuyoPuyo.cpp" />
     <ClCompile Include="Source\DirectX\Private\Core\DirectX.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>

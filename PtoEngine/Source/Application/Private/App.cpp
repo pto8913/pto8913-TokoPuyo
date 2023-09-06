@@ -12,8 +12,7 @@
 
 #include "Input/Keyboard.h"
 
-#include "World/World_SonoTown.h"
-#include "World/World_SonoCave.h"
+#include "World/World_PuyoPuyo.h"
 
 Keyboard::InputAction InputEsc(DIK_ESCAPE);
 
@@ -34,7 +33,7 @@ App::App()
     GameInstance& gameInstance = GameInstance::Get();
     gameInstance.Initialize(*pDX);
 
-    pWorld = std::make_shared<World_SonoCave>();
+    pWorld = std::make_shared<World_PuyoPuyo>();
     pWorld->Init(*pDX);
     pWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
     OnPlayerControllerChanged(pWorld->GetPlayerController());
