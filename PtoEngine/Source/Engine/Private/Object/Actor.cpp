@@ -176,4 +176,5 @@ std::shared_ptr<World> Actor::GetWorld()
 	{
 		return pLevel->GetWorld();
 	}
+	return nullptr;
 }

@@ -53,7 +53,7 @@ void Sprite::ExecuteTasks(DirectX11& dx)
 
 	pTCB->Bind(dx, tf);
 
-	pScreenTexture->Bind(GetLocation());
+	pScreenTexture->Bind(GetLocation(), DirectX::XMVectorGetY(GetRotation()));
 	//pScreenTexture->Bind(offset);// { DirectX::XMVectorGetX(GetLocation()), DirectX::XMVectorGetY(GetLocation()) });
 
 	DrawableObject::ExecuteTasks(dx);

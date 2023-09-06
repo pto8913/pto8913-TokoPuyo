@@ -47,7 +47,14 @@ void World_Town::SetPlayer(DirectX11& dx)
 
 void World_Town::SetHUD(DirectX11& dx)
 {
-	World::SetHUD(dx);
+	pHUD = std::make_shared<HUD>(
+		shared_from_this(),
+		dx,
+		GetPlayerController()->GetMouse()
+	);
 
-	pPlayer->OnPlayerMoved.Bind<&HUD::PlayerMoved>(*pHUD.get(), "HUD");
+	auto hud = static_pointer_cast<HUD>(pHUD);
+	static_pointer_cast<Player>(pPlayer)->OnPlayerMoved.Bind<&HUD::PlayerMoved>(*hud.get(), "HUD");
+
+	World::SetHUD(dx);
 }

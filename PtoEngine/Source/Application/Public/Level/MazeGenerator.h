@@ -128,8 +128,8 @@ protected:
 	void InitializeBlock();
 
 	void JoinBlock();
-	bool JoinBlock(const UINT8& x, const UINT8& y, const EDirection& direction);
-	void GetJoinableDirection(TArray<EDirection>& out, const UINT8& sx, const UINT8& sy);
+	bool JoinBlock(const uint16_t& x, const uint16_t& y, const EDirection& direction);
+	void GetJoinableDirection(TArray<EDirection>& out, const uint16_t& sx, const uint16_t& sy);
 	void JoinBlockAdditional();
 	bool JoinClosedBlock();
 
@@ -142,14 +142,14 @@ protected:
 	// Main : Ground Layer : Path
 	// --------------------------
 	void MakePath();
-	void MakePath(const UINT8& x, const UINT8& y, const FBlock& block);
-	void GetPathStartPos(const FRect& inRect, const EDirection& direction, UINT8& x, UINT8& y);
+	void MakePath(const uint16_t& x, const uint16_t& y, const FBlock& block);
+	void GetPathStartPos(const FRect& inRect, const EDirection& direction, uint16_t& x, uint16_t& y);
 
 	// --------------------------
 	// Main : Ground Layer : Wall
 	// --------------------------
 	void MakeWall();
-	void MakeWall(const int& x, const int& y);
+	void MakeWall(const int& x, const int& y, const int& addX, const int& addY);
 
 	// ------------------------------------------------------
 	// Main : Event Layer
@@ -159,8 +159,8 @@ protected:
 	void CheckSetEnterBlockCount(const int& blockX, const int& blockY);
 
 	void SetEnterExit();
-	void SetEnter(const UINT8& blockX, const UINT8& blockY);
-	void SetExit(const UINT8& blockX, const UINT8& blockY);
+	void SetEnter(const uint16_t& blockX, const uint16_t& blockY);
+	void SetExit(const uint16_t& blockX, const uint16_t& blockY);
 
 	void StartMoveToNextFloor();
 	void CompletedMoveToNextFloor();
@@ -180,19 +180,19 @@ protected:
 	// --------------------------
 	virtual std::shared_ptr<GroundBase> SetGroundLayerIDSpe(const EGroundId& groundType, const float& worldX, const float& worldY) override;
 
-	bool IsInMaze(const UINT8& x, const UINT8& y) const noexcept;
-	bool IsInBlock(const UINT8& x, const UINT8& y) const noexcept;
+	bool IsInMaze(const uint16_t& x, const uint16_t& y) const noexcept;
+	bool IsInBlock(const uint16_t& x, const uint16_t& y) const noexcept;
 
 	bool CheckIsEnter(const EBlockID& blockID, const int& worldX, const int& worldY) const noexcept;
 
-	void GetMazeXY(const UINT16& pos, UINT8& x, UINT8& y) const noexcept;
-	void GetBlockXY(const UINT16& pos, UINT8& x, UINT8& y) const noexcept;
+	void GetMazeXY(const uint16_t& pos, uint16_t& x, uint16_t& y) const noexcept;
+	void GetBlockXY(const uint16_t& pos, uint16_t& x, uint16_t& y) const noexcept;
 
-	UINT16 GetPosMaze(const UINT8& x, const UINT8& y) const noexcept;
-	UINT16 GetPosBlock(const UINT8& x, const UINT8& y) const noexcept;
+	uint16_t GetPosMaze(const uint16_t& x, const uint16_t& y) const noexcept;
+	uint16_t GetPosBlock(const uint16_t& x, const uint16_t& y) const noexcept;
 
-	UINT16 BlockToMaze(const UINT8& blockXorY, const UINT8& offsetXorY = 0) const noexcept;
-	UINT8 MazeToBlock(const UINT8& worldXorY, const UINT8& blockXorY) const noexcept;
+	uint16_t BlockToMaze(const uint16_t& blockXorY, const uint16_t& offsetXorY = 0) const noexcept;
+	uint16_t MazeToBlock(const uint16_t& worldXorY, const uint16_t& blockXorY) const noexcept;
 
 	// ------------------------------------------------------
 	// Main : Delegate
@@ -203,7 +203,7 @@ protected:
 	// --------------------------
 	// Settings : Item Layer
 	// --------------------------
-	UINT8 itemCount = 6;
+	uint16_t itemCount = 6;
 
 	// ------------------------------------------------------
 	// State
@@ -212,21 +212,21 @@ protected:
 	// --------------------------
 	// State : Ground Layer 
 	// --------------------------
-	UINT8 actualBlockCountX = 0;
-	UINT8 actualBlockCountY = 0;
+	uint16_t actualBlockCountX = 0;
+	uint16_t actualBlockCountY = 0;
 
-	UINT16 actualBlockCount = 0;
+	uint16_t actualBlockCount = 0;
 
-	UINT16 actualMazeCountX = 0;
-	UINT16 actualMazeCountY = 0;
+	uint16_t actualMazeCountX = 0;
+	uint16_t actualMazeCountY = 0;
 
-	UINT16 actualMazeCount = 0;
+	uint16_t actualMazeCount = 0;
 
 	TArray<TArray<FBlock>> blockIDs;
 	UnionFind blockUnionFind;
 
 	TArray<TArray<FRect>> RoomLocalRects;
-	UINT8 actualRoomCount = 0;
+	uint16_t actualRoomCount = 0;
 
 	TArray<TArray<EGroundTile>> mazeTils;
 

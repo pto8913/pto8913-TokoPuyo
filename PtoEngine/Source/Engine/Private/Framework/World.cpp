@@ -7,11 +7,11 @@
 #include "Framework/GameStateBase.h"
 #include "Framework/PlayerController.h"
 #include "Framework/Level/Level.h"
-#include "Level/LevelFactory.h"
 
-#include "Actor/Character/Player.h"
-#include "UI/HUD.h"
+#include "Object/Actor.h"
+#include "UI/UserWidget.h"
 
+#include "EngineSettings.h"
 
 // ------------------------------------------------------------------------------------------------------------
 // World
@@ -28,6 +28,9 @@ World::~World()
 
 	pPersistentLevel.reset();
 	pPersistentLevel = nullptr;
+
+	pCachedPersistentLevel.reset();
+	pCachedPersistentLevel = nullptr;
 
 	pGameMode.reset();
 	pGameMode = nullptr;
@@ -93,7 +96,7 @@ void World::SetPlayer(DirectX11& dx)
 {
 	if (pPlayer == nullptr)
 	{
-		pPlayer = SpawnActor<Player>(dx);
+		pPlayer = SpawnActor<Actor>();
 	}
 	pPlayer->SetOuter(pPersistentLevel);
 	pPlayer->SetActorLocation(pPersistentLevel->GetStartPosition());
@@ -102,10 +105,13 @@ void World::SetHUD(DirectX11& dx)
 {
 	if (pHUD == nullptr)
 	{
-		pHUD = std::make_shared<HUD>(
+		const auto windowSize = EngineSettings::GetWindowSize();
+		pHUD = std::make_shared<UserWidget>(
 			shared_from_this(),
 			dx,
-			GetPlayerController()->GetMouse()
+			GetPlayerController()->GetMouse(),
+			windowSize.x,
+			windowSize.y
 		);
 	}
 }
@@ -156,19 +162,11 @@ void World::Tick(DirectX11& dx, float deltaSec)
 		}
 	}
 
-
-	if (pSubLevel != nullptr)
+	if (pPersistentLevel != nullptr)
 	{
-		pSubLevel->Tick(dx, deltaSec);
-	}
-	else
-	{
-		if (pPersistentLevel != nullptr)
+		if (pPersistentLevel->GetTickEnabled())
 		{
-			if (pPersistentLevel->GetTickEnabled())
-			{
-				pPersistentLevel->Tick(dx, deltaSec);
-			}
+			pPersistentLevel->Tick(dx, deltaSec);
 		}
 	}
 
@@ -216,18 +214,26 @@ void World::DeactivateLevel()
 {
 	pPersistentLevel->SetTickEnabled(false);
 }
-void World::OpenSubLevel(DirectX11& dx, const ELevelId& id)
+void World::OpenSubLevel(DirectX11& dx, std::shared_ptr<Level> inNewLevel)
 {
-	if (pSubLevel != nullptr)
+	if (pCachedPersistentLevel != nullptr)
 	{
-		auto pLevelFactory = std::make_shared<LevelFactory>();
-		pSubLevel = pLevelFactory->Create(dx, id);
+		pPersistentLevel = std::move(inNewLevel);
 	}
+	else
+	{
+		pCachedPersistentLevel = std::move(pPersistentLevel);
+		pPersistentLevel = std::move(inNewLevel);
+	}
+	pPersistentLevel->BeginPlay(dx);
 }
-void World::CloseSubLevel()
+void World::CloseSubLevel(DirectX11& dx)
 {
-	pSubLevel.reset();
-	pSubLevel = nullptr;
+	pPersistentLevel.reset();
+	pPersistentLevel = nullptr;
+
+	pPersistentLevel = std::move(pCachedPersistentLevel);
+	pPersistentLevel->BeginPlay(dx);
 }
 
 // -----------------------------------
@@ -265,7 +271,7 @@ std::shared_ptr<PlayerController>& World::GetPlayerController()
 // -----------------------------------
 // Main : Util : Player
 // -----------------------------------
-std::shared_ptr<Player>& World::GetPlayer()
+std::shared_ptr<Actor>& World::GetPlayer()
 {
 	return pPlayer;
 }
@@ -281,7 +287,7 @@ void World::DeactivatePlayer()
 // -----------------------------------
 // Main : Util : HUD
 // -----------------------------------
-std::shared_ptr<HUD>& World::GetHUD()
+std::shared_ptr<UserWidget>& World::GetHUD()
 {
 	return pHUD;
 }

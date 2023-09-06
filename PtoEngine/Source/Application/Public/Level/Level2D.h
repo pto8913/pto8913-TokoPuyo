@@ -71,7 +71,7 @@ public:
 	const int& GetHeight() const noexcept;
 
 	bool IsInScreen(const int& x, const int& y, const int& buffer = 0) const noexcept;
-	bool IsInWorld(const int& x, const int& y) const noexcept;
+	bool IsInWorld(const float& x, const float& y) const noexcept;
 
 	DirectX::XMFLOAT2 WorldToScreen(const int& x, const int& y, const FVector& size);
 protected:

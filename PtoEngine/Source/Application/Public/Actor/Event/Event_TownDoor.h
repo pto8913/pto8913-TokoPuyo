@@ -2,7 +2,7 @@
 
 #include "Actor/Event/EventChoiceBase.h"
 
-#include "Framework/Level/LevelTypes.h"
+#include "Level/LevelTypes.h"
 
 class Event_TownDoor : public EventChoiceBase
 {

@@ -47,8 +47,15 @@ void World_Dungeon::SetPlayer(DirectX11& dx)
 
 void World_Dungeon::SetHUD(DirectX11& dx)
 {
-	World::SetHUD(dx);
+	pHUD = std::make_shared<HUD>(
+		shared_from_this(),
+		dx,
+		GetPlayerController()->GetMouse()
+	);
 
-	pHUD->UpdateMap(static_pointer_cast<Level2D>(pPersistentLevel).get());
-	pPlayer->OnPlayerMoved.Bind<&HUD::PlayerMoved>(*pHUD.get(), "HUD");
+	auto hud = static_pointer_cast<HUD>(pHUD);
+	hud->UpdateMap(static_pointer_cast<Level2D>(pPersistentLevel).get());
+	static_pointer_cast<Player>(pPlayer)->OnPlayerMoved.Bind<&HUD::PlayerMoved>(*hud.get(), "HUD");
+
+	World::SetHUD(dx);
 }

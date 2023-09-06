@@ -70,7 +70,7 @@ void SpriteComponent::AddActorLocation(const FVector& in)
 void SpriteComponent::SetActorRotation(const FRotator& in)
 {
 	DirectX::XMVECTOR vec({ 0.f,0.f,0.f, 0.f });
-	vec = XMVectorSet(in.roll, in.pitch, in.yaw, 0.f);
+	vec = XMVectorSet(in.pitch, in.yaw, in.roll, 0.f);
 	SetRotation(vec);
 	ActorComponent::SetActorRotation(in);
 }

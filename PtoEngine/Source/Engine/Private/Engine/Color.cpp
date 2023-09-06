@@ -146,7 +146,7 @@ std::string FColor::ToString() const
 FColor FColor::Round(const int& decimal) const
 {
     FColor out(*this);
-    const int place = pow(10, decimal);
+    const float place = static_cast<float>(pow(10, decimal));
     out.r = ceilf(out.r * place) / place;
     out.g = ceilf(out.g * place) / place;
     out.b = ceilf(out.b * place) / place;

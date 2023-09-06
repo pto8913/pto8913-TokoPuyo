@@ -106,11 +106,23 @@ std::shared_ptr<World> UserWidget::GetWorld()
 	{
 		return pOwner->GetWorld();
 	}
+	return nullptr;
 }
 
 ID2D1RenderTarget* UserWidget::GetRt2D()
 {
 	return pRt2D;
+}
+
+void UserWidget::AddSlate(std::shared_ptr<SlateBase> inSlate)
+{
+	pRootSlate->AddChild(inSlate);
+	pRootSlate->UpdateWidget();
+}
+void UserWidget::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
+{
+	pRootSlate->RemoveChild(inSlate);
+	pRootSlate->UpdateWidget();
 }
 
 // --------------------------
@@ -159,35 +171,67 @@ void UserWidget::OnKeyUp(DX::MouseEvent inMouseEvent)
 
 bool UserWidget::NativeOnMouseMove(DX::MouseEvent inMouseEvent)
 {
-	return pRootSlate->OnMouseMove(inMouseEvent);
+	if (pRootSlate != nullptr)
+	{
+		return pRootSlate->OnMouseMove(inMouseEvent);
+	}
+	return false;
 };
 bool UserWidget::NativeOnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
-	return pRootSlate->OnMouseButtonDown(inMouseEvent);
+	if (pRootSlate != nullptr)
+	{
+		return pRootSlate->OnMouseButtonDown(inMouseEvent);
+	}
+	return false;
 };
 bool UserWidget::NativeOnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
-	return pRootSlate->OnMouseButtonHeld(inMouseEvent);
+	if (pRootSlate != nullptr)
+	{
+		return pRootSlate->OnMouseButtonHeld(inMouseEvent);
+	}
+	return false;
 };
 bool UserWidget::NativeOnMouseButtonUp(DX::MouseEvent inMouseEvent)
 {
-	return pRootSlate->OnMouseButtonUp(inMouseEvent);
+	if (pRootSlate != nullptr)
+	{
+		return pRootSlate->OnMouseButtonUp(inMouseEvent);
+	}
+	return false;
 };
 bool UserWidget::NativeOnMouseEnter(DX::MouseEvent inMouseEvent)
 {
-	return pRootSlate->OnMouseEnter(inMouseEvent);
+	if (pRootSlate != nullptr)
+	{
+		return pRootSlate->OnMouseEnter(inMouseEvent);
+	}
+	return false;
 };
 bool UserWidget::NativeOnMouseLeave(DX::MouseEvent inMouseEvent)
 {
-	return pRootSlate->OnMouseLeave(inMouseEvent);
+	if (pRootSlate != nullptr)
+	{
+		return pRootSlate->OnMouseLeave(inMouseEvent);
+	}
+	return false;
 };
 bool UserWidget::NativeOnKeyDown(DX::MouseEvent inMouseEvent)
 {
-	return pRootSlate->OnKeyDown(inMouseEvent);
+	if (pRootSlate != nullptr)
+	{
+		return pRootSlate->OnKeyDown(inMouseEvent);
+	}
+	return false;
 };
 bool UserWidget::NativeOnKeyUp(DX::MouseEvent inMouseEvent)
 {
-	return pRootSlate->OnKeyUp(inMouseEvent);
+	if (pRootSlate != nullptr)
+	{
+		return pRootSlate->OnKeyUp(inMouseEvent);
+	}
+	return false;
 };
 
 // --------------------------

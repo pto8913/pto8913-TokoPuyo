@@ -35,7 +35,7 @@ void BoxCollision2D::BeginPlay(DirectX11& dx)
 #if _DEBUG
 
 	auto hud = GetWorld()->GetHUD();
-	hud->AddBoxDebug(shared_from_this());
+	static_pointer_cast<HUD>(hud)->AddBoxDebug(shared_from_this());
 #endif
 }
 

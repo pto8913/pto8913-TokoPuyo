@@ -118,8 +118,8 @@ void MazeGenerator::Clear()
 }
 void MazeGenerator::InitializeMaze()
 {
-	actualBlockCountX = (UINT8)RandRange(GameSettings::BLOCK_MIN_COUNT, GameSettings::BLOCK_MAX_COUNT_X);
-	actualBlockCountY = (UINT8)RandRange(GameSettings::BLOCK_MIN_COUNT, GameSettings::BLOCK_MAX_COUNT_Y);
+	actualBlockCountX = (uint16_t)RandRange(GameSettings::BLOCK_MIN_COUNT, GameSettings::BLOCK_MAX_COUNT_X);
+	actualBlockCountY = (uint16_t)RandRange(GameSettings::BLOCK_MIN_COUNT, GameSettings::BLOCK_MAX_COUNT_Y);
 	actualBlockCount = actualBlockCountX * actualBlockCountY;
 
 	actualMazeCountX = actualBlockCountX * GameSettings::BLOCK_SIZE;
@@ -196,8 +196,8 @@ void MazeGenerator::InitializeBlock()
 
 void MazeGenerator::JoinBlock()
 {
-	const UINT8 sx = (UINT8)Random(actualBlockCountX - 1);
-	const UINT8 sy = (UINT8)Random(actualBlockCountY - 1);
+	const uint16_t sx = (uint16_t)Random(actualBlockCountX - 1);
+	const uint16_t sy = (uint16_t)Random(actualBlockCountY - 1);
 
 	if (blockIDs[sy][sx].id == EBlockID::None)
 	{
@@ -224,7 +224,7 @@ void MazeGenerator::JoinBlock()
 		}
 	}
 }
-bool MazeGenerator::JoinBlock(const UINT8& x, const UINT8& y, const EDirection& direction)
+bool MazeGenerator::JoinBlock(const uint16_t& x, const uint16_t& y, const EDirection& direction)
 {
 	switch (direction)
 	{
@@ -253,14 +253,14 @@ bool MazeGenerator::JoinBlock(const UINT8& x, const UINT8& y, const EDirection& 
 	}
 	return false;
 }
-void MazeGenerator::GetJoinableDirection(TArray<EDirection>& out, const UINT8& sx, const UINT8& sy)
+void MazeGenerator::GetJoinableDirection(TArray<EDirection>& out, const uint16_t& sx, const uint16_t& sy)
 {
 	auto AddToDirection = [this, &out, sx, sy](const int& x, const int& y, const EDirection& Dir)
 	{
 		bool isAdded = false;
-		if (IsInBlock((UINT8)sx + x, (UINT8)sy + y))
+		if (IsInBlock((uint16_t)sx + x, (uint16_t)sy + y))
 		{
-			if (blockIDs[(UINT8)sy + y][(UINT8)sx + x].id != EBlockID::None)
+			if (blockIDs[(uint16_t)sy + y][(uint16_t)sx + x].id != EBlockID::None)
 			{
 				out.Add(Dir);
 				isAdded = true;
@@ -295,7 +295,7 @@ void MazeGenerator::GetJoinableDirection(TArray<EDirection>& out, const UINT8& s
 }
 void MazeGenerator::JoinBlockAdditional()
 {
-	TArray<UINT16> candidateJoinBlock;
+	TArray<uint16_t> candidateJoinBlock;
 	for (int y = 0; y < actualBlockCountY; ++y)
 	{
 		for (int x = 0; x < actualBlockCountX; ++x)
@@ -310,14 +310,14 @@ void MazeGenerator::JoinBlockAdditional()
 
 	if (candidateJoinBlock.Size() >= 2)
 	{
-		const UINT8 joinPlanAdditional = (UINT8)RandRange(1, candidateJoinBlock.Size() / 2);
+		const uint16_t joinPlanAdditional = (uint16_t)RandRange(1, candidateJoinBlock.Size() / 2);
 
-		UINT8 x = 0, y = 0;
+		uint16_t x = 0, y = 0;
 		TArray<EDirection> JoinableDirection;
 		for (int i = 0; i < joinPlanAdditional; ++i)
 		{
-			const UINT16 candidateIdx = (UINT16)Random(candidateJoinBlock.Size() - 1);
-			const UINT16 pos = candidateJoinBlock[candidateIdx];
+			const uint16_t candidateIdx = (uint16_t)Random(candidateJoinBlock.Size() - 1);
+			const uint16_t pos = candidateJoinBlock[candidateIdx];
 			GetBlockXY(pos, x, y);
 
 			GetJoinableDirection(JoinableDirection, x, y);
@@ -342,7 +342,7 @@ bool MazeGenerator::JoinClosedBlock()
 		std::vector<int> parents;
 		blockUnionFind.GetParent(parents);
 
-		UINT8 x = 0, y = 0;
+		uint16_t x = 0, y = 0;
 		TArray<EDirection> direction;
 		for (int y = 0; y < actualBlockCountY; ++y)
 		{
@@ -422,11 +422,11 @@ void MazeGenerator::MakeRoom()
 				//OutputDebugStringA(std::format("RoomRect : {} {} {} {}\n", actualRoomLeftTopX, actualRoomLeftTopY, actualRoomRightBottomX, actualRoomRightBottomY).c_str());
 #endif
 
-				const UINT16 Sy = BlockToMaze(y, actualRoomLeftTopY);
-				const UINT16 Ey = BlockToMaze(y, actualRoomRightBottomY);
+				const uint16_t Sy = BlockToMaze(y, actualRoomLeftTopY);
+				const uint16_t Ey = BlockToMaze(y, actualRoomRightBottomY);
 
-				const UINT16 Sx = BlockToMaze(x, actualRoomLeftTopX);
-				const UINT16 Ex = BlockToMaze(x, actualRoomRightBottomX);
+				const uint16_t Sx = BlockToMaze(x, actualRoomLeftTopX);
+				const uint16_t Ex = BlockToMaze(x, actualRoomRightBottomX);
 
 				for (int constantY = Sy; constantY <= Ey; ++constantY)
 				{
@@ -475,7 +475,7 @@ void MazeGenerator::MakePath()
 		}
 	}
 }
-void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block)
+void MazeGenerator::MakePath(const uint16_t& x, const uint16_t& y, const FBlock& block)
 {
 	if (!IsInBlock(x, y))
 	{
@@ -484,7 +484,7 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 	const FRect& roomRect = RoomLocalRects[y][x];
 
 	/* Draw Right Direction Path */
-	UINT8 currSx, currSy, nextSx, nextSy;
+	uint16_t currSx, currSy, nextSx, nextSy;
 	if (JOINED_BLOCK(block.JoinR))
 	{
 		if (IsInBlock(x + 1, y))
@@ -545,7 +545,7 @@ void MazeGenerator::MakePath(const UINT8& x, const UINT8& y, const FBlock& block
 		}
 	}
 }
-void MazeGenerator::GetPathStartPos(const FRect& inRect, const EDirection& direction, UINT8& x, UINT8& y)
+void MazeGenerator::GetPathStartPos(const FRect& inRect, const EDirection& direction, uint16_t& x, uint16_t& y)
 {
 	TArray<int> candidatePathStartPos;
 	switch (direction)
@@ -602,14 +602,14 @@ void MazeGenerator::MakeWall()
 					{
 					case EGroundTile::Room:
 					case EGroundTile::Path:
-						MakeWall(x, y - 1);
-						MakeWall(x, y + 1);
-						MakeWall(x - 1, y);
-						MakeWall(x + 1, y);
-						MakeWall(x - 1, y - 1);
-						MakeWall(x + 1, y - 1);
-						MakeWall(x - 1, y + 1);
-						MakeWall(x + 1, y + 1);
+						MakeWall(x, y, -1,  0);
+						MakeWall(x, y,  1,  0);
+						MakeWall(x, y,  0, -1);
+						MakeWall(x, y,  0,  1);
+						MakeWall(x, y, -1, -1);
+						MakeWall(x, y,  1, -1);
+						MakeWall(x, y, -1,  1);
+						MakeWall(x, y,  1,  1);
 						break;
 					default:
 						break;
@@ -619,15 +619,15 @@ void MazeGenerator::MakeWall()
 		}
 	}
 }
-void MazeGenerator::MakeWall(const int& x, const int& y)
+void MazeGenerator::MakeWall(const int& x, const int& y, const int& addX, const int& addY)
 {
-	if (mazeTils[y][x] == EGroundTile::None)
+	const auto my = y + addY;
+	const auto mx = x + addX;
+	if (mazeTils[my][mx] == EGroundTile::None)
 	{
-		auto actor = SetGroundLayerIDSpe(ConvertToGround(EGroundTile::Wall, mGroundType), x, y);
-		auto sprite = actor->GetSpriteComp();
-		const auto normal = ConvertToDirection(x, y);
+		auto actor = SetGroundLayerIDSpe(ConvertToGround(EGroundTile::Wall, mGroundType), mx, my);
+		const auto normal = ConvertToDirection(addX, addY);
 		actor->SetNormal(normal);
-		actor->SetActorRotation({ 180.f, 0.f, 0.f });
 		switch (normal)
 		{
 		case EDirection::Left:
@@ -636,11 +636,13 @@ void MazeGenerator::MakeWall(const int& x, const int& y)
 			actor->SetActorRotation({ 180.f, 0.f, 0.f });
 			break;
 		case EDirection::Up:
-			actor->SetActorRotation({ -90.f, 0.f, 0.f });
+			actor->SetActorRotation({ 90.f, 0.f, 0.f });
 			break;
 		case EDirection::Down:
+			actor->SetActorRotation({ -90.f, 0.f, 0.f });
 			break;
 		case EDirection::LeftUp:
+			actor->SetActorRotation({ 135.f, 0.f, 0.f });
 			break;
 		case EDirection::LeftDown:
 			break;
@@ -771,11 +773,11 @@ void MazeGenerator::SetEnterExit()
 		SetExit(blockX, blockY);
 	}
 }
-void MazeGenerator::SetEnter(const UINT8& blockX, const UINT8& blockY)
+void MazeGenerator::SetEnter(const uint16_t& blockX, const uint16_t& blockY)
 {
 	const FRect& localRect = RoomLocalRects[blockY][blockX];
-	UINT16 resX = BlockToMaze(blockX, RandRange(localRect.left, localRect.right));
-	UINT16 resY = BlockToMaze(blockY, RandRange(localRect.top, localRect.bottom));
+	uint16_t resX = BlockToMaze(blockX, RandRange(localRect.left, localRect.right));
+	uint16_t resY = BlockToMaze(blockY, RandRange(localRect.top, localRect.bottom));
 	if (CheckIsEnter(blockIDs[blockY][blockX].id, resX, resY))
 	{
 		SetEnter(blockX, blockY);
@@ -786,11 +788,11 @@ void MazeGenerator::SetEnter(const UINT8& blockX, const UINT8& blockY)
 		SetStartPosition(FVector(resX, resY, 0));
 	}
 }
-void MazeGenerator::SetExit(const UINT8& blockX, const UINT8& blockY)
+void MazeGenerator::SetExit(const uint16_t& blockX, const uint16_t& blockY)
 {
 	const FRect& localRect = RoomLocalRects[blockY][blockX];
-	UINT16 resX = BlockToMaze(blockX, RandRange(localRect.left, localRect.right));
-	UINT16 resY = BlockToMaze(blockY, RandRange(localRect.top, localRect.bottom));
+	uint16_t resX = BlockToMaze(blockX, RandRange(localRect.left, localRect.right));
+	uint16_t resY = BlockToMaze(blockY, RandRange(localRect.top, localRect.bottom));
 
 	pExit = GetWorld()->SpawnActor<Event_DungeonExit>(*pDX);
 	pExit->BeginPlay(*pDX);
@@ -825,7 +827,7 @@ void MazeGenerator::CompletedMoveToNextFloor()
 // ------------------------------------------------------
 void MazeGenerator::SpawnItems()
 {
-	UINT16 resX, resY;
+	uint16_t resX, resY;
 	FRect localRect;
 	int blockX = 0, blockY = 0;
 	for (int y = 0; y < actualBlockCountY; ++y)
@@ -923,11 +925,11 @@ std::shared_ptr<GroundBase> MazeGenerator::SetGroundLayerIDSpe(const EGroundId& 
 	mazeTils[worldY][worldX] = ConvertToGroundTile(groundType);
 	return Level2D::SetGroundLayerIDSpe(groundType, worldX, worldY);
 }
-bool MazeGenerator::IsInMaze(const UINT8& x, const UINT8& y) const noexcept
+bool MazeGenerator::IsInMaze(const uint16_t& x, const uint16_t& y) const noexcept
 {
 	return (x >= 0 && x < actualMazeCountX) && (y >= 0 && y < actualMazeCountY);
 }
-bool MazeGenerator::IsInBlock(const UINT8& x, const UINT8& y) const noexcept
+bool MazeGenerator::IsInBlock(const uint16_t& x, const uint16_t& y) const noexcept
 {
 	return (x >= 0 && x < actualBlockCountX) && (y >= 0 && y < actualBlockCountY);
 }
@@ -986,33 +988,33 @@ bool MazeGenerator::CheckIsEnter(const EBlockID& blockID, const int& worldX, con
 	return false;
 }
 
-void MazeGenerator::GetMazeXY(const UINT16& pos, UINT8& x, UINT8& y) const noexcept
+void MazeGenerator::GetMazeXY(const uint16_t& pos, uint16_t& x, uint16_t& y) const noexcept
 {
 	// 28 % 5 = 3
-	x = (UINT8)(pos % actualMazeCountX);
+	x = (uint16_t)(pos % actualMazeCountX);
 	// 28 / 5 = 5
-	y = (UINT8)(pos / actualMazeCountX);
+	y = (uint16_t)(pos / actualMazeCountX);
 }
-void MazeGenerator::GetBlockXY(const UINT16& pos, UINT8& x, UINT8& y) const noexcept
+void MazeGenerator::GetBlockXY(const uint16_t& pos, uint16_t& x, uint16_t& y) const noexcept
 {
-	x = (UINT8)(pos % actualBlockCountX);
-	y = (UINT8)(pos / actualBlockCountX);
+	x = (uint16_t)(pos % actualBlockCountX);
+	y = (uint16_t)(pos / actualBlockCountX);
 }
 
-UINT16 MazeGenerator::GetPosMaze(const UINT8& x, const UINT8& y) const noexcept
+uint16_t MazeGenerator::GetPosMaze(const uint16_t& x, const uint16_t& y) const noexcept
 {
 	return y * actualMazeCountX + x;
 }
-UINT16 MazeGenerator::GetPosBlock(const UINT8& x, const UINT8& y) const noexcept
+uint16_t MazeGenerator::GetPosBlock(const uint16_t& x, const uint16_t& y) const noexcept
 {
 	return y * actualBlockCountX + x;
 }
 
-UINT16 MazeGenerator::BlockToMaze(const UINT8& blockXorY, const UINT8& offsetXorY) const noexcept
+uint16_t MazeGenerator::BlockToMaze(const uint16_t& blockXorY, const uint16_t& offsetXorY) const noexcept
 {
 	return blockXorY * GameSettings::BLOCK_SIZE + offsetXorY;
 }
-UINT8 MazeGenerator::MazeToBlock(const UINT8& worldXorY, const UINT8& blockXorY) const noexcept
+uint16_t MazeGenerator::MazeToBlock(const uint16_t& worldXorY, const uint16_t& blockXorY) const noexcept
 {
 	return worldXorY / GameSettings::BLOCK_SIZE - blockXorY;
 }

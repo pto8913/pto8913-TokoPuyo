@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Framework/Level/LevelTypes.h"
+#include "LevelTypes.h"
 #include <memory>
 
 class Level;

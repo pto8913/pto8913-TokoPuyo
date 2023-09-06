@@ -38,6 +38,9 @@ public:
 
 	ID2D1RenderTarget* GetRt2D();
 
+	virtual void AddSlate(std::shared_ptr<SlateBase> inSlate);
+	virtual void RemoveSlate(std::shared_ptr<SlateBase> inSlate);
+
 protected:
 	// --------------------------
 	// Main : Slate

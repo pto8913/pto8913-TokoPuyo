@@ -84,7 +84,7 @@ bool Level2D::MoveCenter(const float& x, const float& y)
 		centerX = nextX;
 		centerY = nextY;
 #if _DEBUG
-		OutputDebugStringA(std::format("move center x, y {} {}\n", centerX, centerY).c_str());
+		//OutputDebugStringA(std::format("move center x, y {} {}\n", centerX, centerY).c_str());
 #endif
 		const auto center = EngineSettings::GetGameScreen2DCenter();
 		screenLeftX = centerX - center.x - 1;
@@ -92,7 +92,8 @@ bool Level2D::MoveCenter(const float& x, const float& y)
 		screenRightX = centerX + center.x + 2;
 		screenRightY = centerY + center.y + 2;
 
-		SetSpriteLocation(GetWorld()->GetPlayer(), centerX, centerY);
+		auto player = static_pointer_cast<Player>(GetWorld()->GetPlayer());
+		SetSpriteLocation(player, centerX, centerY);
 
 		UpdateSpriteInScreen();
 		return true;
@@ -163,7 +164,7 @@ bool Level2D::IsInScreen(const int& x, const int& y, const int& buffer) const no
 {
 	return ((screenLeftX - buffer) <= x && x < (screenRightX + buffer)) && ((screenLeftY - buffer) <= y && y < (screenRightY + buffer));
 }
-bool Level2D::IsInWorld(const int& x, const int& y) const noexcept
+bool Level2D::IsInWorld(const float& x, const float& y) const noexcept
 {
 	return (x >= 0 && x < width) && (y >= 0 && y < height);
 }
@@ -226,6 +227,7 @@ std::shared_ptr<GroundBase> Level2D::SetGroundLayerIDSpe(const EGroundId& ground
 		}
 		return sprite;
 	}
+	return nullptr;
 }
 void Level2D::SetGroundLayerID(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal, INT16 inConstantXY2)
 {
@@ -487,9 +489,8 @@ void Level2D::ShowTiles()
 		for (const auto& actor : layer.second)
 		{
 			const auto actor2d = static_pointer_cast<Actor2D>(actor);
-			int x = 0, y = 0;
 			auto p = actor2d->Get2DIdx();
-			x = p.x; y = p.y;
+			int x = p.x, y = p.y;
 			switch (actor2d->GetSortOrder())
 			{
 			case Layer::EOrder::Ground:

@@ -208,8 +208,8 @@ int QuadTree::GetChildIndexForObject(const FBox& objectBound)
 
 void QuadTree::Split()
 {
-	const int childWidth = mBounds.GetWidth() / 2;
-	const int childHeight = mBounds.GetHeight() / 2;
+	const int childWidth = static_cast<int>(mBounds.GetWidth() / 2);
+	const int childHeight = static_cast<int>(mBounds.GetHeight() / 2);
 
 	pChildren[childUL] = std::make_shared<QuadTree>(
 		mMaxObjects,

@@ -6,6 +6,11 @@
 namespace Algo
 {
 	int RandRange(int inMin, int inMax);
+	template<typename T>
+	int RandRange(T inMin, T inMax)
+	{
+		return RandRange(static_cast<int>(inMin), static_cast<int>(inMax));
+	}
 
 	/* random 0 ~ inMax */
 	int Random(int inMax);

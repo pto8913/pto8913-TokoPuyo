@@ -676,9 +676,6 @@
     <ClInclude Include="Source\Application\Public\GameState\GameState.h">
       <Filter>Source\Application\Public\GameState</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Framework\Level\LevelTypes.h">
-      <Filter>Source\Engine\Public\Framework\Level</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Application\Public\Actor\LibraryInterface.h">
       <Filter>Source\Application\Public\Actor</Filter>
     </ClInclude>
@@ -754,9 +751,6 @@
     <ClInclude Include="Source\Application\Public\Actor\Item\ItemTypes.h">
       <Filter>Source\Application\Public\Actor\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Object\Character.h">
-      <Filter>Source\Engine\Public\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Component\SpriteComponent.h">
       <Filter>Source\Engine\Public\Component</Filter>
     </ClInclude>
@@ -795,6 +789,9 @@
     </ClInclude>
     <ClInclude Include="Source\Application\Public\Component\Actor2DComponent.h">
       <Filter>Source\Application\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Level\LevelTypes.h">
+      <Filter>Source\Application\Public\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1200,9 +1197,6 @@
     <ClCompile Include="Source\Application\Private\Actor\Actor2D.cpp">
       <Filter>Source\Application\Private\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Object\Character.cpp">
-      <Filter>Source\Engine\Private\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Private\Component\SpriteComponent.cpp">
       <Filter>Source\Engine\Private\Component</Filter>
     </ClCompile>
@@ -1303,6 +1297,9 @@
     </None>
     <None Include="Config\PtoEngineSettings.json">
       <Filter>Config</Filter>
+    </None>
+    <None Include="..\.editorconfig">
+      <Filter>Source\Engine\Private</Filter>
     </None>
   </ItemGroup>
 </Project>

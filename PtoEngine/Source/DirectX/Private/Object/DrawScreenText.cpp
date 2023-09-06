@@ -21,7 +21,7 @@
 
 #include "Render/Factory/Rasterizer.h"
 
-DrawScreenText::DrawScreenText(DirectX11& dx, UINT inWidth, UINT inHeight)
+DrawScreenText::DrawScreenText(DirectX11& dx, float inWidth, float inHeight)
 {
 	AddTask(BlendState::Make(dx, 0));
 
