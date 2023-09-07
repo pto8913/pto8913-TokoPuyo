@@ -36,7 +36,7 @@ struct FVector2D
 	FVector2D& operator/=(const FVector2D& in);
 	FVector2D& operator/=(const float& in);
 
-	bool operator==(const FVector2D& in);
+	bool operator==(const FVector2D& in) const;
 
 	std::string ToString() const;
 	float Length() const;
@@ -74,8 +74,8 @@ public:
 	FVector& operator/=(const FVector& In);
 	FVector& operator/=(const float& In);
 
-	bool operator<(const float& in);
-	bool operator==(const FVector& in);
+	bool operator<(const float& in) const;
+	bool operator==(const FVector& in) const;
 
 	std::string ToString() const;
 	float Length() const;

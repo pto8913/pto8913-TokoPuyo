@@ -112,7 +112,7 @@ FVector2D& FVector2D::operator/=(const float& in)
 	return *this;
 }
 
-bool FVector2D::operator==(const FVector2D& in)
+bool FVector2D::operator==(const FVector2D& in) const
 {
 	return Algo::IsNearlyEqual(x, in.x) && Algo::IsNearlyEqual(y, in.y);
 }
@@ -248,11 +248,11 @@ FVector& FVector::operator/=(const float& in)
 	return *this;
 };
 
-bool FVector::operator<(const float& in)
+bool FVector::operator<(const float& in) const
 {
 	return Length() < in;
 }
-bool FVector::operator==(const FVector& in)
+bool FVector::operator==(const FVector& in) const
 {
 	return Algo::IsNearlyEqual(x, in.x) && Algo::IsNearlyEqual(y, in.y) && Algo::IsNearlyEqual(z, in.z);
 }
