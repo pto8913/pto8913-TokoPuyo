@@ -4,9 +4,7 @@
 
 #include "Actor/Ground/GroundTypes.h"
 #include "Actor/Event/EventTypes.h"
-#include "Actor/Item/ItemTypes.h"
 #include "Actor/Character/CharacterTypes.h"
-#include "Actor/Building/BuildingTypes.h"
 #include "Actor/Effect/EffectTypes.h"
 
 #include "Actor/Actor2DTypes.h"
@@ -38,8 +36,6 @@ public:
 protected:
 	virtual void GenerateGroundLayer() = 0;
 	virtual void GenerateEventLayer() = 0;
-	virtual void GenerateItemLayer() {}
-	virtual void GenerateBuildingLayer() {}
 	virtual void GenerateCharacterLayer() {}
 	virtual void GenerateEffectLayer() {}
 
@@ -83,8 +79,6 @@ public:
 	// --------------------------
 	virtual std::shared_ptr<GroundBase> SetGroundLayerIDSpe(const EGroundId& groundType, const float& worldX, const float& worldY);
 	void SetGroundLayerID(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal = false, INT16 inConstantXY2 = -1);
-	void SetGroundLayerIDChecked(const EGroundId& groundType, const float& worldX, const float& worldY);
-	void SetGroundLayerIDChecked(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal = false, INT16 inConstantXY2 = -1);
 	std::shared_ptr<GroundBase> GetGroundLayer(const int& worldX, const int& worldY) const;
 
 	// --------------------------
@@ -96,23 +90,12 @@ public:
 	std::shared_ptr<EventBase> GetEventLayer(const int& worldX, const int& worldY) const;
 
 	// --------------------------
-	// Main : Utils : Item
-	// --------------------------
-	void SetItemLayerID(const EItemId& itemType, const float& worldX, const float& worldY);
-	std::shared_ptr<ItemBase> GetItemLayer(const int& worldX, const int& worldY) const;
-
-	// --------------------------
 	// Main : Utils : Character
 	// --------------------------
 	void SetCharacterLayerID(const ECharacterId& characterType, const float& worldX, const float& worldY);
 	std::shared_ptr<CharacterBase> GetCharacterLayer(const int& worldX, const int& worldY) const;
 
 public:
-	// --------------------------
-	// Main : Debug
-	// --------------------------
-	void ShowTiles();
-
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
@@ -120,7 +103,6 @@ public:
 	int height = 0;
 protected:
 	bool bInitialized = false;
-	EGroundType mGroundType = EGroundType::Cave;
 
 	// --------------------------
 	// State : Display

@@ -2,35 +2,42 @@
 
 #include "Level2D.h"
 #include "Algorithm/UnionFind.h"
+#include "Actor/Character/PuyoTypes.h"
+#include "GameState/GameState_PlayTypes.h"
+#include "GameSettings.h"
+#include "Input/Keyboard.h"
 
 class DirectX11;
 class Audio;
-class Sprite;
+
+class Puyo;
+
+class GameState_Play;
 
 class Level_TokoPuyo : public Level2D
 {
+	using chrono = std::chrono::system_clock;
 public:
 	Level_TokoPuyo(DirectX11& dx);
 	virtual ~Level_TokoPuyo();
-
-	virtual void BeginPlay(DirectX11& dx) override;
-	virtual void Tick(DirectX11& dx, float deltaTime) override;
-
 protected:
 	virtual void GenerateGroundLayer() override;
 	virtual void GenerateEventLayer() override;
 	virtual void GenerateCharacterLayer() override;
 	virtual void GenerateEffectLayer() override;
+public:
+	virtual void BeginPlay(DirectX11& dx) override;
+	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
-private:
+	void Restart();
+	void Pause();
+
+protected:
+	void GameProgressChanged(const EGameProgress& NewState);
+
 	void StartControlPuyo();
 	void SpawnPuyo();
 
-	// ------------------------------------------------------------
-	// Main : UI
-	// ------------------------------------------------------------
-	void OnClickedRestart(DX::MouseEvent inMouseEvent);
-	void OnClickedPause(DX::MouseEvent inMouseEvent);
 
 	// ------------------------------------------------------------
 	// Main : Control Puyo
@@ -50,15 +57,15 @@ private:
 	// ------------------------------------------------------------
 	/* Fall to Bottom, activePuyo and subPuyo. */
 	void DoFrame_Release();
-	bool DoFrame_Release(Puyo& puyo, std::shared_ptr<Sprite> pPuyo);
+	bool DoFrame_Release(std::shared_ptr<Puyo>& puyo);
 	/* activePuyo and subPuyo */
-	void ReachToBottomActivePuyo();
+	void ReachToBottomMainPuyo();
 
 	// ------------------------------------------------------------
 	// Main : Vanish puyo
 	// ------------------------------------------------------------
 	void DoFrame_Vanish();
-	bool SetPlanToVanishPuyo(Puyo puyo);
+	bool SetPlanToVanishPuyo(std::shared_ptr<Puyo> puyo);
 	bool SetPlanToVanishAll();
 	void ResetPlanToVanishPuyo();
 	void FlashVanishPuyo();
@@ -76,16 +83,12 @@ private:
 	// Main : Union Find
 	// ------------------------------------------------------------
 	void RemakeUnionFind();
-	void UnionFindPuyo(Puyo puyo);
+	void UnionFindPuyo(std::shared_ptr<Puyo> puyo);
 
 	// ------------------------------------------------------------
 	// Main : Input
 	// ------------------------------------------------------------
 	void InputUpdate();
-	void OnClickedDown(DX::MouseEvent inMouseEvent);
-	void OnClickedHeld(DX::MouseEvent inMouseEvent);
-	void OnClickedUp(DX::MouseEvent inMouseEvent);
-	void OnMouseMove(DX::MouseEvent inMouseEvent);
 
 	// ------------------------------------------------------------
 	// Main : State : Main Timer
@@ -98,6 +101,7 @@ private:
 	// ------------------------------------------------------------
 	void ResetCalcScoreCount();
 
+protected:
 	// ------------------------------------------------------------
 	// Main : Utils
 	// ------------------------------------------------------------
@@ -106,61 +110,54 @@ private:
 	{
 		return vector.size() > Idx;
 	}
-	bool IsValidIndex(const int& Idx)
+
+	template<typename T>
+	bool IsValidIndex(const std::vector<std::vector<T>>& vec, const int& x, const int& y)
 	{
-		//if (Idx < 0)
-		//{
-		//	if (Idx > -6)
-		//	{
-		//		return true;
-		//	}
-		//}
-		return stackedPuyo.size() > Idx;
+		if (IsValidIndex(vec, y))
+		{
+			return IsValidIndex(vec[y], x);
+		}
+		return false;
 	}
 
-	int GetPos(UINT8 x, UINT8 y);
+	int GetPos(uint8_t x, uint8_t y);
 	int GetPos(float x, float y);
-	int GetPos(DirectX::XMFLOAT2 in);
+	int GetPos(FVector2D in);
 
-	void GetXYFromPos(UINT8 pos, UINT8& x, UINT8& y);
+	void GetXYFromPos(uint8_t pos, uint8_t& x, uint8_t& y);
+	uint8_t Random();
 
-
+	void UpdateSubPuyoLocationByRotation();
 private:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
-	UINT8 size;
-	DirectX11* m_pdx;
+	uint8_t size;
 
-	std::shared_ptr<Sprite> BackGround;
-	std::shared_ptr<DX::IControllerInterface> ControllerInterface;
+	FVector2D mGameBoardSize;
+	DirectX11* pDX = nullptr;
+
+	EGameProgress Cached_GameProgress;
 
 	// ----------------------
 	// State : UI
 	// ----------------------
-
-	GameStateUI* m_pGameStateUI;
-	DX::GameState Cached_GameState;
+	std::shared_ptr<GameState_Play> pGameState = nullptr;
 
 	// ----------------------
 	// State : Puyo
 	// ----------------------
-	std::mt19937 gen;
-	std::uniform_int_distribution<int> distr;
-
-	Puyo activePuyo;
-	Puyo subPuyo;
-	UINT8 subId;
-	std::shared_ptr<Sprite> m_pActivePuyo;
-	std::shared_ptr<Sprite> m_pSubPuyo;
-	UINT8 nextPuyo1_1 = Config::EMPTY_PUYO;
-	UINT8 nextPuyo1_2 = Config::EMPTY_PUYO;
-	UINT8 nextPuyo2_1 = Config::EMPTY_PUYO;
-	UINT8 nextPuyo2_2 = Config::EMPTY_PUYO;
+	uint8_t subPuyoId;
+	std::shared_ptr<Puyo> pMainPuyo;
+	std::shared_ptr<Puyo> pSubPuyo;
+	uint8_t nextPuyo1_1 = GameSettings::EMPTY_PUYO;
+	uint8_t nextPuyo1_2 = GameSettings::EMPTY_PUYO;
+	uint8_t nextPuyo2_1 = GameSettings::EMPTY_PUYO;
+	uint8_t nextPuyo2_2 = GameSettings::EMPTY_PUYO;
 
 	UnionFind unionFind;
-	std::vector<Puyo> stackedPuyo;
-	std::vector<std::shared_ptr<Sprite>> stackedPuyoSprites;
+	std::vector<std::vector<std::shared_ptr<Puyo>>> stackedPuyo;
 
 	// ----------------------
 	// State : Main Timer
@@ -175,11 +172,12 @@ private:
 	// ----------------------
 	chrono::time_point StartTime_Vanish;
 	chrono::duration DurationTime_Vanishn;
-	std::vector<bool> planVanishPuyo;
+	std::vector<std::vector<bool>> planVanishPuyo;
 
 	// ----------------------
 	// State : Score
 	// ----------------------
+	uint8_t vanishCount = 4;
 	int puyoCount = 0;
 	int comboCount = 0;
 	int connectCount = 0;
@@ -195,4 +193,11 @@ private:
 	std::shared_ptr<Audio> SE_PuyoRotate = nullptr;
 	std::shared_ptr<Audio> SE_PuyoVanish = nullptr;
 	std::shared_ptr<Audio> SE_PuyoGameOver = nullptr;
+
+	Keyboard::InputAction InputZ;
+	Keyboard::InputAction InputX;
+	Keyboard::InputAction InputLeft;
+	Keyboard::InputAction InputRight;
+	Keyboard::InputAction InputUp;
+	Keyboard::InputAxis InputDown;
 };

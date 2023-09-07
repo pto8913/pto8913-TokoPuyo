@@ -4,6 +4,8 @@
 
 #include "UI/WidgetAnimationTypes.h"
 
+#include <random>
+
 class LandmarkUI;
 
 DECLARE_MULTICAST_DELEGATE(FOnLandmarkStateChanged);

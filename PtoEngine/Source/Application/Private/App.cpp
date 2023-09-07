@@ -12,7 +12,7 @@
 
 #include "Input/Keyboard.h"
 
-#include "World/World_PuyoPuyo.h"
+#include "World/World_TokoPuyo.h"
 
 Keyboard::InputAction InputEsc(DIK_ESCAPE);
 
@@ -33,7 +33,7 @@ App::App()
     GameInstance& gameInstance = GameInstance::Get();
     gameInstance.Initialize(*pDX);
 
-    pWorld = std::make_shared<World_PuyoPuyo>();
+    pWorld = std::make_shared<World_TokoPuyo>();
     pWorld->Init(*pDX);
     pWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
     OnPlayerControllerChanged(pWorld->GetPlayerController());

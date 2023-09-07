@@ -12,17 +12,20 @@ EngineSettings::EngineSettings(const FVector2D& inSize, const std::wstring& inTi
 	SetWindowTitle(inTitle);
 }
 
-json GetJson()
+namespace ESSS
 {
-	std::ifstream loadEngineSettings("Config/PtoEngineSettings.json");
-	json jsonEngineSettings;
-	loadEngineSettings >> jsonEngineSettings;
-	return jsonEngineSettings;
-}
-void SaveJson(json inJson)
-{
-	std::ofstream saveEngineSettings("Config/PtoEngineSettings.json");
-	saveEngineSettings << std::setw(4) << inJson << std::endl;
+	json GetJson()
+	{
+		std::ifstream loadEngineSettings("Config/PtoEngineSettings.json");
+		json jsonEngineSettings;
+		loadEngineSettings >> jsonEngineSettings;
+		return jsonEngineSettings;
+	}
+	void SaveJson(json inJson)
+	{
+		std::ofstream saveEngineSettings("Config/PtoEngineSettings.json");
+		saveEngineSettings << std::setw(4) << inJson << std::endl;
+	}
 }
 
 // -------------------------------------------------
@@ -30,17 +33,17 @@ void SaveJson(json inJson)
 // -------------------------------------------------
 void EngineSettings::SetWindowSize(const FVector2D& inWindowSize)
 {
-	json jsonEngineSettings = GetJson();
+	json jsonEngineSettings = ESSS::GetJson();
 
 	if (jsonEngineSettings.contains("WindowSize"))
 	{
 		jsonEngineSettings["WindowSize"] = { inWindowSize.x, inWindowSize.y };
 	}
-	SaveJson(jsonEngineSettings);
+	ESSS::SaveJson(jsonEngineSettings);
 }
 FVector2D EngineSettings::GetWindowSize()
 {
-	json jsonEngineSettings = GetJson();
+	json jsonEngineSettings = ESSS::GetJson();
 
 	std::vector<float> v;
 	jsonEngineSettings["windowSize"].get_to(v);
@@ -49,33 +52,33 @@ FVector2D EngineSettings::GetWindowSize()
 
 void EngineSettings::SetWindowTitle(const std::wstring& inWindowTitle)
 {
-	json jsonEngineSettings = GetJson();
+	json jsonEngineSettings = ESSS::GetJson();
 
 	if (jsonEngineSettings.contains("windowTitle"))
 	{
 		jsonEngineSettings["windowTitle"] = inWindowTitle;
 	}
-	SaveJson(jsonEngineSettings);
+	ESSS::SaveJson(jsonEngineSettings);
 }
 std::wstring EngineSettings::GetWindowTitle()
 {
-	json jsonEngineSettings = GetJson();
+	json jsonEngineSettings = ESSS::GetJson();
 	return jsonEngineSettings["windowAspectRatio"].get<std::wstring>();
 }
 
 void EngineSettings::SetWindowAspectRatio(const FVector2D& inWindowAspectRatio)
 {
-	json jsonEngineSettings = GetJson();
+	json jsonEngineSettings = ESSS::GetJson();
 
 	if (jsonEngineSettings.contains("windowAspectRatio"))
 	{
-		jsonEngineSettings["windowAspectRatio"] = { inWindowAspectRatio.x, inWindowAspectRatio.y};
+		jsonEngineSettings["windowAspectRatio"] = { inWindowAspectRatio.x, inWindowAspectRatio.y };
 	}
-	SaveJson(jsonEngineSettings);
+	ESSS::SaveJson(jsonEngineSettings);
 }
 FVector2D EngineSettings::GetWindowAspectRatio()
 {
-	json jsonEngineSettings = GetJson();
+	json jsonEngineSettings = ESSS::GetJson();
 
 	std::vector<float> v;
 	jsonEngineSettings["windowAspectRatio"].get_to(v);
@@ -87,17 +90,17 @@ FVector2D EngineSettings::GetWindowAspectRatio()
 // -----------------------
 void EngineSettings::SetGameScreen2DCellSize(const FVector2D& inGameScreen2DCellSize)
 {
-	json jsonEngineSettings = GetJson();
+	json jsonEngineSettings = ESSS::GetJson();
 
 	if (jsonEngineSettings.contains("game2DCellSize"))
 	{
 		jsonEngineSettings["game2DCellSize"] = { inGameScreen2DCellSize.x, inGameScreen2DCellSize.y };
 	}
-	SaveJson(jsonEngineSettings);
+	ESSS::SaveJson(jsonEngineSettings);
 }
 FVector2D EngineSettings::GetGameScreen2DCellSize()
 {
-	json jsonEngineSettings = GetJson();
+	json jsonEngineSettings = ESSS::GetJson();
 
 	std::vector<float> v;
 	jsonEngineSettings["game2DCellSize"].get_to(v);
@@ -114,19 +117,19 @@ FVector2D EngineSettings::GETCELL(const FVector2D& inSize)
 
 void EngineSettings::SetGameScreen2DSize(const FVector2D& inGameScreen2DSize)
 {
-	json jsonEngineSettings = GetJson();
+	json jsonEngineSettings = ESSS::GetJson();
 
 	if (jsonEngineSettings.contains("gameScreen2DCellSize"))
 	{
 		jsonEngineSettings["gameScreen2DCellSize"] = { inGameScreen2DSize.x, inGameScreen2DSize.y };
 	}
-	SaveJson(jsonEngineSettings);
+	ESSS::SaveJson(jsonEngineSettings);
 
 	SetGameScreen2DCenter({ (float)(int)(inGameScreen2DSize.x / 2) - 1, (float)(int)(inGameScreen2DSize.y / 2) - 1 });
 }
 FVector2D EngineSettings::GetGameScreen2DSize()
 {
-	json jsonEngineSettings = GetJson();
+	json jsonEngineSettings = ESSS::GetJson();
 	std::vector<float> v;
 	jsonEngineSettings["gameScreen2DCellSize"].get_to(v);
 	return FVector2D(v[0], v[1]);
@@ -134,17 +137,17 @@ FVector2D EngineSettings::GetGameScreen2DSize()
 
 void EngineSettings::SetGameScreen2DCenter(const FVector2D& inGameScreen2DCenter)
 {
-	json jsonEngineSettings = GetJson();
+	json jsonEngineSettings = ESSS::GetJson();
 
 	if (jsonEngineSettings.contains("gameScreen2DCenter"))
 	{
 		jsonEngineSettings["gameScreen2DCenter"] = { inGameScreen2DCenter.x, inGameScreen2DCenter.y };
 	}
-	SaveJson(jsonEngineSettings);
+	ESSS::SaveJson(jsonEngineSettings);
 }
 FVector2D EngineSettings::GetGameScreen2DCenter()
 {
-	json jsonEngineSettings = GetJson();
+	json jsonEngineSettings = ESSS::GetJson();
 
 	std::vector<int> v;
 	jsonEngineSettings["gameScreen2DCenter"].get_to(v);

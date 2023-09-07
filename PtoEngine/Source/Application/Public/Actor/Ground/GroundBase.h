@@ -5,8 +5,6 @@
 
 class DirectX11;
 
-class BoxCollision2D;
-
 class GroundBase : public Actor2D
 {
 public:
@@ -19,14 +17,9 @@ public:
 	void SetGroundType(const EGroundId& inGroundType);
 	const EGroundId& GetGroundType() const noexcept;
 
-	void SetNormal(const EDirection& in);
-	EDirection GetNormal() const;
 protected:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
 	EGroundId mGroundType;
-	EDirection mNormal = EDirection::InValid;
-
-	std::shared_ptr<BoxCollision2D> pBoxCollision = nullptr;
 };

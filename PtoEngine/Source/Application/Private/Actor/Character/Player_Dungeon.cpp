@@ -112,7 +112,6 @@ void Player_Dungeon::Move(const float& x, const float& y)
 		{
 			if (pLevel->MoveCenter(x, y))
 			{
-				OnPlayerMoved.Broadcast(GetActorLocation());
 			}
 			else
 			{

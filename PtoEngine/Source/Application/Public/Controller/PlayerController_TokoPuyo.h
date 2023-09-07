@@ -4,11 +4,11 @@
 
 class DirectX11;
 
-class PlayerController_Dungeon : public PlayerController
+class PlayerController_TokoPuyo : public PlayerController
 {
 public:
-	PlayerController_Dungeon(DirectX11& dx);
-	~PlayerController_Dungeon();
+	PlayerController_TokoPuyo(DirectX11& dx);
+	~PlayerController_TokoPuyo();
 
 	// ------------------------------------------------------------------------------------------------------------
 	// Main

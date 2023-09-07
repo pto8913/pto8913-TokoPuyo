@@ -41,10 +41,6 @@ void EventChoiceBase::OpenChoiceUI()
 	pChoiceBox->GetOnChoiceResult().Bind<&EventChoiceBase::OnChoiceResult>(*this, "choice");
 
 	pChoiceBox->SetChoiceButton(ChoiceInfos);
-	pChoiceBox->SetPosition(FVector2D(
-		GameSettings::GAMEUI_LEFT_TOP.x - pChoiceBox->GetSize().x - GameSettings::GAMESCREEN_LEFT_TOP.x,
-		GameSettings::GAMESCREEN_LEFT_TOP.y)
-	);
 	
 	pHUD->AddSlate(pChoiceBox);
 

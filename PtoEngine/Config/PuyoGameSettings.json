@@ -1,0 +1,83 @@
+{
+  "gameBoardSize": [
+    6,
+    13
+  ],
+  "gameOverCoord": [
+    2,
+    1
+  ],
+
+  "puyoFallSpeed_PressDown": 50,
+  "puyoFallSpeed_Control": 1000,
+  "puyoFallSpeed_Release": 125,
+  "puyoFallSpeed_Vanish": 250,
+  "puyoFallSpeed_VanishToFall": 250,
+  "puyoFallSpeed_Wait": 1000,
+
+  "puyoEffectTime_Vanish": 500,
+
+  "comboBonus": [
+    0,
+    0,
+    8,
+    16,
+    32,
+    64,
+    96,
+    128,
+    160,
+    192,
+    224,
+    256,
+    288,
+    320,
+    352,
+    384,
+    416,
+    448,
+    480,
+    512,
+    512,
+    512,
+    512
+  ],
+  "connectBonus": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10
+  ],
+  "colorBonus": [
+    0,
+    0,
+    3,
+    6,
+    12,
+    24
+  ],
+  "puyoImages": [
+    "Content/Textures/T_Puyo_Red.png",
+    "Content/Textures/T_Puyo_Green.png",
+    "Content/Textures/T_Puyo_Yellow.png",
+    "Content/Textures/T_Puyo_Purple.png",
+    "",
+    ""
+  ]
+
+}

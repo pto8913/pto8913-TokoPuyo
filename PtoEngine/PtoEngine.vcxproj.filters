@@ -215,12 +215,6 @@
     <Filter Include="Source\Application\Private\Actor">
       <UniqueIdentifier>{c69a3ad8-7a40-451b-bb8b-727a38684d6f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Application\Public\Actor\Item">
-      <UniqueIdentifier>{c3d3526e-ee0b-4aaf-8f5a-d831dd22c73a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Application\Public\Actor\Building">
-      <UniqueIdentifier>{953dbb39-27f6-42e8-aea2-9af8fa5972e0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Application\Public\Actor\Character">
       <UniqueIdentifier>{f79d3c62-5966-42af-9c1f-6f22f3734e6c}</UniqueIdentifier>
     </Filter>
@@ -233,9 +227,6 @@
     <Filter Include="Source\Application\Public\Actor\Ground">
       <UniqueIdentifier>{d6e3f129-85f7-4dcd-952f-c828ee58d113}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Application\Private\Actor\Building">
-      <UniqueIdentifier>{bed850ef-80fb-415b-afbe-87e1cd5469c9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Application\Private\Actor\Character">
       <UniqueIdentifier>{07068b9e-d206-4942-956d-778763fc7167}</UniqueIdentifier>
     </Filter>
@@ -247,9 +238,6 @@
     </Filter>
     <Filter Include="Source\Application\Private\Actor\Ground">
       <UniqueIdentifier>{28aa674c-7fa9-4a4c-ad82-dd618ee679b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Application\Private\Actor\Item">
-      <UniqueIdentifier>{d245647c-06a5-42c3-b77c-dd9fdde5eade}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Application\Private\Controller">
       <UniqueIdentifier>{63ceafdd-c005-4738-a96e-71284b3bfe13}</UniqueIdentifier>
@@ -553,23 +541,11 @@
     <ClInclude Include="Source\Engine\Public\Framework\GameInstance.h">
       <Filter>Source\Engine\Public\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application\Public\GameMode\GameMode_Dungeon.h">
-      <Filter>Source\Application\Public\GameMode</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\GameMode\GameMode_Town.h">
-      <Filter>Source\Application\Public\GameMode</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Framework\GameModeBase.h">
       <Filter>Source\Engine\Public\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application\Public\GameSettings.h">
       <Filter>Source\Application\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\GameState\GameState_Dungeon.h">
-      <Filter>Source\Application\Public\GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\GameState\GameState_Town.h">
-      <Filter>Source\Application\Public\GameState</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Framework\GameStateBase.h">
       <Filter>Source\Engine\Public\Framework</Filter>
@@ -595,20 +571,11 @@
     <ClInclude Include="Source\Engine\Public\Framework\Level\Level.h">
       <Filter>Source\Engine\Public\Framework\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application\Public\Level\Level_SonoTown.h">
-      <Filter>Source\Application\Public\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\Level\Level_SonoTown_House_0.h">
-      <Filter>Source\Application\Public\Level</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Application\Public\Level\LevelFactory.h">
       <Filter>Source\Application\Public\Level</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Math\Matrix.h">
       <Filter>Source\Engine\Public\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\Level\MazeGenerator.h">
-      <Filter>Source\Application\Public\Level</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Slate\Overlay.h">
       <Filter>Source\Engine\Public\Slate</Filter>
@@ -661,26 +628,8 @@
     <ClInclude Include="Source\Engine\Public\Framework\World.h">
       <Filter>Source\Engine\Public\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application\Public\World\World_Dungeon.h">
-      <Filter>Source\Application\Public\World</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\World\World_Town.h">
-      <Filter>Source\Application\Public\World</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\World\World_SonoCave.h">
-      <Filter>Source\Application\Public\World</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\World\World_SonoTown.h">
-      <Filter>Source\Application\Public\World</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Application\Public\GameState\GameState.h">
       <Filter>Source\Application\Public\GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\Actor\LibraryInterface.h">
-      <Filter>Source\Application\Public\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\Actor\StatusTypes.h">
-      <Filter>Source\Application\Public\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application\Public\Actor\Actor2D.h">
       <Filter>Source\Application\Public\Actor</Filter>
@@ -688,28 +637,13 @@
     <ClInclude Include="Source\Application\Public\Actor\Actor2DTypes.h">
       <Filter>Source\Application\Public\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application\Public\Actor\ItemManager.h">
-      <Filter>Source\Application\Public\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\Actor\Building\BuildingBase.h">
-      <Filter>Source\Application\Public\Actor\Building</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\Actor\Building\BuildingTypes.h">
-      <Filter>Source\Application\Public\Actor\Building</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Application\Public\Actor\Character\CharacterBase.h">
       <Filter>Source\Application\Public\Actor\Character</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application\Public\Actor\Character\CharacterTypes.h">
       <Filter>Source\Application\Public\Actor\Character</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application\Public\Actor\Character\Enemy.h">
-      <Filter>Source\Application\Public\Actor\Character</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Application\Public\Actor\Character\Player.h">
-      <Filter>Source\Application\Public\Actor\Character</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\Actor\Character\PlayerTypes.h">
       <Filter>Source\Application\Public\Actor\Character</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application\Public\Actor\Character\Player_Dungeon.h">
@@ -745,12 +679,6 @@
     <ClInclude Include="Source\Application\Public\Actor\Ground\GroundTypes.h">
       <Filter>Source\Application\Public\Actor\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application\Public\Actor\Item\ItemBase.h">
-      <Filter>Source\Application\Public\Actor\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\Actor\Item\ItemTypes.h">
-      <Filter>Source\Application\Public\Actor\Item</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Component\SpriteComponent.h">
       <Filter>Source\Engine\Public\Component</Filter>
     </ClInclude>
@@ -763,7 +691,7 @@
     <ClInclude Include="Source\Application\Public\Level\Level2D.h">
       <Filter>Source\Application\Public\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application\Public\Controller\PlayerController_Dungeon.h">
+    <ClInclude Include="Source\Application\Public\Controller\PlayerController_TokoPuyo.h">
       <Filter>Source\Application\Public\Controller</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application\Public\Controller\PlayerController_Town.h">
@@ -792,6 +720,42 @@
     </ClInclude>
     <ClInclude Include="Source\Application\Public\Level\LevelTypes.h">
       <Filter>Source\Application\Public\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Level\Level_TokoPuyo.h">
+      <Filter>Source\Application\Public\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\World\World_TokoPuyo.h">
+      <Filter>Source\Application\Public\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\GameState\GameState_TokoPuyo.h">
+      <Filter>Source\Application\Public\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\GameState\GameState_PlayTypes.h">
+      <Filter>Source\Application\Public\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\GameMode\GameMode_TokoPuyo.h">
+      <Filter>Source\Application\Public\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\GameMode\GameMode.h">
+      <Filter>Source\Application\Public\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Character\PuyoTypes.h">
+      <Filter>Source\Application\Public\Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Character\Puyo.h">
+      <Filter>Source\Application\Public\Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Character\PlayerTypes.h">
+      <Filter>Source\Application\Public\Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\UI\GameProgressUI.h">
+      <Filter>Source\Application\Public\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\UI\GameOverUI.h">
+      <Filter>Source\Application\Public\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\GameState\GameState_Play.h">
+      <Filter>Source\Application\Public\GameState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1032,20 +996,8 @@
     <ClCompile Include="Source\Engine\Private\Framework\GameInstance.cpp">
       <Filter>Source\Engine\Private\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Application\Private\GameMode\GameMode_Dungeon.cpp">
-      <Filter>Source\Application\Private\GameMode</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Application\Private\GameMode\GameMode_Town.cpp">
-      <Filter>Source\Application\Private\GameMode</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Application\Private\GameSettings.cpp">
       <Filter>Source\Application\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Application\Private\GameState\GameState_Dungeon.cpp">
-      <Filter>Source\Application\Private\GameState</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Application\Private\GameState\GameState_Town.cpp">
-      <Filter>Source\Application\Private\GameState</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Framework\GameModeBase.cpp">
       <Filter>Source\Engine\Private\Framework</Filter>
@@ -1068,14 +1020,8 @@
     <ClCompile Include="Source\Application\Private\UI\LandmarkUI.cpp">
       <Filter>Source\Application\Private\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Application\Private\Level\Level_SonoTown.cpp">
-      <Filter>Source\Application\Private\Level</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Private\Framework\Level\Level.cpp">
       <Filter>Source\Engine\Private\Framework\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Application\Private\Level\Level_SonoTown_House_0.cpp">
-      <Filter>Source\Application\Private\Level</Filter>
     </ClCompile>
     <ClCompile Include="Source\Application\Private\Level\LevelFactory.cpp">
       <Filter>Source\Application\Private\Level</Filter>
@@ -1085,9 +1031,6 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Math\Matrix.cpp">
       <Filter>Source\Engine\Private\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Application\Private\Level\MazeGenerator.cpp">
-      <Filter>Source\Application\Private\Level</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Slate\Overlay.cpp">
       <Filter>Source\Engine\Private\Slate</Filter>
@@ -1137,28 +1080,13 @@
     <ClCompile Include="Source\Engine\Private\Framework\World.cpp">
       <Filter>Source\Engine\Private\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Application\Private\World\World_Dungeon.cpp">
-      <Filter>Source\Application\Private\World</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Application\Private\World\World_SonoCave.cpp">
-      <Filter>Source\Application\Private\World</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Application\Private\World\World_SonoTown.cpp">
-      <Filter>Source\Application\Private\World</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Application\Private\World\World_Town.cpp">
-      <Filter>Source\Application\Private\World</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Application\Private\GameState\GameState.cpp">
       <Filter>Source\Application\Private\GameState</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Application\Private\Actor\Building\BuildingBase.cpp">
-      <Filter>Source\Application\Private\Actor\Building</Filter>
     </ClCompile>
     <ClCompile Include="Source\Application\Private\Actor\Character\CharacterBase.cpp">
       <Filter>Source\Application\Private\Actor\Character</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Application\Private\Actor\Character\Enemy.cpp">
+    <ClCompile Include="Source\Application\Private\Actor\Character\Puyo.cpp">
       <Filter>Source\Application\Private\Actor\Character</Filter>
     </ClCompile>
     <ClCompile Include="Source\Application\Private\Actor\Character\Player.cpp">
@@ -1191,9 +1119,6 @@
     <ClCompile Include="Source\Application\Private\Actor\Ground\GroundTypes.cpp">
       <Filter>Source\Application\Private\Actor\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Application\Private\Actor\Item\ItemBase.cpp">
-      <Filter>Source\Application\Private\Actor\Item</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Application\Private\Actor\Actor2D.cpp">
       <Filter>Source\Application\Private\Actor</Filter>
     </ClCompile>
@@ -1209,7 +1134,7 @@
     <ClCompile Include="Source\Application\Private\Level\Level2D.cpp">
       <Filter>Source\Application\Private\Level</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Application\Private\Controller\PlayerController_Dungeon.cpp">
+    <ClCompile Include="Source\Application\Private\Controller\PlayerController_TokoPuyo.cpp">
       <Filter>Source\Application\Private\Controller</Filter>
     </ClCompile>
     <ClCompile Include="Source\Application\Private\Controller\PlayerController_Town.cpp">
@@ -1229,6 +1154,30 @@
     </ClCompile>
     <ClCompile Include="Source\Application\Private\Component\Actor2DComponent.cpp">
       <Filter>Source\Application\Private\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Level\Level_TokoPuyo.cpp">
+      <Filter>Source\Application\Private\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\World\World_TokoPuyo.cpp">
+      <Filter>Source\Application\Private\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\GameMode\GameMode.cpp">
+      <Filter>Source\Application\Private\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\GameMode\GameMode_TokoPuyo.cpp">
+      <Filter>Source\Application\Private\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\GameState\GameState_TokoPuyo.cpp">
+      <Filter>Source\Application\Private\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\UI\GameProgressUI.cpp">
+      <Filter>Source\Application\Private\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\UI\GameOverUI.cpp">
+      <Filter>Source\Application\Private\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\GameState\GameState_Play.cpp">
+      <Filter>Source\Application\Private\GameState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1300,6 +1249,9 @@
     </None>
     <None Include="..\.editorconfig">
       <Filter>Source\Engine\Private</Filter>
+    </None>
+    <None Include="Config\PuyoGameSettings.json">
+      <Filter>Config</Filter>
     </None>
   </ItemGroup>
 </Project>

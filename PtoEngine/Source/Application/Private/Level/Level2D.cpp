@@ -5,7 +5,6 @@
 
 #include "Actor/Ground/GroundBase.h"
 #include "Actor/Event/EventBase.h"
-#include "Actor/Item/ItemBase.h"
 #include "Actor/Character/CharacterBase.h"
 #include "Actor/Character/Player.h"
 
@@ -56,8 +55,6 @@ void Level2D::Generate(DirectX11& dx)
 
 	GenerateGroundLayer();
 	GenerateEventLayer();
-	GenerateItemLayer();
-	GenerateBuildingLayer();
 	GenerateCharacterLayer();
 	GenerateEffectLayer();
 
@@ -290,104 +287,6 @@ void Level2D::SetGroundLayerID(const EGroundId& groundType, const UINT16& inMinX
 		}
 	}
 }
-void Level2D::SetGroundLayerIDChecked(const EGroundId& groundType, const float& worldX, const float& worldY)
-{
-	if (IsInWorld(worldX, worldY))
-	{
-		bool canDraw = false;
-		auto sprite = GetGroundLayer(worldX, worldY);
-		if (sprite != nullptr)
-		{
-			switch (ConvertToGroundTile(sprite->GetGroundType()))
-			{
-			case EGroundTile::None:
-			case EGroundTile::Wall:
-				canDraw = true;
-			default:
-				break;
-			};
-		}
-		else
-		{
-			canDraw = true;
-		}
-		if (canDraw)
-		{
-			auto sprite = GetGroundLayer(worldX, worldY);
-			if (sprite != nullptr)
-			{
-				sprite->SetGroundType(groundType);
-			}
-			else
-			{
-				sprite = GetWorld()->SpawnActor<GroundBase>(*pDX, groundType);
-				sprite->BeginPlay(*pDX);
-				SetSpriteLocation(sprite, worldX, worldY);
-			}
-		}
-	}
-}
-void Level2D::SetGroundLayerIDChecked(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal, INT16 inConstantXY2)
-{
-	if (inConstantXY2 > -1)
-	{
-		if (bConstantHorizontal)
-		{
-			if (!IsInWorld(inMinXY, inConstantXY) || !IsInWorld(inMinXY, inConstantXY2) ||
-				!IsInWorld(inMaxXY, inConstantXY) || !IsInWorld(inMaxXY, inConstantXY2))
-			{
-				return;
-			}
-		}
-		else
-		{
-			if (!IsInWorld(inConstantXY, inMinXY) || !IsInWorld(inConstantXY2, inMinXY) ||
-				!IsInWorld(inConstantXY, inMaxXY) || !IsInWorld(inConstantXY2, inMaxXY))
-			{
-				return;
-			}
-		}
-	}
-	else
-	{
-		if (bConstantHorizontal)
-		{
-			if (!IsInWorld(inMinXY, inConstantXY) || !IsInWorld(inMaxXY, inConstantXY))
-			{
-				return;
-			}
-		}
-		else
-		{
-			if (!IsInWorld(inConstantXY, inMinXY) || !IsInWorld(inConstantXY, inMaxXY))
-			{
-				return;
-			}
-		}
-	}
-	for (UINT16 i = inMinXY; i <= inMaxXY; ++i)
-	{
-		if (bConstantHorizontal)
-		{
-			SetGroundLayerIDChecked(groundType, i, inConstantXY);
-		}
-		else
-		{
-			SetGroundLayerIDChecked(groundType, inConstantXY, i);
-		}
-		if (inConstantXY2 > -1)
-		{
-			if (bConstantHorizontal)
-			{
-				SetGroundLayerIDChecked(groundType, i, inConstantXY2);
-			}
-			else
-			{
-				SetGroundLayerIDChecked(groundType, inConstantXY2, i);
-			}
-		}
-	}
-}
 std::shared_ptr<GroundBase> Level2D::GetGroundLayer(const int& worldX, const int& worldY) const
 {
 	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Ground, Layer::EActorLayer::Background))
@@ -433,27 +332,6 @@ std::shared_ptr<EventBase> Level2D::GetEventLayer(const int& worldX, const int& 
 }
 
 // --------------------------
-// Main : Utils : Item
-// --------------------------
-void Level2D::SetItemLayerID(const EItemId& itemType, const float& worldX, const float& worldY)
-{
-	if (IsInWorld(worldX, worldY))
-	{
-		auto sprite = GetWorld()->SpawnActor<ItemBase>(*pDX, itemType);
-		sprite->BeginPlay(*pDX);
-		SetSpriteLocation(sprite, worldX, worldY);
-	}
-}
-std::shared_ptr<ItemBase> Level2D::GetItemLayer(const int& worldX, const int& worldY) const
-{
-	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Item, Layer::EActorLayer::Entities))
-	{
-		return static_pointer_cast<ItemBase>(obj);
-	}
-	return nullptr;
-}
-
-// --------------------------
 // Main : Utils : Character
 // --------------------------
 void Level2D::SetCharacterLayerID(const ECharacterId& characterType, const float& worldX, const float& worldY)
@@ -472,70 +350,4 @@ std::shared_ptr<CharacterBase> Level2D::GetCharacterLayer(const int& worldX, con
 		return static_pointer_cast<CharacterBase>(obj);
 	}
 	return nullptr;
-}
-
-// --------------------------
-// Main : Debug
-// --------------------------
-void Level2D::ShowTiles()
-{
-#if _DEBUG
-	OutputDebugStringA("-------- Show Tiles -------\n");
-
-	std::vector<std::string> x(int(width), " ");
-	std::vector<std::vector<std::string>> tiles(int(height), x);
-	for (const auto& layer : pObjectCollection->pActors)
-	{
-		for (const auto& actor : layer.second)
-		{
-			const auto actor2d = static_pointer_cast<Actor2D>(actor);
-			auto p = actor2d->Get2DIdx();
-			int x = p.x, y = p.y;
-			switch (actor2d->GetSortOrder())
-			{
-			case Layer::EOrder::Ground:
-				switch (ConvertToGroundTile(static_pointer_cast<GroundBase>(actor)->GetGroundType()))
-				{
-				case EGroundTile::Path:
-					tiles[y][x] = "P";
-					break;
-				case EGroundTile::Room:
-					tiles[y][x] = "R";
-					break;
-				case EGroundTile::Wall:
-					tiles[y][x] = "W";
-					break;
-				default:
-					break;
-				}
-				break;
-			case Layer::EOrder::Event:
-				switch (static_pointer_cast<EventBase>(actor)->GetEventType())
-				{
-				case EEventId::Enter:
-					tiles[y][x] = "S";
-					break;
-				case EEventId::Exit:
-					tiles[y][x] = "E";
-					break;
-				default:
-					break;
-				}
-				break;
-			}
-		}
-	}
-
-	for (int y = 0; y < height; ++y)
-	{
-		std::string str;
-		for (int x = 0; x < width; ++x)
-		{
-			str += tiles[y][x];
-		}
-		OutputDebugStringA((str + "\n").c_str());
-	}
-	OutputDebugStringA("-------- Show GroundLayer -------\n");
-	OutputDebugStringA("\n\n");
-#endif
 }

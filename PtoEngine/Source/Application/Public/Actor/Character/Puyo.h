@@ -1,14 +1,79 @@
 #pragma once
 
-#include "Actor/Character/CharacterBase.h"
+#include "Actor/Actor2D.h"
+#include "GameSettings.h"
 
-struct Puyo
+class DirectX11;
+struct PuyoSettings;
+
+class Puyo : public Actor2D
 {
 public:
-	Puyo() : Id(Config::EMPTY_PUYO), IsActive(true), rotation(Rotation::U) {}
-	Puyo(UINT8 inId) : Id(inId), IsActive(true), rotation(Rotation::U) {}
+	Puyo(DirectX11& dx, const uint8_t& type);
 
-	void CopyToSub(Puyo& target)
+	enum class Rotation : UINT8
+	{
+		U = 0,
+		R = 1,
+		B = 2,
+		L = 3,
+	};
+	// ------------------------------------------------------
+	// Main
+	// ------------------------------------------------------
+	void SetType(const uint8_t& type);
+	uint8_t GetType() const;
+
+	Rotation GetRotation();
+	void SetRotation(const Rotation& in);
+
+	bool GetIsActive();
+	void SetIsActive(const bool& in);
+
+	bool IsSame(const std::shared_ptr<Puyo>& in);
+	bool IsSameType(const std::shared_ptr<Puyo>& in);
+
+	void Rotate(bool rotateR)
+	{
+		int r = static_cast<int>(mRotation);
+		if (rotateR)
+		{
+			wrap_rotation(++r);
+		}
+		else
+		{
+			wrap_rotation(--r);
+		}
+		mRotation = static_cast<Rotation>(r);
+	}
+private:
+	void wrap_rotation(int& r)
+	{
+		if (r > 3)
+		{
+			r = 0;
+		}
+		else if (r < 0)
+		{
+			r = 3;
+		}
+	}
+private:
+	// ------------------------------------------------------
+	// Sub
+	// ------------------------------------------------------
+	uint8_t mType;
+	Rotation mRotation;
+	bool bIsActive = true;
+};
+
+struct PuyoS
+{
+public:
+	PuyoS() : Id(GameSettings::EMPTY_PUYO), IsActive(true), rotation(Rotation::U) {}
+	PuyoS(UINT8 inId) : Id(inId), IsActive(true), rotation(Rotation::U) {}
+
+	void CopyToSub(PuyoS& target)
 	{
 		target.rotation = rotation;
 		target.x = x;
@@ -33,22 +98,22 @@ public:
 		target.UpdateOffset();
 	}
 
-	bool IsSame(const Puyo& In) const
+	bool IsSame(const PuyoS& In) const
 	{
 		return Id == In.Id && x == In.x && y == In.y;
 	}
-	bool IsSameId(const Puyo& In) const
+	bool IsSameId(const PuyoS& In) const
 	{
 		return Id == In.Id;
 	}
 	bool IsEmpty() const
 	{
-		return Id == Config::EMPTY_PUYO;
+		return Id == GameSettings::EMPTY_PUYO;
 	}
 
 	void SetEmpty()
 	{
-		Id = Config::EMPTY_PUYO;
+		Id = GameSettings::EMPTY_PUYO;
 		IsActive = true;
 		rotation = Rotation::U;
 		offset = { 0, 0 };
@@ -57,8 +122,8 @@ public:
 
 	void UpdateOffset(DirectX::XMFLOAT2 Additional = { 0, 0 })
 	{
-		offset.x = Config::GAMESCREEN_PADDING.x + x * Config::CELL + Additional.x;
-		offset.y = Config::GAMESCREEN_PADDING.y + (y - 1) * Config::CELL + Additional.y;
+		offset.x = GameSettings::GAMESCREEN_PADDING.x + x * GameSettings::CELL + Additional.x;
+		offset.y = GameSettings::GAMESCREEN_PADDING.y + (y - 1) * GameSettings::CELL + Additional.y;
 	}
 
 	/* 0 ~ 3 */
@@ -108,20 +173,3 @@ private:
 	}
 };
 
-
-class Enemy : public CharacterBase
-{
-public:
-	Enemy(DirectX11& dx, const ECharacterId& CharacterType);
-
-	// ------------------------------------------------------
-	// Main
-	// ------------------------------------------------------
-
-	virtual void TurnElapsed() override {};
-
-protected:
-	// ------------------------------------------------------
-	// State
-	// ------------------------------------------------------
-};
