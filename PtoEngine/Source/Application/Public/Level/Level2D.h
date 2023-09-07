@@ -44,7 +44,7 @@ protected:
 	virtual void GenerateEffectLayer() {}
 
 public:
-	void Init(const int& x, const int& y);
+	virtual void Init(const int& x, const int& y);
 	virtual bool MoveCenter(const float& x, const float& y);
 	virtual void Clear();
 protected:
