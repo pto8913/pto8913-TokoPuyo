@@ -18,23 +18,25 @@ struct FVector2D
 	FVector2D(const float& inX, const float& inY);
 	FVector2D(float&& inX, float&& inY);
 
-	FVector2D operator+(const FVector2D& In) const;
-	FVector2D operator+(const float& In) const;
-	FVector2D operator-(const FVector2D& In) const;
-	FVector2D operator-(const float& In) const;
-	FVector2D operator*(const FVector2D& In) const;
-	FVector2D operator*(const float& In) const;
-	FVector2D operator/(const FVector2D& In) const;
-	FVector2D operator/(const float& In) const;
+	FVector2D operator+(const FVector2D& in) const;
+	FVector2D operator+(const float& in) const;
+	FVector2D operator-(const FVector2D& in) const;
+	FVector2D operator-(const float& in) const;
+	FVector2D operator*(const FVector2D& in) const;
+	FVector2D operator*(const float& in) const;
+	FVector2D operator/(const FVector2D& in) const;
+	FVector2D operator/(const float& in) const;
 
-	FVector2D& operator+=(const FVector2D& In);
-	FVector2D& operator+=(const float& In);
-	FVector2D& operator-=(const FVector2D& In);
-	FVector2D& operator-=(const float& In);
-	FVector2D& operator*=(const FVector2D& In);
-	FVector2D& operator*=(const float& In);
-	FVector2D& operator/=(const FVector2D& In);
-	FVector2D& operator/=(const float& In);
+	FVector2D& operator+=(const FVector2D& in);
+	FVector2D& operator+=(const float& in);
+	FVector2D& operator-=(const FVector2D& in);
+	FVector2D& operator-=(const float& in);
+	FVector2D& operator*=(const FVector2D& in);
+	FVector2D& operator*=(const float& in);
+	FVector2D& operator/=(const FVector2D& in);
+	FVector2D& operator/=(const float& in);
+
+	bool operator==(const FVector2D& in);
 
 	std::string ToString() const;
 	float Length() const;
@@ -73,6 +75,7 @@ public:
 	FVector& operator/=(const float& In);
 
 	bool operator<(const float& in);
+	bool operator==(const FVector& in);
 
 	std::string ToString() const;
 	float Length() const;
