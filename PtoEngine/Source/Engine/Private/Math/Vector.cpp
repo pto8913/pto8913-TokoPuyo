@@ -4,6 +4,8 @@
 
 #include <format>
 
+#include "Algorithm/Math2.h"
+
 // --------------------------------------------------------------------------------------------------
 // Vector 2D
 // --------------------------------------------------------------------------------------------------
@@ -108,6 +110,11 @@ FVector2D& FVector2D::operator/=(const float& in)
 	x /= in;
 	y /= in;
 	return *this;
+}
+
+bool FVector2D::operator==(const FVector2D& in)
+{
+	return Algo::IsNearlyEqual(x, in.x) && Algo::IsNearlyEqual(y, in.y);
 }
 
 std::string FVector2D::ToString() const
@@ -244,6 +251,10 @@ FVector& FVector::operator/=(const float& in)
 bool FVector::operator<(const float& in)
 {
 	return Length() < in;
+}
+bool FVector::operator==(const FVector& in)
+{
+	return Algo::IsNearlyEqual(x, in.x) && Algo::IsNearlyEqual(y, in.y) && Algo::IsNearlyEqual(z, in.z);
 }
 
 std::string FVector::ToString() const
