@@ -73,6 +73,8 @@ void ObjectCollection::ActorDestroyed(std::shared_ptr<Actor> in)
 			{
 				if (obj == in)
 				{
+					obj.reset();
+					obj = nullptr;
 					iter = elem.second.erase(iter);
 					break;
 				}
