@@ -16,6 +16,9 @@ Actor::Actor()
 }
 Actor::~Actor()
 {
+	OnDestroyed.Broadcast(shared_from_this());
+	OnDestroyed.ClearBind();
+
 	pOuter.reset();
 	pOuter = nullptr;
 
@@ -25,10 +28,6 @@ Actor::~Actor()
 		pair.second = nullptr;
 	}
 	pComponents.clear();
-}
-
-void Actor::Construct()
-{
 }
 
 // ------------------------------------------------------
