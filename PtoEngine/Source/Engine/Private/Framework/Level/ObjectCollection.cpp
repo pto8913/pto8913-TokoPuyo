@@ -42,7 +42,7 @@ void ObjectCollection::Tick(DirectX11& dx, float deltaSec)
 		}
 	}
 }
-void ObjectCollection::Remove()
+void ObjectCollection::Clear()
 {
 	for (auto&& elem : pActors)
 	{

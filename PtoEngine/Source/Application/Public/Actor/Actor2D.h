@@ -8,7 +8,6 @@
 
 class DirectX11;
 class SpriteComponent;
-class Actor2DComponent;
 
 struct FActor2DSettings
 {
@@ -36,7 +35,6 @@ protected:
 	virtual void Update(DirectX11& dx) {};
 public:
 	std::shared_ptr<SpriteComponent> GetSpriteComp();
-	std::shared_ptr<Actor2DComponent> GetActor2DComp();
 
 	void SetSortOrder(Layer::EOrder inSortOrder);
 	Layer::EOrder GetSortOrder() const;
@@ -58,7 +56,6 @@ protected:
 	// State
 	// ------------------------------------------------------
 	std::shared_ptr<SpriteComponent> pSpriteComp = nullptr;
-	std::shared_ptr<Actor2DComponent> pActor2DComp = nullptr;
 
 	Layer::EOrder mSortOrder = Layer::UnOrder;
 	FVector2D m2DIdx;

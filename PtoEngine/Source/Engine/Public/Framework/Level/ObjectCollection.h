@@ -19,7 +19,7 @@ public:
 	virtual void Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Actor> in, bool sort = true);
 	virtual void Append(std::vector<std::shared_ptr<Actor>>& in);
 	virtual void Tick(DirectX11& dx, float deltaSec);
-	virtual void Remove();
+	virtual void Clear();
 
 protected:
 	virtual void ActorDestroyed(std::shared_ptr<Actor> in);
