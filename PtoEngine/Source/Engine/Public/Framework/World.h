@@ -72,8 +72,6 @@ public:
 		{
 			pPersistentLevel->GetCollisionCollection().Add(collision);
 		}
-
-		out->Construct();
 		return out;
 	}
 

@@ -13,13 +13,13 @@ class Level;
 class World;
 class ComponentBase;
 
-class Actor : public Object
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnDestroyed, std::shared_ptr<class Actor>);
+
+class Actor : public Object, public std::enable_shared_from_this<Actor>
 {
 public:
 	Actor();
 	virtual ~Actor();
-
-	virtual void Construct();
 
 	// ------------------------------------------------------
 	// Main
@@ -90,6 +90,11 @@ public:
 	{
 		return std::static_pointer_cast<T>(pOuter);
 	}
+
+	// -----------------------------------
+	// Main : Delegates
+	// -----------------------------------
+	FOnDestroyed OnDestroyed;
 
 protected:
 	// ------------------------------------------------------

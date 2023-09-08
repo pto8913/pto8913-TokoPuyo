@@ -18,6 +18,8 @@ void ObjectCollection::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Ac
 		std::vector<std::shared_ptr<Actor>> arr(1, in);
 		pActors.insert(std::make_pair(inLayer, arr));
 	}
+
+	in->OnDestroyed.Bind<&ObjectCollection::ActorDestroyed>(*this, "World");
 }
 void ObjectCollection::Append(std::vector<std::shared_ptr<Actor>>& in)
 {
@@ -51,6 +53,29 @@ void ObjectCollection::Remove()
 			if (obj != nullptr)
 			{
 				iter = elem.second.erase(iter);
+			}
+			else
+			{
+				++iter;
+			}
+		}
+	}
+}
+void ObjectCollection::ActorDestroyed(std::shared_ptr<Actor> in)
+{
+	for (auto&& elem : pActors)
+	{
+		auto iter = elem.second.begin();
+		while (iter != elem.second.end())
+		{
+			auto obj = *iter;
+			if (obj != nullptr)
+			{
+				if (obj == in)
+				{
+					iter = elem.second.erase(iter);
+					break;
+				}
 			}
 			else
 			{

@@ -58,4 +58,3 @@ protected:
 
 	FVector mStartPosition;
 };
-
