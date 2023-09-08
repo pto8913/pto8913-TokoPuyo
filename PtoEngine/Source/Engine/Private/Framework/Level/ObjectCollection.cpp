@@ -80,6 +80,10 @@ void ObjectCollection::ActorDestroyed(std::shared_ptr<Actor> in)
 					iter = elem.second.erase(iter);
 					break;
 				}
+				else
+				{
+					++iter;
+				}
 			}
 			else
 			{

@@ -183,9 +183,17 @@ void Level_TokoPuyo::Restart()
 {
 	pGameState->SetGameProgress(*pDX, EGameProgress::Wait);
 
+	if (pMainPuyo != nullptr)
+	{
+		pMainPuyo->DestroyActor();
+	}
 	pMainPuyo.reset();
 	pMainPuyo = nullptr;
 
+	if (pSubPuyo)
+	{
+		pSubPuyo->DestroyActor();
+	}
 	pSubPuyo.reset();
 	pSubPuyo = nullptr;
 
@@ -196,24 +204,19 @@ void Level_TokoPuyo::Restart()
 
 	unionFind.clear();
 
-	//for (auto row = stackedPuyo.begin(); row != stackedPuyo.end(); ++row)
-	//{
-	//	for (auto iter = row->begin(); iter != row->end(); ++iter)
-	//	{
-	//		auto ptr = *iter;
-	//		if (ptr != nullptr)
-	//		{
-	//			ptr.reset();
-	//			ptr = nullptr;
-
-	//			row->erase(iter);
-	//		}
-	//		else
-	//		{
-	//			++iter;
-	//		}
-	//	}
-	//}
+	for (int y = 0; y < mGameBoardSize.y; ++y)
+	{
+		for (int x = 0; x < mGameBoardSize.x; ++x)
+		{
+			if (IsValidIndex(stackedPuyo, x, y))
+			{
+				if (auto puyoActor = stackedPuyo[y][x])
+				{
+					puyoActor->DestroyActor();
+				}
+			}
+		}
+	}
 	stackedPuyo.clear();
 
 	planVanishPuyo.erase(planVanishPuyo.begin(), planVanishPuyo.end());
@@ -358,7 +361,7 @@ void Level_TokoPuyo::SpawnPuyo()
 void Level_TokoPuyo::DoFrame_Control()
 {
 #if _DEBUG
-	OutputDebugStringA("DoFrame_Control\n");
+	//OutputDebugStringA("DoFrame_Control\n");
 #endif
 	ActionPuyoSlide(0.f, 0.5f);
 }
