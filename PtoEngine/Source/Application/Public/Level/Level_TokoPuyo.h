@@ -51,12 +51,9 @@ protected:
 	@bLeft : true = -1.f, false = 1.f; 
 	@rateY : -1.f ~ 1.f 
 	*/
-	void ActionPuyoSlide(bool bLeft, float rateY);
-	void UpdateActivePuyo(const float& x, const float& y);
+	void ActionPuyoSlide(float rateX, float rateY);
 
-	void ActionActivePuyoDown(float rate);
 	void ActivePuyoDownToRelease();
-	void ActionActivePuyoSlide(bool left);
 	void ActionActivePuyoRotate(bool rotateR = true);
 	void ActivePuyoRotateToRelease();
 
@@ -138,6 +135,7 @@ protected:
 	void GetXYFromPos(uint8_t pos, uint8_t& x, uint8_t& y);
 	uint8_t Random();
 
+	void UpdateActivePuyo(const float& x, const float& y);
 	void UpdateSubPuyoLocationByRotation();
 private:
 	// ------------------------------------------------------
@@ -145,18 +143,13 @@ private:
 	// ------------------------------------------------------
 	FVector2D mGameBoardSize;
 	DirectX11* pDX = nullptr;
+	std::shared_ptr<GameState_Play> pGameState = nullptr;
 
 	EGameProgress Cached_GameProgress;
 
 	// ----------------------
-	// State : UI
-	// ----------------------
-	std::shared_ptr<GameState_Play> pGameState = nullptr;
-
-	// ----------------------
 	// State : Puyo
 	// ----------------------
-	uint8_t subPuyoId;
 	std::shared_ptr<Puyo> pMainPuyo;
 	std::shared_ptr<Puyo> pSubPuyo;
 	uint8_t nextPuyo1_1 = GameSettings::EMPTY_PUYO;

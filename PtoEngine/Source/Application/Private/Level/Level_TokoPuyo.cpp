@@ -14,8 +14,6 @@
 
 #include "GameState/GameState_Play.h"
 
-#define EnumToStr(name) std::string(#name)
-
 using namespace DirectX;
 
 Level_TokoPuyo::Level_TokoPuyo(DirectX11& dx)
@@ -64,8 +62,12 @@ Level_TokoPuyo::~Level_TokoPuyo()
 {
 	pMainPuyo.reset();
 	pMainPuyo = nullptr;
+
 	pSubPuyo.reset();
 	pSubPuyo = nullptr;
+
+	pGameState.reset();
+	pGameState = nullptr;
 
 	unionFind.clear();
 
@@ -179,13 +181,14 @@ void Level_TokoPuyo::Tick(DirectX11& dx, float deltaTime)
 
 void Level_TokoPuyo::Restart()
 {
+	pGameState->SetGameProgress(*pDX, EGameProgress::Wait);
+
 	pMainPuyo.reset();
 	pMainPuyo = nullptr;
 
 	pSubPuyo.reset();
 	pSubPuyo = nullptr;
 
-	subPuyoId = GameSettings::EMPTY_PUYO;
 	nextPuyo1_1 = GameSettings::EMPTY_PUYO;
 	nextPuyo1_2 = GameSettings::EMPTY_PUYO;
 	nextPuyo2_1 = GameSettings::EMPTY_PUYO;
@@ -193,7 +196,24 @@ void Level_TokoPuyo::Restart()
 
 	unionFind.clear();
 
-	stackedPuyo.erase(stackedPuyo.begin(), stackedPuyo.end());
+	//for (auto row = stackedPuyo.begin(); row != stackedPuyo.end(); ++row)
+	//{
+	//	for (auto iter = row->begin(); iter != row->end(); ++iter)
+	//	{
+	//		auto ptr = *iter;
+	//		if (ptr != nullptr)
+	//		{
+	//			ptr.reset();
+	//			ptr = nullptr;
+
+	//			row->erase(iter);
+	//		}
+	//		else
+	//		{
+	//			++iter;
+	//		}
+	//	}
+	//}
 	stackedPuyo.clear();
 
 	planVanishPuyo.erase(planVanishPuyo.begin(), planVanishPuyo.end());
@@ -285,7 +305,8 @@ void Level_TokoPuyo::StartControlPuyo()
 }
 void Level_TokoPuyo::SpawnPuyo()
 {
-	auto mainPuyoId = 0;
+	auto mainPuyoId = GameSettings::EMPTY_PUYO;
+	auto subPuyoId = GameSettings::EMPTY_PUYO;
 	if (nextPuyo1_1 == GameSettings::EMPTY_PUYO)
 	{
 		mainPuyoId = Random();
@@ -328,8 +349,7 @@ void Level_TokoPuyo::SpawnPuyo()
 	}
 	pGameState->UpdateNextPuyo(nextPuyo1_1, nextPuyo1_2, nextPuyo2_1, nextPuyo2_2);
 
-	SetSpriteLocation(pMainPuyo, 2, 0);
-	SetSpriteLocation(pSubPuyo, 2, -1);
+	UpdateActivePuyo(2, 0);
 }
 
 // ------------------------------------------------------------
@@ -340,17 +360,15 @@ void Level_TokoPuyo::DoFrame_Control()
 #if _DEBUG
 	OutputDebugStringA("DoFrame_Control\n");
 #endif
-	ActionActivePuyoDown(0.5f);
+	ActionPuyoSlide(0.f, 0.5f);
 }
 
 // ---------------------------
 // Main : Puyo Moving
 // ---------------------------
-void Level_TokoPuyo::ActionPuyoSlide(bool bLeft, float rateY)
+void Level_TokoPuyo::ActionPuyoSlide(float rateX, float rateY)
 {
 	if (pMainPuyo == nullptr) return;
-
-	const float rateX = bLeft ? -1.f : 1.f;
 
 	SE_PuyoMove->Play();
 
@@ -361,6 +379,10 @@ void Level_TokoPuyo::ActionPuyoSlide(bool bLeft, float rateY)
 
 	float mainNextX = currMainIdx.x + rateX;
 	float mainNextY = currMainIdx.y + rateY;
+	if (rateY > 0.f)
+	{
+		mainNextY += 1.f;
+	}
 
 	float subNextX = currSubIdx.x + rateX;
 	float subNextY = currSubIdx.y + rateY;
@@ -371,11 +393,11 @@ void Level_TokoPuyo::ActionPuyoSlide(bool bLeft, float rateY)
 	{
 		if (rateY > 0.f)
 		{
-			mainNextY += 1.f;
+			subNextY += 1.f;
 		}
-		if (IsValidIndex(stackedPuyo, mainNextX, mainNextY))
+		if (IsValidIndex(stackedPuyo, subNextX, subNextY))
 		{
-			if (GetStackedPuyo(mainNextX, mainNextY) == nullptr)
+			if (GetStackedPuyo(subNextX, subNextY) == nullptr)
 			{
 				UpdateActivePuyo(nextMainIdx.x, nextMainIdx.y);
 				success = true;
@@ -397,10 +419,6 @@ void Level_TokoPuyo::ActionPuyoSlide(bool bLeft, float rateY)
 	}
 	case Puyo::ERotation::L:
 	{
-		if (bLeft)
-		{
-			subNextX -= 1.f;
-		}
 		if (IsValidIndex(stackedPuyo, mainNextX, mainNextY) && IsValidIndex(stackedPuyo, subNextX, subNextY))
 		{
 			if (GetStackedPuyo(mainNextX, mainNextY) == nullptr && GetStackedPuyo(subNextX, subNextY) == nullptr)
@@ -413,10 +431,6 @@ void Level_TokoPuyo::ActionPuyoSlide(bool bLeft, float rateY)
 	}
 	case Puyo::ERotation::R:
 	{
-		if (!bLeft)
-		{
-			subNextX += 1.f;
-		}
 		if (IsValidIndex(stackedPuyo, mainNextX, mainNextY) && IsValidIndex(stackedPuyo, subNextX, subNextY))
 		{
 			if (GetStackedPuyo(mainNextX, mainNextY) == nullptr && GetStackedPuyo(subNextX, subNextY) == nullptr)
@@ -433,92 +447,19 @@ void Level_TokoPuyo::ActionPuyoSlide(bool bLeft, float rateY)
 
 	if (!success)
 	{
-		ActivePuyoDownToRelease();
-	}
-}
-void Level_TokoPuyo::UpdateActivePuyo(const float& x, const float& y)
-{
-	SetSpriteLocation(pMainPuyo, x, y);
-	UpdateSubPuyoLocationByRotation();
-}
-
-void Level_TokoPuyo::ActionActivePuyoDown(float rate)
-{
-	if (pMainPuyo == nullptr) return;
-
-	SE_PuyoMove->Play();
-
-	bool success = false;
-	const auto currMainIdx = pMainPuyo->Get2DIdx();
-	switch (pMainPuyo->GetRotation())
-	{
-	case Puyo::ERotation::B:
-		if (IsValidIndex(stackedPuyo, currMainIdx.x, currMainIdx.y + 2))
+		if (rateY > 0.f)
 		{
-			if (GetStackedPuyo(currMainIdx.x, currMainIdx.y + 2) == nullptr)
-			{
-				SetSpriteLocation(pSubPuyo, currMainIdx.x, currMainIdx.y + 1 + rate);
-				SetSpriteLocation(pMainPuyo, currMainIdx.x, currMainIdx.y + rate);
-				success = true;
-			}
+			ActivePuyoDownToRelease();
 		}
-		break;
-	case Puyo::ERotation::U:
-		if (IsValidIndex(stackedPuyo, currMainIdx.x, currMainIdx.y + 1))
-		{
-			if (GetStackedPuyo(currMainIdx.x, currMainIdx.y + 1) == nullptr)
-			{
-				SetSpriteLocation(pSubPuyo, currMainIdx.x, currMainIdx.y - 1 + rate);
-				SetSpriteLocation(pMainPuyo, currMainIdx.x, currMainIdx.y + rate);
-				success = true;
-			}
-		}
-		break;
-	case Puyo::ERotation::L:
-		if (IsValidIndex(stackedPuyo, currMainIdx.x, currMainIdx.y + 1) && IsValidIndex(stackedPuyo, currMainIdx.x - 1, currMainIdx.y + 1))
-		{
-			if (GetStackedPuyo(currMainIdx.x, currMainIdx.y + 1) == nullptr && GetStackedPuyo(currMainIdx.x - 1, currMainIdx.y + 1) == nullptr)
-			{
-				SetSpriteLocation(pSubPuyo, currMainIdx.x - 1, currMainIdx.y + rate);
-				SetSpriteLocation(pMainPuyo, currMainIdx.x, currMainIdx.y + rate);
-				success = true;
-			}
-		}
-		break;
-	case Puyo::ERotation::R:
-		if (IsValidIndex(stackedPuyo, currMainIdx.x, currMainIdx.y + 1) && IsValidIndex(stackedPuyo, currMainIdx.x + 1, currMainIdx.y + 1))
-		{
-			if (GetStackedPuyo(currMainIdx.x, currMainIdx.y + 1) == nullptr && GetStackedPuyo(currMainIdx.x + 1, currMainIdx.y + 1) == nullptr)
-			{
-				SetSpriteLocation(pSubPuyo, currMainIdx.x + 1, currMainIdx.y + rate);
-				SetSpriteLocation(pMainPuyo, currMainIdx.x, currMainIdx.y + rate);
-				success = true;
-			}
-		}
-		break;
-	default:
-		break;
-	}
-
-	if (!success)
-	{
-		ActivePuyoDownToRelease();
 	}
 }
 void Level_TokoPuyo::ActivePuyoDownToRelease()
 {
 #if _DEBUG
-	OutputDebugStringA("ActivePuyoDownToRelease\n");
+	OutputDebugStringA("ActivePuyoDownToRelease");
 #endif
 	auto currMainIdx = pMainPuyo->Get2DIdx();
-	if (currMainIdx.y >= mGameBoardSize.y)
-	{
-		currMainIdx.y = floor(currMainIdx.y);
-	}
-	else
-	{
-		currMainIdx.y = ceil(currMainIdx.y);
-	}
+	currMainIdx.y = floor(currMainIdx.y);
 	if (currMainIdx.x < 0)
 	{
 		currMainIdx.x = 0;
@@ -531,106 +472,14 @@ void Level_TokoPuyo::ActivePuyoDownToRelease()
 	{
 		if (GetStackedPuyo(currMainIdx.x, currMainIdx.y) == nullptr)
 		{
-			SetSpriteLocation(pMainPuyo, currMainIdx.x, currMainIdx.y);
-			UpdateSubPuyoLocationByRotation();
+			UpdateActivePuyo(currMainIdx.x, currMainIdx.y);
 		}
 	}
 	
 	pGameState->SetGameProgress(*pDX, EGameProgress::Release);
 	SE_PuyoBottom->Play();
 }
-void Level_TokoPuyo::ActionActivePuyoSlide(bool left)
-{
-	SE_PuyoMove->Play();
 
-	const float slideDir = left ? -1.f : 1.f;
-
-	auto mainIdx = pMainPuyo->Get2DIdx();
-	if (mainIdx.y == 0)
-	{
-		ActionActivePuyoDown(0.5f);
-	}
-
-	bool bIsValidIdx = false;
-	std::shared_ptr<Puyo> puyoActor = nullptr;
-	switch (pMainPuyo->GetRotation())
-	{
-	case Puyo::ERotation::U:
-		if (IsValidIndex(stackedPuyo, mainIdx.x + slideDir, mainIdx.y) && IsValidIndex(stackedPuyo, mainIdx.x + slideDir, mainIdx.y - 1))
-		{
-			if (GetStackedPuyo(mainIdx.x + slideDir, mainIdx.y) == nullptr && GetStackedPuyo(mainIdx.x + slideDir, mainIdx.y - 1) == nullptr)
-			{
-				SetSpriteLocation(pMainPuyo, mainIdx.x + slideDir, mainIdx.y);
-				SetSpriteLocation(pSubPuyo, mainIdx.x + slideDir, mainIdx.y - 1);
-			}
-		}
-		break;
-	case Puyo::ERotation::B:
-		if (IsValidIndex(stackedPuyo, mainIdx.x + slideDir, mainIdx.y) && IsValidIndex(stackedPuyo, mainIdx.x + slideDir, mainIdx.y + 1))
-		{
-			if (GetStackedPuyo(mainIdx.x + slideDir, mainIdx.y) == nullptr && GetStackedPuyo(mainIdx.x + slideDir, mainIdx.y + 1) == nullptr)
-			{
-				SetSpriteLocation(pMainPuyo, mainIdx.x + slideDir, mainIdx.y);
-				SetSpriteLocation(pSubPuyo, mainIdx.x + slideDir, mainIdx.y + 1);
-			}
-		}
-		break;
-	case Puyo::ERotation::L:
-		if (left)
-		{
-			bIsValidIdx = IsValidIndex(stackedPuyo, mainIdx.x - 2, mainIdx.y);
-			if (bIsValidIdx)
-			{
-				puyoActor = GetStackedPuyo(mainIdx.x - 2, mainIdx.y);
-			}
-		}
-		else
-		{
-			bIsValidIdx = IsValidIndex(stackedPuyo, mainIdx.x + 1, mainIdx.y);
-			if (bIsValidIdx)
-			{
-				puyoActor = GetStackedPuyo(mainIdx.x + 1, mainIdx.y);
-			}
-		}
-		if (bIsValidIdx)
-		{
-			if (puyoActor == nullptr)
-			{
-				SetSpriteLocation(pMainPuyo, mainIdx.x + slideDir, mainIdx.y);
-				SetSpriteLocation(pSubPuyo, mainIdx.x + slideDir - 1, mainIdx.y);
-			}
-		}
-		break;
-	case Puyo::ERotation::R:
-		if (left)
-		{
-			bIsValidIdx = IsValidIndex(stackedPuyo, mainIdx.x - 1, mainIdx.y);
-			if (bIsValidIdx)
-			{
-				puyoActor = GetStackedPuyo(mainIdx.x - 1, mainIdx.y);
-			}
-		}
-		else
-		{
-			bIsValidIdx = IsValidIndex(stackedPuyo, mainIdx.x + 2, mainIdx.y);
-			if (bIsValidIdx)
-			{
-				puyoActor = GetStackedPuyo(mainIdx.x + 2, mainIdx.y);
-			}
-		}
-		if (bIsValidIdx)
-		{
-			if (puyoActor == nullptr)
-			{
-				SetSpriteLocation(pMainPuyo, mainIdx.x + slideDir, mainIdx.y);
-				SetSpriteLocation(pSubPuyo, mainIdx.x + slideDir + 1, mainIdx.y);
-			}
-		}
-		break;
-	default:
-		break;
-	}
-}
 void Level_TokoPuyo::ActionActivePuyoRotate(bool rotateR)
 {
 	SE_PuyoRotate->Play();
@@ -722,8 +571,7 @@ void Level_TokoPuyo::ActionActivePuyoRotate(bool rotateR)
 	if (IsValidIndex(stackedPuyo, mainIdx.x, mainIdx.y) && GetStackedPuyo(mainIdx.x, mainIdx.y) == nullptr)
 	{
 		pMainPuyo->Rotate(rotateR);
-		SetSpriteLocation(pMainPuyo, mainIdx.x, mainIdx.y);
-		UpdateSubPuyoLocationByRotation();
+		UpdateActivePuyo(mainIdx.x, mainIdx.y);
 	}
 }
 void Level_TokoPuyo::ActivePuyoRotateToRelease()
@@ -746,9 +594,7 @@ void Level_TokoPuyo::ActivePuyoRotateToRelease()
 		idx.x = floor(idx.x);
 	}
 
-	SetSpriteLocation(pMainPuyo, idx.x, idx.y);
-	UpdateSubPuyoLocationByRotation();
-
+	UpdateActivePuyo(idx.x, idx.y);
 	pGameState->SetGameProgress(*pDX, EGameProgress::Release);
 }
 
@@ -1113,11 +959,11 @@ void Level_TokoPuyo::InputUpdate()
 		}
 		if (InputLeft)
 		{
-			ActionActivePuyoSlide(true);
+			ActionPuyoSlide(-1.f, 0.f);
 		}
 		if (InputRight)
 		{
-			ActionActivePuyoSlide(false);
+			ActionPuyoSlide(1.f, 0.f);
 		}
 		if (InputUp)
 		{
@@ -1216,6 +1062,11 @@ uint8_t Level_TokoPuyo::Random()
 	return Algo::RandRange(0, 3);
 }
 
+void Level_TokoPuyo::UpdateActivePuyo(const float& x, const float& y)
+{
+	SetSpriteLocation(pMainPuyo, x, y);
+	UpdateSubPuyoLocationByRotation();
+}
 void Level_TokoPuyo::UpdateSubPuyoLocationByRotation()
 {
 	const auto mainIdx = pMainPuyo->Get2DIdx();
