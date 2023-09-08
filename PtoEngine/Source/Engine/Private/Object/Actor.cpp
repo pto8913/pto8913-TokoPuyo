@@ -16,7 +16,6 @@ Actor::Actor()
 }
 Actor::~Actor()
 {
-	OnDestroyed.Broadcast(shared_from_this());
 	OnDestroyed.ClearBind();
 
 	pOuter.reset();
@@ -55,6 +54,10 @@ void Actor::Tick(DirectX11& dx, float deltaTime)
 			}
 		}
 	}
+}
+void Actor::DestroyActor()
+{
+	OnDestroyed.Broadcast(shared_from_this());
 }
 
 void Actor::SetID(int inID)

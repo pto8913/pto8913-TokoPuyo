@@ -26,6 +26,7 @@ public:
 	// ------------------------------------------------------
 	virtual void BeginPlay(DirectX11& dx) override;
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
+	void DestroyActor();
 
 	void SetID(int inID);
 	int GetID() const;

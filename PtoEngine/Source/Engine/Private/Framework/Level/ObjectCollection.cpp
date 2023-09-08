@@ -73,7 +73,7 @@ void ObjectCollection::ActorDestroyed(std::shared_ptr<Actor> in)
 			auto& obj = *iter;
 			if (obj != nullptr)
 			{
-				if (obj == in)
+				if (obj->GetID() == in->GetID())
 				{
 					obj.reset();
 					obj = nullptr;
