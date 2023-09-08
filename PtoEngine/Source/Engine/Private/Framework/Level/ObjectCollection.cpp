@@ -42,7 +42,7 @@ void ObjectCollection::Tick(DirectX11& dx, float deltaSec)
 		}
 	}
 }
-void ObjectCollection::Remove()
+void ObjectCollection::Clear()
 {
 	for (auto&& elem : pActors)
 	{
@@ -79,6 +79,10 @@ void ObjectCollection::ActorDestroyed(std::shared_ptr<Actor> in)
 					obj = nullptr;
 					iter = elem.second.erase(iter);
 					break;
+				}
+				else
+				{
+					++iter;
 				}
 			}
 			else

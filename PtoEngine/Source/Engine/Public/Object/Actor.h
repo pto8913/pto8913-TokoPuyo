@@ -17,6 +17,7 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FOnDestroyed, std::shared_ptr<class Actor>);
 
 class Actor : public Object, public std::enable_shared_from_this<Actor>
 {
+	friend class World;
 public:
 	Actor();
 	virtual ~Actor();
@@ -26,10 +27,17 @@ public:
 	// ------------------------------------------------------
 	virtual void BeginPlay(DirectX11& dx) override;
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
+	/* 
+	* Call remove event to world.
+	*/
 	void DestroyActor();
 
+private:
+	/* This will be call from World->SpawnActor() only once */
 	void SetID(int inID);
+public:
 	int GetID() const;
+
 
 	const Layer::EActorLayer& GetLayer() const;
 	void SetLayer(const Layer::EActorLayer& in);

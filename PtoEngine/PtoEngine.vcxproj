@@ -217,7 +217,6 @@
     <ClInclude Include="Source\Application\Public\Actor\LibraryInterface.h" />
     <ClInclude Include="Source\Application\Public\Actor\StatusTypes.h" />
     <ClInclude Include="Source\Application\Public\App.h" />
-    <ClInclude Include="Source\Application\Public\Component\Actor2DComponent.h" />
     <ClInclude Include="Source\Application\Public\Controller\PlayerController_Dungeon.h" />
     <ClInclude Include="Source\Application\Public\Controller\PlayerController_Town.h" />
     <ClInclude Include="Source\Application\Public\GameMode\GameMode_Dungeon.h" />
@@ -385,7 +384,6 @@
     <ClCompile Include="Source\Application\Private\Actor\Ground\GroundTypes.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Item\ItemBase.cpp" />
     <ClCompile Include="Source\Application\Private\App.cpp" />
-    <ClCompile Include="Source\Application\Private\Component\Actor2DComponent.cpp" />
     <ClCompile Include="Source\Application\Private\Controller\PlayerController_Dungeon.cpp" />
     <ClCompile Include="Source\Application\Private\Controller\PlayerController_Town.cpp" />
     <ClCompile Include="Source\Application\Private\GameMode\GameMode_Dungeon.cpp" />

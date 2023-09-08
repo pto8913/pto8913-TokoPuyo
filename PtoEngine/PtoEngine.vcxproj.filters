@@ -266,12 +266,6 @@
     <Filter Include="Source\Engine\Private\Helper">
       <UniqueIdentifier>{0cc79391-c1c4-4f3d-98ba-73faafb4d946}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Application\Private\Component">
-      <UniqueIdentifier>{bdd4d14e-e0f6-4c2d-b756-9cbe49272a38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Application\Public\Component">
-      <UniqueIdentifier>{dbfab706-f8e5-45b8-a51d-bc476b8b1e3d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DirectX\DirectXHead.h">
@@ -787,9 +781,6 @@
     <ClInclude Include="Source\Engine\Public\Framework\Level\QuadTree.h">
       <Filter>Source\Engine\Public\Framework\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application\Public\Component\Actor2DComponent.h">
-      <Filter>Source\Application\Public\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Application\Public\Level\LevelTypes.h">
       <Filter>Source\Application\Public\Level</Filter>
     </ClInclude>
@@ -1226,9 +1217,6 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Framework\Level\QuadTree.cpp">
       <Filter>Source\Engine\Private\Framework\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Application\Private\Component\Actor2DComponent.cpp">
-      <Filter>Source\Application\Private\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
