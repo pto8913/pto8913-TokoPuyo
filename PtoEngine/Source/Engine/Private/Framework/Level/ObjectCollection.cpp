@@ -49,9 +49,11 @@ void ObjectCollection::Remove()
 		auto iter = elem.second.begin();
 		while (iter != elem.second.end())
 		{
-			auto obj = *iter;
+			auto& obj = *iter;
 			if (obj != nullptr)
 			{
+				obj.reset();
+				obj = nullptr;
 				iter = elem.second.erase(iter);
 			}
 			else
@@ -68,7 +70,7 @@ void ObjectCollection::ActorDestroyed(std::shared_ptr<Actor> in)
 		auto iter = elem.second.begin();
 		while (iter != elem.second.end())
 		{
-			auto obj = *iter;
+			auto& obj = *iter;
 			if (obj != nullptr)
 			{
 				if (obj == in)
