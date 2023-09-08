@@ -8,6 +8,7 @@
 #include "Slate/Border.h"
 #include "Slate/Image.h"
 #include "Slate/Button.h"
+#include "Slate/Spacer.h"
 
 #include "GameSettings.h"
 #include "EngineSettings.h"
@@ -27,18 +28,25 @@ GameProgressUI::GameProgressUI(std::shared_ptr<Object> inOwner, DirectX11& dx, D
 
 	FSlateInfos SlateInfos;
 	SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-	auto InfosVB = std::make_shared<S_VerticalBox>(FVector2D(300.f, 726.f), GetRt2D(), SlateInfos);
+	auto InfosVB = std::make_shared<S_VerticalBox>(FVector2D(300.f, 768.f), GetRt2D(), SlateInfos);
 	pRootSlate->AddChild(InfosVB);
-	InfosVB->SetPosition({500,0});
+	InfosVB->SetPosition({ 416, GameSettings::GAMESCREEN_PADDING.y });
+
+	/* GameMode Title */
+	{
+
+	}
 
 	/* Next Puyo */
 	{
 		FSlateTextAppearance textAppearance;
 		textAppearance.vAlign = EVerticalAlignment::Center;
 		textAppearance.hAlign = EHorizontalAlignment::Center;
+		FSlateFont font;
+		font.fontSize = 30.f;
 		FSlateInfos slateInfo;
 		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pTextBlock_NextPuyo = std::make_shared<S_TextBlock>(GetRt2D(), slateInfo, FSlateFont(), textAppearance);
+		auto pTextBlock_NextPuyo = std::make_shared<S_TextBlock>(GetRt2D(), slateInfo, font, textAppearance);
 		pTextBlock_NextPuyo->SetText(L"Next Puyo");
 
 		FSlateInfos Overlay;
@@ -312,4 +320,8 @@ void GameProgressUI::OnClickedPauseButton(DX::MouseEvent inMouseEvent)
 		static_cast<S_TextBlock*>(child)->SetText(L"Pause");
 	}
 	OnClickedPause.Broadcast(inMouseEvent);
+}
+void GameProgressUI::OnClickedReturnToTitle()
+{
+
 }

@@ -23,8 +23,7 @@ public:
 protected:
 	void OnClickedRestartButton(DX::MouseEvent inMouseEvent);
 	void OnClickedPauseButton(DX::MouseEvent inMouseEvent);
-
-	void SetIsPause(bool in, DX::MouseEvent inMouseEvent);
+	void OnClickedReturnToTitle();
 public:
 
 	// ----------------------------------------------------------

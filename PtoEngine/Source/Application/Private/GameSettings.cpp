@@ -33,7 +33,7 @@ const int   GameSettings::INDEX_NONE = -1;
 const uint8_t GameSettings::EMPTY_PUYO = 5u;
 
 const FVector2D GameSettings::GAMESCREEN_BACKGROUND_SIZE = { 384.f, 768.f };
-const FVector2D GameSettings::GAMESCREEN_PADDING = { 16.f, 32.f };
+const FVector2D GameSettings::GAMESCREEN_PADDING = { 16.f, 16.f };
 /* 416 x  */
 const FVector2D GameSettings::GAMESCREEN_SIZE = {
 	GAMESCREEN_BACKGROUND_SIZE.x + GAMESCREEN_PADDING.x * 2.f,
