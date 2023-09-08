@@ -89,7 +89,7 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 void S_TextBlock::SetText(std::wstring inText)
 {
 	mText = inText;
-	UpdateSize();
+	//UpdateSize();
 }
 void S_TextBlock::SetSize(FVector2D inSize)
 {

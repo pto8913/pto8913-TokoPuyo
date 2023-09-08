@@ -34,7 +34,7 @@ public:
 	void GetCombo(int& combo, int maxCombo);
 	void GetScore(int& score, int maxScore);
 
-	void SetIsPause(bool in);
+	void SetPause(bool in);
 	bool IsPause() const noexcept;
 
 	std::shared_ptr<GameProgressUI> GetGameProgressUI();
@@ -64,4 +64,6 @@ protected:
 
 	int mScore = 0;
 	int mCombo = 0;
+
+	bool bPause = false;
 };

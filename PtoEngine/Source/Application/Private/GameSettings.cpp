@@ -30,7 +30,7 @@ namespace GSSS
 // -------------------------------------------------
 const float GameSettings::CELL = 64.f;
 const int   GameSettings::INDEX_NONE = -1;
-const UINT8 GameSettings::EMPTY_PUYO = 5u;
+const uint8_t GameSettings::EMPTY_PUYO = 5u;
 
 const FVector2D GameSettings::GAMESCREEN_BACKGROUND_SIZE = { 384.f, 768.f };
 const FVector2D GameSettings::GAMESCREEN_PADDING = { 16.f, 32.f };

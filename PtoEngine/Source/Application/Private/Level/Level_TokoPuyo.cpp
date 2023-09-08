@@ -5,8 +5,8 @@
 #include "Core/DirectX.h"
 
 #include "Actor/Character/Puyo.h"
+#include "Actor/Character/PuyoTypes.h"
 #include "Actor/Ground/GroundBase.h"
-#include "Actor/Event/EventBase.h"
 
 #include "Math/Math.h"
 
@@ -119,15 +119,6 @@ void Level_TokoPuyo::GenerateGroundLayer()
 			SetSpriteLocation(ground, x, y);
 		}
 	}
-}
-void Level_TokoPuyo::GenerateEventLayer()
-{
-}
-void Level_TokoPuyo::GenerateCharacterLayer()
-{
-}
-void Level_TokoPuyo::GenerateEffectLayer()
-{
 }
 
 void Level_TokoPuyo::BeginPlay(DirectX11& dx)
@@ -244,7 +235,10 @@ void Level_TokoPuyo::Pause()
 		Cached_GameProgress = pGameState->GetGameProgress();
 		pGameState->SetGameProgress(*pDX, EGameProgress::Wait);
 	}
-	else
+}
+void Level_TokoPuyo::Resume()
+{
+	if (!pGameState->IsPause())
 	{
 		pGameState->SetGameProgress(*pDX, Cached_GameProgress);
 	}

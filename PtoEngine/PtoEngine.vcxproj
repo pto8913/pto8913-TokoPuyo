@@ -193,25 +193,12 @@
     <ClInclude Include="SDK\nlohmann\json.hpp" />
     <ClInclude Include="Source\Application\Public\Actor\Actor2D.h" />
     <ClInclude Include="Source\Application\Public\Actor\Actor2DTypes.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Character\CharacterBase.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Character\CharacterTypes.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Character\PlayerTypes.h" />
     <ClInclude Include="Source\Application\Public\Actor\Character\Puyo.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Character\Player.h" />
     <ClInclude Include="Source\Application\Public\Actor\Character\PuyoTypes.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Effect\EffectBase.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Effect\EffectTypes.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Event\EventBase.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Event\EventChoiceBase.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Event\EventTypes.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Event\Event_DungeonExit.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Event\Event_TownDoor.h" />
     <ClInclude Include="Source\Application\Public\Actor\Ground\GroundBase.h" />
     <ClInclude Include="Source\Application\Public\Actor\Ground\GroundTypes.h" />
     <ClInclude Include="Source\Application\Public\App.h" />
-    <ClInclude Include="Source\Application\Public\Component\Actor2DComponent.h" />
     <ClInclude Include="Source\Application\Public\Controller\PlayerController_TokoPuyo.h" />
-    <ClInclude Include="Source\Application\Public\Controller\PlayerController_Town.h" />
     <ClInclude Include="Source\Application\Public\GameMode\GameMode.h" />
     <ClInclude Include="Source\Application\Public\GameMode\GameMode_TokoPuyo.h" />
     <ClInclude Include="Source\Application\Public\GameSettings.h" />
@@ -229,6 +216,7 @@
     <ClInclude Include="Source\Application\Public\UI\HUD.h" />
     <ClInclude Include="Source\Application\Public\UI\HUDInterface.h" />
     <ClInclude Include="Source\Application\Public\UI\LandmarkUI.h" />
+    <ClInclude Include="Source\Application\Public\UI\TitleUI.h" />
     <ClInclude Include="Source\Application\Public\Window.h" />
     <ClInclude Include="Source\Application\Public\World\World_TokoPuyo.h" />
     <ClInclude Include="Source\DirectX\DirectXHead.h" />
@@ -360,20 +348,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\Application\Private\Actor\Actor2D.cpp" />
-    <ClCompile Include="Source\Application\Private\Actor\Character\CharacterBase.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Character\Puyo.cpp" />
-    <ClCompile Include="Source\Application\Private\Actor\Character\Player.cpp" />
-    <ClCompile Include="Source\Application\Private\Actor\Effect\EffectBase.cpp" />
-    <ClCompile Include="Source\Application\Private\Actor\Event\EventBase.cpp" />
-    <ClCompile Include="Source\Application\Private\Actor\Event\EventChoiceBase.cpp" />
-    <ClCompile Include="Source\Application\Private\Actor\Event\Event_DungeonExit.cpp" />
-    <ClCompile Include="Source\Application\Private\Actor\Event\Event_TownDoor.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Ground\GroundBase.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Ground\GroundTypes.cpp" />
     <ClCompile Include="Source\Application\Private\App.cpp" />
-    <ClCompile Include="Source\Application\Private\Component\Actor2DComponent.cpp" />
     <ClCompile Include="Source\Application\Private\Controller\PlayerController_TokoPuyo.cpp" />
-    <ClCompile Include="Source\Application\Private\Controller\PlayerController_Town.cpp" />
     <ClCompile Include="Source\Application\Private\GameMode\GameMode.cpp" />
     <ClCompile Include="Source\Application\Private\GameMode\GameMode_TokoPuyo.cpp" />
     <ClCompile Include="Source\Application\Private\GameSettings.cpp" />
@@ -388,6 +367,7 @@
     <ClCompile Include="Source\Application\Private\UI\GameProgressUI.cpp" />
     <ClCompile Include="Source\Application\Private\UI\HUD.cpp" />
     <ClCompile Include="Source\Application\Private\UI\LandmarkUI.cpp" />
+    <ClCompile Include="Source\Application\Private\UI\TitleUI.cpp" />
     <ClCompile Include="Source\Application\Private\Window.cpp" />
     <ClCompile Include="Source\Application\Private\World\World_TokoPuyo.cpp" />
     <ClCompile Include="Source\DirectX\Private\Core\DirectX.cpp">

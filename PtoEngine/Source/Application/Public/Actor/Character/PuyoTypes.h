@@ -1,5 +1,12 @@
 #pragma once
 
-#include "GameSettings.h"
+enum class EPuyoControl
+{
+	Wait,
+	Control,
+	Release,
+	Vanish,
+	VanishToFall,
+	PressDown
+};
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerMoved, const FVector&);

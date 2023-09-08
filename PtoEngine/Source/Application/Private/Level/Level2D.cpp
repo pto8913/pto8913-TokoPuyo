@@ -4,9 +4,6 @@
 #include "Math/Math.h"
 
 #include "Actor/Ground/GroundBase.h"
-#include "Actor/Event/EventBase.h"
-#include "Actor/Character/CharacterBase.h"
-#include "Actor/Character/Player.h"
 
 #include "EngineSettings.h"
 #include "GameSettings.h"
@@ -56,13 +53,6 @@ void Level2D::Generate(DirectX11& dx)
 	bInitialized = false;
 
 	GenerateGroundLayer();
-	GenerateEventLayer();
-	GenerateCharacterLayer();
-	GenerateEffectLayer();
-
-#if _DEBUG
-	OutputDebugStringA(std::format("start {}\n", mStartPosition.ToString()).c_str());
-#endif
 
 	bInitialized = true;
 }
@@ -224,62 +214,6 @@ std::shared_ptr<GroundBase> Level2D::GetGroundLayer(const int& worldX, const int
 	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Ground, Layer::EActorLayer::Background))
 	{
 		return static_pointer_cast<GroundBase>(obj);
-	}
-	return nullptr;
-}
-
-// --------------------------
-// Main : Utils : Event
-// --------------------------
-void Level2D::SetEventLayerID(const EEventId& eventType, const float& worldX, const float& worldY)
-{
-	if (IsInWorld(worldX, worldY))
-	{
-		auto sprite = GetWorld()->SpawnActor<EventBase>(*pDX, eventType);
-		sprite->BeginPlay(*pDX);
-		SetSpriteLocation(sprite, worldX, worldY);
-	}
-}
-void Level2D::SetEventLayerID(std::shared_ptr<EventBase>& sprite, const float& worldX, const float& worldY)
-{
-	if (IsInWorld(worldX, worldY))
-	{
-		SetSpriteLocation(sprite, worldX, worldY);
-	}
-}
-void Level2D::SetEventLayerID(std::shared_ptr<EventBase>&& sprite, const float& worldX, const float& worldY)
-{
-	if (IsInWorld(worldX, worldY))
-	{
-		SetSpriteLocation(sprite, worldX, worldY);
-	}
-}
-std::shared_ptr<EventBase> Level2D::GetEventLayer(const int& worldX, const int& worldY) const
-{
-	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Event, Layer::EActorLayer::Entities))
-	{
-		return static_pointer_cast<EventBase>(obj);
-	}
-	return nullptr;
-}
-
-// --------------------------
-// Main : Utils : Character
-// --------------------------
-void Level2D::SetCharacterLayerID(const ECharacterId& characterType, const float& worldX, const float& worldY)
-{
-	if (IsInWorld(worldX, worldY))
-	{
-		auto sprite = GetWorld()->SpawnActor<CharacterBase>(*pDX, characterType);
-		sprite->BeginPlay(*pDX);
-		SetSpriteLocation(sprite, worldX, worldY);
-	}
-}
-std::shared_ptr<CharacterBase> Level2D::GetCharacterLayer(const int& worldX, const int& worldY) const
-{
-	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Character, Layer::EActorLayer::Entities))
-	{
-		return static_pointer_cast<CharacterBase>(obj);
 	}
 	return nullptr;
 }

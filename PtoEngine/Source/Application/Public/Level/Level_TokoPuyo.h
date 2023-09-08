@@ -23,15 +23,13 @@ public:
 protected:
 	virtual void Init(const int& x, const int& y) override;
 	virtual void GenerateGroundLayer() override;
-	virtual void GenerateEventLayer() override;
-	virtual void GenerateCharacterLayer() override;
-	virtual void GenerateEffectLayer() override;
 public:
 	virtual void BeginPlay(DirectX11& dx) override;
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
 	void Restart();
 	void Pause();
+	void Resume();
 
 protected:
 	void GameProgressChanged(const EGameProgress& NewState);

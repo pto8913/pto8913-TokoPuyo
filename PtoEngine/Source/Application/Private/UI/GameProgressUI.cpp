@@ -95,7 +95,7 @@ GameProgressUI::GameProgressUI(std::shared_ptr<Object> inOwner, DirectX11& dx, D
 	{
 		FSlateInfos SlateInfos;
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-		SlateInfos.HAlign = EHorizontalAlignment::Center;
+		//SlateInfos.HAlign = EHorizontalAlignment::Center;
 
 		FSlateTextAppearance Appearance;
 		Appearance.vAlign = EVerticalAlignment::Center;
@@ -103,27 +103,28 @@ GameProgressUI::GameProgressUI(std::shared_ptr<Object> inOwner, DirectX11& dx, D
 
 		auto pText_Control1 = std::make_shared<S_TextBlock>(GetRt2D(), SlateInfos, FSlateFont(), Appearance);
 		pText_Control1->SetText(L" ª : Turn Right");
-		InfosVB->AddChild(pText_Control1);
 
 		auto pText_Control2 = std::make_shared<S_TextBlock>(GetRt2D(), SlateInfos, FSlateFont(), Appearance);
 		pText_Control2->SetText(L"© : Move Left");
-		InfosVB->AddChild(pText_Control2);
 
 		auto pText_Control3 = std::make_shared<S_TextBlock>(GetRt2D(), SlateInfos, FSlateFont(), Appearance);
 		pText_Control3->SetText(L"¨ : Move Right");
-		InfosVB->AddChild(pText_Control3);
 
 		auto pText_Control4 = std::make_shared<S_TextBlock>(GetRt2D(), SlateInfos, FSlateFont(), Appearance);
 		pText_Control4->SetText(L" « : Move Bottom");
-		InfosVB->AddChild(pText_Control4);
 
 		auto pText_Control5 = std::make_shared<S_TextBlock>(GetRt2D(), SlateInfos, FSlateFont(), Appearance);
 		pText_Control5->SetText(L" Z : Turn Left");
-		InfosVB->AddChild(pText_Control5);
 
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 20.f };
 		auto pText_Control6 = std::make_shared<S_TextBlock>(GetRt2D(), SlateInfos, FSlateFont(), Appearance);
 		pText_Control6->SetText(L" X : Turn Right");
+
+		InfosVB->AddChild(pText_Control1);
+		InfosVB->AddChild(pText_Control2);
+		InfosVB->AddChild(pText_Control3);
+		InfosVB->AddChild(pText_Control4);
+		InfosVB->AddChild(pText_Control5);
 		InfosVB->AddChild(pText_Control6);
 	}
 
@@ -157,8 +158,7 @@ GameProgressUI::GameProgressUI(std::shared_ptr<Object> inOwner, DirectX11& dx, D
 		InfosVB->AddChild(pTextBlock_Score);
 		InfosVB->AddChild(pTextBlock_Combo);
 
-		MaxScore = 0; MaxCombo = 0;
-		UpdateScore(0, 0);
+		UpdateScore(0, 0, 0, 0);
 	}
 
 	/* Restart Button */
@@ -268,17 +268,15 @@ void GameProgressUI::UpdateNextPuyo(uint8_t nPuyo1_1, uint8_t nPuyo1_2, uint8_t 
 		pImage_NextPuyo2_2->SetFileName(GameSettings::GetPuyoImage(nPuyo2_1));
 	}
 }
-void GameProgressUI::UpdateScore(int inScore, int inCombo)
+void GameProgressUI::UpdateScore(const int& inScore, const int& inCombo, const int& inMaxScore, const int& inMaxCombo)
 {
-	MaxCombo = max(inCombo, MaxCombo);
-	MaxScore = max(inScore, MaxScore);
 	if (pTextBlock_MaxScore)
 	{
-		pTextBlock_MaxScore->SetText(std::format(L"Max Score : {}", MaxScore));
+		pTextBlock_MaxScore->SetText(std::format(L"Max Score : {}", inMaxScore));
 	}
 	if (pTextBlock_MaxCombo)
 	{
-		pTextBlock_MaxCombo->SetText(std::format(L"Max Combo : {}", MaxCombo));
+		pTextBlock_MaxCombo->SetText(std::format(L"Max Combo : {}", inMaxCombo));
 	}
 	if (pTextBlock_Score)
 	{
@@ -302,17 +300,7 @@ void GameProgressUI::OnClickedRestartButton(DX::MouseEvent inMouseEvent)
 }
 void GameProgressUI::OnClickedPauseButton(DX::MouseEvent inMouseEvent)
 {
-	SetIsPause(!bPause, inMouseEvent);
-}
-
-void GameProgressUI::SetIsPause(bool in, DX::MouseEvent inMouseEvent)
-{
-	SetIsPause(in);
-	OnClickedPause.Broadcast(inMouseEvent);
-}
-void GameProgressUI::SetIsPause(bool in)
-{
-	bPause = in;
+	bPause = !bPause;
 	if (bPause)
 	{
 		auto&& child = pButton_Pause->GetChildAt();
@@ -323,8 +311,5 @@ void GameProgressUI::SetIsPause(bool in)
 		auto&& child = pButton_Pause->GetChildAt();
 		static_cast<S_TextBlock*>(child)->SetText(L"Pause");
 	}
-}
-bool GameProgressUI::IsPause() const noexcept
-{
-	return bPause;
+	OnClickedPause.Broadcast(inMouseEvent);
 }

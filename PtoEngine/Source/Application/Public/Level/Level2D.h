@@ -3,9 +3,6 @@
 #include "Framework/Level/Level.h"
 
 #include "Actor/Ground/GroundTypes.h"
-#include "Actor/Event/EventTypes.h"
-#include "Actor/Character/CharacterTypes.h"
-#include "Actor/Effect/EffectTypes.h"
 
 #include "Actor/Actor2DTypes.h"
 
@@ -35,9 +32,6 @@ public:
 	void Generate(DirectX11& dx);
 protected:
 	virtual void GenerateGroundLayer() = 0;
-	virtual void GenerateEventLayer() = 0;
-	virtual void GenerateCharacterLayer() {}
-	virtual void GenerateEffectLayer() {}
 
 public:
 	virtual void Init(const int& x, const int& y);
@@ -77,20 +71,6 @@ public:
 	void SetGroundLayerID(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal = false, INT16 inConstantXY2 = -1);
 	std::shared_ptr<GroundBase> GetGroundLayer(const int& worldX, const int& worldY) const;
 
-	// --------------------------
-	// Main : Utils : Event
-	// --------------------------
-	void SetEventLayerID(const EEventId& eventType, const float& worldX, const float& worldY);
-	void SetEventLayerID(std::shared_ptr<EventBase>& inEventData, const float& worldX, const float& worldY);
-	void SetEventLayerID(std::shared_ptr<EventBase>&& inEventData, const float& worldX, const float& worldY);
-	std::shared_ptr<EventBase> GetEventLayer(const int& worldX, const int& worldY) const;
-
-	// --------------------------
-	// Main : Utils : Character
-	// --------------------------
-	void SetCharacterLayerID(const ECharacterId& characterType, const float& worldX, const float& worldY);
-	std::shared_ptr<CharacterBase> GetCharacterLayer(const int& worldX, const int& worldY) const;
-
 public:
 	// ------------------------------------------------------
 	// State
@@ -100,7 +80,4 @@ public:
 protected:
 	bool bInitialized = false;
 
-	// --------------------------
-	// State : Display
-	// --------------------------
 };

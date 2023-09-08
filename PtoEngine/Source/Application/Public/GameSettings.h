@@ -2,7 +2,7 @@
 
 #include "DirectX/DirectXHead.h"
 #include "Math/Vector.h"
-#include "Actor/Character/PlayerTypes.h"
+#include "Actor/Character/PuyoTypes.h"
 
 class GameSettings
 {
@@ -17,7 +17,7 @@ public:
 	// -------------------------------------------------
 	static const float CELL;
 	static const int   INDEX_NONE;
-	static const UINT8 EMPTY_PUYO;
+	static const uint8_t EMPTY_PUYO;
 
 	static const FVector2D GAMESCREEN_BACKGROUND_SIZE;
 	static const FVector2D GAMESCREEN_PADDING;

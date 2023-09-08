@@ -4,8 +4,6 @@
 #include "Actor/Actor2D.h"
 #include "Actor/Actor2DTypes.h"
 
-#include "Component/Actor2DComponent.h"
-
 void ObjectCollection2D::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Actor> in, bool sort)
 {
 	ObjectCollection::Add(inLayer, in, sort);
@@ -23,10 +21,7 @@ void ObjectCollection2D::Sort()
 {
 	auto SortCondition = [](std::shared_ptr<Actor> a, std::shared_ptr<Actor> b)
 	{
-		auto ac = a->GetComponent<Actor2DComponent>();
-		auto bc = b->GetComponent<Actor2DComponent>();
-
-		return ac->GetSortOrder() < bc->GetSortOrder();
+		return static_pointer_cast<Actor2D>(a)->GetSortOrder() < static_pointer_cast<Actor2D>(b)->GetSortOrder();
 	};
 
 	for (auto&& elem : pActors)

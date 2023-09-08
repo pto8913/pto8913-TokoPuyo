@@ -18,7 +18,7 @@ public:
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
 	void UpdateNextPuyo(uint8_t nPuyo1_1, uint8_t nPuyo1_2, uint8_t nPuyo2_1, uint8_t nPuyo2_2);
-	void UpdateScore(int inScore, int inCombo);
+	void UpdateScore(const int& inScore, const int& inCombo, const int& inMaxScore, const int& inMaxCombo);
 
 protected:
 	void OnClickedRestartButton(DX::MouseEvent inMouseEvent);
@@ -26,8 +26,6 @@ protected:
 
 	void SetIsPause(bool in, DX::MouseEvent inMouseEvent);
 public:
-	void SetIsPause(bool in);
-	bool IsPause() const noexcept;
 
 	// ----------------------------------------------------------
 	// Main : Delegates
@@ -57,9 +55,6 @@ protected:
 
 	std::shared_ptr<S_Button> pButton_Restart = nullptr;
 	std::shared_ptr<S_Button> pButton_Pause = nullptr;
-
-	int MaxScore = 0;
-	int MaxCombo = 0;
 
 	bool bPause = false;
 };

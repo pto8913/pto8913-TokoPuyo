@@ -70,6 +70,7 @@ void GameState_Play::SetGameProgress(DirectX11& dx, EGameProgress NewState)
 				mMaxScore,
 				mMaxCombo
 			);
+			pGameOverUI->OnClickedRestart.Bind<&GameState_Play::OnClickedRestart>(*this, "GameState");
 			pGameOverUI->AddToViewport();
 		}
 		break;
@@ -83,6 +84,7 @@ void GameState_Play::SetGameProgress(DirectX11& dx, EGameProgress NewState)
 			);
 
 			pGameProgressUI->OnClickedRestart.Bind<&GameState_Play::OnClickedRestart>(*this, "GameState");
+			pGameProgressUI->OnClickedPause.Bind<&GameState_Play::OnClickedPause>(*this, "GameState");
 			pGameProgressUI->AddToViewport();
 		}
 		break;
@@ -109,9 +111,10 @@ void GameState_Play::UpdateScore(const int& inScore, const int& inCombo)
 
 	mCombo = inCombo;
 	mScore = inScore;
+
 	if (pGameProgressUI != nullptr)
 	{
-		pGameProgressUI->UpdateScore(inScore, inCombo);
+		pGameProgressUI->UpdateScore(mScore, mCombo, mMaxScore, mMaxCombo);
 	}
 }
 
@@ -131,13 +134,13 @@ void GameState_Play::GetScore(int& score, int maxScore)
 	maxScore = mMaxScore;
 }
 
-void GameState_Play::SetIsPause(bool in)
+void GameState_Play::SetPause(bool in)
 {
-	pGameProgressUI->SetIsPause(in);
+	bPause = in;
 }
 bool GameState_Play::IsPause() const noexcept
 {
-	return pGameProgressUI->IsPause();
+	return bPause;
 }
 
 std::shared_ptr<GameProgressUI> GameState_Play::GetGameProgressUI()
@@ -154,12 +157,24 @@ void GameState_Play::OnClickedRestart(DX::MouseEvent inMouseEvent)
 	auto level = static_pointer_cast<Level_TokoPuyo>(GetWorld()->GetLevel());
 	level->Restart();
 
-	mScore = 0;
-	mCombo = 0;
+	mMaxCombo = 0;
+	mMaxScore = 0;
 
-	SetIsPause(false);
+	UpdateScore(0, 0);
+
+	SetPause(false);
 }
 void GameState_Play::OnClickedPause(DX::MouseEvent inMouseEvent)
 {
-	SetIsPause(true);
+	auto level = static_pointer_cast<Level_TokoPuyo>(GetWorld()->GetLevel());
+	if (IsPause())
+	{
+		SetPause(false);
+		level->Resume();
+	}
+	else
+	{
+		SetPause(true);
+		level->Pause();
+	}
 }

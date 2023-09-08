@@ -67,6 +67,10 @@ void S_VerticalBox::Update()
 			break;
 		case EHorizontalAlignment::Center:
 			NewPos.x = SrcPos.x + (SrcSize.x / 2.f) - (NewSize.x / 2.f) + childSlateInfos.padding.left;
+			if (NewSize.x > cellW)
+			{
+				NewSize.x = cellW - childSlateInfos.padding.left - childSlateInfos.padding.right;
+			}
 			break;
 		default:
 			NewSize.x = cellW - childSlateInfos.padding.left - childSlateInfos.padding.right;
@@ -94,9 +98,8 @@ void S_VerticalBox::Update()
 			NewPos.y = SrcPos.y + (cellH / 2.f) - (NewSize.y / 2.f) + childSlateInfos.padding.top + accumulatePosY;
 			break;
 		default:
-			NewSize.y = NewSize.y;// -childSlateInfos.padding.top - childSlateInfos.padding.bottom;
+			NewSize.y = NewSize.y;
 			NewPos.y = SrcPos.y + childSlateInfos.padding.top + accumulatePosY;
-			//accumulatePosY += childSlateInfos.padding.top + childSlateInfos.padding.bottom;
 			break;
 		}
 		accumulatePosY += NewSize.y + childSlateInfos.padding.top + childSlateInfos.padding.bottom;
