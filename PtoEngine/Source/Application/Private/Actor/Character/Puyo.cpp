@@ -27,8 +27,11 @@ const std::map<uint8_t, FPuyoSettings> PuyoList =
 };
 
 Puyo::Puyo(DirectX11& dx, const uint8_t& id)
-	: Actor2D(dx, PuyoList.at(id))
+	: Actor2D(dx, PuyoList.at(id)),
+	mType(id)
 {
+	mLayer = Layer::EActorLayer::Entities;
+	mSortOrder = Layer::Character;
 }
 
 // ------------------------------------------------------
@@ -44,11 +47,11 @@ uint8_t Puyo::GetType() const
 	return mType;
 }
 
-Puyo::Rotation Puyo::GetRotation()
+Puyo::ERotation Puyo::GetRotation()
 {
 	return mRotation;
 }
-void Puyo::SetRotation(const Puyo::Rotation& in)
+void Puyo::SetRotation(const Puyo::ERotation& in)
 {
 	mRotation = in;
 }

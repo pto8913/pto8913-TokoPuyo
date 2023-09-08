@@ -21,6 +21,7 @@ public:
 	Level_TokoPuyo(DirectX11& dx);
 	virtual ~Level_TokoPuyo();
 protected:
+	virtual void Init(const int& x, const int& y) override;
 	virtual void GenerateGroundLayer() override;
 	virtual void GenerateEventLayer() override;
 	virtual void GenerateCharacterLayer() override;
@@ -46,6 +47,13 @@ protected:
 	// ---------------------------
 	// Main : Puyo Moving
 	// ---------------------------
+	/*
+	@bLeft : true = -1.f, false = 1.f; 
+	@rateY : -1.f ~ 1.f 
+	*/
+	void ActionPuyoSlide(bool bLeft, float rateY);
+	void UpdateActivePuyo(const float& x, const float& y);
+
 	void ActionActivePuyoDown(float rate);
 	void ActivePuyoDownToRelease();
 	void ActionActivePuyoSlide(bool left);
@@ -114,12 +122,14 @@ protected:
 	template<typename T>
 	bool IsValidIndex(const std::vector<std::vector<T>>& vec, const int& x, const int& y)
 	{
-		if (IsValidIndex(vec, y))
+		if (IsValidIndex(vec, round(y)))
 		{
-			return IsValidIndex(vec[y], x);
+			return IsValidIndex(vec[round(y)], round(x));
 		}
 		return false;
 	}
+
+	std::shared_ptr<Puyo>& GetStackedPuyo(const int& x, const int& y);
 
 	int GetPos(uint8_t x, uint8_t y);
 	int GetPos(float x, float y);
@@ -133,8 +143,6 @@ private:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
-	uint8_t size;
-
 	FVector2D mGameBoardSize;
 	DirectX11* pDX = nullptr;
 

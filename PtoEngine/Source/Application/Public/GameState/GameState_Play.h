@@ -21,6 +21,7 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+	virtual void BeginPlay(DirectX11& dx) override;
 	virtual void Tick(DirectX11& dx, float deltaSec) override;
 
 	virtual void SetGameProgress(DirectX11& dx, EGameProgress NewState);

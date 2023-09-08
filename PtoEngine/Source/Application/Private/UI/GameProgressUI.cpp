@@ -27,8 +27,9 @@ GameProgressUI::GameProgressUI(std::shared_ptr<Object> inOwner, DirectX11& dx, D
 
 	FSlateInfos SlateInfos;
 	SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-	auto InfosVB = std::make_shared<S_VerticalBox>(GameSettings::GAMEUI_SIZE, GetRt2D(), SlateInfos);
-	InfosVB->SetPosition(GameSettings::GAMEUI_LEFT_TOP);
+	auto InfosVB = std::make_shared<S_VerticalBox>(FVector2D(300.f, 726.f), GetRt2D(), SlateInfos);
+	pRootSlate->AddChild(InfosVB);
+	InfosVB->SetPosition({500,0});
 
 	/* Next Puyo */
 	{
@@ -200,7 +201,6 @@ GameProgressUI::GameProgressUI(std::shared_ptr<Object> inOwner, DirectX11& dx, D
 		pTextBlock_Pause->SetText(L"Pause");
 	}
 
-	pRootSlate->AddChild(InfosVB);
 	pRootSlate->SetPosition({ 0, 0 });
 	pRootSlate->UpdateWidget();
 }

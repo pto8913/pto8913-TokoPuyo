@@ -41,11 +41,8 @@ protected:
 
 public:
 	virtual void Init(const int& x, const int& y);
-	virtual bool MoveCenter(const float& x, const float& y);
 	virtual void Clear();
 protected:
-	void UpdateSpriteInScreen();
-
 	template<typename T>
 	void Clear(TArray<TArray<T>>& in)
 	{
@@ -66,10 +63,9 @@ public:
 	const int& GetWidth() const noexcept;
 	const int& GetHeight() const noexcept;
 
-	bool IsInScreen(const int& x, const int& y, const int& buffer = 0) const noexcept;
 	bool IsInWorld(const float& x, const float& y) const noexcept;
 
-	DirectX::XMFLOAT2 WorldToScreen(const int& x, const int& y, const FVector& size);
+	DirectX::XMFLOAT2 WorldToScreen(const float& x, const float& y, const FVector& size);
 protected:
 	void SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY);
 	std::shared_ptr<Actor2D> GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const Layer::EActorLayer& inLayer) const;
@@ -107,11 +103,4 @@ protected:
 	// --------------------------
 	// State : Display
 	// --------------------------
-
-	int centerX = 0;
-	int centerY = 0;
-	int screenLeftX = 0;
-	int screenLeftY = 0;
-	int screenRightX = 0;
-	int screenRightY = 0;
 };

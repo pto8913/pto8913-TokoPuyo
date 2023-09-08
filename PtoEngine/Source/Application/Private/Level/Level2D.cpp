@@ -9,10 +9,12 @@
 #include "Actor/Character/Player.h"
 
 #include "EngineSettings.h"
+#include "GameSettings.h"
 
 #include "Framework/World.h"
 
 #include "Level/ObjectCollection2D.h"
+
 
 #if _DEBUG
 #include <format>
@@ -61,7 +63,6 @@ void Level2D::Generate(DirectX11& dx)
 #if _DEBUG
 	OutputDebugStringA(std::format("start {}\n", mStartPosition.ToString()).c_str());
 #endif
-	MoveCenter(mStartPosition.x, mStartPosition.y);
 
 	bInitialized = true;
 }
@@ -72,77 +73,12 @@ void Level2D::Init(const int& x, const int& y)
 	width = x;
 }
 
-bool Level2D::MoveCenter(const float& x, const float& y)
-{
-	const float nextX = Math::Clamp(centerX + x, 0.f, (float)width);
-	const float nextY = Math::Clamp(centerY + y, 0.f, (float)height);
-	if (IsInWorld(nextX, nextY))
-	{
-		centerX = nextX;
-		centerY = nextY;
-#if _DEBUG
-		//OutputDebugStringA(std::format("move center x, y {} {}\n", centerX, centerY).c_str());
-#endif
-		const auto center = EngineSettings::GetGameScreen2DCenter();
-		screenLeftX = centerX - center.x - 1;
-		screenLeftY = centerY - center.y - 1;
-		screenRightX = centerX + center.x + 2;
-		screenRightY = centerY + center.y + 2;
-
-		auto player = static_pointer_cast<Player>(GetWorld()->GetPlayer());
-		SetSpriteLocation(player, centerX, centerY);
-
-		UpdateSpriteInScreen();
-		return true;
-	}
-	return false;
-}
-
 void Level2D::Clear()
 {
 	width = 0;
 	height = 0;
 
 	mStartPosition = FVector();
-
-	centerX = 0;
-	centerY = 0;
-	screenLeftX = 0;
-	screenLeftY = 0;
-	screenRightX = 0;
-	screenRightY = 0;
-}
-
-void Level2D::UpdateSpriteInScreen()
-{
-	for (auto&& layer : pObjectCollection->pActors)
-	{
-		for (auto&& actor : layer.second)
-		{
-			auto actor2d = static_pointer_cast<Actor2D>(actor);
-			auto idx = actor2d->Get2DIdx();
-			if (IsInScreen(idx.x, idx.y))
-			{
-				if (actor2d->GetSortOrder() == Layer::EOrder::Character)
-				{
-					if (auto obj = static_pointer_cast<CharacterBase>(actor2d))
-					{
-						if (obj->GetCharacterType() == ECharacterId::Player)
-						{
-							continue;
-						}
-					}
-				}
-				SetSpriteLocation(actor2d, idx.x, idx.y);
-				actor2d->SetTickEnabled(true);
-			}
-			else
-			{
-				SetSpriteLocation(actor2d, idx.x, idx.y);
-				actor2d->SetTickEnabled(false);
-			}
-		}
-	}
 }
 
 // --------------------------
@@ -157,19 +93,15 @@ const int& Level2D::GetHeight() const noexcept
 	return height;
 }
 
-bool Level2D::IsInScreen(const int& x, const int& y, const int& buffer) const noexcept
-{
-	return ((screenLeftX - buffer) <= x && x < (screenRightX + buffer)) && ((screenLeftY - buffer) <= y && y < (screenRightY + buffer));
-}
 bool Level2D::IsInWorld(const float& x, const float& y) const noexcept
 {
 	return (x >= 0 && x < width) && (y >= 0 && y < height);
 }
-DirectX::XMFLOAT2 Level2D::WorldToScreen(const int& x, const int& y, const FVector& size)
+DirectX::XMFLOAT2 Level2D::WorldToScreen(const float& x, const float& y, const FVector& size)
 {
 	return {
-		size.x + size.x * (x - screenLeftX),
-		size.y + size.y * (y - screenLeftY)
+		GameSettings::GAMESCREEN_PADDING.x + size.x * x,
+		GameSettings::GAMESCREEN_PADDING.y + size.y * y
 	};
 }
 void Level2D::SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY)

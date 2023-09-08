@@ -121,7 +121,7 @@ void Audio::Play()
     else
     {
 #if _DEBUG
-        OutputDebugStringA("Source Voice is not valid\n");
+        //OutputDebugStringA("Source Voice is not valid\n");
 #endif
     }
 }

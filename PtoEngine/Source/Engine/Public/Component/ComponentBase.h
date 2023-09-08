@@ -4,7 +4,7 @@
 
 class Actor;
 
-class ComponentBase : public Object
+class ComponentBase abstract : public Object
 {
 public:
 	ComponentBase(Actor* inOwner);

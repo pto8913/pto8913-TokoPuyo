@@ -1,7 +1,7 @@
 {
     "game2DCellSize": [
-        60.0,
-        60.0
+        54.0,
+        54.0
     ],
     "gameScreen2DCellSize": [
         9,
@@ -9,7 +9,7 @@
     ],
     "gameScreen2DCenter": [
         3,
-        2
+        6
     ],
     "windowAspectRatio": [
         1.014062523841858,

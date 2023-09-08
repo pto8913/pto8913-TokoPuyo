@@ -199,8 +199,6 @@
     <ClInclude Include="Source\Application\Public\Actor\Character\Puyo.h" />
     <ClInclude Include="Source\Application\Public\Actor\Character\Player.h" />
     <ClInclude Include="Source\Application\Public\Actor\Character\PuyoTypes.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Character\Player_Dungeon.h" />
-    <ClInclude Include="Source\Application\Public\Actor\Character\Player_Town.h" />
     <ClInclude Include="Source\Application\Public\Actor\Effect\EffectBase.h" />
     <ClInclude Include="Source\Application\Public\Actor\Effect\EffectTypes.h" />
     <ClInclude Include="Source\Application\Public\Actor\Event\EventBase.h" />
@@ -365,8 +363,6 @@
     <ClCompile Include="Source\Application\Private\Actor\Character\CharacterBase.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Character\Puyo.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Character\Player.cpp" />
-    <ClCompile Include="Source\Application\Private\Actor\Character\Player_Dungeon.cpp" />
-    <ClCompile Include="Source\Application\Private\Actor\Character\Player_Town.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Effect\EffectBase.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Event\EventBase.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Event\EventChoiceBase.cpp" />

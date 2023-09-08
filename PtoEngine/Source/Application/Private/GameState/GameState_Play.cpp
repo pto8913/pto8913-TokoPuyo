@@ -27,10 +27,16 @@ GameState_Play::~GameState_Play()
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
+void GameState_Play::BeginPlay(DirectX11& dx)
+{
+	GameState::BeginPlay(dx);
+
+	SetGameProgress(dx, EGameProgress::Control);
+}
 void GameState_Play::Tick(DirectX11& dx, float deltaSec)
 {
 	GameState::Tick(dx, deltaSec);
-
+	
 	switch (mGameProgress)
 	{
 	case EGameProgress::GameOver:
@@ -64,6 +70,7 @@ void GameState_Play::SetGameProgress(DirectX11& dx, EGameProgress NewState)
 				mMaxScore,
 				mMaxCombo
 			);
+			pGameOverUI->AddToViewport();
 		}
 		break;
 	default:
@@ -76,6 +83,7 @@ void GameState_Play::SetGameProgress(DirectX11& dx, EGameProgress NewState)
 			);
 
 			pGameProgressUI->OnClickedRestart.Bind<&GameState_Play::OnClickedRestart>(*this, "GameState");
+			pGameProgressUI->AddToViewport();
 		}
 		break;
 	}
@@ -101,6 +109,10 @@ void GameState_Play::UpdateScore(const int& inScore, const int& inCombo)
 
 	mCombo = inCombo;
 	mScore = inScore;
+	if (pGameProgressUI != nullptr)
+	{
+		pGameProgressUI->UpdateScore(inScore, inCombo);
+	}
 }
 
 void GameState_Play::GetResult(int& maxScore, int maxCombo)
