@@ -34,11 +34,6 @@ GameProgressUI::GameProgressUI(std::shared_ptr<Object> inOwner, DirectX11& dx, D
 
 	/* GameMode Title */
 	{
-
-	}
-
-	/* Next Puyo */
-	{
 		FSlateTextAppearance textAppearance;
 		textAppearance.vAlign = EVerticalAlignment::Center;
 		textAppearance.hAlign = EHorizontalAlignment::Center;
@@ -46,7 +41,20 @@ GameProgressUI::GameProgressUI(std::shared_ptr<Object> inOwner, DirectX11& dx, D
 		font.fontSize = 30.f;
 		FSlateInfos slateInfo;
 		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pTextBlock_NextPuyo = std::make_shared<S_TextBlock>(GetRt2D(), slateInfo, font, textAppearance);
+		auto pTextBlock_GameMode = std::make_shared<S_TextBlock>(GetRt2D(), slateInfo, font, textAppearance);
+		pTextBlock_GameMode->SetText(L"TokoPuyo");
+
+		InfosVB->AddChild(pTextBlock_GameMode);
+	}
+
+	/* Next Puyo */
+	{
+		FSlateTextAppearance textAppearance;
+		textAppearance.vAlign = EVerticalAlignment::Center;
+		textAppearance.hAlign = EHorizontalAlignment::Center;
+		FSlateInfos slateInfo;
+		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
+		auto pTextBlock_NextPuyo = std::make_shared<S_TextBlock>(GetRt2D(), slateInfo, FSlateFont(), textAppearance);
 		pTextBlock_NextPuyo->SetText(L"Next Puyo");
 
 		FSlateInfos Overlay;

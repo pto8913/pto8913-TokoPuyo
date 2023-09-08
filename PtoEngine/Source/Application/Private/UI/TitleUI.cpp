@@ -19,6 +19,7 @@ TitleUI::TitleUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInter
 	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), GetRt2D());
 
 	//auto pMenuVB = MakeSlate<S_VerticalBox>(FVector2D(), GetRt2D(), );
+
 	//auto pTextBlock = std::make_shared<S_TextBlock>(GetRt2D());
 }
 
