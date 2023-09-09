@@ -64,7 +64,10 @@ UserWidget::~UserWidget()
 
 void UserWidget::Draw()
 {
-	pRootSlate->Draw();
+	if (pRootSlate != nullptr)
+	{
+		pRootSlate->Draw();
+	}
 }
 
 // ------------------------------------------------------------------------------------------------------------

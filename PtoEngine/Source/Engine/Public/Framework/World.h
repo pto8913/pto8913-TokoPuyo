@@ -18,8 +18,6 @@ class PlayerController;
 class Actor;
 class UserWidget;
 
-class BoxCollision;
-
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnGameModeChanged, const std::shared_ptr<GameModeBase>&);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerControllerChanged, const std::shared_ptr<PlayerController>&);
 
@@ -67,11 +65,6 @@ public:
 		++mActorTotalCount;
 		pPersistentLevel->GetObjectCollection()->Add(out);
 
-		std::shared_ptr<BoxCollision> collision = out->GetComponent<BoxCollision>();
-		if (collision != nullptr)
-		{
-			pPersistentLevel->GetCollisionCollection().Add(collision);
-		}
 		return out;
 	}
 

@@ -3,8 +3,6 @@
 
 #include "Core/DirectX.h"
 
-#include "UI/HUD.h"
-
 #include "Controller/PlayerController_TokoPuyo.h"
 #include "GameMode/GameMode_TokoPuyo.h"
 #include "GameState/GameState_TokoPuyo.h"
@@ -40,15 +38,4 @@ void World_TokoPuyo::SetPlayerController(DirectX11& dx)
 	pPlayerController = std::make_shared<PlayerController_TokoPuyo>(dx);
 
 	World::SetPlayerController(dx);
-}
-
-void World_TokoPuyo::SetHUD(DirectX11& dx)
-{
-	pHUD = std::make_shared<HUD>(
-		shared_from_this(),
-		dx,
-		pPlayerController->GetMouse()
-	);
-
-	World::SetHUD(dx);
 }

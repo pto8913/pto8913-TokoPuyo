@@ -35,7 +35,7 @@ void __stdcall VoiceCallback::OnBufferStart(void* pBufferContext)
 void __stdcall VoiceCallback::OnBufferEnd(void* pBufferContext)
 {
 #if _DEBUG
-    OutputDebugStringA("On Buffer End\n");
+    //OutputDebugStringA("On Buffer End\n");
 #endif
 }
 void __stdcall VoiceCallback::OnLoopEnd(void* pBufferContext)

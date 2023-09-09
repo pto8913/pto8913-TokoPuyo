@@ -28,6 +28,7 @@ App::App()
     OutputDebugStringA(("window Aspect : " + EngineSettings::GetWindowAspectRatio().ToString() + "\n").c_str());
     OutputDebugStringA(("window InSize : " + EngineSettings::GetWindowSize().ToString() + "\n").c_str());
 #endif
+
     pDX = std::make_unique<DirectX11>(mWindow.GetHInstance(), mWindow.GetHWnd(), mWindow.GetWidth(), mWindow.GetHeight());
 
     GameInstance& gameInstance = GameInstance::Get();

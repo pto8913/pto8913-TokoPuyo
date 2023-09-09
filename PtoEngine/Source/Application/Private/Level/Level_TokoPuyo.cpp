@@ -281,8 +281,9 @@ void Level_TokoPuyo::GameProgressChanged(const EGameProgress& NewState)
 
 void Level_TokoPuyo::StartControlPuyo()
 {
+#if _DEBUG
 	OutputDebugStringA("Restart Puyo\n");
-
+#endif
 	const auto idx = GameSettings::GetGameOverCoord();
 	if (IsValidIndex(stackedPuyo, idx.x, idx.y))
 	{
@@ -1027,6 +1028,8 @@ std::shared_ptr<Puyo>& Level_TokoPuyo::GetStackedPuyo(const int& x, const int& y
 	{
 		return stackedPuyo[round(y)][round(x)];
 	}
+	std::shared_ptr<Puyo> res = nullptr;
+	return res;
 }
 int Level_TokoPuyo::GetPos(uint8_t x, uint8_t y)
 {

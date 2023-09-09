@@ -6,7 +6,6 @@
 #include "Engine/Delegate.h"
 
 class DirectX11;
-class Camera;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnInputModeChanged, const DX::FInputMode&);
 
@@ -24,14 +23,6 @@ public:
 
 	virtual void ExecuteTasks(DirectX11& dx) override;
 
-	// -----------------------------------
-	// Main : Camera
-	// -----------------------------------
-	virtual DX::ICameraInterface* GetCameraInterface() override;
-
-	virtual void SetCameraEnabled(bool inEnabled) override;
-	virtual bool IsEnableCamera() const noexcept override;
-
 	FOnInputModeChanged OnInputModeChanged;
 private:
 	// ---------------------------------------------------------------------------------
@@ -39,10 +30,4 @@ private:
 	// ---------------------------------------------------------------------------------
 	int mId = 0;
 	DX::FInputMode mInputMode = DX::FInputMode::GameOnly;
-
-	// -----------------------------------
-	// State : Camera
-	// -----------------------------------
-	std::shared_ptr<Camera> pCamera = nullptr;
-	bool bEnableCamera = true;
 };

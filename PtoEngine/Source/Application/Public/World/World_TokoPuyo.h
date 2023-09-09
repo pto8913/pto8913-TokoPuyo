@@ -11,5 +11,4 @@ public:
 	virtual void SetGameMode(DirectX11& dx) override;
 	virtual void SetGameState(DirectX11& dx) override;
 	virtual void SetPlayerController(DirectX11& dx) override;
-	virtual void SetHUD(DirectX11& dx) override;
 };

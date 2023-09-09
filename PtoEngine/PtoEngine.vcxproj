@@ -76,7 +76,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)SDK\DXTex\include\;$(ProjectDir)SDK\FBX\include\</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -109,7 +109,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)SDK;$(ProjectDir)SDK/DXTex/include/Public;$(ProjectDir)Source/Application/Public;$(ProjectDir)Source/Engine/Public;$(ProjectDir)Source/DirectX/Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)SDK;$(ProjectDir)SDK/DXTex/include/Public;$(ProjectDir)Source/Application/Public;$(ProjectDir)Source/Engine/Public;$(ProjectDir)Source/DirectX/Public;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
@@ -160,7 +160,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)SDK;$(ProjectDir)SDK/DXTex/include/Public;$(ProjectDir)Source/Application/Public;$(ProjectDir)Source/Engine/Public;$(ProjectDir)Source/DirectX/Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)SDK;$(ProjectDir)SDK/DXTex/include/Public;$(ProjectDir)Source/Application/Public;$(ProjectDir)Source/Engine/Public;$(ProjectDir)Source/DirectX/Public;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
@@ -188,6 +188,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="SDK\DXTex\include\Public\DDSTextureLoader11.h" />
     <ClInclude Include="SDK\DXTex\include\Public\WICTextureLoader11.h" />
     <ClInclude Include="SDK\nlohmann\json.hpp" />
@@ -213,8 +214,6 @@
     <ClInclude Include="Source\Application\Public\Level\ObjectCollection2D.h" />
     <ClInclude Include="Source\Application\Public\UI\GameOverUI.h" />
     <ClInclude Include="Source\Application\Public\UI\GameProgressUI.h" />
-    <ClInclude Include="Source\Application\Public\UI\HUD.h" />
-    <ClInclude Include="Source\Application\Public\UI\HUDInterface.h" />
     <ClInclude Include="Source\Application\Public\UI\LandmarkUI.h" />
     <ClInclude Include="Source\Application\Public\UI\TitleUI.h" />
     <ClInclude Include="Source\Application\Public\Window.h" />
@@ -224,14 +223,8 @@
     <ClInclude Include="Source\DirectX\Public\Core\DirectXResource.h" />
     <ClInclude Include="Source\DirectX\Public\Core\DirectXTex.h" />
     <ClInclude Include="Source\DirectX\Public\Delegate\Delegate.h" />
-    <ClInclude Include="Source\DirectX\Public\Geometry\Cube.h" />
     <ClInclude Include="Source\DirectX\Public\Geometry\Plane.h" />
-    <ClInclude Include="Source\DirectX\Public\Geometry\Sphere.h" />
     <ClInclude Include="Source\DirectX\Public\Geometry\TriangleList.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\Camera.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\CameraIndicator.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\CameraInterface.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\CameraProjection.h" />
     <ClInclude Include="Source\DirectX\Public\Input\Controller.h" />
     <ClInclude Include="Source\DirectX\Public\Input\ControllerInterface.h" />
     <ClInclude Include="Source\DirectX\Public\Input\Keyboard.h" />
@@ -240,18 +233,8 @@
     <ClInclude Include="Source\DirectX\Public\Math\Math.h" />
     <ClInclude Include="Source\DirectX\Public\Math\Vertex.h" />
     <ClInclude Include="Source\DirectX\Public\Object\DrawableObject2D.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawableObject3D.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawCube.h" />
     <ClInclude Include="Source\DirectX\Public\Object\DrawableObject.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawPlane.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawPyramid.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawSphere.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawScreenText.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\LightBase.h" />
     <ClInclude Include="Source\DirectX\Public\Object\ObjectBase.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\PointLight.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\SkyLight.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\SkySphere.h" />
     <ClInclude Include="Source\DirectX\Public\Object\Sprite.h" />
     <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetBase.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Factory\Bindable.h" />
@@ -284,12 +267,7 @@
     <ClInclude Include="Source\Engine\Public\Algorithm\Random.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\UnionFind.h" />
     <ClInclude Include="Source\Engine\Public\Component\ActorComponent.h" />
-    <ClInclude Include="Source\Engine\Public\Component\BoxCollision.h" />
-    <ClInclude Include="Source\Engine\Public\Component\BoxCollision2D.h" />
-    <ClInclude Include="Source\Engine\Public\Component\CollisionComponent.h" />
     <ClInclude Include="Source\Engine\Public\Component\ComponentBase.h" />
-    <ClInclude Include="Source\Engine\Public\Component\InventoryComponentBase.h" />
-    <ClInclude Include="Source\Engine\Public\Component\MovementComponent.h" />
     <ClInclude Include="Source\Engine\Public\Component\SpriteComponent.h" />
     <ClInclude Include="Source\Engine\Public\EngineSettings.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Audio.h" />
@@ -299,11 +277,9 @@
     <ClInclude Include="Source\Engine\Public\Framework\GameInstance.h" />
     <ClInclude Include="Source\Engine\Public\Framework\GameModeBase.h" />
     <ClInclude Include="Source\Engine\Public\Framework\GameStateBase.h" />
-    <ClInclude Include="Source\Engine\Public\Framework\Level\CollisionCollection.h" />
     <ClInclude Include="Source\Engine\Public\Framework\Level\Layer.h" />
     <ClInclude Include="Source\Engine\Public\Framework\Level\Level.h" />
     <ClInclude Include="Source\Engine\Public\Framework\Level\ObjectCollection.h" />
-    <ClInclude Include="Source\Engine\Public\Framework\Level\QuadTree.h" />
     <ClInclude Include="Source\Engine\Public\Framework\PlayerController.h" />
     <ClInclude Include="Source\Engine\Public\Framework\World.h" />
     <ClInclude Include="Source\Engine\Public\Helper\BoxHelper.h" />
@@ -365,7 +341,6 @@
     <ClCompile Include="Source\Application\Private\Level\ObjectCollection2D.cpp" />
     <ClCompile Include="Source\Application\Private\UI\GameOverUI.cpp" />
     <ClCompile Include="Source\Application\Private\UI\GameProgressUI.cpp" />
-    <ClCompile Include="Source\Application\Private\UI\HUD.cpp" />
     <ClCompile Include="Source\Application\Private\UI\LandmarkUI.cpp" />
     <ClCompile Include="Source\Application\Private\UI\TitleUI.cpp" />
     <ClCompile Include="Source\Application\Private\Window.cpp" />
@@ -378,31 +353,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Geometry\Cube.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Geometry\Plane.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Geometry\Sphere.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Geometry\TriangleList.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Input\Camera.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Input\CameraIndicator.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Input\CameraProjection.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -430,45 +381,7 @@
     <ClCompile Include="Source\DirectX\Private\Object\DrawableObject2D.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawableObject3D.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawCube.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawPlane.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawPyramid.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawSphere.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawScreenText.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\LightBase.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Object\ObjectBase.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\PointLight.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\SkyLight.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\SkySphere.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -568,12 +481,7 @@
     <ClCompile Include="Source\Engine\Private\Algorithm\Random.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\UnionFind.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\ActorComponent.cpp" />
-    <ClCompile Include="Source\Engine\Private\Component\BoxCollision.cpp" />
-    <ClCompile Include="Source\Engine\Private\Component\BoxCollision2D.cpp" />
-    <ClCompile Include="Source\Engine\Private\Component\CollisionComponent.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\ComponentBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\Component\InventoryComponentBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\Component\MovementComponent.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\SpriteComponent.cpp" />
     <ClCompile Include="Source\Engine\Private\EngineSettings.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\Audio.cpp" />
@@ -582,10 +490,8 @@
     <ClCompile Include="Source\Engine\Private\Framework\GameInstance.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\GameModeBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\GameStateBase.cpp" />
-    <ClCompile Include="Source\Engine\Private\Framework\Level\CollisionCollection.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\Level\Level.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\Level\ObjectCollection.cpp" />
-    <ClCompile Include="Source\Engine\Private\Framework\Level\QuadTree.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\PlayerController.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\World.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\BoxHelper.cpp" />
@@ -620,6 +526,7 @@
     <ClCompile Include="Source\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Content\Textures\icon.png" />
     <Image Include="directx.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -630,81 +537,17 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Shader\Effects.fx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Shader\Light_Directional.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Shader\Light_Point.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Shader\Shader.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Shader\Shadow_PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Shader\Shadow_VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Shader\Share\Shadow_PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Shader\Share\Shadow_VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Shader\SkyMap.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Shader\Solid_PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Shader\Solid_VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
     <FxCompile Include="Shader\Sprite.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\.editorconfig" />
     <None Include="Config\PtoEngineSettings.json" />
     <None Include="Config\PuyoGameSettings.json" />
-    <None Include="Shader\PointLight.hlsli">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="Shader\Share\LightVectorData.hlsli">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="Shader\Share\PShadow_Dynamic.hlsli">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="Shader\Share\PShadow_Statc.hlsli">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="Shader\Share\ShaderOps.hlsli">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="Shader\Share\Transform.hlsli" />
-    <None Include="Shader\Share\VShadow.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PtoEngine.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
