@@ -48,12 +48,5 @@ public:
 	// Settings : Game UI
 	// -------------------------------------------------
 	static const FVector2D GAMEUI_SIZE;
-	static const FVector2D GAMEUI_LEFT_TOP;
 
-	static const FVector2D GAMEUI_RIGHT_BOTTOM;
-
-	// -------------------------------------------------
-	// Settings : Game UI Next Puyo
-	// -------------------------------------------------
-	static const FVector2D GAMEUI_NEXT_PUYO_LEFT_TOP;
 };

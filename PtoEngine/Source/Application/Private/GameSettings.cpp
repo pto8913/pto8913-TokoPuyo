@@ -271,20 +271,3 @@ std::wstring GameSettings::GetPuyoImage(int id)
 const FVector2D GameSettings::GAMEUI_SIZE = {
 	300.f, 726.f
 };
-const FVector2D GameSettings::GAMEUI_LEFT_TOP = {
-	GAMESCREEN_SIZE.x + GAMESCREEN_PADDING.x,
-	GAMESCREEN_PADDING.y
-};
-
-const FVector2D GameSettings::GAMEUI_RIGHT_BOTTOM = {
-	GAMESCREEN_SIZE.x + GAMEUI_SIZE.x,
-	GAMESCREEN_SIZE.y + GAMEUI_SIZE.y - GAMESCREEN_PADDING.y
-};
-
-// -------------------------------------------------
-// Settings : Game UI Next Puyo
-// -------------------------------------------------
-const FVector2D GameSettings::GAMEUI_NEXT_PUYO_LEFT_TOP = {
-	GAMEUI_LEFT_TOP.x + GAMESCREEN_PADDING.x * 2,
-	GAMEUI_LEFT_TOP.y + GAMESCREEN_PADDING.y
-};
