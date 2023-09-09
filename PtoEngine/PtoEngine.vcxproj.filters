@@ -74,9 +74,6 @@
     <Filter Include="Source\DirectX\Public\Delegate">
       <UniqueIdentifier>{7aa0817b-932f-4f76-9efd-444bcf8867d6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader\Share">
-      <UniqueIdentifier>{282692ac-e5e9-4478-a186-81af5f5666d4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\DirectX\Public\Object\Widget">
       <UniqueIdentifier>{2f97230d-b228-4a55-93d8-669c303a8523}</UniqueIdentifier>
     </Filter>
@@ -1101,25 +1098,19 @@
     </Manifest>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader\Shader.hlsl">
+    <FxCompile Include="Shader\DrawScreenText.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\Light_Point.hlsl">
+    <FxCompile Include="Shader\Sprite.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="Shader\Light_Directional.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\SkyMap.hlsl">
+    <FxCompile Include="Shader\Light_Point.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\DrawScreenText.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Solid_VS.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Solid_PS.hlsl">
+    <FxCompile Include="Shader\Shader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="Shader\Shadow_PS.hlsl">
@@ -1128,32 +1119,26 @@
     <FxCompile Include="Shader\Shadow_VS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\Share\LightVectorData.hlsli">
-      <Filter>Shader\Share</Filter>
+    <FxCompile Include="Shader\SkyMap.hlsl">
+      <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\Share\PShadow_Dynamic.hlsli">
-      <Filter>Shader\Share</Filter>
+    <FxCompile Include="Shader\Solid_PS.hlsl">
+      <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\Share\PShadow_Statc.hlsli">
-      <Filter>Shader\Share</Filter>
+    <FxCompile Include="Shader\Solid_VS.hlsl">
+      <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\Share\ShaderOps.hlsli">
-      <Filter>Shader\Share</Filter>
+    <FxCompile Include="Shader\Effects.fx">
+      <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\Share\Transform.hlsli">
-      <Filter>Shader\Share</Filter>
+    <FxCompile Include="Shader\Share\Shadow_PS.hlsl">
+      <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\Share\VShadow.hlsli">
-      <Filter>Shader\Share</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Sprite.hlsl">
+    <FxCompile Include="Shader\Share\Shadow_VS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shader\PointLight.hlsli">
-      <Filter>Shader</Filter>
-    </None>
     <None Include="Config\PtoEngineSettings.json">
       <Filter>Config</Filter>
     </None>
@@ -1162,6 +1147,27 @@
     </None>
     <None Include="Config\PuyoGameSettings.json">
       <Filter>Config</Filter>
+    </None>
+    <None Include="Shader\PointLight.hlsli">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\Share\PShadow_Statc.hlsli">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\Share\ShaderOps.hlsli">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\Share\Transform.hlsli">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\Share\VShadow.hlsli">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\Share\LightVectorData.hlsli">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\Share\PShadow_Dynamic.hlsli">
+      <Filter>Shader</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -4,6 +4,8 @@
 #include "nlohmann/json.hpp"
 #include <fstream>
 
+#include "Utils/String.h"
+
 using namespace nlohmann;
 
 EngineSettings::EngineSettings(const FVector2D& inSize, const std::wstring& inTitle)
@@ -63,7 +65,10 @@ void EngineSettings::SetWindowTitle(const std::wstring& inWindowTitle)
 std::wstring EngineSettings::GetWindowTitle()
 {
 	json jsonEngineSettings = ESSS::GetJson();
-	return jsonEngineSettings["windowAspectRatio"].get<std::wstring>();
+	
+	std::string v;
+	jsonEngineSettings["windowTitle"].get_to(v);
+	return Util::s2WString(v);
 }
 
 void EngineSettings::SetWindowAspectRatio(const FVector2D& inWindowAspectRatio)
