@@ -19,9 +19,7 @@ public:
 	static const int   INDEX_NONE;
 	static const uint8_t EMPTY_PUYO;
 
-	static const FVector2D GAMESCREEN_BACKGROUND_SIZE;
 	static const FVector2D GAMESCREEN_PADDING;
-	static const FVector2D GAMESCREEN_SIZE;
 
 	static FVector2D GetGameBoardSize();
 	static void SetGameBoardSize(const FVector2D& in);

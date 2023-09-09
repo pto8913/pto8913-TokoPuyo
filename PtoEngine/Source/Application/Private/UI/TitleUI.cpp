@@ -6,6 +6,7 @@
 #include "Slate/TextBlock.h"
 
 #include "EngineSettings.h"
+#include "GameSettings.h"
 
 TitleUI::TitleUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 	: UserWidget(
@@ -16,11 +17,32 @@ TitleUI::TitleUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInter
 		EngineSettings::GetWindowSize().y
 	)
 {
-	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), GetRt2D());
+	const auto windowSize = EngineSettings::GetWindowSize();
+	const auto padding = GameSettings::GAMESCREEN_PADDING;
 
-	//auto pMenuVB = MakeSlate<S_VerticalBox>(FVector2D(), GetRt2D(), );
+	pRootSlate = std::make_shared<S_CanvasPanel>(windowSize, GetRt2D());
+	pRootSlate->SetPosition({ 0, 0 });
 
-	//auto pTextBlock = std::make_shared<S_TextBlock>(GetRt2D());
+	const FVector2D menuVBSize = { 400, windowSize.y };
+	auto pMenuVB = MakeSlate<S_VerticalBox>(menuVBSize, GetRt2D());
+	pMenuVB->SetPosition({ windowSize.x / 2 - menuVBSize.x / 2, padding.y });
+	pRootSlate->AddChild(pMenuVB);
+
+	/* Title */
+	{
+		FSlateInfos infos;
+		infos.HAlign = EHorizontalAlignment::Fill;
+		infos.VAlign = EVerticalAlignment::Fill;
+		FSlateFont font;
+		font.fontSize = 40.f;
+		FSlateTextAppearance appearance;
+
+		auto pTextBlock = std::make_shared<S_TextBlock>(GetRt2D(), infos, font, appearance);
+		pTextBlock->SetText(L"pto8193 ‚Õ‚æ‚Õ‚æ");
+		pMenuVB->AddChild(pTextBlock);
+	}
+
+	pRootSlate->UpdateWidget();
 }
 
 TitleUI::TitleUI(DirectX11& dx, DX::IMouseInterface* mouse)
