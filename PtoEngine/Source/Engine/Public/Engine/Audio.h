@@ -60,6 +60,7 @@ public:
 	// ------------------------------------------------------------------------
 	void Play();
 	void Stop();
+	bool IsPlaying() const;
 	void SetVolume(float inVolume);
 	float GetVolume();
 	void SetLoop(bool inState);
@@ -76,6 +77,7 @@ private:
 	// ------------------------------------------------------------------------
 	float Volume = 1.f;
 	bool bLoop = false;
+	bool bIsPlay = false;
 
 	// ----------------------------------
 	// State : CreateFile
