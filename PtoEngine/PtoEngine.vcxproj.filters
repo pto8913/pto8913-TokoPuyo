@@ -619,7 +619,6 @@
     <ClInclude Include="Source\Application\Public\UI\TitleUI.h">
       <Filter>Source\Application\Public\UI</Filter>
     </ClInclude>
-    <ClInclude Include="resource1.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
@@ -969,8 +968,9 @@
     <None Include="Config\PuyoGameSettings.json">
       <Filter>Config</Filter>
     </None>
+    <None Include="filever.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="PtoEngine.rc" />
+    <ResourceCompile Include="resource.rc" />
   </ItemGroup>
 </Project>
