@@ -4,11 +4,14 @@
 #include "Core/DirectX.h"
 
 #include "Level/Level_TokoPuyo.h"
+#include "Level/Level_Title.h"
 
 std::shared_ptr<Level> LevelFactory::Create(DirectX11& dx, const ELevelId& id)
 {
 	switch (id)
 	{
+	case ELevelId::Title:
+		return std::make_shared<Level_Title>(dx);
 	case ELevelId::TokoPuyo:
 		return std::make_shared<Level_TokoPuyo>(dx);
 	default:

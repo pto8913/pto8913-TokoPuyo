@@ -619,6 +619,18 @@
     <ClInclude Include="Source\Application\Public\UI\TitleUI.h">
       <Filter>Source\Application\Public\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Application\Public\Level\Level_Title.h">
+      <Filter>Source\Application\Public\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\World\World_Title.h">
+      <Filter>Source\Application\Public\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\World\WorldTypes.h">
+      <Filter>Source\Application\Public\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\PuyoGameInstance.h">
+      <Filter>Source\Application\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
@@ -938,6 +950,15 @@
     </ClCompile>
     <ClCompile Include="Source\Application\Private\UI\TitleUI.cpp">
       <Filter>Source\Application\Private\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Level\Level_Title.cpp">
+      <Filter>Source\Application\Private\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\World\World_Title.cpp">
+      <Filter>Source\Application\Private\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\PuyoGameInstance.cpp">
+      <Filter>Source\Application\Private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -43,10 +43,8 @@ public:
 private:
 	void InputUpdate(DirectX11& dx);
 
-	// -----------------------------------
-	// Main : GameMode
-	// -----------------------------------
 	void OnPlayerControllerChanged(const std::shared_ptr<PlayerController>& pPlayerController);
+	void OnWorldChanged(std::shared_ptr<World> NewWorld);
 
 	// ------------------------------------------------------------------------------------------------------------
 	// State

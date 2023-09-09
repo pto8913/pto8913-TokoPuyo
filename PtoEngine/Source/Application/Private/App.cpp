@@ -1,6 +1,7 @@
 
 #include "App.h"
 #include "EngineSettings.h"
+#include "PuyoGameInstance.h"
 
 #include "Core/DirectX.h"
 
@@ -8,11 +9,8 @@
 
 #include "Framework/World.h"
 #include "Framework/PlayerController.h"
-#include "Framework/GameInstance.h"
 
 #include "Input/Keyboard.h"
-
-#include "World/World_TokoPuyo.h"
 
 Keyboard::InputAction InputEsc(DIK_ESCAPE);
 
@@ -31,14 +29,10 @@ App::App()
 
     pDX = std::make_unique<DirectX11>(mWindow.GetHInstance(), mWindow.GetHWnd(), mWindow.GetWidth(), mWindow.GetHeight());
 
-    GameInstance& gameInstance = GameInstance::Get();
+    PuyoGameInstance& gameInstance = PuyoGameInstance::Get();
     gameInstance.Initialize(*pDX);
-
-    pWorld = std::make_shared<World_TokoPuyo>();
-    pWorld->Init(*pDX);
-    pWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
-    OnPlayerControllerChanged(pWorld->GetPlayerController());
-    pWorld->BeginPlay(*pDX);
+    gameInstance.OnOpenWorld.Bind<&App::OnWorldChanged>(*this, "App");
+    gameInstance.OpenWorld(EWorldId::Title);
 
     /* Viewport */
     {
@@ -87,7 +81,10 @@ int App::Run()
 
             InputUpdate(*pDX);
 
-            pWorld->Tick(*pDX, deltaSec);
+            if (pWorld != nullptr)
+            {
+                pWorld->Tick(*pDX, deltaSec);
+            }
 
             HRESULT result = pDX->EndFrame();
             if (result == DXGI_ERROR_DEVICE_REMOVED || result == DXGI_ERROR_DEVICE_RESET)
@@ -112,10 +109,21 @@ void App::InputUpdate(DirectX11& dx)
     }
 }
 
-// -----------------------------------
-// Main : GameMode
-// -----------------------------------
 void App::OnPlayerControllerChanged(const std::shared_ptr<PlayerController>& pPlayerController)
 {
     mWindow.pMouse = pPlayerController->GetMouse();
+}
+void App::OnWorldChanged(std::shared_ptr<World> NewWorld)
+{
+    if (pWorld != nullptr)
+    {
+        pWorld.reset();
+        pWorld = nullptr;
+    }
+    OutputDebugStringA("OnWorldChanged");
+    pWorld = std::move(NewWorld);
+    pWorld->Init(*pDX);
+    pWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
+    OnPlayerControllerChanged(pWorld->GetPlayerController());
+    pWorld->BeginPlay(*pDX);
 }

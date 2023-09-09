@@ -4,6 +4,8 @@
 #include "Slate/CanvasPanel.h"
 #include "Slate/VerticalBox.h"
 #include "Slate/TextBlock.h"
+#include "Slate/Button.h"
+#include "Slate/Spacer.h"
 
 #include "EngineSettings.h"
 #include "GameSettings.h"
@@ -23,9 +25,11 @@ TitleUI::TitleUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInter
 	pRootSlate = std::make_shared<S_CanvasPanel>(windowSize, GetRt2D());
 	pRootSlate->SetPosition({ 0, 0 });
 
-	const FVector2D menuVBSize = { 400, windowSize.y };
-	auto pMenuVB = std::make_shared<S_VerticalBox>(menuVBSize, GetRt2D());
-	pMenuVB->SetPosition({ windowSize.x / 2 - menuVBSize.x / 2, padding.y });
+	FSlateInfos menuVBInfos;
+	menuVBInfos.VAlign = EVerticalAlignment::Center;
+	const FVector2D menuVBSize = { windowSize.x / 2, windowSize.y / 2.f };
+	auto pMenuVB = std::make_shared<S_VerticalBox>(menuVBSize, GetRt2D(), menuVBInfos);
+	pMenuVB->SetPosition({ windowSize.x / 2 - menuVBSize.x / 2, windowSize.y / 2 - menuVBSize.y / 2 + padding.y });
 	pRootSlate->AddChild(pMenuVB);
 
 	/* Title */
@@ -34,12 +38,40 @@ TitleUI::TitleUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInter
 		infos.HAlign = EHorizontalAlignment::Fill;
 		infos.VAlign = EVerticalAlignment::Fill;
 		FSlateFont font;
-		font.fontSize = 40.f;
+		font.fontSize = 60.f;
 		FSlateTextAppearance appearance;
 
 		auto pTextBlock = std::make_shared<S_TextBlock>(GetRt2D(), infos, font, appearance);
 		pTextBlock->SetText(L"pto8193 ‚Õ‚æ‚Õ‚æ");
 		pMenuVB->AddChild(pTextBlock);
+	}
+
+	auto pSpacer = std::make_shared<S_Spacer>(FVector2D(0.f, 200.f), GetRt2D());
+	pMenuVB->AddChild(pSpacer);
+
+	/* TokoPuyo Button */
+	{
+		FSlateInfos infos;
+		infos.HAlign = EHorizontalAlignment::Center;
+		FSlateButtonAppearance appearance;
+		auto pButton = std::make_shared<S_Button>(FVector2D(200.f, 40.f), GetRt2D(), infos, appearance);
+		pButton->OnClicked.Bind<&TitleUI::OnClickedTokoPuyoButton>(*this, "TitleUI");
+
+		/* Label */
+		{
+			FSlateInfos infos;
+			infos.HAlign = EHorizontalAlignment::Fill;
+			//infos.VAlign = EVerticalAlignment::Fill;
+			infos.padding = { 5.f };
+			FSlateFont font;
+			font.fontSize = 30.f;
+			FSlateTextAppearance appearance;
+
+			auto pTextBlock = std::make_shared<S_TextBlock>(GetRt2D(), infos, font, appearance);
+			pTextBlock->SetText(L"‚Æ‚±‚Õ‚æ");
+			pButton->AddChild(pTextBlock);
+		}
+		pMenuVB->AddChild(pButton);
 	}
 
 	pRootSlate->UpdateWidget();
@@ -52,5 +84,12 @@ TitleUI::TitleUI(DirectX11& dx, DX::IMouseInterface* mouse)
 
 TitleUI::~TitleUI()
 {
+}
 
+// ------------------------------------------------------------------------------------------------------------
+// Main
+// ------------------------------------------------------------------------------------------------------------
+void TitleUI::OnClickedTokoPuyoButton(DX::MouseEvent inMouseEvent)
+{
+	OnClickedTokoPuyo.Broadcast(inMouseEvent);
 }
