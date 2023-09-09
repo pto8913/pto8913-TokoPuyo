@@ -24,7 +24,7 @@ TitleUI::TitleUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInter
 	pRootSlate->SetPosition({ 0, 0 });
 
 	const FVector2D menuVBSize = { 400, windowSize.y };
-	auto pMenuVB = MakeSlate<S_VerticalBox>(menuVBSize, GetRt2D());
+	auto pMenuVB = std::make_shared<S_VerticalBox>(menuVBSize, GetRt2D());
 	pMenuVB->SetPosition({ windowSize.x / 2 - menuVBSize.x / 2, padding.y });
 	pRootSlate->AddChild(pMenuVB);
 
