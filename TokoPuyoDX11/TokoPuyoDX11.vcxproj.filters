@@ -1,0 +1,519 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Assets">
+      <UniqueIdentifier>74e7337a-31c1-4fba-82b5-19ca4ae915fc</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dds;dlg;fbx;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{15080443-5de6-448c-b247-6a6ef81fad18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX">
+      <UniqueIdentifier>{fac9a38e-7445-4c76-8eef-0b6a365ade33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public">
+      <UniqueIdentifier>{41d5eaed-cbbe-4e2b-903d-3585a533f6c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Private">
+      <UniqueIdentifier>{1cc41421-ec88-4c11-a5b1-652d0f465e82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{d27460b7-cb7d-4beb-8d98-d5f100e5a139}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Private\Core">
+      <UniqueIdentifier>{f6ee1685-ee49-4ee3-b0aa-73857c9ae07c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Private\Render">
+      <UniqueIdentifier>{93804615-3af3-48b8-a32b-fb8f091e7aa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\Core">
+      <UniqueIdentifier>{d3dd3f66-a58b-4be9-b534-cc681c470237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\Render">
+      <UniqueIdentifier>{dcaaf732-0613-473a-9ce7-64c5c5efe9fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Private\Utils">
+      <UniqueIdentifier>{66e75d4a-39f9-490e-b1bb-d834e31ec5d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\Utils">
+      <UniqueIdentifier>{9bae8e1b-5cb9-41d4-82dd-38d98326c30d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\Render\Factory">
+      <UniqueIdentifier>{32db8346-707c-4e09-a361-2ea084c8f303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Private\Render\Factory">
+      <UniqueIdentifier>{0fd575f3-7e8b-4371-b6d7-a451bc9b6eb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Private\Input">
+      <UniqueIdentifier>{bb674d11-420a-4ef0-9286-1db336434864}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\Input">
+      <UniqueIdentifier>{a92a1cb5-9ee0-45e1-b848-2265a254433d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\Math">
+      <UniqueIdentifier>{bf01354a-cf6c-4870-b888-13fe94534888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Private\Math">
+      <UniqueIdentifier>{2851a57a-7714-4c90-a420-cdea9676f8c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Private\Geometry">
+      <UniqueIdentifier>{fa70d723-3996-4181-a9a2-0c7c8d4e04b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\Geometry">
+      <UniqueIdentifier>{3b1bbb71-4d89-4f18-a23d-17bdad62971c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Private\Object">
+      <UniqueIdentifier>{6a273b45-d908-4fc8-986d-3782f9538507}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\Object">
+      <UniqueIdentifier>{f21213f9-ea6a-43b0-b242-c984f23d9bf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\Render\Manager">
+      <UniqueIdentifier>{7ee401b9-c88e-43a6-bf15-bdbd1cb6c6fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\Delegate">
+      <UniqueIdentifier>{7aa0817b-932f-4f76-9efd-444bcf8867d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\Timer">
+      <UniqueIdentifier>{93a40518-3130-4f1a-9b2a-95fdd731c261}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\Slate">
+      <UniqueIdentifier>{89d4cfe4-9099-49f8-a2f2-a1e31c05bfd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Private\Slate">
+      <UniqueIdentifier>{0f82d7a4-4e1e-4acf-b9e3-4eb60381bdfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Public\Object\Widget">
+      <UniqueIdentifier>{2f97230d-b228-4a55-93d8-669c303a8523}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Private\Object\Widget">
+      <UniqueIdentifier>{83b19585-2a15-42d0-9ac8-83a62c6f3b79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DirectX\Private\Timer">
+      <UniqueIdentifier>{f0065346-b0a1-40d8-8cf8-92986e6025d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK">
+      <UniqueIdentifier>{024de1d7-88b5-468c-87dc-9ba3ae79342c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK\Public">
+      <UniqueIdentifier>{5de10722-2884-4f16-b4a9-6000eb441ae0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK\Private">
+      <UniqueIdentifier>{010c095f-7dce-49e1-a413-eafd57656cf7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\DirectX\DirectXHead.h">
+      <Filter>Source\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Utils\DirectXUtils.h">
+      <Filter>Source\DirectX\Public\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\RenderTargetView.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Core\DirectX.h">
+      <Filter>Source\DirectX\Public\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\InputLayout.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\Shader.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\VertexBuffer.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\VertexShader.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\PixelShader.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\ConstantBuffer.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\SamplerState.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\BlendState.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\DepthStencilView.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Math\Vertex.h">
+      <Filter>Source\DirectX\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\IndexBuffer.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Core\DirectXTex.h">
+      <Filter>Source\DirectX\Public\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\CubeTexture.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\Bindable.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\DrawableObject.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Core\DirectXResource.h">
+      <Filter>Source\DirectX\Public\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Manager\BindableManager.h">
+      <Filter>Source\DirectX\Public\Render\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\Topology.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Geometry\Cube.h">
+      <Filter>Source\DirectX\Public\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Geometry\Plane.h">
+      <Filter>Source\DirectX\Public\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Geometry\Sphere.h">
+      <Filter>Source\DirectX\Public\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Geometry\TriangleList.h">
+      <Filter>Source\DirectX\Public\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Math\Math.h">
+      <Filter>Source\DirectX\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\Rasterizer.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Utils\String.h">
+      <Filter>Source\DirectX\Public\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\TransformConstantBuffer.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\ObjectBase.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\Texture.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\ScreenTexture.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Delegate\Delegate.h">
+      <Filter>Source\DirectX\Public\Delegate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\DepthStencilState.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\pch.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Window.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\App.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\Sprite.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\DrawableObject2D.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\ViewPort.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Render\Factory\ScreenText.h">
+      <Filter>Source\DirectX\Public\Render\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameMain.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameUIController.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\GameStateUI.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Timer\Timer.h">
+      <Filter>Source\DirectX\Public\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameMode.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\Keyboard.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Config.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Slate\TextBlock.h">
+      <Filter>Source\DirectX\Public\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Slate\SlateBase.h">
+      <Filter>Source\DirectX\Public\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Slate\SlateSlotBase.h">
+      <Filter>Source\DirectX\Public\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Slate\Image.h">
+      <Filter>Source\DirectX\Public\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Slate\Button.h">
+      <Filter>Source\DirectX\Public\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Slate\VerticalBox.h">
+      <Filter>Source\DirectX\Public\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Slate\SlateContainerBase.h">
+      <Filter>Source\DirectX\Public\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetBase.h">
+      <Filter>Source\DirectX\Public\Object\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Slate\Spacer.h">
+      <Filter>Source\DirectX\Public\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Slate\Overlay.h">
+      <Filter>Source\DirectX\Public\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\Controller.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\MouseInterface.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\Mouse.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\ControllerInterface.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetInterface.h">
+      <Filter>Source\DirectX\Public\Object\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Slate\SlateInterface.h">
+      <Filter>Source\DirectX\Public\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\DXTex\include\Public\DDSTextureLoader11.h">
+      <Filter>SDK\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\DXTex\include\Public\WICTextureLoader11.h">
+      <Filter>SDK\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Audio.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
+      <Filter>Source\DirectX\Private\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\RenderTargetView.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Core\DirectX.cpp">
+      <Filter>Source\DirectX\Private\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\InputLayout.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\Shader.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\VertexBuffer.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\VertexShader.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\PixelShader.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\ConstantBuffer.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\SamplerState.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\BlendState.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\DepthStencilView.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\IndexBuffer.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\CubeTexture.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\DrawableObject.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Core\DirectXResource.cpp">
+      <Filter>Source\DirectX\Private\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Math\Vertex.cpp">
+      <Filter>Source\DirectX\Private\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\Topology.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Geometry\Cube.cpp">
+      <Filter>Source\DirectX\Private\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Geometry\Plane.cpp">
+      <Filter>Source\DirectX\Private\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Geometry\Sphere.cpp">
+      <Filter>Source\DirectX\Private\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Geometry\TriangleList.cpp">
+      <Filter>Source\DirectX\Private\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\Rasterizer.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\Texture.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Utils\String.cpp">
+      <Filter>Source\DirectX\Private\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\TransformConstantBuffer.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Math\Math.cpp">
+      <Filter>Source\DirectX\Private\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\ScreenTexture.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\DepthStencilState.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Window.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\App.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\pch.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\Sprite.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\DrawableObject2D.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\ViewPort.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameMain.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\GameStateUI.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameMode.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Input\Keyboard.cpp">
+      <Filter>Source\DirectX\Private\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Slate\SlateBase.cpp">
+      <Filter>Source\DirectX\Private\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Slate\TextBlock.cpp">
+      <Filter>Source\DirectX\Private\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Slate\SlateSlotBase.cpp">
+      <Filter>Source\DirectX\Private\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Slate\Image.cpp">
+      <Filter>Source\DirectX\Private\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Slate\Button.cpp">
+      <Filter>Source\DirectX\Private\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Slate\VerticalBox.cpp">
+      <Filter>Source\DirectX\Private\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Slate\SlateContainerBase.cpp">
+      <Filter>Source\DirectX\Private\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\Widget\WidgetBase.cpp">
+      <Filter>Source\DirectX\Private\Object\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Slate\Spacer.cpp">
+      <Filter>Source\DirectX\Private\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Slate\Overlay.cpp">
+      <Filter>Source\DirectX\Private\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Timer\Timer.cpp">
+      <Filter>Source\DirectX\Private\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Config.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Input\Controller.cpp">
+      <Filter>Source\DirectX\Private\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Input\Mouse.cpp">
+      <Filter>Source\DirectX\Private\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\ObjectBase.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\Factory\ScreenText.cpp">
+      <Filter>Source\DirectX\Private\Render\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\DXTex\include\Private\DDSTextureLoader11.cpp">
+      <Filter>SDK\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\DXTex\include\Private\WICTextureLoader11.cpp">
+      <Filter>SDK\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Audio.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="settings.manifest">
+      <Filter>Assets</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\DrawScreenText.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Sprite.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Source</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="filever.rc2">
+      <Filter>Source</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
