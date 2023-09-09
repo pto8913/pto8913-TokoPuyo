@@ -218,23 +218,11 @@
     <Filter Include="Source\Application\Public\Actor\Character">
       <UniqueIdentifier>{f79d3c62-5966-42af-9c1f-6f22f3734e6c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Application\Public\Actor\Effect">
-      <UniqueIdentifier>{a30bc22d-df52-4650-85e2-e3601c608e6e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Application\Public\Actor\Event">
-      <UniqueIdentifier>{ef4797e6-0ee0-481b-86c2-6d331cfdd19c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Application\Public\Actor\Ground">
       <UniqueIdentifier>{d6e3f129-85f7-4dcd-952f-c828ee58d113}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Application\Private\Actor\Character">
       <UniqueIdentifier>{07068b9e-d206-4942-956d-778763fc7167}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Application\Private\Actor\Effect">
-      <UniqueIdentifier>{0c198f58-faef-4645-b6a8-796407cb8c9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Application\Private\Actor\Event">
-      <UniqueIdentifier>{5b0d834b-d02c-4d9b-a9f4-15b6f5ec0274}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Application\Private\Actor\Ground">
       <UniqueIdentifier>{28aa674c-7fa9-4a4c-ad82-dd618ee679b6}</UniqueIdentifier>
@@ -706,7 +694,9 @@
     <ClInclude Include="Source\Application\Public\GameState\GameState_Play.h">
       <Filter>Source\Application\Public\GameState</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application\Public\UI\TitleUI.h" />
+    <ClInclude Include="Source\Application\Public\UI\TitleUI.h">
+      <Filter>Source\Application\Public\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
@@ -1096,7 +1086,9 @@
     <ClCompile Include="Source\Application\Private\GameState\GameState_Play.cpp">
       <Filter>Source\Application\Private\GameState</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Application\Private\UI\TitleUI.cpp" />
+    <ClCompile Include="Source\Application\Private\UI\TitleUI.cpp">
+      <Filter>Source\Application\Private\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="directx.ico">
