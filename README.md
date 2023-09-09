@@ -1,7 +1,7 @@
 # pto8913-TokoPuyo
 とことんぷよぷよをDirectXで作ってみた。
 
-<img src="https://github.com/pto8913/pto8913-TokoPuyo/blob/master/TokoPuyoDX11/Content/Textures/thumbnail.png" width="380px" height="410px" alt="" />
+<img src="https://github.com/pto8913/pto8913-TokoPuyo/blob/master/PtoEngine/Content/Textures/thumbnail.png" width="380px" height="410px" alt="" />
 
 ### 操作方法
 キーボード
