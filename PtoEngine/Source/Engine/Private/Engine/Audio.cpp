@@ -116,6 +116,7 @@ void Audio::Play()
         pSourceVoice->FlushSourceBuffers();
         pSourceVoice->SubmitSourceBuffer(&m_buffer);
         pSourceVoice->Start(0);
+        bIsPlay = true;
         //WaitForSingleObjectEx(callback.hBufferEndEvent, INFINITE, TRUE);
     }
     else
@@ -131,8 +132,14 @@ void Audio::Stop()
     if (pSourceVoice != nullptr)
     {
         pSourceVoice->Stop(0);
+        bIsPlay = false;
     }
 }
+bool Audio::IsPlaying() const
+{
+    return bIsPlay;
+}
+
 void Audio::SetVolume(float inVolume)
 {
     Volume = inVolume;
