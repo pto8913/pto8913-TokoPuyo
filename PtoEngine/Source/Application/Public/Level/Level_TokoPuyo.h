@@ -49,9 +49,9 @@ protected:
 	@bLeft : true = -1.f, false = 1.f; 
 	@rateY : -1.f ~ 1.f 
 	*/
-	void ActionPuyoSlide(float rateX, float rateY);
-
+	void ActionActivePuyoSlide(float rateX, float rateY);
 	void ActivePuyoDownToRelease();
+
 	void ActionActivePuyoRotate(bool rotateR = true);
 	void ActivePuyoRotateToRelease();
 
@@ -62,7 +62,7 @@ protected:
 	void DoFrame_Release();
 	bool DoFrame_Release(std::shared_ptr<Puyo>& puyo);
 	/* activePuyo and subPuyo */
-	void ReachToBottomMainPuyo();
+	void ActivePuyoReachToBottom();
 
 	// ------------------------------------------------------------
 	// Main : Vanish puyo

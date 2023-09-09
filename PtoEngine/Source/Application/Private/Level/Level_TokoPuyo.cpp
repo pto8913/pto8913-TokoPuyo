@@ -248,7 +248,10 @@ void Level_TokoPuyo::GameProgressChanged(const EGameProgress& NewState)
 {
 	if (NewState != EGameProgress::GameOver)
 	{
-		BGM->Play();
+		if (!BGM->IsPlaying())
+		{
+			BGM->Play();
+		}
 	}
 	switch (NewState)
 	{
@@ -357,13 +360,13 @@ void Level_TokoPuyo::DoFrame_Control()
 #if _DEBUG
 	//OutputDebugStringA("DoFrame_Control\n");
 #endif
-	ActionPuyoSlide(0.f, 0.5f);
+	ActionActivePuyoSlide(0.f, 0.5f);
 }
 
 // ---------------------------
 // Main : Puyo Moving
 // ---------------------------
-void Level_TokoPuyo::ActionPuyoSlide(float rateX, float rateY)
+void Level_TokoPuyo::ActionActivePuyoSlide(float rateX, float rateY)
 {
 	if (pMainPuyo == nullptr) return;
 
@@ -472,7 +475,7 @@ void Level_TokoPuyo::ActivePuyoDownToRelease()
 			UpdateActivePuyo(currMainIdx.x, currMainIdx.y);
 		}
 	}
-	
+
 	pGameState->SetGameProgress(*pDX, EGameProgress::Release);
 	SE_PuyoBottom->Play();
 }
@@ -615,7 +618,7 @@ void Level_TokoPuyo::DoFrame_Release()
 	if (fallCount == 0)
 	{
 		pGameState->SetGameProgress(*pDX, EGameProgress::Wait);
-		ReachToBottomMainPuyo();
+		ActivePuyoReachToBottom();
 	}
 }
 bool Level_TokoPuyo::DoFrame_Release(std::shared_ptr<Puyo>& puyo)
@@ -658,7 +661,7 @@ bool Level_TokoPuyo::DoFrame_Release(std::shared_ptr<Puyo>& puyo)
 	}
 	return false;
 }
-void Level_TokoPuyo::ReachToBottomMainPuyo()
+void Level_TokoPuyo::ActivePuyoReachToBottom()
 {
 	OutputDebugStringA("ReachToBottopMainPuyo\n");
 
@@ -956,11 +959,11 @@ void Level_TokoPuyo::InputUpdate()
 		}
 		if (InputLeft)
 		{
-			ActionPuyoSlide(-1.f, 0.f);
+			ActionActivePuyoSlide(-1.f, 0.f);
 		}
 		if (InputRight)
 		{
-			ActionPuyoSlide(1.f, 0.f);
+			ActionActivePuyoSlide(1.f, 0.f);
 		}
 		if (InputUp)
 		{
