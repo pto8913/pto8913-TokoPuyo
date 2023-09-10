@@ -54,12 +54,13 @@ UserWidget::~UserWidget()
 		pMouse->GetMouseMove().Unbind("UserWidget");
 	}
 	pMouse = nullptr;
-
-	pRootSlate->ClearChildren();
+	if (pRootSlate != nullptr)
+	{
+		pRootSlate->ClearChildren();
+	}
 	pRootSlate.reset();
 	pRootSlate = nullptr;
 
-	pOwner.reset();
 	pOwner = nullptr;
 }
 
@@ -67,7 +68,10 @@ void UserWidget::Draw()
 {
 	if (!IsPendingKill())
 	{
-		pRootSlate->Draw();
+		if (pRootSlate != nullptr)
+		{
+			pRootSlate->Draw();
+		}
 	}
 }
 
