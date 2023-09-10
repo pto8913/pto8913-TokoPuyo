@@ -34,7 +34,7 @@ public:
 	bool IsInViewport() const noexcept;
 	double GetZOrder() const noexcept;
 
-	virtual World* GetWorld() override;
+	virtual std::shared_ptr<World> GetWorld() override;
 
 	ID2D1RenderTarget* GetRt2D();
 

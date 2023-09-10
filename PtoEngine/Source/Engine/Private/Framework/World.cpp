@@ -67,7 +67,7 @@ void World::SetLevel(DirectX11& dx)
 	{
 		pPersistentLevel = std::make_shared<Level>(dx);
 	}
-	pPersistentLevel->SetWorld(this);
+	pPersistentLevel->SetWorld(shared_from_this());
 }
 void World::SetGameMode(DirectX11& dx)
 {
@@ -75,7 +75,7 @@ void World::SetGameMode(DirectX11& dx)
 	{
 		pGameMode = std::make_shared<GameModeBase>();
 	}
-	pGameMode->SetOuter(pPersistentLevel.get());
+	pGameMode->SetOuter(pPersistentLevel);
 }
 void World::SetGameState(DirectX11& dx)
 {
@@ -83,7 +83,7 @@ void World::SetGameState(DirectX11& dx)
 	{
 		pGameState = std::make_shared<GameStateBase>();
 	}
-	pGameState->SetOuter(pPersistentLevel.get());
+	pGameState->SetOuter(pPersistentLevel);
 }
 void World::SetPlayerController(DirectX11& dx)
 {
@@ -91,7 +91,7 @@ void World::SetPlayerController(DirectX11& dx)
 	{
 		pPlayerController = std::make_shared<PlayerController>(dx);
 	}
-	pPlayerController->SetOuter(pPersistentLevel.get());
+	pPlayerController->SetOuter(pPersistentLevel);
 }
 void World::SetPlayer(DirectX11& dx)
 {
@@ -99,7 +99,7 @@ void World::SetPlayer(DirectX11& dx)
 	{
 		pPlayer = SpawnActor<Actor>();
 	}
-	pPlayer->SetOuter(pPersistentLevel.get());
+	pPlayer->SetOuter(pPersistentLevel);
 	pPlayer->SetActorLocation(pPersistentLevel->GetStartPosition());
 }
 void World::SetHUD(DirectX11& dx)
@@ -191,9 +191,9 @@ void World::Tick(DirectX11& dx, float deltaSec)
 // -----------------------------------
 // Main : Util
 // -----------------------------------
-World* World::GetWorld()
+std::shared_ptr<World> World::GetWorld()
 {
-	return this;
+	return shared_from_this();
 }
 TimerManager& World::GetTimerManager()
 {

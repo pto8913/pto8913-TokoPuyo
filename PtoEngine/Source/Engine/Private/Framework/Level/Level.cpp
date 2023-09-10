@@ -13,6 +13,7 @@ Level::~Level()
 {
 	pDX = nullptr;
 
+	pOwningWorld.reset();
 	pOwningWorld = nullptr;
 
 	pObjectCollection.reset();
@@ -41,11 +42,11 @@ void Level::Tick(DirectX11& dx, float deltaSec)
 	}
 }
 
-void Level::SetWorld(World* in)
+void Level::SetWorld(std::shared_ptr<World> in)
 {
 	pOwningWorld = in;
 }
-World* Level::GetWorld()
+std::shared_ptr<World> Level::GetWorld()
 {
 	return pOwningWorld;
 }

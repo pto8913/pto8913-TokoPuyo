@@ -27,7 +27,6 @@ UserWidget::UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, float windowSi
 
 		pMouse->GetMouseMove().Bind<&UserWidget::OnMouseMove>(*this, "UserWidget");
 	}
-	SetLayer(Layer::EActorLayer::UI);
 }
 UserWidget::UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH)
 	: UserWidget(dx, mouse, windowSizeW, windowSizeH)
@@ -65,10 +64,7 @@ UserWidget::~UserWidget()
 
 void UserWidget::Draw()
 {
-	if (!IsPendingKill())
-	{
-		pRootSlate->Draw();
-	}
+	pRootSlate->Draw();
 }
 
 // ------------------------------------------------------------------------------------------------------------
@@ -76,16 +72,13 @@ void UserWidget::Draw()
 // ------------------------------------------------------------------------------------------------------------
 void UserWidget::Tick(DirectX11& dx, float deltaTime)
 {
-	if (!IsPendingKill())
+	if (IsInViewport())
 	{
-		if (IsInViewport())
-		{
-			ExecuteTasks(dx);
+		ExecuteTasks(dx);
 
-			for (auto&& animation : mAnimations)
-			{
-				animation.Update(deltaTime);
-			}
+		for (auto&& animation : mAnimations)
+		{
+			animation.Update(deltaTime);
 		}
 	}
 }
@@ -107,9 +100,9 @@ double UserWidget::GetZOrder() const noexcept
 {
 	return ZOrder;
 }
-World* UserWidget::GetWorld()
+std::shared_ptr<World> UserWidget::GetWorld()
 {
-	if (IsValid(pOwner))
+	if (pOwner)
 	{
 		return pOwner->GetWorld();
 	}
@@ -123,19 +116,13 @@ ID2D1RenderTarget* UserWidget::GetRt2D()
 
 void UserWidget::AddSlate(std::shared_ptr<SlateBase> inSlate)
 {
-	if (!IsPendingKill())
-	{
-		pRootSlate->AddChild(inSlate);
-		pRootSlate->UpdateWidget();
-	}
+	pRootSlate->AddChild(inSlate);
+	pRootSlate->UpdateWidget();
 }
 void UserWidget::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
 {
-	if (!IsPendingKill())
-	{
-		pRootSlate->RemoveChild(inSlate);
-		pRootSlate->UpdateWidget();
-	}
+	pRootSlate->RemoveChild(inSlate);
+	pRootSlate->UpdateWidget();
 }
 
 // --------------------------
@@ -143,10 +130,7 @@ void UserWidget::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
 // --------------------------
 void UserWidget::AddAnimation(WidgetAnimation in)
 {
-	if (!IsPendingKill())
-	{
-		mAnimations.Add(in);
-	}
+	mAnimations.Add(in);
 }
 
 // --------------------------
@@ -187,89 +171,65 @@ void UserWidget::OnKeyUp(DX::MouseEvent inMouseEvent)
 
 bool UserWidget::NativeOnMouseMove(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (pRootSlate != nullptr)
 	{
-		if (pRootSlate != nullptr)
-		{
-			return pRootSlate->OnMouseMove(inMouseEvent);
-		}
+		return pRootSlate->OnMouseMove(inMouseEvent);
 	}
 	return false;
 };
 bool UserWidget::NativeOnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (pRootSlate != nullptr)
 	{
-		if (pRootSlate != nullptr)
-		{
-			return pRootSlate->OnMouseButtonDown(inMouseEvent);
-		}
+		return pRootSlate->OnMouseButtonDown(inMouseEvent);
 	}
 	return false;
 };
 bool UserWidget::NativeOnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (pRootSlate != nullptr)
 	{
-		if (pRootSlate != nullptr)
-		{
-			return pRootSlate->OnMouseButtonHeld(inMouseEvent);
-		}
+		return pRootSlate->OnMouseButtonHeld(inMouseEvent);
 	}
 	return false;
 };
 bool UserWidget::NativeOnMouseButtonUp(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (pRootSlate != nullptr)
 	{
-		if (pRootSlate != nullptr)
-		{
-			return pRootSlate->OnMouseButtonUp(inMouseEvent);
-		}
+		return pRootSlate->OnMouseButtonUp(inMouseEvent);
 	}
 	return false;
 };
 bool UserWidget::NativeOnMouseEnter(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (pRootSlate != nullptr)
 	{
-		if (pRootSlate != nullptr)
-		{
-			return pRootSlate->OnMouseEnter(inMouseEvent);
-		}
+		return pRootSlate->OnMouseEnter(inMouseEvent);
 	}
 	return false;
 };
 bool UserWidget::NativeOnMouseLeave(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (pRootSlate != nullptr)
 	{
-		if (pRootSlate != nullptr)
-		{
-			return pRootSlate->OnMouseLeave(inMouseEvent);
-		}
+		return pRootSlate->OnMouseLeave(inMouseEvent);
 	}
 	return false;
 };
 bool UserWidget::NativeOnKeyDown(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (pRootSlate != nullptr)
 	{
-		if (pRootSlate != nullptr)
-		{
-			return pRootSlate->OnKeyDown(inMouseEvent);
-		}
+		return pRootSlate->OnKeyDown(inMouseEvent);
 	}
 	return false;
 };
 bool UserWidget::NativeOnKeyUp(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (pRootSlate != nullptr)
 	{
-		if (pRootSlate != nullptr)
-		{
-			return pRootSlate->OnKeyUp(inMouseEvent);
-		}
+		return pRootSlate->OnKeyUp(inMouseEvent);
 	}
 	return false;
 };
