@@ -2,11 +2,6 @@
 
 #include "UI/UserWidget.h"
 
-class S_TextBlock;
-class S_Border;
-class S_Image;
-class S_Button;
-
 class GameOverUI : public UserWidget
 {
 public:
@@ -18,6 +13,7 @@ public:
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
 	void OnClickedRestartButton(DX::MouseEvent inMouseEvent);
+	void OnClickedReturnTitle(DX::MouseEvent inMouseEvent);
 
 	// ----------------------------------------------------------
 	// Main : Delegates
@@ -29,11 +25,4 @@ public:
 	// State
 	// ------------------------------------------------------------------------------------------------------------
 
-	// ----------------------------------------------------------
-	// State : Game State
-	// ----------------------------------------------------------
-	std::shared_ptr<S_TextBlock> pTextBlock_MaxScore = nullptr;
-	std::shared_ptr<S_TextBlock> pTextBlock_MaxCombo = nullptr;
-
-	std::shared_ptr<S_Button> pButton_Restart = nullptr;
 };

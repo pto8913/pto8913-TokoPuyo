@@ -3,7 +3,6 @@
 #include "UI/UserWidget.h"
 
 class S_TextBlock;
-class S_Border;
 class S_Image;
 class S_Button;
 
@@ -23,7 +22,7 @@ public:
 protected:
 	void OnClickedRestartButton(DX::MouseEvent inMouseEvent);
 	void OnClickedPauseButton(DX::MouseEvent inMouseEvent);
-	void OnClickedReturnToTitle();
+	void OnClickedReturnToTitle(DX::MouseEvent inMouseEvent);
 public:
 
 	// ----------------------------------------------------------
@@ -52,7 +51,6 @@ protected:
 	std::shared_ptr<S_TextBlock> pTextBlock_Score = nullptr;
 	std::shared_ptr<S_TextBlock> pTextBlock_Combo = nullptr;
 
-	std::shared_ptr<S_Button> pButton_Restart = nullptr;
 	std::shared_ptr<S_Button> pButton_Pause = nullptr;
 
 	bool bPause = false;

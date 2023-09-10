@@ -12,6 +12,8 @@ class Actor;
 class ObjectCollection
 {
 public:
+	virtual ~ObjectCollection();
+
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------

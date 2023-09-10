@@ -2,6 +2,11 @@
 #include "Framework/Level/ObjectCollection.h"
 #include "Object/Actor.h"
 
+ObjectCollection::~ObjectCollection()
+{
+	Clear();
+}
+
 void ObjectCollection::Add(std::shared_ptr<Actor> in, bool sort)
 {
 	Add(in->GetLayer(), in, sort);

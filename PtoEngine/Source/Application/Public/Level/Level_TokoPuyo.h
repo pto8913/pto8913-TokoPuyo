@@ -126,6 +126,8 @@ protected:
 
 	std::shared_ptr<Puyo>& GetStackedPuyo(const int& x, const int& y);
 
+	virtual void SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY) override;
+
 	int GetPos(uint8_t x, uint8_t y);
 	int GetPos(float x, float y);
 	int GetPos(FVector2D in);

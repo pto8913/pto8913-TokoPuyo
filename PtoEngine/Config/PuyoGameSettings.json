@@ -1,7 +1,7 @@
 {
   "gameBoardSize": [
     6,
-    12
+    13
   ],
   "gameOverCoord": [
     2,
@@ -79,5 +79,4 @@
     "",
     ""
   ]
-
 }

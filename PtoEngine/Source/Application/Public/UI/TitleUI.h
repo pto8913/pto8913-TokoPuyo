@@ -19,7 +19,8 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 protected:
 	void OnClickedTokoPuyoButton(DX::MouseEvent inMouseEvent);
-
+	void OnClickedVSCPU(DX::MouseEvent inMouseEvent);
+	void OnClickedExit(DX::MouseEvent inMouseEvent);
 public:
 	DX::FOnMouseAction OnClickedTokoPuyo;
 protected:

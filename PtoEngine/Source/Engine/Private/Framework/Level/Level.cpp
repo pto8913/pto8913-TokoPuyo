@@ -15,6 +15,9 @@ Level::~Level()
 
 	pOwningWorld.reset();
 	pOwningWorld = nullptr;
+
+	pObjectCollection.reset();
+	pObjectCollection = nullptr;
 }
 
 void Level::SetObjectCollection()

@@ -13,6 +13,8 @@
 #include "GameSettings.h"
 #include "EngineSettings.h"
 
+#include "PuyoGameInstance.h"
+
 using namespace DirectX;
 
 GameOverUI::GameOverUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, const int& MaxScore, const int& MaxCombo)
@@ -60,16 +62,10 @@ GameOverUI::GameOverUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMous
 		textAppearance.vAlign = EVerticalAlignment::Center;
 		textAppearance.hAlign = EHorizontalAlignment::Left;
 
-		if (pTextBlock_MaxScore == nullptr)
-		{
-			pTextBlock_MaxScore = std::make_shared<S_TextBlock>(GetRt2D(), scoreSlateInfos, FSlateFont(), textAppearance);
-		}
+		auto pTextBlock_MaxScore = std::make_shared<S_TextBlock>(GetRt2D(), scoreSlateInfos, FSlateFont(), textAppearance);
 		InfosVB->AddChild(pTextBlock_MaxScore);
 
-		if (pTextBlock_MaxCombo == nullptr)
-		{
-			pTextBlock_MaxCombo = std::make_shared<S_TextBlock>(GetRt2D(), scoreSlateInfos, FSlateFont(), textAppearance);
-		}
+		auto pTextBlock_MaxCombo = std::make_shared<S_TextBlock>(GetRt2D(), scoreSlateInfos, FSlateFont(), textAppearance);
 		InfosVB->AddChild(pTextBlock_MaxCombo);
 		if (pTextBlock_MaxScore)
 		{
@@ -83,24 +79,27 @@ GameOverUI::GameOverUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMous
 	InfosVB->AddChild(pSpacer);
 
 	/* Restart Button */
+
+	auto button = [this, &InfosVB](const std::wstring& label)
 	{
-		if (pButton_Restart == nullptr)
-		{
-			FSlateInfos SlateInfos;
-			SlateInfos.padding = { 5.f, 5.f, 5.f, 5.f };
-			pButton_Restart = std::make_shared<S_Button>(FVector2D(150.f, 40.f), pRt2D, SlateInfos);
-			pButton_Restart->OnClicked.Bind<&GameOverUI::OnClickedRestartButton>(*this, "Restart");
-		}
-		pButton_Restart->ClearChildren();
-		InfosVB->AddChild(pButton_Restart);
+		FSlateInfos SlateInfos;
+		SlateInfos.padding = { 5.f, 5.f, 5.f, 5.f };
+		auto pButton = std::make_shared<S_Button>(FVector2D(150.f, 40.f), pRt2D, SlateInfos);
 
 		FSlateInfos LabelInfos;
 		LabelInfos.VAlign = EVerticalAlignment::Center;
 		LabelInfos.HAlign = EHorizontalAlignment::Center;
-		auto pTextBlock_Restart = std::make_shared<S_TextBlock>(pRt2D, LabelInfos);
-		pButton_Restart->AddChild(pTextBlock_Restart);
-		pTextBlock_Restart->SetText(L"Restart");
-	}
+		auto pLabel = std::make_shared<S_TextBlock>(pRt2D, LabelInfos);
+		pLabel->SetText(label);
+		pButton->AddChild(pLabel);
+
+		InfosVB->AddChild(pButton);
+		return std::move(pButton);
+	};
+	auto pButton_Restart = button(L"リスタート");
+	pButton_Restart->OnClicked.Bind<&GameOverUI::OnClickedRestartButton>(*this, "GameOverUI");
+	auto pButton_Title = button(L"タイトルに戻る");
+	pButton_Title->OnClicked.Bind<&GameOverUI::OnClickedReturnTitle>(*this, "GameOverUI");
 
 	pRootSlate->AddChild(InfosVB);
 	pRootSlate->SetPosition({ 0, 0 });
@@ -115,15 +114,10 @@ GameOverUI::~GameOverUI()
 	OnClickedRestart.ClearBind();
 	OnClickedPause.ClearBind();
 
-	pTextBlock_MaxScore.reset();
-	pTextBlock_MaxScore = nullptr;
-	pTextBlock_MaxCombo.reset();
-	pTextBlock_MaxCombo = nullptr;
-
-	pButton_Restart.reset();
-	pButton_Restart = nullptr;
-
-	pRootSlate->ClearChildren();
+	if (pRootSlate)
+	{
+		pRootSlate->ClearChildren();
+	}
 	pRootSlate.reset();
 	pRootSlate = nullptr;
 }
@@ -134,4 +128,9 @@ GameOverUI::~GameOverUI()
 void GameOverUI::OnClickedRestartButton(DX::MouseEvent inMouseEvent)
 {
 	OnClickedRestart.Broadcast(inMouseEvent);
+}
+void GameOverUI::OnClickedReturnTitle(DX::MouseEvent inMouseEvent)
+{
+	PuyoGameInstance& gameInstance = PuyoGameInstance::Get();
+	gameInstance.OpenWorld(EWorldId::Title);
 }

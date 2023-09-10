@@ -1,6 +1,5 @@
 #pragma once
 
-#include "DirectX/DirectXHead.h"
 #include "Math/Vector.h"
 #include "Actor/Character/PuyoTypes.h"
 #include <vector>
@@ -45,6 +44,11 @@ public:
 
 	static std::wstring GetPuyoImage(int id);
 
+	static std::wstring GetPuyoMode(int id);
+	static std::vector<std::wstring> GetPuyoModes();
+private:
+	static std::vector<std::wstring> puyoModes;
+public:
 	// -------------------------------------------------
 	// Settings : Game UI
 	// -------------------------------------------------

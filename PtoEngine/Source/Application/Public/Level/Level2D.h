@@ -61,7 +61,7 @@ public:
 
 	DirectX::XMFLOAT2 WorldToScreen(const float& x, const float& y, const FVector& size);
 protected:
-	void SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY);
+	virtual void SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY);
 	std::shared_ptr<Actor2D> GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const Layer::EActorLayer& inLayer) const;
 public:
 	// --------------------------

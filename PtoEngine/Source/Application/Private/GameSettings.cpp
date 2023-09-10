@@ -265,6 +265,23 @@ std::wstring GameSettings::GetPuyoImage(int id)
 	return Util::s2WString(v[id]);
 }
 
+std::vector<std::wstring> GameSettings::puyoModes = {
+	L"‚Æ‚±‚Õ‚æ",
+	L"vs CPU"
+};
+
+std::wstring GameSettings::GetPuyoMode(int id)
+{
+	if (puyoModes.size() > id)
+	{
+		return puyoModes[id];
+	}
+}
+std::vector<std::wstring> GameSettings::GetPuyoModes()
+{
+	return puyoModes;
+}
+
 // -------------------------------------------------
 // Settings : Game UI
 // -------------------------------------------------

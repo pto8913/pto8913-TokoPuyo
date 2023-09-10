@@ -13,6 +13,8 @@
 #include "GameSettings.h"
 #include "EngineSettings.h"
 
+#include "PuyoGameInstance.h"
+
 using namespace DirectX;
 
 GameProgressUI::GameProgressUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
@@ -94,7 +96,7 @@ GameProgressUI::GameProgressUI(std::shared_ptr<Object> inOwner, DirectX11& dx, D
 		{
 			pImage_NextPuyo2_2 = std::make_shared<S_Image>(FVector2D(32.f, 32.f), GetRt2D(), SlateInfoNextPuyo);
 		}
-		InfosVB->AddChild(pTextBlock_NextPuyo);
+		//InfosVB->AddChild(pTextBlock_NextPuyo);
 
 		InfosVB->AddChild(pOverlay_NextPuyo1);
 
@@ -177,45 +179,34 @@ GameProgressUI::GameProgressUI(std::shared_ptr<Object> inOwner, DirectX11& dx, D
 		UpdateScore(0, 0, 0, 0);
 	}
 
-	/* Restart Button */
+	auto button = [this, &InfosVB](const std::wstring& label)
 	{
-		if (pButton_Restart == nullptr)
-		{
-			FSlateInfos SlateInfos;
-			SlateInfos.padding = { 5.f, 5.f, 5.f, 5.f };
-			pButton_Restart = std::make_shared<S_Button>(FVector2D(150.f, 40.f), pRt2D, SlateInfos);
-			pButton_Restart->OnClicked.Bind<&GameProgressUI::OnClickedRestartButton>(*this, "Restart");
-		}
-		pButton_Restart->ClearChildren();
-		InfosVB->AddChild(pButton_Restart);
+		FSlateInfos SlateInfos;
+		SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
+		auto pButton = std::make_shared<S_Button>(FVector2D(150.f, 40.f), pRt2D, SlateInfos);
+		pButton->ClearChildren();
 
 		FSlateInfos LabelInfos;
 		LabelInfos.VAlign = EVerticalAlignment::Center;
 		LabelInfos.HAlign = EHorizontalAlignment::Center;
-		auto pTextBlock_Restart = std::make_shared<S_TextBlock>(pRt2D, LabelInfos);
-		pButton_Restart->AddChild(pTextBlock_Restart);
-		pTextBlock_Restart->SetText(L"Restart");
-	}
+		auto pLabel = std::make_shared<S_TextBlock>(pRt2D, LabelInfos);
+		pButton->AddChild(pLabel);
+		pLabel->SetText(label);
+
+		InfosVB->AddChild(pButton);
+		return std::move(pButton);
+	};
+	/* Restart Button */
+	auto pButton_Restart = button(L"リスタート");
+	pButton_Restart->OnClicked.Bind<&GameProgressUI::OnClickedRestartButton>(*this, "Restart");
 
 	/* Pause Button */
-	{
-		if (pButton_Pause == nullptr)
-		{
-			FSlateInfos SlateInfos;
-			SlateInfos.padding = { 5.f, 5.f, 5.f, 5.f };
-			pButton_Pause = std::make_shared<S_Button>(FVector2D(150.f, 40.f), pRt2D, SlateInfos);
-			pButton_Pause->OnClicked.Bind<&GameProgressUI::OnClickedPauseButton>(*this, "Pause");
-		}
-		pButton_Pause->ClearChildren();
-		InfosVB->AddChild(pButton_Pause);
+	pButton_Pause = button(L"中断");
+	pButton_Pause->OnClicked.Bind<&GameProgressUI::OnClickedPauseButton>(*this, "Pause");
 
-		FSlateInfos LabelInfos;
-		LabelInfos.VAlign = EVerticalAlignment::Center;
-		LabelInfos.HAlign = EHorizontalAlignment::Center;
-		auto pTextBlock_Pause = std::make_shared<S_TextBlock>(pRt2D, LabelInfos);
-		pButton_Pause->AddChild(pTextBlock_Pause);
-		pTextBlock_Pause->SetText(L"Pause");
-	}
+	/* Title Button */
+	auto pButton_Title = button(L"タイトルに戻る");
+	pButton_Title->OnClicked.Bind<&GameProgressUI::OnClickedReturnToTitle>(*this, "Title");
 
 	pRootSlate->SetPosition({ 0, 0 });
 	pRootSlate->UpdateWidget();
@@ -249,8 +240,6 @@ GameProgressUI::~GameProgressUI()
 	pTextBlock_Combo.reset();
 	pTextBlock_Combo = nullptr;
 
-	pButton_Restart.reset();
-	pButton_Restart = nullptr;
 	pButton_Pause.reset();
 	pButton_Pause = nullptr;
 
@@ -309,7 +298,7 @@ void GameProgressUI::OnClickedRestartButton(DX::MouseEvent inMouseEvent)
 	if (bPause)
 	{
 		auto&& child = pButton_Pause->GetChildAt();
-		static_cast<S_TextBlock*>(child)->SetText(L"Pause");
+		static_cast<S_TextBlock*>(child)->SetText(L"中断");
 		bPause = false;
 	}
 	OnClickedRestart.Broadcast(inMouseEvent);
@@ -320,16 +309,17 @@ void GameProgressUI::OnClickedPauseButton(DX::MouseEvent inMouseEvent)
 	if (bPause)
 	{
 		auto&& child = pButton_Pause->GetChildAt();
-		static_cast<S_TextBlock*>(child)->SetText(L"Resume");
+		static_cast<S_TextBlock*>(child)->SetText(L"再開");
 	}
 	else
 	{
 		auto&& child = pButton_Pause->GetChildAt();
-		static_cast<S_TextBlock*>(child)->SetText(L"Pause");
+		static_cast<S_TextBlock*>(child)->SetText(L"中断");
 	}
 	OnClickedPause.Broadcast(inMouseEvent);
 }
-void GameProgressUI::OnClickedReturnToTitle()
+void GameProgressUI::OnClickedReturnToTitle(DX::MouseEvent inMouseEvent)
 {
-
+	PuyoGameInstance& gameInstance =PuyoGameInstance::Get();
+	gameInstance.OpenWorld(EWorldId::Title);
 }

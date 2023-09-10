@@ -76,24 +76,22 @@ Level_TokoPuyo::~Level_TokoPuyo()
 
 	planVanishPuyo.erase(planVanishPuyo.begin(), planVanishPuyo.end());
 	planVanishPuyo.clear();
-	
-	BGM.reset();
-	BGM = nullptr;
 
-	SE_PuyoMove.reset();
-	SE_PuyoMove = nullptr;
-
-	SE_PuyoBottom.reset();
-	SE_PuyoBottom = nullptr;
-
-	SE_PuyoRotate.reset();
-	SE_PuyoRotate = nullptr;
-
-	SE_PuyoVanish.reset();
-	SE_PuyoVanish = nullptr;
-
-	SE_PuyoGameOver.reset();
-	SE_PuyoGameOver = nullptr;
+	auto Stop = [](std::shared_ptr<Audio>& in)
+	{
+		if (in)
+		{
+			in->Stop();
+		}
+		in.reset();
+		in = nullptr;
+	};
+	Stop(BGM);
+	Stop(SE_PuyoMove);
+	Stop(SE_PuyoBottom);
+	Stop(SE_PuyoRotate);
+	Stop(SE_PuyoVanish);
+	Stop(SE_PuyoGameOver);
 
 	pDX = nullptr;
 }
@@ -111,12 +109,12 @@ void Level_TokoPuyo::Init(const int& x, const int& y)
 void Level_TokoPuyo::GenerateGroundLayer()
 {
 	auto world = GetWorld();
-	for (int y = 0; y < height; ++y)
+	for (int y = 0; y < height - 1; ++y)
 	{
 		for (int x = 0; x < width; ++x)
 		{
 			auto ground = world->SpawnActor<GroundBase>(*pDX, EGroundId::Background);
-			SetSpriteLocation(ground, x, y);
+			SetSpriteLocation(ground, x, y + 1);
 		}
 	}
 }
@@ -217,6 +215,8 @@ void Level_TokoPuyo::Restart()
 	stackedPuyo.assign(height, puyoRow);
 
 	ResetPlanToVanishPuyo();
+
+	pGameState->UpdateScore(0, 0);
 
 	puyoCount = 0;
 	comboCount = 0;
@@ -350,7 +350,7 @@ void Level_TokoPuyo::SpawnPuyo()
 	}
 	pGameState->UpdateNextPuyo(nextPuyo1_1, nextPuyo1_2, nextPuyo2_1, nextPuyo2_2);
 
-	UpdateActivePuyo(2, 0);
+	UpdateActivePuyo(2, 1);
 }
 
 // ------------------------------------------------------------
@@ -1031,6 +1031,14 @@ std::shared_ptr<Puyo>& Level_TokoPuyo::GetStackedPuyo(const int& x, const int& y
 	std::shared_ptr<Puyo> res = nullptr;
 	return res;
 }
+void Level_TokoPuyo::SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY)
+{
+	DirectX::XMFLOAT2 pos = WorldToScreen(worldX, worldY - 1, sprite->GetActorScale());
+
+	sprite->SetActorLocation(FVector(pos.x, pos.y, 0.f));
+	sprite->Set2DIdx(FVector2D(worldX, worldY));
+}
+
 int Level_TokoPuyo::GetPos(uint8_t x, uint8_t y)
 {
 	// 33 = 5 * 6 + 3

@@ -50,13 +50,14 @@ TitleUI::TitleUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInter
 	pMenuVB->AddChild(pSpacer);
 
 	/* TokoPuyo Button */
+	auto button = [this, &pMenuVB](const std::wstring& mode)
 	{
 		FSlateInfos infos;
 		infos.HAlign = EHorizontalAlignment::Center;
+		infos.padding = { 0.f, 2.5f, 0.f, 2.5f };
 		FSlateButtonAppearance appearance;
 		auto pButton = std::make_shared<S_Button>(FVector2D(200.f, 40.f), GetRt2D(), infos, appearance);
-		pButton->OnClicked.Bind<&TitleUI::OnClickedTokoPuyoButton>(*this, "TitleUI");
-
+		
 		/* Label */
 		{
 			FSlateInfos infos;
@@ -68,11 +69,21 @@ TitleUI::TitleUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInter
 			FSlateTextAppearance appearance;
 
 			auto pTextBlock = std::make_shared<S_TextBlock>(GetRt2D(), infos, font, appearance);
-			pTextBlock->SetText(L"‚Æ‚±‚Õ‚æ");
+			pTextBlock->SetText(mode);
 			pButton->AddChild(pTextBlock);
 		}
 		pMenuVB->AddChild(pButton);
-	}
+		return std::move(pButton);
+	};
+	/* TokoPuyo */
+	auto pButton_TokoPuyo = button(GameSettings::GetPuyoMode(0));
+	pButton_TokoPuyo->OnClicked.Bind<&TitleUI::OnClickedTokoPuyoButton>(*this, "TitleUI");
+	/* vs CPU */
+	auto pButton_VSCPU = button(GameSettings::GetPuyoMode(1));
+	pButton_VSCPU->OnClicked.Bind<&TitleUI::OnClickedVSCPU>(*this, "TitleUI");
+	/* vs CPU */
+	auto pButton_Exit = button(L"‚â‚ß‚é");
+	pButton_Exit->OnClicked.Bind<&TitleUI::OnClickedExit>(*this, "TitleUI");
 
 	pRootSlate->UpdateWidget();
 }
@@ -92,4 +103,14 @@ TitleUI::~TitleUI()
 void TitleUI::OnClickedTokoPuyoButton(DX::MouseEvent inMouseEvent)
 {
 	OnClickedTokoPuyo.Broadcast(inMouseEvent);
+}
+
+void TitleUI::OnClickedVSCPU(DX::MouseEvent inMouseEvent)
+{
+	OnClickedTokoPuyo.Broadcast(inMouseEvent);
+}
+
+void TitleUI::OnClickedExit(DX::MouseEvent inMouseEvent)
+{
+	PostQuitMessage(0);
 }

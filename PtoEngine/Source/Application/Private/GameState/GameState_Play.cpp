@@ -70,7 +70,7 @@ void GameState_Play::SetGameProgress(DirectX11& dx, EGameProgress NewState)
 				mMaxScore,
 				mMaxCombo
 			);
-			pGameOverUI->OnClickedRestart.Bind<&GameState_Play::OnClickedRestart>(*this, "GameState");
+			pGameOverUI->OnClickedRestart.Bind<&GameState_Play::OnClickedRestartFromGameOver>(*this, "GameState");
 			pGameOverUI->AddToViewport();
 		}
 		break;
@@ -153,6 +153,13 @@ std::shared_ptr<GameOverUI> GameState_Play::GetGameOverUI()
 }
 
 void GameState_Play::OnClickedRestart(DX::MouseEvent inMouseEvent)
+{
+	auto level = static_pointer_cast<Level_TokoPuyo>(GetWorld()->GetLevel());
+	level->Restart();
+
+	SetPause(false);
+}
+void GameState_Play::OnClickedRestartFromGameOver(DX::MouseEvent inMouseEvent)
 {
 	auto level = static_pointer_cast<Level_TokoPuyo>(GetWorld()->GetLevel());
 	level->Restart();

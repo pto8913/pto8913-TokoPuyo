@@ -42,6 +42,7 @@ public:
 
 protected:
 	void OnClickedRestart(DX::MouseEvent inMouseEvent);
+	void OnClickedRestartFromGameOver(DX::MouseEvent inMouseEvent);
 	void OnClickedPause(DX::MouseEvent inMouseEvent);
 public:
 

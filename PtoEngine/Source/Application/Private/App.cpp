@@ -120,6 +120,7 @@ void App::OnWorldChanged(std::shared_ptr<World> NewWorld)
         pWorld.reset();
         pWorld = nullptr;
     }
+
     OutputDebugStringA("OnWorldChanged");
     pWorld = std::move(NewWorld);
     pWorld->Init(*pDX);
