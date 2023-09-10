@@ -17,9 +17,16 @@ GameState_Play::~GameState_Play()
 {
 	OnGameProgressChanged.ClearBind();
 
+	if (pGameProgressUI)
+	{
+		pGameProgressUI->RemoveFromParent();
+	}
 	pGameProgressUI.reset();
 	pGameProgressUI = nullptr;
-
+	if (pGameOverUI)
+	{
+		pGameOverUI->RemoveFromParent();
+	}
 	pGameOverUI.reset();
 	pGameOverUI = nullptr;
 }

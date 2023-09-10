@@ -10,7 +10,7 @@
 #include "EngineSettings.h"
 #include "GameSettings.h"
 
-TitleUI::TitleUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
+TitleUI::TitleUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 	: UserWidget(
 		inOwner, 
 		dx, 
@@ -95,6 +95,7 @@ TitleUI::TitleUI(DirectX11& dx, DX::IMouseInterface* mouse)
 
 TitleUI::~TitleUI()
 {
+	OnClickedTokoPuyo.ClearBind();
 }
 
 // ------------------------------------------------------------------------------------------------------------

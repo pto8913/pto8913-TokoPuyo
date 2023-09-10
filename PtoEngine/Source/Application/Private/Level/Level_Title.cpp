@@ -26,7 +26,7 @@ void Level_Title::BeginPlay(DirectX11& dx)
 	Level::BeginPlay(dx);
 
 	pTitleUI = std::make_shared<TitleUI>(
-		shared_from_this(), 
+		this, 
 		dx,
 		GetWorld()->GetPlayerController()->GetMouse()
 	);

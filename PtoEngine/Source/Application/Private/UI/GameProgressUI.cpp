@@ -17,7 +17,7 @@
 
 using namespace DirectX;
 
-GameProgressUI::GameProgressUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
+GameProgressUI::GameProgressUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 	: UserWidget(
 		inOwner,
 		dx,

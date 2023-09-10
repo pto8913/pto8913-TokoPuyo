@@ -5,7 +5,7 @@
 
 class World;
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnOpenWorld, std::shared_ptr<World>);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnOpenWorld, std::shared_ptr<World>&&);
 
 class PuyoGameInstance : public GameInstance
 {

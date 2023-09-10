@@ -5,7 +5,7 @@
 class GameOverUI : public UserWidget
 {
 public:
-	GameOverUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, const int& MaxScore, const int& MaxCombo);
+	GameOverUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse, const int& MaxScore, const int& MaxCombo);
 	GameOverUI(DirectX11& dx, DX::IMouseInterface* mouse, const int& MaxScore, const int& MaxCombo);
 	virtual ~GameOverUI();
 

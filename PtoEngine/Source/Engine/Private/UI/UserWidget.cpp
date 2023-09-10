@@ -28,7 +28,7 @@ UserWidget::UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, float windowSi
 		pMouse->GetMouseMove().Bind<&UserWidget::OnMouseMove>(*this, "UserWidget");
 	}
 }
-UserWidget::UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH)
+UserWidget::UserWidget(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH)
 	: UserWidget(dx, mouse, windowSizeW, windowSizeH)
 {
 	if (inOwner != nullptr)
@@ -39,26 +39,28 @@ UserWidget::UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMous
 
 UserWidget::~UserWidget()
 {
-	if (pMouse)
-	{
-		pMouse->GetClickedLeftPressed().Unbind("UserWidget");
-		pMouse->GetClickedLeftReleased().Unbind("UserWidget");
-		pMouse->GetClickedLeftHeld().Unbind("UserWidget");
-		pMouse->GetClickedRightPressed().Unbind("UserWidget");
-		pMouse->GetClickedRightReleased().Unbind("UserWidget");
-		pMouse->GetClickedRightHeld().Unbind("UserWidget");
-		pMouse->GetClickedWheelPressed().Unbind("UserWidget");
-		pMouse->GetClickedWheelReleased().Unbind("UserWidget");
-		pMouse->GetClickedWheelHeld().Unbind("UserWidget");
-		pMouse->GetMouseMove().Unbind("UserWidget");
-	}
+	//if (pMouse)
+	//{
+	//	pMouse->GetClickedLeftPressed().Unbind("UserWidget");
+	//	pMouse->GetClickedLeftReleased().Unbind("UserWidget");
+	//	pMouse->GetClickedLeftHeld().Unbind("UserWidget");
+	//	pMouse->GetClickedRightPressed().Unbind("UserWidget");
+	//	pMouse->GetClickedRightReleased().Unbind("UserWidget");
+	//	pMouse->GetClickedRightHeld().Unbind("UserWidget");
+	//	pMouse->GetClickedWheelPressed().Unbind("UserWidget");
+	//	pMouse->GetClickedWheelReleased().Unbind("UserWidget");
+	//	pMouse->GetClickedWheelHeld().Unbind("UserWidget");
+	//	pMouse->GetMouseMove().Unbind("UserWidget");
+	//}
 	pMouse = nullptr;
 
-	pRootSlate->ClearChildren();
+	if (pRootSlate != nullptr)
+	{
+		pRootSlate->ClearChildren();
+	}
 	pRootSlate.reset();
 	pRootSlate = nullptr;
 
-	pOwner.reset();
 	pOwner = nullptr;
 }
 
@@ -103,7 +105,7 @@ double UserWidget::GetZOrder() const noexcept
 {
 	return ZOrder;
 }
-std::shared_ptr<World> UserWidget::GetWorld()
+World* UserWidget::GetWorld()
 {
 	if (pOwner)
 	{

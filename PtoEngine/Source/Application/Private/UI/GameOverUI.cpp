@@ -17,7 +17,7 @@
 
 using namespace DirectX;
 
-GameOverUI::GameOverUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, const int& MaxScore, const int& MaxCombo)
+GameOverUI::GameOverUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse, const int& MaxScore, const int& MaxCombo)
 	: UserWidget(
 		inOwner,
 		dx,
@@ -46,9 +46,12 @@ GameOverUI::GameOverUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMous
 		FSlateTextAppearance textGameOver;
 		textGameOver.vAlign = EVerticalAlignment::Center;
 		textGameOver.hAlign = EHorizontalAlignment::Center;
+		textGameOver.color = FColor(255.f, 0.f, 0.f, 1.f);
+		FSlateFont font;
+		font.fontSize = 40.f;
 		FSlateInfos slateInfo;
 		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pText_GameOver = std::make_shared<S_TextBlock>(GetRt2D(), slateInfo, FSlateFont(), textGameOver);
+		auto pText_GameOver = std::make_shared<S_TextBlock>(GetRt2D(), slateInfo, font, textGameOver);
 		pText_GameOver->SetText(L"GAME OVER");
 		InfosVB->AddChild(pText_GameOver);
 	}
@@ -78,8 +81,6 @@ GameOverUI::GameOverUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMous
 	}
 	InfosVB->AddChild(pSpacer);
 
-	/* Restart Button */
-
 	auto button = [this, &InfosVB](const std::wstring& label)
 	{
 		FSlateInfos SlateInfos;
@@ -96,8 +97,10 @@ GameOverUI::GameOverUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMous
 		InfosVB->AddChild(pButton);
 		return std::move(pButton);
 	};
+	/* Restart Button */
 	auto pButton_Restart = button(L"リスタート");
 	pButton_Restart->OnClicked.Bind<&GameOverUI::OnClickedRestartButton>(*this, "GameOverUI");
+	/* Title Button */
 	auto pButton_Title = button(L"タイトルに戻る");
 	pButton_Title->OnClicked.Bind<&GameOverUI::OnClickedReturnTitle>(*this, "GameOverUI");
 

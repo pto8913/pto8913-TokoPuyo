@@ -13,6 +13,9 @@ World_TokoPuyo::World_TokoPuyo()
 	: World()
 {
 }
+World_TokoPuyo::~World_TokoPuyo()
+{
+}
 
 void World_TokoPuyo::SetLevel(DirectX11& dx)
 {

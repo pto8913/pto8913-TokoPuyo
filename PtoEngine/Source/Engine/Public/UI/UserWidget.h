@@ -16,7 +16,7 @@ class UserWidget : public WidgetBase, public Object
 {
 public:
 	UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH);
-	UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH);
+	UserWidget(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH);
 	virtual ~UserWidget();
 protected:
 	virtual void Draw() override;
@@ -34,7 +34,7 @@ public:
 	bool IsInViewport() const noexcept;
 	double GetZOrder() const noexcept;
 
-	virtual std::shared_ptr<World> GetWorld() override;
+	virtual World* GetWorld() override;
 
 	ID2D1RenderTarget* GetRt2D();
 
@@ -94,7 +94,7 @@ protected:
 
 	std::shared_ptr<SlateContainerBase> pRootSlate = nullptr;
 	DX::IMouseInterface* pMouse;
-	std::shared_ptr<Object> pOwner = nullptr;
+	Object* pOwner = nullptr;
 
 	TArray<WidgetAnimation> mAnimations;
 

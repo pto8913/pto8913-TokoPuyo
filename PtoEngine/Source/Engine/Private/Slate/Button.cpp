@@ -61,8 +61,8 @@ bool S_Button::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 	if (Out)
 	{
 #if _DEBUG
-		OutputDebugStringA(std::format("{} {}\n", inMouseEvent.x, inMouseEvent.y).c_str());
-		OutputDebugStringA(std::format("{} {} {} {}\n", GetRect().left, GetRect().top, GetRect().right, GetRect().bottom).c_str());
+		//OutputDebugStringA(std::format("{} {}\n", inMouseEvent.x, inMouseEvent.y).c_str());
+		//OutputDebugStringA(std::format("{} {} {} {}\n", GetRect().left, GetRect().top, GetRect().right, GetRect().bottom).c_str());
 #endif
 		pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.PressColor));
 		OnClicked.Broadcast(inMouseEvent);
@@ -102,7 +102,7 @@ bool S_Button::OnMouseEnter(DX::MouseEvent inMouseEvent)
 	if (Out)
 	{
 #if _DEBUG
-		OutputDebugStringA("OnMouseEnter from button\n");
+		//OutputDebugStringA("OnMouseEnter from button\n");
 #endif
 		pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.HoverColor));
 		return true;
@@ -115,7 +115,7 @@ bool S_Button::OnMouseLeave(DX::MouseEvent inMouseEvent)
 	if (Out)
 	{
 #if _DEBUG
-		OutputDebugStringA("OnMouseLeave from button\n");
+		//OutputDebugStringA("OnMouseLeave from button\n");
 #endif
 		pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.DefaultColor));
 		return true;

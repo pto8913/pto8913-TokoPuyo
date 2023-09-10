@@ -34,7 +34,7 @@ class App
 {
 public:
 	App();
-	~App();
+	virtual ~App();
 
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
@@ -44,7 +44,7 @@ private:
 	void InputUpdate(DirectX11& dx);
 
 	void OnPlayerControllerChanged(const std::shared_ptr<PlayerController>& pPlayerController);
-	void OnWorldChanged(std::shared_ptr<World> NewWorld);
+	void OnWorldChanged(std::shared_ptr<World>&& NewWorld);
 
 	// ------------------------------------------------------------------------------------------------------------
 	// State

@@ -23,7 +23,7 @@ public:
 	void SetTickEnabled(bool inState) noexcept;
 	bool GetTickEnabled() const noexcept;
 
-	virtual std::shared_ptr<World> GetWorld() { return nullptr; }
+	virtual World* GetWorld() { return nullptr; }
 
 private:
 	// ------------------------------------------------------

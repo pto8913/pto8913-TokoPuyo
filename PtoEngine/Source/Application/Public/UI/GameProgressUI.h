@@ -9,7 +9,7 @@ class S_Button;
 class GameProgressUI : public UserWidget
 {
 public:
-	GameProgressUI(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse);
+	GameProgressUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse);
 	GameProgressUI(DirectX11& dx, DX::IMouseInterface* mouse);
 	virtual ~GameProgressUI();
 

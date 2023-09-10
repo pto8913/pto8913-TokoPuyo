@@ -88,16 +88,16 @@ public:
 	// -----------------------------------
 	// Main : Util
 	// -----------------------------------
-	virtual void SetOuter(std::shared_ptr<Object> inOuter);
-	std::shared_ptr<Object> GetOuter();
+	virtual void SetOuter(Object* inOuter);
+	Object* GetOuter();
 	
-	std::shared_ptr<Level> GetLevel();
-	virtual std::shared_ptr<World> GetWorld() override final;
+	Level* GetLevel();
+	virtual World* GetWorld() override final;
 
 	template<typename T>
-	std::shared_ptr<T> GetTypedOuter()
+	T* GetTypedOuter()
 	{
-		return std::static_pointer_cast<T>(pOuter);
+		return static_cast<T*>(pOuter);
 	}
 
 	// -----------------------------------
@@ -109,7 +109,7 @@ protected:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
-	std::shared_ptr<Object> pOuter = nullptr;
+	Object* pOuter = nullptr;
 	int mID = -1;
 	Layer::EActorLayer mLayer;
 	/* NOTE :
