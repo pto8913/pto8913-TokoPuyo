@@ -43,20 +43,27 @@ void Actor::BeginPlay(DirectX11& dx)
 }
 void Actor::Tick(DirectX11& dx, float deltaTime)
 {
-	for (auto&& pair : pComponents)
+	if (!IsPendingKill())
 	{
-		if (pair.second != nullptr)
+		for (auto&& pair : pComponents)
 		{
-			if (pair.second->GetTickEnabled())
+			if (pair.second != nullptr)
 			{
-				pair.second->Tick(dx, deltaTime);
+				if (pair.second->GetTickEnabled())
+				{
+					pair.second->Tick(dx, deltaTime);
+				}
 			}
 		}
 	}
 }
 void Actor::DestroyActor()
 {
-	OnDestroyed.Broadcast(shared_from_this());
+	if (!IsPendingKill())
+	{
+		OnDestroyed.Broadcast(shared_from_this());
+		MarkPendingKill();
+	}
 }
 
 void Actor::SetID(int inID)
@@ -68,30 +75,24 @@ int Actor::GetID() const
 	return mID;
 }
 
-const Layer::EActorLayer& Actor::GetLayer() const
-{
-	return mLayer;
-}
-void Actor::SetLayer(const Layer::EActorLayer& in)
-{
-	mLayer = in;
-}
-
 // -----------------------------------
 // Main : Component
 // -----------------------------------
 void Actor::RemoveComponent(const std::string& tag)
 {
-	if (pComponents.contains(tag))
+	if (!IsPendingKill())
 	{
-		auto& comp = pComponents.at(tag);
-		if (comp)
+		if (pComponents.contains(tag))
 		{
-			comp.reset();
-			comp = nullptr;
-		}
+			auto& comp = pComponents.at(tag);
+			if (comp)
+			{
+				comp.reset();
+				comp = nullptr;
+			}
 
-		pComponents.erase(tag);
+			pComponents.erase(tag);
+		}
 	}
 }
 
@@ -169,13 +170,20 @@ Object* Actor::GetOuter()
 
 Level* Actor::GetLevel()
 {
-	return GetTypedOuter<Level>();
+	if (!IsPendingKill())
+	{
+		return GetTypedOuter<Level>();
+	}
+	return nullptr;
 }
 World* Actor::GetWorld()
 {
-	if (auto pLevel = GetLevel())
+	if (!IsPendingKill())
 	{
-		return pLevel->GetWorld();
+		if (auto pLevel = GetLevel())
+		{
+			return pLevel->GetWorld();
+		}
 	}
 	return nullptr;
 }
