@@ -3,7 +3,6 @@
 #include "Object.h"
 #include "Math/Vector.h"
 #include "Math/Rotator.h"
-#include "Framework/Level/Layer.h"
 
 #include <map>
 
@@ -37,10 +36,6 @@ private:
 	void SetID(int inID);
 public:
 	int GetID() const;
-
-
-	const Layer::EActorLayer& GetLayer() const;
-	void SetLayer(const Layer::EActorLayer& in);
 
 	// -----------------------------------
 	// Main : Component
@@ -111,7 +106,6 @@ protected:
 	// ------------------------------------------------------
 	Object* pOuter = nullptr;
 	int mID = -1;
-	Layer::EActorLayer mLayer;
 	/* NOTE :
 		Is not same Actor::mLocation to ObjectBase::location.
 		Actor::mLocation is location in screen.
