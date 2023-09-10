@@ -1,7 +1,7 @@
 
-#include "Render/Factory/PixelShader.h"
+#include "Render/PixelShader.h"
 
-#include "Render/Manager/BindableManager.h"
+#include "Render/BindableManager.h"
 
 #include "Utils/String.h"
 

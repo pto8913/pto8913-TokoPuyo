@@ -4,9 +4,9 @@
 #include "Geometry/TriangleList.h"
 #include "Geometry/Cube.h"
 
-#include "Render/Factory/VertexBuffer.h"
-#include "Render/Factory/IndexBuffer.h"
-#include "Render/Factory/Topology.h"
+#include "Render/VertexBuffer.h"
+#include "Render/IndexBuffer.h"
+#include "Render/Topology.h"
 
 DrawCube::DrawCube(DirectX11& dx, float size)
 {

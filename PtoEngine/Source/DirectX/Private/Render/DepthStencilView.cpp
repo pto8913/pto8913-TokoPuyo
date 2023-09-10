@@ -1,5 +1,5 @@
 
-#include "Render/Factory/DepthStencilView.h"
+#include "Render/DepthStencilView.h"
 
 DepthStencilView::DepthStencilView(DirectX11& dx, UINT width, UINT height)
 {

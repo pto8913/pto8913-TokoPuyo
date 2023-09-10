@@ -1,7 +1,7 @@
 
-#include "Render/Factory/Topology.h"
+#include "Render/Topology.h"
 
-#include "Render/Manager/BindableManager.h"
+#include "Render/BindableManager.h"
 
 Topology::Topology(DirectX11&, D3D11_PRIMITIVE_TOPOLOGY inType)
 	: type(inType)

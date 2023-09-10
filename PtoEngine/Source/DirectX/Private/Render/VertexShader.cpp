@@ -1,7 +1,7 @@
 
-#include "Render/Factory/VertexShader.h"
+#include "Render/VertexShader.h"
 
-#include "Render/Manager/BindableManager.h"
+#include "Render/BindableManager.h"
 
 #include "Utils/String.h"
 

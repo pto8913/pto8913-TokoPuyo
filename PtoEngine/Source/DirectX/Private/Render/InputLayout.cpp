@@ -1,7 +1,7 @@
-#include "Render/Factory/InputLayout.h"
-#include "Render/Factory/VertexShader.h"
+#include "Render/InputLayout.h"
+#include "Render/VertexShader.h"
 
-#include "Render/Manager/BindableManager.h"
+#include "Render/BindableManager.h"
 
 InputLayout::InputLayout(DirectX11& dx, DX::Layout::VertexType inVertexType, VertexShader* pVertexShader)
 	: vertexType(inVertexType)

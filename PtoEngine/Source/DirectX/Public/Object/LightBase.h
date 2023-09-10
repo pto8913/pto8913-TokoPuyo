@@ -2,7 +2,7 @@
 
 #include "DrawableObject.h"
 
-#include "Render/Factory/ConstantBuffer.h"
+#include "Render/ConstantBuffer.h"
 
 class LightBase : public DrawableObject
 {

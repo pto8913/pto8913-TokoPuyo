@@ -1,7 +1,7 @@
 
-#include "Render/Factory/ScreenText.h"
+#include "Render/ScreenText.h"
 
-#include "Render/Manager/BindableManager.h"
+#include "Render/BindableManager.h"
 #include <dwrite.h>
 
 ScreenText::ScreenText(DirectX11& dx, float inWidth, float inHeight)

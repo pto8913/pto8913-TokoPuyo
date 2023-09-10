@@ -1,10 +1,10 @@
 
 #include "Object/DrawableObject.h"
 
-#include "Render/Factory/Bindable.h"
-#include "Render/Factory/Topology.h"
-#include "Render/Factory/IndexBuffer.h"
-//#include "Render/Factory/VertexBuffer.h"
+#include "Render/Bindable.h"
+#include "Render/Topology.h"
+#include "Render/IndexBuffer.h"
+//#include "Render/VertexBuffer.h"
 
 void DrawableObject::AddTask(std::shared_ptr<Bindable> task)
 {

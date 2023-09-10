@@ -3,20 +3,20 @@
 
 #include "Core/DirectX.h"
 
-#include "Render/Factory/IndexBuffer.h"
-#include "Render/Factory/VertexBuffer.h"
+#include "Render/IndexBuffer.h"
+#include "Render/VertexBuffer.h"
 
-#include "Render/Factory/PixelShader.h"
-#include "Render/Factory/VertexShader.h"
+#include "Render/PixelShader.h"
+#include "Render/VertexShader.h"
 
-#include "Render/Factory/InputLayout.h"
-#include "Render/Factory/Topology.h"
+#include "Render/InputLayout.h"
+#include "Render/Topology.h"
 
-#include "Render/Factory/ScreenText.h"
-#include "Render/Factory/BlendState.h"
-#include "Render/Factory/SamplerState.h"
+#include "Render/ScreenText.h"
+#include "Render/BlendState.h"
+#include "Render/SamplerState.h"
 
-#include "Render/Factory/Rasterizer.h"
+#include "Render/Rasterizer.h"
 
 WidgetBase::WidgetBase(DirectX11& dx, float windowSizeW, float windowSizeH)
 {

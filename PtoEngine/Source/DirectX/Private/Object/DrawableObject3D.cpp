@@ -1,8 +1,8 @@
 
 #include "Object/DrawableObject3D.h"
 
-#include "Render/Factory/Topology.h"
-#include "Render/Factory/IndexBuffer.h"
+#include "Render/Topology.h"
+#include "Render/IndexBuffer.h"
 
 void DrawableObject3D::ExecuteTasks(DirectX11& dx)
 {

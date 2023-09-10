@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Object/ObjectBase.h"
-#include "Render/Factory/TransformConstantBuffer.h"
+#include "Render/TransformConstantBuffer.h"
 
 class IndexBuffer;
 class ConstantBufferEx;

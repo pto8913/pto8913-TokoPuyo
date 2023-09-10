@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DirectX/DirectXHead.h"
-#include "Render/Factory/Bindable.h"
+#include "Render/Bindable.h"
 #include <unordered_map>
 
 class BindableManager

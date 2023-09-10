@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Render/Factory/Bindable.h"
+#include "Render/Bindable.h"
 
 class DirectX11;
 

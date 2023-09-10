@@ -1,7 +1,7 @@
 
-#include "Render/Factory/Texture.h"
+#include "Render/Texture.h"
 
-#include "Render/Manager/BindableManager.h"
+#include "Render/BindableManager.h"
 
 #include "WICTextureLoader11.h"
 #include "DDSTextureLoader11.h"

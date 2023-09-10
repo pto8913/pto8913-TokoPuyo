@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Object/DrawableObject.h"
-#include "Render/Factory/VertexBuffer.h"
+#include "Render/VertexBuffer.h"
 
 class DirectX11;
 

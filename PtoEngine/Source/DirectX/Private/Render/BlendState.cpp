@@ -1,9 +1,9 @@
 
-#include "Render/Factory/BlendState.h"
+#include "Render/BlendState.h"
 
 #include "Core/DirectX.h"
 
-#include "Render/Manager/BindableManager.h"
+#include "Render/BindableManager.h"
 
 BlendState::BlendState(DirectX11& dx, UINT inSlot)
 	: slot(inSlot)

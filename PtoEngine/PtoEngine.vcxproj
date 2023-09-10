@@ -275,28 +275,28 @@
     <ClInclude Include="Source\DirectX\Public\Object\SkySphere.h" />
     <ClInclude Include="Source\DirectX\Public\Object\Sprite.h" />
     <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetBase.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\Bindable.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\BlendState.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\ConstantBuffer.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\CubeTexture.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\DepthStencilState.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\DepthStencilView.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\IndexBuffer.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\InputLayout.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\PixelShader.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\Rasterizer.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\RenderTargetView.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\SamplerState.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\ScreenText.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\Shader.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\Texture.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\ScreenTexture.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\Topology.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\TransformConstantBuffer.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\VertexBuffer.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\VertexShader.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Factory\ViewPort.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Manager\BindableManager.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\Bindable.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\BindableManager.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\BlendState.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\ConstantBuffer.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\CubeTexture.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\DepthStencilState.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\DepthStencilView.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\IndexBuffer.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\InputLayout.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\PixelShader.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\Rasterizer.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\RenderTargetView.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\SamplerState.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\ScreenText.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\ScreenTexture.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\Shader.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\Texture.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\Topology.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\TransformConstantBuffer.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\VertexBuffer.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\VertexShader.h" />
+    <ClInclude Include="Source\DirectX\Public\Render\ViewPort.h" />
     <ClInclude Include="Source\DirectX\Public\Utils\DirectXUtils.h" />
     <ClInclude Include="Source\DirectX\Public\Utils\String.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\algo.h" />
@@ -513,84 +513,26 @@
     <ClCompile Include="Source\DirectX\Private\Object\Widget\WidgetBase.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\BlendState.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\ConstantBuffer.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\CubeTexture.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\DepthStencilState.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\DepthStencilView.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\IndexBuffer.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\InputLayout.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\PixelShader.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\Rasterizer.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\RenderTargetView.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\SamplerState.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\ScreenText.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\Shader.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\Texture.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\ScreenTexture.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\Topology.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\TransformConstantBuffer.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\VertexBuffer.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\VertexShader.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\Factory\ViewPort.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Render\BlendState.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\ConstantBuffer.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\CubeTexture.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\DepthStencilState.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\DepthStencilView.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\IndexBuffer.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\InputLayout.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\PixelShader.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\Rasterizer.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\RenderTargetView.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\SamplerState.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\ScreenText.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\ScreenTexture.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\Shader.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\Texture.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\Topology.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\TransformConstantBuffer.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\VertexBuffer.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\VertexShader.cpp" />
+    <ClCompile Include="Source\DirectX\Private\Render\ViewPort.cpp" />
     <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
