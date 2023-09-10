@@ -27,8 +27,9 @@ UserWidget::UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, float windowSi
 
 		pMouse->GetMouseMove().Bind<&UserWidget::OnMouseMove>(*this, "UserWidget");
 	}
+	SetLayer(Layer::EActorLayer::UI);
 }
-UserWidget::UserWidget(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH)
+UserWidget::UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH)
 	: UserWidget(dx, mouse, windowSizeW, windowSizeH)
 {
 	if (inOwner != nullptr)
@@ -39,34 +40,32 @@ UserWidget::UserWidget(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mous
 
 UserWidget::~UserWidget()
 {
-	//if (pMouse)
-	//{
-	//	pMouse->GetClickedLeftPressed().Unbind("UserWidget");
-	//	pMouse->GetClickedLeftReleased().Unbind("UserWidget");
-	//	pMouse->GetClickedLeftHeld().Unbind("UserWidget");
-	//	pMouse->GetClickedRightPressed().Unbind("UserWidget");
-	//	pMouse->GetClickedRightReleased().Unbind("UserWidget");
-	//	pMouse->GetClickedRightHeld().Unbind("UserWidget");
-	//	pMouse->GetClickedWheelPressed().Unbind("UserWidget");
-	//	pMouse->GetClickedWheelReleased().Unbind("UserWidget");
-	//	pMouse->GetClickedWheelHeld().Unbind("UserWidget");
-	//	pMouse->GetMouseMove().Unbind("UserWidget");
-	//}
+	if (pMouse)
+	{
+		pMouse->GetClickedLeftPressed().Unbind("UserWidget");
+		pMouse->GetClickedLeftReleased().Unbind("UserWidget");
+		pMouse->GetClickedLeftHeld().Unbind("UserWidget");
+		pMouse->GetClickedRightPressed().Unbind("UserWidget");
+		pMouse->GetClickedRightReleased().Unbind("UserWidget");
+		pMouse->GetClickedRightHeld().Unbind("UserWidget");
+		pMouse->GetClickedWheelPressed().Unbind("UserWidget");
+		pMouse->GetClickedWheelReleased().Unbind("UserWidget");
+		pMouse->GetClickedWheelHeld().Unbind("UserWidget");
+		pMouse->GetMouseMove().Unbind("UserWidget");
+	}
 	pMouse = nullptr;
 
-	if (pRootSlate != nullptr)
-	{
-		pRootSlate->ClearChildren();
-	}
+	pRootSlate->ClearChildren();
 	pRootSlate.reset();
 	pRootSlate = nullptr;
 
+	pOwner.reset();
 	pOwner = nullptr;
 }
 
 void UserWidget::Draw()
 {
-	if (pRootSlate != nullptr)
+	if (!IsPendingKill())
 	{
 		pRootSlate->Draw();
 	}
@@ -77,13 +76,16 @@ void UserWidget::Draw()
 // ------------------------------------------------------------------------------------------------------------
 void UserWidget::Tick(DirectX11& dx, float deltaTime)
 {
-	if (IsInViewport())
+	if (!IsPendingKill())
 	{
-		ExecuteTasks(dx);
-
-		for (auto&& animation : mAnimations)
+		if (IsInViewport())
 		{
-			animation.Update(deltaTime);
+			ExecuteTasks(dx);
+
+			for (auto&& animation : mAnimations)
+			{
+				animation.Update(deltaTime);
+			}
 		}
 	}
 }
@@ -107,7 +109,7 @@ double UserWidget::GetZOrder() const noexcept
 }
 World* UserWidget::GetWorld()
 {
-	if (pOwner)
+	if (IsValid(pOwner))
 	{
 		return pOwner->GetWorld();
 	}
@@ -121,13 +123,19 @@ ID2D1RenderTarget* UserWidget::GetRt2D()
 
 void UserWidget::AddSlate(std::shared_ptr<SlateBase> inSlate)
 {
-	pRootSlate->AddChild(inSlate);
-	pRootSlate->UpdateWidget();
+	if (!IsPendingKill())
+	{
+		pRootSlate->AddChild(inSlate);
+		pRootSlate->UpdateWidget();
+	}
 }
 void UserWidget::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
 {
-	pRootSlate->RemoveChild(inSlate);
-	pRootSlate->UpdateWidget();
+	if (!IsPendingKill())
+	{
+		pRootSlate->RemoveChild(inSlate);
+		pRootSlate->UpdateWidget();
+	}
 }
 
 // --------------------------
@@ -135,7 +143,10 @@ void UserWidget::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
 // --------------------------
 void UserWidget::AddAnimation(WidgetAnimation in)
 {
-	mAnimations.Add(in);
+	if (!IsPendingKill())
+	{
+		mAnimations.Add(in);
+	}
 }
 
 // --------------------------
@@ -176,65 +187,89 @@ void UserWidget::OnKeyUp(DX::MouseEvent inMouseEvent)
 
 bool UserWidget::NativeOnMouseMove(DX::MouseEvent inMouseEvent)
 {
-	if (pRootSlate != nullptr)
+	if (!IsPendingKill())
 	{
-		return pRootSlate->OnMouseMove(inMouseEvent);
+		if (pRootSlate != nullptr)
+		{
+			return pRootSlate->OnMouseMove(inMouseEvent);
+		}
 	}
 	return false;
 };
 bool UserWidget::NativeOnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
-	if (pRootSlate != nullptr)
+	if (!IsPendingKill())
 	{
-		return pRootSlate->OnMouseButtonDown(inMouseEvent);
+		if (pRootSlate != nullptr)
+		{
+			return pRootSlate->OnMouseButtonDown(inMouseEvent);
+		}
 	}
 	return false;
 };
 bool UserWidget::NativeOnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
-	if (pRootSlate != nullptr)
+	if (!IsPendingKill())
 	{
-		return pRootSlate->OnMouseButtonHeld(inMouseEvent);
+		if (pRootSlate != nullptr)
+		{
+			return pRootSlate->OnMouseButtonHeld(inMouseEvent);
+		}
 	}
 	return false;
 };
 bool UserWidget::NativeOnMouseButtonUp(DX::MouseEvent inMouseEvent)
 {
-	if (pRootSlate != nullptr)
+	if (!IsPendingKill())
 	{
-		return pRootSlate->OnMouseButtonUp(inMouseEvent);
+		if (pRootSlate != nullptr)
+		{
+			return pRootSlate->OnMouseButtonUp(inMouseEvent);
+		}
 	}
 	return false;
 };
 bool UserWidget::NativeOnMouseEnter(DX::MouseEvent inMouseEvent)
 {
-	if (pRootSlate != nullptr)
+	if (!IsPendingKill())
 	{
-		return pRootSlate->OnMouseEnter(inMouseEvent);
+		if (pRootSlate != nullptr)
+		{
+			return pRootSlate->OnMouseEnter(inMouseEvent);
+		}
 	}
 	return false;
 };
 bool UserWidget::NativeOnMouseLeave(DX::MouseEvent inMouseEvent)
 {
-	if (pRootSlate != nullptr)
+	if (!IsPendingKill())
 	{
-		return pRootSlate->OnMouseLeave(inMouseEvent);
+		if (pRootSlate != nullptr)
+		{
+			return pRootSlate->OnMouseLeave(inMouseEvent);
+		}
 	}
 	return false;
 };
 bool UserWidget::NativeOnKeyDown(DX::MouseEvent inMouseEvent)
 {
-	if (pRootSlate != nullptr)
+	if (!IsPendingKill())
 	{
-		return pRootSlate->OnKeyDown(inMouseEvent);
+		if (pRootSlate != nullptr)
+		{
+			return pRootSlate->OnKeyDown(inMouseEvent);
+		}
 	}
 	return false;
 };
 bool UserWidget::NativeOnKeyUp(DX::MouseEvent inMouseEvent)
 {
-	if (pRootSlate != nullptr)
+	if (!IsPendingKill())
 	{
-		return pRootSlate->OnKeyUp(inMouseEvent);
+		if (pRootSlate != nullptr)
+		{
+			return pRootSlate->OnKeyUp(inMouseEvent);
+		}
 	}
 	return false;
 };

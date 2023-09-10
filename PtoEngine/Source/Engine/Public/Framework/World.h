@@ -63,9 +63,13 @@ public:
 		out->SetOuter(pPersistentLevel.get());
 		out->SetID(mActorTotalCount);
 		++mActorTotalCount;
-		pPersistentLevel->GetObjectCollection()->Add(out);
+		AddToObjectCollection(out);
 
 		return out;
+	}
+	void AddToObjectCollection(std::shared_ptr<Object> in)
+	{
+		pPersistentLevel->GetObjectCollection()->Add(in);
 	}
 
 	// -----------------------------------
