@@ -2,6 +2,7 @@
 
 #include "Math/Vector.h"
 #include "Actor/Character/PuyoTypes.h"
+#include <vector>
 
 class GameSettings
 {
