@@ -1277,8 +1277,5 @@
     <None Include="Config\PtoEngineSettings.json">
       <Filter>Config</Filter>
     </None>
-    <None Include="..\.editorconfig">
-      <Filter>Source\Engine\Private</Filter>
-    </None>
   </ItemGroup>
 </Project>

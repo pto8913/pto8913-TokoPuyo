@@ -14,7 +14,7 @@ public:
 	// Main
 	// ------------------------------------------------------
 	Actor* GetOwner();
-	virtual std::shared_ptr<World> GetWorld() override final;
+	virtual World* GetWorld() override final;
 protected:
 	// ------------------------------------------------------
 	// State

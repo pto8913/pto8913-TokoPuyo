@@ -7,26 +7,35 @@ ObjectCollection::~ObjectCollection()
 	Clear();
 }
 
-void ObjectCollection::Add(std::shared_ptr<Actor> in, bool sort)
+void ObjectCollection::Add(std::shared_ptr<Object> in, bool sort)
 {
-	Add(in->GetLayer(), in, sort);
+	if (IsValid(in))
+	{
+		Add(in->GetLayer(), in, sort);
+	}
 }
-void ObjectCollection::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Actor> in, bool sort)
+void ObjectCollection::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Object> in, bool sort)
 {
-	auto itr = pActors.find(inLayer);
-	if (itr != pActors.end())
+	if (IsValid(in))
 	{
-		pActors[inLayer].push_back(in);
-	}
-	else
-	{
-		std::vector<std::shared_ptr<Actor>> arr(1, in);
-		pActors.insert(std::make_pair(inLayer, arr));
-	}
+		auto itr = pActors.find(inLayer);
+		if (itr != pActors.end())
+		{
+			pActors[inLayer].push_back(in);
+		}
+		else
+		{
+			std::vector<std::shared_ptr<Object>> arr(1, in);
+			pActors.insert(std::make_pair(inLayer, arr));
+		}
 
-	in->OnDestroyed.Bind<&ObjectCollection::ActorDestroyed>(*this, "World");
+		if (auto actor = static_pointer_cast<Actor>(in))
+		{
+			actor->OnDestroyed.Bind<&ObjectCollection::ActorDestroyed>(*this, "World");
+		}
+	}
 }
-void ObjectCollection::Append(std::vector<std::shared_ptr<Actor>>& in)
+void ObjectCollection::Append(std::vector<std::shared_ptr<Object>>& in)
 {
 	for (auto&& elem : in)
 	{
@@ -36,6 +45,8 @@ void ObjectCollection::Append(std::vector<std::shared_ptr<Actor>>& in)
 
 void ObjectCollection::Tick(DirectX11& dx, float deltaSec)
 {
+	RemovePendingObjects();
+
 	for (auto&& elem : pActors)
 	{
 		for (auto&& actor : elem.second)
@@ -57,9 +68,39 @@ void ObjectCollection::Clear()
 			auto& obj = *iter;
 			if (obj != nullptr)
 			{
+				obj->EndPlay();
 				obj.reset();
 				obj = nullptr;
 				iter = elem.second.erase(iter);
+			}
+			else
+			{
+				++iter;
+			}
+		}
+	}
+}
+void ObjectCollection::RemovePendingObjects()
+{
+	for (auto&& elem : pActors)
+	{
+		auto iter = elem.second.begin();
+		while (iter != elem.second.end())
+		{
+			auto& obj = *iter;
+			if (obj != nullptr)
+			{
+				if (obj->IsPendingKill())
+				{
+					obj->EndPlay();
+					obj.reset();
+					obj = nullptr;
+					iter = elem.second.erase(iter);
+				}
+				else
+				{
+					++iter;
+				}
 			}
 			else
 			{
@@ -78,8 +119,10 @@ void ObjectCollection::ActorDestroyed(std::shared_ptr<Actor> in)
 			auto& obj = *iter;
 			if (obj != nullptr)
 			{
-				if (obj->GetID() == in->GetID())
+				auto actor = static_pointer_cast<Actor>(obj);
+				if (actor->GetID() == in->GetID())
 				{
+					obj->EndPlay();
 					obj.reset();
 					obj = nullptr;
 					iter = elem.second.erase(iter);

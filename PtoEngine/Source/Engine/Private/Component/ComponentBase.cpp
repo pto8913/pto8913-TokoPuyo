@@ -20,7 +20,7 @@ Actor* ComponentBase::GetOwner()
 	return pOwner;
 }
 
-std::shared_ptr<World> ComponentBase::GetWorld()
+World* ComponentBase::GetWorld()
 {
 	return pOwner->GetWorld();
 }

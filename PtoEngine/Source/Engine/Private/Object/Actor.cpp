@@ -18,7 +18,6 @@ Actor::~Actor()
 {
 	OnDestroyed.ClearBind();
 
-	pOuter.reset();
 	pOuter = nullptr;
 
 	for (auto&& pair : pComponents)
@@ -44,20 +43,27 @@ void Actor::BeginPlay(DirectX11& dx)
 }
 void Actor::Tick(DirectX11& dx, float deltaTime)
 {
-	for (auto&& pair : pComponents)
+	if (!IsPendingKill())
 	{
-		if (pair.second != nullptr)
+		for (auto&& pair : pComponents)
 		{
-			if (pair.second->GetTickEnabled())
+			if (pair.second != nullptr)
 			{
-				pair.second->Tick(dx, deltaTime);
+				if (pair.second->GetTickEnabled())
+				{
+					pair.second->Tick(dx, deltaTime);
+				}
 			}
 		}
 	}
 }
 void Actor::DestroyActor()
 {
-	OnDestroyed.Broadcast(shared_from_this());
+	if (!IsPendingKill())
+	{
+		OnDestroyed.Broadcast(shared_from_this());
+		MarkPendingKill();
+	}
 }
 
 void Actor::SetID(int inID)
@@ -69,30 +75,24 @@ int Actor::GetID() const
 	return mID;
 }
 
-const Layer::EActorLayer& Actor::GetLayer() const
-{
-	return mLayer;
-}
-void Actor::SetLayer(const Layer::EActorLayer& in)
-{
-	mLayer = in;
-}
-
 // -----------------------------------
 // Main : Component
 // -----------------------------------
 void Actor::RemoveComponent(const std::string& tag)
 {
-	if (pComponents.contains(tag))
+	if (!IsPendingKill())
 	{
-		auto& comp = pComponents.at(tag);
-		if (comp)
+		if (pComponents.contains(tag))
 		{
-			comp.reset();
-			comp = nullptr;
-		}
+			auto& comp = pComponents.at(tag);
+			if (comp)
+			{
+				comp.reset();
+				comp = nullptr;
+			}
 
-		pComponents.erase(tag);
+			pComponents.erase(tag);
+		}
 	}
 }
 
@@ -159,24 +159,31 @@ FVector Actor::GetActorRightVector()
 // -----------------------------------
 // Main : Util
 // -----------------------------------
-void Actor::SetOuter(std::shared_ptr<Object> inOuter)
+void Actor::SetOuter(Object* inOuter)
 {
 	pOuter = inOuter;
 }
-std::shared_ptr<Object> Actor::GetOuter()
+Object* Actor::GetOuter()
 {
 	return pOuter;
 }
 
-std::shared_ptr<Level> Actor::GetLevel()
+Level* Actor::GetLevel()
 {
-	return GetTypedOuter<Level>();
-}
-std::shared_ptr<World> Actor::GetWorld()
-{
-	if (std::shared_ptr<Level> pLevel = GetLevel())
+	if (!IsPendingKill())
 	{
-		return pLevel->GetWorld();
+		return GetTypedOuter<Level>();
+	}
+	return nullptr;
+}
+World* Actor::GetWorld()
+{
+	if (!IsPendingKill())
+	{
+		if (auto pLevel = GetLevel())
+		{
+			return pLevel->GetWorld();
+		}
 	}
 	return nullptr;
 }

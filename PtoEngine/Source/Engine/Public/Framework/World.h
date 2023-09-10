@@ -54,7 +54,7 @@ public:
 	// -----------------------------------
 	// Main : Util
 	// -----------------------------------
-	virtual std::shared_ptr<World> GetWorld() override final;
+	virtual World* GetWorld() override final;
 
 	TimerManager& GetTimerManager();
 
@@ -62,10 +62,10 @@ public:
 	std::shared_ptr<TClass> SpawnActor(Args&&... args)
 	{
 		std::shared_ptr<TClass> out = std::make_shared<TClass>(std::forward<Args>(args)...);
-		out->SetOuter(pPersistentLevel);
+		out->SetOuter(pPersistentLevel.get());
 		out->SetID(mActorTotalCount);
 		++mActorTotalCount;
-		pPersistentLevel->GetObjectCollection()->Add(out);
+		AddToObjectCollection(out);
 
 		std::shared_ptr<BoxCollision> collision = out->GetComponent<BoxCollision>();
 		if (collision != nullptr)
@@ -73,6 +73,10 @@ public:
 			pPersistentLevel->GetCollisionCollection().Add(collision);
 		}
 		return out;
+	}
+	void AddToObjectCollection(std::shared_ptr<Object> in)
+	{
+		pPersistentLevel->GetObjectCollection()->Add(in);
 	}
 
 	// -----------------------------------
