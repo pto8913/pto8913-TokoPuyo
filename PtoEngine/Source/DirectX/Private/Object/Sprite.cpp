@@ -4,17 +4,17 @@
 
 #include "Geometry/Plane.h"
 
-#include "Render/Factory/VertexBuffer.h"
-#include "Render/Factory/IndexBuffer.h"
-#include "Render/Factory/ConstantBuffer.h"
-#include "Render/Factory/VertexShader.h"
-#include "Render/Factory/PixelShader.h"
-#include "Render/Factory/InputLayout.h"
-#include "Render/Factory/ScreenTexture.h"
-#include "Render/Factory/Topology.h"
-#include "Render/Factory/Rasterizer.h"
-#include "Render/Factory/BlendState.h"
-#include "Render/Factory/SamplerState.h"
+#include "Render/VertexBuffer.h"
+#include "Render/IndexBuffer.h"
+#include "Render/ConstantBuffer.h"
+#include "Render/VertexShader.h"
+#include "Render/PixelShader.h"
+#include "Render/InputLayout.h"
+#include "Render/ScreenTexture.h"
+#include "Render/Topology.h"
+#include "Render/Rasterizer.h"
+#include "Render/BlendState.h"
+#include "Render/SamplerState.h"
 
 Sprite::Sprite(DirectX11& dx, const std::wstring& inFileName, std::wstring Tag, DirectX::XMFLOAT2 inSize)
 {

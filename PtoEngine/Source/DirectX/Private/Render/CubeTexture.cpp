@@ -1,9 +1,9 @@
 
-#include "Render/Manager/BindableManager.h"
+#include "Render/BindableManager.h"
 
-#include "Render/Factory/CubeTexture.h"
-#include "Render/Factory/RenderTargetView.h"
-#include "Render/Factory/DepthStencilView.h"
+#include "Render/CubeTexture.h"
+#include "Render/RenderTargetView.h"
+#include "Render/DepthStencilView.h"
 
 #include "DDSTextureLoader11.h"
 #include <vector>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Bindable.h"
-#include "Render/Manager/BindableManager.h"
+#include "Render/BindableManager.h"
 
 #include "Math/Vertex.h"
 

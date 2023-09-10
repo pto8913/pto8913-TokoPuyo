@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DrawableObject2D.h"
-#include "Render/Factory/TransformConstantBuffer.h"
+#include "Render/TransformConstantBuffer.h"
 
 class DirectX11;
 

@@ -1,7 +1,7 @@
 
-#include "Render/Factory/TransformConstantBuffer.h"
+#include "Render/TransformConstantBuffer.h"
 #include "Object/DrawableObject.h"
-#include "Render/Manager/BindableManager.h"
+#include "Render/BindableManager.h"
 
 TransformConstantBuffer::TransformConstantBuffer(DirectX11& dx, UINT inSlot)
 	: slot(inSlot)

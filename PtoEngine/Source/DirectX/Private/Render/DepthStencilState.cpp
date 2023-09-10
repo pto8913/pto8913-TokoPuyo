@@ -1,8 +1,8 @@
 
-#include "Render/Factory/DepthStencilState.h"
+#include "Render/DepthStencilState.h"
 
 #include "Core/DirectX.h"
-#include "Render/Manager/BindableManager.h"
+#include "Render/BindableManager.h"
 
 DepthStencilState::DepthStencilState(DirectX11& dx, DepthStencilState::DSSType inType)
 	: type(inType)

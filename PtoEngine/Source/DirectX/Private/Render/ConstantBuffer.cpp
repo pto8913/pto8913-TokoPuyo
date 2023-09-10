@@ -1,5 +1,5 @@
 
-#include "Render/Factory/ConstantBuffer.h"
+#include "Render/ConstantBuffer.h"
 
 ConstantBufferEx::ConstantBufferEx(DirectX11& dx, UINT size, UINT inSlot)
 	: slot(inSlot)

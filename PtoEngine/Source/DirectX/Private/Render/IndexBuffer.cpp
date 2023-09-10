@@ -1,6 +1,6 @@
 
-#include "Render/Factory/IndexBuffer.h"
-#include "Render/Manager/BindableManager.h"
+#include "Render/IndexBuffer.h"
+#include "Render/BindableManager.h"
 
 IndexBuffer::IndexBuffer(DirectX11& dx, std::string inTag, const std::vector<DWORD>& pInitData)
 	: count((UINT)pInitData.size())

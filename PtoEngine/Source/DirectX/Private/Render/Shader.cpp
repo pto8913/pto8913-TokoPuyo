@@ -1,4 +1,4 @@
-#include "Render/Factory/Shader.h"
+#include "Render/Shader.h"
 
 bool Shader::Compile(std::wstring pFilename, const char* pEntryPoint, const char* pShaderModel, ID3DBlob** ppBlob)
 {

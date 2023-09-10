@@ -2,7 +2,7 @@
 
 #include "DirectX/DirectXHead.h"
 
-#include "Render/Factory/Bindable.h"
+#include "Render/Bindable.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 

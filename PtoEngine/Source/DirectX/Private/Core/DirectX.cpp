@@ -1,8 +1,8 @@
 
 #include "Core/DirectX.h"
 
-#include "Render/Factory/DepthStencilView.h"
-#include "Render/Factory/RenderTargetView.h"
+#include "Render/DepthStencilView.h"
+#include "Render/RenderTargetView.h"
 
 // ------------------------------------------------------------------------------------------------------------
 // Main

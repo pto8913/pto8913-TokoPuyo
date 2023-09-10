@@ -1,7 +1,7 @@
 
-#include "Render/Factory/Rasterizer.h"
+#include "Render/Rasterizer.h"
 
-#include "Render/Manager/BindableManager.h"
+#include "Render/BindableManager.h"
 
 Rasterizer::Rasterizer(DirectX11& dx, RasterizerType inType, UINT inSize)
 	: type(inType), size(inSize)

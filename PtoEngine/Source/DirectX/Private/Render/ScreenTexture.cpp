@@ -1,10 +1,10 @@
 
-#include "Render/Factory/ScreenTexture.h"
+#include "Render/ScreenTexture.h"
 
 #include <D3D10_1.h>
 #include <d3d10.h>
 
-#include "Render/Manager/BindableManager.h"
+#include "Render/BindableManager.h"
 
 #include <wincodec.h>
 

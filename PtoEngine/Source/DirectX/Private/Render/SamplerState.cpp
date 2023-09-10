@@ -1,6 +1,6 @@
 
-#include "Render/Factory/SamplerState.h"
-#include "Render/Manager/BindableManager.h"
+#include "Render/SamplerState.h"
+#include "Render/BindableManager.h"
 
 SamplerState::SamplerState(DirectX11& dx, UINT inSlot)
 	: slot(inSlot)
