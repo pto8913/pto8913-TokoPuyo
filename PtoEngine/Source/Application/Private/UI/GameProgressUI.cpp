@@ -170,7 +170,6 @@ GameProgressUI::GameProgressUI(Object* inOwner, DirectX11& dx, DX::IMouseInterfa
 		{
 			pTextBlock_Combo = std::make_shared<S_TextBlock>(GetRt2D(), scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
-
 		InfosVB->AddChild(pTextBlock_MaxScore);
 		InfosVB->AddChild(pTextBlock_MaxCombo);
 		InfosVB->AddChild(pTextBlock_Score);
