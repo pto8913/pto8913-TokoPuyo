@@ -14,9 +14,9 @@ class WidgetAnimation;
 
 class UserWidget : public WidgetBase, public Object
 {
-public:
 	UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH);
-	UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH);
+public:
+	UserWidget(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH);
 	virtual ~UserWidget();
 protected:
 	virtual void Draw() override;
@@ -94,7 +94,7 @@ protected:
 
 	std::shared_ptr<SlateContainerBase> pRootSlate = nullptr;
 	DX::IMouseInterface* pMouse;
-	std::shared_ptr<Object> pOwner = nullptr;
+	Object* pOwner = nullptr;
 
 	TArray<WidgetAnimation> mAnimations;
 

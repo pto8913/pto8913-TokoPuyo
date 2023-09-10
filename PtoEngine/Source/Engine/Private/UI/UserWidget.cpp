@@ -29,7 +29,7 @@ UserWidget::UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, float windowSi
 	}
 	SetLayer(Layer::EActorLayer::UI);
 }
-UserWidget::UserWidget(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH)
+UserWidget::UserWidget(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH)
 	: UserWidget(dx, mouse, windowSizeW, windowSizeH)
 {
 	if (inOwner != nullptr)
