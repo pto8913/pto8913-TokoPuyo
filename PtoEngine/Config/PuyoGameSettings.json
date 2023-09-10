@@ -78,6 +78,9 @@
     "Content/Textures/T_Puyo_Purple.png",
     "",
     ""
+  ],
+  "puyoGameModes": [
+    "とこぷよ",
+    "vs CPU"
   ]
-
 }

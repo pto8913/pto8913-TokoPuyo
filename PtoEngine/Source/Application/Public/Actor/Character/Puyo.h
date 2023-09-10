@@ -4,12 +4,14 @@
 #include "GameSettings.h"
 
 class DirectX11;
+
 struct PuyoSettings;
 
 class Puyo : public Actor2D
 {
 public:
 	Puyo(DirectX11& dx, const uint8_t& type);
+	virtual ~Puyo();
 
 	enum class ERotation : uint8_t
 	{
@@ -21,6 +23,10 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+
+	// --------------------------
+	// Main : Utils
+	// --------------------------
 	void SetType(const uint8_t& type);
 	uint8_t GetType() const;
 
@@ -58,9 +64,10 @@ private:
 			r = 3;
 		}
 	}
+
 private:
 	// ------------------------------------------------------
-	// Sub
+	// State
 	// ------------------------------------------------------
 	uint8_t mType;
 	ERotation mRotation = ERotation::U;

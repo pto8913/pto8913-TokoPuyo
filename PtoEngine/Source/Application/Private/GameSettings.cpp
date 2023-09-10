@@ -264,6 +264,15 @@ std::wstring GameSettings::GetPuyoImage(int id)
 
 	return Util::s2WString(v[id]);
 }
+std::wstring GameSettings::GetPuyoGameMode(int id)
+{
+	json jsonEngineSettings = GSSS::GetJson();
+
+	std::vector<std::string> v;
+	jsonEngineSettings["puyoGameModes"].get_to(v);
+
+	return Util::s2WString(v[id]);
+}
 
 // -------------------------------------------------
 // Settings : Game UI

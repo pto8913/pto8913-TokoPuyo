@@ -2,6 +2,9 @@
 #include "Actor/Character/Puyo.h"
 #include "Component/SpriteComponent.h"
 
+#include "Framework/World.h"
+
+
 struct FPuyoSettings : public FActor2DSettings
 {
 public:
@@ -33,10 +36,17 @@ Puyo::Puyo(DirectX11& dx, const uint8_t& id)
 	mLayer = Layer::EActorLayer::Entities;
 	mSortOrder = Layer::Character;
 }
+Puyo::~Puyo()
+{
+}
 
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
+
+// --------------------------
+// Main : Utils
+// --------------------------
 void Puyo::SetType(const uint8_t& type)
 {
 	mType = type;
