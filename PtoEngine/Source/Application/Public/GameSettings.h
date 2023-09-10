@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DirectX/DirectXHead.h"
 #include "Math/Vector.h"
 #include "Actor/Character/PuyoTypes.h"
 #include <vector>
@@ -43,7 +44,6 @@ public:
 	static void SetBonusColor(const std::vector<int>& in);
 
 	static std::wstring GetPuyoImage(int id);
-	static std::wstring GetPuyoGameMode(int id);
 
 	// -------------------------------------------------
 	// Settings : Game UI
