@@ -54,7 +54,7 @@ protected:
 	World* pOwningWorld = nullptr;
 
 	CollisionCollection mCollisionCollection;
-	std::shared_ptr<ObjectCollection> pObjectCollection;
+	std::shared_ptr<ObjectCollection> pObjectCollection = nullptr;
 
 	FVector mStartPosition;
 };
