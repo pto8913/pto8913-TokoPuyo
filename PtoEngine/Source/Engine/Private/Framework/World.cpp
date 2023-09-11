@@ -46,7 +46,6 @@ World::~World()
 
 	pPlayerController.reset();
 	pPlayerController = nullptr;
-
 }
 
 // -----------------------------------

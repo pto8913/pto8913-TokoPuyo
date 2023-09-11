@@ -38,14 +38,14 @@ Level_TokoPuyo::Level_TokoPuyo(DirectX11& dx)
 
 	Cached_NeedDurationTime_Main = 0;
 
-	BGM = std::make_shared<Audio>(L"Content/Sounds/Puyo_BGM.wav");
-	SE_PuyoMove = std::make_shared<Audio>(L"Content/Sounds/Puyo_Move.wav");
+	BGM = new Audio(L"Content/Sounds/Puyo_BGM.wav");
+	SE_PuyoMove = new Audio(L"Content/Sounds/Puyo_Move.wav");
 	SE_PuyoMove->SetVolume(0.5f);
-	SE_PuyoBottom = std::make_shared<Audio>(L"Content/Sounds/Puyo_Bottom.wav");
-	SE_PuyoRotate = std::make_shared<Audio>(L"Content/Sounds/Puyo_Rotate.wav");
+	SE_PuyoBottom = new Audio(L"Content/Sounds/Puyo_Bottom.wav");
+	SE_PuyoRotate = new Audio(L"Content/Sounds/Puyo_Rotate.wav");
 	SE_PuyoRotate->SetVolume(0.5f);
-	SE_PuyoVanish = std::make_shared<Audio>(L"Content/Sounds/Puyo_Vanish.wav");
-	SE_PuyoGameOver = std::make_shared<Audio>(L"Content/Sounds/Puyo_GameOver.wav");
+	SE_PuyoVanish = new Audio(L"Content/Sounds/Puyo_Vanish.wav");
+	SE_PuyoGameOver = new Audio(L"Content/Sounds/Puyo_GameOver.wav");
 	if (BGM)
 	{
 		BGM->SetVolume(0.5f);
@@ -60,30 +60,41 @@ Level_TokoPuyo::Level_TokoPuyo(DirectX11& dx)
 }
 Level_TokoPuyo::~Level_TokoPuyo()
 {
-	pMainPuyo.reset();
 	pMainPuyo = nullptr;
-
-	pSubPuyo.reset();
 	pSubPuyo = nullptr;
-
-	pGameState.reset();
 	pGameState = nullptr;
 
 	unionFind.clear();
 
+	for (auto row : stackedPuyo)
+	{
+		auto iter = row.begin();
+		while (iter != row.end())
+		{
+			auto puyoActor = *iter;
+			if (puyoActor != nullptr)
+			{
+				puyoActor = nullptr;
+				iter = row.erase(iter);
+			}
+			else
+			{
+				++iter;
+			}
+		}
+	}
 	stackedPuyo.erase(stackedPuyo.begin(), stackedPuyo.end());
 	stackedPuyo.clear();
 
 	planVanishPuyo.erase(planVanishPuyo.begin(), planVanishPuyo.end());
 	planVanishPuyo.clear();
 
-	auto Stop = [](std::shared_ptr<Audio>& in)
+	auto Stop = [](Audio*& in)
 	{
 		if (in)
 		{
 			in->Stop();
 		}
-		in.reset();
 		in = nullptr;
 	};
 	Stop(BGM);
@@ -123,7 +134,7 @@ void Level_TokoPuyo::BeginPlay(DirectX11& dx)
 {
 	Level2D::BeginPlay(dx);
 
-	pGameState = static_pointer_cast<GameState_Play>(GetWorld()->GetGameState());
+	pGameState = static_pointer_cast<GameState_Play>(GetWorld()->GetGameState()).get();
 	pGameState->OnGameProgressChanged.Bind<&Level_TokoPuyo::GameProgressChanged>(*this, "Level_TokoPuyo");
 	GameProgressChanged(pGameState->GetGameProgress());
 
@@ -172,19 +183,16 @@ void Level_TokoPuyo::Restart()
 {
 	pGameState->SetGameProgress(*pDX, EGameProgress::Wait);
 
-	if (pMainPuyo != nullptr)
-	{
-		pMainPuyo->DestroyActor();
-	}
-	pMainPuyo.reset();
 	pMainPuyo = nullptr;
-
-	if (pSubPuyo)
-	{
-		pSubPuyo->DestroyActor();
-	}
-	pSubPuyo.reset();
 	pSubPuyo = nullptr;
+	//if (IsValid(pMainPuyo))
+	//{
+	//	pMainPuyo->DestroyActor();
+	//}
+	//if (IsValid(pSubPuyo))
+	//{
+	//	pSubPuyo->DestroyActor();
+	//}
 
 	nextPuyo1_1 = GameSettings::EMPTY_PUYO;
 	nextPuyo1_2 = GameSettings::EMPTY_PUYO;
@@ -211,7 +219,7 @@ void Level_TokoPuyo::Restart()
 	planVanishPuyo.erase(planVanishPuyo.begin(), planVanishPuyo.end());
 	planVanishPuyo.clear();
 
-	std::vector<std::shared_ptr<Puyo>> puyoRow(width, nullptr);
+	std::vector<Puyo*> puyoRow(width, nullptr);
 	stackedPuyo.assign(height, puyoRow);
 
 	ResetPlanToVanishPuyo();
@@ -335,10 +343,10 @@ void Level_TokoPuyo::SpawnPuyo()
 		auto world = GetWorld();
 		pMainPuyo = world->SpawnActor<Puyo>(
 			*pDX, mainPuyoId
-		);
+		).get();
 		pSubPuyo = world->SpawnActor<Puyo>(
 			*pDX, subPuyoId
-		);
+		).get();
 	}
 	else
 	{
@@ -622,7 +630,7 @@ void Level_TokoPuyo::DoFrame_Release()
 		ActivePuyoReachToBottom();
 	}
 }
-bool Level_TokoPuyo::DoFrame_Release(std::shared_ptr<Puyo>& puyo)
+bool Level_TokoPuyo::DoFrame_Release(Puyo*& puyo)
 {
 	if (puyo->GetIsActive())
 	{
@@ -685,10 +693,7 @@ void Level_TokoPuyo::ActivePuyoReachToBottom()
 		hasVanishPlan |= SetPlanToVanishPuyo(pSubPuyo);
 	}
 
-	pMainPuyo.reset();
 	pMainPuyo = nullptr;
-
-	pSubPuyo.reset();
 	pSubPuyo = nullptr;
 
 	if (hasVanishPlan)
@@ -721,7 +726,7 @@ void Level_TokoPuyo::DoFrame_Vanish()
 		}
 	}
 }
-bool Level_TokoPuyo::SetPlanToVanishPuyo(std::shared_ptr<Puyo> puyo)
+bool Level_TokoPuyo::SetPlanToVanishPuyo(Puyo*& puyo)
 {
 	//OutputDebugStringA("SetPlanToVanishPuyo\n");
 	const auto currIdx = puyo->Get2DIdx();
@@ -802,7 +807,6 @@ void Level_TokoPuyo::VanishPuyo()
 					rootSize.emplace(std::make_pair<int, int>(unionFind.root(P), unionFind.size(P)));
 
 					/* Clear puyo. */
-					puyoActor.reset();
 					puyoActor = nullptr;
 
 					planVanishPuyo[y][x] = false;
@@ -862,7 +866,6 @@ void Level_TokoPuyo::DoFrame_FallAll()
 							SetSpriteLocation(puyoActor, x, y + 1);
 							puyoActorNext = std::move(puyoActor);
 
-							puyoActor.reset();
 							puyoActor = nullptr;
 
 							bIsDown = true;
@@ -916,7 +919,7 @@ void Level_TokoPuyo::RemakeUnionFind()
 		}
 	}
 }
-void Level_TokoPuyo::UnionFindPuyo(std::shared_ptr<Puyo> puyo)
+void Level_TokoPuyo::UnionFindPuyo(Puyo* puyo)
 {
 	auto Check = [this, &puyo](uint8_t nx, uint8_t ny)
 	{
@@ -1022,13 +1025,13 @@ void Level_TokoPuyo::ResetCalcScoreCount()
 // ------------------------------------------------------------
 // Main : Utils
 // ------------------------------------------------------------
-std::shared_ptr<Puyo>& Level_TokoPuyo::GetStackedPuyo(const int& x, const int& y)
+Puyo*& Level_TokoPuyo::GetStackedPuyo(const int& x, const int& y)
 {
 	if (IsValidIndex(stackedPuyo, x, y))
 	{
 		return stackedPuyo[round(y)][round(x)];
 	}
-	std::shared_ptr<Puyo> res = nullptr;
+	Puyo* res = nullptr;
 	return res;
 }
 void Level_TokoPuyo::SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY)
@@ -1038,7 +1041,13 @@ void Level_TokoPuyo::SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const fl
 	sprite->SetActorLocation(FVector(pos.x, pos.y, 0.f));
 	sprite->Set2DIdx(FVector2D(worldX, worldY));
 }
+void Level_TokoPuyo::SetSpriteLocation(Actor2D* sprite, const float& worldX, const float& worldY)
+{
+	DirectX::XMFLOAT2 pos = WorldToScreen(worldX, worldY - 1, sprite->GetActorScale());
 
+	sprite->SetActorLocation(FVector(pos.x, pos.y, 0.f));
+	sprite->Set2DIdx(FVector2D(worldX, worldY));
+}
 int Level_TokoPuyo::GetPos(uint8_t x, uint8_t y)
 {
 	// 33 = 5 * 6 + 3

@@ -12,7 +12,6 @@ Level::Level(DirectX11& dx)
 Level::~Level()
 {
 	pDX = nullptr;
-
 	pOwningWorld = nullptr;
 
 	pObjectCollection.reset();

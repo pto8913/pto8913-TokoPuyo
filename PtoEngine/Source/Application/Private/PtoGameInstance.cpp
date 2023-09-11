@@ -14,8 +14,6 @@ PtoGameInstance& PtoGameInstance::Get()
 
 void PtoGameInstance::OpenWorldDelay()
 {
-    OutputDebugStringA("PtoGameInstance OpenWorldDelay\n");
-
     pWorld.reset();
     pWorld = nullptr;
  

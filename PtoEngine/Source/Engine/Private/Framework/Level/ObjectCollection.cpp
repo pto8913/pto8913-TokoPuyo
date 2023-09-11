@@ -5,6 +5,7 @@
 ObjectCollection::~ObjectCollection()
 {
 	Clear();
+	pObjects.clear();
 }
 
 void ObjectCollection::Add(std::shared_ptr<Object> in, bool sort)

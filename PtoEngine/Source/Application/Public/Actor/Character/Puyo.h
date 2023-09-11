@@ -30,8 +30,10 @@ public:
 	bool GetIsActive();
 	void SetIsActive(const bool& in);
 
-	bool IsSame(const std::shared_ptr<Puyo>& in);
-	bool IsSameType(const std::shared_ptr<Puyo>& in);
+	bool IsSame(const std::shared_ptr<Puyo>& in) const;
+	bool IsSameType(const std::shared_ptr<Puyo>& in) const;
+	bool IsSame(const Puyo* in) const;
+	bool IsSameType(const Puyo* in) const;
 
 	void Rotate(bool rotateR)
 	{

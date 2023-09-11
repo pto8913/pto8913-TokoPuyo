@@ -47,10 +47,8 @@ protected:
 	// State
 	// ------------------------------------------------------
 	DirectX11* pDX = nullptr;
-
 	World* pOwningWorld = nullptr;
-
-	std::shared_ptr<ObjectCollection> pObjectCollection;
+	std::shared_ptr<ObjectCollection> pObjectCollection = nullptr;
 
 	FVector mStartPosition;
 };

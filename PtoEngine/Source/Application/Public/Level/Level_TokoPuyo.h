@@ -60,7 +60,7 @@ protected:
 	// ------------------------------------------------------------
 	/* Fall to Bottom, activePuyo and subPuyo. */
 	void DoFrame_Release();
-	bool DoFrame_Release(std::shared_ptr<Puyo>& puyo);
+	bool DoFrame_Release(Puyo*& puyo);
 	/* activePuyo and subPuyo */
 	void ActivePuyoReachToBottom();
 
@@ -68,7 +68,7 @@ protected:
 	// Main : Vanish puyo
 	// ------------------------------------------------------------
 	void DoFrame_Vanish();
-	bool SetPlanToVanishPuyo(std::shared_ptr<Puyo> puyo);
+	bool SetPlanToVanishPuyo(Puyo*& puyo);
 	bool SetPlanToVanishAll();
 	void ResetPlanToVanishPuyo();
 	void FlashVanishPuyo();
@@ -86,7 +86,7 @@ protected:
 	// Main : Union Find
 	// ------------------------------------------------------------
 	void RemakeUnionFind();
-	void UnionFindPuyo(std::shared_ptr<Puyo> puyo);
+	void UnionFindPuyo(Puyo* puyo);
 
 	// ------------------------------------------------------------
 	// Main : Input
@@ -124,9 +124,10 @@ protected:
 		return false;
 	}
 
-	std::shared_ptr<Puyo>& GetStackedPuyo(const int& x, const int& y);
+	Puyo*& GetStackedPuyo(const int& x, const int& y);
 
 	virtual void SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY) override;
+	void SetSpriteLocation(Actor2D* sprite, const float& worldX, const float& worldY);
 
 	int GetPos(uint8_t x, uint8_t y);
 	int GetPos(float x, float y);
@@ -141,24 +142,24 @@ private:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
-	FVector2D mGameBoardSize;
 	DirectX11* pDX = nullptr;
-	std::shared_ptr<GameState_Play> pGameState = nullptr;
+	GameState_Play* pGameState = nullptr;
 
+	FVector2D mGameBoardSize;
 	EGameProgress Cached_GameProgress;
 
 	// ----------------------
 	// State : Puyo
 	// ----------------------
-	std::shared_ptr<Puyo> pMainPuyo;
-	std::shared_ptr<Puyo> pSubPuyo;
+	Puyo* pMainPuyo;
+	Puyo* pSubPuyo;
 	uint8_t nextPuyo1_1 = GameSettings::EMPTY_PUYO;
 	uint8_t nextPuyo1_2 = GameSettings::EMPTY_PUYO;
 	uint8_t nextPuyo2_1 = GameSettings::EMPTY_PUYO;
 	uint8_t nextPuyo2_2 = GameSettings::EMPTY_PUYO;
 
 	UnionFind unionFind;
-	std::vector<std::vector<std::shared_ptr<Puyo>>> stackedPuyo;
+	std::vector<std::vector<Puyo*>> stackedPuyo;
 
 	// ----------------------
 	// State : Main Timer
@@ -188,12 +189,12 @@ private:
 	// ----------------------
 	// State : Sound
 	// ----------------------
-	std::shared_ptr<Audio> BGM = nullptr;
-	std::shared_ptr<Audio> SE_PuyoMove = nullptr;
-	std::shared_ptr<Audio> SE_PuyoBottom = nullptr;
-	std::shared_ptr<Audio> SE_PuyoRotate = nullptr;
-	std::shared_ptr<Audio> SE_PuyoVanish = nullptr;
-	std::shared_ptr<Audio> SE_PuyoGameOver = nullptr;
+	Audio* BGM = nullptr;
+	Audio* SE_PuyoMove = nullptr;
+	Audio* SE_PuyoBottom = nullptr;
+	Audio* SE_PuyoRotate = nullptr;
+	Audio* SE_PuyoVanish = nullptr;
+	Audio* SE_PuyoGameOver = nullptr;
 
 	Keyboard::InputAction InputZ;
 	Keyboard::InputAction InputX;

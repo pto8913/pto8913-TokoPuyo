@@ -26,7 +26,6 @@ Level2D::Level2D(DirectX11& dx)
 }
 Level2D::~Level2D()
 {
-	Clear();
 }
 
 void Level2D::SetObjectCollection()
@@ -61,14 +60,6 @@ void Level2D::Init(const int& x, const int& y)
 {
 	height = y;
 	width = x;
-}
-
-void Level2D::Clear()
-{
-	width = 0;
-	height = 0;
-
-	mStartPosition = FVector();
 }
 
 // --------------------------
@@ -122,98 +113,6 @@ std::shared_ptr<Actor2D> Level2D::GetLayer(const int& worldX, const int& worldY,
 				}
 			}
 		}
-	}
-	return nullptr;
-}
-
-// --------------------------
-// Main : Utils : Ground
-// --------------------------
-std::shared_ptr<GroundBase> Level2D::SetGroundLayerIDSpe(const EGroundId& groundType, const float& worldX, const float& worldY)
-{
-	if (IsInWorld(worldX, worldY))
-	{
-		auto sprite = GetGroundLayer(worldX, worldY);
-		if (sprite != nullptr)
-		{
-			sprite->SetGroundType(groundType);
-		}
-		else
-		{
-			sprite = GetWorld()->SpawnActor<GroundBase>(*pDX, groundType);
-			sprite->BeginPlay(*pDX);
-			SetSpriteLocation(sprite, worldX, worldY);
-		}
-		return sprite;
-	}
-	return nullptr;
-}
-void Level2D::SetGroundLayerID(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal, INT16 inConstantXY2)
-{
-	if (inConstantXY2 > -1)
-	{
-		if (bConstantHorizontal)
-		{
-			if (!IsInWorld(inMinXY, inConstantXY) || !IsInWorld(inMinXY, inConstantXY2) ||
-				!IsInWorld(inMaxXY, inConstantXY) || !IsInWorld(inMaxXY, inConstantXY2))
-			{
-				return;
-			}
-		}
-		else
-		{
-			if (!IsInWorld(inConstantXY, inMinXY) || !IsInWorld(inConstantXY2, inMinXY) ||
-				!IsInWorld(inConstantXY, inMaxXY) || !IsInWorld(inConstantXY2, inMaxXY))
-			{
-				return;
-			}
-		}
-	}
-	else
-	{
-		if (bConstantHorizontal)
-		{
-			if (!IsInWorld(inMinXY, inConstantXY) || !IsInWorld(inMaxXY, inConstantXY))
-			{
-				return;
-			}
-		}
-		else
-		{
-			if (!IsInWorld(inConstantXY, inMinXY) || !IsInWorld(inConstantXY, inMaxXY))
-			{
-				return;
-			}
-		}
-	}
-	for (UINT16 i = inMinXY; i <= inMaxXY; ++i)
-	{
-		if (bConstantHorizontal)
-		{
-			SetGroundLayerIDSpe(groundType, i, inConstantXY);
-		}
-		else
-		{
-			SetGroundLayerIDSpe(groundType, inConstantXY, i);
-		}
-		if (inConstantXY2 > -1)
-		{
-			if (bConstantHorizontal)
-			{
-				SetGroundLayerIDSpe(groundType, i, inConstantXY2);
-			}
-			else
-			{
-				SetGroundLayerIDSpe(groundType, inConstantXY2, i);
-			}
-		}
-	}
-}
-std::shared_ptr<GroundBase> Level2D::GetGroundLayer(const int& worldX, const int& worldY) const
-{
-	if (auto obj = GetLayer(worldX, worldY, Layer::EOrder::Ground, Layer::EActorLayer::Background))
-	{
-		return static_pointer_cast<GroundBase>(obj);
 	}
 	return nullptr;
 }

@@ -32,25 +32,9 @@ public:
 	void Generate(DirectX11& dx);
 protected:
 	virtual void GenerateGroundLayer() = 0;
-
 public:
 	virtual void Init(const int& x, const int& y);
-	virtual void Clear();
-protected:
-	template<typename T>
-	void Clear(TArray<TArray<T>>& in)
-	{
-		for (auto&& elem : in)
-		{
-			for (auto&& layer : elem)
-			{
-				layer.reset();
-			}
-			elem.Clear();
-		}
-		in.Clear();
-	}
-public:
+
 	// --------------------------
 	// Main : Utils
 	// --------------------------
@@ -63,14 +47,6 @@ public:
 protected:
 	virtual void SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY);
 	std::shared_ptr<Actor2D> GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const Layer::EActorLayer& inLayer) const;
-public:
-	// --------------------------
-	// Main : Utils : Ground
-	// --------------------------
-	virtual std::shared_ptr<GroundBase> SetGroundLayerIDSpe(const EGroundId& groundType, const float& worldX, const float& worldY);
-	void SetGroundLayerID(const EGroundId& groundType, const UINT16& inMinXY, const UINT16& inMaxXY, const UINT16& inConstantXY, bool bConstantHorizontal = false, INT16 inConstantXY2 = -1);
-	std::shared_ptr<GroundBase> GetGroundLayer(const int& worldX, const int& worldY) const;
-
 public:
 	// ------------------------------------------------------
 	// State
