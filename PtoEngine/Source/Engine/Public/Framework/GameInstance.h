@@ -8,7 +8,7 @@ class DirectX11;
 
 class World;
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnOpenWorld, const std::unique_ptr<World>&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnOpenWorld, const World*&);
 
 class GameInstance
 {
