@@ -147,7 +147,8 @@ void FTimerHandle::Clear()
 // ------------------------------------------------------------------------------------------------------------
 TimerManager::operator bool() const noexcept
 {
-	return timers.size() > 0 && bEnableTick;
+	return (timers.size() > 0 || nextTickTimers.size()) && bEnableTick;
+	//return timers.size() > 0 && bEnableTick;
 }
 void TimerManager::ClearTimer(FTimerHandle& handle)
 {
