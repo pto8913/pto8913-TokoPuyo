@@ -21,9 +21,12 @@ void GameInstance::Tick(DirectX11& dx, float deltaSec)
 		mTimerManager.Tick();
 	}
 
-	if (IsValid(pWorld))
+	if (pWorld != nullptr)
 	{
-		pWorld->Tick(dx, deltaSec);
+		if (!pWorld->IsPendingKill())
+		{
+			pWorld->Tick(dx, deltaSec);
+		}
 	}
 }
 

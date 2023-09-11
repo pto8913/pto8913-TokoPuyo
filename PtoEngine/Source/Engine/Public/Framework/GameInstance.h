@@ -44,7 +44,7 @@ protected:
 	// ------------------------------------------------------------------------------------------------------------
 	// State
 	// ------------------------------------------------------------------------------------------------------------
-	std::shared_ptr<World> pWorld = nullptr;
+	std::unique_ptr<World> pWorld = nullptr;
 	int mQueuedOpenWorldID = 0;
 
 	TimerManager mTimerManager;
