@@ -55,7 +55,7 @@ CollisionCollection& Level::GetCollisionCollection()
 	return mCollisionCollection;
 }
 
-std::shared_ptr<ObjectCollection> Level::GetObjectCollection()
+std::shared_ptr<ObjectCollection>& Level::GetObjectCollection()
 {
 	return pObjectCollection;
 }

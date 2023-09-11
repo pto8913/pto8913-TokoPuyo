@@ -6,7 +6,7 @@
 #include "Level/Level_SonoTown.h"
 #include "Level/MazeGenerator.h"
 
-std::shared_ptr<Level> LevelFactory::Create(DirectX11& dx, const ELevelId& id)
+std::shared_ptr<Level>&& LevelFactory::Create(DirectX11& dx, const ELevelId& id)
 {
 	switch (id)
 	{

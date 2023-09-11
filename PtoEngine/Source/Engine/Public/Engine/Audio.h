@@ -54,6 +54,7 @@ class Audio
 {
 public:
 	Audio(const wchar_t* fileName);
+	virtual ~Audio();
 
 	// ------------------------------------------------------------------------
 	// Main
