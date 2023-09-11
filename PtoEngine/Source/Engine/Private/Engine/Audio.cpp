@@ -104,6 +104,13 @@ Audio::Audio(const wchar_t* fileName)
 
     SetVolume(Volume);
 }
+Audio::~Audio()
+{
+    pSourceVoice = nullptr;
+    m_buffer = {};
+    wfx = {};
+    callback = {};
+}
 
 // ------------------------------------------------------------------------
 // Main

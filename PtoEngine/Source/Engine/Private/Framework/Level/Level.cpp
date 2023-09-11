@@ -12,6 +12,7 @@ Level::Level(DirectX11& dx)
 Level::~Level()
 {
 	pDX = nullptr;
+
 	pOwningWorld = nullptr;
 
 	pObjectCollection.reset();
@@ -49,7 +50,12 @@ World* Level::GetWorld()
 	return pOwningWorld;
 }
 
-std::shared_ptr<ObjectCollection> Level::GetObjectCollection()
+CollisionCollection& Level::GetCollisionCollection()
+{
+	return mCollisionCollection;
+}
+
+std::shared_ptr<ObjectCollection>& Level::GetObjectCollection()
 {
 	return pObjectCollection;
 }
