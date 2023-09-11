@@ -59,7 +59,7 @@ class SlateBase : public DX::ISlateInterface
 public:
 	SlateBase(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = FSlateInfos());
 	
-	virtual ~SlateBase() = 0;
+	virtual ~SlateBase();
 
 	// ------------------------------------------------------------------------------------------------
 	// Main

@@ -93,7 +93,7 @@ protected:
 	bool bIsInViewport = false;
 
 	std::shared_ptr<SlateContainerBase> pRootSlate = nullptr;
-	DX::IMouseInterface* pMouse;
+	DX::IMouseInterface* pMouse = nullptr;
 	Object* pOwner = nullptr;
 
 	TArray<WidgetAnimation> mAnimations;

@@ -26,6 +26,7 @@ SlateContainerBase::~SlateContainerBase()
 	for (auto&& child : pChildren)
 	{
 		child.reset();
+		child = nullptr;
 	}
 	pChildren.clear();
 }

@@ -22,6 +22,7 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, F
 S_TextBlock::~S_TextBlock()
 {
 	Util::SafeRelease(pTextFormat);
+	OnSetText.ClearBind();
 }
 
 // ------------------------------------------------------------------------------------------------

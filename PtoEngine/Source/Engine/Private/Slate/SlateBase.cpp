@@ -15,10 +15,11 @@ SlateBase::SlateBase(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos i
 }
 SlateBase::~SlateBase()
 {
-	pBrush->Release();
-
 	pD2DRT = nullptr;
 	pParent = nullptr;
+
+	pBrush->Release();
+	pBrush = nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------

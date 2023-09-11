@@ -4,10 +4,12 @@
 
 GameInstance::~GameInstance()
 {
+	mTimerManager.Clear();
+
+	OnOpenWorld.ClearBind();
+
 	pWorld.reset();
 	pWorld = nullptr;
-	
-	mTimerManager.Clear();
 }
 
 // ------------------------------------------------------------------------------------------------------------
