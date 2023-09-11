@@ -48,7 +48,7 @@ private:
 	// Main : GameMode
 	// -----------------------------------
 	void OnPlayerControllerChanged(const std::shared_ptr<PlayerController>& pPlayerController);
-	void OnWorldChanged(std::shared_ptr<World> NewWorld);
+	void OnWorldChanged(const std::shared_ptr<World>& NewWorld);
 
 	// ------------------------------------------------------------------------------------------------------------
 	// State
