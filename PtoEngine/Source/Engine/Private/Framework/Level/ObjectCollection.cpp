@@ -30,9 +30,16 @@ void ObjectCollection::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Ob
 			pObjects.insert(std::make_pair(inLayer, arr));
 		}
 
-		if (std::shared_ptr<Actor> actor = static_pointer_cast<Actor>(in))
+		switch (inLayer)
 		{
-			actor->OnDestroyed.Bind<&ObjectCollection::ActorDestroyed>(*this, "World");
+		case Layer::EActorLayer::UI:
+			break;
+		default:
+			if (std::shared_ptr<Actor> actor = static_pointer_cast<Actor>(in))
+			{
+				actor->OnDestroyed.Bind<&ObjectCollection::ActorDestroyed>(*this, "World");
+			}
+			break;
 		}
 	}
 }
