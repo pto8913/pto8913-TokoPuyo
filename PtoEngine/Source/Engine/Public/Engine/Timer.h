@@ -35,6 +35,7 @@ public:
 // ------------------------------------------------------------------------------------------------------------
 struct FTimerDelegate
 {
+	friend class TimerManager;
 public:
 	FTimerDelegate();
 	void Tick();
@@ -109,6 +110,7 @@ private:
 	bool bIsCompleteInitialLoop = false;
 	float mInitialDelay = 1.f;
 	float mDelay = 1.f;
+	bool nextTick = false;
 
 	std::chrono::system_clock::time_point mLastTime;
 
@@ -210,6 +212,13 @@ public:
 		return handle;
 	}
 
+	FTimerHandle SetNextTickTimer(FTimerDelegate in)
+	{
+		FTimerHandle handle(GetTag());
+		nextTickTimers.emplace(handle, in);
+		return handle;
+	}
+
 	void ClearTimer(FTimerHandle& handle);
 	void Clear();
 	void Tick();
@@ -218,5 +227,6 @@ private:
 	std::string GetTag();
 
 	std::map<FTimerHandle, FTimerDelegate> timers;
+	std::map<FTimerHandle, FTimerDelegate> nextTickTimers;
 	bool bEnableTick = true;
 };

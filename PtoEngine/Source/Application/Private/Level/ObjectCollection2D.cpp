@@ -24,7 +24,7 @@ void ObjectCollection2D::Sort()
 		return static_pointer_cast<Actor2D>(a)->GetSortOrder() < static_pointer_cast<Actor2D>(b)->GetSortOrder();
 	};
 
-	for (auto&& elem : pActors)
+	for (auto&& elem : pObjects)
 	{
 		if (!std::is_sorted(elem.second.begin(), elem.second.end(), SortCondition))
 		{

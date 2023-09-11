@@ -184,6 +184,28 @@ void TimerManager::Tick()
 				timer.second.Tick();
 			}
 		}
+		auto iter = nextTickTimers.begin();
+		while (iter != nextTickTimers.end())
+		{
+			auto timer = *iter;
+			if (timer.first)
+			{
+				if (!timer.second.nextTick)
+				{
+					timer.second.nextTick = true;
+					++iter;
+				}
+				else
+				{
+					timer.second.Invoke();
+					iter = nextTickTimers.erase(iter);
+				}
+			}
+			else
+			{
+				++iter;
+			}
+		}
 	}
 }
 

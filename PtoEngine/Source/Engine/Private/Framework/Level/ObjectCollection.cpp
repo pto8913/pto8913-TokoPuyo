@@ -18,15 +18,15 @@ void ObjectCollection::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Ob
 {
 	if (IsValid(in))
 	{
-		auto itr = pActors.find(inLayer);
-		if (itr != pActors.end())
+		auto itr = pObjects.find(inLayer);
+		if (itr != pObjects.end())
 		{
-			pActors[inLayer].push_back(in);
+			pObjects[inLayer].push_back(in);
 		}
 		else
 		{
 			std::vector<std::shared_ptr<Object>> arr(1, in);
-			pActors.insert(std::make_pair(inLayer, arr));
+			pObjects.insert(std::make_pair(inLayer, arr));
 		}
 
 		if (auto actor = static_pointer_cast<Actor>(in))
@@ -47,7 +47,7 @@ void ObjectCollection::Tick(DirectX11& dx, float deltaSec)
 {
 	RemovePendingObjects();
 
-	for (auto&& elem : pActors)
+	for (auto&& elem : pObjects)
 	{
 		for (auto&& actor : elem.second)
 		{
@@ -60,7 +60,7 @@ void ObjectCollection::Tick(DirectX11& dx, float deltaSec)
 }
 void ObjectCollection::Clear()
 {
-	for (auto&& elem : pActors)
+	for (auto&& elem : pObjects)
 	{
 		auto iter = elem.second.begin();
 		while (iter != elem.second.end())
@@ -82,7 +82,7 @@ void ObjectCollection::Clear()
 }
 void ObjectCollection::RemovePendingObjects()
 {
-	for (auto&& elem : pActors)
+	for (auto&& elem : pObjects)
 	{
 		auto iter = elem.second.begin();
 		while (iter != elem.second.end())
@@ -111,7 +111,7 @@ void ObjectCollection::RemovePendingObjects()
 }
 void ObjectCollection::ActorDestroyed(std::shared_ptr<Actor> in)
 {
-	for (auto&& elem : pActors)
+	for (auto&& elem : pObjects)
 	{
 		auto iter = elem.second.begin();
 		while (iter != elem.second.end())

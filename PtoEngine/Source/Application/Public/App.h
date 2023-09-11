@@ -23,22 +23,19 @@
 
 #include "Window.h"
 
-#include "Engine/Timer.h"
-
 class DirectX11;
 
 class WorldTimer;
 
 class PlayerController;
 class World;
-
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnMarkNextTick, );
+class PtoGameInstance;
 
 class App
 {
 public:
 	App();
-	virtual ~App();
+	~App();
 
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
@@ -47,8 +44,11 @@ public:
 private:
 	void InputUpdate(DirectX11& dx);
 
+	// -----------------------------------
+	// Main : GameMode
+	// -----------------------------------
 	void OnPlayerControllerChanged(const std::shared_ptr<PlayerController>& pPlayerController);
-	void OnWorldChanged(std::shared_ptr<World>&& NewWorld);
+	void OnWorldChanged(std::shared_ptr<World> NewWorld);
 
 	// ------------------------------------------------------------------------------------------------------------
 	// State
@@ -58,18 +58,15 @@ private:
 	std::unique_ptr<ViewPort> pViewPort = nullptr;
 	bool bIsInitialized = false;
 
-	std::shared_ptr<World> pWorld = nullptr;
-
 	// -----------------------------------
 	// State : Window
 	// -----------------------------------
 	Window mWindow;
+	PtoGameInstance* pGameInstance = nullptr;
 
 	// -----------------------------------
 	// State : AppTimer
 	// -----------------------------------
 	std::unique_ptr<WorldTimer> pAppTimer = nullptr;
 	float appTimerSpeed = 1.f;
-
-	TimerManager mTimerManager;
 };

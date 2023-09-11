@@ -1,7 +1,6 @@
 
 #include "App.h"
 #include "EngineSettings.h"
-#include "PuyoGameInstance.h"
 
 #include "Core/DirectX.h"
 
@@ -9,8 +8,12 @@
 
 #include "Framework/World.h"
 #include "Framework/PlayerController.h"
+#include "PtoGameInstance.h"
 
 #include "Input/Keyboard.h"
+
+#include "World/World_SonoTown.h"
+#include "World/World_SonoCave.h"
 
 Keyboard::InputAction InputEsc(DIK_ESCAPE);
 
@@ -26,14 +29,13 @@ App::App()
     OutputDebugStringA(("window Aspect : " + EngineSettings::GetWindowAspectRatio().ToString() + "\n").c_str());
     OutputDebugStringA(("window InSize : " + EngineSettings::GetWindowSize().ToString() + "\n").c_str());
 #endif
-
     pDX = std::make_unique<DirectX11>(mWindow.GetHInstance(), mWindow.GetHWnd(), mWindow.GetWidth(), mWindow.GetHeight());
 
-    PuyoGameInstance& gameInstance = PuyoGameInstance::Get();
-    gameInstance.Initialize(*pDX);
-    gameInstance.OnOpenWorld.Bind<&App::OnWorldChanged>(*this, "App");
-    gameInstance.OpenWorld(nullptr, EWorldId::Title);
-
+    pGameInstance = &PtoGameInstance::Get();
+    pGameInstance->Initialize(*pDX);
+    pGameInstance->OnOpenWorld.Bind<&App::OnWorldChanged>(*this, "App");
+    pGameInstance->OpenWorld(0);
+    
     /* Viewport */
     {
         pViewPort = std::make_unique<ViewPort>((float)mWindow.GetWidth(), (float)mWindow.GetHeight());
@@ -55,8 +57,7 @@ App::~App()
     pAppTimer.reset();
     pAppTimer = nullptr;
 
-    pWorld.reset();
-    pWorld = nullptr;
+    pGameInstance = nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------------------
@@ -81,12 +82,7 @@ int App::Run()
 
             InputUpdate(*pDX);
 
-            mTimerManager.Tick();
-
-            if (IsValid(pWorld))
-            {
-                pWorld->Tick(*pDX, deltaSec);
-            }
+            pGameInstance->Tick(*pDX, deltaSec);
 
             HRESULT result = pDX->EndFrame();
             if (result == DXGI_ERROR_DEVICE_REMOVED || result == DXGI_ERROR_DEVICE_RESET)
@@ -111,20 +107,17 @@ void App::InputUpdate(DirectX11& dx)
     }
 }
 
+// -----------------------------------
+// Main : GameMode
+// -----------------------------------
 void App::OnPlayerControllerChanged(const std::shared_ptr<PlayerController>& pPlayerController)
 {
     mWindow.pMouse = pPlayerController->GetMouse();
 }
-void App::OnWorldChanged(std::shared_ptr<World>&& NewWorld)
+void App::OnWorldChanged(std::shared_ptr<World> NewWorld)
 {
-    if (pWorld != nullptr)
-    {
-        pWorld.reset();
-        pWorld = nullptr;
-    }
-    pWorld = std::move(NewWorld);
-    pWorld->Init(*pDX);
-    pWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
-    OnPlayerControllerChanged(pWorld->GetPlayerController());
-    pWorld->BeginPlay(*pDX);
+    NewWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
+    NewWorld->Init(*pDX);
+    //OnPlayerControllerChanged(NewWorld->GetPlayerController());
+    NewWorld->BeginPlay(*pDX);
 }
