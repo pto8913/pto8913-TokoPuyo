@@ -8,7 +8,7 @@
 
 #include "Framework/World.h"
 #include "Framework/PlayerController.h"
-#include "Framework/GameInstance.h"
+#include "PtoGameInstance.h"
 
 #include "Input/Keyboard.h"
 
@@ -31,15 +31,11 @@ App::App()
 #endif
     pDX = std::make_unique<DirectX11>(mWindow.GetHInstance(), mWindow.GetHWnd(), mWindow.GetWidth(), mWindow.GetHeight());
 
-    GameInstance& gameInstance = GameInstance::Get();
-    gameInstance.Initialize(*pDX);
-
-    pWorld = std::make_shared<World_SonoCave>();
-    pWorld->Init(*pDX);
-    pWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
-    OnPlayerControllerChanged(pWorld->GetPlayerController());
-    pWorld->BeginPlay(*pDX);
-
+    pGameInstance = &PtoGameInstance::Get();
+    pGameInstance->Initialize(*pDX);
+    pGameInstance->OnOpenWorld.Bind<&App::OnWorldChanged>(*this, "App");
+    pGameInstance->OpenWorld(0);
+    
     /* Viewport */
     {
         pViewPort = std::make_unique<ViewPort>((float)mWindow.GetWidth(), (float)mWindow.GetHeight());
@@ -61,8 +57,7 @@ App::~App()
     pAppTimer.reset();
     pAppTimer = nullptr;
 
-    pWorld.reset();
-    pWorld = nullptr;
+    pGameInstance = nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------------------
@@ -87,7 +82,7 @@ int App::Run()
 
             InputUpdate(*pDX);
 
-            pWorld->Tick(*pDX, deltaSec);
+            pGameInstance->Tick(*pDX, deltaSec);
 
             HRESULT result = pDX->EndFrame();
             if (result == DXGI_ERROR_DEVICE_REMOVED || result == DXGI_ERROR_DEVICE_RESET)
@@ -118,4 +113,11 @@ void App::InputUpdate(DirectX11& dx)
 void App::OnPlayerControllerChanged(const std::shared_ptr<PlayerController>& pPlayerController)
 {
     mWindow.pMouse = pPlayerController->GetMouse();
+}
+void App::OnWorldChanged(std::shared_ptr<World> NewWorld)
+{
+    NewWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
+    NewWorld->Init(*pDX);
+    //OnPlayerControllerChanged(NewWorld->GetPlayerController());
+    NewWorld->BeginPlay(*pDX);
 }

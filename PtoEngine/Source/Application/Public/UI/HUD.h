@@ -2,6 +2,7 @@
 
 #include "UI/UserWidget.h"
 #include "HUDInterface.h"
+#include "Input/MouseInterface.h"
 
 #include "Engine/Delegate.h"
 #include "Engine/Timer.h"
@@ -19,7 +20,7 @@ class Level2D;
 class HUD : public UserWidget
 {
 public:
-	HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse);
+	HUD(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse);
 	HUD(DirectX11& dx, DX::IMouseInterface* mouse);
 
 	// ------------------------------------------------------------------------------------------------------------

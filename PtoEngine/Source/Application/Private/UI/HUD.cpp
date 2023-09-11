@@ -35,7 +35,7 @@
 
 using namespace DirectX;
 
-HUD::HUD(std::shared_ptr<Object> inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
+HUD::HUD(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 	: UserWidget(
 		inOwner, 
 		dx, 

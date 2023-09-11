@@ -107,7 +107,7 @@ void World::SetHUD(DirectX11& dx)
 	{
 		const auto windowSize = EngineSettings::GetWindowSize();
 		pHUD = std::make_shared<UserWidget>(
-			shared_from_this(),
+			this,
 			dx,
 			GetPlayerController()->GetMouse(),
 			windowSize.x,

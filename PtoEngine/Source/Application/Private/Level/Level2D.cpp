@@ -118,7 +118,7 @@ void Level2D::Clear()
 
 void Level2D::UpdateSpriteInScreen()
 {
-	for (auto&& layer : pObjectCollection->pActors)
+	for (auto&& layer : pObjectCollection->pObjects)
 	{
 		for (auto&& actor : layer.second)
 		{
@@ -184,7 +184,7 @@ void Level2D::SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& wo
 }
 std::shared_ptr<Actor2D> Level2D::GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const Layer::EActorLayer& inLayer) const
 {
-	const auto& actors = pObjectCollection->pActors;
+	const auto& actors = pObjectCollection->pObjects;
 	if (actors.contains(inLayer))
 	{
 		auto elem = actors.at(inLayer);
@@ -484,7 +484,7 @@ void Level2D::ShowTiles()
 
 	std::vector<std::string> x(int(width), " ");
 	std::vector<std::vector<std::string>> tiles(int(height), x);
-	for (const auto& layer : pObjectCollection->pActors)
+	for (const auto& layer : pObjectCollection->pObjects)
 	{
 		for (const auto& actor : layer.second)
 		{

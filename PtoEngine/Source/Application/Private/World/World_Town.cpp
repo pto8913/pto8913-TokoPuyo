@@ -48,7 +48,7 @@ void World_Town::SetPlayer(DirectX11& dx)
 void World_Town::SetHUD(DirectX11& dx)
 {
 	pHUD = std::make_shared<HUD>(
-		shared_from_this(),
+		this,
 		dx,
 		GetPlayerController()->GetMouse()
 	);

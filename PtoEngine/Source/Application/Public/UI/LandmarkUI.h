@@ -13,7 +13,7 @@ class S_TextBlock;
 class LandmarkUI : public UserWidget
 {
 public:
-	LandmarkUI(std::shared_ptr<Object> inOwner, DirectX11& dx,  
+	LandmarkUI(Object* inOwner, DirectX11& dx,  
 		const std::wstring& inLandmarkName, const float& inPlayRate, const FOnWidgetAnimationCompleted& inCompleted
 	);
 	LandmarkUI(DirectX11& dx, 

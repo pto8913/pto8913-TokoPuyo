@@ -586,7 +586,7 @@ void MazeGenerator::GetPathStartPos(const FRect& inRect, const EDirection& direc
 // --------------------------
 void MazeGenerator::MakeWall()
 {
-	const auto layer = pObjectCollection->pActors[Layer::EActorLayer::Background];
+	const auto layer = pObjectCollection->pObjects[Layer::EActorLayer::Background];
 	for (const auto& actor : layer)
 	{
 		if (actor != nullptr)
@@ -796,7 +796,7 @@ void MazeGenerator::SetExit(const uint16_t& blockX, const uint16_t& blockY)
 
 	pExit = GetWorld()->SpawnActor<Event_DungeonExit>(*pDX);
 	pExit->BeginPlay(*pDX);
-	pExit->SetOuter(shared_from_this());
+	pExit->SetOuter(this);
 	SetEventLayerID(pExit, resX, resY);
 
 	pExit->OnChoiceYes.Bind<&MazeGenerator::StartMoveToNextFloor>(*this, "MazeExit");

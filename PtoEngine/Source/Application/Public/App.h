@@ -29,6 +29,7 @@ class WorldTimer;
 
 class PlayerController;
 class World;
+class PtoGameInstance;
 
 class App
 {
@@ -47,6 +48,7 @@ private:
 	// Main : GameMode
 	// -----------------------------------
 	void OnPlayerControllerChanged(const std::shared_ptr<PlayerController>& pPlayerController);
+	void OnWorldChanged(std::shared_ptr<World> NewWorld);
 
 	// ------------------------------------------------------------------------------------------------------------
 	// State
@@ -56,12 +58,11 @@ private:
 	std::unique_ptr<ViewPort> pViewPort = nullptr;
 	bool bIsInitialized = false;
 
-	std::shared_ptr<World> pWorld = nullptr;
-
 	// -----------------------------------
 	// State : Window
 	// -----------------------------------
 	Window mWindow;
+	PtoGameInstance* pGameInstance = nullptr;
 
 	// -----------------------------------
 	// State : AppTimer
