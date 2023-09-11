@@ -7,7 +7,6 @@
 #include "Engine/Timer.h"
 #include "Math/Vector.h"
 
-#include "Framework/Level/CollisionCollection.h"
 #include "Framework/Level/ObjectCollection.h"
 
 class DirectX11;
@@ -34,8 +33,6 @@ public:
 	void SetWorld(World* in);
 	virtual World* GetWorld() override;
 
-	CollisionCollection& GetCollisionCollection();
-	
 	std::shared_ptr<ObjectCollection>& GetObjectCollection();
 
 public:
@@ -53,8 +50,7 @@ protected:
 
 	World* pOwningWorld = nullptr;
 
-	CollisionCollection mCollisionCollection;
-	std::shared_ptr<ObjectCollection> pObjectCollection;
+	std::shared_ptr<ObjectCollection> pObjectCollection = nullptr;
 
 	FVector mStartPosition;
 };
