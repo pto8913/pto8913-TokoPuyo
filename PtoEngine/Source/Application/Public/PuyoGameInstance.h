@@ -18,6 +18,9 @@ public:
 
 	static PuyoGameInstance& Get();
 
-	void OpenWorld(const EWorldId& id);
+	void OpenWorld(World* currentWorld, const EWorldId& id);
 	FOnOpenWorld OnOpenWorld;
+private:
+	void OpenWorldDelay();
+	EWorldId OpenWorldID;
 };

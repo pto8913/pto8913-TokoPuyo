@@ -14,9 +14,26 @@ PuyoGameInstance& PuyoGameInstance::Get()
 	return instance;
 }
 
-void PuyoGameInstance::OpenWorld(const EWorldId& id)
+void PuyoGameInstance::OpenWorld(World* currentWorld, const EWorldId& id)
 {
-	switch (id)
+	OpenWorldID = id;
+	if (currentWorld != nullptr)
+	{
+		currentWorld->MarkPendingKill();
+		currentWorld->GetTimerManager().SetTimer<&PuyoGameInstance::OpenWorldDelay>(
+			*this,
+			0, 0, 0.01f
+		);
+	}
+	else
+	{
+		OpenWorldDelay();
+	}
+}
+
+void PuyoGameInstance::OpenWorldDelay()
+{
+	switch (OpenWorldID)
 	{
 	case EWorldId::Title:
 		OnOpenWorld.Broadcast(std::make_shared<World_Title>());

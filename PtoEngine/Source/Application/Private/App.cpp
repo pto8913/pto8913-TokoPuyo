@@ -32,7 +32,7 @@ App::App()
     PuyoGameInstance& gameInstance = PuyoGameInstance::Get();
     gameInstance.Initialize(*pDX);
     gameInstance.OnOpenWorld.Bind<&App::OnWorldChanged>(*this, "App");
-    gameInstance.OpenWorld(EWorldId::Title);
+    gameInstance.OpenWorld(nullptr, EWorldId::Title);
 
     /* Viewport */
     {
@@ -81,7 +81,9 @@ int App::Run()
 
             InputUpdate(*pDX);
 
-            if (pWorld != nullptr)
+            mTimerManager.Tick();
+
+            if (IsValid(pWorld))
             {
                 pWorld->Tick(*pDX, deltaSec);
             }
@@ -120,7 +122,6 @@ void App::OnWorldChanged(std::shared_ptr<World>&& NewWorld)
         pWorld.reset();
         pWorld = nullptr;
     }
-
     pWorld = std::move(NewWorld);
     pWorld->Init(*pDX);
     pWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");

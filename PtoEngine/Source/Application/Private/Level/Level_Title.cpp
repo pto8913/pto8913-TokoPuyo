@@ -46,6 +46,6 @@ void Level_Title::Tick(DirectX11& dx, float deltaSec)
 void Level_Title::OnClickedTokoPuyo(DX::MouseEvent inMouseEvent)
 {
 	PuyoGameInstance& gameInstance = PuyoGameInstance::Get();
-	gameInstance.OpenWorld(EWorldId::TokoPuyo);
+	gameInstance.OpenWorld(GetWorld(), EWorldId::TokoPuyo);
 }
 

@@ -320,5 +320,5 @@ void GameProgressUI::OnClickedPauseButton(DX::MouseEvent inMouseEvent)
 void GameProgressUI::OnClickedReturnToTitle(DX::MouseEvent inMouseEvent)
 {
 	PuyoGameInstance& gameInstance =PuyoGameInstance::Get();
-	gameInstance.OpenWorld(EWorldId::Title);
+	gameInstance.OpenWorld(GetWorld(), EWorldId::Title);
 }

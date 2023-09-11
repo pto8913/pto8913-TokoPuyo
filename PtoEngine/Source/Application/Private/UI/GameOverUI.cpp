@@ -135,5 +135,5 @@ void GameOverUI::OnClickedRestartButton(DX::MouseEvent inMouseEvent)
 void GameOverUI::OnClickedReturnTitle(DX::MouseEvent inMouseEvent)
 {
 	PuyoGameInstance& gameInstance = PuyoGameInstance::Get();
-	gameInstance.OpenWorld(EWorldId::Title);
+	gameInstance.OpenWorld(GetWorld(), EWorldId::Title);
 }

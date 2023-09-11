@@ -23,12 +23,16 @@
 
 #include "Window.h"
 
+#include "Engine/Timer.h"
+
 class DirectX11;
 
 class WorldTimer;
 
 class PlayerController;
 class World;
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnMarkNextTick, );
 
 class App
 {
@@ -66,4 +70,6 @@ private:
 	// -----------------------------------
 	std::unique_ptr<WorldTimer> pAppTimer = nullptr;
 	float appTimerSpeed = 1.f;
+
+	TimerManager mTimerManager;
 };
