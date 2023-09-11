@@ -214,7 +214,7 @@ void Level_TokoPuyo::Restart()
 	
 	Clear();
 
-	std::vector<std::shared_ptr<Puyo>> puyoRow(width, nullptr);
+	std::vector<Puyo*> puyoRow(width, nullptr);
 	stackedPuyo.assign(height, puyoRow);
 
 	ResetPlanToVanishPuyo();
@@ -604,13 +604,13 @@ void Level_TokoPuyo::DoFrame_Release()
 	int fallCount = 0;
 	if (pMainPuyo->GetRotation() == Puyo::ERotation::B)
 	{
-		fallCount += DoFrame_Release(pSubPuyo);
-		fallCount += DoFrame_Release(pMainPuyo);
+		fallCount += DoFrame_Release(pSubPuyo.get());
+		fallCount += DoFrame_Release(pMainPuyo.get());
 	}
 	else
 	{
-		fallCount += DoFrame_Release(pMainPuyo);
-		fallCount += DoFrame_Release(pSubPuyo);
+		fallCount += DoFrame_Release(pMainPuyo.get());
+		fallCount += DoFrame_Release(pSubPuyo.get());
 	}
 
 	if (fallCount == 0)
@@ -619,7 +619,7 @@ void Level_TokoPuyo::DoFrame_Release()
 		ActivePuyoReachToBottom();
 	}
 }
-bool Level_TokoPuyo::DoFrame_Release(std::shared_ptr<Puyo>& puyo)
+bool Level_TokoPuyo::DoFrame_Release(Puyo* puyo)
 {
 	if (puyo->GetIsActive())
 	{
@@ -669,17 +669,17 @@ void Level_TokoPuyo::ActivePuyoReachToBottom()
 	int AP = GetPos(mainIdx.x, mainIdx.y);
 	int SP = GetPos(subIdx.x, subIdx.y);
 
-	UnionFindPuyo(pMainPuyo);
-	UnionFindPuyo(pSubPuyo);
+	UnionFindPuyo(pMainPuyo.get());
+	UnionFindPuyo(pSubPuyo.get());
 
 	bool hasVanishPlan = false;
 	if (unionFind.size(AP) >= vanishCount)
 	{
-		hasVanishPlan |= SetPlanToVanishPuyo(pMainPuyo);
+		hasVanishPlan |= SetPlanToVanishPuyo(pMainPuyo.get());
 	}
 	if (unionFind.size(SP) >= vanishCount)
 	{
-		hasVanishPlan |= SetPlanToVanishPuyo(pSubPuyo);
+		hasVanishPlan |= SetPlanToVanishPuyo(pSubPuyo.get());
 	}
 
 	pMainPuyo.reset();
@@ -718,7 +718,7 @@ void Level_TokoPuyo::DoFrame_Vanish()
 		}
 	}
 }
-bool Level_TokoPuyo::SetPlanToVanishPuyo(std::shared_ptr<Puyo> puyo)
+bool Level_TokoPuyo::SetPlanToVanishPuyo(Puyo* puyo)
 {
 	//OutputDebugStringA("SetPlanToVanishPuyo\n");
 	const auto currIdx = puyo->Get2DIdx();
@@ -799,8 +799,8 @@ void Level_TokoPuyo::VanishPuyo()
 					rootSize.emplace(std::make_pair<int, int>(unionFind.root(P), unionFind.size(P)));
 
 					/* Clear puyo. */
-					puyoActor.reset();
-					puyoActor = nullptr;
+					puyoActor->MarkPendingKill();
+					//puyoActor = nullptr;
 
 					planVanishPuyo[y][x] = false;
 				}
@@ -859,8 +859,8 @@ void Level_TokoPuyo::DoFrame_FallAll()
 							SetSpriteLocation(puyoActor, x, y + 1);
 							puyoActorNext = std::move(puyoActor);
 
-							puyoActor.reset();
-							puyoActor = nullptr;
+							puyoActor->MarkPendingKill();
+							//puyoActor = nullptr;
 
 							bIsDown = true;
 						}
@@ -913,7 +913,7 @@ void Level_TokoPuyo::RemakeUnionFind()
 		}
 	}
 }
-void Level_TokoPuyo::UnionFindPuyo(std::shared_ptr<Puyo> puyo)
+void Level_TokoPuyo::UnionFindPuyo(Puyo* puyo)
 {
 	auto Check = [this, &puyo](uint8_t nx, uint8_t ny)
 	{
@@ -1019,16 +1019,23 @@ void Level_TokoPuyo::ResetCalcScoreCount()
 // ------------------------------------------------------------
 // Main : Utils
 // ------------------------------------------------------------
-std::shared_ptr<Puyo>& Level_TokoPuyo::GetStackedPuyo(const int& x, const int& y)
+Puyo*& Level_TokoPuyo::GetStackedPuyo(const int& x, const int& y)
 {
 	if (IsValidIndex(stackedPuyo, x, y))
 	{
 		return stackedPuyo[round(y)][round(x)];
 	}
-	std::shared_ptr<Puyo> res = nullptr;
+	Puyo* res = nullptr;
 	return res;
 }
 void Level_TokoPuyo::SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY)
+{
+	DirectX::XMFLOAT2 pos = WorldToScreen(worldX, worldY - 1, sprite->GetActorScale());
+
+	sprite->SetActorLocation(FVector(pos.x, pos.y, 0.f));
+	sprite->Set2DIdx(FVector2D(worldX, worldY));
+}
+void Level_TokoPuyo::SetSpriteLocation(Actor2D* sprite, const float& worldX, const float& worldY)
 {
 	DirectX::XMFLOAT2 pos = WorldToScreen(worldX, worldY - 1, sprite->GetActorScale());
 
