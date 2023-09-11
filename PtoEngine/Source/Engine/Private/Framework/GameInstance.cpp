@@ -60,6 +60,10 @@ void GameInstance::OpenWorld(int id)
 
 void GameInstance::OpenWorldDelay()
 {
+	OutputDebugStringA("GameInstance OpenWorldDelay\n");
+	// pWorld.reset();
+	// pWorld = nullptr;
+	// 
 	// auto openWorldID = static_cast<EWorldID>(mQueuedOpenWorldID);
 	// switch (openWorldID)
 	// {

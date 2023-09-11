@@ -6,7 +6,8 @@
 #include "Framework/World.h"
 #include "Framework/PlayerController.h"
 
-#include "PuyoGameInstance.h"
+#include "PtoGameInstance.h"
+#include "World/WorldTypes.h"
 
 Level_Title::Level_Title(DirectX11& dx)
 	: Level(dx)
@@ -26,7 +27,7 @@ void Level_Title::BeginPlay(DirectX11& dx)
 	Level::BeginPlay(dx);
 
 	pTitleUI = std::make_shared<TitleUI>(
-		this, 
+		this,
 		dx,
 		GetWorld()->GetPlayerController()->GetMouse()
 	);
@@ -45,7 +46,7 @@ void Level_Title::Tick(DirectX11& dx, float deltaSec)
 
 void Level_Title::OnClickedTokoPuyo(DX::MouseEvent inMouseEvent)
 {
-	PuyoGameInstance& gameInstance = PuyoGameInstance::Get();
-	gameInstance.OpenWorld(GetWorld(), EWorldId::TokoPuyo);
+	PtoGameInstance& gameInstance = PtoGameInstance::Get();
+	gameInstance.OpenWorld(static_cast<int>(EWorldId::TokoPuyo));
 }
 

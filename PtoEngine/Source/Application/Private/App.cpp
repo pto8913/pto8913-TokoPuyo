@@ -12,9 +12,6 @@
 
 #include "Input/Keyboard.h"
 
-#include "World/World_SonoTown.h"
-#include "World/World_SonoCave.h"
-
 Keyboard::InputAction InputEsc(DIK_ESCAPE);
 
 int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
@@ -116,8 +113,8 @@ void App::OnPlayerControllerChanged(const std::shared_ptr<PlayerController>& pPl
 }
 void App::OnWorldChanged(std::shared_ptr<World> NewWorld)
 {
-    NewWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
     NewWorld->Init(*pDX);
-    //OnPlayerControllerChanged(NewWorld->GetPlayerController());
+    NewWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
+    OnPlayerControllerChanged(NewWorld->GetPlayerController());
     NewWorld->BeginPlay(*pDX);
 }

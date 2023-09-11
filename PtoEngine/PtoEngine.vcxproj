@@ -215,7 +215,7 @@
     <ClInclude Include="Source\Application\Public\Level\Level_Title.h" />
     <ClInclude Include="Source\Application\Public\Level\Level_TokoPuyo.h" />
     <ClInclude Include="Source\Application\Public\Level\ObjectCollection2D.h" />
-    <ClInclude Include="Source\Application\Public\PuyoGameInstance.h" />
+    <ClInclude Include="Source\Application\Public\PtoGameInstance.h" />
     <ClInclude Include="Source\Application\Public\UI\GameOverUI.h" />
     <ClInclude Include="Source\Application\Public\UI\GameProgressUI.h" />
     <ClInclude Include="Source\Application\Public\UI\LandmarkUI.h" />
@@ -346,7 +346,7 @@
     <ClCompile Include="Source\Application\Private\Level\Level_Title.cpp" />
     <ClCompile Include="Source\Application\Private\Level\Level_TokoPuyo.cpp" />
     <ClCompile Include="Source\Application\Private\Level\ObjectCollection2D.cpp" />
-    <ClCompile Include="Source\Application\Private\PuyoGameInstance.cpp" />
+    <ClCompile Include="Source\Application\Private\PtoGameInstance.cpp" />
     <ClCompile Include="Source\Application\Private\UI\GameOverUI.cpp" />
     <ClCompile Include="Source\Application\Private\UI\GameProgressUI.cpp" />
     <ClCompile Include="Source\Application\Private\UI\LandmarkUI.cpp" />

@@ -13,7 +13,9 @@
 #include "GameSettings.h"
 #include "EngineSettings.h"
 
-#include "PuyoGameInstance.h"
+#include "PtoGameInstance.h"
+
+#include "World/WorldTypes.h"
 
 using namespace DirectX;
 
@@ -134,6 +136,6 @@ void GameOverUI::OnClickedRestartButton(DX::MouseEvent inMouseEvent)
 }
 void GameOverUI::OnClickedReturnTitle(DX::MouseEvent inMouseEvent)
 {
-	PuyoGameInstance& gameInstance = PuyoGameInstance::Get();
-	gameInstance.OpenWorld(GetWorld(), EWorldId::Title);
+	PtoGameInstance& gameInstance = PtoGameInstance::Get();
+	gameInstance.OpenWorld(static_cast<int>(EWorldId::Title));
 }

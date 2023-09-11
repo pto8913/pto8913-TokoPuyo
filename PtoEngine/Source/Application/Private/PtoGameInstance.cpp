@@ -1,8 +1,10 @@
 
 #include "PtoGameInstance.h"
 
-#include "World/World_SonoCave.h"
-#include "World/World_SonoTown.h"
+#include "World/World_Title.h"
+#include "World/World_TokoPuyo.h"
+
+#include "World/WorldTypes.h"
 
 PtoGameInstance& PtoGameInstance::Get()
 {
@@ -12,15 +14,21 @@ PtoGameInstance& PtoGameInstance::Get()
 
 void PtoGameInstance::OpenWorldDelay()
 {
-     switch (mQueuedOpenWorldID)
-     {
-     case 0:
-         pWorld = std::make_shared<World_SonoCave>();
-         break;
-     default:
-         pWorld = std::make_shared<World_SonoCave>();
-         break;
-     };
+    OutputDebugStringA("PtoGameInstance OpenWorldDelay\n");
 
-     OnOpenWorld.Broadcast(pWorld);
+    pWorld.reset();
+    pWorld = nullptr;
+ 
+    const auto OpenWorldID = static_cast<EWorldId>(mQueuedOpenWorldID);
+    switch (OpenWorldID)
+    {
+    case EWorldId::Title:
+        pWorld = std::make_shared<World_Title>();
+        break;
+    default:
+        pWorld = std::make_shared<World_TokoPuyo>();
+        break;
+    };
+
+    OnOpenWorld.Broadcast(pWorld);
 }

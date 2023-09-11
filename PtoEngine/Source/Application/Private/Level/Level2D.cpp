@@ -103,7 +103,7 @@ void Level2D::SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& wo
 }
 std::shared_ptr<Actor2D> Level2D::GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const Layer::EActorLayer& inLayer) const
 {
-	const auto& actors = pObjectCollection->pActors;
+	const auto& actors = pObjectCollection->pObjects;
 	if (actors.contains(inLayer))
 	{
 		auto elem = actors.at(inLayer);
