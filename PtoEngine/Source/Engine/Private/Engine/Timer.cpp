@@ -188,22 +188,15 @@ void TimerManager::Tick()
 		while (iter != nextTickTimers.end())
 		{
 			auto timer = *iter;
-			if (timer.first)
+			if (!timer.second.nextTick)
 			{
-				if (!timer.second.nextTick)
-				{
-					timer.second.nextTick = true;
-					++iter;
-				}
-				else
-				{
-					timer.second.Invoke();
-					iter = nextTickTimers.erase(iter);
-				}
+				timer.second.nextTick = true;
+				++iter;
 			}
 			else
 			{
-				++iter;
+				timer.second.Invoke();
+				iter = nextTickTimers.erase(iter);
 			}
 		}
 	}
