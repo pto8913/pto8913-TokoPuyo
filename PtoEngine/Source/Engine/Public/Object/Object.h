@@ -9,6 +9,8 @@ class DirectX11;
 
 class World;
 
+class UserWidget;
+
 class Object
 {
 public:
