@@ -20,12 +20,14 @@ GameState_Play::~GameState_Play()
 	if (pGameProgressUI)
 	{
 		pGameProgressUI->RemoveFromParent();
+		pGameProgressUI->MarkPendingKill();
 	}
 	pGameProgressUI.reset();
 	pGameProgressUI = nullptr;
 	if (pGameOverUI)
 	{
 		pGameOverUI->RemoveFromParent();
+		pGameOverUI->MarkPendingKill();
 	}
 	pGameOverUI.reset();
 	pGameOverUI = nullptr;
@@ -70,7 +72,7 @@ void GameState_Play::SetGameProgress(DirectX11& dx, EGameProgress NewState)
 	case EGameProgress::GameOver:
 		if (pGameOverUI == nullptr)
 		{
-			pGameOverUI = std::make_shared<GameOverUI>(
+			pGameOverUI = CreateWidget<GameOverUI>(
 				GetWorld(),
 				dx,
 				GetWorld()->GetPlayerController()->GetMouse(),
@@ -84,7 +86,7 @@ void GameState_Play::SetGameProgress(DirectX11& dx, EGameProgress NewState)
 	default:
 		if (pGameProgressUI == nullptr)
 		{
-			pGameProgressUI = std::make_shared<GameProgressUI>(
+			pGameProgressUI = CreateWidget<GameProgressUI>(
 				GetWorld(),
 				dx,
 				GetWorld()->GetPlayerController()->GetMouse()

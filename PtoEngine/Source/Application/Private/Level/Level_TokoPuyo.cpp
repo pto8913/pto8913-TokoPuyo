@@ -60,39 +60,10 @@ Level_TokoPuyo::Level_TokoPuyo(DirectX11& dx)
 }
 Level_TokoPuyo::~Level_TokoPuyo()
 {
-	pMainPuyo.reset();
-	pMainPuyo = nullptr;
-
-	pSubPuyo.reset();
-	pSubPuyo = nullptr;
-
 	pGameState.reset();
 	pGameState = nullptr;
 
-	unionFind.clear();
-
-	for (auto row : stackedPuyo)
-	{
-		auto iter = row.begin();
-		while (iter != row.end())
-		{
-			auto puyoActor = *iter;
-			if (puyoActor != nullptr)
-			{
-				puyoActor = nullptr;
-				iter = row.erase(iter);
-			}
-			else
-			{
-				++iter;
-			}
-		}
-	}
-	stackedPuyo.erase(stackedPuyo.begin(), stackedPuyo.end());
-	stackedPuyo.clear();
-
-	planVanishPuyo.erase(planVanishPuyo.begin(), planVanishPuyo.end());
-	planVanishPuyo.clear();
+	Clear();
 
 	auto Stop = [](std::shared_ptr<Audio>& in)
 	{
@@ -134,6 +105,59 @@ void Level_TokoPuyo::GenerateGroundLayer()
 			SetSpriteLocation(ground, x, y + 1);
 		}
 	}
+}
+
+void Level_TokoPuyo::Clear()
+{
+	if (pMainPuyo != nullptr)
+	{
+		pMainPuyo->MarkPendingKill();
+	}
+	pMainPuyo.reset();
+	pMainPuyo = nullptr;
+
+	if (pSubPuyo != nullptr)
+	{
+		pSubPuyo->MarkPendingKill();
+	}
+	pSubPuyo.reset();
+	pSubPuyo = nullptr;
+
+	nextPuyo1_1 = GameSettings::EMPTY_PUYO;
+	nextPuyo1_2 = GameSettings::EMPTY_PUYO;
+	nextPuyo2_1 = GameSettings::EMPTY_PUYO;
+	nextPuyo2_2 = GameSettings::EMPTY_PUYO;
+
+	unionFind.clear();
+
+	for (auto& row : stackedPuyo)
+	{
+		auto iter = row.begin();
+		while (iter != row.end())
+		{
+			auto& puyoActor = *iter;
+			if (puyoActor != nullptr)
+			{
+				puyoActor->MarkPendingKill();
+				puyoActor = nullptr;
+				iter = row.erase(iter);
+			}
+			else
+			{
+				++iter;
+			}
+		}
+	}
+	stackedPuyo.clear();
+
+	planVanishPuyo.erase(planVanishPuyo.begin(), planVanishPuyo.end());
+	planVanishPuyo.clear();
+
+	puyoCount = 0;
+	comboCount = 0;
+	connectCount = 0;
+	colorCount = 0;
+	score = 0;
 }
 
 void Level_TokoPuyo::BeginPlay(DirectX11& dx)
@@ -188,45 +212,8 @@ void Level_TokoPuyo::Tick(DirectX11& dx, float deltaTime)
 void Level_TokoPuyo::Restart()
 {
 	pGameState->SetGameProgress(*pDX, EGameProgress::Wait);
-
-	if (pMainPuyo != nullptr)
-	{
-		pMainPuyo->DestroyActor();
-	}
-	pMainPuyo.reset();
-	pMainPuyo = nullptr;
-
-	if (pSubPuyo)
-	{
-		pSubPuyo->DestroyActor();
-	}
-	pSubPuyo.reset();
-	pSubPuyo = nullptr;
-
-	nextPuyo1_1 = GameSettings::EMPTY_PUYO;
-	nextPuyo1_2 = GameSettings::EMPTY_PUYO;
-	nextPuyo2_1 = GameSettings::EMPTY_PUYO;
-	nextPuyo2_2 = GameSettings::EMPTY_PUYO;
-
-	unionFind.clear();
-
-	for (int y = 0; y < mGameBoardSize.y; ++y)
-	{
-		for (int x = 0; x < mGameBoardSize.x; ++x)
-		{
-			if (IsValidIndex(stackedPuyo, x, y))
-			{
-				if (auto puyoActor = stackedPuyo[y][x])
-				{
-					puyoActor->DestroyActor();
-				}
-			}
-		}
-	}
-	stackedPuyo.clear();
-
-	planVanishPuyo.erase(planVanishPuyo.begin(), planVanishPuyo.end());
-	planVanishPuyo.clear();
+	
+	Clear();
 
 	std::vector<std::shared_ptr<Puyo>> puyoRow(width, nullptr);
 	stackedPuyo.assign(height, puyoRow);
@@ -234,12 +221,6 @@ void Level_TokoPuyo::Restart()
 	ResetPlanToVanishPuyo();
 
 	pGameState->UpdateScore(0, 0);
-
-	puyoCount = 0;
-	comboCount = 0;
-	connectCount = 0;
-	colorCount = 0;
-	score = 0;
 
 	LastTime_Main = chrono::now();
 

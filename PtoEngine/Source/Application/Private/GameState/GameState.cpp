@@ -15,6 +15,10 @@ GameState::GameState()
 
 GameState::~GameState()
 {
+	if (pLandmarkUI)
+	{
+		pLandmarkUI->MarkPendingKill();
+	}
 	pLandmarkUI.reset();
 	pLandmarkUI = nullptr;
 
@@ -52,7 +56,7 @@ void GameState::OpenLandmarkUI(DirectX11& dx, const std::wstring& inLandmarkName
 		completed.Bind<&GameState::CloseLandmarkUI>(*this, "GameState");
 	}
 
-	pLandmarkUI = std::make_shared<LandmarkUI>(GetWorld(), dx, inLandmarkName, inPlayRate, completed);
+	pLandmarkUI = CreateWidget<LandmarkUI>(GetWorld(), dx, inLandmarkName, inPlayRate, completed);
 	pLandmarkUI->AddToViewport(2);
 
 	GetWorld()->DeactivateHUD();

@@ -118,13 +118,6 @@ GameOverUI::~GameOverUI()
 {
 	OnClickedRestart.ClearBind();
 	OnClickedPause.ClearBind();
-
-	if (pRootSlate)
-	{
-		pRootSlate->ClearChildren();
-	}
-	pRootSlate.reset();
-	pRootSlate = nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------------------

@@ -242,10 +242,6 @@ GameProgressUI::~GameProgressUI()
 
 	pButton_Pause.reset();
 	pButton_Pause = nullptr;
-
-	pRootSlate->ClearChildren();
-	pRootSlate.reset();
-	pRootSlate = nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------------------

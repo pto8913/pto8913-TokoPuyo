@@ -23,6 +23,8 @@ public:
 protected:
 	virtual void Init(const int& x, const int& y) override;
 	virtual void GenerateGroundLayer() override;
+
+	void Clear();
 public:
 	virtual void BeginPlay(DirectX11& dx) override;
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
@@ -36,7 +38,6 @@ protected:
 
 	void StartControlPuyo();
 	void SpawnPuyo();
-
 
 	// ------------------------------------------------------------
 	// Main : Control Puyo

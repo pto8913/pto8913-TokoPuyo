@@ -20,7 +20,7 @@ World_TokoPuyo::~World_TokoPuyo()
 void World_TokoPuyo::SetLevel(DirectX11& dx)
 {
 	auto pLevelFactory = std::make_shared<LevelFactory>();
-	pPersistentLevel = pLevelFactory->Create(dx, ELevelId::TokoPuyo);
+	pPersistentLevel = std::move(pLevelFactory->Create(dx, ELevelId::TokoPuyo));
 
 	World::SetLevel(dx);
 }

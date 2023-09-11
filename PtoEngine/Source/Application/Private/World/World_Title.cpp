@@ -6,7 +6,7 @@
 void World_Title::SetLevel(DirectX11& dx)
 {
 	auto pLevelFactory = std::make_shared<LevelFactory>();
-	pPersistentLevel = pLevelFactory->Create(dx, ELevelId::Title);
+	pPersistentLevel = std::move(pLevelFactory->Create(dx, ELevelId::Title));
 
 	World::SetLevel(dx);
 }

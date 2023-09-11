@@ -15,6 +15,10 @@ Level_Title::Level_Title(DirectX11& dx)
 }
 Level_Title::~Level_Title()
 {
+	if (pTitleUI)
+	{
+		pTitleUI->MarkPendingKill();
+	}
 	pTitleUI.reset();
 	pTitleUI = nullptr;
 }
@@ -26,7 +30,7 @@ void Level_Title::BeginPlay(DirectX11& dx)
 {
 	Level::BeginPlay(dx);
 
-	pTitleUI = std::make_shared<TitleUI>(
+	pTitleUI = CreateWidget<TitleUI>(
 		this,
 		dx,
 		GetWorld()->GetPlayerController()->GetMouse()
