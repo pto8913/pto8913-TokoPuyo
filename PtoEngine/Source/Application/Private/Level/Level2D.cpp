@@ -12,11 +12,6 @@
 
 #include "Level/ObjectCollection2D.h"
 
-
-#if _DEBUG
-#include <format>
-#endif
-
 // ------------------------------------------------------------------------------------------------------------
 // Level 2D
 // ------------------------------------------------------------------------------------------------------------
@@ -31,6 +26,8 @@ Level2D::~Level2D()
 void Level2D::SetObjectCollection()
 {
 	pObjectCollection = std::make_shared<ObjectCollection2D>();
+
+	Level::SetObjectCollection();
 }
 
 // ------------------------------------------------------
