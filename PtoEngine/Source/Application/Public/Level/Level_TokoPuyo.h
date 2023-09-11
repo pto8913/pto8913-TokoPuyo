@@ -144,7 +144,7 @@ private:
 	// ------------------------------------------------------
 	FVector2D mGameBoardSize;
 	DirectX11* pDX = nullptr;
-	std::shared_ptr<GameState_Play> pGameState = nullptr;
+	GameState_Play* pGameState = nullptr;
 
 	EGameProgress Cached_GameProgress;
 

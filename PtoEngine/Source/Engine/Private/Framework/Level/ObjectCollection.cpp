@@ -76,7 +76,6 @@ void ObjectCollection::Clear()
 			auto& obj = *iter;
 			if (obj != nullptr)
 			{
-				obj->EndPlay();
 				obj.reset();
 				obj = nullptr;
 				iter = elem.second.erase(iter);

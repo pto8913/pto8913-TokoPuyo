@@ -60,7 +60,6 @@ Level_TokoPuyo::Level_TokoPuyo(DirectX11& dx)
 }
 Level_TokoPuyo::~Level_TokoPuyo()
 {
-	pGameState.reset();
 	pGameState = nullptr;
 
 	Clear();
@@ -164,7 +163,7 @@ void Level_TokoPuyo::BeginPlay(DirectX11& dx)
 {
 	Level2D::BeginPlay(dx);
 
-	pGameState = static_pointer_cast<GameState_Play>(GetWorld()->GetGameState());
+	pGameState = static_pointer_cast<GameState_Play>(GetWorld()->GetGameState()).get();
 	pGameState->OnGameProgressChanged.Bind<&Level_TokoPuyo::GameProgressChanged>(*this, "Level_TokoPuyo");
 	GameProgressChanged(pGameState->GetGameProgress());
 

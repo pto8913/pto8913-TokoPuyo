@@ -25,7 +25,7 @@ public:
 	virtual void Clear();
 
 protected:
-	void RemovePendingObjects();
+	virtual void RemovePendingObjects();
 
 	virtual void ActorDestroyed(std::shared_ptr<Actor> in);
 
