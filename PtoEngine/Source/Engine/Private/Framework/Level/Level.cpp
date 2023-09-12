@@ -50,9 +50,14 @@ World* Level::GetWorld()
 	return pOwningWorld;
 }
 
-std::shared_ptr<ObjectCollection>& Level::GetObjectCollection()
+CollisionCollection& Level::GetCollisionCollection()
 {
-	return pObjectCollection;
+	return mCollisionCollection;
+}
+
+ObjectCollection* Level::GetObjectCollection()
+{
+	return pObjectCollection.get();
 }
 
 // ---------------------------
