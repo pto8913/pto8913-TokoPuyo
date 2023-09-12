@@ -82,30 +82,30 @@ DirectX::XMFLOAT2 Level2D::WorldToScreen(const float& x, const float& y, const F
 		GameSettings::GAMESCREEN_PADDING.y + size.y * y
 	};
 }
-void Level2D::SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY)
+void Level2D::SetSpriteLocation(Actor2D* sprite, const float& worldX, const float& worldY)
 {
 	DirectX::XMFLOAT2 pos = WorldToScreen(worldX, worldY, sprite->GetActorScale());
 
 	sprite->SetActorLocation(FVector(pos.x, pos.y, 0.f));
 	sprite->Set2DIdx(FVector2D(worldX, worldY));
 }
-std::shared_ptr<Actor2D> Level2D::GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const Layer::EActorLayer& inLayer) const
+Actor2D* Level2D::GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const Layer::EActorLayer& inLayer) const
 {
 	const auto& actors = pObjectCollection->pObjects;
 	if (actors.contains(inLayer))
 	{
-		auto elem = actors.at(inLayer);
+		const auto& elem = actors.at(inLayer);
 		if (elem.size() > 0)
 		{
 			for (const auto& actor : elem)
 			{
-				const auto actor2d = static_pointer_cast<Actor2D>(actor);
+				const auto& actor2d = static_pointer_cast<Actor2D>(actor);
 				if (actor2d->GetSortOrder() == inOrder)
 				{
 					auto idx = actor2d->Get2DIdx();
 					if (worldX == idx.x && worldY == idx.y)
 					{
-						return actor2d;
+						return actor2d.get();
 					}
 				}
 			}

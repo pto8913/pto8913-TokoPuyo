@@ -28,7 +28,7 @@ World::~World()
 
 	pHUD.reset();
 	pHUD = nullptr;
-
+	
 	pPlayer.reset();
 	pPlayer = nullptr;
 

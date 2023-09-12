@@ -2,6 +2,10 @@
 #include "Framework/Level/ObjectCollection.h"
 #include "Object/Actor.h"
 
+#if _DEBUG
+#include <format>
+#endif
+
 ObjectCollection::~ObjectCollection()
 {
 	Clear();
@@ -64,6 +68,13 @@ void ObjectCollection::Clear()
 			auto& obj = *iter;
 			if (obj != nullptr)
 			{
+				if (obj.use_count() != 1)
+				{
+#if _DEBUG
+					OutputDebugStringA(std::format("obj.use_count {}\n", obj.use_count()).c_str());
+					OutputDebugStringA(std::format("obj {} \n", obj->GetName()).c_str());
+#endif
+				}
 				obj.reset();
 				obj = nullptr;
 				iter = elem.second.erase(iter);

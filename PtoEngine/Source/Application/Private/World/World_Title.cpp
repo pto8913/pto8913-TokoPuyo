@@ -1,12 +1,10 @@
 
 #include "World/World_Title.h"
-
-#include "Level/LevelFactory.h"
+#include "Level/Level_Title.h"
 
 void World_Title::SetLevel(DirectX11& dx)
 {
-	auto pLevelFactory = std::make_shared<LevelFactory>();
-	pPersistentLevel = std::move(pLevelFactory->Create(dx, ELevelId::Title));
+	pPersistentLevel = std::make_shared<Level_Title>(dx);
 
 	World::SetLevel(dx);
 }

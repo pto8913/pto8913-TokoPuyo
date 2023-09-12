@@ -154,14 +154,14 @@ bool GameState_Play::IsPause() const noexcept
 
 void GameState_Play::OnClickedRestart(DX::MouseEvent inMouseEvent)
 {
-	auto level = static_pointer_cast<Level_TokoPuyo>(GetWorld()->GetLevel());
+	auto level = static_cast<Level_TokoPuyo*>(GetWorld()->GetLevel());
 	level->Restart();
 
 	SetPause(false);
 }
 void GameState_Play::OnClickedRestartFromGameOver(DX::MouseEvent inMouseEvent)
 {
-	auto level = static_pointer_cast<Level_TokoPuyo>(GetWorld()->GetLevel());
+	auto level = static_cast<Level_TokoPuyo*>(GetWorld()->GetLevel());
 	level->Restart();
 
 	mMaxCombo = 0;
@@ -173,7 +173,7 @@ void GameState_Play::OnClickedRestartFromGameOver(DX::MouseEvent inMouseEvent)
 }
 void GameState_Play::OnClickedPause(DX::MouseEvent inMouseEvent)
 {
-	auto level = static_pointer_cast<Level_TokoPuyo>(GetWorld()->GetLevel());
+	auto level = static_cast<Level_TokoPuyo*>(GetWorld()->GetLevel());
 	if (IsPause())
 	{
 		SetPause(false);

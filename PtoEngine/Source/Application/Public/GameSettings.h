@@ -18,6 +18,7 @@ public:
 	static const float CELL;
 	static const int   INDEX_NONE;
 	static const uint8_t EMPTY_PUYO;
+	static const std::wstring PUYO_TAG;
 
 	static const FVector2D GAMESCREEN_PADDING;
 

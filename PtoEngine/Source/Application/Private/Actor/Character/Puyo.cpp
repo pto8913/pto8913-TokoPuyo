@@ -26,12 +26,17 @@ const std::map<uint8_t, FPuyoSettings> PuyoList =
 	{5, FPuyoSettings(L"", L"Invalid2")},
 };
 
-Puyo::Puyo(DirectX11& dx, const uint8_t& id)
-	: Actor2D(dx, PuyoList.at(id)),
-	mType(id)
+Puyo::Puyo(DirectX11& dx, const uint8_t& type)
+	: Actor2D(dx, PuyoList.at(type)),
+	mType(type)
 {
 	mLayer = Layer::EActorLayer::Entities;
 	mSortOrder = Layer::Character;
+	
+	mPuyoInfos.SetID(mID);
+	mPuyoInfos.SetType(type);
+	
+	AddTag(GameSettings::PUYO_TAG);
 }
 
 // ------------------------------------------------------
@@ -40,6 +45,7 @@ Puyo::Puyo(DirectX11& dx, const uint8_t& id)
 void Puyo::SetType(const uint8_t& type)
 {
 	mType = type;
+	mPuyoInfos.SetType(type);
 	GetSpriteComp()->UpdateTexture(PuyoList.at(mType).fileName);
 }
 uint8_t Puyo::GetType() const
@@ -47,29 +53,7 @@ uint8_t Puyo::GetType() const
 	return mType;
 }
 
-Puyo::ERotation Puyo::GetRotation()
+FPuyoInfos& Puyo::GetPuyoInfos()
 {
-	return mRotation;
-}
-void Puyo::SetRotation(const Puyo::ERotation& in)
-{
-	mRotation = in;
-}
-
-bool Puyo::GetIsActive()
-{
-	return bIsActive;
-}
-void Puyo::SetIsActive(const bool& in)
-{
-	bIsActive = in;
-}
-
-bool Puyo::IsSame(const Puyo* in) const
-{
-	return GetType() == in->GetType() && Get2DIdx() == in->Get2DIdx();
-}
-bool Puyo::IsSameType(const Puyo* in) const
-{
-	return GetType() == in->GetType();
+	return mPuyoInfos;
 }

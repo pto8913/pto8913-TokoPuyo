@@ -7,7 +7,7 @@
 #include "GameMode/GameMode_TokoPuyo.h"
 #include "GameState/GameState_TokoPuyo.h"
 
-#include "Level/LevelFactory.h"
+#include "Level/Level_TokoPuyo.h"
 
 World_TokoPuyo::World_TokoPuyo()
 	: World()
@@ -19,8 +19,7 @@ World_TokoPuyo::~World_TokoPuyo()
 
 void World_TokoPuyo::SetLevel(DirectX11& dx)
 {
-	auto pLevelFactory = std::make_shared<LevelFactory>();
-	pPersistentLevel = std::move(pLevelFactory->Create(dx, ELevelId::TokoPuyo));
+	pPersistentLevel = std::make_shared<Level_TokoPuyo>(dx);
 
 	World::SetLevel(dx);
 }

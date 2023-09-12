@@ -61,19 +61,17 @@ protected:
 	// ------------------------------------------------------------
 	/* Fall to Bottom, activePuyo and subPuyo. */
 	void DoFrame_Release();
-	bool DoFrame_Release(Puyo* puyo);
+	bool TryToStackPuyo(Puyo* puyoActor);
 	/* activePuyo and subPuyo */
-	void ActivePuyoReachToBottom();
+	void PuyoIsStacked();
+	bool SetPlanToVanishPuyo(Puyo* puyoActor);
 
 	// ------------------------------------------------------------
 	// Main : Vanish puyo
 	// ------------------------------------------------------------
 	void DoFrame_Vanish();
-	bool SetPlanToVanishPuyo(Puyo* puyo);
 	bool SetPlanToVanishAll();
 	void ResetPlanToVanishPuyo();
-	void FlashVanishPuyo();
-	void SetVisibilityVanishPuyo(bool in);
 	void VanishPuyo();
 	bool VanishPuyoVisibility = true;
 
@@ -87,7 +85,7 @@ protected:
 	// Main : Union Find
 	// ------------------------------------------------------------
 	void RemakeUnionFind();
-	void UnionFindPuyo(Puyo* puyo);
+	void UnionFindPuyo(const FPuyoInfos& puyo, const int& x, const int& y);
 
 	// ------------------------------------------------------------
 	// Main : Input
@@ -125,14 +123,12 @@ protected:
 		return false;
 	}
 
-	Puyo*& GetStackedPuyo(const int& x, const int& y);
-
-	virtual void SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& worldX, const float& worldY) override;
-	void SetSpriteLocation(Actor2D* sprite, const float& worldX, const float& worldY);
-
-	int GetPos(uint8_t x, uint8_t y);
 	int GetPos(float x, float y);
 	int GetPos(FVector2D in);
+
+	FPuyoInfos& GetStackedPuyo(const int& x, const int& y);
+
+	virtual void SetSpriteLocation(Actor2D* sprite, const float& worldX, const float& worldY) override;
 
 	void GetXYFromPos(uint8_t pos, uint8_t& x, uint8_t& y);
 	uint8_t Random();
@@ -160,7 +156,7 @@ private:
 	uint8_t nextPuyo2_2 = GameSettings::EMPTY_PUYO;
 
 	UnionFind unionFind;
-	std::vector<std::vector<Puyo*>> stackedPuyo;
+	std::vector<std::vector<FPuyoInfos>> stackedPuyo;
 
 	// ----------------------
 	// State : Main Timer

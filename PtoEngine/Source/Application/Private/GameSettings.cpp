@@ -31,6 +31,7 @@ namespace GSSS
 const float GameSettings::CELL = 64.f;
 const int   GameSettings::INDEX_NONE = -1;
 const uint8_t GameSettings::EMPTY_PUYO = 5u;
+const std::wstring GameSettings::PUYO_TAG = L"Puyo";
 
 const FVector2D GameSettings::GAMESCREEN_PADDING = { 16.f, 16.f };
 

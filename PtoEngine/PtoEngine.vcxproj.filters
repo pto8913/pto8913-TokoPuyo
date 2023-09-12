@@ -406,9 +406,6 @@
     <ClInclude Include="Source\Engine\Public\Framework\Level\Level.h">
       <Filter>Source\Engine\Public\Framework\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application\Public\Level\LevelFactory.h">
-      <Filter>Source\Application\Public\Level</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Math\Matrix.h">
       <Filter>Source\Engine\Public\Math</Filter>
     </ClInclude>
@@ -553,9 +550,6 @@
     <ClInclude Include="Source\Application\Public\World\WorldTypes.h">
       <Filter>Source\Application\Public\World</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application\Public\PuyoGameInstance.h">
-      <Filter>Source\Application\Public</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Render\Bindable.h">
       <Filter>Source\DirectX\Public\Render</Filter>
     </ClInclude>
@@ -621,6 +615,9 @@
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Render\ViewPort.h">
       <Filter>Source\DirectX\Public\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\PtoGameInstance.h">
+      <Filter>Source\Application\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -762,9 +759,6 @@
     <ClCompile Include="Source\Engine\Private\Framework\Level\Level.cpp">
       <Filter>Source\Engine\Private\Framework\Level</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Application\Private\Level\LevelFactory.cpp">
-      <Filter>Source\Application\Private\Level</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Private\Slate\Image.cpp">
       <Filter>Source\Engine\Private\Slate</Filter>
     </ClCompile>
@@ -888,9 +882,6 @@
     <ClCompile Include="Source\Application\Private\World\World_Title.cpp">
       <Filter>Source\Application\Private\World</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Application\Private\PuyoGameInstance.cpp">
-      <Filter>Source\Application\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\BlendState.cpp">
       <Filter>Source\DirectX\Private\Render</Filter>
     </ClCompile>
@@ -950,6 +941,12 @@
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\ViewPort.cpp">
       <Filter>Source\DirectX\Private\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Actor\Character\PuyoTypes.cpp">
+      <Filter>Source\Application\Private\Actor\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\PtoGameInstance.cpp">
+      <Filter>Source\Application\Private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
