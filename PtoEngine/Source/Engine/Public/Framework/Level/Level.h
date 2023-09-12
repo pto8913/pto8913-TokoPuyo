@@ -36,7 +36,7 @@ public:
 
 	CollisionCollection& GetCollisionCollection();
 	
-	std::shared_ptr<ObjectCollection>& GetObjectCollection();
+	ObjectCollection* GetObjectCollection();
 
 public:
 	// ---------------------------
