@@ -75,6 +75,69 @@ void ObjectCollection::Clear()
 		}
 	}
 }
+Object* ObjectCollection::GetObjectByID(int id, Layer::EActorLayer inLayer)
+{
+	if (id == -1)
+	{
+		return nullptr;
+	}
+	if (inLayer == Layer::EActorLayer::InValid)
+	{
+		for (auto&& layer : pObjects)
+		{
+			for (auto&& obj : layer.second)
+			{
+				if (obj->GetID() == id)
+				{
+					return obj.get();
+				}
+			}
+		}
+	}
+	else
+	{
+		for (auto&& obj : pObjects[inLayer])
+		{
+			if (obj->GetID() == id)
+			{
+				return obj.get();
+			}
+		}
+	}
+	return nullptr;
+}
+Object* ObjectCollection::GetObjectByTag(const std::wstring& inTag, Layer::EActorLayer inLayer)
+{
+	if (inTag.empty())
+	{
+		return nullptr;
+	}
+	if (inLayer == Layer::EActorLayer::InValid)
+	{
+		for (auto&& layer : pObjects)
+		{
+			for (auto&& obj : layer.second)
+			{
+				if (obj->HasTag(inTag))
+				{
+					return obj.get();
+				}
+			}
+		}
+	}
+	else
+	{
+		for (auto&& obj : pObjects[inLayer])
+		{
+			if (obj->HasTag(inTag))
+			{
+				return obj.get();
+			}
+		}
+	}
+	return nullptr;
+}
+
 void ObjectCollection::RemovePendingObjects()
 {
 	for (auto&& elem : pObjects)

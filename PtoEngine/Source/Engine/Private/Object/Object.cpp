@@ -28,6 +28,28 @@ void Object::SetLayer(const Layer::EActorLayer& in)
 	mLayer = in;
 }
 
+void Object::SetID(int inID)
+{
+	mID = inID;
+}
+int Object::GetID() const
+{
+	return mID;
+}
+
+void Object::AddTag(const std::wstring& inTag)
+{
+	mTags.emplace(inTag);
+}
+void Object::RemoveTag(const std::wstring& inTag)
+{
+	mTags.erase(inTag);
+}
+bool Object::HasTag(const std::wstring& inTag) const
+{
+	return mTags.contains(inTag);
+}
+
 bool IsValid(std::shared_ptr<Object> in)
 {
 	if (in != nullptr)
