@@ -48,7 +48,7 @@ private:
 	bool bEnableTick = true;
 	bool bIsPendingKill = false;
 protected:
-	Layer::EActorLayer mLayer;
+	Layer::EActorLayer mLayer = Layer::EActorLayer::Default;
 
 };
 
