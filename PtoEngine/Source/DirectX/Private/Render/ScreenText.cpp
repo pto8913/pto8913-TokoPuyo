@@ -89,7 +89,7 @@ ScreenText::~ScreenText()
 {
 	Util::SafeRelease(keyedMutex11);
 	Util::SafeRelease(keyedMutex10);
-	Util::SafeRelease(D2DRenderTarget);
+	//Util::SafeRelease(D2DRenderTarget);
 	Util::SafeRelease(pBrush);
 	Util::SafeRelease(d2dTexture);
 	Util::SafeRelease(TextFormat);
