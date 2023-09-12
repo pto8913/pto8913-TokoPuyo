@@ -27,8 +27,6 @@ public:
 protected:
 	void RemovePendingObjects();
 
-	virtual void ActorDestroyed(std::shared_ptr<Actor> in);
-
 	using MapType = std::map<Layer::EActorLayer, std::vector<std::shared_ptr<Object>>>;
 	using IterType = MapType::iterator;
 	using ConstIterType = MapType::const_iterator;

@@ -25,6 +25,7 @@ public:
 	// Main
 	// ------------------------------------------------------
 	virtual void BeginPlay(DirectX11& dx) override;
+	virtual void EndPlay() override;
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 	/* 
 	* Call remove event to world.
