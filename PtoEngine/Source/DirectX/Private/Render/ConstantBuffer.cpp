@@ -18,7 +18,7 @@ ConstantBufferEx::ConstantBufferEx(DirectX11& dx, UINT size, UINT inSlot)
 	HRESULT result = GetDevice(dx)->CreateBuffer(
 		&desc,
 		NULL,
-		&m_pConstantBuffer
+		&pConstantBuffer
 	);
 
 	if (FAILED(result))
@@ -33,5 +33,5 @@ std::shared_ptr<ConstantBufferEx> ConstantBufferEx::Make(DirectX11& dx, UINT siz
 }
 void ConstantBufferEx::Bind(DirectX11& dx, void* pData)
 {
-	GetContext(dx)->UpdateSubresource(m_pConstantBuffer, 0, NULL, &pData, 0, 0);
+	GetContext(dx)->UpdateSubresource(pConstantBuffer, 0, NULL, &pData, 0, 0);
 }
