@@ -28,13 +28,19 @@ void TransformConstantBuffer::InitParentRefrence(const DrawableObject& inParent)
 }
 void TransformConstantBuffer::Bind(DirectX11& dx)
 {
-	pVCBuffer->Update(GetContext(dx), GetTransform(dx));
-	pVCBuffer->Bind(dx);
+	if (pVCBuffer != nullptr)
+	{
+		pVCBuffer->Update(GetContext(dx), GetTransform(dx));
+		pVCBuffer->Bind(dx);
+	}
 }
 void TransformConstantBuffer::Bind(DirectX11& dx, TransformConstantBuffer::Transforms transform)
 {
-	pVCBuffer->Update(GetContext(dx), transform);
-	pVCBuffer->Bind(dx);
+	if (pVCBuffer != nullptr)
+	{
+		pVCBuffer->Update(GetContext(dx), transform);
+		pVCBuffer->Bind(dx);
+	}
 }
 TransformConstantBuffer::Transforms TransformConstantBuffer::GetTransform(DirectX11& dx)
 {
