@@ -36,7 +36,7 @@ ScreenTexture::ScreenTexture(DirectX11& dx, const std::wstring& inFileName, FLOA
 }
 ScreenTexture::~ScreenTexture()
 {
-	Util::SafeRelease(D2DRenderTarget);
+	//Util::SafeRelease(D2DRenderTarget);
 	Util::SafeRelease(pBitmap);
 }
 
