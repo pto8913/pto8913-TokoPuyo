@@ -52,6 +52,12 @@ public:
 		GetWorld()->AddToObjectCollection(out);
 		return std::move(out);
 	};
+
+	virtual std::string GetName() const
+	{
+		using namespace std::string_literals;
+		return typeid(Object).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 private:
 	// ------------------------------------------------------
 	// State
