@@ -8,7 +8,7 @@ class ScreenText : public Bindable
 {
 public:
 	ScreenText(DirectX11& dx, float inWidth, float inHeight);
-	~ScreenText();
+	virtual ~ScreenText();
 
 	static std::shared_ptr<ScreenText> Make(DirectX11& dx, float inWidth, float inHeight);
 
@@ -32,7 +32,7 @@ protected:
 	IDXGIKeyedMutex* keyedMutex11 = nullptr;
 	IDXGIKeyedMutex* keyedMutex10 = nullptr;
 	ID2D1RenderTarget* D2DRenderTarget = nullptr;
-	ID2D1SolidColorBrush* Brush = nullptr;
+	ID2D1SolidColorBrush* pBrush = nullptr;
 	ID3D11ShaderResourceView* d2dTexture = nullptr;
 	IDWriteTextFormat* TextFormat = nullptr;
 
@@ -43,7 +43,7 @@ class ScreenTextOnlyOutput : public Bindable
 {
 public:
 	ScreenTextOnlyOutput(DirectX11& dx, float inWidth, float inHeight);
-	~ScreenTextOnlyOutput();
+	virtual ~ScreenTextOnlyOutput();
 
 	static std::shared_ptr<ScreenTextOnlyOutput> Make(DirectX11& dx, float inWidth, float inHeight);
 

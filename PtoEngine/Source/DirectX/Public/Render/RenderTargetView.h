@@ -9,7 +9,7 @@ class RenderTargetView : public Bindable
 public:
 	//RenderTargetView(DirectX11& dx, UINT width, UINT height);
 	RenderTargetView(DirectX11& dx, ID3D11Texture2D* pTexture, std::optional<UINT> face = {});
-	~RenderTargetView();
+	virtual ~RenderTargetView();
 
 	ID3D11RenderTargetView*& Get();
 
@@ -18,6 +18,6 @@ public:
 	void Clear(DirectX11& dx);
 
 private:
-	ID3D11RenderTargetView* m_pRenderTargetView;
-	ID3D11Texture2D* m_pRenderTargetViewBuffer;
+	ID3D11RenderTargetView* pRenderTargetView = nullptr;
+	//ID3D11Texture2D* pRenderTargetViewBuffer = nullptr;
 };

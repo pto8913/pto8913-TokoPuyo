@@ -62,7 +62,7 @@ ScreenText::ScreenText(DirectX11& dx, float inWidth, float inHeight)
 	D2DFactory->Release();
 
 	// Create a solid color brush to draw something with		
-	D2DRenderTarget->CreateSolidColorBrush(D2D1::ColorF(255.0f, 255.0f, 255.0f, 1.0f), &Brush);
+	D2DRenderTarget->CreateSolidColorBrush(D2D1::ColorF(255.0f, 255.0f, 255.0f, 1.0f), &pBrush);
 
 	//DirectWrite
 	IDWriteFactory* pDWriteFactory = nullptr;
@@ -87,12 +87,12 @@ ScreenText::ScreenText(DirectX11& dx, float inWidth, float inHeight)
 }
 ScreenText::~ScreenText()
 {
-	keyedMutex11->Release();
-	keyedMutex10->Release();
-	D2DRenderTarget->Release();
-	Brush->Release();
-	d2dTexture->Release();
-	TextFormat->Release();
+	Util::SafeRelease(keyedMutex11);
+	Util::SafeRelease(keyedMutex10);
+	Util::SafeRelease(D2DRenderTarget);
+	Util::SafeRelease(pBrush);
+	Util::SafeRelease(d2dTexture);
+	Util::SafeRelease(TextFormat);
 }
 
 std::shared_ptr<ScreenText> ScreenText::Make(DirectX11& dx, float inWidth, float inHeight)
@@ -127,7 +127,7 @@ void ScreenText::Bind(std::wstring text, D2D1_RECT_F rect)
 	D2D1_COLOR_F FontColor = D2D1::ColorF(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//Set the brush color D2D will use to draw with
-	Brush->SetColor(FontColor);
+	pBrush->SetColor(FontColor);
 
 	//Create the D2D Render Area
 	D2D1_RECT_F layoutRect = D2D1::RectF(0, 0, (FLOAT)width, (FLOAT)height);
@@ -138,7 +138,7 @@ void ScreenText::Bind(std::wstring text, D2D1_RECT_F rect)
 		(UINT)wcslen(printText.c_str()),
 		TextFormat,
 		layoutRect,
-		Brush
+		pBrush
 	);
 
 	//D2D1_RECT_F ll = D2D1::RectF(
@@ -148,8 +148,8 @@ void ScreenText::Bind(std::wstring text, D2D1_RECT_F rect)
 	//	Config::GAMEUI_LEFT_TOP.y + 200
 	//);
 
-	//D2DRenderTarget->DrawRectangle(ll, Brush, 2);
-	D2DRenderTarget->FillRectangle(rect, Brush);
+	//D2DRenderTarget->DrawRectangle(ll, pBrush, 2);
+	D2DRenderTarget->FillRectangle(rect, pBrush);
 
 	D2DRenderTarget->EndDraw();
 
@@ -221,7 +221,10 @@ ScreenTextOnlyOutput::ScreenTextOnlyOutput(DirectX11& dx, float inWidth, float i
 }
 ScreenTextOnlyOutput::~ScreenTextOnlyOutput()
 {
-	d2dTexture->Release();
+	Util::SafeRelease(d2dTexture);
+	Util::SafeRelease(D2DRenderTarget);
+	Util::SafeRelease(keyedMutex11);
+	Util::SafeRelease(keyedMutex10);
 }
 
 std::shared_ptr<ScreenTextOnlyOutput> ScreenTextOnlyOutput::Make(DirectX11& dx, float inWidth, float inHeight)

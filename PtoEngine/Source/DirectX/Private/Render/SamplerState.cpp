@@ -18,7 +18,7 @@ SamplerState::SamplerState(DirectX11& dx, UINT inSlot)
 
 	HRESULT result = GetDevice(dx)->CreateSamplerState(
 		&desc,
-		&m_pSamplerState
+		&pSamplerState
 	);
 	if (FAILED(result))
 	{
@@ -28,7 +28,7 @@ SamplerState::SamplerState(DirectX11& dx, UINT inSlot)
 }
 SamplerState::~SamplerState()
 {
-	Util::SafeRelease(m_pSamplerState);
+	Util::SafeRelease(pSamplerState);
 }
 
 std::shared_ptr<SamplerState> SamplerState::Make(DirectX11& dx, UINT inSlot)
@@ -37,5 +37,5 @@ std::shared_ptr<SamplerState> SamplerState::Make(DirectX11& dx, UINT inSlot)
 }
 void SamplerState::Bind(DirectX11& dx)
 {
-	GetContext(dx)->PSSetSamplers(slot, 1, &m_pSamplerState);
+	GetContext(dx)->PSSetSamplers(slot, 1, &pSamplerState);
 }

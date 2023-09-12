@@ -12,6 +12,7 @@ class Sprite : public DrawableObject2D
 public:
 	Sprite() = default;
 	Sprite(DirectX11& dx, const std::wstring& inFileName, std::wstring Tag, DirectX::XMFLOAT2 inSize);
+	virtual ~Sprite();
 
 	virtual void ExecuteTasks(DirectX11& dx) override;
 	void UpdateTexture(const std::wstring& inFileName);

@@ -19,7 +19,7 @@ PixelShader::PixelShader(DirectX11& dx, const std::wstring& inFileName, const ch
 		m_pPS_Buffer->GetBufferPointer(),
 		m_pPS_Buffer->GetBufferSize(),
 		NULL,
-		&m_pPixelShader
+		&pPixelShader
 	);
 
 	if (FAILED(result))
@@ -30,7 +30,7 @@ PixelShader::PixelShader(DirectX11& dx, const std::wstring& inFileName, const ch
 }
 PixelShader::~PixelShader()
 {
-	Util::SafeRelease(m_pPixelShader);
+	Util::SafeRelease(pPixelShader);
 }
 
 std::shared_ptr<PixelShader> PixelShader::Make(DirectX11& dx, const std::wstring& inFileName, const char* pEntryPoint)
@@ -39,7 +39,7 @@ std::shared_ptr<PixelShader> PixelShader::Make(DirectX11& dx, const std::wstring
 }
 void PixelShader::Bind(DirectX11& dx)
 {
-	GetContext(dx)->PSSetShader(m_pPixelShader, nullptr, 0);
+	GetContext(dx)->PSSetShader(pPixelShader, nullptr, 0);
 }
 
 std::string PixelShader::GenerateID(const std::wstring& inFileName, const char* pEntryPoint)

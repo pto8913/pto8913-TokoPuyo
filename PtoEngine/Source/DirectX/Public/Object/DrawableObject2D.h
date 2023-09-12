@@ -9,9 +9,10 @@ class DrawableObject2D : public DrawableObject
 {
 public:
 	DrawableObject2D() = default;
+	virtual ~DrawableObject2D();
 
 	virtual void ExecuteTasks(DirectX11& dx) override;
 
 protected:
-	std::shared_ptr<VertexBuffer<DX::FVertex2D>> m_pVertexBuffer;
+	std::shared_ptr<VertexBuffer<DX::FVertex2D>> pVertexBuffer = nullptr;
 };

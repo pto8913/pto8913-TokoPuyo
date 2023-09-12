@@ -19,7 +19,11 @@ DepthStencilState::DepthStencilState(DirectX11& dx, DepthStencilState::DSSType i
 	default:
 		break;
 	}
-	GetDevice(dx)->CreateDepthStencilState(&dssDesc, &m_pDepthStencilState);
+	GetDevice(dx)->CreateDepthStencilState(&dssDesc, &pDepthStencilState);
+}
+DepthStencilState::~DepthStencilState()
+{
+	Util::SafeRelease(pDepthStencilState);
 }
 
 std::shared_ptr<DepthStencilState> DepthStencilState::Make(DirectX11& dx, DepthStencilState::DSSType inType)
@@ -28,5 +32,5 @@ std::shared_ptr<DepthStencilState> DepthStencilState::Make(DirectX11& dx, DepthS
 }
 void DepthStencilState::Bind(DirectX11& dx)
 {
-	GetContext(dx)->OMSetDepthStencilState(m_pDepthStencilState, 0);
+	GetContext(dx)->OMSetDepthStencilState(pDepthStencilState, 0);
 }

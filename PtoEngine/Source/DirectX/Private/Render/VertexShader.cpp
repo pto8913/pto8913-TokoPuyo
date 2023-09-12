@@ -8,17 +8,17 @@
 VertexShader::VertexShader(DirectX11& dx, const std::wstring& inFileName, const char* pEntryPoint)
 	: fileName(inFileName)
 {
-	if (!Compile(inFileName, pEntryPoint, "vs_4_0", &m_pVS_Buffer))
+	if (!Compile(inFileName, pEntryPoint, "vs_4_0", &pVS_Buffer))
 	{
 		MessageBox(NULL, L"Can not Compile VertexShader.", L"Compile VertexShader Error", MB_OK);
 		assert(false);
 	}
 
 	HRESULT result = GetDevice(dx)->CreateVertexShader(
-		m_pVS_Buffer->GetBufferPointer(),
-		m_pVS_Buffer->GetBufferSize(),
+		pVS_Buffer->GetBufferPointer(),
+		pVS_Buffer->GetBufferSize(),
 		NULL,
-		&m_pVertexShader
+		&pVertexShader
 	);
 	if (FAILED(result))
 	{
@@ -28,8 +28,8 @@ VertexShader::VertexShader(DirectX11& dx, const std::wstring& inFileName, const 
 }
 VertexShader::~VertexShader()
 {
-	Util::SafeRelease(m_pVertexShader);
-	Util::SafeRelease(m_pVS_Buffer);
+	Util::SafeRelease(pVertexShader);
+	Util::SafeRelease(pVS_Buffer);
 }
 
 std::shared_ptr<VertexShader> VertexShader::Make(DirectX11& dx, const std::wstring& inFileName, const char* pEntryPoint)
@@ -38,16 +38,16 @@ std::shared_ptr<VertexShader> VertexShader::Make(DirectX11& dx, const std::wstri
 }
 void VertexShader::Bind(DirectX11& dx)
 {
-	GetContext(dx)->VSSetShader(m_pVertexShader, nullptr, 0);
+	GetContext(dx)->VSSetShader(pVertexShader, nullptr, 0);
 }
 
 void VertexShader::ReleaseShaderCode()
 {
-	Util::SafeRelease(m_pVertexShader);
+	Util::SafeRelease(pVertexShader);
 }
 ID3DBlob* VertexShader::GetBuffer()
 {
-	return m_pVS_Buffer;
+	return pVS_Buffer;
 }
 
 std::string VertexShader::GenerateID(const std::wstring& inFileName, const char* pEntryPoint)

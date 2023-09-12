@@ -8,7 +8,7 @@ class IndexBuffer : public Bindable
 {
 public:
 	IndexBuffer(DirectX11& dx, std::string inTag, const std::vector<DWORD>& pInitData);
-	~IndexBuffer();
+	virtual ~IndexBuffer();
 
 	static std::shared_ptr<IndexBuffer> Make(
 		DirectX11& dx,
@@ -26,7 +26,7 @@ public:
 		return typeid(IndexBuffer).name() + "#"s + tag;
 	}
 protected:
-	ID3D11Buffer* m_pIndexBuffer;
+	ID3D11Buffer* pIndexBuffer = nullptr;
 	std::string tag;
 	UINT count;
 };

@@ -11,7 +11,7 @@ class SamplerState : public Bindable
 {
 public:
 	SamplerState(DirectX11& dx, UINT inSlot = 0);
-	~SamplerState();
+	virtual ~SamplerState();
 
 	static std::shared_ptr<SamplerState> Make(DirectX11& dx, UINT inSlot = 0);
 	virtual void Bind(DirectX11& dx) override;
@@ -27,5 +27,5 @@ public:
 	}
 private:
 	UINT slot;
-	ID3D11SamplerState* m_pSamplerState;
+	ID3D11SamplerState* pSamplerState;
 };

@@ -15,9 +15,11 @@ public:
 		DirectX::XMMATRIX World;
 	};
 	TransformConstantBuffer(DirectX11& dx, UINT inSlot = 0);
+	virtual ~TransformConstantBuffer();
+
 	static std::shared_ptr<TransformConstantBuffer> Make(DirectX11& dx, UINT inSlot = 0);
 
-	virtual void InitParentRefrence(const DrawableObject& pParent) override;
+	virtual void InitParentRefrence(const DrawableObject& inParent) override;
 	virtual void Bind(DirectX11& dx) override;
 	void Bind(DirectX11& dx, Transforms transform);
 
@@ -35,6 +37,6 @@ protected:
 	Transforms GetTransform(DirectX11& dx);
 private:
 	UINT slot;
-	static std::unique_ptr<VertexConstantBuffer<Transforms>> m_pVCBuffer;
-	const DrawableObject* m_pParent = nullptr;
+	static std::unique_ptr<VertexConstantBuffer<Transforms>> pVCBuffer;
+	const DrawableObject* pParent = nullptr;
 };

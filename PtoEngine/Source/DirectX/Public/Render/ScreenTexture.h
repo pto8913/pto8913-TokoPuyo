@@ -11,7 +11,7 @@ class ScreenTexture : public Bindable
 {
 public:
 	ScreenTexture(DirectX11& dx, const std::wstring& inFileName, FLOAT inWidth, FLOAT inHeight);
-	~ScreenTexture();
+	virtual ~ScreenTexture();
 
 	static std::shared_ptr<ScreenTexture> Make(DirectX11& dx, const std::wstring& inFileName, FLOAT inWidth, FLOAT inHeight);
 
@@ -41,11 +41,6 @@ protected:
 	float width;
 	float height;
 
-	ID2D1Bitmap* m_pBitmap = nullptr;
-
-	IDXGIKeyedMutex* keyedMutex11 = nullptr;
-	IDXGIKeyedMutex* keyedMutex10 = nullptr;
-
+	ID2D1Bitmap* pBitmap = nullptr;
 	ID2D1RenderTarget* D2DRenderTarget = nullptr;
-	ID3D11ShaderResourceView* d2dTexture = nullptr;
 };

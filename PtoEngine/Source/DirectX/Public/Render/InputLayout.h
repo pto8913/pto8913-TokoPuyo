@@ -10,7 +10,7 @@ class InputLayout : public Bindable
 {
 public:
 	InputLayout(DirectX11& dx, DX::Layout::VertexType inVertexType, VertexShader* pVertexShader);
-	~InputLayout();
+	virtual ~InputLayout();
 
 	static std::shared_ptr<InputLayout> Make(DirectX11& dx, DX::Layout::VertexType inVertexType, VertexShader* pVertexShader);
 	virtual void Bind(DirectX11& dx) override;
@@ -20,5 +20,5 @@ public:
 	//DX::VertexLayout GetLayout() const;
 private:
 	DX::Layout::VertexType vertexType;
-	ID3D11InputLayout* m_pInputLayout;
+	ID3D11InputLayout* pInputLayout = nullptr;
 };

@@ -8,6 +8,7 @@ class WidgetBase : private DrawableObject2D
 {
 public:
 	WidgetBase(DirectX11& dx, float windowSizeW, float windowSizeH);
+	virtual ~WidgetBase();
 
 	virtual void ExecuteTasks(DirectX11& dx) override final;
 

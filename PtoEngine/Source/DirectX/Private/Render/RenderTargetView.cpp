@@ -30,26 +30,26 @@
 //	GetDevice(dx)->CreateRenderTargetView(
 //		pTexture,
 //		NULL, 
-//		&m_pRenderTargetView
+//		&pRenderTargetView
 //	);
 //}
 RenderTargetView::RenderTargetView(DirectX11& dx, ID3D11Texture2D* pTexture, std::optional<UINT>)
 {
-	GetDevice(dx)->CreateRenderTargetView(pTexture, NULL, &m_pRenderTargetView);
+	GetDevice(dx)->CreateRenderTargetView(pTexture, NULL, &pRenderTargetView);
 }
 RenderTargetView::~RenderTargetView()
 {
-	//Util::SafeRelease(m_pRenderTargetView);
-	//Util::SafeRelease(m_pRenderTargetViewBuffer);
+	Util::SafeRelease(pRenderTargetView);
+	//Util::SafeRelease(pRenderTargetViewBuffer);
 }
 
 ID3D11RenderTargetView*& RenderTargetView::Get()
 {
-	return m_pRenderTargetView;
+	return pRenderTargetView;
 }
 void RenderTargetView::Clear(DirectX11& dx)
 {
 	float bgColor[4] = { 0.1, 0.1, 0.1, 1 };
 
-	GetContext(dx)->ClearRenderTargetView(m_pRenderTargetView, bgColor);
+	GetContext(dx)->ClearRenderTargetView(pRenderTargetView, bgColor);
 }
