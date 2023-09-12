@@ -66,7 +66,7 @@ WidgetBase::WidgetBase(DirectX11& dx, float windowSizeW, float windowSizeH)
 }
 WidgetBase::~WidgetBase()
 {
-	Util::SafeRelease(pRt2D);
+	pRt2D->Release();
 	Util::SafeRelease(pMutex11);
 	Util::SafeRelease(pMutex10);
 }
