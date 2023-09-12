@@ -13,40 +13,40 @@ Rasterizer::Rasterizer(DirectX11& dx, RasterizerType inType, UINT inSize)
 	case Wire:
 		desc.FillMode = D3D11_FILL_WIREFRAME;
 		desc.CullMode = D3D11_CULL_NONE;
-		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_1);
+		GetDevice(dx)->CreateRasterizerState(&desc, &pRasterizer_1);
 		break;
 	case Transparent:
 		desc.FillMode = D3D11_FILL_SOLID;
 		desc.CullMode = D3D11_CULL_BACK;
 		desc.FrontCounterClockwise = true;
-		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_1);
+		GetDevice(dx)->CreateRasterizerState(&desc, &pRasterizer_1);
 		desc.FrontCounterClockwise = false;
-		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_2);
+		GetDevice(dx)->CreateRasterizerState(&desc, &pRasterizer_2);
 		break;
 	case Transparent1:
 		desc.FillMode = D3D11_FILL_SOLID;
 		desc.CullMode = D3D11_CULL_BACK;
 		desc.FrontCounterClockwise = true;
-		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_1);
+		GetDevice(dx)->CreateRasterizerState(&desc, &pRasterizer_1);
 		break;
 	case Transparent2:
 		desc.FillMode = D3D11_FILL_SOLID;
 		desc.CullMode = D3D11_CULL_BACK;
 		desc.FrontCounterClockwise = false;
-		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_2);
+		GetDevice(dx)->CreateRasterizerState(&desc, &pRasterizer_2);
 		break;
 	default:
 		desc.FillMode = D3D11_FILL_SOLID;
 		desc.CullMode = D3D11_CULL_NONE;
 		desc.FrontCounterClockwise = false;
-		GetDevice(dx)->CreateRasterizerState(&desc, &m_pRasterizer_1);
+		GetDevice(dx)->CreateRasterizerState(&desc, &pRasterizer_1);
 		break;
 	}
 }
 Rasterizer::~Rasterizer()
 {
-	//Util::SafeRelease(m_pRasterizer_1);
-	//Util::SafeRelease(m_pRasterizer_2);
+	Util::SafeRelease(pRasterizer_1);
+	Util::SafeRelease(pRasterizer_2);
 }
 
 std::shared_ptr<Rasterizer> Rasterizer::Make(DirectX11& dx, RasterizerType inType, UINT inSize)
@@ -58,25 +58,25 @@ void Rasterizer::Bind(DirectX11& dx)
 	switch (type)
 	{
 	case Wire:
-		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		GetContext(dx)->RSSetState(pRasterizer_1);
 		GetContext(dx)->DrawIndexed(size, 0, 0);
 		break;
 	case Transparent:
-		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		GetContext(dx)->RSSetState(pRasterizer_1);
 		GetContext(dx)->DrawIndexed(size, 0, 0);
-		GetContext(dx)->RSSetState(m_pRasterizer_2);
+		GetContext(dx)->RSSetState(pRasterizer_2);
 		GetContext(dx)->DrawIndexed(size, 0, 0);
 		break;
 	case Transparent1:
-		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		GetContext(dx)->RSSetState(pRasterizer_1);
 		GetContext(dx)->DrawIndexed(size, 0, 0);
 		break;
 	case Transparent2:
-		GetContext(dx)->RSSetState(m_pRasterizer_2);
+		GetContext(dx)->RSSetState(pRasterizer_2);
 		GetContext(dx)->DrawIndexed(size, 0, 0);
 		break;
 	default:
-		GetContext(dx)->RSSetState(m_pRasterizer_1);
+		GetContext(dx)->RSSetState(pRasterizer_1);
 		GetContext(dx)->DrawIndexed(size, 0, 0);
 		break;
 	}
@@ -86,10 +86,10 @@ void Rasterizer::Get(ID3D11RasterizerState& Out1, ID3D11RasterizerState& Out2)
 {
 	if (&Out1 != nullptr)
 	{
-		Out1 = *m_pRasterizer_1;
+		Out1 = *pRasterizer_1;
 	}
 	if (&Out2 != nullptr)
 	{
-		Out2 = *m_pRasterizer_2;
+		Out2 = *pRasterizer_2;
 	}
 }

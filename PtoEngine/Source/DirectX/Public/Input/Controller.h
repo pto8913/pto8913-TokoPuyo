@@ -43,6 +43,6 @@ private:
 	// -----------------------------------
 	// State : Camera
 	// -----------------------------------
-	std::shared_ptr<Camera> pCamera = nullptr;
+	std::unique_ptr<Camera> pCamera = nullptr;
 	bool bEnableCamera = true;
 };

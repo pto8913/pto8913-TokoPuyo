@@ -23,7 +23,7 @@ IndexBuffer::IndexBuffer(DirectX11& dx, std::string inTag, const std::vector<DWO
 	HRESULT result = GetDevice(dx)->CreateBuffer(
 		&desc, 
 		&data, 
-		&m_pIndexBuffer
+		&pIndexBuffer
 	);
 	if (FAILED(result))
 	{
@@ -33,7 +33,7 @@ IndexBuffer::IndexBuffer(DirectX11& dx, std::string inTag, const std::vector<DWO
 }
 IndexBuffer::~IndexBuffer()
 {
-	Util::SafeRelease(m_pIndexBuffer);
+	Util::SafeRelease(pIndexBuffer);
 }
 
 std::shared_ptr<IndexBuffer> IndexBuffer::Make(DirectX11& dx, std::string inTag, const std::vector<DWORD>& pInitData)
@@ -43,7 +43,7 @@ std::shared_ptr<IndexBuffer> IndexBuffer::Make(DirectX11& dx, std::string inTag,
 
 void IndexBuffer::Bind(DirectX11& dx)
 {
-	GetContext(dx)->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	GetContext(dx)->IASetIndexBuffer(pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 }
 UINT IndexBuffer::GetCount() const
 {

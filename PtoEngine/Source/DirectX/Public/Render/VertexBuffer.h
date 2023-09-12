@@ -29,7 +29,7 @@ public:
 		HRESULT result = GetDevice(dx)->CreateBuffer(
 			&desc,
 			&vertexBufferData,
-			&m_pVertexBuffer
+			&pVertexBuffer
 		);
 
 		if (FAILED(result))
@@ -40,7 +40,7 @@ public:
 	}
 	~VertexBuffer()
 	{
-		Util::SafeRelease(m_pVertexBuffer);
+		Util::SafeRelease(pVertexBuffer);
 	}
 
 	static std::shared_ptr<VertexBuffer<StructType>> Make(
@@ -56,7 +56,7 @@ public:
 	{
 		const UINT _stride = sizeof(StructType);
 		const UINT offset = 0;
-		GetContext(dx)->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &_stride, &offset);
+		GetContext(dx)->IASetVertexBuffers(0, 1, &pVertexBuffer, &_stride, &offset);
 	}
 
 	static std::string GenerateID(const std::string& tag, const std::vector<StructType>& pInitData)
@@ -70,7 +70,7 @@ public:
 		return GenerateID(tag, {});
 	}
 protected:
-	ID3D11Buffer* m_pVertexBuffer;
+	ID3D11Buffer* pVertexBuffer = nullptr;
 	std::string tag;
 	UINT stride;
 };

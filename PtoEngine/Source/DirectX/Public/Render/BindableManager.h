@@ -7,6 +7,25 @@
 class BindableManager
 {
 public:
+	virtual ~BindableManager()
+	{
+		auto iter = Binds.begin();
+		while (iter != Binds.end())
+		{
+			auto& row = *iter;
+			if (row.second != nullptr)
+			{
+				row.second.reset();
+				row.second = nullptr;
+
+				iter = Binds.erase(iter);
+			}
+			else
+			{
+				++iter;
+			}
+		}
+	}
 	static BindableManager& Get() {
 		static BindableManager instance;
 		return instance;

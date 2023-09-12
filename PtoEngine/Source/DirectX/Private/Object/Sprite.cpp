@@ -26,9 +26,9 @@ Sprite::Sprite(DirectX11& dx, const std::wstring& inFileName, std::wstring Tag, 
 
 	auto model = Plane::Make2D();
 
-	m_pIndexBuffer = IndexBuffer::Make(dx, Util::w2String(Tag), model.indices);
-	m_pVertexBuffer = VertexBuffer<DX::FVertex2D>::Make(dx, Util::w2String(Tag), model.vertices);
-	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	pIndexBuffer = IndexBuffer::Make(dx, Util::w2String(Tag), model.indices);
+	pVertexBuffer = VertexBuffer<DX::FVertex2D>::Make(dx, Util::w2String(Tag), model.vertices);
+	pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	pScreenTexture = ScreenTexture::Make(dx, inFileName, inSize.x, inSize.y);
 	//AddTask(pScreenTexture);
@@ -45,6 +45,14 @@ Sprite::Sprite(DirectX11& dx, const std::wstring& inFileName, std::wstring Tag, 
 	pTCB->InitParentRefrence(*this);
 
 	InitializeTasks();
+}
+Sprite::~Sprite()
+{
+	pTCB.reset();
+	pTCB = nullptr;
+
+	pScreenTexture.reset();
+	pScreenTexture = nullptr;
 }
 
 void Sprite::ExecuteTasks(DirectX11& dx)

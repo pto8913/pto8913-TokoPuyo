@@ -17,7 +17,7 @@ DepthStencilView::DepthStencilView(DirectX11& dx, UINT width, UINT height)
 	HRESULT result = GetDevice(dx)->CreateTexture2D(
 		&textureDesc,
 		NULL,
-		&m_pDepthStencilViewBuffer
+		&pDepthStencilViewBuffer
 	);
 	if (FAILED(result))
 	{
@@ -26,15 +26,15 @@ DepthStencilView::DepthStencilView(DirectX11& dx, UINT width, UINT height)
 	}
 
 	D3D11_DEPTH_STENCIL_VIEW_DESC viewDesc = {};
-	viewDesc.Format                  = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
-	viewDesc.Flags                   = 0;
-	viewDesc.ViewDimension           = D3D11_DSV_DIMENSION_TEXTURE2D;
+	viewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+	viewDesc.Flags = 0;
+	viewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	viewDesc.Texture2DArray.MipSlice = 0;
 
 	result = GetDevice(dx)->CreateDepthStencilView(
-		m_pDepthStencilViewBuffer,
+		pDepthStencilViewBuffer,
 		NULL,
-		&m_pDepthStencilView
+		&pDepthStencilView
 	);
 	if (FAILED(result))
 	{
@@ -56,9 +56,9 @@ DepthStencilView::DepthStencilView(DirectX11& dx, ID3D11Texture2D* pTexture, UIN
 	viewDesc.Texture2DArray.FirstArraySlice = face;
 
 	HRESULT result = GetDevice(dx)->CreateDepthStencilView(
-		pTexture, 
-		&viewDesc, 
-		&m_pDepthStencilView
+		pTexture,
+		&viewDesc,
+		&pDepthStencilView
 	);
 	if (FAILED(result))
 	{
@@ -68,22 +68,22 @@ DepthStencilView::DepthStencilView(DirectX11& dx, ID3D11Texture2D* pTexture, UIN
 }
 DepthStencilView::~DepthStencilView()
 {
-	Util::SafeRelease(m_pDepthStencilView);
-	Util::SafeRelease(m_pDepthStencilViewBuffer);
+	Util::SafeRelease(pDepthStencilView);
+	Util::SafeRelease(pDepthStencilViewBuffer);
 }
 
 ID3D11DepthStencilView*& DepthStencilView::Get()
 {
-	return m_pDepthStencilView;
+	return pDepthStencilView;
 }
 //void DepthStencilView::Bind(DirectX11& dx)
 //{
-//	GetContext(dx)->OMSetRenderTargets(0, nullptr, m_pDepthStencilView);
+//	GetContext(dx)->OMSetRenderTargets(0, nullptr, pDepthStencilView);
 //}
 void DepthStencilView::Clear(DirectX11& dx)
 {
 	GetContext(dx)->ClearDepthStencilView(
-		m_pDepthStencilView, 
+		pDepthStencilView,
 		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 
 		1.0f, 
 		0

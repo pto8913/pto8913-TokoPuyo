@@ -30,11 +30,11 @@ SkySphere::SkySphere(DirectX11& dx, float radius)
 	//auto model = Sphere::Make();
 	//model.SetTransform(DirectX::XMMatrixScaling(radius, radius, radius));
 
-	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	m_pIndexBuffer = IndexBuffer::Make(dx, "SkySphere", model.indices);
-	m_pVertexBuffer = VertexBuffer<DX::FVertex>::Make(dx, "SkySphere", model.vertices);
+	pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	pIndexBuffer = IndexBuffer::Make(dx, "SkySphere", model.indices);
+	pVertexBuffer = VertexBuffer<DX::FVertex>::Make(dx, "SkySphere", model.vertices);
 
-	m_pTCB = std::make_shared<TransformConstantBuffer>(dx, 0);
+	pTCB = std::make_shared<TransformConstantBuffer>(dx, 0);
 
 	AddTask(CubeTexture::Make(dx, L"Content/Textures/skymap.dds"));
 	AddTask(SamplerState::Make(dx));
@@ -46,7 +46,7 @@ SkySphere::SkySphere(DirectX11& dx, float radius)
 
 	AddTask(DepthStencilState::Make(dx, DepthStencilState::DSSType::SkyMap));
 
-	AddTask(m_pTCB);
+	AddTask(pTCB);
 
 	AddTask(Rasterizer::Make(dx, Rasterizer::RasterizerType::None, (UINT)model.indices.size()));
 

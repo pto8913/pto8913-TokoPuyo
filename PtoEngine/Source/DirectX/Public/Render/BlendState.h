@@ -11,7 +11,7 @@ class BlendState : public Bindable
 {
 public:
 	BlendState(DirectX11& dx, UINT inSlot = 0);
-	~BlendState();
+	virtual ~BlendState();
 
 	static std::shared_ptr<BlendState> Make(DirectX11& dx, UINT inSlot = 0);
 	virtual void Bind(DirectX11& dx) override;
@@ -27,5 +27,5 @@ public:
 	}
 private:
 	UINT slot;
-	ID3D11BlendState* m_pBlendState;
+	ID3D11BlendState* pBlendState = nullptr;
 };

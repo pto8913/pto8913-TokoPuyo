@@ -26,9 +26,9 @@ DrawSphere::DrawSphere(DirectX11& dx, float radius)
 	auto model = Sphere::Make();
 	model.SetTransform(DirectX::XMMatrixScaling(radius, radius, radius));
 
-	m_pIndexBuffer = IndexBuffer::Make(dx, "Sphere", model.indices);
-	m_pVertexBuffer = VertexBuffer<DX::FVertex>::Make(dx, "Sphere", model.vertices);
-	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	pIndexBuffer = IndexBuffer::Make(dx, "Sphere", model.indices);
+	pVertexBuffer = VertexBuffer<DX::FVertex>::Make(dx, "Sphere", model.vertices);
+	pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	auto pTCB = std::make_shared<TransformConstantBuffer>(dx);
 

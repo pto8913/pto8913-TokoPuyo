@@ -97,5 +97,4 @@ protected:
 	Object* pOwner = nullptr;
 
 	TArray<WidgetAnimation> mAnimations;
-
 };

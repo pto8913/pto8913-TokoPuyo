@@ -14,7 +14,7 @@ public:
 	};
 public:
 	Texture(DirectX11& dx, TextureType inTextureType, const std::wstring& inFileName, UINT inSlot = 0);
-	~Texture();
+	virtual ~Texture();
 
 	static std::shared_ptr<Texture> Make(DirectX11& dx, TextureType inTextureType, const std::wstring& inFileName, UINT inSlot = 0);
 
@@ -35,6 +35,6 @@ protected:
 	std::wstring fileName;
 	UINT slot;
 
-	ID3D11Texture2D* m_pTexture;
-	ID3D11ShaderResourceView* m_pTextureView;
+	ID3D11Texture2D* pTexture = nullptr;
+	ID3D11ShaderResourceView* pTextureView = nullptr;
 };

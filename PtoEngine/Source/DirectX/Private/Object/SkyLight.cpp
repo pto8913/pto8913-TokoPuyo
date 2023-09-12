@@ -12,7 +12,12 @@ SkyLight::SkyLight(DirectX11& dx)
 
 	Reset();
 
-	m_pPixelConstantBuffer = PixelConstantBuffer<ConstantBufferSkyLight>::Make(dx, defaultLight);
+	pPixelConstantBuffer = PixelConstantBuffer<ConstantBufferSkyLight>::Make(dx, defaultLight);
+}
+SkyLight::~SkyLight()
+{
+	pPixelConstantBuffer.reset();
+	pPixelConstantBuffer = nullptr;
 }
 
 void SkyLight::Reset()
@@ -25,6 +30,6 @@ void SkyLight::ExecuteTasks(DirectX11& dx)
 		currentLight.position,
 		dx.GetCameraView()
 	);
-	m_pPixelConstantBuffer.get()->Update(dx.GetContext(), currentLight);
-	m_pPixelConstantBuffer.get()->Bind(dx);
+	pPixelConstantBuffer->Update(dx.GetContext(), currentLight);
+	pPixelConstantBuffer->Bind(dx);
 }

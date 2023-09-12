@@ -6,6 +6,7 @@ class SkyLight : public LightBase
 {
 public:
 	SkyLight(DirectX11& dx);
+	virtual ~SkyLight();
 
 	void Reset();
 	virtual void ExecuteTasks(DirectX11& dx) override;
@@ -21,5 +22,5 @@ public:
 private:
 	ConstantBufferSkyLight defaultLight;
 	ConstantBufferSkyLight currentLight;
-	std::shared_ptr<PixelConstantBuffer<ConstantBufferSkyLight>> m_pPixelConstantBuffer;
+	std::shared_ptr<PixelConstantBuffer<ConstantBufferSkyLight>> pPixelConstantBuffer;
 };

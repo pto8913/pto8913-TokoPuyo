@@ -14,7 +14,7 @@ InputLayout::InputLayout(DirectX11& dx, DX::Layout::VertexType inVertexType, Ver
 		(UINT)desc.size(),
 		pByteCode->GetBufferPointer(),
 		pByteCode->GetBufferSize(),
-		&m_pInputLayout
+		&pInputLayout
 	);
 
 	if (FAILED(result))
@@ -25,7 +25,7 @@ InputLayout::InputLayout(DirectX11& dx, DX::Layout::VertexType inVertexType, Ver
 }
 InputLayout::~InputLayout()
 {
-	Util::SafeRelease(m_pInputLayout);
+	Util::SafeRelease(pInputLayout);
 }
 
 std::shared_ptr<InputLayout> InputLayout::Make(DirectX11& dx, DX::Layout::VertexType inVertexType, VertexShader* pVertexShader)
@@ -34,7 +34,7 @@ std::shared_ptr<InputLayout> InputLayout::Make(DirectX11& dx, DX::Layout::Vertex
 }
 void InputLayout::Bind(DirectX11& dx)
 {
-	GetContext(dx)->IASetInputLayout(m_pInputLayout);
+	GetContext(dx)->IASetInputLayout(pInputLayout);
 }
 
 std::string InputLayout::GenerateID(const DX::Layout::VertexType& inVertexType, VertexShader* vs)

@@ -19,6 +19,6 @@ public:
 	ID3DBlob* GetBuffer();
 private:
 	std::wstring fileName;
-	ID3D11VertexShader* m_pVertexShader;
-	ID3DBlob* m_pVS_Buffer;
+	ID3D11VertexShader* pVertexShader = nullptr;
+	ID3DBlob* pVS_Buffer = nullptr;
 };

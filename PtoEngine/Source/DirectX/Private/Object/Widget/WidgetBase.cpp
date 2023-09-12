@@ -39,18 +39,18 @@ WidgetBase::WidgetBase(DirectX11& dx, float windowSizeW, float windowSizeH)
 		0,  1,  2,
 		0,  2,  3,
 	};
-	m_pIndexBuffer = IndexBuffer::Make(dx, "WidgetBase", indices);
-	m_pVertexBuffer = VertexBuffer<DX::FVertex2D>::Make(dx, "WidgetBase", vertices);
-	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	pIndexBuffer = IndexBuffer::Make(dx, "WidgetBase", indices);
+	pVertexBuffer = VertexBuffer<DX::FVertex2D>::Make(dx, "WidgetBase", vertices);
+	pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V2D, pVS.get()));
 
-	AddTask(m_pIndexBuffer);
-	AddTask(m_pVertexBuffer);
+	AddTask(pIndexBuffer);
+	AddTask(pVertexBuffer);
 
-	m_pTCB = std::make_shared<TransformConstantBuffer>(dx);
-	m_pTCB->InitParentRefrence(*this);
-	//AddTask(m_pTCB);
+	pTCB = std::make_shared<TransformConstantBuffer>(dx);
+	pTCB->InitParentRefrence(*this);
+	//AddTask(pTCB);
 
 	auto pScreenTextOnlyOutput = ScreenTextOnlyOutput::Make(dx, windowSizeW, windowSizeH);
 	pRt2D = pScreenTextOnlyOutput->GetRT2D();
@@ -60,10 +60,17 @@ WidgetBase::WidgetBase(DirectX11& dx, float windowSizeW, float windowSizeH)
 
 	AddTask(SamplerState::Make(dx, 0));
 
-	AddTask(Rasterizer::Make(dx, Rasterizer::RasterizerType::Transparent2, m_pIndexBuffer.get()->GetCount()));
+	AddTask(Rasterizer::Make(dx, Rasterizer::RasterizerType::Transparent2, pIndexBuffer.get()->GetCount()));
 
 	InitializeTasks();
 }
+WidgetBase::~WidgetBase()
+{
+	Util::SafeRelease(pRt2D);
+	Util::SafeRelease(pMutex11);
+	Util::SafeRelease(pMutex10);
+}
+
 void WidgetBase::DrawInternal(DirectX11& dx)
 {
 	pMutex11->ReleaseSync(0);
@@ -84,7 +91,7 @@ void WidgetBase::ExecuteTasks(DirectX11& dx)
 {
 	//dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
 
-	m_pTCB->Bind(dx, tf);
+	pTCB->Bind(dx, tf);
 
 	DrawInternal(dx);
 

@@ -9,6 +9,7 @@ class PointLight : public LightBase
 {
 public:
 	PointLight(DirectX11& dx, DirectX::XMVECTOR location, float radius = 0.5f);
+	virtual ~PointLight();
 
 	void Reset();
 	virtual void ExecuteTasks(DirectX11& dx);
@@ -26,6 +27,6 @@ public:
 protected:
 	ConstantBufferPointLight defaultLight;
 	ConstantBufferPointLight currentLight;
-	DrawSphere* m_pDrawSphere;
-	std::shared_ptr<PixelConstantBuffer<ConstantBufferPointLight>> m_pPixelConstantBuffer;
+	DrawSphere* pDrawSphere;
+	std::shared_ptr<PixelConstantBuffer<ConstantBufferPointLight>> pPixelConstantBuffer;
 };

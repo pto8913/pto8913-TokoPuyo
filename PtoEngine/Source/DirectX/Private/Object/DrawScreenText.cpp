@@ -42,27 +42,36 @@ DrawScreenText::DrawScreenText(DirectX11& dx, float inWidth, float inHeight)
 		0,  1,  2,
 		0,  2,  3,
 	};
-	m_pIndexBuffer = IndexBuffer::Make(dx, "DrawScreenText", indices);
-	m_pVertexBuffer = VertexBuffer<DX::FVertex2D>::Make(dx, "DrawScreenText", vertices);
-	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	pIndexBuffer = IndexBuffer::Make(dx, "DrawScreenText", indices);
+	pVertexBuffer = VertexBuffer<DX::FVertex2D>::Make(dx, "DrawScreenText", vertices);
+	pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V2D, pVS.get()));
 
-	AddTask(m_pIndexBuffer);
-	AddTask(m_pVertexBuffer);
+	AddTask(pIndexBuffer);
+	AddTask(pVertexBuffer);
 
-	m_pScreenText = ScreenText::Make(dx, inWidth, inHeight);
-	AddTask(m_pScreenText);
+	pScreenText = ScreenText::Make(dx, inWidth, inHeight);
+	AddTask(pScreenText);
 
 	AddTask(SamplerState::Make(dx, 0));
 
-	AddTask(Rasterizer::Make(dx, Rasterizer::RasterizerType::Transparent2, m_pIndexBuffer.get()->GetCount()));
+	AddTask(Rasterizer::Make(dx, Rasterizer::RasterizerType::Transparent2, pIndexBuffer.get()->GetCount()));
 
-	m_pTCB = std::make_shared<TransformConstantBuffer>(dx);
-	m_pTCB->InitParentRefrence(*this);
+	pTCB = std::make_shared<TransformConstantBuffer>(dx);
+	pTCB->InitParentRefrence(*this);
 
 	InitializeTasks();
 }
+DrawScreenText::~DrawScreenText()
+{
+	pTCB.reset();
+	pTCB = nullptr;
+
+	pScreenText.reset();
+	pScreenText = nullptr;
+}
+
 void DrawScreenText::UpdateText(std::wstring inText, D2D1_RECT_F inRect)
 {
 	text = inText;
@@ -72,8 +81,8 @@ void DrawScreenText::ExecuteTasks(DirectX11& dx)
 {
 	dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
 
-	m_pTCB->Bind(dx, tf);
-	m_pScreenText->Bind(text, rect);
+	pTCB->Bind(dx, tf);
+	pScreenText->Bind(text, rect);
 
 	DrawableObject::ExecuteTasks(dx);
 }

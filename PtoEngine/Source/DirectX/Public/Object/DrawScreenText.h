@@ -13,6 +13,7 @@ class DrawScreenText : public DrawableObject2D
 {
 public:
 	DrawScreenText(DirectX11& dx, float inWidth, float inHeight);
+	virtual ~DrawScreenText();
 
 	void UpdateText(std::wstring inText, D2D1_RECT_F inRect);
 
@@ -24,8 +25,8 @@ protected:
 	std::wstring text;
 	D2D1_RECT_F rect;
 
-	std::shared_ptr<TransformConstantBuffer> m_pTCB;
-	std::shared_ptr<ScreenText> m_pScreenText;
+	std::shared_ptr<TransformConstantBuffer> pTCB = nullptr;
+	std::shared_ptr<ScreenText> pScreenText = nullptr;
 
 	const TransformConstantBuffer::Transforms tf = {
 		DirectX::XMMatrixIdentity(),

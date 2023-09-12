@@ -14,6 +14,7 @@ public:
 	};
 
 	DepthStencilState(DirectX11& dx, DSSType inType);
+	virtual ~DepthStencilState();
 
 	static std::shared_ptr<DepthStencilState> Make(DirectX11& dx, DSSType inType);
 
@@ -30,5 +31,5 @@ public:
 	}
 protected:
 	DSSType type;
-	ID3D11DepthStencilState* m_pDepthStencilState;
+	ID3D11DepthStencilState* pDepthStencilState = nullptr;
 };

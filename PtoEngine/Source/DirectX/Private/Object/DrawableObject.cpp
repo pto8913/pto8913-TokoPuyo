@@ -6,6 +6,35 @@
 #include "Render/IndexBuffer.h"
 //#include "Render/VertexBuffer.h"
 
+DrawableObject::~DrawableObject()
+{
+	auto iter = tasks.begin();
+	while (iter != tasks.end())
+	{
+		auto& task = *iter;
+		if (task != nullptr)
+		{
+			task.reset();
+			task = nullptr;
+			iter = tasks.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+	tasks.clear();
+
+	pIndexBuffer.reset();
+	pIndexBuffer = nullptr;
+
+	pTopology.reset();
+	pTopology = nullptr;
+
+	pTCB.reset();
+	pTCB = nullptr;
+}
+
 void DrawableObject::AddTask(std::shared_ptr<Bindable> task)
 {
 	tasks.push_back(task);
@@ -21,9 +50,9 @@ void DrawableObject::ExecuteTasks(DirectX11& dx)
 {
 	if (visibility)
 	{
-		m_pTopology->Bind(dx);
-		m_pIndexBuffer->Bind(dx);
-		//m_pVertexBuffer->Bind(dx);
+		pTopology->Bind(dx);
+		pIndexBuffer->Bind(dx);
+		//pVertexBuffer->Bind(dx);
 		for (auto task : tasks)
 		{
 			task.get()->Bind(dx);

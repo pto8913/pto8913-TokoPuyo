@@ -8,7 +8,7 @@ class PixelShader : public Shader
 {
 public:
 	PixelShader(DirectX11& dx, const std::wstring& inFileName, const char* pEntryPoint);
-	~PixelShader();
+	virtual ~PixelShader();
 
 	static std::shared_ptr<PixelShader> Make(DirectX11& dx, const std::wstring& inFileName, const char* pEntryPoint);
 
@@ -19,5 +19,5 @@ public:
 
 private:
 	std::wstring fileName;
-	ID3D11PixelShader* m_pPixelShader;
+	ID3D11PixelShader* pPixelShader = nullptr;
 };

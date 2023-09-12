@@ -26,7 +26,7 @@ BlendState::BlendState(DirectX11& dx, UINT inSlot)
 
 	HRESULT result = GetDevice(dx)->CreateBlendState(
 		&desc,
-		&m_pBlendState
+		&pBlendState
 	);
 	if (FAILED(result))
 	{
@@ -37,7 +37,7 @@ BlendState::BlendState(DirectX11& dx, UINT inSlot)
 
 BlendState::~BlendState()
 {
-	Util::SafeRelease(m_pBlendState);
+	Util::SafeRelease(pBlendState);
 }
 
 std::shared_ptr<BlendState> BlendState::Make(DirectX11& dx, UINT inSlot)
@@ -47,5 +47,5 @@ std::shared_ptr<BlendState> BlendState::Make(DirectX11& dx, UINT inSlot)
 
 void BlendState::Bind(DirectX11& dx)
 {
-	GetContext(dx)->OMSetBlendState(m_pBlendState, NULL, 0xffffffff);
+	GetContext(dx)->OMSetBlendState(pBlendState, NULL, 0xffffffff);
 }

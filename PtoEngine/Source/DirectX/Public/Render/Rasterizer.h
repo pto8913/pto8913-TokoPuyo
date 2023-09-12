@@ -16,7 +16,7 @@ public:
 		Transparent2,
 	};
 	Rasterizer(DirectX11& dx, RasterizerType inType, UINT inSize);
-	~Rasterizer();
+	virtual ~Rasterizer();
 
 	static std::shared_ptr<Rasterizer> Make(DirectX11& dx, RasterizerType inType, UINT inSize);
 	virtual void Bind(DirectX11& dx) override;
@@ -32,8 +32,8 @@ public:
 	}
 	void Get(ID3D11RasterizerState& Out1, ID3D11RasterizerState& Out2);
 protected:
-	ID3D11RasterizerState* m_pRasterizer_1;
-	ID3D11RasterizerState* m_pRasterizer_2;
+	ID3D11RasterizerState* pRasterizer_1 = nullptr;
+	ID3D11RasterizerState* pRasterizer_2 = nullptr;
 	RasterizerType type;
 	UINT size;
 };

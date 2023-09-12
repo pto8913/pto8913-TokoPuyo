@@ -14,7 +14,7 @@ DrawCube::DrawCube(DirectX11& dx, float size)
 	size;
 	//TriangleList model = Cube::Make(size);
 	//
-	//m_pVertexBuffer = VertexBuffer::Make(dx, "Cube", model.vertices);
-	//m_pIndexBuffer = IndexBuffer::Make(dx, "Cube", model.indices);
-	//m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//pVertexBuffer = VertexBuffer::Make(dx, "Cube", model.vertices);
+	//pIndexBuffer = IndexBuffer::Make(dx, "Cube", model.indices);
+	//pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }

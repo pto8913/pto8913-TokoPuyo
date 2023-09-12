@@ -16,16 +16,16 @@ Texture::Texture(DirectX11& dx, Texture::TextureType inTextureType, const std::w
 		result = DirectX::CreateDDSTextureFromFile(
 			GetDevice(dx),
 			inFileName.c_str(),
-			(ID3D11Resource**)&m_pTexture,
-			&m_pTextureView
+			(ID3D11Resource**)&pTexture,
+			&pTextureView
 		);
 		break;
 	default:
 		result = DirectX::CreateWICTextureFromFile(
 			GetDevice(dx),
 			inFileName.c_str(),
-			(ID3D11Resource**)&m_pTexture,
-			&m_pTextureView
+			(ID3D11Resource**)&pTexture,
+			&pTextureView
 		);
 		break;
 	}
@@ -38,8 +38,8 @@ Texture::Texture(DirectX11& dx, Texture::TextureType inTextureType, const std::w
 }
 Texture::~Texture()
 {
-	m_pTexture->Release();
-	m_pTextureView->Release();
+	Util::SafeRelease(pTexture);
+	Util::SafeRelease(pTextureView);
 }
 
 std::shared_ptr<Texture> Texture::Make(DirectX11& dx, Texture::TextureType inTextureType, const std::wstring& inFileName, UINT inSlot)
@@ -49,5 +49,5 @@ std::shared_ptr<Texture> Texture::Make(DirectX11& dx, Texture::TextureType inTex
 
 void Texture::Bind(DirectX11& dx)
 {
-	GetContext(dx)->PSSetShaderResources(slot, 1, &m_pTextureView);
+	GetContext(dx)->PSSetShaderResources(slot, 1, &pTextureView);
 }

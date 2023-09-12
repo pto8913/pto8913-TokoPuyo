@@ -22,7 +22,7 @@ DrawPyramid::DrawPyramid(DirectX11& dx, float inWidth, float inHeight, float inN
 		6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7
 	};
 	SetVertices(dx, inWidth, inHeight, inNearZ, inFarZ);
-	m_pIndexBuffer = IndexBuffer::Make(dx, "pyramid", indices);
+	pIndexBuffer = IndexBuffer::Make(dx, "pyramid", indices);
 
 	/* Shading */
 	auto pVS = VertexShader::Make(dx, L"Shader/Shader.hlsl", "VS");
@@ -31,15 +31,15 @@ DrawPyramid::DrawPyramid(DirectX11& dx, float inWidth, float inHeight, float inN
 
 	AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V3D, pVS.get()));
 
-	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+	pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 
-	AddTask(m_pIndexBuffer);
-	AddTask(m_pVertexBuffer);
+	AddTask(pIndexBuffer);
+	AddTask(pVertexBuffer);
 
 	auto pTCB = TransformConstantBuffer::Make(dx, 0);
 	AddTask(pTCB);
 
-	AddTask(Rasterizer::Make(dx, Rasterizer::Wire, m_pIndexBuffer->GetCount()));
+	AddTask(Rasterizer::Make(dx, Rasterizer::Wire, pIndexBuffer->GetCount()));
 	InitializeTasks();
 }
 void DrawPyramid::SetVertices(DirectX11& dx, float inWidth, float inHeight, float inNearZ, float inFarZ)
@@ -60,5 +60,5 @@ void DrawPyramid::SetVertices(DirectX11& dx, float inWidth, float inHeight, floa
 	vertices.emplace_back( farX,  -farY,  inFarZ);
 	vertices.emplace_back(-farX,  -farY,  inFarZ);
 
-	m_pVertexBuffer = VertexBuffer<DX::FVertex>::Make(dx, "pyramid", vertices);
+	pVertexBuffer = VertexBuffer<DX::FVertex>::Make(dx, "pyramid", vertices);
 }

@@ -38,8 +38,8 @@ CameraIndicator::CameraIndicator(DirectX11& dx)
 	};
 
 	const std::string tag = "camera";
-	m_pVertexBuffer = VertexBuffer<DX::FVertex>::Make(dx, tag, vertices);
-	m_pIndexBuffer = IndexBuffer::Make(dx, tag, indices);
+	pVertexBuffer = VertexBuffer<DX::FVertex>::Make(dx, tag, vertices);
+	pIndexBuffer = IndexBuffer::Make(dx, tag, indices);
 
 	/* Shading */
 	auto pVS = VertexShader::Make(dx, L"Shader/Shader.hlsl", "VS");
@@ -48,14 +48,14 @@ CameraIndicator::CameraIndicator(DirectX11& dx)
 
 	AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V3D, pVS.get()));
 
-	m_pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+	pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 
-	AddTask(m_pIndexBuffer);
-	AddTask(m_pVertexBuffer);
+	AddTask(pIndexBuffer);
+	AddTask(pVertexBuffer);
 
 	auto pTCB = TransformConstantBuffer::Make(dx, 0);
 	AddTask(pTCB);
 
-	AddTask(Rasterizer::Make(dx, Rasterizer::Transparent, m_pIndexBuffer->GetCount()));
+	AddTask(Rasterizer::Make(dx, Rasterizer::Transparent, pIndexBuffer->GetCount()));
 	InitializeTasks();
 }

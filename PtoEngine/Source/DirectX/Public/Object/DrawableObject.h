@@ -15,6 +15,7 @@ class DrawableObject : public ObjectBase
 {
 public:
 	DrawableObject() = default;
+	virtual ~DrawableObject();
 
 	void AddTask(std::shared_ptr<Bindable> task);
 	void InitializeTasks();
@@ -24,10 +25,10 @@ public:
 	virtual bool GetVisibility();
 protected:
 	bool visibility = true;
-	std::shared_ptr<IndexBuffer> m_pIndexBuffer = nullptr;
-	//std::shared_ptr<VertexBuffer<DX::FVertex>> m_pVertexBuffer = nullptr;
-	std::shared_ptr<Topology> m_pTopology = nullptr;
-	std::shared_ptr<TransformConstantBuffer> m_pTCB = nullptr;
+	std::shared_ptr<IndexBuffer> pIndexBuffer = nullptr;
+	//std::shared_ptr<VertexBuffer<DX::FVertex>> pVertexBuffer = nullptr;
+	std::shared_ptr<Topology> pTopology = nullptr;
+	std::shared_ptr<TransformConstantBuffer> pTCB = nullptr;
 
 	std::vector<std::shared_ptr<Bindable>> tasks;
 };
