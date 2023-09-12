@@ -65,14 +65,6 @@ void Puyo::SetIsActive(const bool& in)
 	bIsActive = in;
 }
 
-bool Puyo::IsSame(const std::shared_ptr<Puyo>& in) const
-{
-	return GetType() == in->GetType() && Get2DIdx() == in->Get2DIdx();
-}
-bool Puyo::IsSameType(const std::shared_ptr<Puyo>& in) const
-{
-	return GetType() == in->GetType();
-}
 bool Puyo::IsSame(const Puyo* in) const
 {
 	return GetType() == in->GetType() && Get2DIdx() == in->Get2DIdx();

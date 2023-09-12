@@ -293,7 +293,7 @@ void Level_TokoPuyo::StartControlPuyo()
 			pGameState->SetGameProgress(*pDX, EGameProgress::Control);
 
 			ResetCalcScoreCount();
-			SpawnPuyo();
+			//SpawnPuyo();
 		}
 	}
 	else

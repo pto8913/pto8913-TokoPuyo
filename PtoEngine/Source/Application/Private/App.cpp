@@ -107,7 +107,7 @@ void App::InputUpdate(DirectX11& dx)
 // -----------------------------------
 // Main : GameMode
 // -----------------------------------
-void App::OnPlayerControllerChanged(const std::shared_ptr<PlayerController>& pPlayerController)
+void App::OnPlayerControllerChanged(PlayerController* pPlayerController)
 {
     mWindow.pMouse = pPlayerController->GetMouse();
 }

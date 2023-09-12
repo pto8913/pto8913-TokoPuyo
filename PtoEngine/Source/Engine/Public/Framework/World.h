@@ -18,8 +18,10 @@ class PlayerController;
 class Actor;
 class UserWidget;
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnGameModeChanged, const std::shared_ptr<GameModeBase>&);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerControllerChanged, const std::shared_ptr<PlayerController>&);
+class BoxCollision;
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnGameModeChanged, GameModeBase*);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerControllerChanged, PlayerController*);
 
 // ------------------------------------------------------------------------------------------------------------
 // World
@@ -65,6 +67,11 @@ public:
 		++mActorTotalCount;
 		AddToObjectCollection(out);
 
+		std::shared_ptr<BoxCollision> collision = out->GetComponent<BoxCollision>();
+		if (collision != nullptr)
+		{
+			pPersistentLevel->GetCollisionCollection().Add(collision);
+		}
 		return out;
 	}
 	void AddToObjectCollection(std::shared_ptr<Object> in)

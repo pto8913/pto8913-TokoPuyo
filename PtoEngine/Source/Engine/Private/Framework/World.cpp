@@ -253,7 +253,7 @@ void World::SetGameMode(DirectX11& dx, std::shared_ptr<GameModeBase>&& NewGameMo
 	pGameMode = std::move(NewGameMode);
 	pGameMode->BeginPlay(dx);
 
-	OnGameModeChanged.Broadcast(pGameMode);
+	OnGameModeChanged.Broadcast(pGameMode.get());
 }
 
 // -----------------------------------
