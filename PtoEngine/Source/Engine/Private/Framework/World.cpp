@@ -202,9 +202,9 @@ TimerManager& World::GetTimerManager()
 // -----------------------------------
 // Main : Util : Level
 // -----------------------------------
-std::shared_ptr<Level>& World::GetLevel()
+Level* World::GetLevel()
 {
-	return pPersistentLevel;
+	return pPersistentLevel.get();
 }
 void World::ActivateLevel()
 {
@@ -239,9 +239,9 @@ void World::CloseSubLevel(DirectX11& dx)
 // -----------------------------------
 // Main : Util : GameMode
 // -----------------------------------
-std::shared_ptr<GameModeBase>& World::GetGameMode()
+GameModeBase* World::GetGameMode()
 {
-	return pGameMode;
+	return pGameMode.get();
 }
 void World::SetGameMode(DirectX11& dx, std::shared_ptr<GameModeBase>&& NewGameMode)
 {
@@ -259,21 +259,21 @@ void World::SetGameMode(DirectX11& dx, std::shared_ptr<GameModeBase>&& NewGameMo
 // -----------------------------------
 // Main : Util : GameState
 // -----------------------------------
-std::shared_ptr<GameStateBase>& World::GetGameState()
+GameStateBase* World::GetGameState()
 {
-	return pGameState;
+	return pGameState.get();
 }
-std::shared_ptr<PlayerController>& World::GetPlayerController()
+PlayerController* World::GetPlayerController()
 {
-	return pPlayerController;
+	return pPlayerController.get();
 }
 
 // -----------------------------------
 // Main : Util : Player
 // -----------------------------------
-std::shared_ptr<Actor>& World::GetPlayer()
+Actor* World::GetPlayer()
 {
-	return pPlayer;
+	return pPlayer.get();
 }
 void World::ActivatePlayer()
 {
@@ -287,9 +287,9 @@ void World::DeactivatePlayer()
 // -----------------------------------
 // Main : Util : HUD
 // -----------------------------------
-std::shared_ptr<UserWidget>& World::GetHUD()
+UserWidget* World::GetHUD()
 {
-	return pHUD;
+	return pHUD.get();
 }
 void World::ActivateHUD()
 {

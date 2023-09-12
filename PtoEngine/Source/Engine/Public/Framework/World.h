@@ -82,7 +82,7 @@ public:
 	// -----------------------------------
 	// Main : Util : Level
 	// -----------------------------------
-	std::shared_ptr<Level>& GetLevel();
+	Level* GetLevel();
 	void ActivateLevel();
 	void DeactivateLevel();
 	void OpenSubLevel(DirectX11& dx, std::shared_ptr<Level> inNewLevel);
@@ -91,26 +91,26 @@ public:
 	// -----------------------------------
 	// Main : Util : GameMode
 	// -----------------------------------
-	std::shared_ptr<GameModeBase>& GetGameMode();
+	GameModeBase* GetGameMode();
 	void SetGameMode(DirectX11& dx, std::shared_ptr<GameModeBase>&& NewGameMode);
 
 	// -----------------------------------
 	// Main : Util : GameState
 	// -----------------------------------
-	std::shared_ptr<GameStateBase>& GetGameState();
-	std::shared_ptr<PlayerController>& GetPlayerController();
+	GameStateBase* GetGameState();
+	PlayerController* GetPlayerController();
 
 	// -----------------------------------
 	// Main : Util : Player
 	// -----------------------------------
-	std::shared_ptr<Actor>& GetPlayer();
+	Actor* GetPlayer();
 	void ActivatePlayer();
 	void DeactivatePlayer();
 
 	// -----------------------------------
 	// Main : Util : HUD
 	// -----------------------------------
-	std::shared_ptr<UserWidget>& GetHUD();
+	UserWidget* GetHUD();
 	void ActivateHUD();
 	void DeactivateHUD();
 
