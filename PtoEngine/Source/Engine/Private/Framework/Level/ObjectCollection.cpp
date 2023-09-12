@@ -29,18 +29,6 @@ void ObjectCollection::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Ob
 			std::vector<std::shared_ptr<Object>> arr(1, in);
 			pObjects.insert(std::make_pair(inLayer, arr));
 		}
-
-		switch (inLayer)
-		{
-		case Layer::EActorLayer::UI:
-			break;
-		default:
-			if (std::shared_ptr<Actor> actor = static_pointer_cast<Actor>(in))
-			{
-				actor->OnDestroyed.Bind<&ObjectCollection::ActorDestroyed>(*this, "World");
-			}
-			break;
-		}
 	}
 }
 void ObjectCollection::Append(std::vector<std::shared_ptr<Object>>& in)
@@ -103,37 +91,6 @@ void ObjectCollection::RemovePendingObjects()
 					obj.reset();
 					obj = nullptr;
 					iter = elem.second.erase(iter);
-				}
-				else
-				{
-					++iter;
-				}
-			}
-			else
-			{
-				++iter;
-			}
-		}
-	}
-}
-void ObjectCollection::ActorDestroyed(std::shared_ptr<Actor> in)
-{
-	for (auto&& elem : pObjects)
-	{
-		auto iter = elem.second.begin();
-		while (iter != elem.second.end())
-		{
-			auto& obj = *iter;
-			if (obj != nullptr)
-			{
-				auto actor = static_pointer_cast<Actor>(obj);
-				if (actor->GetID() == in->GetID())
-				{
-					obj->EndPlay();
-					obj.reset();
-					obj = nullptr;
-					iter = elem.second.erase(iter);
-					break;
 				}
 				else
 				{

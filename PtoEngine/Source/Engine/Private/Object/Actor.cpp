@@ -41,6 +41,10 @@ void Actor::BeginPlay(DirectX11& dx)
 		}
 	}
 }
+void Actor::EndPlay()
+{
+	OnDestroyed.Broadcast(shared_from_this());
+}
 void Actor::Tick(DirectX11& dx, float deltaTime)
 {
 	if (!IsPendingKill())
@@ -59,11 +63,7 @@ void Actor::Tick(DirectX11& dx, float deltaTime)
 }
 void Actor::DestroyActor()
 {
-	if (!IsPendingKill())
-	{
-		OnDestroyed.Broadcast(shared_from_this());
-		MarkPendingKill();
-	}
+	MarkPendingKill();
 }
 
 void Actor::SetID(int inID)
