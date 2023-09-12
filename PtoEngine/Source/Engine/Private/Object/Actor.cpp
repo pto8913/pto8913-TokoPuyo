@@ -66,15 +66,6 @@ void Actor::DestroyActor()
 	MarkPendingKill();
 }
 
-void Actor::SetID(int inID)
-{
-	mID = inID;
-}
-int Actor::GetID() const
-{
-	return mID;
-}
-
 // -----------------------------------
 // Main : Component
 // -----------------------------------

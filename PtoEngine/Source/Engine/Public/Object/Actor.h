@@ -32,12 +32,6 @@ public:
 	*/
 	void DestroyActor();
 
-private:
-	/* This will be call from World->SpawnActor() only once */
-	void SetID(int inID);
-public:
-	int GetID() const;
-
 	// -----------------------------------
 	// Main : Component
 	// -----------------------------------
@@ -106,7 +100,6 @@ protected:
 	// State
 	// ------------------------------------------------------
 	Object* pOuter = nullptr;
-	int mID = -1;
 	/* NOTE :
 		Is not same Actor::mLocation to ObjectBase::location.
 		Actor::mLocation is location in screen.

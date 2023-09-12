@@ -9,5 +9,6 @@ namespace Layer
 		Entities,
 		Foreground,
 		UI,
+		InValid,
 	};
 }
