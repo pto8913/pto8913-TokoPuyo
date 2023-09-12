@@ -111,10 +111,10 @@ void App::OnPlayerControllerChanged(const std::shared_ptr<PlayerController>& pPl
 {
     mWindow.pMouse = pPlayerController->GetMouse();
 }
-void App::OnWorldChanged(const std::shared_ptr<World>& NewWorld)
+void App::OnWorldChanged(std::weak_ptr<World> NewWorld)
 {
-    NewWorld->Init(*pDX);
-    NewWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
-    OnPlayerControllerChanged(NewWorld->GetPlayerController());
-    NewWorld->BeginPlay(*pDX);
+    NewWorld.lock()->Init(*pDX);
+    NewWorld.lock()->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
+    OnPlayerControllerChanged(NewWorld.lock()->GetPlayerController());
+    NewWorld.lock()->BeginPlay(*pDX);
 }

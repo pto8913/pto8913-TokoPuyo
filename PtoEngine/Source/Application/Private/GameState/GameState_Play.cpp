@@ -152,15 +152,6 @@ bool GameState_Play::IsPause() const noexcept
 	return bPause;
 }
 
-std::shared_ptr<GameProgressUI> GameState_Play::GetGameProgressUI()
-{
-	return pGameProgressUI;
-}
-std::shared_ptr<GameOverUI> GameState_Play::GetGameOverUI()
-{
-	return pGameOverUI;
-}
-
 void GameState_Play::OnClickedRestart(DX::MouseEvent inMouseEvent)
 {
 	auto level = static_pointer_cast<Level_TokoPuyo>(GetWorld()->GetLevel());

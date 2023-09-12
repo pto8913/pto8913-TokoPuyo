@@ -37,9 +37,6 @@ public:
 	void SetPause(bool in);
 	bool IsPause() const noexcept;
 
-	std::shared_ptr<GameProgressUI> GetGameProgressUI();
-	std::shared_ptr<GameOverUI> GetGameOverUI();
-
 protected:
 	void OnClickedRestart(DX::MouseEvent inMouseEvent);
 	void OnClickedRestartFromGameOver(DX::MouseEvent inMouseEvent);

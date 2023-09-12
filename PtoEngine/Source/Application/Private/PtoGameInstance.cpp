@@ -22,12 +22,12 @@ void PtoGameInstance::OpenWorldDelay()
     switch (OpenWorldID)
     {
     case EWorldId::Title:
-        pWorld = std::make_shared<World_Title>();
+        pWorld = std::make_unique<World_Title>();
         break;
     default:
-        pWorld = std::make_shared<World_TokoPuyo>();
+        pWorld = std::make_unique<World_TokoPuyo>();
         break;
     };
 
-    OnOpenWorld.Broadcast(pWorld);
+    OnOpenWorld.Broadcast(pWorld.get());
 }
