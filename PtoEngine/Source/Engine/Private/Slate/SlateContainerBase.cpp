@@ -390,7 +390,7 @@ void SlotContainerOnlyOne::Update()
 		NewPos.y = SrcPos.y + (cellH / 2.f) - (NewSize.y / 2.f);// +childSlateInfos.padding.top;
 		break;
 	default:
-		NewSize.y = NewSize.y;// -childSlateInfos.padding.top - childSlateInfos.padding.bottom;
+		NewSize.y = NewSize.y - childSlateInfos.padding.top - childSlateInfos.padding.bottom;
 		NewPos.y = SrcPos.y + childSlateInfos.padding.top;
 		break;
 	}
