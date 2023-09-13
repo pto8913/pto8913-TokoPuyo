@@ -116,7 +116,7 @@ void S_Slider::SetValue(float in)
 	mCurrent = Math::Clamp(in, mMinValue, mMaxValue);
 	OnValueChanged.Broadcast(mCurrent);
 #if _DEBUG
-	OutputDebugStringA(std::format("Slider Value {}", mCurrent).c_str());
+	OutputDebugStringA(std::format("Slider Value {}\n", mCurrent).c_str());
 #endif
 }
 
@@ -128,7 +128,7 @@ bool S_Slider::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 		{
 		case ESliderDirection::Horizontal:
 #if _DEBUG
-			OutputDebugStringA(std::format("Slider RangeValue {} {} {} {} {}", (float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue).c_str());
+			OutputDebugStringA(std::format("Slider RangeValue {} {} {} {} {}\n", (float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue).c_str());
 #endif
 			SetValue(Math::MapRange((float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue));
 			break;
