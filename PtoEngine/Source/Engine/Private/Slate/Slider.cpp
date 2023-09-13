@@ -16,8 +16,12 @@ S_Slider::S_Slider(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inS
 	: SlateSlotBase(inSize, inD2DRT, inSlateInfos), 
 	mAppearance(inAppearance)
 {
-
 }
+S_Slider::S_Slider(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
+	: S_Slider({ 0,0 }, inD2DRT, inSlateInfos, inAppearance)
+{
+}
+
 S_Slider::~S_Slider()
 {
 }
