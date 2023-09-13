@@ -19,6 +19,12 @@ S_Slider::S_Slider(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inS
 	: SlateSlotBase(inSize, inD2DRT, inSlateInfos), 
 	mAppearance(inAppearance)
 {
+	inD2DRT->CreateSolidColorBrush(
+		ColorHelper::ConvertColorToD2D(mAppearance.sliderLineColor),
+		&pLineBrush
+	);
+
+	SetAppearance(inAppearance);
 }
 S_Slider::S_Slider(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
 	: S_Slider({ 0,0 }, inD2DRT, inSlateInfos, inAppearance)
@@ -52,7 +58,7 @@ void S_Slider::Draw()
 					mPosition.y + mOffset.y + mSize.y / 2 + mAppearance.sliderLineThickness / 2
 				)
 			),
-			pBrush
+			pLineBrush
 		);
 		/* Draw Slider */
 		pD2DRT->FillRectangle(
@@ -78,7 +84,7 @@ void S_Slider::Draw()
 					mPosition.y + mOffset.y + mSize.y
 				)
 			),
-			pBrush
+			pLineBrush
 		);
 		/* Draw Slider */
 		pD2DRT->FillRectangle(
@@ -106,6 +112,9 @@ void S_Slider::Draw()
 void S_Slider::SetAppearance(FSlateSliderAppearance inAppearance)
 {
 	mAppearance = inAppearance;
+
+	pLineBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.sliderLineColor));
+	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.sliderButtonColor));
 }
 
 void S_Slider::SetMaxValue(float in)
