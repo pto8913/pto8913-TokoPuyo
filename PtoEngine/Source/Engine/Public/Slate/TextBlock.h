@@ -72,6 +72,7 @@ public:
 class S_TextBlock : public SlateSlotBase
 {
 public:
+	S_TextBlock(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
 	S_TextBlock(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
 	virtual ~S_TextBlock();
 
