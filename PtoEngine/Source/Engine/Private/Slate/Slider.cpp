@@ -11,7 +11,9 @@
 #include "Math/Math.h"
 #include "Algorithm/Math2.h"
 
-#define _DEBUG 1
+#if _DEBUG
+#include <format>
+#endif
 
 S_Slider::S_Slider(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
 	: SlateSlotBase(inSize, inD2DRT, inSlateInfos), 
@@ -113,6 +115,9 @@ void S_Slider::SetValue(float in)
 {
 	mCurrent = Math::Clamp(in, mMinValue, mMaxValue);
 	OnValueChanged.Broadcast(mCurrent);
+#if _DEBUG
+	OutputDebugStringA(std::format("Slider Value {}", mCurrent).c_str());
+#endif
 }
 
 bool S_Slider::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
