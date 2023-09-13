@@ -55,7 +55,7 @@ void GameState::OpenLandmarkUI(DirectX11& dx, const std::wstring& inLandmarkName
 		completed.Bind<&GameState::CloseLandmarkUI>(*this, "GameState");
 	}
 
-	pLandmarkUI = CreateWidget<LandmarkUI>(GetWorld(), dx, inLandmarkName, inPlayRate, completed).get();
+	pLandmarkUI = CreateWidget<LandmarkUI>(GetWorld(), dx, inLandmarkName, inPlayRate, completed);
 	pLandmarkUI->AddToViewport(2);
 
 	GetWorld()->DeactivateHUD();

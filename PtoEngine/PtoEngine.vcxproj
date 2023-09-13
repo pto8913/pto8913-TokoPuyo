@@ -354,6 +354,7 @@
     <ClInclude Include="Source\Engine\Public\Slate\SlateContainerBase.h" />
     <ClInclude Include="Source\Engine\Public\Slate\SlateInterface.h" />
     <ClInclude Include="Source\Engine\Public\Slate\SlateSlotBase.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\Slider.h" />
     <ClInclude Include="Source\Engine\Public\Slate\Spacer.h" />
     <ClInclude Include="Source\Engine\Public\Slate\TextBlock.h" />
     <ClInclude Include="Source\Engine\Public\Slate\VerticalBox.h" />
@@ -591,6 +592,7 @@
     <ClCompile Include="Source\Engine\Private\Slate\SlateBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\SlateContainerBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\SlateSlotBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\Slider.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\Spacer.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\TextBlock.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\VerticalBox.cpp" />
