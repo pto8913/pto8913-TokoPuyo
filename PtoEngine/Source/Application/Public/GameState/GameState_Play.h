@@ -54,8 +54,8 @@ protected:
 	// ------------------------------------------------------
 	EGameProgress mGameProgress;
 
-	std::shared_ptr<GameProgressUI> pGameProgressUI = nullptr;
-	std::shared_ptr<GameOverUI> pGameOverUI = nullptr;
+	GameProgressUI* pGameProgressUI = nullptr;
+	GameOverUI* pGameOverUI = nullptr;
 
 	int mMaxScore = 0;
 	int mMaxCombo = 0;

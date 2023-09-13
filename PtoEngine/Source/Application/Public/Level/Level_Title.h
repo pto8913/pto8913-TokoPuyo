@@ -22,5 +22,5 @@ protected:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
-	std::shared_ptr<TitleUI> pTitleUI = nullptr;
+	TitleUI* pTitleUI = nullptr;
 };

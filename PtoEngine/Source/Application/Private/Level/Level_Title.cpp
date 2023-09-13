@@ -19,7 +19,6 @@ Level_Title::~Level_Title()
 	{
 		pTitleUI->MarkPendingKill();
 	}
-	pTitleUI.reset();
 	pTitleUI = nullptr;
 }
 

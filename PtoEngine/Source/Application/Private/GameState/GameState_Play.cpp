@@ -22,14 +22,12 @@ GameState_Play::~GameState_Play()
 		pGameProgressUI->RemoveFromParent();
 		pGameProgressUI->MarkPendingKill();
 	}
-	pGameProgressUI.reset();
 	pGameProgressUI = nullptr;
 	if (pGameOverUI)
 	{
 		pGameOverUI->RemoveFromParent();
 		pGameOverUI->MarkPendingKill();
 	}
-	pGameOverUI.reset();
 	pGameOverUI = nullptr;
 }
 
