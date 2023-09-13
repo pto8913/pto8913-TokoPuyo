@@ -127,6 +127,9 @@ bool S_Slider::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 		switch (mAppearance.direction)
 		{
 		case ESliderDirection::Horizontal:
+#if _DEBUG
+			OutputDebugStringA(std::format("Slider RangeValue {} {} {} {} {}", (float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue).c_str());
+#endif
 			SetValue(Math::MapRange((float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue));
 			break;
 		default:
