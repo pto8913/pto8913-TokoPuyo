@@ -53,6 +53,6 @@ protected:
 	// ---------------------------
 	// State : Landmark
 	// ---------------------------
-	std::shared_ptr<LandmarkUI> pLandmarkUI = nullptr;
+	LandmarkUI* pLandmarkUI = nullptr;
 	float mLandmarkCompleteToDelay = 0.01f;
 };
