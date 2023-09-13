@@ -92,7 +92,12 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 void S_TextBlock::SetText(std::wstring inText)
 {
 	mText = inText;
-	UpdateSize();
+	SetSize(
+		{
+			max(mSize.x, mFont.fontSize * mText.size()),
+			max(mSize.y, mFont.fontSize)
+		}
+	);
 }
 void S_TextBlock::SetSize(FVector2D inSize)
 {
@@ -119,8 +124,8 @@ void S_TextBlock::UpdateSize()
 	{
 		SetSize(
 			{
-				max(mSize.x, mFont.fontSize * mText.size()),
-				max(mSize.y, mFont.fontSize)
+				mFont.fontSize * mText.size(),
+				mSize.y
 			}
 		);
 	}
