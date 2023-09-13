@@ -119,8 +119,8 @@ void S_TextBlock::UpdateSize()
 	{
 		SetSize(
 			{
-				mFont.fontSize * mText.size(),
-				mSize.y
+				max(mSize.x, mFont.fontSize * mText.size()),
+				max(mSize.y, mFont.fontSize)
 			}
 		);
 	}
