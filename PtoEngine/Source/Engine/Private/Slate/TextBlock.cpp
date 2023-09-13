@@ -9,7 +9,7 @@
 #include "Helper/RectHelper.h"
 
 S_TextBlock::S_TextBlock(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
-	: SlateSlotBase(inSize, inD2DRT, inSlateInfos), mText(L"TextBlock"), mFont(inFont), mAppearance(inAppearance)
+	: SlateSlotBase(inSize, inD2DRT, inSlateInfos), mText(L""), mFont(inFont), mAppearance(inAppearance)
 {
 	pD2DRT->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.color),
@@ -87,13 +87,7 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 		&pTextFormat
 	);
 	m_pDWriteFactory->Release();
-	//UpdateSize();
-	SetSize(
-		{
-			max(mSize.x, mFont.fontSize * mText.size()),
-			max(mSize.y, mFont.fontSize)
-		}
-	);
+	UpdateSize();
 }
 void S_TextBlock::SetText(std::wstring inText)
 {
@@ -125,10 +119,16 @@ void S_TextBlock::UpdateSize()
 	{
 		SetSize(
 			{
-				mFont.fontSize * mText.size(),
-				mSize.y
+				max(mSize.x, mFont.fontSize * mText.size()),
+				max(mSize.y, mFont.fontSize)
 			}
 		);
+		//SetSize(
+		//	{
+		//		mFont.fontSize * mText.size(),
+		//		mSize.y
+		//	}
+		//);
 	}
 }
 void S_TextBlock::SetAppearHorizontalAlignment(EHorizontalAlignment in)
