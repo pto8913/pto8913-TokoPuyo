@@ -20,7 +20,7 @@ public:
 	FSlateSliderAppearance()
 		: 
 		sliderButtonSize({ 5.f, 5.f }),
-		step(1.f),
+		step(0.1f),
 		sliderLineThickness(1.f),
 		direction(ESliderDirection::Horizontal)
 	{}
