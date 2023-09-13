@@ -7,6 +7,8 @@ class S_Border;
 class S_Image;
 class S_Button;
 
+class SettingsUI;
+
 class TitleUI : public UserWidget
 {
 public:
@@ -17,9 +19,11 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
+	virtual void Tick(DirectX11& dx, float deltaSec) override;
 protected:
 	void OnClickedTokoPuyoButton(DX::MouseEvent inMouseEvent);
 	void OnClickedVSCPU(DX::MouseEvent inMouseEvent);
+	void OnClickedSettings(DX::MouseEvent inMouseEvent);
 	void OnClickedExit(DX::MouseEvent inMouseEvent);
 public:
 	DX::FOnMouseAction OnClickedTokoPuyo;
@@ -27,5 +31,6 @@ protected:
 	// ------------------------------------------------------------------------------------------------------------
 	// State
 	// ------------------------------------------------------------------------------------------------------------
-
+	SettingsUI* pSettingsUI = nullptr;
+	DirectX11* pDX = nullptr;
 };

@@ -3,9 +3,11 @@
 
 #include "Slate/CanvasPanel.h"
 #include "Slate/VerticalBox.h"
+#include "Slate/HorizontalBox.h"
 #include "Slate/TextBlock.h"
 #include "Slate/Button.h"
 #include "Slate/Spacer.h"
+#include "Slate/Slider.h"
 
 #include "EngineSettings.h"
 #include "GameSettings.h"
@@ -31,6 +33,30 @@ SettingsUI::SettingsUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mous
 	auto pMenuVB = std::make_shared<S_VerticalBox>(menuVBSize, GetRt2D(), menuVBInfos);
 	pMenuVB->SetPosition({ windowSize.x / 2 - menuVBSize.x / 2, windowSize.y / 2 - menuVBSize.y / 2 + padding.y });
 	pRootSlate->AddChild(pMenuVB);
+
+	/* Audio Settings */
+	{
+		auto pHB = std::make_shared<S_HorizontalBox>(FVector2D(0.f, 24.f), GetRt2D());
+
+		FSlateInfos textInfos;
+		FSlateFont font;
+		FSlateTextAppearance textAppearance;
+		auto pTextBlock = std::make_shared<S_TextBlock>(GetRt2D(), textInfos, font, textAppearance);
+		pTextBlock->SetText(L"‰¹—Ê");
+
+		FSlateInfos infos;
+		infos.VAlign = EVerticalAlignment::Center;
+		FSlateSliderAppearance appearance;
+		appearance.sliderLineThickness = 2.f;
+		appearance.step = 0.01f;
+		auto pVolumeSlider = std::make_shared<S_Slider>(GetRt2D(), infos, appearance);
+		pVolumeSlider->SetMaxValue(100.f);
+
+		pMenuVB->AddChild(pHB);
+
+		pHB->AddChild(pTextBlock);
+		pHB->AddChild(pVolumeSlider);
+	}
 
 	/* Button */
 	auto button = [this, &pMenuVB](const std::wstring& mode)
