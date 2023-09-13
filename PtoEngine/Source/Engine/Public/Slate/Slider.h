@@ -20,15 +20,20 @@ public:
 	FSlateSliderAppearance()
 		: 
 		sliderButtonSize({ 5.f, 5.f }),
+		sliderButtonColor(255.f, 255.f, 255.f, 1.f),
 		step(0.1f),
 		sliderLineThickness(1.f),
+		sliderLineColor(100.f, 100.f, 100.f, 1.f),
 		direction(ESliderDirection::Horizontal)
 	{}
 	/* Slider Button */
 	FVector2D sliderButtonSize;
+	FColor sliderButtonColor;
 	float step;
+
 	/* Slider Line */
 	float sliderLineThickness;
+	FColor sliderLineColor;
 
 	ESliderDirection direction;
 };
@@ -69,4 +74,6 @@ protected:
 	float mCurrent = 0.5f;
 
 	FSlateSliderAppearance mAppearance;
+
+	ID2D1SolidColorBrush* pLineBrush = nullptr
 };
