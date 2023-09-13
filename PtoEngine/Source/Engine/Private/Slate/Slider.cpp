@@ -9,6 +9,7 @@
 #include "Helper/RectHelper.h"
 
 #include "Math/Math.h"
+#include "Algorithm/Math2.h"
 
 #define _DEBUG 1
 
@@ -121,10 +122,10 @@ bool S_Slider::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 		switch (mAppearance.direction)
 		{
 		case ESliderDirection::Horizontal:
-			SetValue(inMouseEvent.x);
+			SetValue(Math::MapRange((float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue));
 			break;
 		default:
-			SetValue(inMouseEvent.y);
+			SetValue(Math::MapRange((float)inMouseEvent.y - mPosition.y, 0.f, mSize.y, mMinValue, mMaxValue));
 			break;
 		}
 		return true;
