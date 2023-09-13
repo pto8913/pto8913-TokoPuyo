@@ -87,17 +87,18 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 		&pTextFormat
 	);
 	m_pDWriteFactory->Release();
-	UpdateSize();
-}
-void S_TextBlock::SetText(std::wstring inText)
-{
-	mText = inText;
+	//UpdateSize();
 	SetSize(
 		{
 			max(mSize.x, mFont.fontSize * mText.size()),
 			max(mSize.y, mFont.fontSize)
 		}
 	);
+}
+void S_TextBlock::SetText(std::wstring inText)
+{
+	mText = inText;
+	UpdateSize();
 }
 void S_TextBlock::SetSize(FVector2D inSize)
 {
