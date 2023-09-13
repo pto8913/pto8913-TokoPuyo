@@ -44,6 +44,9 @@ public:
 	// Main
 	// ------------------------------------------------------
 	virtual void Draw() override;
+
+	void SetAppearance(FSlateSliderAppearance inAppearance);
+
 	void SetMaxValue(float in);
 	void SetMinValue(float in);
 	void SetValue(float in);

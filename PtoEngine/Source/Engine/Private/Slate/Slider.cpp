@@ -58,10 +58,10 @@ void S_Slider::Draw()
 		pD2DRT->FillRectangle(
 			RectHelper::ConvertRectToD2D(
 				FRect(
-					mPosition.x + mOffset.x + GetSliderPosition() - mAppearance.sliderButtonSize.x / 2,
-					mPosition.y + mOffset.y + mSize.y / 2 - mAppearance.sliderButtonSize.y / 2,
-					mPosition.x + mOffset.x + GetSliderPosition() + mAppearance.sliderButtonSize.x / 2,
-					mPosition.y + mOffset.y + mSize.y / 2 + mAppearance.sliderButtonSize.y / 2
+					mPosition.x + mOffset.x - mAppearance.sliderButtonSize.x / 2 + GetSliderPosition(),
+					mPosition.y + mOffset.y - mAppearance.sliderButtonSize.y / 2 + mSize.y / 2,
+					mPosition.x + mOffset.x + mAppearance.sliderButtonSize.x / 2 + GetSliderPosition(),
+					mPosition.y + mOffset.y + mAppearance.sliderButtonSize.y / 2 + mSize.y / 2
 				)
 			),
 			pBrush
@@ -85,9 +85,9 @@ void S_Slider::Draw()
 			RectHelper::ConvertRectToD2D(
 				FRect(
 					mPosition.x + mOffset.x - mAppearance.sliderButtonSize.x / 2,
-					mPosition.y + mOffset.y + GetSliderPosition() - mAppearance.sliderButtonSize.y / 2,
+					mPosition.y + mOffset.y - mAppearance.sliderButtonSize.y / 2 + GetSliderPosition(),
 					mPosition.x + mOffset.x + mAppearance.sliderButtonSize.x / 2,
-					mPosition.y + mOffset.y + GetSliderPosition() + mAppearance.sliderButtonSize.y / 2
+					mPosition.y + mOffset.y + mAppearance.sliderButtonSize.y / 2 + GetSliderPosition()
 				)
 			),
 			pBrush
@@ -101,6 +101,11 @@ void S_Slider::Draw()
 		pBrush
 	);
 #endif
+}
+
+void S_Slider::SetAppearance(FSlateSliderAppearance inAppearance)
+{
+	mAppearance = inAppearance;
 }
 
 void S_Slider::SetMaxValue(float in)
