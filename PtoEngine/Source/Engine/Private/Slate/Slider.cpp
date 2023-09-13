@@ -123,7 +123,9 @@ bool S_Slider::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 			SetValue(inMouseEvent.y);
 			break;
 		}
+		return true;
 	}
+	return false;
 }
 
 float S_Slider::GetSliderPosition()
