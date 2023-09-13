@@ -75,5 +75,5 @@ protected:
 
 	FSlateSliderAppearance mAppearance;
 
-	ID2D1SolidColorBrush* pLineBrush = nullptr
+	ID2D1SolidColorBrush* pLineBrush = nullptr;
 };
