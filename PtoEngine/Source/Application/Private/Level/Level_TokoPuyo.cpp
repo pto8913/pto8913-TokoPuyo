@@ -316,7 +316,7 @@ void Level_TokoPuyo::SpawnPuyo()
 	if (pMainPuyo == nullptr)
 	{
 #if _DEBUG
-		OutputDebugStringA("SpawnPuyo new pointer");
+		OutputDebugStringA("SpawnPuyo new pointer\n");
 #endif
 		auto world = GetWorld();
 		pMainPuyo = world->SpawnActor<Puyo>(
@@ -329,7 +329,7 @@ void Level_TokoPuyo::SpawnPuyo()
 	else
 	{
 #if _DEBUG
-		OutputDebugStringA("SpawnPuyo shared pointer");
+		OutputDebugStringA("SpawnPuyo shared pointer\n");
 #endif
 		pMainPuyo->SetType(mainPuyoId);
 		pSubPuyo->SetType(subPuyoId);
@@ -443,7 +443,7 @@ void Level_TokoPuyo::ActionActivePuyoSlide(float rateX, float rateY)
 void Level_TokoPuyo::ActivePuyoDownToRelease()
 {
 #if _DEBUG
-	OutputDebugStringA("ActivePuyoDownToRelease");
+	OutputDebugStringA("ActivePuyoDownToRelease\n");
 #endif
 	auto currMainIdx = pMainPuyo->Get2DIdx();
 	currMainIdx.y = floor(currMainIdx.y);

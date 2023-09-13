@@ -38,6 +38,10 @@ Puyo::Puyo(DirectX11& dx, const uint8_t& type)
 	
 	AddTag(GameSettings::PUYO_TAG);
 }
+Puyo::~Puyo()
+{
+
+}
 
 // ------------------------------------------------------
 // Main

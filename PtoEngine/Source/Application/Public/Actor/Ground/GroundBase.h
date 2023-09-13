@@ -9,6 +9,7 @@ class GroundBase : public Actor2D
 {
 public:
 	GroundBase(DirectX11& dx, const EGroundId& inGroundType);
+	virtual ~GroundBase();
 
 	// ------------------------------------------------------
 	// Main

@@ -10,6 +10,7 @@ class Puyo : public Actor2D
 {
 public:
 	Puyo(DirectX11& dx, const uint8_t& type);
+	virtual ~Puyo();
 
 	// ------------------------------------------------------
 	// Main

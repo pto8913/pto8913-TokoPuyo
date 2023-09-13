@@ -72,7 +72,7 @@ void ObjectCollection::Clear()
 				{
 #if _DEBUG
 					OutputDebugStringA(std::format("obj.use_count {}\n", obj.use_count()).c_str());
-					OutputDebugStringA(std::format("obj {} \n", obj->GetName()).c_str());
+					//OutputDebugStringA(std::format("obj {} \n", obj->GetName()).c_str());
 #endif
 				}
 				obj.reset();

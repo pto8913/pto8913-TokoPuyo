@@ -25,6 +25,7 @@ class Actor2D : public Actor
 {
 public:
 	Actor2D(DirectX11& dx, const FActor2DSettings& Settings, const float& inUpdateTime = -1);
+	virtual ~Actor2D();
 
 	// ------------------------------------------------------
 	// Main
@@ -34,7 +35,7 @@ protected:
 	// called per UpdateTime.
 	virtual void Update(DirectX11& dx) {};
 public:
-	std::shared_ptr<SpriteComponent> GetSpriteComp();
+	SpriteComponent* GetSpriteComp();
 
 	void SetSortOrder(Layer::EOrder inSortOrder);
 	Layer::EOrder GetSortOrder() const;
@@ -55,7 +56,7 @@ protected:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
-	std::shared_ptr<SpriteComponent> pSpriteComp = nullptr;
+	SpriteComponent* pSpriteComp = nullptr;
 
 	Layer::EOrder mSortOrder = Layer::UnOrder;
 	FVector2D m2DIdx;

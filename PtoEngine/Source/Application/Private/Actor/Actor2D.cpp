@@ -28,11 +28,15 @@ Actor2D::Actor2D(DirectX11& dx, const FActor2DSettings& Settings, const float& i
 		Settings.fileName,
 		Settings.tag,
 		XMFLOAT2(Settings.size.x, Settings.size.y)
-	);
+	).get();
 
 	auto c = EngineSettings::GETCELL(Settings.size);
 	SetActorScale({ c.x, c.y, 0 });
 	LastTime = chrono::now();
+}
+Actor2D::~Actor2D()
+{
+	pSpriteComp = nullptr;
 }
 
 // ------------------------------------------------------
@@ -56,7 +60,7 @@ void Actor2D::Tick(DirectX11& dx, float deltaTime)
 	}
 }
 
-std::shared_ptr<SpriteComponent> Actor2D::GetSpriteComp()
+SpriteComponent* Actor2D::GetSpriteComp()
 {
 	return pSpriteComp;
 }

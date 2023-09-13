@@ -35,6 +35,10 @@ GroundBase::GroundBase(DirectX11& dx, const EGroundId& inGroundType)
 
 	SetGroundType(inGroundType);
 }
+GroundBase::~GroundBase()
+{
+
+}
 
 // ------------------------------------------------------
 // Main
