@@ -52,6 +52,7 @@ public:
 	void SetValue(float in);
 
 	virtual bool OnMouseButtonDown(DX::MouseEvent inMouseEvent) override;
+	virtual bool OnMouseButtonHeld(DX::MouseEvent inMouseEvent) override;
 protected:
 	float GetSliderPosition();
 public:
