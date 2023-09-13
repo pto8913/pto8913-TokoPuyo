@@ -151,8 +151,8 @@ float S_Slider::GetSliderPosition()
 	switch (mAppearance.direction)
 	{
 	case ESliderDirection::Horizontal:
-		return GetSize().x * mCurrent;
+		return GetSize().x * mCurrent / mMaxValue;
 	default:
-		return GetSize().y * mCurrent;
+		return GetSize().y * mCurrent / mMaxValue;
 	}
 }
