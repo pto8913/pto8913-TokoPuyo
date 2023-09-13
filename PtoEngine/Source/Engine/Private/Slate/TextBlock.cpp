@@ -8,8 +8,8 @@
 #include "Helper/ColorHelper.h"
 #include "Helper/RectHelper.h"
 
-S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
-	: SlateSlotBase({ mFont.fontSize * mText.size(), mFont.fontSize }, inD2DRT, inSlateInfos), mText(L"TextBlock"), mFont(inFont), mAppearance(inAppearance)
+S_TextBlock::S_TextBlock(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
+	: SlateSlotBase(inSize, inD2DRT, inSlateInfos), mText(L"TextBlock"), mFont(inFont), mAppearance(inAppearance)
 {
 	pD2DRT->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.color),
@@ -27,7 +27,6 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, F
 S_TextBlock::~S_TextBlock()
 {
 	Util::SafeRelease(pTextFormat);
-	OnSetText.ClearBind();
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -93,7 +92,7 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 void S_TextBlock::SetText(std::wstring inText)
 {
 	mText = inText;
-	//UpdateSize();
+	UpdateSize();
 }
 void S_TextBlock::SetSize(FVector2D inSize)
 {
