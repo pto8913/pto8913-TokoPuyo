@@ -45,7 +45,7 @@ public:
 	void RemoveComponent(const std::string& tag);
 
 	template<typename TClass>
-	std::shared_ptr<TClass> GetComponent()
+	TClass* GetComponent()
 	{
 		for (auto&& comp : pComponents)
 		{
@@ -53,7 +53,7 @@ public:
 			{
 				if (auto ptr = static_pointer_cast<TClass>(comp.second))
 				{
-					return ptr;
+					return ptr.get();
 				}
 			}
 		}
