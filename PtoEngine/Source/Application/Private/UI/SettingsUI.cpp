@@ -12,6 +12,10 @@
 #include "EngineSettings.h"
 #include "GameSettings.h"
 
+#include "World/WorldTypes.h"
+
+#include "PtoGameInstance.h"
+
 SettingsUI::SettingsUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 	: UserWidget(
 		inOwner, 
@@ -34,38 +38,55 @@ SettingsUI::SettingsUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mous
 	pMenuVB->SetPosition({ windowSize.x / 2 - menuVBSize.x / 2, windowSize.y / 2 - menuVBSize.y / 2 + padding.y });
 	pRootSlate->AddChild(pMenuVB);
 
-	/* Audio Settings */
 	{
-		auto pHB = std::make_shared<S_HorizontalBox>(FVector2D(0.f, 40.f), GetRt2D());
+		FSlateInfos settingsVBInfos;
+		settingsVBInfos.VAlign = EVerticalAlignment::Center;
+		const FVector2D settingsVBSize = { windowSize.x / 2, windowSize.y / 2.f - 40.f };
+		auto pSettingsVB = std::make_shared<S_VerticalBox>(GetRt2D(), settingsVBInfos); //settingsVBSize, GetRt2D(), settingsVBInfos);
+		pMenuVB->AddChild(pSettingsVB);
 
-		FSlateInfos textInfos;
-		FSlateFont font;
-		FSlateTextAppearance textAppearance;
-		auto pTextBlock = std::make_shared<S_TextBlock>(FVector2D(0.f, 40.f), GetRt2D(), textInfos, font, textAppearance);
-		pTextBlock->SetText(L"‰¹—Ê");
+		/* Audio Settings */
+		{
+			FSlateInfos HBInfos;
+			HBInfos.HAlign = EHorizontalAlignment::Center;
+			auto pHB = std::make_shared<S_HorizontalBox>(FVector2D(300.f, 40.f), GetRt2D(), HBInfos);
 
-		FSlateInfos infos;
-		infos.VAlign = EVerticalAlignment::Center;
-		FSlateSliderAppearance appearance;
-		appearance.sliderLineThickness = 2.f;
-		appearance.step = 0.01f;
-		auto pVolumeSlider = std::make_shared<S_Slider>(GetRt2D(), infos, appearance);
-		pVolumeSlider->SetMaxValue(100.f);
+			FSlateInfos textInfos;
+			FSlateFont font;
+			FSlateTextAppearance textAppearance;
+			auto pTextBlock = std::make_shared<S_TextBlock>(FVector2D(75.f, 40.f), GetRt2D(), textInfos, font, textAppearance);
+			pTextBlock->SetText(L"‰¹—Ê");
 
-		pMenuVB->AddChild(pHB);
+			currentAudioValue = GameSettings::GetAudioVolume();
 
-		pHB->AddChild(pTextBlock);
-		pHB->AddChild(pVolumeSlider);
+			FSlateInfos textAudioVolumeInfos;
+			FSlateFont fontAudioVolume;
+			FSlateTextAppearance textAudioVolumeAppearance;
+			pText_AudioVolume = std::make_shared<S_TextBlock>(FVector2D(50.f, 40.f), GetRt2D(), textAudioVolumeInfos, fontAudioVolume, textAudioVolumeAppearance);
+
+			FSlateInfos infos;
+			FSlateSliderAppearance appearance;
+			appearance.sliderLineThickness = 2.f;
+			appearance.step = 0.01f;
+			auto pVolumeSlider = std::make_shared<S_Slider>(FVector2D(175.f, 40.f), GetRt2D(), infos, appearance);
+			pVolumeSlider->SetMaxValue(100.f);
+			pVolumeSlider->OnValueChanged.Bind<&SettingsUI::OnAudioVolumeChanged>(*this, "SettingsUI");
+			pVolumeSlider->SetValue(currentAudioValue);
+
+			pSettingsVB->AddChild(pHB);
+
+			pHB->AddChild(pTextBlock);
+			pHB->AddChild(pText_AudioVolume);
+			pHB->AddChild(pVolumeSlider);
+		}
 	}
-
 	/* Button */
-	auto button = [this, &pMenuVB](const std::wstring& mode)
+	auto button = [this](const std::wstring& mode)
 	{
 		FSlateInfos infos;
-		infos.HAlign = EHorizontalAlignment::Center;
-		infos.padding = { 0.f, 2.5f, 0.f, 2.5f };
+		infos.padding = { 2.5f, 0.f, 2.5f, 0.f };
 		FSlateButtonAppearance appearance;
-		auto pButton = std::make_shared<S_Button>(FVector2D(200.f, 40.f), GetRt2D(), infos, appearance);
+		auto pButton = std::make_shared<S_Button>(FVector2D(145.f, 40.f), GetRt2D(), infos, appearance);
 
 		/* Label */
 		{
@@ -81,13 +102,29 @@ SettingsUI::SettingsUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mous
 			pTextBlock->SetText(mode);
 			pButton->AddChild(pTextBlock);
 		}
-		pMenuVB->AddChild(pButton);
 		return std::move(pButton);
 	};
-	
+
+	/* Buttons */
+	FSlateInfos buttonHBinfos;
+	buttonHBinfos.HAlign = EHorizontalAlignment::Center;
+	buttonHBinfos.padding = { 0.f,2.5f,0.f,2.5f };
+	auto pButtonsHB = std::make_shared<S_HorizontalBox>(FVector2D(300.f, 40.f), GetRt2D(), buttonHBinfos);
+	pMenuVB->AddChild(pButtonsHB);
+
+	/*  Button Save */
+	auto pButton_Save = button(L"•Û‘¶‚·‚é");
+	pButton_Save->OnClicked.Bind<&SettingsUI::OnClickedSave>(*this, "SettingsUI");
+
+	/* Button Return */
+	auto pButton_Return = button(L"–ß‚é");
+	pButton_Return->OnClicked.Bind<&SettingsUI::OnClickedReturnTitle>(*this, "SettingsUI");
+
+	pButtonsHB->AddChild(pButton_Save);
+	pButtonsHB->AddChild(pButton_Return);
+
 	pRootSlate->UpdateWidget();
 }
-
 SettingsUI::SettingsUI(DirectX11& dx, DX::IMouseInterface* mouse)
 	: SettingsUI(nullptr, dx, mouse)
 {
@@ -97,4 +134,22 @@ SettingsUI::SettingsUI(DirectX11& dx, DX::IMouseInterface* mouse)
 SettingsUI::~SettingsUI()
 {
 
+}
+
+// ------------------------------------------------------------------------------------------------------------
+// Main
+// ------------------------------------------------------------------------------------------------------------
+void SettingsUI::OnClickedReturnTitle(DX::MouseEvent inMouseEvent)
+{
+	PtoGameInstance& gameInstance = PtoGameInstance::Get();
+	gameInstance.OpenWorld(static_cast<int>(EWorldId::Title));
+}
+void SettingsUI::OnClickedSave(DX::MouseEvent inMouseEvent)
+{
+	GameSettings::SetAudioVolume(currentAudioValue);
+}
+void SettingsUI::OnAudioVolumeChanged(float inValue)
+{
+	currentAudioValue = inValue;
+	pText_AudioVolume->SetText(std::to_wstring((int)inValue));
 }

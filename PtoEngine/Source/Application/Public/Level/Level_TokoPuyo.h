@@ -36,6 +36,8 @@ public:
 protected:
 	void GameProgressChanged(const EGameProgress& NewState);
 
+	void OnAudioVolumeChanged(float inValue);
+
 	void StartControlPuyo();
 	void SpawnPuyo();
 

@@ -52,6 +52,7 @@ Level_TokoPuyo::Level_TokoPuyo(DirectX11& dx)
 		BGM->SetLoop(true);
 		BGM->Play();
 	}
+	OnAudioVolumeChanged(GameSettings::GetAudioVolume());
 
 	//mGameMode = std::make_shared<GameMode>();
 	//vanishCount = static_cast<uint8_t>(mGameMode->GetNumOfConnect());
@@ -263,6 +264,15 @@ void Level_TokoPuyo::GameProgressChanged(const EGameProgress& NewState)
 		NeedDurationTime_Main = GameSettings::GetPuyoFallSpeed(EPuyoControl::Wait);
 		break;
 	}
+}
+void Level_TokoPuyo::OnAudioVolumeChanged(float inValue)
+{
+	BGM->SetVolume(BGM->GetVolume() * inValue / 10.f);
+	SE_PuyoMove->SetVolume(SE_PuyoMove->GetVolume() * inValue / 10.f);
+	SE_PuyoBottom->SetVolume(SE_PuyoBottom->GetVolume() * inValue / 10.f);
+	SE_PuyoRotate->SetVolume(SE_PuyoRotate->GetVolume() * inValue / 10.f);
+	SE_PuyoVanish->SetVolume(SE_PuyoVanish->GetVolume() * inValue / 10.f);
+	SE_PuyoGameOver->SetVolume(SE_PuyoGameOver->GetVolume() * inValue / 10.f);
 }
 
 void Level_TokoPuyo::StartControlPuyo()

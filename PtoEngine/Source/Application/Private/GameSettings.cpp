@@ -35,6 +35,27 @@ const std::wstring GameSettings::PUYO_TAG = L"Puyo";
 
 const FVector2D GameSettings::GAMESCREEN_PADDING = { 16.f, 16.f };
 
+float GameSettings::GetAudioVolume()
+{
+	json jsonEngineSettings = GSSS::GetJson();
+
+	float v;
+	jsonEngineSettings["audioVolume"].get_to(v);
+	return v;
+}
+void GameSettings::SetAudioVolume(const float& in)
+{
+	json jsonEngineSettings = GSSS::GetJson();
+
+	if (jsonEngineSettings.contains("audioVolume"))
+	{
+		jsonEngineSettings["audioVolume"] = in;
+	}
+	GSSS::SaveJson(jsonEngineSettings);
+	OnAudioVolumeChanged.Broadcast(in);
+}
+FOnAudioVolumeChanged GameSettings::OnAudioVolumeChanged;
+
 FVector2D GameSettings::GetGameBoardSize()
 {
 	json jsonEngineSettings = GSSS::GetJson();

@@ -3,6 +3,9 @@
 #include "Math/Vector.h"
 #include "Actor/Character/PuyoTypes.h"
 #include <vector>
+#include "Engine/Delegate.h"
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnAudioVolumeChanged, float);
 
 class GameSettings
 {
@@ -21,6 +24,11 @@ public:
 	static const std::wstring PUYO_TAG;
 
 	static const FVector2D GAMESCREEN_PADDING;
+
+	static float GetAudioVolume();
+	static void SetAudioVolume(const float& in);
+
+	static FOnAudioVolumeChanged OnAudioVolumeChanged;
 
 	static FVector2D GetGameBoardSize();
 	static void SetGameBoardSize(const FVector2D& in);
