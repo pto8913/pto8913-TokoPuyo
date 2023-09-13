@@ -44,9 +44,9 @@ void S_Slider::Draw()
 			RectHelper::ConvertRectToD2D(
 				FRect(
 					mPosition.x + mOffset.x,
-					mPosition.y + mOffset.y,
-					mPosition.x + mSize.x + mOffset.x,
-					mPosition.y + mAppearance.sliderLineThickness + mOffset.y
+					mPosition.y + mOffset.y + mSize.y / 2 - mAppearance.sliderLineThickness / 2,
+					mPosition.x + mOffset.x + mSize.x,
+					mPosition.y + mOffset.y + mSize.y / 2 + mAppearance.sliderLineThickness / 2
 				)
 			),
 			pBrush
@@ -56,9 +56,9 @@ void S_Slider::Draw()
 			RectHelper::ConvertRectToD2D(
 				FRect(
 					mPosition.x + mOffset.x + GetSliderPosition() - mAppearance.sliderButtonSize.x / 2,
-					mPosition.y + mOffset.y - mAppearance.sliderButtonSize.y / 2,
+					mPosition.y + mOffset.y + mSize.y / 2 - mAppearance.sliderButtonSize.y / 2,
 					mPosition.x + mOffset.x + GetSliderPosition() + mAppearance.sliderButtonSize.x / 2,
-					mPosition.y + mOffset.y + mAppearance.sliderButtonSize.y / 2
+					mPosition.y + mOffset.y + mSize.y / 2 + mAppearance.sliderButtonSize.y / 2
 				)
 			),
 			pBrush
@@ -69,10 +69,10 @@ void S_Slider::Draw()
 		pD2DRT->FillRectangle(
 			RectHelper::ConvertRectToD2D(
 				FRect(
-					mPosition.x + mOffset.x,
+					mPosition.x + mOffset.x - mAppearance.sliderLineThickness / 2,
 					mPosition.y + mOffset.y,
-					mPosition.x + mAppearance.sliderLineThickness + mOffset.x,
-					mPosition.y + mSize.y + mOffset.y
+					mPosition.x + mOffset.x + mAppearance.sliderLineThickness / 2,
+					mPosition.y + mOffset.y + mSize.y
 				)
 			),
 			pBrush
