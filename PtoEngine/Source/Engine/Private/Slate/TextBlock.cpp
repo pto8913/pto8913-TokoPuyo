@@ -8,8 +8,6 @@
 #include "Helper/ColorHelper.h"
 #include "Helper/RectHelper.h"
 
-#define _DEBUG 1
-
 S_TextBlock::S_TextBlock(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
 	: SlateSlotBase(inSize, inD2DRT, inSlateInfos), mText(L"TextBlock"), mFont(inFont), mAppearance(inAppearance)
 {
