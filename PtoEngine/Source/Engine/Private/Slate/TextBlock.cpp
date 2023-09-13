@@ -97,7 +97,10 @@ void S_TextBlock::SetText(std::wstring inText)
 void S_TextBlock::SetSize(FVector2D inSize)
 {
 	mSize.x = inSize.x;
-	mSize.y = mFont.fontSize;
+	//mSize.x = mFont.fontSize * mText.size();
+	//mSize.x = inSize.x;
+	//mSize.y = mFont.fontSize;
+	mSize.y = inSize.y;
 }
 void S_TextBlock::UpdateSize()
 {
@@ -117,7 +120,7 @@ void S_TextBlock::UpdateSize()
 		SetSize(
 			{
 				mFont.fontSize * mText.size(),
-				mFont.fontSize
+				mSize.y
 			}
 		);
 	}
