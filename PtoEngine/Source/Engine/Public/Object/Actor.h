@@ -36,11 +36,11 @@ public:
 	// Main : Component
 	// -----------------------------------
 	template<typename TClass, typename ...Args, typename = typename std::enable_if_t<std::is_base_of_v<ComponentBase, TClass>>>
-	std::shared_ptr<TClass> AddComponent(const std::string& tag, Args&& ...args)
+	TClass* AddComponent(const std::string& tag, Args&& ...args)
 	{
 		auto ptr = std::make_shared<TClass>(std::forward<Args>(args)...);
 		pComponents.emplace(tag, ptr);
-		return ptr;
+		return std::move(ptr.get());
 	}
 	void RemoveComponent(const std::string& tag);
 
