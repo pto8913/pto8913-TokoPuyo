@@ -36,12 +36,12 @@ SettingsUI::SettingsUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mous
 
 	/* Audio Settings */
 	{
-		auto pHB = std::make_shared<S_HorizontalBox>(FVector2D(0.f, 24.f), GetRt2D());
+		auto pHB = std::make_shared<S_HorizontalBox>(FVector2D(0.f, 40.f), GetRt2D());
 
 		FSlateInfos textInfos;
 		FSlateFont font;
 		FSlateTextAppearance textAppearance;
-		auto pTextBlock = std::make_shared<S_TextBlock>(GetRt2D(), textInfos, font, textAppearance);
+		auto pTextBlock = std::make_shared<S_TextBlock>(FVector2D(0.f, 40.f), GetRt2D(), textInfos, font, textAppearance);
 		pTextBlock->SetText(L"‰¹—Ê");
 
 		FSlateInfos infos;
