@@ -78,6 +78,10 @@ void ObjectCollection::Clear()
 				obj.reset();
 				obj = nullptr;
 				iter = elem.second.erase(iter);
+
+#if _DEBUG
+				//OutputDebugStringA(std::format("object remain {}\n", elem.second.size()).c_str());
+#endif
 			}
 			else
 			{

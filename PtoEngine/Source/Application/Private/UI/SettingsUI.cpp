@@ -12,10 +12,6 @@
 #include "EngineSettings.h"
 #include "GameSettings.h"
 
-#include "World/WorldTypes.h"
-
-#include "PtoGameInstance.h"
-
 SettingsUI::SettingsUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 	: UserWidget(
 		inOwner, 
@@ -133,7 +129,10 @@ SettingsUI::SettingsUI(DirectX11& dx, DX::IMouseInterface* mouse)
 
 SettingsUI::~SettingsUI()
 {
+	OnClickedReturnToTitle.ClearBind();
 
+	pText_AudioVolume.reset();
+	pText_AudioVolume = nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------------------
@@ -141,8 +140,7 @@ SettingsUI::~SettingsUI()
 // ------------------------------------------------------------------------------------------------------------
 void SettingsUI::OnClickedReturnTitle(DX::MouseEvent inMouseEvent)
 {
-	PtoGameInstance& gameInstance = PtoGameInstance::Get();
-	gameInstance.OpenWorld(static_cast<int>(EWorldId::Title));
+	OnClickedReturnToTitle.Broadcast(inMouseEvent);
 }
 void SettingsUI::OnClickedSave(DX::MouseEvent inMouseEvent)
 {

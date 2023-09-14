@@ -18,6 +18,8 @@ public:
 	void OnClickedSave(DX::MouseEvent inMouseEvent);
 
 	void OnAudioVolumeChanged(float inValue);
+
+	DX::FOnMouseAction OnClickedReturnToTitle;
 protected:
 	// ------------------------------------------------------------------------------------------------------------
 	// State

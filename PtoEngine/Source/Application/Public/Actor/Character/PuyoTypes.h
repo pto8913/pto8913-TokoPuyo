@@ -23,7 +23,7 @@ public:
 		B = 2,
 		L = 3,
 	};
-	FPuyoInfos();
+	FPuyoInfos(int inID);
 	operator bool() const noexcept;
 	
 	uint8_t GetType() const;
@@ -42,9 +42,6 @@ public:
 private:
 	void SetID(int inID);
 public:
-	int GetBottomPuyoID() const;
-	void MergeBottom(int bottomPuyoID);
-	void ClearBottom();
 
 	void Rotate(bool rotateR);
 private:
@@ -58,5 +55,4 @@ protected:
 	bool bIsActive = true;
 
 	int mParentID = 0;
-	int mBottomPuyoID = -1;
 };

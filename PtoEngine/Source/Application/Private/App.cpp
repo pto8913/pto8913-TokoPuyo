@@ -12,6 +12,11 @@
 
 #include "Input/Keyboard.h"
 
+#if _DEBUG
+#include <Psapi.h>
+#include <format>
+#endif
+
 Keyboard::InputAction InputEsc(DIK_ESCAPE);
 
 int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
@@ -32,7 +37,7 @@ App::App()
     pGameInstance->Initialize(*pDX);
     pGameInstance->OnOpenWorld.Bind<&App::OnWorldChanged>(*this, "App");
     pGameInstance->OpenWorld(0);
-    
+
     /* Viewport */
     {
         pViewPort = std::make_unique<ViewPort>((float)mWindow.GetWidth(), (float)mWindow.GetHeight());
@@ -93,6 +98,11 @@ int App::Run()
                     assert(false);
                 }
             }
+#if _DEBUG
+            PROCESS_MEMORY_COUNTERS_EX pmc;
+            GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
+            OutputDebugStringA(std::format("Memory {}\n", pmc.PagefileUsage).c_str());
+#endif
         }
     }
 }
