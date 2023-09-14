@@ -23,10 +23,12 @@ DebugUI::DebugUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 {
 	const auto windowSize = EngineSettings::GetWindowSize();
 	pRootSlate = std::make_shared<S_CanvasPanel>(windowSize, GetRt2D());
+	pRootSlate->SetPosition({ 0, 0 });
 
 	FSlateInfos menuVBInfos;
 	menuVBInfos.padding = { 5.f, 5.f, 0.f, 0.f };
 	auto menuVB = std::make_shared<S_VerticalBox>(FVector2D(500.f, windowSize.y), GetRt2D(), menuVBInfos);
+	pRootSlate->AddChild(menuVB);
 
 	/* TextBlock */
 	auto MakeTextBlock = [this, &menuVB](const std::wstring& label = L"")
@@ -72,12 +74,12 @@ DebugUI::DebugUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 	/* physical memory current used */
 	pText_PhysCurrentUsed = MakeTextBlock();
 
+	pRootSlate->UpdateWidget();
 }
 DebugUI::DebugUI(DirectX11& dx, DX::IMouseInterface* mouse)
 	: DebugUI(nullptr, dx, mouse)
 {
 }
-
 DebugUI::~DebugUI()
 {
 	pText_FPS.reset();
