@@ -173,8 +173,8 @@ void DebugUI::Tick(DirectX11& dx, float deltaTime)
 // -------------------------------------------------------
 // Main : CPU Used
 // -------------------------------------------------------
-PDH_HQUERY cpuQuery;
-PDH_HCOUNTER cpuTotal;
+static PDH_HQUERY cpuQuery;
+static PDH_HCOUNTER cpuTotal;
 
 void DebugUI::InitCPUUsed()
 {
@@ -196,9 +196,9 @@ float DebugUI::GetCPUUsed()
 // -------------------------------------------------------
 // Main : CPU Current Used
 // -------------------------------------------------------
-ULARGE_INTEGER lastCPU, lastSysCPU, lastUserCPU;
-int numProcessors;
-HANDLE self;
+static ULARGE_INTEGER lastCPU, lastSysCPU, lastUserCPU;
+static int numProcessors;
+static HANDLE self;
 
 void DebugUI::InitCPUCurrentUsed()
 {
