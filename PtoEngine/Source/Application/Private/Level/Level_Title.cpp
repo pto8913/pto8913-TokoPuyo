@@ -2,6 +2,7 @@
 #include "Level/Level_Title.h"
 
 #include "UI/TitleUI.h"
+#include "UI/SettingsUI.h"
 
 #include "Framework/World.h"
 #include "Framework/PlayerController.h"
@@ -20,6 +21,12 @@ Level_Title::~Level_Title()
 		pTitleUI->MarkPendingKill();
 	}
 	pTitleUI = nullptr;
+
+	if (pSettingsUI)
+	{
+		pSettingsUI->MarkPendingKill();
+	}
+	pSettingsUI = nullptr;
 }
 
 // ------------------------------------------------------
@@ -35,21 +42,44 @@ void Level_Title::BeginPlay(DirectX11& dx)
 		GetWorld()->GetPlayerController()->GetMouse()
 	);
 	pTitleUI->OnClickedTokoPuyo.Bind<&Level_Title::OnClickedTokoPuyo>(*this, "Title");
+	pTitleUI->OnClickedOpenSettings.Bind<&Level_Title::OnClickedOpenSettings>(*this, "Title");
 	pTitleUI->AddToViewport();
 }
-void Level_Title::Tick(DirectX11& dx, float deltaSec)
-{
-	Level::Tick(dx, deltaSec);
 
-	if (pTitleUI != nullptr)
-	{
-		pTitleUI->Tick(dx, deltaSec);
-	}
-}
-
+// --------------------------
+// Main : Play TokoPuyo
+// --------------------------
 void Level_Title::OnClickedTokoPuyo(DX::MouseEvent inMouseEvent)
 {
 	PtoGameInstance& gameInstance = PtoGameInstance::Get();
 	gameInstance.OpenWorld(static_cast<int>(EWorldId::TokoPuyo));
 }
 
+// --------------------------
+// Main : SettingsUI
+// --------------------------
+void Level_Title::OnClickedOpenSettings(DX::MouseEvent inMouseEvent)
+{
+	if (pSettingsUI == nullptr)
+	{
+		pSettingsUI = CreateWidget<SettingsUI>(
+			GetWorld(),
+			*pDX,
+			GetWorld()->GetPlayerController()->GetMouse()
+		);
+		pSettingsUI->OnClickedReturnToTitle.Bind<&Level_Title::OnClickedCloseSettings>(*this, "Title");
+	}
+	if (pTitleUI != nullptr)
+	{
+		pTitleUI->RemoveFromParent();
+	}
+	pSettingsUI->AddToViewport();
+}
+void Level_Title::OnClickedCloseSettings(DX::MouseEvent inMouseEvent)
+{
+	if (pSettingsUI != nullptr)
+	{
+		pSettingsUI->RemoveFromParent();
+	}
+	pTitleUI->AddToViewport();
+}

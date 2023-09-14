@@ -28,7 +28,8 @@ const std::map<uint8_t, FPuyoSettings> PuyoList =
 
 Puyo::Puyo(DirectX11& dx, const uint8_t& type)
 	: Actor2D(dx, PuyoList.at(type)),
-	mType(type)
+	mType(type),
+	mPuyoInfos(-1)
 {
 	mLayer = Layer::EActorLayer::Entities;
 	mSortOrder = Layer::Character;
@@ -46,6 +47,13 @@ Puyo::~Puyo()
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
+void Puyo::SetID(int inID)
+{
+	Actor2D::SetID(inID);
+
+	mPuyoInfos.SetID(inID);
+}
+
 void Puyo::SetType(const uint8_t& type)
 {
 	mType = type;

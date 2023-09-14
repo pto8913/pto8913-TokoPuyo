@@ -5,9 +5,9 @@
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
-FPuyoInfos::FPuyoInfos()
+FPuyoInfos::FPuyoInfos(int inID)
+	: mParentID(inID)
 {
-	mParentID = -1;
 	mType = GameSettings::EMPTY_PUYO;
 	mRotation = ERotation::U;
 	bIsActive = true;
@@ -60,22 +60,6 @@ int FPuyoInfos::GetID() const
 void FPuyoInfos::SetID(int inID)
 {
 	mParentID = inID;
-}
-
-int FPuyoInfos::GetBottomPuyoID() const
-{
-	return mBottomPuyoID;
-}
-void FPuyoInfos::MergeBottom(int bottomPuyoID)
-{
-	if (mParentID != bottomPuyoID)
-	{
-		mBottomPuyoID = bottomPuyoID;
-	}
-}
-void FPuyoInfos::ClearBottom()
-{
-	mBottomPuyoID = -1;
 }
 
 void FPuyoInfos::Rotate(bool rotateR)

@@ -1,6 +1,5 @@
 
 #include "UI/TitleUI.h"
-#include "UI/SettingsUI.h"
 
 #include "Slate/CanvasPanel.h"
 #include "Slate/VerticalBox.h"
@@ -11,9 +10,6 @@
 #include "EngineSettings.h"
 #include "GameSettings.h"
 
-#include "Framework/World.h"
-#include "Framework/PlayerController.h"
-
 TitleUI::TitleUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 	: UserWidget(
 		inOwner, 
@@ -23,8 +19,6 @@ TitleUI::TitleUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 		EngineSettings::GetWindowSize().y
 	)
 {
-	pDX = &dx;
-
 	const auto windowSize = EngineSettings::GetWindowSize();
 	const auto padding = GameSettings::GAMESCREEN_PADDING;
 
@@ -52,7 +46,7 @@ TitleUI::TitleUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 		pMenuVB->AddChild(pTextBlock);
 	}
 
-	auto pSpacer = std::make_shared<S_Spacer>(FVector2D(0.f, 200.f), GetRt2D());
+	auto pSpacer = std::make_shared<S_Spacer>(FVector2D(0.f, 100.f), GetRt2D());
 	pMenuVB->AddChild(pSpacer);
 
 	/* Button */
@@ -85,8 +79,8 @@ TitleUI::TitleUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 	auto pButton_TokoPuyo = button(GameSettings::GetPuyoMode(0));
 	pButton_TokoPuyo->OnClicked.Bind<&TitleUI::OnClickedTokoPuyoButton>(*this, "TitleUI");
 	/* vs CPU */
-	auto pButton_VSCPU = button(GameSettings::GetPuyoMode(1));
-	pButton_VSCPU->OnClicked.Bind<&TitleUI::OnClickedVSCPU>(*this, "TitleUI");
+	//auto pButton_VSCPU = button(GameSettings::GetPuyoMode(1));
+	//pButton_VSCPU->OnClicked.Bind<&TitleUI::OnClickedVSCPU>(*this, "TitleUI");
 	/* Settings */
 	auto pButton_Settings = button(L"Ý’è");
 	pButton_Settings->OnClicked.Bind<&TitleUI::OnClickedSettings>(*this, "TitleUI");
@@ -110,21 +104,6 @@ TitleUI::~TitleUI()
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
-void TitleUI::Tick(DirectX11& dx, float deltaSec)
-{
-	if (pSettingsUI != nullptr)
-	{
-		if (pSettingsUI->IsInViewport())
-		{
-			pSettingsUI->Tick(dx, deltaSec);
-		}
-	}
-	else
-	{
-		UserWidget::Tick(dx, deltaSec);
-	}
-}
-
 void TitleUI::OnClickedTokoPuyoButton(DX::MouseEvent inMouseEvent)
 {
 	OnClickedTokoPuyo.Broadcast(inMouseEvent);
@@ -137,12 +116,7 @@ void TitleUI::OnClickedVSCPU(DX::MouseEvent inMouseEvent)
 
 void TitleUI::OnClickedSettings(DX::MouseEvent inMouseEvent)
 {
-	pSettingsUI = CreateWidget<SettingsUI>(
-		GetWorld(),
-		*pDX,
-		GetWorld()->GetPlayerController()->GetMouse()
-	);
-	pSettingsUI->AddToViewport();
+	OnClickedOpenSettings.Broadcast(inMouseEvent);
 }
 
 void TitleUI::OnClickedExit(DX::MouseEvent inMouseEvent)

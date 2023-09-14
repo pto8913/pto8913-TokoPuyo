@@ -4,6 +4,7 @@
 #include "Input/MouseInterface.h"
 
 class TitleUI;
+class SettingsUI;
 
 class Level_Title : public Level
 {
@@ -15,12 +16,23 @@ public:
 	// Main
 	// ------------------------------------------------------
 	virtual void BeginPlay(DirectX11& dx) override;
-	virtual void Tick(DirectX11& dx, float deltaSec) override;
 
+	// --------------------------
+	// Main : Play TokoPuyo
+	// --------------------------
 	void OnClickedTokoPuyo(DX::MouseEvent inMouseEvent);
+
+	// --------------------------
+	// Main : SettingsUI
+	// --------------------------
+	void OnClickedOpenSettings(DX::MouseEvent inMouseEvent);
+protected:
+	void OnClickedCloseSettings(DX::MouseEvent inMouseEvent);
+
 protected:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
 	TitleUI* pTitleUI = nullptr;
+	SettingsUI* pSettingsUI = nullptr;
 };

@@ -622,6 +622,9 @@
     <ClInclude Include="Source\Engine\Public\Slate\Slider.h">
       <Filter>Source\Engine\Public\Slate</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Application\Public\UI\SettingsUI.h">
+      <Filter>Source\Application\Public\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
@@ -953,6 +956,9 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Slate\Slider.cpp">
       <Filter>Source\Engine\Private\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\UI\SettingsUI.cpp">
+      <Filter>Source\Application\Private\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

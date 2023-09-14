@@ -87,7 +87,7 @@ protected:
 	// Main : Union Find
 	// ------------------------------------------------------------
 	void RemakeUnionFind();
-	void UnionFindPuyo(const FPuyoInfos& puyo, const int& x, const int& y);
+	void UnionFindPuyo(Puyo* puyo);
 
 	// ------------------------------------------------------------
 	// Main : Input
@@ -105,18 +105,22 @@ protected:
 	// ------------------------------------------------------------
 	void ResetCalcScoreCount();
 
+	// ------------------------------------------------------------
+	// Debug
+	// ------------------------------------------------------------
+	void Show() const;
 protected:
 	// ------------------------------------------------------------
 	// Main : Utils
 	// ------------------------------------------------------------
 	template<typename T>
-	bool IsValidIndex(const std::vector<T>& vector, const int& Idx)
+	bool IsValidIndex(const std::vector<T>& vector, const int& Idx) const
 	{
 		return vector.size() > Idx;
 	}
 
 	template<typename T>
-	bool IsValidIndex(const std::vector<std::vector<T>>& vec, const int& x, const int& y)
+	bool IsValidIndex(const std::vector<std::vector<T>>& vec, const int& x, const int& y) const
 	{
 		if (IsValidIndex(vec, round(y)))
 		{
@@ -150,8 +154,8 @@ private:
 	// ----------------------
 	// State : Puyo
 	// ----------------------
-	std::shared_ptr<Puyo> pMainPuyo = nullptr;
-	std::shared_ptr<Puyo> pSubPuyo = nullptr;
+	Puyo* pMainPuyo = nullptr;
+	Puyo* pSubPuyo = nullptr;
 	uint8_t nextPuyo1_1 = GameSettings::EMPTY_PUYO;
 	uint8_t nextPuyo1_2 = GameSettings::EMPTY_PUYO;
 	uint8_t nextPuyo2_1 = GameSettings::EMPTY_PUYO;

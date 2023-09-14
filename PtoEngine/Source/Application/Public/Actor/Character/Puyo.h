@@ -8,6 +8,7 @@ struct PuyoSettings;
 
 class Puyo : public Actor2D
 {
+	friend class World;
 public:
 	Puyo(DirectX11& dx, const uint8_t& type);
 	virtual ~Puyo();
@@ -15,6 +16,9 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+protected:
+	virtual void SetID(int inID) override;
+public:
 	void SetType(const uint8_t& type);
 	uint8_t GetType() const;
 
