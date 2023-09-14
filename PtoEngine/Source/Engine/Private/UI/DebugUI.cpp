@@ -178,9 +178,9 @@ static PDH_HCOUNTER cpuTotal;
 
 void DebugUI::InitCPUUsed()
 {
-	PdhOpenQuery(NULL, NULL, &cpuQuery);
+	PdhOpenQueryA(NULL, NULL, &cpuQuery);
 	// You can also use L"\\Processor(*)\\% Processor Time" and get individual CPU values with PdhGetFormattedCounterArray()
-	PdhAddEnglishCounter(cpuQuery, L"\\Processor(_Total)\\% Processor Time", NULL, &cpuTotal);
+	PdhAddEnglishCounterA(cpuQuery, L"\\Processor(_Total)\\% Processor Time", NULL, &cpuTotal);
 	PdhCollectQueryData(cpuQuery);
 }
 
