@@ -222,7 +222,7 @@ ScreenTextOnlyOutput::ScreenTextOnlyOutput(DirectX11& dx, float inWidth, float i
 ScreenTextOnlyOutput::~ScreenTextOnlyOutput()
 {
 	Util::SafeRelease(d2dTexture);
-	Util::SafeRelease(D2DRenderTarget);
+	//Util::SafeRelease(D2DRenderTarget);
 	Util::SafeRelease(keyedMutex11);
 	Util::SafeRelease(keyedMutex10);
 }
