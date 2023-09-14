@@ -35,7 +35,7 @@ public:
 
 	const Layer::EActorLayer& GetLayer() const;
 	void SetLayer(const Layer::EActorLayer& in);
-private:
+protected:
 	/* This will be call from World->SpawnActor() only once */
 	virtual void SetID(int inID);
 public:
