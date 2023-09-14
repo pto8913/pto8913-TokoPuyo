@@ -35,7 +35,11 @@ DebugUI::DebugUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 	{
 		FSlateInfos textInfos;
 		textInfos.padding = { 1.f };
-		auto textBlock = std::make_shared<S_TextBlock>(FVector2D(500.f, 30.f), GetRt2D(), textInfos);
+		FSlateFont font;
+		FSlateTextAppearance appearance;
+		appearance.hAlign = EHorizontalAlignment::Left;
+
+		auto textBlock = std::make_shared<S_TextBlock>(FVector2D(500.f, 30.f), GetRt2D(), textInfos, font, appearance);
 		textBlock->SetText(label);
 		menuVB->AddChild(textBlock);
 		return std::move(textBlock);
