@@ -25,8 +25,8 @@ public:
 	// called per frame.
 	virtual void Tick(DirectX11& dx, float deltaTime) {};
 
-	void SetTickEnabled(bool inState) noexcept;
-	bool GetTickEnabled() const noexcept;
+	virtual void SetTickEnabled(bool inState) noexcept;
+	virtual bool GetTickEnabled() const noexcept;
 
 	virtual World* GetWorld() { return nullptr; }
 
@@ -58,7 +58,7 @@ public:
 		using namespace std::string_literals;
 		return typeid(Object).name() + std::string(" : ") + "#"s + std::to_string(mID);
 	}
-private:
+protected:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
