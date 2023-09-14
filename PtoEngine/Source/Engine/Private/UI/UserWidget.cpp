@@ -66,7 +66,7 @@ UserWidget::~UserWidget()
 
 void UserWidget::Draw()
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		if (pRootSlate != nullptr)
 		{
@@ -80,7 +80,7 @@ void UserWidget::Draw()
 // ------------------------------------------------------------------------------------------------------------
 void UserWidget::Tick(DirectX11& dx, float deltaTime)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		if (IsInViewport())
 		{
@@ -157,7 +157,7 @@ void UserWidget::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
 // --------------------------
 void UserWidget::AddAnimation(WidgetAnimation in)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		mAnimations.Add(in);
 	}
@@ -201,7 +201,7 @@ void UserWidget::OnKeyUp(DX::MouseEvent inMouseEvent)
 
 bool UserWidget::NativeOnMouseMove(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		if (pRootSlate != nullptr)
 		{
@@ -212,7 +212,7 @@ bool UserWidget::NativeOnMouseMove(DX::MouseEvent inMouseEvent)
 };
 bool UserWidget::NativeOnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		if (pRootSlate != nullptr)
 		{
@@ -223,7 +223,7 @@ bool UserWidget::NativeOnMouseButtonDown(DX::MouseEvent inMouseEvent)
 };
 bool UserWidget::NativeOnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		if (pRootSlate != nullptr)
 		{
@@ -234,7 +234,7 @@ bool UserWidget::NativeOnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 };
 bool UserWidget::NativeOnMouseButtonUp(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		if (pRootSlate != nullptr)
 		{
@@ -245,7 +245,7 @@ bool UserWidget::NativeOnMouseButtonUp(DX::MouseEvent inMouseEvent)
 };
 bool UserWidget::NativeOnMouseEnter(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		if (pRootSlate != nullptr)
 		{
@@ -256,7 +256,7 @@ bool UserWidget::NativeOnMouseEnter(DX::MouseEvent inMouseEvent)
 };
 bool UserWidget::NativeOnMouseLeave(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		if (pRootSlate != nullptr)
 		{
@@ -267,7 +267,7 @@ bool UserWidget::NativeOnMouseLeave(DX::MouseEvent inMouseEvent)
 };
 bool UserWidget::NativeOnKeyDown(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		if (pRootSlate != nullptr)
 		{
@@ -278,7 +278,7 @@ bool UserWidget::NativeOnKeyDown(DX::MouseEvent inMouseEvent)
 };
 bool UserWidget::NativeOnKeyUp(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		if (pRootSlate != nullptr)
 		{
