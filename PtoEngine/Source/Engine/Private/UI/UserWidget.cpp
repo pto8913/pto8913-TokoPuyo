@@ -168,56 +168,56 @@ void UserWidget::AddAnimation(WidgetAnimation in)
 // --------------------------
 void UserWidget::OnMouseMove(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		NativeOnMouseMove(inMouseEvent);
 	}
 };
 void UserWidget::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		NativeOnMouseButtonDown(inMouseEvent);
 	}
 };
 void UserWidget::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		NativeOnMouseButtonHeld(inMouseEvent);
 	}
 };
 void UserWidget::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		NativeOnMouseButtonUp(inMouseEvent);
 	}
 };
 void UserWidget::OnMouseEnter(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		NativeOnMouseEnter(inMouseEvent);
 	}
 };
 void UserWidget::OnMouseLeave(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		NativeOnMouseLeave(inMouseEvent);
 	}
 };
 void UserWidget::OnKeyDown(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		NativeOnKeyDown(inMouseEvent);
 	}
 };
 void UserWidget::OnKeyUp(DX::MouseEvent inMouseEvent)
 {
-	if (!IsPendingKill())
+	if (!IsPendingKill() && IsInViewport())
 	{
 		NativeOnKeyUp(inMouseEvent);
 	}
