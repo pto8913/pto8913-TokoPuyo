@@ -93,6 +93,16 @@ void UserWidget::Tick(DirectX11& dx, float deltaTime)
 		}
 	}
 }
+
+void UserWidget::SetTickEnabled(bool inState) noexcept
+{
+	bIsInViewport = inState;
+}
+bool UserWidget::GetTickEnabled() const noexcept
+{
+	return bIsInViewport;
+}
+
 void UserWidget::AddToViewport(double inZOrder)
 {
 	ZOrder = Math::MapRange<double>(inZOrder, 0.0, 100.0, 0.0, 1.0);

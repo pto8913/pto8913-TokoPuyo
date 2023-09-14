@@ -28,6 +28,9 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
+	virtual void SetTickEnabled(bool inState) noexcept override;
+	virtual bool GetTickEnabled() const noexcept override;
+
 	void AddToViewport(double inZOrder = 0);
 	void RemoveFromParent();
 
