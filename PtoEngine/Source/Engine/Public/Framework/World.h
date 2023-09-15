@@ -76,7 +76,7 @@ public:
 	template<class TClass, typename ...Args, typename = std::enable_if_t<std::is_base_of_v<UserWidget, TClass>>>
 	TClass* __CreateWidget(Object* inOwner, Args&& ...args)
 	{
-		return std::move(pWidgetManager->CreateWidget<TClass>(inOwner, std::forward<Args>(args)...));
+		return pWidgetManager->CreateWidget<TClass>(inOwner, std::forward<Args>(args)...);
 	};
 	void AddToObjectCollection(std::shared_ptr<Object> in);
 
