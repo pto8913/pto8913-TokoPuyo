@@ -23,11 +23,10 @@ public:
 	virtual void Bind(DirectX11& dx) override;
 	void Bind(const DirectX::XMVECTOR& loc, const float& angle = 0.f);
 
-	static std::string GenerateID(const std::wstring& inFileName, FLOAT inWidth, FLOAT inHeight)
+	static std::string GenerateID(const std::wstring& inFileName, FLOAT, FLOAT)
 	{
-		inWidth; inHeight;
 		using namespace std::string_literals;
-		return typeid(ScreenTexture).name() + "#"s + std::string("ScreenTexture") + "#"s + Util::w2String(std::wstring(inFileName));
+		return "ScreenTexture_" + "#"s + std::string("ScreenTexture") + "#"s + Util::w2String(std::wstring(inFileName));
 	}
 	std::string GetID() const noexcept
 	{

@@ -102,8 +102,7 @@ public:
 	}
 	static std::string GenerateID(UINT slot = 0)
 	{
-		using namespace std::string_literals;
-		return typeid(VertexConstantBuffer).name() + "#"s + std::to_string(slot);
+		return "VertexConstantBuffer_" + std::to_string(slot);
 	}
 };
 
@@ -135,8 +134,7 @@ public:
 	}
 	static std::string GenerateID(UINT slot = 0)
 	{
-		using namespace std::string_literals;
-		return typeid(PixelConstantBuffer).name() + "#"s + std::to_string(slot);
+		return "PixelConstantBuffer_" + std::to_string(slot);
 	}
 };
 
@@ -161,8 +159,7 @@ public:
 	
 	static std::string GenerateID(UINT size, UINT inSlot)
 	{
-		using namespace std::string_literals;
-		return typeid(ConstantBufferEx).name() + "#"s + std::to_string(size) + "#"s + std::to_string(inSlot);
+		return "ConstantBufferEx_" + std::to_string(size) + "_" + std::to_string(inSlot);
 	}
 
 	ID3D11Buffer*& GetBuffer()

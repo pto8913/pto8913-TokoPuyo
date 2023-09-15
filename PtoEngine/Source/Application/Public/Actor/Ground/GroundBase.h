@@ -17,8 +17,7 @@ public:
 	// ------------------------------------------------------
 	virtual std::string GetName() const override
 	{
-		using namespace std::string_literals;
-		return typeid(GroundBase).name() + std::string("_") + std::to_string(mID);
+		return "GroundBase_" + std::to_string(mID);
 	}
 
 	/* Change Texture and GroundType. */

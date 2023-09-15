@@ -59,11 +59,10 @@ public:
 		GetContext(dx)->IASetVertexBuffers(0, 1, &pVertexBuffer, &_stride, &offset);
 	}
 
-	static std::string GenerateID(const std::string& tag, const std::vector<StructType>& pInitData)
+	static std::string GenerateID(const std::string& tag, const std::vector<StructType>&)
 	{
-		pInitData;
 		using namespace std::string_literals;
-		return typeid(VertexBuffer).name() + "#"s + tag;
+		return "VertexBuffer_" + "#"s + tag;
 	}
 	std::string GetUID() const noexcept
 	{

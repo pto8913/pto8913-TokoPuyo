@@ -20,11 +20,10 @@ public:
 
 	virtual void Bind(DirectX11& dx) override;
 
-	static std::string GenerateID(TextureType inTextureType, const std::wstring& inFileName, UINT slot = 0)
+	static std::string GenerateID(TextureType, const std::wstring&, UINT slot = 0)
 	{
-		inTextureType; inFileName;
 		using namespace std::string_literals;
-		return typeid(Texture).name() + "#"s + std::to_string(slot);
+		return "Texture" + "#"s + std::to_string(slot);
 	}
 	std::string GetID() const noexcept
 	{

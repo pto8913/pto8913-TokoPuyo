@@ -19,7 +19,7 @@ public:
 	static std::string GenerateID(UINT inSlot)
 	{
 		using namespace std::string_literals;
-		return typeid(BlendState).name() + "#"s + std::to_string(inSlot);
+		return "BlendState_" + std::to_string(inSlot);
 	}
 	std::string GetID() const noexcept
 	{

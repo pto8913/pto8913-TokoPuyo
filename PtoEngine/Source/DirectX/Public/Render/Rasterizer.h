@@ -24,7 +24,7 @@ public:
 	static std::string GenerateID(RasterizerType inType, UINT inSize)
 	{
 		using namespace std::string_literals;
-		return typeid(Rasterizer).name() + "#"s + (inType ? "2s": "1s") + "#"s + std::to_string(inSize);
+		return "Rasterizer_" + "#"s + (inType ? "2s": "1s") + "#"s + std::to_string(inSize);
 	}
 	std::string GetID() const noexcept
 	{

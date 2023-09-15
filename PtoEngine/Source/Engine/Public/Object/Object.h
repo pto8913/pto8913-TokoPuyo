@@ -49,7 +49,7 @@ public:
 	virtual std::string GetName() const
 	{
 		using namespace std::string_literals;
-		return typeid(Object).name() + std::string("_") + std::to_string(mID);
+		return "Object" + "#"s + std::to_string(mID);
 	}
 protected:
 	// ------------------------------------------------------

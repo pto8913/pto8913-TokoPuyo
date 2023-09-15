@@ -52,8 +52,7 @@ ID3DBlob* VertexShader::GetBuffer()
 
 std::string VertexShader::GenerateID(const std::wstring& inFileName, const char* pEntryPoint)
 {
-	using namespace std::string_literals;
-	return typeid(VertexShader).name() + "#"s + Util::w2String(inFileName) + pEntryPoint;
+	return "VertexShader_" + Util::w2String(inFileName) + pEntryPoint;
 }
 std::string VertexShader::GetID() const noexcept
 {

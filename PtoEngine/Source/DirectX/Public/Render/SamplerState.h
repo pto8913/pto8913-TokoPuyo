@@ -19,7 +19,7 @@ public:
 	static std::string GenerateID(UINT inSlot)
 	{
 		using namespace std::string_literals;
-		return typeid(SamplerState).name() + "#"s + std::to_string(inSlot);
+		return "SamplerState"+ "#"s + std::to_string(inSlot);
 	}
 	std::string GetID() const noexcept
 	{

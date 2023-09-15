@@ -15,8 +15,7 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	virtual std::string GetName() const override
 	{
-		using namespace std::string_literals;
-		return typeid(EventBase).name() + std::string("_") + std::to_string(mID);
+		return "EventBase_" + std::to_string(mID);
 	}
 
 	virtual void EnterVolume(const float& x, const float& y);

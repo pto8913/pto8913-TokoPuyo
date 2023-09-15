@@ -14,8 +14,7 @@ public:
 	// ------------------------------------------------------
 	virtual std::string GetName() const override
 	{
-		using namespace std::string_literals;
-		return typeid(ItemBase).name() + std::string("_") + std::to_string(mID);
+		return "ItemBase_" + std::to_string(mID);
 	}
 
 	void SetItemType(const EItemId& inItemType);

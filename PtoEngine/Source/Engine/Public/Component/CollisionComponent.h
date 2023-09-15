@@ -22,7 +22,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(CollisionComponent).name() + std::string("_") + std::to_string(mID);
+		return "CollisionComponent" + "#"s + std::to_string(mID);
 	}
 	virtual bool InBoundingVolume(Actor* other) = 0;
 

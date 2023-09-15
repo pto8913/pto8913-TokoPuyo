@@ -25,7 +25,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(MovementComponent).name() + std::string("_") + std::to_string(mID);
+		return "MovementComponent" + "#"s + std::to_string(mID);
 	}
 	virtual void BeginPlay(DirectX11& dx) override;
 	virtual void Tick(DirectX11& dx, float deltaSec) override;

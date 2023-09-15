@@ -30,8 +30,7 @@ public:
 
 	virtual std::string GetName() const override
 	{
-		using namespace std::string_literals;
-		return typeid(HUD).name() + std::string("_") + std::to_string(mID);
+		return "HUD_" + std::to_string(mID);
 	}
 	// --------------------------
 	// Main : Status
