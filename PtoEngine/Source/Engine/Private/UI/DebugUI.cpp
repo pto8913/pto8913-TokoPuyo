@@ -12,14 +12,8 @@
 #include <format>
 #include <Pdh.h>
 
-DebugUI::DebugUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
-	: UserWidget(
-		inOwner,
-		dx,
-		mouse,
-		EngineSettings::GetWindowSize().x,
-		EngineSettings::GetWindowSize().y
-	)
+DebugUI::DebugUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
+	: UserWidget(inOwner, inRt2D, dx, mouse)
 {
 	const auto windowSize = EngineSettings::GetWindowSize();
 	pRootSlate = std::make_shared<S_CanvasPanel>(windowSize, GetRt2D());
@@ -79,10 +73,6 @@ DebugUI::DebugUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 	pText_PhysCurrentUsed = MakeTextBlock();
 
 	pRootSlate->UpdateWidget();
-}
-DebugUI::DebugUI(DirectX11& dx, DX::IMouseInterface* mouse)
-	: DebugUI(nullptr, dx, mouse)
-{
 }
 DebugUI::~DebugUI()
 {
