@@ -51,7 +51,6 @@ void Level_Title::BeginPlay(DirectX11& dx)
 	pTitleUI->OnClickedTokoPuyo.Bind<&Level_Title::OnClickedTokoPuyo>(*this, "Title");
 	pTitleUI->OnClickedOpenSettings.Bind<&Level_Title::OnClickedOpenSettings>(*this, "Title");
 	pTitleUI->AddToViewport();
-	pTitleUI->RemoveFromParent();
 
 	pDebugUI = CreateWidget<DebugUI>(
 		this, 
