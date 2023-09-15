@@ -177,19 +177,19 @@ static PDH_HCOUNTER cpuTotal;
 
 void DebugUI::InitCPUUsed()
 {
-	PdhOpenQuery(NULL, NULL, &cpuQuery);
-	// You can also use L"\\Processor(*)\\% Processor Time" and get individual CPU values with PdhGetFormattedCounterArray()
-	PdhAddEnglishCounter(cpuQuery, L"\\Processor(_Total)\\% Processor Time", NULL, &cpuTotal);
-	PdhCollectQueryData(cpuQuery);
+	//PdhOpenQuery(NULL, NULL, &cpuQuery);
+	//// You can also use L"\\Processor(*)\\% Processor Time" and get individual CPU values with PdhGetFormattedCounterArray()
+	//PdhAddEnglishCounter(cpuQuery, L"\\Processor(_Total)\\% Processor Time", NULL, &cpuTotal);
+	//PdhCollectQueryData(cpuQuery);
 }
 
 float DebugUI::GetCPUUsed()
 {
-	PDH_FMT_COUNTERVALUE counterVal;
+	//PDH_FMT_COUNTERVALUE counterVal;
 
-	PdhCollectQueryData(cpuQuery);
-	PdhGetFormattedCounterValue(cpuTotal, PDH_FMT_DOUBLE, NULL, &counterVal);
-	return counterVal.doubleValue;
+	//PdhCollectQueryData(cpuQuery);
+	//PdhGetFormattedCounterValue(cpuTotal, PDH_FMT_DOUBLE, NULL, &counterVal);
+	//return counterVal.doubleValue;
 	return 0;
 }
 
@@ -202,41 +202,41 @@ static HANDLE self;
 
 void DebugUI::InitCPUCurrentUsed()
 {
-	SYSTEM_INFO sysInfo;
-	FILETIME ftime, fsys, fuser;
+	//SYSTEM_INFO sysInfo;
+	//FILETIME ftime, fsys, fuser;
 
-	GetSystemInfo(&sysInfo);
-	numProcessors = sysInfo.dwNumberOfProcessors;
+	//GetSystemInfo(&sysInfo);
+	//numProcessors = sysInfo.dwNumberOfProcessors;
 
-	GetSystemTimeAsFileTime(&ftime);
-	memcpy(&lastCPU, &ftime, sizeof(FILETIME));
+	//GetSystemTimeAsFileTime(&ftime);
+	//memcpy(&lastCPU, &ftime, sizeof(FILETIME));
 
-	self = GetCurrentProcess();
-	GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
-	memcpy(&lastSysCPU, &fsys, sizeof(FILETIME));
-	memcpy(&lastUserCPU, &fuser, sizeof(FILETIME));
+	//self = GetCurrentProcess();
+	//GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
+	//memcpy(&lastSysCPU, &fsys, sizeof(FILETIME));
+	//memcpy(&lastUserCPU, &fuser, sizeof(FILETIME));
 }
 
 float DebugUI::GetCPUCurrentUsed()
 {
-	FILETIME ftime, fsys, fuser;
-	ULARGE_INTEGER now, sys, user;
-	double percent;
+	//FILETIME ftime, fsys, fuser;
+	//ULARGE_INTEGER now, sys, user;
+	//double percent;
 
-	GetSystemTimeAsFileTime(&ftime);
-	memcpy(&now, &ftime, sizeof(FILETIME));
+	//GetSystemTimeAsFileTime(&ftime);
+	//memcpy(&now, &ftime, sizeof(FILETIME));
 
-	GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
-	memcpy(&sys, &fsys, sizeof(FILETIME));
-	memcpy(&user, &fuser, sizeof(FILETIME));
-	percent = (sys.QuadPart - lastSysCPU.QuadPart) +
-		(user.QuadPart - lastUserCPU.QuadPart);
-	percent /= (now.QuadPart - lastCPU.QuadPart);
-	percent /= numProcessors;
-	lastCPU = now;
-	lastUserCPU = user;
-	lastSysCPU = sys;
+	//GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
+	//memcpy(&sys, &fsys, sizeof(FILETIME));
+	//memcpy(&user, &fuser, sizeof(FILETIME));
+	//percent = (sys.QuadPart - lastSysCPU.QuadPart) +
+	//	(user.QuadPart - lastUserCPU.QuadPart);
+	//percent /= (now.QuadPart - lastCPU.QuadPart);
+	//percent /= numProcessors;
+	//lastCPU = now;
+	//lastUserCPU = user;
+	//lastSysCPU = sys;
 
-	return percent * 100;
+	//return percent * 100;
 	return 0;
 }
