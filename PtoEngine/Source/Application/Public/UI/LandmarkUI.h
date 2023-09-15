@@ -13,7 +13,7 @@ class S_TextBlock;
 class LandmarkUI : public UserWidget
 {
 public:
-	LandmarkUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx,
+	LandmarkUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse,
 		const std::wstring& inLandmarkName, const float& inPlayRate, const FOnWidgetAnimationCompleted& inCompleted
 	);
 	virtual ~LandmarkUI();
