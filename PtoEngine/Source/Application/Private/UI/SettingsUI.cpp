@@ -12,8 +12,8 @@
 #include "EngineSettings.h"
 #include "GameSettings.h"
 
-SettingsUI::SettingsUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
-	: UserWidget(inOwner, inRt2D, dx, mouse)
+SettingsUI::SettingsUI(Object* inOwner, int inID, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
+	: UserWidget(inOwner, inID, inRt2D, dx, mouse)
 {
 	const auto windowSize = EngineSettings::GetWindowSize();
 	const auto padding = GameSettings::GAMESCREEN_PADDING;

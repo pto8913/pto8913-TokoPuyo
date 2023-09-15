@@ -20,10 +20,10 @@
 using namespace DirectX;
 
 GameOverUI::GameOverUI(
-	Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse,
+	Object* inOwner, int inID, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse,
 	const int& MaxScore, const int& MaxCombo
 )
-	: UserWidget(inOwner, inRt2D, dx, mouse)
+	: UserWidget(inOwner, inID, inRt2D, dx, mouse)
 {
 	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), inRt2D);
 

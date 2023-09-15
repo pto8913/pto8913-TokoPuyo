@@ -18,8 +18,8 @@
 
 using namespace DirectX;
 
-GameProgressUI::GameProgressUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
-	: UserWidget(inOwner, inRt2D, dx, mouse)
+GameProgressUI::GameProgressUI(Object* inOwner, int inID, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
+	: UserWidget(inOwner, inID, inRt2D, dx, mouse)
 {
 	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), inRt2D);
 
