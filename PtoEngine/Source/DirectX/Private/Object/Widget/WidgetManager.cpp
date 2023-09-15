@@ -2,8 +2,8 @@
 #include "Object/Widget/WidgetManager.h"
 
 #include "Render/IndexBuffer.h"
-#include "Render/VertexBuffer.h"
 
+#include "Render/VertexShader.h"
 #include "Render/PixelShader.h"
 
 #include "Render/InputLayout.h"
