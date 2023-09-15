@@ -12,6 +12,12 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(ItemBase).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
+
 	void SetItemType(const EItemId& inItemType);
 	const EItemId& GetItemType() const noexcept;
 

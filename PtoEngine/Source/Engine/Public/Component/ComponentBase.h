@@ -15,6 +15,12 @@ public:
 	// ------------------------------------------------------
 	Actor* GetOwner();
 	virtual World* GetWorld() override final;
+
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(ComponentBase).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 protected:
 	// ------------------------------------------------------
 	// State

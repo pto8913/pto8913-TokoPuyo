@@ -19,6 +19,11 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(CollisionComponent).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 	virtual bool InBoundingVolume(Actor* other) = 0;
 
 	const ECollisionType& GetCollisionType() const;

@@ -15,6 +15,11 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(GameState_Dungeon).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 	virtual void OpenLandmarkUI(DirectX11& dx, const std::wstring& inLandmarkName, const float& inPlayRate, const FOnWidgetAnimationCompleted& inCompleted = {}, const float& inCompleteToDelay = 0.01f) override;
 
 	void SetDungeonName(const std::wstring& in);

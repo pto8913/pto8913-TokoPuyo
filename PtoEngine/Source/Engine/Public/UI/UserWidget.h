@@ -40,6 +40,11 @@ public:
 	virtual void AddSlate(std::shared_ptr<SlateBase> inSlate);
 	virtual void RemoveSlate(std::shared_ptr<SlateBase> inSlate);
 
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(UserWidget).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 protected:
 	// --------------------------
 	// Main : Animation

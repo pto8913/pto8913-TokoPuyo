@@ -12,6 +12,11 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(SpriteComponent).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
 	// -----------------------------------

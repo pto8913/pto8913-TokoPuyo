@@ -15,6 +15,12 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(GameState_Town).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
+
 	void SetTownName(const std::wstring& in);
 	std::wstring GetTownName() const noexcept;
 

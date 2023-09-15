@@ -45,6 +45,11 @@ public:
 	FVector GetStartPosition();
 	void SetStartPosition(FVector in);
 
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(Level).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 protected:
 	// ------------------------------------------------------
 	// State

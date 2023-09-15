@@ -28,6 +28,11 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(HUD).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 	// --------------------------
 	// Main : Status
 	// --------------------------
