@@ -10,7 +10,7 @@ class S_Button;
 class TitleUI : public UserWidget
 {
 public:
-	TitleUI(Object* inOwner, int inID, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
+	TitleUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
 	virtual ~TitleUI();
 
 	// ------------------------------------------------------------------------------------------------------------
@@ -19,7 +19,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(TitleUI).name() + std::string(" : ") + "#"s + std::to_string(mID);
+		return typeid(TitleUI).name() + std::string("_") + std::to_string(mID);
 	}
 protected:
 	void OnClickedTokoPuyoButton(DX::MouseEvent inMouseEvent);

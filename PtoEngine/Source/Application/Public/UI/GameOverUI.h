@@ -6,7 +6,7 @@ class GameOverUI : public UserWidget
 {
 public:
 	GameOverUI(
-		Object* inOwner, int inID, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse,
+		Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse,
 		const int& MaxScore, const int& MaxCombo
 	);
 	virtual ~GameOverUI();
@@ -17,7 +17,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(GameOverUI).name() + std::string(" : ") + "#"s + std::to_string(mID);
+		return typeid(GameOverUI).name() + std::string("_") + std::to_string(mID);
 	}
 	void OnClickedRestartButton(DX::MouseEvent inMouseEvent);
 	void OnClickedReturnTitle(DX::MouseEvent inMouseEvent);

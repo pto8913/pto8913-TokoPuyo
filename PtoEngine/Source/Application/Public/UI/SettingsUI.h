@@ -7,7 +7,7 @@ class S_TextBlock;
 class SettingsUI : public UserWidget
 {
 public:
-	SettingsUI(Object* inOwner, int inID, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
+	SettingsUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
 	virtual ~SettingsUI();
 
 	// ------------------------------------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(SettingsUI).name() + std::string(" : ") + "#"s + std::to_string(mID);
+		return typeid(SettingsUI).name() + std::string("_") + std::to_string(mID);
 	}
 	void OnClickedReturnTitle(DX::MouseEvent inMouseEvent);
 	void OnClickedSave(DX::MouseEvent inMouseEvent);

@@ -9,7 +9,7 @@ class S_Button;
 class GameProgressUI : public UserWidget
 {
 public:
-	GameProgressUI(Object* inOwner, int inID, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
+	GameProgressUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
 	virtual ~GameProgressUI();
 
 	// ------------------------------------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(GameProgressUI).name() + std::string(" : ") + "#"s + std::to_string(mID);
+		return typeid(GameProgressUI).name() + std::string("_") + std::to_string(mID);
 	}
 	void UpdateNextPuyo(uint8_t nPuyo1_1, uint8_t nPuyo1_2, uint8_t nPuyo2_1, uint8_t nPuyo2_2);
 	void UpdateScore(const int& inScore, const int& inCombo, const int& inMaxScore, const int& inMaxCombo);
