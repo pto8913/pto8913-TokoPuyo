@@ -2,7 +2,7 @@
 
 #include <d2d1.h>
 
-#include "Render/VertexShader.h"
+#include "Render/VertexBuffer.h"
 
 class BlendState;
 class PixelShader;
