@@ -13,6 +13,7 @@ class WidgetAnimation;
 
 class UserWidget : public Object
 {
+	friend class WidgetManager;
 public:
 	UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
 	virtual ~UserWidget();
@@ -20,9 +21,11 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
-	virtual void Tick(DirectX11& dx, float deltaTime) override;
 protected:
+	virtual void Tick(DirectX11& dx, float deltaTime) override;
 	virtual void Draw();
+
+	ID2D1RenderTarget* GetRt2D();
 public:
 
 	virtual void SetTickEnabled(bool inState) noexcept override;
@@ -35,8 +38,6 @@ public:
 	double GetZOrder() const noexcept;
 
 	virtual World* GetWorld() override;
-
-	ID2D1RenderTarget* GetRt2D();
 
 	virtual void AddSlate(std::shared_ptr<SlateBase> inSlate);
 	virtual void RemoveSlate(std::shared_ptr<SlateBase> inSlate);

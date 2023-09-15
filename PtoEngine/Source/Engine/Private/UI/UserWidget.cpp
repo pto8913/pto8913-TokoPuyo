@@ -80,6 +80,11 @@ void UserWidget::Draw()
 	}
 }
 
+ID2D1RenderTarget* UserWidget::GetRt2D()
+{
+	return pRt2D;
+}
+
 void UserWidget::SetTickEnabled(bool inState) noexcept
 {
 	bIsInViewport = inState;
@@ -114,11 +119,6 @@ World* UserWidget::GetWorld()
 		return pOwner->GetWorld();
 	}
 	return nullptr;
-}
-
-ID2D1RenderTarget* UserWidget::GetRt2D()
-{
-	return pRt2D;
 }
 
 void UserWidget::AddSlate(std::shared_ptr<SlateBase> inSlate)
