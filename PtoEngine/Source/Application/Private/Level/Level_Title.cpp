@@ -3,6 +3,7 @@
 
 #include "UI/TitleUI.h"
 #include "UI/SettingsUI.h"
+#include "UI/DebugUI.h"
 
 #include "Framework/World.h"
 #include "Framework/PlayerController.h"
@@ -27,6 +28,12 @@ Level_Title::~Level_Title()
 		pSettingsUI->MarkPendingKill();
 	}
 	pSettingsUI = nullptr;
+
+	if (pDebugUI)
+	{
+		pDebugUI->MarkPendingKill();
+	}
+	pDebugUI = nullptr;
 }
 
 // ------------------------------------------------------
@@ -44,6 +51,14 @@ void Level_Title::BeginPlay(DirectX11& dx)
 	pTitleUI->OnClickedTokoPuyo.Bind<&Level_Title::OnClickedTokoPuyo>(*this, "Title");
 	pTitleUI->OnClickedOpenSettings.Bind<&Level_Title::OnClickedOpenSettings>(*this, "Title");
 	pTitleUI->AddToViewport();
+	pTitleUI->RemoveFromParent();
+
+	pDebugUI = CreateWidget<DebugUI>(
+		this, 
+		dx, 
+		GetWorld()->GetPlayerController()->GetMouse()
+	);
+	pDebugUI->AddToViewport();
 }
 
 // --------------------------

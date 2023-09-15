@@ -12,10 +12,6 @@
 
 #include "Input/Keyboard.h"
 
-#if _DEBUG
-#include <Psapi.h>
-#include <format>
-#endif
 
 Keyboard::InputAction InputEsc(DIK_ESCAPE);
 
@@ -98,11 +94,6 @@ int App::Run()
                     assert(false);
                 }
             }
-#if _DEBUG
-            PROCESS_MEMORY_COUNTERS_EX pmc;
-            GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
-            OutputDebugStringA(std::format("Memory {}\n", pmc.PagefileUsage).c_str());
-#endif
         }
     }
 }

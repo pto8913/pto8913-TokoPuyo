@@ -318,6 +318,7 @@
     <ClInclude Include="Source\Engine\Public\Slate\Spacer.h" />
     <ClInclude Include="Source\Engine\Public\Slate\TextBlock.h" />
     <ClInclude Include="Source\Engine\Public\Slate\VerticalBox.h" />
+    <ClInclude Include="Source\Engine\Public\UI\DebugUI.h" />
     <ClInclude Include="Source\Engine\Public\UI\UserWidget.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimation.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimationTypes.h" />
@@ -475,6 +476,7 @@
     <ClCompile Include="Source\Engine\Private\Slate\Spacer.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\TextBlock.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\VerticalBox.cpp" />
+    <ClCompile Include="Source\Engine\Private\UI\DebugUI.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\UserWidget.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\WidgetAnimation.cpp" />
     <ClCompile Include="Source\pch.cpp" />

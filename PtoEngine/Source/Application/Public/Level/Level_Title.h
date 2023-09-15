@@ -5,6 +5,7 @@
 
 class TitleUI;
 class SettingsUI;
+class DebugUI;
 
 class Level_Title : public Level
 {
@@ -35,4 +36,5 @@ protected:
 	// ------------------------------------------------------
 	TitleUI* pTitleUI = nullptr;
 	SettingsUI* pSettingsUI = nullptr;
+	DebugUI* pDebugUI = nullptr;
 };
