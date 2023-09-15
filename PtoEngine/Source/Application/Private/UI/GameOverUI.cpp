@@ -25,11 +25,11 @@ GameOverUI::GameOverUI(
 )
 	: UserWidget(inOwner, inRt2D, dx, mouse)
 {
-	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), GetRt2D());
+	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), inRt2D);
 
 	FSlateInfos SlateInfos;
 	SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-	auto InfosVB = std::make_shared<S_VerticalBox>(GameSettings::GAMEUI_SIZE, GetRt2D(), SlateInfos);
+	auto InfosVB = std::make_shared<S_VerticalBox>(GameSettings::GAMEUI_SIZE, inRt2D, SlateInfos);
 	InfosVB->SetPosition(
 		{
 			(EngineSettings::GetWindowSize().x / 2.f) - (GameSettings::GAMEUI_SIZE.x / 2.f),
@@ -37,7 +37,7 @@ GameOverUI::GameOverUI(
 		}
 	);
 
-	auto pSpacer = std::make_shared<S_Spacer>(FVector2D(0.f, 80.f), GetRt2D());
+	auto pSpacer = std::make_shared<S_Spacer>(FVector2D(0.f, 80.f), inRt2D);
 	InfosVB->AddChild(pSpacer);
 
 	/* GameOverText */
@@ -50,7 +50,7 @@ GameOverUI::GameOverUI(
 		font.fontSize = 40.f;
 		FSlateInfos slateInfo;
 		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pText_GameOver = std::make_shared<S_TextBlock>(GetRt2D(), slateInfo, font, textGameOver);
+		auto pText_GameOver = std::make_shared<S_TextBlock>(inRt2D, slateInfo, font, textGameOver);
 		pText_GameOver->SetText(L"GAME OVER");
 		InfosVB->AddChild(pText_GameOver);
 	}
@@ -64,10 +64,10 @@ GameOverUI::GameOverUI(
 		textAppearance.vAlign = EVerticalAlignment::Center;
 		textAppearance.hAlign = EHorizontalAlignment::Left;
 
-		auto pTextBlock_MaxScore = std::make_shared<S_TextBlock>(GetRt2D(), scoreSlateInfos, FSlateFont(), textAppearance);
+		auto pTextBlock_MaxScore = std::make_shared<S_TextBlock>(inRt2D, scoreSlateInfos, FSlateFont(), textAppearance);
 		InfosVB->AddChild(pTextBlock_MaxScore);
 
-		auto pTextBlock_MaxCombo = std::make_shared<S_TextBlock>(GetRt2D(), scoreSlateInfos, FSlateFont(), textAppearance);
+		auto pTextBlock_MaxCombo = std::make_shared<S_TextBlock>(inRt2D, scoreSlateInfos, FSlateFont(), textAppearance);
 		InfosVB->AddChild(pTextBlock_MaxCombo);
 		if (pTextBlock_MaxScore)
 		{
@@ -80,16 +80,16 @@ GameOverUI::GameOverUI(
 	}
 	InfosVB->AddChild(pSpacer);
 
-	auto button = [this, &InfosVB](const std::wstring& label)
+	auto button = [this, &InfosVB, &inRt2D](const std::wstring& label)
 	{
 		FSlateInfos SlateInfos;
 		SlateInfos.padding = { 5.f, 5.f, 5.f, 5.f };
-		auto pButton = std::make_shared<S_Button>(FVector2D(150.f, 40.f), pRt2D, SlateInfos);
+		auto pButton = std::make_shared<S_Button>(FVector2D(150.f, 40.f), inRt2D, SlateInfos);
 
 		FSlateInfos LabelInfos;
 		LabelInfos.VAlign = EVerticalAlignment::Center;
 		LabelInfos.HAlign = EHorizontalAlignment::Center;
-		auto pLabel = std::make_shared<S_TextBlock>(pRt2D, LabelInfos);
+		auto pLabel = std::make_shared<S_TextBlock>(inRt2D, LabelInfos);
 		pLabel->SetText(label);
 		pButton->AddChild(pLabel);
 

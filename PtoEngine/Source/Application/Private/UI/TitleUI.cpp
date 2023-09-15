@@ -16,13 +16,13 @@ TitleUI::TitleUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::
 	const auto windowSize = EngineSettings::GetWindowSize();
 	const auto padding = GameSettings::GAMESCREEN_PADDING;
 
-	pRootSlate = std::make_shared<S_CanvasPanel>(windowSize, GetRt2D());
+	pRootSlate = std::make_shared<S_CanvasPanel>(windowSize, inRt2D);
 	pRootSlate->SetPosition({ 0, 0 });
 
 	FSlateInfos menuVBInfos;
 	menuVBInfos.VAlign = EVerticalAlignment::Center;
 	const FVector2D menuVBSize = { windowSize.x / 2, windowSize.y / 2.f };
-	auto pMenuVB = std::make_shared<S_VerticalBox>(menuVBSize, GetRt2D(), menuVBInfos);
+	auto pMenuVB = std::make_shared<S_VerticalBox>(menuVBSize, inRt2D, menuVBInfos);
 	pMenuVB->SetPosition({ windowSize.x / 2 - menuVBSize.x / 2, windowSize.y / 2 - menuVBSize.y / 2 + padding.y });
 	pRootSlate->AddChild(pMenuVB);
 
@@ -35,22 +35,22 @@ TitleUI::TitleUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::
 		font.fontSize = 60.f;
 		FSlateTextAppearance appearance;
 
-		auto pTextBlock = std::make_shared<S_TextBlock>(GetRt2D(), infos, font, appearance);
+		auto pTextBlock = std::make_shared<S_TextBlock>(inRt2D, infos, font, appearance);
 		pTextBlock->SetText(L"pto8193 ‚Õ‚æ‚Õ‚æ");
 		pMenuVB->AddChild(pTextBlock);
 	}
 
-	auto pSpacer = std::make_shared<S_Spacer>(FVector2D(0.f, 100.f), GetRt2D());
+	auto pSpacer = std::make_shared<S_Spacer>(FVector2D(0.f, 100.f), inRt2D);
 	pMenuVB->AddChild(pSpacer);
 
 	/* Button */
-	auto button = [this, &pMenuVB](const std::wstring& mode)
+	auto button = [this, &pMenuVB, &inRt2D](const std::wstring& mode)
 	{
 		FSlateInfos infos;
 		infos.HAlign = EHorizontalAlignment::Center;
 		infos.padding = { 0.f, 2.5f, 0.f, 2.5f };
 		FSlateButtonAppearance appearance;
-		auto pButton = std::make_shared<S_Button>(FVector2D(200.f, 40.f), GetRt2D(), infos, appearance);
+		auto pButton = std::make_shared<S_Button>(FVector2D(200.f, 40.f), inRt2D, infos, appearance);
 		
 		/* Label */
 		{
@@ -62,7 +62,7 @@ TitleUI::TitleUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::
 			font.fontSize = 30.f;
 			FSlateTextAppearance appearance;
 
-			auto pTextBlock = std::make_shared<S_TextBlock>(GetRt2D(), infos, font, appearance);
+			auto pTextBlock = std::make_shared<S_TextBlock>(inRt2D, infos, font, appearance);
 			pTextBlock->SetText(mode);
 			pButton->AddChild(pTextBlock);
 		}

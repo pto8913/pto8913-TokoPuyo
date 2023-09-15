@@ -21,11 +21,11 @@ using namespace DirectX;
 GameProgressUI::GameProgressUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
 	: UserWidget(inOwner, inRt2D, dx, mouse)
 {
-	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), GetRt2D());
+	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), inRt2D);
 
 	FSlateInfos SlateInfos;
 	SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-	auto InfosVB = std::make_shared<S_VerticalBox>(FVector2D(300.f, 768.f), GetRt2D(), SlateInfos);
+	auto InfosVB = std::make_shared<S_VerticalBox>(FVector2D(300.f, 768.f), inRt2D, SlateInfos);
 	pRootSlate->AddChild(InfosVB);
 	InfosVB->SetPosition({ 416, GameSettings::GAMESCREEN_PADDING.y });
 
@@ -38,7 +38,7 @@ GameProgressUI::GameProgressUI(Object* inOwner, ID2D1RenderTarget* inRt2D, Direc
 		font.fontSize = 30.f;
 		FSlateInfos slateInfo;
 		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pTextBlock_GameMode = std::make_shared<S_TextBlock>(GetRt2D(), slateInfo, font, textAppearance);
+		auto pTextBlock_GameMode = std::make_shared<S_TextBlock>(inRt2D, slateInfo, font, textAppearance);
 		pTextBlock_GameMode->SetText(L"TokoPuyo");
 
 		InfosVB->AddChild(pTextBlock_GameMode);
@@ -51,13 +51,13 @@ GameProgressUI::GameProgressUI(Object* inOwner, ID2D1RenderTarget* inRt2D, Direc
 		textAppearance.hAlign = EHorizontalAlignment::Center;
 		FSlateInfos slateInfo;
 		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pTextBlock_NextPuyo = std::make_shared<S_TextBlock>(GetRt2D(), slateInfo, FSlateFont(), textAppearance);
+		auto pTextBlock_NextPuyo = std::make_shared<S_TextBlock>(inRt2D, slateInfo, FSlateFont(), textAppearance);
 		pTextBlock_NextPuyo->SetText(L"Next Puyo");
 
 		FSlateInfos Overlay;
 		Overlay.padding = { 5.f, 15.f , 5.f, 15.f };
 		Overlay.HAlign = EHorizontalAlignment::Center;
-		auto pOverlay_NextPuyo1 = std::make_shared<S_Overlay>(FVector2D(150.f, 250.f), GetRt2D(), Overlay);
+		auto pOverlay_NextPuyo1 = std::make_shared<S_Overlay>(FVector2D(150.f, 250.f), inRt2D, Overlay);
 
 		FSlateInfos SlateInfoNextPuyo;
 		SlateInfoNextPuyo.HAlign = EHorizontalAlignment::Center;
@@ -67,29 +67,29 @@ GameProgressUI::GameProgressUI(Object* inOwner, ID2D1RenderTarget* inRt2D, Direc
 		SlateInfoNextPuyo1VB.HAlign = EHorizontalAlignment::Left;
 		SlateInfoNextPuyo1VB.VAlign = EVerticalAlignment::Top;
 		SlateInfoNextPuyo1VB.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pRootSlate_NextPuyo1 = std::make_shared<S_VerticalBox>(FVector2D(64.f, 128.f), GetRt2D(), SlateInfoNextPuyo1VB);
+		auto pRootSlate_NextPuyo1 = std::make_shared<S_VerticalBox>(FVector2D(64.f, 128.f), inRt2D, SlateInfoNextPuyo1VB);
 
 		if (pImage_NextPuyo1_1 == nullptr)
 		{
-			pImage_NextPuyo1_1 = std::make_shared<S_Image>(FVector2D(64.f, 64.f), GetRt2D(), SlateInfoNextPuyo);
+			pImage_NextPuyo1_1 = std::make_shared<S_Image>(FVector2D(64.f, 64.f), inRt2D, SlateInfoNextPuyo);
 		}
 		if (pImage_NextPuyo1_2 == nullptr)
 		{
-			pImage_NextPuyo1_2 = std::make_shared<S_Image>(FVector2D(64.f, 64.f), GetRt2D(), SlateInfoNextPuyo);
+			pImage_NextPuyo1_2 = std::make_shared<S_Image>(FVector2D(64.f, 64.f), inRt2D, SlateInfoNextPuyo);
 		}
 
 		FSlateInfos SlateInfoNextPuyo2VB;
 		SlateInfoNextPuyo2VB.HAlign = EHorizontalAlignment::Right;
 		SlateInfoNextPuyo2VB.VAlign = EVerticalAlignment::Bottom;
 		SlateInfoNextPuyo2VB.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pRootSlate_NextPuyo2 = std::make_shared<S_VerticalBox>(FVector2D(32.f, 64.f), GetRt2D(), SlateInfoNextPuyo2VB);
+		auto pRootSlate_NextPuyo2 = std::make_shared<S_VerticalBox>(FVector2D(32.f, 64.f), inRt2D, SlateInfoNextPuyo2VB);
 		if (pImage_NextPuyo2_1 == nullptr)
 		{
-			pImage_NextPuyo2_1 = std::make_shared<S_Image>(FVector2D(32.f, 32.f), GetRt2D(), SlateInfoNextPuyo);
+			pImage_NextPuyo2_1 = std::make_shared<S_Image>(FVector2D(32.f, 32.f), inRt2D, SlateInfoNextPuyo);
 		}
 		if (pImage_NextPuyo2_2 == nullptr)
 		{
-			pImage_NextPuyo2_2 = std::make_shared<S_Image>(FVector2D(32.f, 32.f), GetRt2D(), SlateInfoNextPuyo);
+			pImage_NextPuyo2_2 = std::make_shared<S_Image>(FVector2D(32.f, 32.f), inRt2D, SlateInfoNextPuyo);
 		}
 		//InfosVB->AddChild(pTextBlock_NextPuyo);
 
@@ -114,23 +114,23 @@ GameProgressUI::GameProgressUI(Object* inOwner, ID2D1RenderTarget* inRt2D, Direc
 		Appearance.vAlign = EVerticalAlignment::Center;
 		Appearance.hAlign = EHorizontalAlignment::Left;
 
-		auto pText_Control1 = std::make_shared<S_TextBlock>(GetRt2D(), SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control1 = std::make_shared<S_TextBlock>(inRt2D, SlateInfos, FSlateFont(), Appearance);
 		pText_Control1->SetText(L" Å™ : Turn Right");
 
-		auto pText_Control2 = std::make_shared<S_TextBlock>(GetRt2D(), SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control2 = std::make_shared<S_TextBlock>(inRt2D, SlateInfos, FSlateFont(), Appearance);
 		pText_Control2->SetText(L"Å© : Move Left");
 
-		auto pText_Control3 = std::make_shared<S_TextBlock>(GetRt2D(), SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control3 = std::make_shared<S_TextBlock>(inRt2D, SlateInfos, FSlateFont(), Appearance);
 		pText_Control3->SetText(L"Å® : Move Right");
 
-		auto pText_Control4 = std::make_shared<S_TextBlock>(GetRt2D(), SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control4 = std::make_shared<S_TextBlock>(inRt2D, SlateInfos, FSlateFont(), Appearance);
 		pText_Control4->SetText(L" Å´ : Move Bottom");
 
-		auto pText_Control5 = std::make_shared<S_TextBlock>(GetRt2D(), SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control5 = std::make_shared<S_TextBlock>(inRt2D, SlateInfos, FSlateFont(), Appearance);
 		pText_Control5->SetText(L" Z : Turn Left");
 
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 20.f };
-		auto pText_Control6 = std::make_shared<S_TextBlock>(GetRt2D(), SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control6 = std::make_shared<S_TextBlock>(inRt2D, SlateInfos, FSlateFont(), Appearance);
 		pText_Control6->SetText(L" X : Turn Right");
 
 		InfosVB->AddChild(pText_Control1);
@@ -151,19 +151,19 @@ GameProgressUI::GameProgressUI(Object* inOwner, ID2D1RenderTarget* inRt2D, Direc
 		scoreAppearance.hAlign = EHorizontalAlignment::Left;
 		if (pTextBlock_MaxScore == nullptr)
 		{
-			pTextBlock_MaxScore = std::make_shared<S_TextBlock>(GetRt2D(), scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_MaxScore = std::make_shared<S_TextBlock>(inRt2D, scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		if (pTextBlock_MaxCombo == nullptr)
 		{
-			pTextBlock_MaxCombo = std::make_shared<S_TextBlock>(GetRt2D(), scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_MaxCombo = std::make_shared<S_TextBlock>(inRt2D, scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		if (pTextBlock_Score == nullptr)
 		{
-			pTextBlock_Score = std::make_shared<S_TextBlock>(GetRt2D(), scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_Score = std::make_shared<S_TextBlock>(inRt2D, scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		if (pTextBlock_Combo == nullptr)
 		{
-			pTextBlock_Combo = std::make_shared<S_TextBlock>(GetRt2D(), scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_Combo = std::make_shared<S_TextBlock>(inRt2D, scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		InfosVB->AddChild(pTextBlock_MaxScore);
 		InfosVB->AddChild(pTextBlock_MaxCombo);
@@ -173,17 +173,17 @@ GameProgressUI::GameProgressUI(Object* inOwner, ID2D1RenderTarget* inRt2D, Direc
 		UpdateScore(0, 0, 0, 0);
 	}
 
-	auto button = [this, &InfosVB](const std::wstring& label)
+	auto button = [this, &InfosVB, &inRt2D](const std::wstring& label)
 	{
 		FSlateInfos SlateInfos;
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-		auto pButton = std::make_shared<S_Button>(FVector2D(150.f, 40.f), pRt2D, SlateInfos);
+		auto pButton = std::make_shared<S_Button>(FVector2D(150.f, 40.f), inRt2D, SlateInfos);
 		pButton->ClearChildren();
 
 		FSlateInfos LabelInfos;
 		LabelInfos.VAlign = EVerticalAlignment::Center;
 		LabelInfos.HAlign = EHorizontalAlignment::Center;
-		auto pLabel = std::make_shared<S_TextBlock>(pRt2D, LabelInfos);
+		auto pLabel = std::make_shared<S_TextBlock>(inRt2D, LabelInfos);
 		pButton->AddChild(pLabel);
 		pLabel->SetText(label);
 

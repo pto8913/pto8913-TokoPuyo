@@ -43,7 +43,7 @@ void Level_Title::BeginPlay(DirectX11& dx)
 {
 	Level::BeginPlay(dx);
 
-	pTitleUI = CreateWidget<TitleUI>(
+	pTitleUI = GetWorld()->CreateWidget<TitleUI>(
 		this,
 		dx,
 		GetWorld()->GetPlayerController()->GetMouse()
@@ -52,7 +52,7 @@ void Level_Title::BeginPlay(DirectX11& dx)
 	pTitleUI->OnClickedOpenSettings.Bind<&Level_Title::OnClickedOpenSettings>(*this, "Title");
 	pTitleUI->AddToViewport();
 
-	pDebugUI = CreateWidget<DebugUI>(
+	pDebugUI = GetWorld()->CreateWidget<DebugUI>(
 		this, 
 		dx, 
 		GetWorld()->GetPlayerController()->GetMouse()
@@ -76,7 +76,7 @@ void Level_Title::OnClickedOpenSettings(DX::MouseEvent inMouseEvent)
 {
 	if (pSettingsUI == nullptr)
 	{
-		pSettingsUI = CreateWidget<SettingsUI>(
+		pSettingsUI = GetWorld()->CreateWidget<SettingsUI>(
 			GetWorld(),
 			*pDX,
 			GetWorld()->GetPlayerController()->GetMouse()

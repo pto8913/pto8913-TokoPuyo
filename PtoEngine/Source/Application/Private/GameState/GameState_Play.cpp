@@ -50,7 +50,7 @@ void GameState_Play::SetGameProgress(DirectX11& dx, EGameProgress NewState)
 	case EGameProgress::GameOver:
 		if (pGameOverUI == nullptr)
 		{
-			pGameOverUI = CreateWidget<GameOverUI>(
+			pGameOverUI = GetWorld()->CreateWidget<GameOverUI>(
 				GetWorld(),
 				dx,
 				GetWorld()->GetPlayerController()->GetMouse(),
@@ -64,7 +64,7 @@ void GameState_Play::SetGameProgress(DirectX11& dx, EGameProgress NewState)
 	default:
 		if (pGameProgressUI == nullptr)
 		{
-			pGameProgressUI = CreateWidget<GameProgressUI>(
+			pGameProgressUI = GetWorld()->CreateWidget<GameProgressUI>(
 				GetWorld(),
 				dx,
 				GetWorld()->GetPlayerController()->GetMouse()
