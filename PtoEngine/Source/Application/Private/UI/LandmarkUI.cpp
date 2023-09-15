@@ -12,7 +12,7 @@
 
 using namespace DirectX;
 
-LandmarkUI::LandmarkUI(Object* inOwner, int inID, ID2D1RenderTarget* inRt2D, DirectX11& dx, const std::wstring& inLandmarkName, const float& inPlayRate, const FOnWidgetAnimationCompleted& inCompleted)
+LandmarkUI::LandmarkUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, const std::wstring& inLandmarkName, const float& inPlayRate, const FOnWidgetAnimationCompleted& inCompleted)
 	: UserWidget(inOwner, inID, inRt2D, dx, nullptr),
 	mLandmarkName(inLandmarkName), 
 	mPlayRate(inPlayRate),
