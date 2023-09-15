@@ -12,19 +12,19 @@ UserWidget::UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx
 
 	if (pMouse)
 	{
-		pMouse->GetClickedLeftPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, "UserWidget");
-		pMouse->GetClickedLeftReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, "UserWidget");
-		pMouse->GetClickedLeftHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, "UserWidget");
+		pMouse->GetClickedLeftPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, GetName() + "_Left");
+		pMouse->GetClickedLeftReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, GetName() + "_Left");
+		pMouse->GetClickedLeftHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, GetName() + "_Left");
 
-		pMouse->GetClickedRightPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, "UserWidget");
-		pMouse->GetClickedRightReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, "UserWidget");
-		pMouse->GetClickedRightHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, "UserWidget");
+		pMouse->GetClickedRightPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, GetName() + "_Right");
+		pMouse->GetClickedRightReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, GetName() + "_Right");
+		pMouse->GetClickedRightHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, GetName() + "_Right");
 
-		pMouse->GetClickedWheelPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, "UserWidget");
-		pMouse->GetClickedWheelReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, "UserWidget");
-		pMouse->GetClickedWheelHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, "UserWidget");
+		pMouse->GetClickedWheelPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, GetName() + "_Wheel");
+		pMouse->GetClickedWheelReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, GetName() + "_Wheel");
+		pMouse->GetClickedWheelHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, GetName() + "_Wheel");
 
-		pMouse->GetMouseMove().Bind<&UserWidget::OnMouseMove>(*this, "UserWidget");
+		pMouse->GetMouseMove().Bind<&UserWidget::OnMouseMove>(*this, GetName() + "_Move");
 	}
 	SetLayer(Layer::EActorLayer::UI);
 }
@@ -32,16 +32,16 @@ UserWidget::~UserWidget()
 {
 	if (pMouse)
 	{
-		pMouse->GetClickedLeftPressed().Unbind("UserWidget");
-		pMouse->GetClickedLeftReleased().Unbind("UserWidget");
-		pMouse->GetClickedLeftHeld().Unbind("UserWidget");
-		pMouse->GetClickedRightPressed().Unbind("UserWidget");
-		pMouse->GetClickedRightReleased().Unbind("UserWidget");
-		pMouse->GetClickedRightHeld().Unbind("UserWidget");
-		pMouse->GetClickedWheelPressed().Unbind("UserWidget");
-		pMouse->GetClickedWheelReleased().Unbind("UserWidget");
-		pMouse->GetClickedWheelHeld().Unbind("UserWidget");
-		pMouse->GetMouseMove().Unbind("UserWidget");
+		pMouse->GetClickedLeftPressed().Unbind(GetName() + "_Left");
+		pMouse->GetClickedLeftReleased().Unbind(GetName() + "_Left");
+		pMouse->GetClickedLeftHeld().Unbind(GetName() + "_Left");
+		pMouse->GetClickedRightPressed().Unbind(GetName() + "_Right");
+		pMouse->GetClickedRightReleased().Unbind(GetName() + "_Right");
+		pMouse->GetClickedRightHeld().Unbind(GetName() + "_Right");
+		pMouse->GetClickedWheelPressed().Unbind(GetName() + "_Wheel");
+		pMouse->GetClickedWheelReleased().Unbind(GetName() + "_Wheel");
+		pMouse->GetClickedWheelHeld().Unbind(GetName() + "_Wheel");
+		pMouse->GetMouseMove().Unbind(GetName() + "_Move");
 	}
 	pMouse = nullptr;
 	if (pRootSlate != nullptr)
