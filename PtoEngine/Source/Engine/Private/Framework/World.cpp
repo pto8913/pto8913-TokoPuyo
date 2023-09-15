@@ -110,9 +110,7 @@ void World::SetHUD(DirectX11& dx)
 		pHUD = CreateWidget<UserWidget>(
 			this,
 			dx,
-			GetPlayerController()->GetMouse(),
-			windowSize.x,
-			windowSize.y
+			GetPlayerController()->GetMouse()
 		);
 	}
 }
