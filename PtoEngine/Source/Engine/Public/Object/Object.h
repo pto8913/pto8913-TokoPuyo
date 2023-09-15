@@ -61,6 +61,7 @@ protected:
 	Layer::EActorLayer mLayer = Layer::EActorLayer::Default;
 	int mID = -1;
 	std::unordered_set<std::wstring> mTags;
+	std::string mName;
 };
 
 bool IsValid(std::shared_ptr<Object> in);
