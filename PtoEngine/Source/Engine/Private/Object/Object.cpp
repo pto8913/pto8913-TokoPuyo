@@ -34,6 +34,7 @@ const Layer::EActorLayer& Object::GetLayer() const
 void Object::SetLayer(const Layer::EActorLayer& in)
 {
 	mLayer = in;
+	mName = GetName();
 }
 
 void Object::SetID(int inID)
