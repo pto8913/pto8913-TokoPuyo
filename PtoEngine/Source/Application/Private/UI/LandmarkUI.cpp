@@ -12,13 +12,13 @@
 
 using namespace DirectX;
 
-LandmarkUI::LandmarkUI(Object* inOwner, DirectX11& dx, const std::wstring& inLandmarkName, const float& inPlayRate, const FOnWidgetAnimationCompleted& inCompleted)
-	: UserWidget(inOwner, dx, nullptr, EngineSettings::GetWindowSize().x, EngineSettings::GetWindowSize().y),
+LandmarkUI::LandmarkUI(Object* inOwner, int inID, ID2D1RenderTarget* inRt2D, DirectX11& dx, const std::wstring& inLandmarkName, const float& inPlayRate, const FOnWidgetAnimationCompleted& inCompleted)
+	: UserWidget(inOwner, inID, inRt2D, dx, nullptr),
 	mLandmarkName(inLandmarkName), 
 	mPlayRate(inPlayRate),
 	mDelegate(inCompleted)
 {
-	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), GetRt2D());
+	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), inRt2D);
 
 	/* Border */
 	{
@@ -26,7 +26,7 @@ LandmarkUI::LandmarkUI(Object* inOwner, DirectX11& dx, const std::wstring& inLan
 		borderAppearance.Type = EBorderType::Box;
 		borderAppearance.bIsFill = true;
 		borderAppearance.color = FColor(0.f, 0.f, 0.f, 1.f);
-		pEffectBorder = std::make_shared<S_Border>(EngineSettings::GetWindowSize(), GetRt2D(), FSlateInfos(), borderAppearance);
+		pEffectBorder = std::make_shared<S_Border>(EngineSettings::GetWindowSize(), inRt2D, FSlateInfos(), borderAppearance);
 
 		FSlateInfos textInfos;
 		textInfos.HAlign = EHorizontalAlignment::Center;
@@ -37,7 +37,7 @@ LandmarkUI::LandmarkUI(Object* inOwner, DirectX11& dx, const std::wstring& inLan
 
 		FSlateTextAppearance textAppearance;
 		textAppearance.color = FColor(1.f, 1.f, 1.f);
-		pText = std::make_shared<S_TextBlock>(GetRt2D(), textInfos, textFont, textAppearance);
+		pText = std::make_shared<S_TextBlock>(inRt2D, textInfos, textFont, textAppearance);
 		pText->SetText(mLandmarkName);
 
 		pRootSlate->AddChild(pEffectBorder);
@@ -48,10 +48,6 @@ LandmarkUI::LandmarkUI(Object* inOwner, DirectX11& dx, const std::wstring& inLan
 	}
 
 	pRootSlate->UpdateWidget();
-}
-LandmarkUI::LandmarkUI(DirectX11& dx, const std::wstring& inLandmarkName, const float& inPlayRate, const FOnWidgetAnimationCompleted& inCompleted)
-	: LandmarkUI(nullptr, dx, inLandmarkName, inPlayRate, inCompleted)
-{
 }
 LandmarkUI::~LandmarkUI()
 {

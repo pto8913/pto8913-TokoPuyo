@@ -7,7 +7,7 @@ class S_TextBlock;
 class DebugUI : public UserWidget
 {
 public:
-	DebugUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
+	DebugUI(Object* inOwner, int inID, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
 	virtual ~DebugUI();
 
 	// ------------------------------------------------------------------------------------------------------------
