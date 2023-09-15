@@ -143,7 +143,7 @@ void DebugUI::Tick(DirectX11& dx, float deltaTime)
 	}
 	if (pText_VirtualUsed != nullptr)
 	{
-		pText_VirtualUsed->SetText(std::format(L"virtual memory used : {}", (memInfo.ullTotalPageFile - memInfo.ullAvailPageFile) / MemoryDiv));
+		pText_VirtualUsed->SetText(std::format(L"virtual memory used : {}", memInfo.ullAvailPageFile / MemoryDiv));
 	}
 	if (pText_VirtualCurrentUsed != nullptr)
 	{
@@ -159,7 +159,7 @@ void DebugUI::Tick(DirectX11& dx, float deltaTime)
 	}
 	if (pText_PhysUsed != nullptr)
 	{
-		pText_PhysUsed->SetText(std::format(L"physical memory used : {}", (memInfo.ullTotalPhys - memInfo.ullAvailPhys) / MemoryDiv));
+		pText_PhysUsed->SetText(std::format(L"physical memory used : {}", memInfo.ullAvailPhys / MemoryDiv));
 	}
 	if (pText_PhysCurrentUsed != nullptr)
 	{
