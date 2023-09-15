@@ -27,13 +27,6 @@ GameState::~GameState()
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
-void GameState::Tick(DirectX11& dx, float deltaTime)
-{
-	if (pLandmarkUI != nullptr)
-	{
-		pLandmarkUI->Tick(dx, deltaTime);
-	}
-}
 
 // ---------------------------
 // Main : Landmark

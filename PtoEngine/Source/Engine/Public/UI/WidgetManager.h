@@ -23,7 +23,7 @@ public:
 	TClass* CreateWidget(Object* inOwner, Args&& ...args)
 	{
 		auto out = std::make_shared<TClass>(inOwner, pRt2D, std::forward<Args>(args)...);
-		pWidgets.push_back(inWidget);
+		pWidgets.push_back(out);
 		return std::move(out.get());
 	};
 protected:
