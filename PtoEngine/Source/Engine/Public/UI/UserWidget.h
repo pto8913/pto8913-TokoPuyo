@@ -24,8 +24,6 @@ public:
 protected:
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 	virtual void Draw();
-
-	ID2D1RenderTarget* GetRt2D();
 public:
 
 	virtual void SetTickEnabled(bool inState) noexcept override;

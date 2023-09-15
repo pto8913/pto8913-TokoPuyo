@@ -73,6 +73,23 @@ WidgetManager::~WidgetManager()
 	//pRt2D->Release();
 	Util::SafeRelease(pMutex11);
 	Util::SafeRelease(pMutex10);
+
+	auto iter = pWidgets.begin();
+	while (iter != pWidgets.end())
+	{
+		auto& obj = *iter;
+		if (obj != nullptr)
+		{
+			obj.reset();
+			obj = nullptr;
+			iter = pWidgets.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+	pWidgets.clear();
 }
 
 void WidgetManager::RemovePendingObjects()

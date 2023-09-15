@@ -80,11 +80,6 @@ void UserWidget::Draw()
 	}
 }
 
-ID2D1RenderTarget* UserWidget::GetRt2D()
-{
-	return pRt2D;
-}
-
 void UserWidget::SetTickEnabled(bool inState) noexcept
 {
 	bIsInViewport = inState;
