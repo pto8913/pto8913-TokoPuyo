@@ -321,7 +321,6 @@
     <ClInclude Include="Source\Engine\Public\UI\UserWidget.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimation.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimationTypes.h" />
-    <ClInclude Include="Source\Engine\Public\UI\WidgetBase.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetManager.h" />
     <ClInclude Include="Source\pch.h" />
   </ItemGroup>
@@ -477,7 +476,6 @@
     <ClCompile Include="Source\Engine\Private\UI\DebugUI.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\UserWidget.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\WidgetAnimation.cpp" />
-    <ClCompile Include="Source\Engine\Private\UI\WidgetBase.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\WidgetManager.cpp" />
     <ClCompile Include="Source\pch.cpp" />
   </ItemGroup>
