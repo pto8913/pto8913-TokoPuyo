@@ -277,6 +277,7 @@
     <ClInclude Include="Source\DirectX\Public\Object\SkySphere.h" />
     <ClInclude Include="Source\DirectX\Public\Object\Sprite.h" />
     <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetBase.h" />
+    <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetManager.h" />
     <ClInclude Include="Source\DirectX\Public\Render\Bindable.h" />
     <ClInclude Include="Source\DirectX\Public\Render\BindableManager.h" />
     <ClInclude Include="Source\DirectX\Public\Render\BlendState.h" />
@@ -518,6 +519,7 @@
     <ClCompile Include="Source\DirectX\Private\Object\Widget\WidgetBase.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\Widget\WidgetManager.cpp" />
     <ClCompile Include="Source\DirectX\Private\Render\BlendState.cpp" />
     <ClCompile Include="Source\DirectX\Private\Render\ConstantBuffer.cpp" />
     <ClCompile Include="Source\DirectX\Private\Render\CubeTexture.cpp" />

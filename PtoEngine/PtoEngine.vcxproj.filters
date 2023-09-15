@@ -784,6 +784,9 @@
     <ClInclude Include="Source\Engine\Public\UI\DebugUI.h">
       <Filter>Source\Engine\Public\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetManager.h">
+      <Filter>Source\DirectX\Public\Object\Widget</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
@@ -1226,6 +1229,9 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\UI\DebugUI.cpp">
       <Filter>Source\Engine\Private\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\Widget\WidgetManager.cpp">
+      <Filter>Source\DirectX\Private\Object\Widget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
