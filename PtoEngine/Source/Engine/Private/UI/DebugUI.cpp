@@ -102,6 +102,7 @@ DebugUI::~DebugUI()
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
+int MemoryDiv = 1000000;
 void DebugUI::Tick(DirectX11& dx, float deltaTime)
 {
 	UserWidget::Tick(dx, deltaTime);
@@ -118,7 +119,7 @@ void DebugUI::Tick(DirectX11& dx, float deltaTime)
 	// -------------------------------------------------------
 	if (pText_FPS != nullptr)
 	{
-		pText_FPS->SetText(std::format(L"FPS : {}", 1.f / deltaTime));
+		pText_FPS->SetText(std::format(L"FPS : {}", (int)(1.f / deltaTime)));
 	}
 
 	// -------------------------------------------------------
@@ -138,15 +139,15 @@ void DebugUI::Tick(DirectX11& dx, float deltaTime)
 	// -------------------------------------------------------
 	if (pText_TotalVirtual != nullptr)
 	{
-		pText_TotalVirtual->SetText(std::format(L"total virtual memory : {}", memInfo.ullTotalPageFile));
+		pText_TotalVirtual->SetText(std::format(L"total virtual memory : {}", memInfo.ullTotalPageFile / MemoryDiv));
 	}
 	if (pText_VirtualUsed != nullptr)
 	{
-		pText_VirtualUsed->SetText(std::format(L"virtual memory used : {}", memInfo.ullTotalPageFile - memInfo.ullAvailPageFile));
+		pText_VirtualUsed->SetText(std::format(L"virtual memory used : {}", (memInfo.ullTotalPageFile - memInfo.ullAvailPageFile) / MemoryDiv));
 	}
 	if (pText_VirtualCurrentUsed != nullptr)
 	{
-		pText_VirtualCurrentUsed->SetText(std::format(L"virtual memory current used : {}", pmc.PrivateUsage));
+		pText_VirtualCurrentUsed->SetText(std::format(L"virtual memory current used : {}", pmc.PrivateUsage / MemoryDiv));
 	}
 
 	// -------------------------------------------------------
@@ -154,15 +155,15 @@ void DebugUI::Tick(DirectX11& dx, float deltaTime)
 	// -------------------------------------------------------
 	if (pText_TotalPhys != nullptr)
 	{
-		pText_TotalPhys->SetText(std::format(L"total physical memory : {}", memInfo.ullTotalPhys));
+		pText_TotalPhys->SetText(std::format(L"total physical memory : {}", memInfo.ullTotalPhys / MemoryDiv));
 	}
 	if (pText_PhysUsed != nullptr)
 	{
-		pText_PhysUsed->SetText(std::format(L"physical memory used : {}", memInfo.ullTotalPhys - memInfo.ullAvailPhys));
+		pText_PhysUsed->SetText(std::format(L"physical memory used : {}", (memInfo.ullTotalPhys - memInfo.ullAvailPhys) / MemoryDiv));
 	}
 	if (pText_PhysCurrentUsed != nullptr)
 	{
-		pText_PhysCurrentUsed->SetText(std::format(L"physical memory current used : {}", pmc.WorkingSetSize));
+		pText_PhysCurrentUsed->SetText(std::format(L"physical memory current used : {}", pmc.WorkingSetSize / MemoryDiv));
 	}
 }
 
