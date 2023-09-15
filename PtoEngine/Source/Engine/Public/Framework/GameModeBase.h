@@ -11,5 +11,9 @@ public:
 	GameModeBase(const GameModeBase&) = delete;
 	GameModeBase& operator=(const GameModeBase&) = delete;
 
-
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(GameModeBase).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 };

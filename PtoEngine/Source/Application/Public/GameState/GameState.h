@@ -28,7 +28,11 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
-
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(GameState).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 	// ---------------------------
 	// Main : Landmark
 	// ---------------------------

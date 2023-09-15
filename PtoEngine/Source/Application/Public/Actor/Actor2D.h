@@ -31,6 +31,12 @@ public:
 	// Main
 	// ------------------------------------------------------
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
+
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(Actor2D).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 protected:
 	// called per UpdateTime.
 	virtual void Update(DirectX11& dx) {};

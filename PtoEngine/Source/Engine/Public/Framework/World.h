@@ -80,6 +80,12 @@ public:
 	};
 	void AddToObjectCollection(std::shared_ptr<Object> in);
 
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(World).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
+
 	// -----------------------------------
 	// Main : Util : Level
 	// -----------------------------------

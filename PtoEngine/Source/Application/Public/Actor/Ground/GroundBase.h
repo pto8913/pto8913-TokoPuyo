@@ -14,6 +14,12 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(GroundBase).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
+
 	/* Change Texture and GroundType. */
 	void SetGroundType(const EGroundId& inGroundType);
 	const EGroundId& GetGroundType() const noexcept;

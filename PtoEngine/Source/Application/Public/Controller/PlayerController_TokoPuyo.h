@@ -13,6 +13,11 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(PlayerController_Dungeon).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 protected:
 
 };

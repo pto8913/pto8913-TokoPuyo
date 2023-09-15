@@ -32,6 +32,12 @@ public:
 	*/
 	void DestroyActor();
 
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(Actor).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
+
 	// -----------------------------------
 	// Main : Component
 	// -----------------------------------
