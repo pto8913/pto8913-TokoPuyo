@@ -17,7 +17,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(Level_SonoTown).name() + std::string(" : ") + "#"s + std::to_string(mID);
+		return typeid(Level_SonoTown).name() + std::string("_") + std::to_string(mID);
 	}
 protected:
 	virtual void GenerateGroundLayer() override;

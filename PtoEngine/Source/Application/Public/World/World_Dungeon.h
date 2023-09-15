@@ -9,7 +9,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(World_Dungeon).name() + std::string(" : ") + "#"s + std::to_string(mID);
+		return typeid(World_Dungeon).name() + std::string("_") + std::to_string(mID);
 	}
 	virtual void SetGameMode(DirectX11& dx) override;
 	virtual void SetGameState(DirectX11& dx) override;

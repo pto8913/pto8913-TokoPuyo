@@ -8,6 +8,6 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(GameMode_Dungeon).name() + std::string(" : ") + "#"s + std::to_string(mID);
+		return typeid(GameMode_Dungeon).name() + std::string("_") + std::to_string(mID);
 	}
 };
