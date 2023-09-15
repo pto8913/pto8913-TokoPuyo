@@ -18,7 +18,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(ActorComponent).name() + std::string(" : ") + "#"s + std::to_string(mID);
+		return typeid(ActorComponent).name() + std::string("_") + std::to_string(mID);
 	}
 	// -----------------------------------
 	// Main : Transform

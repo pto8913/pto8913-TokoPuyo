@@ -5,11 +5,9 @@
 
 #include "Framework/World.h"
 
-UserWidget::UserWidget(Object* inOwner, int inID, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
+UserWidget::UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
 	: pOwner(inOwner), pMouse(mouse)
 {
-	SetID(inID);
-
 	SetTickEnabled(true);
 
 	if (pMouse)

@@ -15,7 +15,7 @@ class UserWidget : public Object
 {
 	friend class WidgetManager;
 public:
-	UserWidget(Object* inOwner, int inID, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
+	UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
 	virtual ~UserWidget();
 
 	// ------------------------------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(UserWidget).name() + std::string(" : ") + "#"s + std::to_string(mID);
+		return typeid(UserWidget).name() + std::string("_") + std::to_string(mID);
 	}
 protected:
 	// --------------------------
