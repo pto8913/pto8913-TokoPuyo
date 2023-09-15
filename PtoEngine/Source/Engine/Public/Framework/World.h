@@ -9,6 +9,8 @@
 
 #include "Level/Level.h"
 
+#include "UI/WidgetManager.h"
+
 class DirectX11;
 
 class Level;
@@ -17,6 +19,8 @@ class GameStateBase;
 class PlayerController;
 class Actor;
 class UserWidget;
+
+class WidgetManager;
 
 class BoxCollision;
 
@@ -69,10 +73,12 @@ public:
 
 		return out;
 	}
-	void AddToObjectCollection(std::shared_ptr<Object> in)
+	template<class TClass, typename ...Args, typename = std::enable_if_t<std::is_base_of_v<UserWidget, TClass>>>
+	TClass* CreateWidget(Object* inOwner, Args&& ...args)
 	{
-		pPersistentLevel->GetObjectCollection()->Add(in);
-	}
+		return std::move(pWidgetManager->CreateWidget<TClass>(inOwner, std::forward<Args>(args)...));
+	};
+	void AddToObjectCollection(std::shared_ptr<Object> in);
 
 	// -----------------------------------
 	// Main : Util : Level
@@ -126,7 +132,8 @@ protected:
 	std::shared_ptr<GameStateBase> pGameState = nullptr;
 	std::shared_ptr<PlayerController> pPlayerController = nullptr;
 	std::shared_ptr<Actor> pPlayer = nullptr;
-	std::shared_ptr<UserWidget> pHUD = nullptr;
+	UserWidget* pHUD = nullptr;
+	std::shared_ptr<WidgetManager> pWidgetManager = nullptr;
 
 	float mWorldDelta = 0.f;
 

@@ -1,49 +1,40 @@
 #pragma once
 
-#include <d2d1.h>
+#include "Object/DrawableObject2D.h"
 
-#include "Render/VertexBuffer.h"
+class DirectX11;
+class UserWidget;
+class Object;
 
-class BlendState;
-class PixelShader;
-class VertexShader;
-class IndexBuffer;
-class Topology;
-class InputLayout;
-class TransformConstantBuffer;
-class ScreenTextOnlyOutput;
-class SamplerState;
-class Rasterizer;
-
-class WidgetManager
+class WidgetManager : private DrawableObject2D
 {
 public:
+	WidgetManager(DirectX11& dx);
 	virtual ~WidgetManager();
 
-	static WidgetManager& Get();
+protected:
+	virtual void RemovePendingObjects();
+public:
+	void Tick(DirectX11& dx, float deltaTime);
 
-	void Init(DirectX11& dx);
-	bool IsInitialized() const;
+	virtual DirectX::XMMATRIX GetTransformXM(DirectX11& dx) const noexcept override;
 
-	std::shared_ptr<BlendState> pBlendState = nullptr;
+	template<class TClass, typename ...Args, typename = std::enable_if_t<std::is_base_of_v<UserWidget, TClass>>>
+	TClass* CreateWidget(Object* inOwner, Args&& ...args)
+	{
+		auto out = std::make_shared<TClass>(inOwner, pRt2D, std::forward<Args>(args)...);
+		pWidgets.push_back(inWidget);
+		return std::move(out.get());
+	};
+protected:
+	const TransformConstantBuffer::Transforms tf = {
+		DirectX::XMMatrixIdentity(),
+		DirectX::XMMatrixIdentity()
+	};
 
-	std::shared_ptr<PixelShader> pPixelShader = nullptr;
-	std::shared_ptr<VertexShader> pVertexShader = nullptr;
-
-	std::shared_ptr<IndexBuffer> pIndexBuffer = nullptr;
-	std::shared_ptr<VertexBuffer<DX::FVertex2D>> pVertexBuffer = nullptr;
-	std::shared_ptr<Topology> pTopology = nullptr;
-
-	std::shared_ptr<InputLayout> pInputLayout = nullptr;
-	std::shared_ptr<TransformConstantBuffer> pTCB = nullptr;
-
-	std::shared_ptr<ScreenTextOnlyOutput> pScreenTextOnlyOutput = nullptr;
 	ID2D1RenderTarget* pRt2D = nullptr;
 	IDXGIKeyedMutex* pMutex11 = nullptr;
 	IDXGIKeyedMutex* pMutex10 = nullptr;
 
-	std::shared_ptr<SamplerState> pSamplerState = nullptr;
-	std::shared_ptr<Rasterizer> pRasterizer = nullptr;
-
-	bool bIsInitialized = false;
+	std::vector<std::shared_ptr<UserWidget>> pWidgets;
 };

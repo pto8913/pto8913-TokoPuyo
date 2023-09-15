@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Object/Object.h"
-#include "Object/Widget/WidgetBase.h"
 
 #include "Input/MouseInterface.h"
 
@@ -12,21 +11,19 @@ class DirectX11;
 
 class WidgetAnimation;
 
-class UserWidget : public WidgetBase, public Object
+class UserWidget : public Object
 {
-	UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH);
 public:
-	UserWidget(Object*inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH);
+	UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
 	virtual ~UserWidget();
-protected:
-	virtual void Draw() override;
-
-public:
 
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
+protected:
+	virtual void Draw();
+public:
 
 	virtual void SetTickEnabled(bool inState) noexcept override;
 	virtual bool GetTickEnabled() const noexcept override;
@@ -83,7 +80,7 @@ public:
 	// --------------------------
 	// 
 	// --------------------------
-	virtual DirectX::XMMATRIX GetTransformXM(DirectX11& dx) const noexcept override final;
+	//virtual DirectX::XMMATRIX GetTransformXM(DirectX11& dx) const noexcept override final;
 
 private:
 	// ------------------------------------------------------------------------------------------------------------
@@ -96,8 +93,9 @@ protected:
 	bool bIsInViewport = false;
 
 	std::shared_ptr<SlateContainerBase> pRootSlate = nullptr;
-	DX::IMouseInterface* pMouse = nullptr;
+	DX::IMouseInterface* pMouse;
 	Object* pOwner = nullptr;
+	ID2D1RenderTarget* pRt2D;
 
 	TArray<WidgetAnimation> mAnimations;
 };
