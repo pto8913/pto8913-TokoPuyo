@@ -13,6 +13,11 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(SettingsUI).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 	void OnClickedReturnTitle(DX::MouseEvent inMouseEvent);
 	void OnClickedSave(DX::MouseEvent inMouseEvent);
 

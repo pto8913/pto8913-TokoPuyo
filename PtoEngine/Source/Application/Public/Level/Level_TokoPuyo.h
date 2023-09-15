@@ -20,6 +20,15 @@ class Level_TokoPuyo : public Level2D
 public:
 	Level_TokoPuyo(DirectX11& dx);
 	virtual ~Level_TokoPuyo();
+
+	// ------------------------------------------------------------
+	// Main
+	// ------------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(Level_TokoPuyo).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 protected:
 	virtual void Init(const int& x, const int& y) override;
 	virtual void GenerateGroundLayer() override;
@@ -41,9 +50,9 @@ protected:
 	void StartControlPuyo();
 	void SpawnPuyo();
 
-	// ------------------------------------------------------------
+	// ---------------------------
 	// Main : Control Puyo
-	// ------------------------------------------------------------
+	// ---------------------------
 	void DoFrame_Control();
 	// ---------------------------
 	// Main : Puyo Moving

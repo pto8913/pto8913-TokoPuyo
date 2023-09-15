@@ -16,6 +16,11 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(TitleUI).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 protected:
 	void OnClickedTokoPuyoButton(DX::MouseEvent inMouseEvent);
 	void OnClickedVSCPU(DX::MouseEvent inMouseEvent);

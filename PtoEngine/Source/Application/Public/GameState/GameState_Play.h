@@ -21,6 +21,11 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		using namespace std::string_literals;
+		return typeid(GameState_Play).name() + std::string(" : ") + "#"s + std::to_string(mID);
+	}
 	virtual void BeginPlay(DirectX11& dx) override;
 
 	virtual void SetGameProgress(DirectX11& dx, EGameProgress NewState);
