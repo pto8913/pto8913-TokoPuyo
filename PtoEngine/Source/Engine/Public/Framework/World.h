@@ -77,6 +77,7 @@ public:
 	TClass* CreateWidget(Object* inOwner, Args&& ...args)
 	{
 		auto out = pWidgetManager->CreateWidget<TClass>(inOwner, std::forward<Args>(args)...);
+		out->SetID(mActorTotalCount);
 		++mActorTotalCount;
 		return std::move(out);
 	};
