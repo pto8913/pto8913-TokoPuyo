@@ -19,14 +19,11 @@
 
 using namespace DirectX;
 
-GameOverUI::GameOverUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse, const int& MaxScore, const int& MaxCombo)
-	: UserWidget(
-		inOwner,
-		dx,
-		mouse,
-		EngineSettings::GetWindowSize().x,
-		EngineSettings::GetWindowSize().y
-	)
+GameOverUI::GameOverUI(
+	Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse,
+	const int& MaxScore, const int& MaxCombo
+)
+	: UserWidget(inOwner, inRt2D, dx, mouse)
 {
 	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), GetRt2D());
 
@@ -109,10 +106,6 @@ GameOverUI::GameOverUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mous
 	pRootSlate->AddChild(InfosVB);
 	pRootSlate->SetPosition({ 0, 0 });
 	pRootSlate->UpdateWidget();
-}
-GameOverUI::GameOverUI(DirectX11& dx, DX::IMouseInterface* mouse, const int& MaxScore, const int& MaxCombo)
-	: GameOverUI(nullptr, dx, mouse, MaxScore, MaxCombo)
-{
 }
 GameOverUI::~GameOverUI()
 {

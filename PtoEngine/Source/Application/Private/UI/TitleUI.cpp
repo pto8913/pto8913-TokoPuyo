@@ -10,14 +10,8 @@
 #include "EngineSettings.h"
 #include "GameSettings.h"
 
-TitleUI::TitleUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
-	: UserWidget(
-		inOwner, 
-		dx, 
-		mouse,
-		EngineSettings::GetWindowSize().x,
-		EngineSettings::GetWindowSize().y
-	)
+TitleUI::TitleUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
+	: UserWidget(inOwner, inRt2D, dx, mouse)
 {
 	const auto windowSize = EngineSettings::GetWindowSize();
 	const auto padding = GameSettings::GAMESCREEN_PADDING;
@@ -90,12 +84,6 @@ TitleUI::TitleUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
 
 	pRootSlate->UpdateWidget();
 }
-
-TitleUI::TitleUI(DirectX11& dx, DX::IMouseInterface* mouse)
-	: TitleUI(nullptr, dx, mouse)
-{
-}
-
 TitleUI::~TitleUI()
 {
 	OnClickedTokoPuyo.ClearBind();

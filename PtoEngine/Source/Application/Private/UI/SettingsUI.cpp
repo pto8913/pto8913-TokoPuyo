@@ -12,14 +12,8 @@
 #include "EngineSettings.h"
 #include "GameSettings.h"
 
-SettingsUI::SettingsUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse)
-	: UserWidget(
-		inOwner, 
-		dx, 
-		mouse,
-		EngineSettings::GetWindowSize().x,
-		EngineSettings::GetWindowSize().y
-	)
+SettingsUI::SettingsUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
+	: UserWidget(inOwner, inRt2D, dx, mouse)
 {
 	const auto windowSize = EngineSettings::GetWindowSize();
 	const auto padding = GameSettings::GAMESCREEN_PADDING;
@@ -121,12 +115,6 @@ SettingsUI::SettingsUI(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mous
 
 	pRootSlate->UpdateWidget();
 }
-SettingsUI::SettingsUI(DirectX11& dx, DX::IMouseInterface* mouse)
-	: SettingsUI(nullptr, dx, mouse)
-{
-
-}
-
 SettingsUI::~SettingsUI()
 {
 	OnClickedReturnToTitle.ClearBind();

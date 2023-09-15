@@ -12,9 +12,17 @@
 
 using namespace DirectX;
 
-LandmarkUI::LandmarkUI(Object* inOwner, DirectX11& dx, const std::wstring& inLandmarkName, const float& inPlayRate, const FOnWidgetAnimationCompleted& inCompleted)
-	: UserWidget(inOwner, dx, nullptr, EngineSettings::GetWindowSize().x, EngineSettings::GetWindowSize().y),
-	mLandmarkName(inLandmarkName), 
+LandmarkUI::LandmarkUI(
+	Object* inOwner, 
+	ID2D1RenderTarget* inRt2D, 
+	DirectX11& dx, 
+	DX::IMouseInterface* mouse,
+	const std::wstring& inLandmarkName, 
+	const float& inPlayRate, 
+	const FOnWidgetAnimationCompleted& inCompleted
+)
+	: UserWidget(inOwner, inRt2D, dx, mouse),
+	mLandmarkName(inLandmarkName),
 	mPlayRate(inPlayRate),
 	mDelegate(inCompleted)
 {
@@ -48,10 +56,6 @@ LandmarkUI::LandmarkUI(Object* inOwner, DirectX11& dx, const std::wstring& inLan
 	}
 
 	pRootSlate->UpdateWidget();
-}
-LandmarkUI::LandmarkUI(DirectX11& dx, const std::wstring& inLandmarkName, const float& inPlayRate, const FOnWidgetAnimationCompleted& inCompleted)
-	: LandmarkUI(nullptr, dx, inLandmarkName, inPlayRate, inCompleted)
-{
 }
 LandmarkUI::~LandmarkUI()
 {

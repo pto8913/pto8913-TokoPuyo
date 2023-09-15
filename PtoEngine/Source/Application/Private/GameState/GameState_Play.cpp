@@ -40,26 +40,6 @@ void GameState_Play::BeginPlay(DirectX11& dx)
 
 	SetGameProgress(dx, EGameProgress::Control);
 }
-void GameState_Play::Tick(DirectX11& dx, float deltaSec)
-{
-	GameState::Tick(dx, deltaSec);
-	
-	switch (mGameProgress)
-	{
-	case EGameProgress::GameOver:
-		if (pGameOverUI != nullptr)
-		{
-			pGameOverUI->Tick(dx, deltaSec);
-		}
-		break;
-	default:
-		if (pGameProgressUI != nullptr)
-		{
-			pGameProgressUI->Tick(dx, deltaSec);
-		}
-		break;
-	}
-}
 
 void GameState_Play::SetGameProgress(DirectX11& dx, EGameProgress NewState)
 {
