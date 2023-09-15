@@ -1,6 +1,7 @@
 
 #include "GameState/GameState.h"
 #include "Framework/World.h"
+#include "Framework/PlayerController.h"
 
 #include "Core/DirectX.h"
 
@@ -48,7 +49,14 @@ void GameState::OpenLandmarkUI(DirectX11& dx, const std::wstring& inLandmarkName
 		completed.Bind<&GameState::CloseLandmarkUI>(*this, "GameState");
 	}
 
-	pLandmarkUI = GetWorld()->CreateWidget<LandmarkUI>(GetWorld(), dx, inLandmarkName, inPlayRate, completed);
+	pLandmarkUI = GetWorld()->CreateWidget<LandmarkUI>(
+		GetWorld(), 
+		dx, 
+		GetWorld()->GetPlayerController()->GetMouse(),
+		inLandmarkName, 
+		inPlayRate, 
+		completed
+	);
 	pLandmarkUI->AddToViewport(2);
 
 	GetWorld()->DeactivateHUD();
