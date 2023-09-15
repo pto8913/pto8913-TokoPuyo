@@ -33,6 +33,7 @@ DebugUI::DebugUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::
 		textInfos.padding = { 1.f };
 		FSlateFont font;
 		FSlateTextAppearance appearance;
+		appearance.color = FColor(255.f, 0.f, 0.f, 1.f);
 		appearance.hAlign = EHorizontalAlignment::Left;
 
 		auto textBlock = std::make_shared<S_TextBlock>(FVector2D(500.f, 30.f), inRt2D, textInfos, font, appearance);
