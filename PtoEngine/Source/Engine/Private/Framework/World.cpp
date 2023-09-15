@@ -24,6 +24,9 @@ World::~World()
 	OnGameModeChanged.ClearBind();
 	OnPlayerControllerChanged.ClearBind();
 
+	pWidgetManager.reset();
+	pWidgetManager = nullptr;
+
 	mTimerManager.Clear();
 
 	pPersistentLevel.reset();
