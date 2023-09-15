@@ -10,8 +10,6 @@ class DirectX11;
 
 class World;
 
-class UserWidget;
-
 class Object
 {
 	friend class World;
@@ -47,12 +45,6 @@ public:
 	void AddTag(const std::wstring& inTag);
 	void RemoveTag(const std::wstring& inTag);
 	bool HasTag(const std::wstring& inTag) const;
-
-	template<class TClass, typename ...Args, typename = std::enable_if_t<std::is_base_of_v<UserWidget, TClass>>>
-	TClass* CreateWidget(Object* inOwner, Args&& ...args)
-	{
-		return GetWorld()->__CreateWidget<TClass>(inOwner, std::forward<Args>(args)...);
-	};
 
 	virtual std::string GetName() const
 	{
