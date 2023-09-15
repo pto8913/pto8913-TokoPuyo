@@ -42,15 +42,6 @@ public:
 
 protected:
 	// --------------------------
-	// Main : Slate
-	// --------------------------
-	template<typename TClass, typename ...Args>
-	std::shared_ptr<TClass> MakeSlate(Args&& ...args)
-	{
-		return std::make_shared<TClass>(GetRt2D(), std::forward<Args>(args)...);
-	}
-
-	// --------------------------
 	// Main : Animation
 	// --------------------------
 	void AddAnimation(WidgetAnimation in);
