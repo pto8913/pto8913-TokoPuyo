@@ -18,49 +18,41 @@
 
 #include "Render/Rasterizer.h"
 
+#include "Object/Widget/WidgetManager.h"
+
 WidgetBase::WidgetBase(DirectX11& dx, float windowSizeW, float windowSizeH)
 {
-	AddTask(BlendState::Make(dx, 0));
+	WidgetManager& widgetManager = WidgetManager::Get();
+
+	widgetManager.Init(dx);
+	AddTask(widgetManager.pBlendState);
 
 	//Compile Shaders from shader file
-	auto pVS = VertexShader::Make(dx, L"Shader/DrawScreenText.hlsl", "VS");
-	AddTask(PixelShader::Make(dx, L"Shader/DrawScreenText.hlsl", "PS"));
-	AddTask(pVS);
+	AddTask(widgetManager.pPixelShader);
+	AddTask(widgetManager.pVertexShader);
 
-	std::vector<DX::FVertex2D> vertices =
-	{
-		DX::FVertex2D(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
-		DX::FVertex2D(-1.0f,  1.0f, -1.0f, 0.0f, 0.0f),
-		DX::FVertex2D(1.0f,  1.0f, -1.0f, 1.0f, 0.0f),
-		DX::FVertex2D(1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
-	};
+	pIndexBuffer = widgetManager.pIndexBuffer;
+	pVertexBuffer = widgetManager.pVertexBuffer;
+	pTopology = widgetManager.pTopology;
 
-	std::vector<DWORD> indices = {
-		0,  1,  2,
-		0,  2,  3,
-	};
-	pIndexBuffer = IndexBuffer::Make(dx, "WidgetBase", indices);
-	pVertexBuffer = VertexBuffer<DX::FVertex2D>::Make(dx, "WidgetBase", vertices);
-	pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V2D, pVS.get()));
+	AddTask(widgetManager.pInputLayout);
 
 	AddTask(pIndexBuffer);
 	AddTask(pVertexBuffer);
 
-	pTCB = std::make_shared<TransformConstantBuffer>(dx);
+	pTCB = widgetManager.pTCB;
 	pTCB->InitParentRefrence(*this);
 	//AddTask(pTCB);
 
-	auto pScreenTextOnlyOutput = ScreenTextOnlyOutput::Make(dx, windowSizeW, windowSizeH);
-	pRt2D = pScreenTextOnlyOutput->GetRT2D();
-	pMutex11 = pScreenTextOnlyOutput->GetMutex11();
-	pMutex10 = pScreenTextOnlyOutput->GetMutex10();
+	auto pScreenTextOnlyOutput = widgetManager.pScreenTextOnlyOutput;
+	pRt2D = widgetManager.pRt2D;
+	pMutex11 = widgetManager.pMutex11;
+	pMutex10 = widgetManager.pMutex10;
 	AddTask(pScreenTextOnlyOutput);
 
-	AddTask(SamplerState::Make(dx, 0));
+	AddTask(widgetManager.pSamplerState);
 
-	AddTask(Rasterizer::Make(dx, Rasterizer::RasterizerType::Transparent2, pIndexBuffer.get()->GetCount()));
+	AddTask(widgetManager.pRasterizer);
 
 	InitializeTasks();
 }
