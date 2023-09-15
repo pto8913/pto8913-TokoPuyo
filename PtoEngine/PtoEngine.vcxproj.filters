@@ -62,9 +62,6 @@
     <Filter Include="Source\DirectX\Public\Object">
       <UniqueIdentifier>{f21213f9-ea6a-43b0-b242-c984f23d9bf8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DirectX\Public\Delegate">
-      <UniqueIdentifier>{7aa0817b-932f-4f76-9efd-444bcf8867d6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shader\Share">
       <UniqueIdentifier>{282692ac-e5e9-4478-a186-81af5f5666d4}</UniqueIdentifier>
     </Filter>
@@ -318,9 +315,6 @@
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Object\ObjectBase.h">
       <Filter>Source\DirectX\Public\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Delegate\Delegate.h">
-      <Filter>Source\DirectX\Public\Delegate</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Object\LightBase.h">
       <Filter>Source\DirectX\Public\Object</Filter>
