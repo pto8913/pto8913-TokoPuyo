@@ -16,16 +16,16 @@ DebugUI::DebugUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::
 	: UserWidget(inOwner, inRt2D, dx, mouse)
 {
 	const auto windowSize = EngineSettings::GetWindowSize();
-	pRootSlate = std::make_shared<S_CanvasPanel>(windowSize, GetRt2D());
+	pRootSlate = std::make_shared<S_CanvasPanel>(windowSize, inRt2D);
 	pRootSlate->SetPosition({ 0, 0 });
 
 	FSlateInfos menuVBInfos;
 	menuVBInfos.padding = { 5.f, 5.f, 0.f, 0.f };
-	auto menuVB = std::make_shared<S_VerticalBox>(FVector2D(500.f, windowSize.y), GetRt2D(), menuVBInfos);
+	auto menuVB = std::make_shared<S_VerticalBox>(FVector2D(500.f, windowSize.y), inRt2D, menuVBInfos);
 	pRootSlate->AddChild(menuVB);
 
 	/* TextBlock */
-	auto MakeTextBlock = [this, &menuVB](const std::wstring& label = L"")
+	auto MakeTextBlock = [this, &menuVB, &inRt2D](const std::wstring& label = L"")
 	{
 		FSlateInfos textInfos;
 		textInfos.padding = { 1.f };
@@ -33,7 +33,7 @@ DebugUI::DebugUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::
 		FSlateTextAppearance appearance;
 		appearance.hAlign = EHorizontalAlignment::Left;
 
-		auto textBlock = std::make_shared<S_TextBlock>(FVector2D(500.f, 30.f), GetRt2D(), textInfos, font, appearance);
+		auto textBlock = std::make_shared<S_TextBlock>(FVector2D(500.f, 30.f), inRt2D, textInfos, font, appearance);
 		textBlock->SetText(label);
 		menuVB->AddChild(textBlock);
 		return std::move(textBlock);
