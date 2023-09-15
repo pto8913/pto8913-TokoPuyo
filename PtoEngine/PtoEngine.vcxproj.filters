@@ -68,12 +68,6 @@
     <Filter Include="Shader\Share">
       <UniqueIdentifier>{282692ac-e5e9-4478-a186-81af5f5666d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DirectX\Public\Object\Widget">
-      <UniqueIdentifier>{2f97230d-b228-4a55-93d8-669c303a8523}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DirectX\Private\Object\Widget">
-      <UniqueIdentifier>{83b19585-2a15-42d0-9ac8-83a62c6f3b79}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SDK">
       <UniqueIdentifier>{70f44241-610f-4353-9c20-afd41eadaf5e}</UniqueIdentifier>
     </Filter>
@@ -352,9 +346,6 @@
     <ClInclude Include="Source\DirectX\Public\Input\Keyboard.h">
       <Filter>Source\DirectX\Public\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetBase.h">
-      <Filter>Source\DirectX\Public\Object\Widget</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Input\Controller.h">
       <Filter>Source\DirectX\Public\Input</Filter>
     </ClInclude>
@@ -394,12 +385,6 @@
     <ClInclude Include="Source\Engine\Public\Object\Actor.h">
       <Filter>Source\Engine\Public\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\UI\UserWidget.h">
-      <Filter>Source\Engine\Public\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\UI\WidgetAnimation.h">
-      <Filter>Source\Engine\Public\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Object\Object.h">
       <Filter>Source\Engine\Public\Object</Filter>
     </ClInclude>
@@ -420,9 +405,6 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Helper\RectHelper.h">
       <Filter>Source\Engine\Public\Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\UI\WidgetAnimationTypes.h">
-      <Filter>Source\Engine\Public\UI</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Component\ActorComponent.h">
       <Filter>Source\Engine\Public\Component</Filter>
@@ -781,11 +763,20 @@
     <ClInclude Include="Source\Engine\Public\Slate\Slider.h">
       <Filter>Source\Engine\Public\Slate</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\WidgetAnimationTypes.h">
+      <Filter>Source\Engine\Public\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\WidgetManager.h">
+      <Filter>Source\Engine\Public\UI</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Engine\Public\UI\DebugUI.h">
       <Filter>Source\Engine\Public\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetManager.h">
-      <Filter>Source\DirectX\Public\Object\Widget</Filter>
+    <ClInclude Include="Source\Engine\Public\UI\UserWidget.h">
+      <Filter>Source\Engine\Public\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\WidgetAnimation.h">
+      <Filter>Source\Engine\Public\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -873,9 +864,6 @@
     <ClCompile Include="Source\DirectX\Private\Input\Keyboard.cpp">
       <Filter>Source\DirectX\Private\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\Widget\WidgetBase.cpp">
-      <Filter>Source\DirectX\Private\Object\Widget</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Input\Controller.cpp">
       <Filter>Source\DirectX\Private\Input</Filter>
     </ClCompile>
@@ -899,12 +887,6 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Object\Actor.cpp">
       <Filter>Source\Engine\Private\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\UI\UserWidget.cpp">
-      <Filter>Source\Engine\Private\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\UI\WidgetAnimation.cpp">
-      <Filter>Source\Engine\Private\UI</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Object\Object.cpp">
       <Filter>Source\Engine\Private\Object</Filter>
@@ -1227,11 +1209,17 @@
     <ClCompile Include="Source\Engine\Private\Slate\Slider.cpp">
       <Filter>Source\Engine\Private\Slate</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\WidgetAnimation.cpp">
+      <Filter>Source\Engine\Private\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\WidgetManager.cpp">
+      <Filter>Source\Engine\Private\UI</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Engine\Private\UI\DebugUI.cpp">
       <Filter>Source\Engine\Private\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\Widget\WidgetManager.cpp">
-      <Filter>Source\DirectX\Private\Object\Widget</Filter>
+    <ClCompile Include="Source\Engine\Private\UI\UserWidget.cpp">
+      <Filter>Source\Engine\Private\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

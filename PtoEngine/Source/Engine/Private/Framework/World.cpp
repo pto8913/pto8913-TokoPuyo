@@ -44,7 +44,6 @@ World::~World()
 	pPlayer.reset();
 	pPlayer = nullptr;
 
-	pHUD.reset();
 	pHUD = nullptr;
 }
 
@@ -53,6 +52,8 @@ World::~World()
 // -----------------------------------
 void World::Init(DirectX11& dx)
 {
+	pWidgetManager = std::make_shared<WidgetManager>(dx);
+
 	SetLevel(dx);
 	SetGameMode(dx);
 	SetGameState(dx);
@@ -106,7 +107,7 @@ void World::SetHUD(DirectX11& dx)
 	if (pHUD == nullptr)
 	{
 		const auto windowSize = EngineSettings::GetWindowSize();
-		pHUD = std::make_shared<UserWidget>(
+		pHUD = CreateWidget<UserWidget>(
 			this,
 			dx,
 			GetPlayerController()->GetMouse(),
@@ -178,6 +179,11 @@ void World::Tick(DirectX11& dx, float deltaSec)
 		}
 	}
 
+	if (pWidgetManager != nullptr)
+	{
+		pWidgetManager->Tick(dx, deltaSec);
+	}
+
 	if (pHUD != nullptr)
 	{
 		if (pHUD->GetTickEnabled())
@@ -197,6 +203,10 @@ World* World::GetWorld()
 TimerManager& World::GetTimerManager()
 {
 	return mTimerManager;
+}
+void World::AddToObjectCollection(std::shared_ptr<Object> in)
+{
+	pPersistentLevel->GetObjectCollection()->Add(in);
 }
 
 // -----------------------------------
@@ -289,7 +299,7 @@ void World::DeactivatePlayer()
 // -----------------------------------
 UserWidget* World::GetHUD()
 {
-	return pHUD.get();
+	return pHUD;
 }
 void World::ActivateHUD()
 {

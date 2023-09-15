@@ -174,9 +174,9 @@ HUD::HUD(DirectX11& dx, DX::IMouseInterface* mouse)
 // Main
 // ------------------------------------------------------------------------------------------------------------
 
-void HUD::Draw()
+void HUD::Tick(DirectX11& dx, float deltaTime)
 {
-	UserWidget::Draw();
+	UserWidget::Tick(dx, deltaTime);
 
 #if __DEBUG
 	for (auto elem : pBoxDebug)

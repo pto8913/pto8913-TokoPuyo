@@ -5,9 +5,8 @@
 
 #include "Framework/World.h"
 
-UserWidget::UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH)
-	: WidgetBase(dx, windowSizeW, windowSizeH),
-	pMouse(mouse)
+UserWidget::UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
+	: pOwner(inOwner), pMouse(mouse)
 {
 	SetTickEnabled(true);
 
@@ -29,15 +28,6 @@ UserWidget::UserWidget(DirectX11& dx, DX::IMouseInterface* mouse, float windowSi
 	}
 	SetLayer(Layer::EActorLayer::UI);
 }
-UserWidget::UserWidget(Object* inOwner, DirectX11& dx, DX::IMouseInterface* mouse, float windowSizeW, float windowSizeH)
-	: UserWidget(dx, mouse, windowSizeW, windowSizeH)
-{
-	if (inOwner != nullptr)
-	{
-		pOwner = inOwner;
-	}
-}
-
 UserWidget::~UserWidget()
 {
 	if (pMouse)
@@ -64,17 +54,6 @@ UserWidget::~UserWidget()
 	pOwner = nullptr;
 }
 
-void UserWidget::Draw()
-{
-	if (!IsPendingKill() && IsInViewport())
-	{
-		if (pRootSlate != nullptr)
-		{
-			pRootSlate->Draw();
-		}
-	}
-}
-
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
@@ -84,13 +63,20 @@ void UserWidget::Tick(DirectX11& dx, float deltaTime)
 	{
 		if (IsInViewport())
 		{
-			ExecuteTasks(dx);
+			Draw();
 
 			for (auto&& animation : mAnimations)
 			{
 				animation.Update(deltaTime);
 			}
 		}
+	}
+}
+void UserWidget::Draw()
+{
+	if (pRootSlate != nullptr)
+	{
+		pRootSlate->Draw();
 	}
 }
 
@@ -315,7 +301,7 @@ bool UserWidget::NativeOnKeyUp(DX::MouseEvent inMouseEvent)
 // --------------------------
 // 
 // --------------------------
-DirectX::XMMATRIX UserWidget::GetTransformXM(DirectX11&) const noexcept
-{
-	return DirectX::XMMatrixIdentity() * DirectX::XMMatrixTranslation(0, 0, (float)ZOrder);
-}
+//DirectX::XMMATRIX UserWidget::GetTransformXM(DirectX11&) const noexcept
+//{
+//	return DirectX::XMMatrixIdentity() * DirectX::XMMatrixTranslation(0, 0, (float)ZOrder);
+//}

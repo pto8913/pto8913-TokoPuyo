@@ -1,6 +1,14 @@
 
 #include "Object/Object.h"
 
+Object::Object()
+{
+}
+
+Object::~Object()
+{
+}
+
 void Object::SetTickEnabled(bool inState) noexcept
 {
 	bEnableTick = inState;
