@@ -15,7 +15,7 @@ class UserWidget : public Object
 {
 	friend class WidgetManager;
 public:
-	UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
+	UserWidget(Object* inOwner, int inID, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
 	virtual ~UserWidget();
 
 	// ------------------------------------------------------------------------------------------------------------
