@@ -74,7 +74,7 @@ public:
 		return out;
 	}
 	template<class TClass, typename ...Args, typename = std::enable_if_t<std::is_base_of_v<UserWidget, TClass>>>
-	TClass* __CreateWidget(Object* inOwner, Args&& ...args)
+	TClass* CreateWidget(Object* inOwner, Args&& ...args)
 	{
 		return pWidgetManager->CreateWidget<TClass>(inOwner, std::forward<Args>(args)...);
 	};
