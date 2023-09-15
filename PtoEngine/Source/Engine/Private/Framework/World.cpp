@@ -183,14 +183,6 @@ void World::Tick(DirectX11& dx, float deltaSec)
 	{
 		pWidgetManager->Tick(dx, deltaSec);
 	}
-
-	if (pHUD != nullptr)
-	{
-		if (pHUD->GetTickEnabled())
-		{
-			pHUD->Tick(dx, deltaSec);
-		}
-	}
 }
 
 // -----------------------------------
