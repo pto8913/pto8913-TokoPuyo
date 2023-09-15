@@ -94,7 +94,6 @@ protected:
 	std::shared_ptr<SlateContainerBase> pRootSlate = nullptr;
 	DX::IMouseInterface* pMouse;
 	Object* pOwner = nullptr;
-	ID2D1RenderTarget* pRt2D;
 
 	TArray<WidgetAnimation> mAnimations;
 };
