@@ -44,8 +44,7 @@ void PixelShader::Bind(DirectX11& dx)
 
 std::string PixelShader::GenerateID(const std::wstring& inFileName, const char* pEntryPoint)
 {
-	using namespace std::string_literals;
-	return typeid(PixelShader).name() + "#"s + Util::w2String(inFileName) + pEntryPoint;
+	return "PixelShader_" + Util::w2String(inFileName) + pEntryPoint;
 }
 std::string PixelShader::GetID() const noexcept
 {

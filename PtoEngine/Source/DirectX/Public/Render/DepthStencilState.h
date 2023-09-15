@@ -22,8 +22,7 @@ public:
 
 	static std::string GenerateID(DepthStencilState::DSSType type)
 	{
-		using namespace std::string_literals;
-		return typeid(DepthStencilState).name() + "#"s + std::to_string(type);
+		return "DepthStencilState_" + std::to_string(type);
 	}
 	std::string GetID() const noexcept
 	{

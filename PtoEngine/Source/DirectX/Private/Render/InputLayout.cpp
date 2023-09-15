@@ -37,11 +37,9 @@ void InputLayout::Bind(DirectX11& dx)
 	GetContext(dx)->IASetInputLayout(pInputLayout);
 }
 
-std::string InputLayout::GenerateID(const DX::Layout::VertexType& inVertexType, VertexShader* vs)
+std::string InputLayout::GenerateID(const DX::Layout::VertexType&, VertexShader* vs)
 {
-	inVertexType;
-	using namespace std::string_literals;
-	return typeid(InputLayout).name() + "#"s + vs->GetID();
+	return "InputLayout_" + vs->GetID();
 }
 
 //DX::VertexLayout InputLayout::GetLayout() const

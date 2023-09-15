@@ -19,7 +19,7 @@ public:
 	{
 		inWidth; inHeight;
 		using namespace std::string_literals;
-		return typeid(ScreenText).name() + "#"s + std::string("ScreenText");
+		return "ScreenText" + "#"s + std::string("ScreenText");
 	}
 	std::string GetID() const noexcept
 	{
@@ -53,7 +53,7 @@ public:
 	{
 		inWidth; inHeight;
 		using namespace std::string_literals;
-		return typeid(ScreenTextOnlyOutput).name() + "#"s + std::string("ScreenTextOnlyOutput");
+		return "ScreenTextOnlyOutput" + "#"s + std::string("ScreenTextOnlyOutput");
 	}
 	std::string GetID() const noexcept
 	{

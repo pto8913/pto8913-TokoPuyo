@@ -18,7 +18,7 @@ public:
 	static std::string GenerateID(D3D11_PRIMITIVE_TOPOLOGY inType)
 	{
 		using namespace std::string_literals;
-		return typeid(Topology).name() + "#"s + std::to_string(inType);
+		return "Topology"+ "#"s + std::to_string(inType);
 	}
 	std::string GetID() const noexcept
 	{

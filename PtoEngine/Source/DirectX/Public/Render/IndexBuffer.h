@@ -22,8 +22,7 @@ public:
 	template<typename... Ignore>
 	static std::string GenerateID(const std::string& tag, Ignore&&...)
 	{
-		using namespace std::string_literals;
-		return typeid(IndexBuffer).name() + "#"s + tag;
+		return "IndexBuffer_" + tag;
 	}
 protected:
 	ID3D11Buffer* pIndexBuffer = nullptr;
