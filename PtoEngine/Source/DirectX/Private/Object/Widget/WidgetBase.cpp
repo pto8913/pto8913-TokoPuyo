@@ -31,18 +31,6 @@ WidgetBase::WidgetBase(DirectX11& dx, float windowSizeW, float windowSizeH)
 	AddTask(widgetManager.pPixelShader);
 	AddTask(widgetManager.pVertexShader);
 
-	std::vector<DX::FVertex2D> vertices =
-	{
-		DX::FVertex2D(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
-		DX::FVertex2D(-1.0f,  1.0f, -1.0f, 0.0f, 0.0f),
-		DX::FVertex2D(1.0f,  1.0f, -1.0f, 1.0f, 0.0f),
-		DX::FVertex2D(1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
-	};
-
-	std::vector<DWORD> indices = {
-		0,  1,  2,
-		0,  2,  3,
-	};
 	pIndexBuffer = widgetManager.pIndexBuffer;
 	pVertexBuffer = widgetManager.pVertexBuffer;
 	pTopology = widgetManager.pTopology;
