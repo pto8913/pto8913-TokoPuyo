@@ -26,7 +26,7 @@ bool BoxCollision::InBoundingVolume(Actor* other)
 
 	if (auto otherCollision = other->GetComponent<CollisionComponent>())
 	{
-		if (auto boxCollision = static_pointer_cast<BoxCollision>(otherCollision))
+		if (auto boxCollision = static_cast<BoxCollision*>(otherCollision))
 		{
 			if (Box::IsInBox(box, boxCollision->GetBoundingBox()))
 			{
