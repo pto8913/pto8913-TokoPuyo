@@ -15,7 +15,12 @@
 #include "World/World_SonoTown.h"
 #include "World/World_SonoCave.h"
 
+#if _DEBUG
+#include "UI/DebugUI.h"
+#endif
+
 Keyboard::InputAction InputEsc(DIK_ESCAPE);
+Keyboard::InputAction InputAt(DIK_AT);
 
 int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
 {
@@ -101,6 +106,10 @@ int App::Run()
 }
 void App::InputUpdate(DirectX11& dx)
 {
+    if (InputAt)
+    {
+        bOpenDebugUI = !bOpenDebugUI;
+    }
     if (InputEsc)
     {
         PostQuitMessage(0);
@@ -110,14 +119,49 @@ void App::InputUpdate(DirectX11& dx)
 // -----------------------------------
 // Main : GameMode
 // -----------------------------------
-void App::OnPlayerControllerChanged(const std::shared_ptr<PlayerController>& pPlayerController)
+void App::OnPlayerControllerChanged(PlayerController* pPlayerController)
 {
     mWindow.pMouse = pPlayerController->GetMouse();
 }
-void App::OnWorldChanged(const std::shared_ptr<World>& NewWorld)
+void App::OnWorldChanged(World* NewWorld)
 {
     NewWorld->Init(*pDX);
     NewWorld->OnPlayerControllerChanged.Bind<&App::OnPlayerControllerChanged>(*this, "App");
     OnPlayerControllerChanged(NewWorld->GetPlayerController());
     NewWorld->BeginPlay(*pDX);
+
+    if (IsValid(pDebugUI))
+    {
+        pDebugUI = nullptr;
+    }
+    if (bOpenDebugUI)
+    {
+        OpenDebugUI();
+    }
+}
+
+// -----------------------------------
+// Main : Debug
+// -----------------------------------
+void App::OpenDebugUI()
+{
+    bOpenDebugUI = true;
+
+    if (!IsValid(pDebugUI))
+    {
+        pDebugUI = pGameInstance->GetWorld()->CreateWidget<DebugUI>(
+            nullptr,
+            *pDX,
+            nullptr
+        );
+    }
+    pDebugUI->AddToViewport();
+}
+void App::CloseDebugUI()
+{
+    bOpenDebugUI = false;
+    if (IsValid(pDebugUI))
+    {
+        pDebugUI->RemoveFromParent();
+    }
 }

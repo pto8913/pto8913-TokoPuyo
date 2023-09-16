@@ -35,11 +35,16 @@ public:
 	static GameInstance& Get();
 	TimerManager& GetTimerManager();
 
+protected:
+	// -----------------------------------
+	// Main : Utils : World
+	// -----------------------------------
+	World* GetWorld();
+public:
 	void OpenWorld(int id);
 	FOnOpenWorld OnOpenWorld;
 protected:
 	virtual void OpenWorldDelay();
-
 protected:
 	// ------------------------------------------------------------------------------------------------------------
 	// State
