@@ -107,9 +107,11 @@ void UserWidget::AddToViewport(double inZOrder)
 	ZOrder = Math::MapRange<double>(inZOrder, 0.0, 100.0, 0.0, 1.0);
 
 	bIsInViewport = true;
+	NativeConstruct();
 }
 void UserWidget::RemoveFromParent()
 {
+	NativeDestruct();
 	bIsInViewport = false;
 }
 bool UserWidget::IsInViewport() const noexcept
