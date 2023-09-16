@@ -12,6 +12,7 @@ class WidgetManager : private DrawableObject2D
 public:
 	WidgetManager(DirectX11& dx);
 	virtual ~WidgetManager();
+	operator bool() const noexcept;
 
 protected:
 	virtual void RemovePendingObjects();

@@ -90,6 +90,14 @@ WidgetManager::~WidgetManager()
 		}
 	}
 	pWidgets.clear();
+
+	pRt2D = nullptr;
+	pMutex11 = nullptr;
+	pMutex10 = nullptr;
+}
+WidgetManager::operator bool() const noexcept
+{
+	return pWidgets.size() > 0;
 }
 
 void WidgetManager::RemovePendingObjects()
