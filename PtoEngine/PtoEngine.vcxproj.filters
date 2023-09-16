@@ -487,7 +487,7 @@
     <ClInclude Include="SDK\nlohmann\json.hpp">
       <Filter>SDK\nlohmann</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application\Public\Level\ObjectCollection2D.h">
+    <ClInclude Include="Source\Application\Public\Level\ObjectManager2D.h">
       <Filter>Source\Application\Public\Level</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Framework\Level\ObjectCollection.h">
@@ -846,7 +846,7 @@
     <ClCompile Include="Source\Application\Private\Controller\PlayerController_TokoPuyo.cpp">
       <Filter>Source\Application\Private\Controller</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Application\Private\Level\ObjectCollection2D.cpp">
+    <ClCompile Include="Source\Application\Private\Level\ObjectManager2D.cpp">
       <Filter>Source\Application\Private\Level</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Framework\Level\ObjectCollection.cpp">
