@@ -71,7 +71,7 @@ public:
 		++mActorTotalCount;
 		AddToObjectManager(out);
 
-		std::shared_ptr<BoxCollision> collision = out->GetComponent<BoxCollision>();
+		BoxCollision* collision = out->GetComponent<BoxCollision>();
 		if (collision != nullptr)
 		{
 			pPersistentLevel->GetCollisionManager().Add(collision);
