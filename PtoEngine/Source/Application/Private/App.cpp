@@ -63,6 +63,10 @@ App::~App()
     pAppTimer = nullptr;
 
     pGameInstance = nullptr;
+
+#if _DEBUG
+    pDebugUI = nullptr;
+#endif
 }
 
 // ------------------------------------------------------------------------------------------------------------
@@ -106,10 +110,20 @@ int App::Run()
 }
 void App::InputUpdate(DirectX11& dx)
 {
+#if _DEBUG
     if (InputAt)
     {
         bOpenDebugUI = !bOpenDebugUI;
+        if (bOpenDebugUI)
+        {
+            OpenDebugUI();
+        }
+        else
+        {
+            CloseDebugUI();
+        }
     }
+#endif
     if (InputEsc)
     {
         PostQuitMessage(0);
@@ -130,6 +144,7 @@ void App::OnWorldChanged(World* NewWorld)
     OnPlayerControllerChanged(NewWorld->GetPlayerController());
     NewWorld->BeginPlay(*pDX);
 
+#if _DEBUG
     if (IsValid(pDebugUI))
     {
         pDebugUI = nullptr;
@@ -138,6 +153,7 @@ void App::OnWorldChanged(World* NewWorld)
     {
         OpenDebugUI();
     }
+#endif
 }
 
 // -----------------------------------
@@ -145,6 +161,7 @@ void App::OnWorldChanged(World* NewWorld)
 // -----------------------------------
 void App::OpenDebugUI()
 {
+#if _DEBUG
     bOpenDebugUI = true;
 
     if (!IsValid(pDebugUI))
@@ -156,12 +173,15 @@ void App::OpenDebugUI()
         );
     }
     pDebugUI->AddToViewport();
+#endif
 }
 void App::CloseDebugUI()
 {
+#if _DEBUG
     bOpenDebugUI = false;
     if (IsValid(pDebugUI))
     {
         pDebugUI->RemoveFromParent();
     }
+#endif
 }
