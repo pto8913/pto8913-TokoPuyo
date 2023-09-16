@@ -70,52 +70,67 @@ void World::SetLevel(DirectX11& dx)
 	{
 		pPersistentLevel = std::make_shared<Level>(dx);
 	}
-	pPersistentLevel->SetWorld(this);
+	if (IsValid(pPersistentLevel))
+	{
+		pPersistentLevel->SetWorld(this);
+	}
 }
 void World::SetGameMode(DirectX11& dx)
 {
 	if (pGameMode == nullptr)
 	{
-		pGameMode = std::make_shared<GameModeBase>();
+		//pGameMode = std::make_shared<GameModeBase>();
 	}
-	pGameMode->SetOuter(pPersistentLevel.get());
+	if (IsValid(pGameMode))
+	{
+		pGameMode->SetOuter(pPersistentLevel.get());
+	}
 }
 void World::SetGameState(DirectX11& dx)
 {
 	if (pGameState == nullptr)
 	{
-		pGameState = std::make_shared<GameStateBase>();
+		//pGameState = std::make_shared<GameStateBase>();
 	}
-	pGameState->SetOuter(pPersistentLevel.get());
+	if (IsValid(pGameState))
+	{
+		pGameState->SetOuter(pPersistentLevel.get());
+	}
 }
 void World::SetPlayerController(DirectX11& dx)
 {
 	if (pPlayerController == nullptr)
 	{
-		pPlayerController = std::make_shared<PlayerController>(dx);
+		//pPlayerController = std::make_shared<PlayerController>(dx);
 	}
-	pPlayerController->SetOuter(pPersistentLevel.get());
+	if (IsValid(pPlayerController))
+	{
+		pPlayerController->SetOuter(pPersistentLevel.get());
+	}
 }
 void World::SetPlayer(DirectX11& dx)
 {
 	if (pPlayer == nullptr)
 	{
-		pPlayer = SpawnActor<Actor>();
+		//pPlayer = SpawnActor<Actor>();
 	}
-	pPlayer->SetOuter(pPersistentLevel.get());
-	pPlayer->SetActorLocation(pPersistentLevel->GetStartPosition());
+	if (IsValid(pPlayer))
+	{
+		pPlayer->SetOuter(pPersistentLevel.get());
+		pPlayer->SetActorLocation(pPersistentLevel->GetStartPosition());
+	}
 }
 void World::SetHUD(DirectX11& dx)
 {
-	if (pHUD == nullptr)
-	{
-		const auto windowSize = EngineSettings::GetWindowSize();
-		pHUD = CreateWidget<UserWidget>(
-			this,
-			dx,
-			GetPlayerController()->GetMouse()
-		);
-	}
+	//if (pHUD == nullptr)
+	//{
+	//	const auto windowSize = EngineSettings::GetWindowSize();
+	//	pHUD = CreateWidget<UserWidget>(
+	//		this,
+	//		dx,
+	//		GetPlayerController()->GetMouse()
+	//	);
+	//}
 }
 
 // ------------------------------------------------------
@@ -123,12 +138,30 @@ void World::SetHUD(DirectX11& dx)
 // ------------------------------------------------------
 void World::BeginPlay(DirectX11& dx)
 {
-	pPersistentLevel->BeginPlay(dx);
-	pGameMode->BeginPlay(dx);
-	pGameState->BeginPlay(dx);
-	pPlayerController->BeginPlay(dx);
-	pPlayer->BeginPlay(dx);
-	pHUD->AddToViewport();
+	if (IsValid(pPersistentLevel))
+	{
+		pPersistentLevel->BeginPlay(dx);
+	}
+	if (IsValid(pGameMode))
+	{
+		pGameMode->BeginPlay(dx);
+	}
+	if (IsValid(pGameState))
+	{
+		pGameState->BeginPlay(dx);
+	}
+	if (IsValid(pPlayerController))
+	{
+		pPlayerController->BeginPlay(dx);
+	}
+	if (IsValid(pPlayer))
+	{
+		pPlayer->BeginPlay(dx);
+	}
+	if (IsValid(pHUD))
+	{
+		pHUD->AddToViewport();
+	}
 }
 
 void World::Tick(DirectX11& dx, float deltaSec)
@@ -140,7 +173,7 @@ void World::Tick(DirectX11& dx, float deltaSec)
 		mTimerManager.Tick();
 	}
 
-	if (pGameMode != nullptr)
+	if (IsValid(pGameMode))
 	{
 		if (pGameMode->GetTickEnabled())
 		{
@@ -148,7 +181,7 @@ void World::Tick(DirectX11& dx, float deltaSec)
 		}
 	}
 
-	if (pGameState != nullptr)
+	if (IsValid(pGameState))
 	{
 		if (pGameState->GetTickEnabled())
 		{
@@ -156,7 +189,7 @@ void World::Tick(DirectX11& dx, float deltaSec)
 		}
 	}
 
-	if (pPlayerController != nullptr)
+	if (IsValid(pPlayerController))
 	{
 		if (pPlayerController->GetTickEnabled())
 		{
@@ -164,7 +197,7 @@ void World::Tick(DirectX11& dx, float deltaSec)
 		}
 	}
 
-	if (pPersistentLevel != nullptr)
+	if (IsValid(pPersistentLevel))
 	{
 		if (pPersistentLevel->GetTickEnabled())
 		{
@@ -172,7 +205,7 @@ void World::Tick(DirectX11& dx, float deltaSec)
 		}
 	}
 
-	if (pPlayer != nullptr)
+	if (IsValid(pPlayer))
 	{
 		if (pPlayer->GetTickEnabled())
 		{
@@ -182,7 +215,10 @@ void World::Tick(DirectX11& dx, float deltaSec)
 
 	if (pWidgetManager != nullptr)
 	{
-		pWidgetManager->Tick(dx, deltaSec);
+		if (pWidgetManager)
+		{
+			pWidgetManager->Tick(dx, deltaSec);
+		}
 	}
 }
 

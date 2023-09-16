@@ -37,6 +37,9 @@ UserWidget::~UserWidget()
 	pRootSlate.reset();
 	pRootSlate = nullptr;
 
+	pRt2D = nullptr;
+	pDX = nullptr;
+
 	pOwner = nullptr;
 }
 
