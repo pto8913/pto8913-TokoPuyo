@@ -213,7 +213,7 @@
     <ClInclude Include="Source\Application\Public\Level\LevelTypes.h" />
     <ClInclude Include="Source\Application\Public\Level\Level_Title.h" />
     <ClInclude Include="Source\Application\Public\Level\Level_TokoPuyo.h" />
-    <ClInclude Include="Source\Application\Public\Level\ObjectCollection2D.h" />
+    <ClInclude Include="Source\Application\Public\Level\ObjectManager2D.h" />
     <ClInclude Include="Source\Application\Public\PtoGameInstance.h" />
     <ClInclude Include="Source\Application\Public\UI\GameOverUI.h" />
     <ClInclude Include="Source\Application\Public\UI\GameProgressUI.h" />
@@ -271,6 +271,9 @@
     <ClInclude Include="Source\Engine\Public\Algorithm\Random.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\UnionFind.h" />
     <ClInclude Include="Source\Engine\Public\Component\ActorComponent.h" />
+    <ClInclude Include="Source\Engine\Public\Component\BoxCollision.h" />
+    <ClInclude Include="Source\Engine\Public\Component\BoxCollision2D.h" />
+    <ClInclude Include="Source\Engine\Public\Component\CollisionComponent.h" />
     <ClInclude Include="Source\Engine\Public\Component\ComponentBase.h" />
     <ClInclude Include="Source\Engine\Public\Component\SpriteComponent.h" />
     <ClInclude Include="Source\Engine\Public\EngineSettings.h" />
@@ -281,9 +284,11 @@
     <ClInclude Include="Source\Engine\Public\Framework\GameInstance.h" />
     <ClInclude Include="Source\Engine\Public\Framework\GameModeBase.h" />
     <ClInclude Include="Source\Engine\Public\Framework\GameStateBase.h" />
+    <ClInclude Include="Source\Engine\Public\Framework\Level\CollisionManager.h" />
     <ClInclude Include="Source\Engine\Public\Framework\Level\Layer.h" />
     <ClInclude Include="Source\Engine\Public\Framework\Level\Level.h" />
-    <ClInclude Include="Source\Engine\Public\Framework\Level\ObjectCollection.h" />
+    <ClInclude Include="Source\Engine\Public\Framework\Level\ObjectManager.h" />
+    <ClInclude Include="Source\Engine\Public\Framework\Level\QuadTree.h" />
     <ClInclude Include="Source\Engine\Public\Framework\PlayerController.h" />
     <ClInclude Include="Source\Engine\Public\Framework\World.h" />
     <ClInclude Include="Source\Engine\Public\Helper\BoxHelper.h" />
@@ -346,7 +351,7 @@
     <ClCompile Include="Source\Application\Private\Level\Level2D.cpp" />
     <ClCompile Include="Source\Application\Private\Level\Level_Title.cpp" />
     <ClCompile Include="Source\Application\Private\Level\Level_TokoPuyo.cpp" />
-    <ClCompile Include="Source\Application\Private\Level\ObjectCollection2D.cpp" />
+    <ClCompile Include="Source\Application\Private\Level\ObjectManager2D.cpp" />
     <ClCompile Include="Source\Application\Private\PtoGameInstance.cpp" />
     <ClCompile Include="Source\Application\Private\UI\GameOverUI.cpp" />
     <ClCompile Include="Source\Application\Private\UI\GameProgressUI.cpp" />
@@ -431,6 +436,8 @@
     <ClCompile Include="Source\Engine\Private\Algorithm\Random.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\UnionFind.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\ActorComponent.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\BoxCollision.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\CollisionComponent.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\ComponentBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\SpriteComponent.cpp" />
     <ClCompile Include="Source\Engine\Private\EngineSettings.cpp" />
@@ -440,8 +447,10 @@
     <ClCompile Include="Source\Engine\Private\Framework\GameInstance.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\GameModeBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\GameStateBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Framework\Level\CollisionManager.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\Level\Level.cpp" />
-    <ClCompile Include="Source\Engine\Private\Framework\Level\ObjectCollection.cpp" />
+    <ClCompile Include="Source\Engine\Private\Framework\Level\ObjectManager.cpp" />
+    <ClCompile Include="Source\Engine\Private\Framework\Level\QuadTree.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\PlayerController.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\World.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\BoxHelper.cpp" />

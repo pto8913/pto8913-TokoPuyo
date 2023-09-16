@@ -107,6 +107,14 @@ void App::InputUpdate(DirectX11& dx)
     if (InputAt)
     {
         bOpenDebugUI = !bOpenDebugUI;
+        if (bOpenDebugUI)
+        {
+            OpenDebugUI();
+        }
+        else
+        {
+            CloseDebugUI();
+        }
     }
     if (InputEsc)
     {

@@ -720,7 +720,7 @@ bool Level_TokoPuyo::SetPlanToVanishAll()
 			const auto ID = stackedPuyo[y][x].GetID();
 			if (ID != -1)
 			{
-				auto puyoObj = GetObjectCollection()->GetObjectByID(ID);
+				auto puyoObj = GetObjectManager()->GetObjectByID(ID);
 				auto puyoActor = static_cast<Actor2D*>(puyoObj);
 				if (unionFind.size(GetPos(puyoActor->Get2DIdx())) >= vanishCount)
 				{
@@ -746,7 +746,7 @@ void Level_TokoPuyo::VanishPuyo()
 	std::map<int, int> colors;
 	std::map<int, int> rootSize;
 
-	auto& objects = GetObjectCollection()->pObjects[Layer::EActorLayer::Entities];
+	auto& objects = GetObjectManager()->pObjects[Layer::EActorLayer::Entities];
 	auto iter = objects.begin();
 	while (iter != objects.end())
 	{
@@ -813,7 +813,7 @@ void Level_TokoPuyo::VanishPuyo()
 void Level_TokoPuyo::DoFrame_FallAll()
 {
 	bool bIsDown = false;
-	auto& objects = GetObjectCollection()->pObjects[Layer::EActorLayer::Entities];
+	auto& objects = GetObjectManager()->pObjects[Layer::EActorLayer::Entities];
 	auto iter = objects.begin();
 	while (iter != objects.end())
 	{
@@ -886,7 +886,7 @@ void Level_TokoPuyo::RemakeUnionFind()
 				auto& puyoInfos = GetStackedPuyo(x, y);
 				if (puyoInfos.IsValid())
 				{
-					auto puyoObj = GetObjectCollection()->GetObjectByID(puyoInfos.GetID());
+					auto puyoObj = GetObjectManager()->GetObjectByID(puyoInfos.GetID());
 					auto puyoActor = static_cast<Puyo*>(puyoObj);
 					UnionFindPuyo(puyoActor);
 				}
@@ -918,7 +918,7 @@ void Level_TokoPuyo::UnionFindPuyo(Puyo* puyo)
 #endif
 					if (nextID != -1)
 					{
-						auto nextPuyoObj = GetObjectCollection()->GetObjectByID(nextID);
+						auto nextPuyoObj = GetObjectManager()->GetObjectByID(nextID);
 						auto nextPuyoActor = static_cast<Actor2D*>(nextPuyoObj);
 #if _DEBUG
 						OutputDebugStringA(std::format("unite {}, {}\n", GetPos(puyo->Get2DIdx()), GetPos(nextPuyoActor->Get2DIdx())).c_str());

@@ -10,7 +10,7 @@
 
 #include "Framework/World.h"
 
-#include "Level/ObjectCollection2D.h"
+#include "Level/ObjectManager2D.h"
 
 // ------------------------------------------------------------------------------------------------------------
 // Level 2D
@@ -23,11 +23,11 @@ Level2D::~Level2D()
 {
 }
 
-void Level2D::SetObjectCollection()
+void Level2D::SetObjectManager()
 {
-	pObjectCollection = std::make_shared<ObjectCollection2D>();
+	pObjectManager = std::make_shared<ObjectManager2D>();
 
-	Level::SetObjectCollection();
+	Level::SetObjectManager();
 }
 
 // ------------------------------------------------------
@@ -91,7 +91,7 @@ void Level2D::SetSpriteLocation(Actor2D* sprite, const float& worldX, const floa
 }
 Actor2D* Level2D::GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const Layer::EActorLayer& inLayer) const
 {
-	const auto& actors = pObjectCollection->pObjects;
+	const auto& actors = pObjectManager->pObjects;
 	if (actors.contains(inLayer))
 	{
 		const auto& elem = actors.at(inLayer);

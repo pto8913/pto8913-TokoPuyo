@@ -28,12 +28,6 @@ Level_Title::~Level_Title()
 		pSettingsUI->MarkPendingKill();
 	}
 	pSettingsUI = nullptr;
-
-	if (IsValid(pDebugUI))
-	{
-		pDebugUI->MarkPendingKill();
-	}
-	pDebugUI = nullptr;
 }
 
 // ------------------------------------------------------
@@ -51,13 +45,6 @@ void Level_Title::BeginPlay(DirectX11& dx)
 	pTitleUI->OnClickedTokoPuyo.Bind<&Level_Title::OnClickedTokoPuyo>(*this, "Title");
 	pTitleUI->OnClickedOpenSettings.Bind<&Level_Title::OnClickedOpenSettings>(*this, "Title");
 	pTitleUI->AddToViewport();
-
-	pDebugUI = GetWorld()->CreateWidget<DebugUI>(
-		this, 
-		dx, 
-		GetWorld()->GetPlayerController()->GetMouse()
-	);
-	pDebugUI->AddToViewport();
 }
 
 // --------------------------

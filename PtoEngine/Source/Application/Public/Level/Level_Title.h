@@ -42,5 +42,4 @@ protected:
 	// ------------------------------------------------------
 	TitleUI* pTitleUI = nullptr;
 	SettingsUI* pSettingsUI = nullptr;
-	DebugUI* pDebugUI = nullptr;
 };
