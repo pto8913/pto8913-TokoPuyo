@@ -10,7 +10,7 @@ UserWidget::UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx
 {
 	SetTickEnabled(true);
 
-	NativeOnInitialized();
+	//NativeOnInitialized();
 
 	SetLayer(Layer::EActorLayer::UI);
 }
