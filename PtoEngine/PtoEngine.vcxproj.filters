@@ -268,9 +268,6 @@
     <ClInclude Include="Source\DirectX\Public\Object\ObjectBase.h">
       <Filter>Source\DirectX\Public\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Delegate\Delegate.h">
-      <Filter>Source\DirectX\Public\Delegate</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Object\Sprite.h">
       <Filter>Source\DirectX\Public\Object</Filter>
     </ClInclude>
@@ -279,9 +276,6 @@
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Input\Keyboard.h">
       <Filter>Source\DirectX\Public\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetBase.h">
-      <Filter>Source\DirectX\Public\Object\Widget</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Input\Controller.h">
       <Filter>Source\DirectX\Public\Input</Filter>
@@ -625,8 +619,11 @@
     <ClInclude Include="Source\Engine\Public\UI\DebugUI.h">
       <Filter>Source\Engine\Public\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DirectX\Public\Object\Widget\WidgetManager.h">
-      <Filter>Source\DirectX\Public\Object\Widget</Filter>
+    <ClInclude Include="Source\Application\Public\UI\SettingsUI.h">
+      <Filter>Source\Application\Public\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\WidgetManager.h">
+      <Filter>Source\Engine\Public\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -665,9 +662,6 @@
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Input\Keyboard.cpp">
       <Filter>Source\DirectX\Private\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\Widget\WidgetBase.cpp">
-      <Filter>Source\DirectX\Private\Object\Widget</Filter>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Input\Controller.cpp">
       <Filter>Source\DirectX\Private\Input</Filter>
@@ -963,8 +957,11 @@
     <ClCompile Include="Source\Engine\Private\UI\DebugUI.cpp">
       <Filter>Source\Engine\Private\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\Widget\WidgetManager.cpp">
-      <Filter>Source\DirectX\Private\Object\Widget</Filter>
+    <ClCompile Include="Source\Application\Private\UI\SettingsUI.cpp">
+      <Filter>Source\Application\Private\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\WidgetManager.cpp">
+      <Filter>Source\Engine\Private\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
