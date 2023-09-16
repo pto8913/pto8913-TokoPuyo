@@ -6,7 +6,6 @@ CollisionComponent::CollisionComponent(Actor* inOwner)
 	mCollisionType(ECollisionType::Block)
 {
 }
-
 CollisionComponent::~CollisionComponent()
 {
 }
