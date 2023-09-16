@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Object/DrawableObject2D.h"
+#include "UI/UserWidget.h"
 
 class DirectX11;
 class UserWidget;
@@ -23,6 +24,7 @@ public:
 	TClass* CreateWidget(Object* inOwner, Args&& ...args)
 	{
 		auto out = std::make_shared<TClass>(inOwner, pRt2D, std::forward<Args>(args)...);
+		out->NativeOnInitialized();
 		pWidgets.push_back(out);
 		return std::move(out.get());
 	};
