@@ -18,36 +18,6 @@ LandmarkUI::LandmarkUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx
 	mPlayRate(inPlayRate),
 	mDelegate(inCompleted)
 {
-	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), inRt2D);
-
-	/* Border */
-	{
-		FSlateBorderAppearance borderAppearance;
-		borderAppearance.Type = EBorderType::Box;
-		borderAppearance.bIsFill = true;
-		borderAppearance.color = FColor(0.f, 0.f, 0.f, 1.f);
-		pEffectBorder = std::make_shared<S_Border>(EngineSettings::GetWindowSize(), inRt2D, FSlateInfos(), borderAppearance);
-
-		FSlateInfos textInfos;
-		textInfos.HAlign = EHorizontalAlignment::Center;
-		textInfos.VAlign = EVerticalAlignment::Center;
-
-		FSlateFont textFont;
-		textFont.fontSize = 50.f;
-
-		FSlateTextAppearance textAppearance;
-		textAppearance.color = FColor(1.f, 1.f, 1.f);
-		pText = std::make_shared<S_TextBlock>(inRt2D, textInfos, textFont, textAppearance);
-		pText->SetText(mLandmarkName);
-
-		pRootSlate->AddChild(pEffectBorder);
-		pEffectBorder->AddChild(pText);
-
-		/* Animation */
-		GetWorld()->GetTimerManager().SetTimer<&LandmarkUI::AnimationStart>(*this, 0.f, false, 1.f);
-	}
-
-	pRootSlate->UpdateWidget();
 }
 LandmarkUI::~LandmarkUI()
 {
@@ -68,6 +38,40 @@ LandmarkUI::~LandmarkUI()
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
+void LandmarkUI::NativeOnInitialized()
+{
+	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), pRt2D);
+
+	/* Border */
+	{
+		FSlateBorderAppearance borderAppearance;
+		borderAppearance.Type = EBorderType::Box;
+		borderAppearance.bIsFill = true;
+		borderAppearance.color = FColor(0.f, 0.f, 0.f, 1.f);
+		pEffectBorder = std::make_shared<S_Border>(EngineSettings::GetWindowSize(), pRt2D, FSlateInfos(), borderAppearance);
+
+		FSlateInfos textInfos;
+		textInfos.HAlign = EHorizontalAlignment::Center;
+		textInfos.VAlign = EVerticalAlignment::Center;
+
+		FSlateFont textFont;
+		textFont.fontSize = 50.f;
+
+		FSlateTextAppearance textAppearance;
+		textAppearance.color = FColor(1.f, 1.f, 1.f);
+		pText = std::make_shared<S_TextBlock>(pRt2D, textInfos, textFont, textAppearance);
+		pText->SetText(mLandmarkName);
+
+		pRootSlate->AddChild(pEffectBorder);
+		pEffectBorder->AddChild(pText);
+
+		/* Animation */
+		GetWorld()->GetTimerManager().SetTimer<&LandmarkUI::AnimationStart>(*this, 0.f, false, 1.f);
+	}
+
+	pRootSlate->UpdateWidget();
+	UserWidget::NativeOnInitialized();
+}
 void LandmarkUI::AnimationStart()
 {
 	WidgetAnimation blackout(0.f, mPlayRate);
