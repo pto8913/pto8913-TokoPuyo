@@ -232,7 +232,7 @@
     <ClInclude Include="Source\Application\Public\Level\Level_SonoTown.h" />
     <ClInclude Include="Source\Application\Public\Level\Level_SonoTown_House_0.h" />
     <ClInclude Include="Source\Application\Public\Level\MazeGenerator.h" />
-    <ClInclude Include="Source\Application\Public\Level\ObjectCollection2D.h" />
+    <ClInclude Include="Source\Application\Public\Level\ObjectManager2D.h" />
     <ClInclude Include="Source\Application\Public\PtoGameInstance.h" />
     <ClInclude Include="Source\Application\Public\UI\HUD.h" />
     <ClInclude Include="Source\Application\Public\UI\HUDInterface.h" />
@@ -400,7 +400,7 @@
     <ClCompile Include="Source\Application\Private\Level\Level_SonoTown.cpp" />
     <ClCompile Include="Source\Application\Private\Level\Level_SonoTown_House_0.cpp" />
     <ClCompile Include="Source\Application\Private\Level\MazeGenerator.cpp" />
-    <ClCompile Include="Source\Application\Private\Level\ObjectCollection2D.cpp" />
+    <ClCompile Include="Source\Application\Private\Level\ObjectManager2D.cpp" />
     <ClCompile Include="Source\Application\Private\PtoGameInstance.cpp" />
     <ClCompile Include="Source\Application\Private\UI\HUD.cpp" />
     <ClCompile Include="Source\Application\Private\UI\LandmarkUI.cpp" />

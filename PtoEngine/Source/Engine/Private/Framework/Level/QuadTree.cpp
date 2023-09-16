@@ -26,7 +26,6 @@ QuadTree::QuadTree()
 	)
 {
 }
-
 QuadTree::~QuadTree()
 {
 	pParent = nullptr;
