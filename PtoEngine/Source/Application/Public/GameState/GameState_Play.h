@@ -24,7 +24,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(GameState_Play).name() + std::string("_") + std::to_string(mID);
+		return "GameState_Play" + "#"s + std::to_string(mID);
 	}
 	virtual void BeginPlay(DirectX11& dx) override;
 

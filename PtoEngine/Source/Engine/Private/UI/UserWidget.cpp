@@ -30,7 +30,7 @@ UserWidget::UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx
 }
 UserWidget::~UserWidget()
 {
-	if (pMouse)
+	if (pMouse != nullptr)
 	{
 		pMouse->GetClickedLeftPressed().Unbind(GetName() + "_Left");
 		pMouse->GetClickedLeftReleased().Unbind(GetName() + "_Left");

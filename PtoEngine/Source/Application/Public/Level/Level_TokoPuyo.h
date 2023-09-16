@@ -27,7 +27,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(Level_TokoPuyo).name() + std::string("_") + std::to_string(mID);
+		return "Level_TokoPuyo" + "#"s + std::to_string(mID);
 	}
 protected:
 	virtual void Init(const int& x, const int& y) override;

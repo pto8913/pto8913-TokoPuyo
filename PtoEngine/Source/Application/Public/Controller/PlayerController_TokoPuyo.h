@@ -16,7 +16,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(PlayerController_TokoPuyo).name() + std::string("_") + std::to_string(mID);
+		return "PlayerController_TokoPuyo" + "#"s + std::to_string(mID);
 	}
 protected:
 

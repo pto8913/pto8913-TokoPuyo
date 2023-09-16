@@ -74,6 +74,10 @@ void Level_Title::OnClickedTokoPuyo(DX::MouseEvent inMouseEvent)
 // --------------------------
 void Level_Title::OnClickedOpenSettings(DX::MouseEvent inMouseEvent)
 {
+	if (pTitleUI != nullptr)
+	{
+		pTitleUI->RemoveFromParent();
+	}
 	if (pSettingsUI == nullptr)
 	{
 		pSettingsUI = GetWorld()->CreateWidget<SettingsUI>(
@@ -81,13 +85,9 @@ void Level_Title::OnClickedOpenSettings(DX::MouseEvent inMouseEvent)
 			*pDX,
 			GetWorld()->GetPlayerController()->GetMouse()
 		);
-		pSettingsUI->OnClickedReturnToTitle.Bind<&Level_Title::OnClickedCloseSettings>(*this, "Title");
+		//pSettingsUI->OnClickedReturnToTitle.Bind<&Level_Title::OnClickedCloseSettings>(*this, "Title");
 	}
-	if (pTitleUI != nullptr)
-	{
-		pTitleUI->RemoveFromParent();
-	}
-	pSettingsUI->AddToViewport();
+	//pSettingsUI->AddToViewport();
 }
 void Level_Title::OnClickedCloseSettings(DX::MouseEvent inMouseEvent)
 {

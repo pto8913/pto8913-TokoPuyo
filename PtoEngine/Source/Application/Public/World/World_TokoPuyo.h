@@ -11,7 +11,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(World_TokoPuyo).name() + std::string("_") + std::to_string(mID);
+		return "World_TokoPuyo" + "#"s + std::to_string(mID);
 	}
 	virtual void SetLevel(DirectX11& dx) override;
 	virtual void SetGameMode(DirectX11& dx) override;

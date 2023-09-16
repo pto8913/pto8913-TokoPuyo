@@ -10,6 +10,6 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(World_Title).name() + std::string("_") + std::to_string(mID);
+		return "World_Title" + "#"s + std::to_string(mID);
 	}
 };

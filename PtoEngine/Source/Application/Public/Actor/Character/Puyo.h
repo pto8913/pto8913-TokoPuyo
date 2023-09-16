@@ -19,7 +19,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(Puyo).name() + std::string("_") + std::to_string(mID);
+		return "Puyo" + "#"s + std::to_string(mID);
 	}
 protected:
 	virtual void SetID(int inID) override;

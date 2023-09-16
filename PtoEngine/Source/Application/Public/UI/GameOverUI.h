@@ -17,7 +17,7 @@ public:
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
-		return typeid(GameOverUI).name() + std::string("_") + std::to_string(mID);
+		return "GameOverUI" + "#"s + std::to_string(mID);
 	}
 	void OnClickedRestartButton(DX::MouseEvent inMouseEvent);
 	void OnClickedReturnTitle(DX::MouseEvent inMouseEvent);
