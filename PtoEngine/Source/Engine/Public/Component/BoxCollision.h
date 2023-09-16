@@ -3,6 +3,8 @@
 #include "Component/CollisionComponent.h"
 #include "Math/Box.h"
 
+class Actor;
+
 // ------------------------------------------------------
 // Box Collision
 // ------------------------------------------------------
