@@ -101,7 +101,7 @@ void World::SetPlayerController(DirectX11& dx)
 {
 	if (pPlayerController == nullptr)
 	{
-		//pPlayerController = std::make_shared<PlayerController>(dx);
+		pPlayerController = std::make_shared<PlayerController>(dx);
 	}
 	if (IsValid(pPlayerController))
 	{
