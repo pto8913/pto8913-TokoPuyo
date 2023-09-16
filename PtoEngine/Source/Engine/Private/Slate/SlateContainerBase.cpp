@@ -58,7 +58,7 @@ void SlateContainerBase::Draw()
 void SlateContainerBase::AddChild(std::shared_ptr<SlateBase> in)
 {
 	in->SetParent(this);
-	pChildren.push_back(in.get());
+	pChildren.push_back(in);
 }
 void SlateContainerBase::RemoveChild(int idx)
 {
@@ -74,7 +74,7 @@ void SlateContainerBase::RemoveChild(std::shared_ptr<SlateBase> in)
 	int i = 0;
 	for (auto&& child : copiedChildren)
 	{
-		if (pChildren[i] == in.get())
+		if (pChildren[i] == in)
 		{
 			pChildren.erase(pChildren.begin() + i);
 			break;
@@ -185,12 +185,12 @@ SlateBase* SlateContainerBase::GetChildAt(int idx) const noexcept
 {
 	if (pChildren.size() > idx)
 	{
-		return pChildren[idx];
+		return pChildren[idx].get();
 	}
 	return nullptr;
 }
 
-std::vector<SlateBase*> SlateContainerBase::GetChiledren() const noexcept
+std::vector<std::shared_ptr<SlateBase>> SlateContainerBase::GetChiledren() const noexcept
 {
 	return pChildren;
 }
@@ -314,7 +314,7 @@ SlateBase* SlotContainerOnlyOne::GetChildAt(int) const noexcept
 {
 	if (pChildren.size() > 0)
 	{
-		return pChildren[0];
+		return pChildren[0].get();
 	}
 	return nullptr;
 }

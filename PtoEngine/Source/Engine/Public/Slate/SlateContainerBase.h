@@ -36,7 +36,7 @@ protected:
 public:
 	virtual SlateBase* GetChildAt(int idx) const noexcept;
 
-	std::vector<SlateBase*> GetChiledren() const noexcept;
+	std::vector<std::shared_ptr<SlateBase>> GetChiledren() const noexcept;
 	size_t GetChildrenCount() const noexcept;
 
 	// ------------------------------------------------
@@ -55,7 +55,7 @@ protected:
 	// ------------------------------------------------------------------------------------------------
 	// State
 	// ------------------------------------------------------------------------------------------------
-	std::vector<SlateBase*> pChildren;
+	std::vector<std::shared_ptr<SlateBase>> pChildren;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////
