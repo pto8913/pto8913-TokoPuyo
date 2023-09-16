@@ -17,13 +17,13 @@ GameState_Play::~GameState_Play()
 {
 	OnGameProgressChanged.ClearBind();
 
-	if (pGameProgressUI)
+	if (IsValid(pGameProgressUI))
 	{
 		pGameProgressUI->RemoveFromParent();
 		pGameProgressUI->MarkPendingKill();
 	}
 	pGameProgressUI = nullptr;
-	if (pGameOverUI)
+	if (IsValid(pGameOverUI))
 	{
 		pGameOverUI->RemoveFromParent();
 		pGameOverUI->MarkPendingKill();

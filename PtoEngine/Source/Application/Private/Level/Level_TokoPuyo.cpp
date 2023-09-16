@@ -103,8 +103,7 @@ void Level_TokoPuyo::GenerateGroundLayer()
 		for (int x = 0; x < width; ++x)
 		{
 			auto ground = world->SpawnActor<GroundBase>(*pDX, EGroundId::Background);
-			SetSpriteLocation(ground.get(), x, y + 1);
-			ground.reset();
+			SetSpriteLocation(ground, x, y + 1);
 			ground = nullptr;
 		}
 	}
@@ -320,10 +319,10 @@ void Level_TokoPuyo::SpawnPuyo()
 		auto world = GetWorld();
 		pMainPuyo = world->SpawnActor<Puyo>(
 			*pDX, mainPuyoId
-		).get();
+		);
 		pSubPuyo = world->SpawnActor<Puyo>(
 			*pDX, subPuyoId
-		).get();
+		);
 	}
 	else
 	{

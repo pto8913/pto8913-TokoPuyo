@@ -70,12 +70,6 @@ public:
 		out->SetID(mActorTotalCount);
 		++mActorTotalCount;
 		AddToObjectCollection(out);
-
-		std::shared_ptr<BoxCollision> collision = out->GetComponent<BoxCollision>();
-		if (collision != nullptr)
-		{
-			pPersistentLevel->GetCollisionCollection().Add(collision);
-		}
 		return std::move(out.get());
 	}
 	template<class TClass, typename ...Args, typename = std::enable_if_t<std::is_base_of_v<UserWidget, TClass>>>

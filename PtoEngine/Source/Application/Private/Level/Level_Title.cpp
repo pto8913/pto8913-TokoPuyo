@@ -17,19 +17,19 @@ Level_Title::Level_Title(DirectX11& dx)
 }
 Level_Title::~Level_Title()
 {
-	if (pTitleUI)
+	if (IsValid(pTitleUI))
 	{
 		pTitleUI->MarkPendingKill();
 	}
 	pTitleUI = nullptr;
 
-	if (pSettingsUI)
+	if (IsValid(pSettingsUI))
 	{
 		pSettingsUI->MarkPendingKill();
 	}
 	pSettingsUI = nullptr;
 
-	if (pDebugUI)
+	if (IsValid(pDebugUI))
 	{
 		pDebugUI->MarkPendingKill();
 	}
@@ -74,6 +74,12 @@ void Level_Title::OnClickedTokoPuyo(DX::MouseEvent inMouseEvent)
 // --------------------------
 void Level_Title::OnClickedOpenSettings(DX::MouseEvent inMouseEvent)
 {
+	FTimerDelegate openSettingsUI;
+	openSettingsUI.SetTimer<&Level_Title::OpenSettingsUI>(*this, 0.f, false, 0.01f);
+	GetWorld()->GetTimerManager().SetNextTickTimer(openSettingsUI);
+}
+void Level_Title::OpenSettingsUI()
+{
 	if (pTitleUI != nullptr)
 	{
 		pTitleUI->RemoveFromParent();
@@ -85,9 +91,9 @@ void Level_Title::OnClickedOpenSettings(DX::MouseEvent inMouseEvent)
 			*pDX,
 			GetWorld()->GetPlayerController()->GetMouse()
 		);
-		//pSettingsUI->OnClickedReturnToTitle.Bind<&Level_Title::OnClickedCloseSettings>(*this, "Title");
+		pSettingsUI->OnClickedReturnToTitle.Bind<&Level_Title::OnClickedCloseSettings>(*this, "Title");
 	}
-	//pSettingsUI->AddToViewport();
+	pSettingsUI->AddToViewport();
 }
 void Level_Title::OnClickedCloseSettings(DX::MouseEvent inMouseEvent)
 {

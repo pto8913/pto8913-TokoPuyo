@@ -33,6 +33,7 @@ public:
 	// --------------------------
 	void OnClickedOpenSettings(DX::MouseEvent inMouseEvent);
 protected:
+	void OpenSettingsUI();
 	void OnClickedCloseSettings(DX::MouseEvent inMouseEvent);
 
 protected:
