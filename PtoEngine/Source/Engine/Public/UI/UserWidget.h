@@ -22,6 +22,10 @@ public:
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
 protected:
+	void NativeOnInitialized();
+	void NativeConstruct();
+	void NativeDestruct();
+
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 	virtual void Draw();
 public:

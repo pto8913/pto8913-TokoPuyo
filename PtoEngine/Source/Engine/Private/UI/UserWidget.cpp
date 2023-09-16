@@ -10,22 +10,8 @@ UserWidget::UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx
 {
 	SetTickEnabled(true);
 
-	if (pMouse)
-	{
-		pMouse->GetClickedLeftPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, GetName() + "_Left");
-		pMouse->GetClickedLeftReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, GetName() + "_Left");
-		pMouse->GetClickedLeftHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, GetName() + "_Left");
+	NativeOnInitialized();
 
-		pMouse->GetClickedRightPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, GetName() + "_Right");
-		pMouse->GetClickedRightReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, GetName() + "_Right");
-		pMouse->GetClickedRightHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, GetName() + "_Right");
-
-		pMouse->GetClickedWheelPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, GetName() + "_Wheel");
-		pMouse->GetClickedWheelReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, GetName() + "_Wheel");
-		pMouse->GetClickedWheelHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, GetName() + "_Wheel");
-
-		pMouse->GetMouseMove().Bind<&UserWidget::OnMouseMove>(*this, GetName() + "_Move");
-	}
 	SetLayer(Layer::EActorLayer::UI);
 }
 UserWidget::~UserWidget()
@@ -57,6 +43,33 @@ UserWidget::~UserWidget()
 // ------------------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------------------
+void UserWidget::NativeOnInitialized()
+{
+	if (pMouse)
+	{
+		pMouse->GetClickedLeftPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, GetName() + "_Left");
+		pMouse->GetClickedLeftReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, GetName() + "_Left");
+		pMouse->GetClickedLeftHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, GetName() + "_Left");
+
+		pMouse->GetClickedRightPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, GetName() + "_Right");
+		pMouse->GetClickedRightReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, GetName() + "_Right");
+		pMouse->GetClickedRightHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, GetName() + "_Right");
+
+		pMouse->GetClickedWheelPressed().Bind<&UserWidget::OnMouseButtonDown>(*this, GetName() + "_Wheel");
+		pMouse->GetClickedWheelReleased().Bind<&UserWidget::OnMouseButtonUp>(*this, GetName() + "_Wheel");
+		pMouse->GetClickedWheelHeld().Bind<&UserWidget::OnMouseButtonHeld>(*this, GetName() + "_Wheel");
+
+		pMouse->GetMouseMove().Bind<&UserWidget::OnMouseMove>(*this, GetName() + "_Move");
+	}
+}
+void UserWidget::NativeConstruct()
+{
+
+}
+void UserWidget::NativeDestruct()
+{
+
+}
 void UserWidget::Tick(DirectX11& dx, float deltaTime)
 {
 	if (!IsPendingKill() && IsInViewport())
