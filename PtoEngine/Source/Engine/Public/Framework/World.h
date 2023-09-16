@@ -69,7 +69,13 @@ public:
 		out->SetOuter(pPersistentLevel.get());
 		out->SetID(mActorTotalCount);
 		++mActorTotalCount;
-		AddToObjectCollection(out);
+		AddToObjectManager(out);
+
+		std::shared_ptr<BoxCollision> collision = out->GetComponent<BoxCollision>();
+		if (collision != nullptr)
+		{
+			pPersistentLevel->GetCollisionManager().Add(collision);
+		}
 		return std::move(out.get());
 	}
 	template<class TClass, typename ...Args, typename = std::enable_if_t<std::is_base_of_v<UserWidget, TClass>>>
@@ -79,7 +85,7 @@ public:
 		++mActorTotalCount;
 		return std::move(out);
 	};
-	void AddToObjectCollection(std::shared_ptr<Object> in);
+	void AddToObjectManager(std::shared_ptr<Object> in);
 
 	virtual std::string GetName() const override
 	{

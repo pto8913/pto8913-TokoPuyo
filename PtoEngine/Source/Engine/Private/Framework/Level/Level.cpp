@@ -7,7 +7,7 @@
 Level::Level(DirectX11& dx)
 	: pDX(&dx)
 {
-	SetObjectCollection();
+	SetObjectManager();
 }
 Level::~Level()
 {
@@ -15,15 +15,15 @@ Level::~Level()
 
 	pOwningWorld = nullptr;
 
-	pObjectCollection.reset();
-	pObjectCollection = nullptr;
+	pObjectManager.reset();
+	pObjectManager = nullptr;
 }
 
-void Level::SetObjectCollection()
+void Level::SetObjectManager()
 {
-	if (pObjectCollection == nullptr)
+	if (pObjectManager == nullptr)
 	{
-		pObjectCollection = std::make_shared<ObjectCollection>();
+		pObjectManager = std::make_shared<ObjectManager>();
 	}
 }
 
@@ -34,10 +34,10 @@ void Level::Tick(DirectX11& dx, float deltaSec)
 {
 	Object::Tick(dx, deltaSec);
 
-	//mCollisionCollection.Tick();
-	if (pObjectCollection != nullptr)
+	//mCollisionManager.Tick();
+	if (pObjectManager != nullptr)
 	{
-		pObjectCollection->Tick(dx, deltaSec);
+		pObjectManager->Tick(dx, deltaSec);
 	}
 }
 
@@ -50,9 +50,14 @@ World* Level::GetWorld()
 	return pOwningWorld;
 }
 
-ObjectCollection* Level::GetObjectCollection()
+CollisionManager& Level::GetCollisionManager()
 {
-	return pObjectCollection.get();
+	return mCollisionManager;
+}
+
+ObjectManager* Level::GetObjectManager()
+{
+	return pObjectManager.get();
 }
 
 // ---------------------------

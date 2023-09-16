@@ -1,25 +1,20 @@
 
-#include "Framework/Level/ObjectCollection.h"
+#include "Framework/Level/ObjectManager.h"
 #include "Object/Actor.h"
 
-#if _DEBUG
-#include <format>
-#endif
-
-ObjectCollection::~ObjectCollection()
+ObjectManager::~ObjectManager()
 {
 	Clear();
-	pObjects.clear();
 }
 
-void ObjectCollection::Add(std::shared_ptr<Object> in, bool sort)
+void ObjectManager::Add(std::shared_ptr<Object> in, bool sort)
 {
 	if (IsValid(in))
 	{
 		Add(in->GetLayer(), in, sort);
 	}
 }
-void ObjectCollection::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Object> in, bool sort)
+void ObjectManager::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Object> in, bool sort)
 {
 	if (IsValid(in))
 	{
@@ -35,7 +30,7 @@ void ObjectCollection::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Ob
 		}
 	}
 }
-void ObjectCollection::Append(std::vector<std::shared_ptr<Object>>& in)
+void ObjectManager::Append(std::vector<std::shared_ptr<Object>>& in)
 {
 	for (auto&& elem : in)
 	{
@@ -43,7 +38,7 @@ void ObjectCollection::Append(std::vector<std::shared_ptr<Object>>& in)
 	}
 }
 
-void ObjectCollection::Tick(DirectX11& dx, float deltaSec)
+void ObjectManager::Tick(DirectX11& dx, float deltaSec)
 {
 	RemovePendingObjects();
 
@@ -58,7 +53,7 @@ void ObjectCollection::Tick(DirectX11& dx, float deltaSec)
 		}
 	}
 }
-void ObjectCollection::Clear()
+void ObjectManager::Clear()
 {
 	for (auto&& elem : pObjects)
 	{
@@ -68,20 +63,10 @@ void ObjectCollection::Clear()
 			auto& obj = *iter;
 			if (obj != nullptr)
 			{
-				if (obj.use_count() != 1)
-				{
-#if _DEBUG
-					OutputDebugStringA(std::format("obj.use_count {}\n", obj.use_count()).c_str());
-					//OutputDebugStringA(std::format("obj {} \n", obj->GetName()).c_str());
-#endif
-				}
+				obj->EndPlay();
 				obj.reset();
 				obj = nullptr;
 				iter = elem.second.erase(iter);
-
-#if _DEBUG
-				//OutputDebugStringA(std::format("object remain {}\n", elem.second.size()).c_str());
-#endif
 			}
 			else
 			{
@@ -90,7 +75,7 @@ void ObjectCollection::Clear()
 		}
 	}
 }
-Object* ObjectCollection::GetObjectByID(int id, Layer::EActorLayer inLayer)
+Object* ObjectManager::GetObjectByID(int id, Layer::EActorLayer inLayer)
 {
 	if (id == -1)
 	{
@@ -121,7 +106,7 @@ Object* ObjectCollection::GetObjectByID(int id, Layer::EActorLayer inLayer)
 	}
 	return nullptr;
 }
-Object* ObjectCollection::GetObjectByTag(const std::wstring& inTag, Layer::EActorLayer inLayer)
+Object* ObjectManager::GetObjectByTag(const std::wstring& inTag, Layer::EActorLayer inLayer)
 {
 	if (inTag.empty())
 	{
@@ -153,7 +138,7 @@ Object* ObjectCollection::GetObjectByTag(const std::wstring& inTag, Layer::EActo
 	return nullptr;
 }
 
-void ObjectCollection::RemovePendingObjects()
+void ObjectManager::RemovePendingObjects()
 {
 	for (auto&& elem : pObjects)
 	{

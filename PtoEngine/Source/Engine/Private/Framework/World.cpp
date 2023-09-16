@@ -233,9 +233,9 @@ TimerManager& World::GetTimerManager()
 {
 	return mTimerManager;
 }
-void World::AddToObjectCollection(std::shared_ptr<Object> in)
+void World::AddToObjectManager(std::shared_ptr<Object> in)
 {
-	pPersistentLevel->GetObjectCollection()->Add(in);
+	pPersistentLevel->GetObjectManager()->Add(in);
 }
 
 // -----------------------------------

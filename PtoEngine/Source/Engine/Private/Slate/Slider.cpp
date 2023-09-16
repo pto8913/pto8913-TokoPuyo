@@ -33,6 +33,9 @@ S_Slider::S_Slider(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateS
 
 S_Slider::~S_Slider()
 {
+	OnValueChanged.ClearBind();
+	
+	Util::SafeRelease(pLineBrush);
 }
 
 // ------------------------------------------------------

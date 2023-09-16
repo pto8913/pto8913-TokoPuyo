@@ -6,6 +6,8 @@
 
 #include "Helper/RectHelper.h"
 
+#define _DEBUG 1
+
 ////////////////////////////////////////////////////////////////////////////////////////
 // 
 // Container
@@ -25,7 +27,6 @@ SlateContainerBase::~SlateContainerBase()
 {
 	for (auto&& child : pChildren)
 	{
-		child.reset();
 		child = nullptr;
 	}
 	pChildren.clear();
@@ -57,13 +58,13 @@ void SlateContainerBase::Draw()
 void SlateContainerBase::AddChild(std::shared_ptr<SlateBase> in)
 {
 	in->SetParent(this);
-	pChildren.push_back(in);
+	pChildren.push_back(in.get());
 }
 void SlateContainerBase::RemoveChild(int idx)
 {
 	if (pChildren.size() > idx)
 	{
-		pChildren[idx].reset();
+		pChildren[idx] = nullptr;
 	}
 	pChildren.erase(pChildren.begin() + idx);
 }
@@ -73,7 +74,7 @@ void SlateContainerBase::RemoveChild(std::shared_ptr<SlateBase> in)
 	int i = 0;
 	for (auto&& child : copiedChildren)
 	{
-		if (pChildren[i] == in)
+		if (pChildren[i] == in.get())
 		{
 			pChildren.erase(pChildren.begin() + i);
 			break;
@@ -85,7 +86,7 @@ void SlateContainerBase::ClearChildren()
 {
 	for (auto&& child : pChildren)
 	{
-		child.reset();
+		child = nullptr;
 	}
 	pChildren.erase(pChildren.begin(), pChildren.end());
 }
@@ -184,12 +185,12 @@ SlateBase* SlateContainerBase::GetChildAt(int idx) const noexcept
 {
 	if (pChildren.size() > idx)
 	{
-		return pChildren[idx].get();
+		return pChildren[idx];
 	}
 	return nullptr;
 }
 
-std::vector<std::shared_ptr<SlateBase>> SlateContainerBase::GetChiledren() const noexcept
+std::vector<SlateBase*> SlateContainerBase::GetChiledren() const noexcept
 {
 	return pChildren;
 }
@@ -313,7 +314,7 @@ SlateBase* SlotContainerOnlyOne::GetChildAt(int) const noexcept
 {
 	if (pChildren.size() > 0)
 	{
-		return pChildren[0].get();
+		return pChildren[0];
 	}
 	return nullptr;
 }

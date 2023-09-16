@@ -1,23 +1,23 @@
 
-#include "Level/ObjectCollection2D.h"
+#include "Level/ObjectManager2D.h"
 
 #include "Actor/Actor2D.h"
 #include "Actor/Actor2DTypes.h"
 
-void ObjectCollection2D::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Object> in, bool sort)
+void ObjectManager2D::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Object> in, bool sort)
 {
-	ObjectCollection::Add(inLayer, in, sort);
+	ObjectManager::Add(inLayer, in, sort);
 	if (sort)
 	{
 		Sort();
 	}
 }
-void ObjectCollection2D::Append(std::vector<std::shared_ptr<Object>>& in)
+void ObjectManager2D::Append(std::vector<std::shared_ptr<Object>>& in)
 {
-	ObjectCollection::Append(in);
+	ObjectManager::Append(in);
 	Sort();
 }
-void ObjectCollection2D::Sort()
+void ObjectManager2D::Sort()
 {
 	auto SortCondition = [](std::shared_ptr<Object> a, std::shared_ptr<Object> b)
 	{
