@@ -63,7 +63,7 @@ public:
 	TimerManager& GetTimerManager();
 
 	template<class TClass, typename ...Args, typename = typename std::enable_if_t<std::is_base_of_v<Actor, TClass>>>
-	std::shared_ptr<TClass> SpawnActor(Args&&... args)
+	TClass* SpawnActor(Args&&... args)
 	{
 		std::shared_ptr<TClass> out = std::make_shared<TClass>(std::forward<Args>(args)...);
 		out->SetOuter(pPersistentLevel.get());
@@ -76,7 +76,7 @@ public:
 		{
 			pPersistentLevel->GetCollisionCollection().Add(collision);
 		}
-		return out;
+		return std::move(out.get());
 	}
 	template<class TClass, typename ...Args, typename = std::enable_if_t<std::is_base_of_v<UserWidget, TClass>>>
 	TClass* CreateWidget(Object* inOwner, Args&& ...args)
