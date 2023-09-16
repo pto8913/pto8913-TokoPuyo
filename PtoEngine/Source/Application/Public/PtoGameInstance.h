@@ -4,6 +4,7 @@
 
 class PtoGameInstance : public GameInstance
 {
+	friend class App;
 public:
 	static PtoGameInstance& Get();
 protected:

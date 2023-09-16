@@ -30,6 +30,7 @@ class WorldTimer;
 class PlayerController;
 class World;
 class PtoGameInstance;
+class DebugUI;
 
 class App
 {
@@ -50,6 +51,12 @@ private:
 	void OnPlayerControllerChanged(PlayerController* pPlayerController);
 	void OnWorldChanged(World* NewWorld);
 
+	// -----------------------------------
+	// Main : Debug
+	// -----------------------------------
+	void OpenDebugUI();
+	void CloseDebugUI();
+
 	// ------------------------------------------------------------------------------------------------------------
 	// State
 	// ------------------------------------------------------------------------------------------------------------
@@ -57,6 +64,8 @@ private:
 
 	std::unique_ptr<ViewPort> pViewPort = nullptr;
 	bool bIsInitialized = false;
+	DebugUI* pDebugUI = nullptr;
+	bool bOpenDebugUI = false;
 
 	// -----------------------------------
 	// State : Window

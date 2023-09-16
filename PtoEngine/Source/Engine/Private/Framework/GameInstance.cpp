@@ -47,6 +47,13 @@ TimerManager& GameInstance::GetTimerManager()
 	return mTimerManager;
 }
 
+// -----------------------------------
+// Main : Utils : World
+// -----------------------------------
+World* GameInstance::GetWorld()
+{
+	return pWorld.get();
+}
 void GameInstance::OpenWorld(int id)
 {
 	mQueuedOpenWorldID = id;
