@@ -22,7 +22,7 @@ public:
 	// ------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------
-	std::shared_ptr<SlateBase>& GetChildAt(const int& x, const int& y);
+	SlateBase* GetChildAt(const int& x, const int& y);
 
 	void SetAppearance(const FSlateGridPanelAppearance& in);
 	FSlateGridPanelAppearance& GetAppearance();

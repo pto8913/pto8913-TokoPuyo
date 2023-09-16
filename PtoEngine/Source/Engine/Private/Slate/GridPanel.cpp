@@ -23,7 +23,7 @@ S_GridPanel::~S_GridPanel()
 // ------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------
-std::shared_ptr<SlateBase>& S_GridPanel::GetChildAt(const int& x, const int& y)
+SlateBase* S_GridPanel::GetChildAt(const int& x, const int& y)
 {
 	return pChildren[y * mAppearance.column + x];
 }
