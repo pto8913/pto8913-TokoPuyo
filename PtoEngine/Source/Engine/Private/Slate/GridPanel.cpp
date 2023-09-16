@@ -25,7 +25,7 @@ S_GridPanel::~S_GridPanel()
 // ------------------------------------------------------------------------------------------------
 SlateBase* S_GridPanel::GetChildAt(const int& x, const int& y)
 {
-	return pChildren[y * mAppearance.column + x];
+	return pChildren[y * mAppearance.column + x].get();
 }
 void S_GridPanel::SetAppearance(const FSlateGridPanelAppearance& in)
 {
