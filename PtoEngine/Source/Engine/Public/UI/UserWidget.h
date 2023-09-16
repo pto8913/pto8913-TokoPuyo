@@ -22,9 +22,9 @@ public:
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
 protected:
-	void NativeOnInitialized();
-	void NativeConstruct();
-	void NativeDestruct();
+	virtual void NativeOnInitialized();
+	virtual void NativeConstruct();
+	virtual void NativeDestruct();
 
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 	virtual void Draw();
@@ -89,10 +89,12 @@ private:
 	double ZOrder = 1.0;
 protected:
 	bool bIsInViewport = false;
-
 	std::shared_ptr<SlateContainerBase> pRootSlate = nullptr;
-	DX::IMouseInterface* pMouse;
+
 	Object* pOwner = nullptr;
+	ID2D1RenderTarget* pRt2D = nullptr;
+	DirectX11* pDX = nullptr;
+	DX::IMouseInterface* pMouse = nullptr;
 
 	TArray<WidgetAnimation> mAnimations;
 };

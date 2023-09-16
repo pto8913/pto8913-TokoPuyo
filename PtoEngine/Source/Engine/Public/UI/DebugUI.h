@@ -13,6 +13,7 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
+	virtual void NativeOnInitialized() override;
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
 	virtual std::string GetName() const override
