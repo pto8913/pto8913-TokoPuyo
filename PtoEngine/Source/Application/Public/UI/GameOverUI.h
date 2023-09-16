@@ -7,13 +7,14 @@ class GameOverUI : public UserWidget
 public:
 	GameOverUI(
 		Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse,
-		const int& MaxScore, const int& MaxCombo
+		const int& inMaxScore, const int& inMaxCombo
 	);
 	virtual ~GameOverUI();
 
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
+	virtual void NativeOnInitialized() override;
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
@@ -31,5 +32,6 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// State
 	// ------------------------------------------------------------------------------------------------------------
-
+	int mMaxScore;
+	int mMaxCombo;
 };

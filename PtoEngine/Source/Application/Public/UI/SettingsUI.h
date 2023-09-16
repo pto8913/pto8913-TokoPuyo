@@ -13,6 +13,7 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
+	virtual void NativeOnInitialized() override;
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
