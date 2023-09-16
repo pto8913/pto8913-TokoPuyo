@@ -21,10 +21,10 @@ public:
 	virtual bool InBoundingVolume(Actor* other) override;
 	FBox GetBoundingBox();
 protected:
-	virtual void EnterVolume(std::shared_ptr<CollisionComponent> other) override;
-	virtual void LeaveVolume(std::shared_ptr<CollisionComponent> other) override;
+	virtual void EnterVolume(CollisionComponent* other) override;
+	virtual void LeaveVolume(CollisionComponent* other) override;
 
-	virtual void ResolveBlock(std::shared_ptr<CollisionComponent> other) override;
+	virtual void ResolveBlock(CollisionComponent* other) override;
 
 	// ------------------------------------------------------
 	// State

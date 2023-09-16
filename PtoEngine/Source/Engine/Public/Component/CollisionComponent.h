@@ -30,11 +30,11 @@ public:
 	void SetCollisionType(const ECollisionType&);
 
 protected:
-	virtual void EnterVolume(std::shared_ptr<CollisionComponent> other) {};
-	virtual void LeaveVolume(std::shared_ptr<CollisionComponent> other) {};
+	virtual void EnterVolume(CollisionComponent* other) {};
+	virtual void LeaveVolume(CollisionComponent* other) {};
 
-	virtual void ResolveBlock(std::shared_ptr<CollisionComponent> other) {};
-	virtual void ResolveOverlap(std::shared_ptr<CollisionComponent> other) {};
+	virtual void ResolveBlock(CollisionComponent* other) {};
+	virtual void ResolveOverlap(CollisionComponent* other) {};
 
 	// ------------------------------------------------------
 	// State

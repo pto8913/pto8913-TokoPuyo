@@ -15,7 +15,7 @@ public:
 	// Main
 	// ------------------------------------------------------
 	void Add(std::vector<std::shared_ptr<Actor>>& in);
-	void Add(std::shared_ptr<BoxCollision>& in);
+	void Add(BoxCollision* in);
 
 	void Clear();
 	void Tick();
@@ -24,6 +24,6 @@ protected:
 	// ------------------------------------------------------
 	// State
 	// ------------------------------------------------------
-	std::vector<std::shared_ptr<BoxCollision>> pCollisions;
+	std::vector<BoxCollision*> pCollisions;
 	QuadTree mCollisionTree;
 };

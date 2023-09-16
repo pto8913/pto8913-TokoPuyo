@@ -43,7 +43,7 @@ QuadTree::~QuadTree()
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
-void QuadTree::Add(std::shared_ptr<BoxCollision> in)
+void QuadTree::Add(BoxCollision* in)
 {
 	if (pChildren[0] != nullptr)
 	{
@@ -78,7 +78,7 @@ void QuadTree::Add(std::shared_ptr<BoxCollision> in)
 		}
 	}
 }
-void QuadTree::Remove(std::shared_ptr<BoxCollision> in)
+void QuadTree::Remove(BoxCollision* in)
 {
 	int idxToPlaceObject = GetChildIndexForObject(in->GetBoundingBox());
 
@@ -104,7 +104,6 @@ void QuadTree::Clear()
 	{
 		if (elem != nullptr)
 		{
-			elem.reset();
 			elem = nullptr;
 		}
 	}
@@ -120,12 +119,12 @@ void QuadTree::Clear()
 	}
 }
 
-std::vector<std::shared_ptr<BoxCollision>> QuadTree::Search(const FBox& area)
+std::vector<BoxCollision*> QuadTree::Search(const FBox& area)
 {
-	std::vector<std::shared_ptr<BoxCollision>> OverlapCandidates;
+	std::vector<BoxCollision*> OverlapCandidates;
 	Search(area, OverlapCandidates);
 
-	std::vector<std::shared_ptr<BoxCollision>> out;
+	std::vector<BoxCollision*> out;
 	for (auto&& collision : OverlapCandidates)
 	{
 		if (collision != nullptr)
@@ -138,7 +137,7 @@ std::vector<std::shared_ptr<BoxCollision>> QuadTree::Search(const FBox& area)
 	}
 	return out;
 }
-void QuadTree::Search(const FBox& area, std::vector<std::shared_ptr<BoxCollision>>& out)
+void QuadTree::Search(const FBox& area, std::vector<BoxCollision*>& out)
 {
 	out.insert(out.end(), pBoxCollision.begin(), pBoxCollision.end());
 

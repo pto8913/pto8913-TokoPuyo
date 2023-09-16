@@ -65,7 +65,7 @@ FBox BoxCollision::GetBoundingBox()
 		)
 	);
 }
-void BoxCollision::EnterVolume(std::shared_ptr<CollisionComponent> other)
+void BoxCollision::EnterVolume(CollisionComponent* other)
 {
 	OutputDebugStringA("Enter Box Collision\n");
 	switch (GetCollisionType())
@@ -79,16 +79,16 @@ void BoxCollision::EnterVolume(std::shared_ptr<CollisionComponent> other)
 		break;
 	}
 }
-void BoxCollision::LeaveVolume(std::shared_ptr<CollisionComponent> other)
+void BoxCollision::LeaveVolume(CollisionComponent* other)
 {
 
 }
 
-void BoxCollision::ResolveBlock(std::shared_ptr<CollisionComponent> other)
+void BoxCollision::ResolveBlock(CollisionComponent* other)
 {
 	auto ownerSize = pOwner->GetActorScale();
 
-	auto otherBox = static_pointer_cast<BoxCollision>(other);
+	auto otherBox = static_cast<BoxCollision*>(other);
 
 	const FBox& box1 = GetBoundingBox();
 	const FBox& box2 = otherBox->GetBoundingBox();
