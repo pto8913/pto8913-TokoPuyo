@@ -17,17 +17,48 @@
 DebugUI::DebugUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
 	: UserWidget(inOwner, inRt2D, dx, mouse)
 {
+}
+DebugUI::~DebugUI()
+{
+	pText_FPS.reset();
+	pText_FPS = nullptr;
+
+	pText_CPUUsed.reset();
+	pText_CPUUsed = nullptr;
+	pText_CPUCurrentUsed.reset();
+	pText_CPUCurrentUsed = nullptr;
+
+	pText_TotalVirtual.reset();
+	pText_TotalVirtual = nullptr;
+	pText_VirtualUsed.reset();
+	pText_VirtualUsed = nullptr;
+	pText_VirtualCurrentUsed.reset();
+	pText_VirtualCurrentUsed = nullptr;
+
+	pText_TotalPhys.reset();
+	pText_TotalPhys = nullptr;
+	pText_PhysUsed.reset();
+	pText_PhysUsed = nullptr;
+	pText_PhysCurrentUsed.reset();
+	pText_PhysCurrentUsed = nullptr;
+}
+
+// ------------------------------------------------------------------------------------------------------------
+// Main
+// ------------------------------------------------------------------------------------------------------------
+void DebugUI::NativeOnInitialized()
+{
 	const auto windowSize = EngineSettings::GetWindowSize();
-	pRootSlate = std::make_shared<S_CanvasPanel>(windowSize, inRt2D);
+	pRootSlate = std::make_shared<S_CanvasPanel>(windowSize, pRt2D);
 	pRootSlate->SetPosition({ 0, 0 });
 
 	FSlateInfos menuVBInfos;
 	menuVBInfos.padding = { 5.f, 5.f, 0.f, 0.f };
-	auto menuVB = std::make_shared<S_VerticalBox>(FVector2D(500.f, windowSize.y), inRt2D, menuVBInfos);
+	auto menuVB = std::make_shared<S_VerticalBox>(FVector2D(500.f, windowSize.y), pRt2D, menuVBInfos);
 	pRootSlate->AddChild(menuVB);
 
 	/* TextBlock */
-	auto MakeTextBlock = [this, &menuVB, &inRt2D](const std::wstring& label = L"")
+	auto MakeTextBlock = [this, &menuVB](const std::wstring& label = L"")
 	{
 		FSlateInfos textInfos;
 		textInfos.padding = { 1.f };
@@ -36,7 +67,7 @@ DebugUI::DebugUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::
 		appearance.color = FColor(255.f, 0.f, 0.f, 1.f);
 		appearance.hAlign = EHorizontalAlignment::Left;
 
-		auto textBlock = std::make_shared<S_TextBlock>(FVector2D(500.f, 30.f), inRt2D, textInfos, font, appearance);
+		auto textBlock = std::make_shared<S_TextBlock>(FVector2D(500.f, 30.f), pRt2D, textInfos, font, appearance);
 		textBlock->SetText(label);
 		menuVB->AddChild(textBlock);
 		return std::move(textBlock);
@@ -77,34 +108,7 @@ DebugUI::DebugUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::
 
 	pRootSlate->UpdateWidget();
 }
-DebugUI::~DebugUI()
-{
-	pText_FPS.reset();
-	pText_FPS = nullptr;
 
-	pText_CPUUsed.reset();
-	pText_CPUUsed = nullptr;
-	pText_CPUCurrentUsed.reset();
-	pText_CPUCurrentUsed = nullptr;
-
-	pText_TotalVirtual.reset();
-	pText_TotalVirtual = nullptr;
-	pText_VirtualUsed.reset();
-	pText_VirtualUsed = nullptr;
-	pText_VirtualCurrentUsed.reset();
-	pText_VirtualCurrentUsed = nullptr;
-
-	pText_TotalPhys.reset();
-	pText_TotalPhys = nullptr;
-	pText_PhysUsed.reset();
-	pText_PhysUsed = nullptr;
-	pText_PhysCurrentUsed.reset();
-	pText_PhysCurrentUsed = nullptr;
-}
-
-// ------------------------------------------------------------------------------------------------------------
-// Main
-// ------------------------------------------------------------------------------------------------------------
 int MemoryDiv = 1048576;
 void DebugUI::Tick(DirectX11& dx, float deltaTime)
 {
