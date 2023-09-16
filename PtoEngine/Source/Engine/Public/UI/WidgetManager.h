@@ -21,9 +21,10 @@ public:
 	virtual DirectX::XMMATRIX GetTransformXM(DirectX11& dx) const noexcept override;
 
 	template<class TClass, typename ...Args, typename = std::enable_if_t<std::is_base_of_v<UserWidget, TClass>>>
-	TClass* CreateWidget(Object* inOwner, Args&& ...args)
+	TClass* CreateWidget(int inID, Object* inOwner, Args&& ...args)
 	{
 		auto out = std::make_shared<TClass>(inOwner, pRt2D, std::forward<Args>(args)...);
+		out->SetID(inID);
 		out->NativeOnInitialized();
 		pWidgets.push_back(out);
 		return std::move(out.get());
