@@ -14,13 +14,13 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
-	void Add(std::shared_ptr<BoxCollision> in);
-	void Remove(std::shared_ptr<BoxCollision> in);
+	void Add(BoxCollision* in);
+	void Remove(BoxCollision* in);
 	void Clear();
 
-	std::vector<std::shared_ptr<BoxCollision>> Search(const FBox& area);
+	std::vector<BoxCollision*> Search(const FBox& area);
 protected:
-	void Search(const FBox& area, std::vector<std::shared_ptr<BoxCollision>>& out);
+	void Search(const FBox& area, std::vector<BoxCollision*>& out);
 public:
 	const FBox& GetBounds() const;
 
@@ -40,7 +40,7 @@ protected:
 
 	QuadTree* pParent = nullptr;
 	std::vector<std::shared_ptr<QuadTree>> pChildren;
-	std::vector<std::shared_ptr<BoxCollision>> pBoxCollision;
+	std::vector<BoxCollision*> pBoxCollision;
 
 	int mLevel;
 

@@ -14,9 +14,8 @@ CollisionManager::~CollisionManager()
 {
 	for (auto&& elem : pCollisions)
 	{
-		if (elem != nullptr)
+		if (IsValid(elem))
 		{
-			elem.reset();
 			elem = nullptr;
 		}
 	}
@@ -36,7 +35,7 @@ void CollisionManager::Add(std::vector<std::shared_ptr<Actor>>& in)
 		}
 	}
 }
-void CollisionManager::Add(std::shared_ptr<BoxCollision>& in)
+void CollisionManager::Add(BoxCollision* in)
 {
 	pCollisions.emplace_back(in);
 }
@@ -49,7 +48,6 @@ void CollisionManager::Clear()
 
 		if (obj != nullptr)
 		{
-			obj.reset();
 			obj = nullptr;
 			iter = pCollisions.erase(iter);
 		}
