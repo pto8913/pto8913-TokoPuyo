@@ -107,6 +107,7 @@ void DebugUI::NativeOnInitialized()
 	pText_PhysCurrentUsed = MakeTextBlock();
 
 	pRootSlate->UpdateWidget();
+	UserWidget::NativeOnInitialized();
 }
 
 int MemoryDiv = 1048576;
