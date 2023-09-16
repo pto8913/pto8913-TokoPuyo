@@ -670,10 +670,10 @@
     <ClInclude Include="Source\Application\Public\Level\ObjectCollection2D.h">
       <Filter>Source\Application\Public\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Framework\Level\ObjectCollection.h">
+    <ClInclude Include="Source\Engine\Public\Framework\Level\ObjectManager.h">
       <Filter>Source\Engine\Public\Framework\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Framework\Level\CollisionCollection.h">
+    <ClInclude Include="Source\Engine\Public\Framework\Level\CollisionManager.h">
       <Filter>Source\Engine\Public\Framework\Level</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Framework\Level\Layer.h">
@@ -1128,10 +1128,10 @@
     <ClCompile Include="Source\Application\Private\Level\ObjectCollection2D.cpp">
       <Filter>Source\Application\Private\Level</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Framework\Level\CollisionCollection.cpp">
+    <ClCompile Include="Source\Engine\Private\Framework\Level\CollisionManager.cpp">
       <Filter>Source\Engine\Private\Framework\Level</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Framework\Level\ObjectCollection.cpp">
+    <ClCompile Include="Source\Engine\Private\Framework\Level\ObjectManager.cpp">
       <Filter>Source\Engine\Private\Framework\Level</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Framework\Level\QuadTree.cpp">

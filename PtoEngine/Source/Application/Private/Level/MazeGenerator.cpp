@@ -586,7 +586,7 @@ void MazeGenerator::GetPathStartPos(const FRect& inRect, const EDirection& direc
 // --------------------------
 void MazeGenerator::MakeWall()
 {
-	const auto layer = pObjectCollection->pObjects[Layer::EActorLayer::Background];
+	const auto layer = pObjectManager->pObjects[Layer::EActorLayer::Background];
 	for (const auto& actor : layer)
 	{
 		if (actor != nullptr)

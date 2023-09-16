@@ -11,10 +11,10 @@ class DirectX11;
 class Actor;
 class Object;
 
-class ObjectCollection
+class ObjectManager
 {
 public:
-	virtual ~ObjectCollection();
+	virtual ~ObjectManager();
 
 	// ------------------------------------------------------
 	// Main

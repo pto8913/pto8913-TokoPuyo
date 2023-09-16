@@ -1,16 +1,16 @@
 
-#include "Framework/Level/CollisionCollection.h"
+#include "Framework/Level/CollisionManager.h"
 
 #include "Object/Actor.h"
 
 #include "Helper/BoxHelper.h"
 
-CollisionCollection::CollisionCollection()
+CollisionManager::CollisionManager()
 {
 
 }
 
-CollisionCollection::~CollisionCollection()
+CollisionManager::~CollisionManager()
 {
 	for (auto&& elem : pCollisions)
 	{
@@ -26,7 +26,7 @@ CollisionCollection::~CollisionCollection()
 // ------------------------------------------------------
 // Main
 // ------------------------------------------------------
-void CollisionCollection::Add(std::vector<std::shared_ptr<Actor>>& in)
+void CollisionManager::Add(std::vector<std::shared_ptr<Actor>>& in)
 {
 	for (auto&& actor : in)
 	{
@@ -36,11 +36,11 @@ void CollisionCollection::Add(std::vector<std::shared_ptr<Actor>>& in)
 		}
 	}
 }
-void CollisionCollection::Add(std::shared_ptr<BoxCollision>& in)
+void CollisionManager::Add(std::shared_ptr<BoxCollision>& in)
 {
 	pCollisions.emplace_back(in);
 }
-void CollisionCollection::Clear()
+void CollisionManager::Clear()
 {
 	auto iter = pCollisions.begin();
 	while (iter != pCollisions.end())
@@ -60,7 +60,7 @@ void CollisionCollection::Clear()
 	}
 }
 
-void CollisionCollection::Tick()
+void CollisionManager::Tick()
 {
 	mCollisionTree.Clear();
 	for (auto&& collision : pCollisions)
@@ -69,7 +69,7 @@ void CollisionCollection::Tick()
 	}
 	Resolve();
 }
-void CollisionCollection::Resolve()
+void CollisionManager::Resolve()
 {
 	for (auto&& collision : pCollisions)
 	{

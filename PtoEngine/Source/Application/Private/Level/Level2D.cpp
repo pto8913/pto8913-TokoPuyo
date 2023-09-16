@@ -13,7 +13,7 @@
 
 #include "Framework/World.h"
 
-#include "Level/ObjectCollection2D.h"
+#include "Level/ObjectManager2D.h"
 
 #if _DEBUG
 #include <format>
@@ -31,9 +31,9 @@ Level2D::~Level2D()
 	Clear();
 }
 
-void Level2D::SetObjectCollection()
+void Level2D::SetObjectManager()
 {
-	pObjectCollection = std::make_shared<ObjectCollection2D>();
+	pObjectManager = std::make_shared<ObjectManager2D>();
 }
 
 // ------------------------------------------------------
@@ -118,7 +118,7 @@ void Level2D::Clear()
 
 void Level2D::UpdateSpriteInScreen()
 {
-	for (auto&& layer : pObjectCollection->pObjects)
+	for (auto&& layer : pObjectManager->pObjects)
 	{
 		for (auto&& actor : layer.second)
 		{
@@ -184,7 +184,7 @@ void Level2D::SetSpriteLocation(std::shared_ptr<Actor2D> sprite, const float& wo
 }
 std::shared_ptr<Actor2D> Level2D::GetLayer(const int& worldX, const int& worldY, const Layer::EOrder& inOrder, const Layer::EActorLayer& inLayer) const
 {
-	const auto& actors = pObjectCollection->pObjects;
+	const auto& actors = pObjectManager->pObjects;
 	if (actors.contains(inLayer))
 	{
 		auto elem = actors.at(inLayer);
@@ -484,7 +484,7 @@ void Level2D::ShowTiles()
 
 	std::vector<std::string> x(int(width), " ");
 	std::vector<std::vector<std::string>> tiles(int(height), x);
-	for (const auto& layer : pObjectCollection->pObjects)
+	for (const auto& layer : pObjectManager->pObjects)
 	{
 		for (const auto& actor : layer.second)
 		{

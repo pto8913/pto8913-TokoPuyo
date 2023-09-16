@@ -69,12 +69,12 @@ public:
 		out->SetOuter(pPersistentLevel.get());
 		out->SetID(mActorTotalCount);
 		++mActorTotalCount;
-		AddToObjectCollection(out);
+		AddToObjectManager(out);
 
 		std::shared_ptr<BoxCollision> collision = out->GetComponent<BoxCollision>();
 		if (collision != nullptr)
 		{
-			pPersistentLevel->GetCollisionCollection().Add(collision);
+			pPersistentLevel->GetCollisionManager().Add(collision);
 		}
 		return std::move(out.get());
 	}
@@ -85,7 +85,7 @@ public:
 		++mActorTotalCount;
 		return std::move(out);
 	};
-	void AddToObjectCollection(std::shared_ptr<Object> in);
+	void AddToObjectManager(std::shared_ptr<Object> in);
 
 	virtual std::string GetName() const override
 	{

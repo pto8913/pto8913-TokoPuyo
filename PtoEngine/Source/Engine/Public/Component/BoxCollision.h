@@ -8,7 +8,7 @@
 // ------------------------------------------------------
 class BoxCollision : public CollisionComponent
 {
-	friend class CollisionCollection;
+	friend class CollisionManager;
 public:
 	BoxCollision(Actor* inOwner);
 	virtual ~BoxCollision();

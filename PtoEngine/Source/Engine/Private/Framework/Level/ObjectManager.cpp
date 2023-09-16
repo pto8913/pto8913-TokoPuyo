@@ -1,20 +1,20 @@
 
-#include "Framework/Level/ObjectCollection.h"
+#include "Framework/Level/ObjectManager.h"
 #include "Object/Actor.h"
 
-ObjectCollection::~ObjectCollection()
+ObjectManager::~ObjectManager()
 {
 	Clear();
 }
 
-void ObjectCollection::Add(std::shared_ptr<Object> in, bool sort)
+void ObjectManager::Add(std::shared_ptr<Object> in, bool sort)
 {
 	if (IsValid(in))
 	{
 		Add(in->GetLayer(), in, sort);
 	}
 }
-void ObjectCollection::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Object> in, bool sort)
+void ObjectManager::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Object> in, bool sort)
 {
 	if (IsValid(in))
 	{
@@ -30,7 +30,7 @@ void ObjectCollection::Add(const Layer::EActorLayer& inLayer, std::shared_ptr<Ob
 		}
 	}
 }
-void ObjectCollection::Append(std::vector<std::shared_ptr<Object>>& in)
+void ObjectManager::Append(std::vector<std::shared_ptr<Object>>& in)
 {
 	for (auto&& elem : in)
 	{
@@ -38,7 +38,7 @@ void ObjectCollection::Append(std::vector<std::shared_ptr<Object>>& in)
 	}
 }
 
-void ObjectCollection::Tick(DirectX11& dx, float deltaSec)
+void ObjectManager::Tick(DirectX11& dx, float deltaSec)
 {
 	RemovePendingObjects();
 
@@ -53,7 +53,7 @@ void ObjectCollection::Tick(DirectX11& dx, float deltaSec)
 		}
 	}
 }
-void ObjectCollection::Clear()
+void ObjectManager::Clear()
 {
 	for (auto&& elem : pObjects)
 	{
@@ -75,7 +75,7 @@ void ObjectCollection::Clear()
 		}
 	}
 }
-Object* ObjectCollection::GetObjectByID(int id, Layer::EActorLayer inLayer)
+Object* ObjectManager::GetObjectByID(int id, Layer::EActorLayer inLayer)
 {
 	if (id == -1)
 	{
@@ -106,7 +106,7 @@ Object* ObjectCollection::GetObjectByID(int id, Layer::EActorLayer inLayer)
 	}
 	return nullptr;
 }
-Object* ObjectCollection::GetObjectByTag(const std::wstring& inTag, Layer::EActorLayer inLayer)
+Object* ObjectManager::GetObjectByTag(const std::wstring& inTag, Layer::EActorLayer inLayer)
 {
 	if (inTag.empty())
 	{
@@ -138,7 +138,7 @@ Object* ObjectCollection::GetObjectByTag(const std::wstring& inTag, Layer::EActo
 	return nullptr;
 }
 
-void ObjectCollection::RemovePendingObjects()
+void ObjectManager::RemovePendingObjects()
 {
 	for (auto&& elem : pObjects)
 	{

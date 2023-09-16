@@ -11,7 +11,7 @@ enum class ECollisionType
 
 class CollisionComponent : public ActorComponent
 {
-	friend class CollisionCollection;
+	friend class CollisionManager;
 public:
 	CollisionComponent(Actor* inOwner);
 	virtual ~CollisionComponent();

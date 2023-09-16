@@ -26,7 +26,7 @@ class Level2D : public Level
 public:
 	Level2D(DirectX11& dx);
 	virtual ~Level2D();
-	virtual void SetObjectCollection() override;
+	virtual void SetObjectManager() override;
 
 	// ------------------------------------------------------
 	// Main

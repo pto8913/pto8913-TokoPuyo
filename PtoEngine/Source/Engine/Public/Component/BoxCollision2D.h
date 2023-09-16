@@ -10,7 +10,7 @@
 // ------------------------------------------------------
 class BoxCollision2D : public CollisionComponent, public std::enable_shared_from_this<BoxCollision2D>
 {
-	friend class CollisionCollection;
+	friend class CollisionManager;
 public:
 	BoxCollision2D(Actor* inOwner);
 	virtual ~BoxCollision2D();

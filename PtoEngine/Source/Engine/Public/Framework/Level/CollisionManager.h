@@ -5,11 +5,11 @@
 class BoxCollision;
 class Actor;
 
-class CollisionCollection
+class CollisionManager
 {
 public:
-	CollisionCollection();
-	virtual ~CollisionCollection();
+	CollisionManager();
+	virtual ~CollisionManager();
 
 	// ------------------------------------------------------
 	// Main
