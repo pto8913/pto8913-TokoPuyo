@@ -6,8 +6,6 @@
 
 #include "Helper/RectHelper.h"
 
-#define _DEBUG 1
-
 ////////////////////////////////////////////////////////////////////////////////////////
 // 
 // Container
@@ -27,6 +25,7 @@ SlateContainerBase::~SlateContainerBase()
 {
 	for (auto&& child : pChildren)
 	{
+		child.reset();
 		child = nullptr;
 	}
 	pChildren.clear();
@@ -64,6 +63,7 @@ void SlateContainerBase::RemoveChild(int idx)
 {
 	if (pChildren.size() > idx)
 	{
+		pChildren[idx].reset();
 		pChildren[idx] = nullptr;
 	}
 	pChildren.erase(pChildren.begin() + idx);
@@ -86,7 +86,15 @@ void SlateContainerBase::ClearChildren()
 {
 	for (auto&& child : pChildren)
 	{
+		child.reset();
 		child = nullptr;
+	}
+	for (auto&& child : pChildren)
+	{
+		if (child.use_count() != -1)
+		{
+			OutputDebugStringA(("slate children count : " + std::to_string(child.use_count())).c_str());
+		}
 	}
 	pChildren.erase(pChildren.begin(), pChildren.end());
 }
