@@ -50,7 +50,7 @@ void S_ChoiceBox::SetChoiceButton(const TArray<FChoiceInfos>& inChoiceInfos)
 
 			for (int i = 0; i < numOfButton; ++i)
 			{
-				auto button = std::make_shared<S_ChoiceButton>(FVector2D(GetSize().x, 30.f), pD2DRT, FChoiceInfos(), info, appearance);
+				auto button = std::make_shared<S_ChoiceButton>(pD2DRT, FVector2D(GetSize().x, 30.f), FChoiceInfos(), info, appearance);
 				AddChild(button);
 				button->GetOnChoice().Bind<&S_ChoiceBox::OnClicked>(*this, std::format("choice_button_{}", GetChildrenCount()));
 			}
