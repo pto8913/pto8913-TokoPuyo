@@ -10,7 +10,7 @@ S_ChoiceBox::S_ChoiceBox(ID2D1RenderTarget* inD2DRT, FVector2D inSize, const TAr
 	SetChoiceButton(inChoiceInfos);
 }
 S_ChoiceBox::S_ChoiceBox(ID2D1RenderTarget* inD2DRT, const TArray<FChoiceInfos>& inChoiceInfos, FSlateInfos inSlateInfos)
-	: S_ChoiceBox({0,0}, inD2DRT, inChoiceInfos, inSlateInfos)
+	: S_ChoiceBox(inD2DRT, { 0,0 }, inChoiceInfos, inSlateInfos)
 {
 }
 

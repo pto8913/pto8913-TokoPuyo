@@ -6,7 +6,7 @@ S_CanvasPanel::S_CanvasPanel(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlat
 {
 }
 S_CanvasPanel::S_CanvasPanel(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
-	: S_CanvasPanel({ 0, 0 }, inD2DRT, inSlateInfos)
+	: S_CanvasPanel(inD2DRT, { 0,0 }, inSlateInfos)
 {
 }
 S_CanvasPanel::~S_CanvasPanel()
