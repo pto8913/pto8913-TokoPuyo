@@ -12,7 +12,7 @@ class DirectX11;
 class SlateContainerBase : public SlateBase
 {
 public:
-	SlateContainerBase(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {});
+	SlateContainerBase(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos = {});
 	SlateContainerBase(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {});
 	virtual ~SlateContainerBase();
 
@@ -74,12 +74,8 @@ protected:
 class SlotContainerOnlyOne : public SlateContainerBase
 {
 public:
-	SlotContainerOnlyOne(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
-		: SlateContainerBase(inSize, inD2DRT, inSlateInfos)
-	{}
-	SlotContainerOnlyOne(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
-		: SlotContainerOnlyOne({ 0,0 }, inD2DRT, inSlateInfos)
-	{}
+	SlotContainerOnlyOne(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos = {});
+	SlotContainerOnlyOne(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {});
 
 	virtual std::string GetName() const override
 	{

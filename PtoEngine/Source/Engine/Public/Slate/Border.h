@@ -50,7 +50,7 @@ public:
 class S_Border : public SlotContainerOnlyOne
 {
 public:
-	S_Border(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateBorderAppearance inAppearance = {});
+	S_Border(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateBorderAppearance inAppearance = {});
 	S_Border(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateBorderAppearance inAppearance = {});
 	virtual ~S_Border();
 

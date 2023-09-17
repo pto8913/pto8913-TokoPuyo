@@ -1,8 +1,8 @@
 
 #include "Slate/GridPanel.h"
 
-S_GridPanel::S_GridPanel(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateGridPanelAppearance inAppearance)
-	: SlateContainerBase(inSize, inD2DRT, inSlateInfos),
+S_GridPanel::S_GridPanel(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos, FSlateGridPanelAppearance inAppearance)
+	: SlateContainerBase(inD2DRT, inSize, inSlateInfos),
 	mAppearance(inAppearance)
 {
 #if _DEBUG
@@ -12,7 +12,7 @@ S_GridPanel::S_GridPanel(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInf
 #endif
 }
 S_GridPanel::S_GridPanel(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateGridPanelAppearance inAppearance)
-	: S_GridPanel({ 0,0 }, inD2DRT, inSlateInfos, inAppearance)
+	: S_GridPanel(inD2DRT, { 0,0 }, inSlateInfos, inAppearance)
 {
 }
 S_GridPanel::~S_GridPanel()

@@ -5,8 +5,8 @@
 #include "Helper/ColorHelper.h"
 #include "Helper/RectHelper.h"
 
-S_Border::S_Border(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateBorderAppearance inAppearance)
-	: SlotContainerOnlyOne(inSize, inD2DRT, inSlateInfos)
+S_Border::S_Border(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos, FSlateBorderAppearance inAppearance)
+	: SlotContainerOnlyOne(inD2DRT, inSize, inSlateInfos)
 {
 	SetAppearance(inAppearance);
 #if _DEBUG
@@ -16,7 +16,7 @@ S_Border::S_Border(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inS
 #endif
 }
 S_Border::S_Border(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateBorderAppearance inAppearance)
-	: S_Border({ 0,0 }, inD2DRT, inSlateInfos, inAppearance)
+	: S_Border(inD2DRT, { 0,0 }, inSlateInfos, inAppearance)
 {
 }
 S_Border::~S_Border()

@@ -15,7 +15,7 @@ DECLARE_MULTICAST_DELEGATE_TwoParams(FOnChoice, DX::MouseEvent, const FChoiceInf
 class S_ChoiceButton : public S_Button
 {
 public:
-	S_ChoiceButton(FVector2D inSize, ID2D1RenderTarget* inD2DRT, const FChoiceInfos& inChoiceInfos = {}, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {});
+	S_ChoiceButton(ID2D1RenderTarget* inD2DRT, FVector2D inSize, const FChoiceInfos& inChoiceInfos = {}, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {});
 	S_ChoiceButton(ID2D1RenderTarget* inD2DRT, const FChoiceInfos& inChoiceInfos = {}, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {});
 	virtual ~S_ChoiceButton();
 

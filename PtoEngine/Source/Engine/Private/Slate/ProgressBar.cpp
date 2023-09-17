@@ -6,8 +6,8 @@
 #include "Helper/ColorHelper.h"
 #include "Helper/RectHelper.h"
 
-S_ProgressBar::S_ProgressBar(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateProgressAppearance inAppearance)
-	: SlateSlotBase(inSize, inD2DRT, inSlateInfos),
+S_ProgressBar::S_ProgressBar(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos, FSlateProgressAppearance inAppearance)
+	: SlateSlotBase(inD2DRT, inSize, inSlateInfos),
 	mAppearance(inAppearance),
 	mPercent(1.f)
 {
@@ -22,7 +22,7 @@ S_ProgressBar::S_ProgressBar(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlat
 	);
 }
 S_ProgressBar::S_ProgressBar(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateProgressAppearance inAppearance)
-	: S_ProgressBar({ 0,0 }, inD2DRT, inSlateInfos, inAppearance)
+	: S_ProgressBar(inD2DRT, { 0,0 }, inSlateInfos, inAppearance)
 {
 }
 S_ProgressBar::~S_ProgressBar()
