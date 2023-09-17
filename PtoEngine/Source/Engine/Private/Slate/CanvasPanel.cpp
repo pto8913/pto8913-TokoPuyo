@@ -11,7 +11,6 @@ S_CanvasPanel::S_CanvasPanel(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfo
 }
 S_CanvasPanel::~S_CanvasPanel()
 {
-	ClearChildren();
 }
 
 void S_CanvasPanel::Update()

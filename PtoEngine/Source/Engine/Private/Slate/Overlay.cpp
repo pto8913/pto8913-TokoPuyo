@@ -16,7 +16,6 @@ S_Overlay::S_Overlay(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
 }
 S_Overlay::~S_Overlay()
 {
-	ClearChildren();
 }
 
 // ------------------------------------------------------------------------------------------------

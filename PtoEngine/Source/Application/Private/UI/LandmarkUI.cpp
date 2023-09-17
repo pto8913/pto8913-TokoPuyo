@@ -33,10 +33,6 @@ LandmarkUI::~LandmarkUI()
 
 	pText.reset();
 	pText = nullptr;
-	if (pRootSlate != nullptr)
-	{
-		pRootSlate->ClearChildren();
-	}
 }
 
 // ------------------------------------------------------------------------------------------------------------

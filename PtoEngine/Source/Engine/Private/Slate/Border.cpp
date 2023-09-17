@@ -21,7 +21,6 @@ S_Border::S_Border(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateB
 }
 S_Border::~S_Border()
 {
-	ClearChildren();
 	Util::SafeRelease(pBitmap);
 }
 
