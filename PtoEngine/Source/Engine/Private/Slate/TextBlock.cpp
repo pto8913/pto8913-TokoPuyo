@@ -21,7 +21,7 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInf
 	SetAppearance(mAppearance);
 }
 S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
-	: S_TextBlock({ 0, 0 }, inD2DRT, inSlateInfos, inFont, inAppearance)
+	: S_TextBlock(inD2DRT, { 0,0 }, inSlateInfos, inFont, inAppearance)
 {
 }
 

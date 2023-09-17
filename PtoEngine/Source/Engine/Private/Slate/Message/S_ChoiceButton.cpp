@@ -19,7 +19,7 @@ S_ChoiceButton::S_ChoiceButton(ID2D1RenderTarget* inD2DRT, FVector2D inSize, con
 	SetChoiceInfos(inChoiceInfos);
 }
 S_ChoiceButton::S_ChoiceButton(ID2D1RenderTarget* inD2DRT, const FChoiceInfos& inChoiceInfos, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
-	: S_ChoiceButton({0,0}, inD2DRT, inChoiceInfos, inSlateInfos, inButtonAppearance)
+	: S_ChoiceButton(inD2DRT, { 0,0 }, inChoiceInfos, inSlateInfos, inButtonAppearance)
 {
 }
 S_ChoiceButton::~S_ChoiceButton()
