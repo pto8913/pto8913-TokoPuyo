@@ -109,6 +109,7 @@ Audio::~Audio()
     OutputDebugStringA("Audio Destructor");
     pSourceVoice = nullptr;
 
+    delete m_buffer.pAudioData;
     m_buffer.pAudioData = nullptr;
     m_buffer.pContext = nullptr;
     m_buffer = {};
