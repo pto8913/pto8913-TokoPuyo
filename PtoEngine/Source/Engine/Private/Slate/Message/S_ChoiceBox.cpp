@@ -16,6 +16,7 @@ S_ChoiceBox::S_ChoiceBox(ID2D1RenderTarget* inD2DRT, const TArray<FChoiceInfos>&
 
 S_ChoiceBox::~S_ChoiceBox()
 {
+	ClearChildren();
 	OnChoiceResult.ClearBind();
 }
 
