@@ -19,6 +19,14 @@ public:
 	// ------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		if (pParent != nullptr)
+		{
+			return GetName() + "_SlateContainerBase";
+		}
+		return "SlateContainerBase";
+	}
 	virtual void Draw() override;
 
 	virtual void AddChild(std::shared_ptr<SlateBase> in);
@@ -73,6 +81,14 @@ public:
 		: SlotContainerOnlyOne({ 0,0 }, inD2DRT, inSlateInfos)
 	{}
 
+	virtual std::string GetName() const override
+	{
+		if (pParent != nullptr)
+		{
+			return GetName() + "_SlotContainerOnlyOne";
+		}
+		return "SlotContainerOnlyOne";
+	}
 	virtual void AddChild(std::shared_ptr<SlateBase> in) override final;
 	virtual SlateBase* GetChildAt(int idx = 0) const noexcept override;
 protected:

@@ -14,6 +14,14 @@ public:
 	// ------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		if (pParent != nullptr)
+		{
+			return GetName() + "_S_HorizontalBox";
+		}
+		return "S_HorizontalBox";
+	}
 	virtual void Draw() override;
 protected:
 	virtual void Update() override;

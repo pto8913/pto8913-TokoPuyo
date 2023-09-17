@@ -22,6 +22,14 @@ public:
 	// ------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		if (pParent != nullptr)
+		{
+			return GetName() + "_S_GridPanel";
+		}
+		return "S_GridPanel";
+	}
 	SlateBase* GetChildAt(const int& x, const int& y);
 
 	void SetAppearance(const FSlateGridPanelAppearance& in);
