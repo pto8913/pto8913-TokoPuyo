@@ -17,7 +17,6 @@ S_HorizontalBox::S_HorizontalBox(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlate
 }
 S_HorizontalBox::~S_HorizontalBox()
 {
-	ClearChildren();
 }
 
 // ------------------------------------------------------------------------------------------------

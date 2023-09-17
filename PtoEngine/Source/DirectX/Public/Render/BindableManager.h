@@ -25,6 +25,7 @@ public:
 				++iter;
 			}
 		}
+		Binds.clear();
 	}
 	static BindableManager& Get() {
 		static BindableManager instance;

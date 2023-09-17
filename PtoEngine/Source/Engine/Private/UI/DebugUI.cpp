@@ -41,11 +41,6 @@ DebugUI::~DebugUI()
 	pText_PhysUsed = nullptr;
 	pText_PhysCurrentUsed.reset();
 	pText_PhysCurrentUsed = nullptr;
-
-	if (pRootSlate != nullptr)
-	{
-		pRootSlate->ClearChildren();
-	}
 }
 
 // ------------------------------------------------------------------------------------------------------------

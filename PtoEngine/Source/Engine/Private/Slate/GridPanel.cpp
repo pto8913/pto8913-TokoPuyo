@@ -17,7 +17,6 @@ S_GridPanel::S_GridPanel(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, F
 }
 S_GridPanel::~S_GridPanel()
 {
-	ClearChildren();
 }
 
 // ------------------------------------------------------------------------------------------------

@@ -17,7 +17,6 @@ S_VerticalBox::S_VerticalBox(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfo
 
 S_VerticalBox::~S_VerticalBox()
 {
-	ClearChildren();
 }
 
 // ------------------------------------------------------------------------------------------------------------
