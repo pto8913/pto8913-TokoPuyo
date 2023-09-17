@@ -24,6 +24,7 @@ S_ChoiceButton::S_ChoiceButton(ID2D1RenderTarget* inD2DRT, const FChoiceInfos& i
 }
 S_ChoiceButton::~S_ChoiceButton()
 {
+	ClearChildren();
 	pLabel.reset();
 	pLabel = nullptr;
 
