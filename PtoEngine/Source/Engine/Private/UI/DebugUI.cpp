@@ -41,10 +41,32 @@ DebugUI::~DebugUI()
 	pText_PhysUsed = nullptr;
 	pText_PhysCurrentUsed.reset();
 	pText_PhysCurrentUsed = nullptr;
+
+	OutputDebugStringA(("pText_FPS : " + std::to_string(pText_FPS.use_count())).c_str());
+	OutputDebugStringA(("pText_CPUUsed : " + std::to_string(pText_CPUUsed.use_count())).c_str());
+	OutputDebugStringA(("pText_CPUCurrentUsed : " + std::to_string(pText_CPUCurrentUsed.use_count())).c_str());
+	OutputDebugStringA(("pText_TotalVirtual : " + std::to_string(pText_TotalVirtual.use_count())).c_str());
+	OutputDebugStringA(("pText_VirtualUsed : " + std::to_string(pText_VirtualUsed.use_count())).c_str());
+	OutputDebugStringA(("pText_VirtualCurrentUsed : " + std::to_string(pText_VirtualCurrentUsed.use_count())).c_str());
+	OutputDebugStringA(("pText_TotalPhys : " + std::to_string(pText_TotalPhys.use_count())).c_str());
+	OutputDebugStringA(("pText_PhysUsed : " + std::to_string(pText_PhysUsed.use_count())).c_str());
+	OutputDebugStringA(("pText_PhysCurrentUsed : " + std::to_string(pText_PhysCurrentUsed.use_count())).c_str());
+
 	if (pRootSlate != nullptr)
 	{
 		pRootSlate->ClearChildren();
 	}
+
+	OutputDebugStringA(("pText_FPS : " + std::to_string(pText_FPS.use_count())).c_str());
+	OutputDebugStringA(("pText_CPUUsed : " + std::to_string(pText_CPUUsed.use_count())).c_str());
+	OutputDebugStringA(("pText_CPUCurrentUsed : " + std::to_string(pText_CPUCurrentUsed.use_count())).c_str());
+	OutputDebugStringA(("pText_TotalVirtual : " + std::to_string(pText_TotalVirtual.use_count())).c_str());
+	OutputDebugStringA(("pText_VirtualUsed : " + std::to_string(pText_VirtualUsed.use_count())).c_str());
+	OutputDebugStringA(("pText_VirtualCurrentUsed : " + std::to_string(pText_VirtualCurrentUsed.use_count())).c_str());
+	OutputDebugStringA(("pText_TotalPhys : " + std::to_string(pText_TotalPhys.use_count())).c_str());
+	OutputDebugStringA(("pText_PhysUsed : " + std::to_string(pText_PhysUsed.use_count())).c_str());
+	OutputDebugStringA(("pText_PhysCurrentUsed : " + std::to_string(pText_PhysCurrentUsed.use_count())).c_str());
+
 }
 
 // ------------------------------------------------------------------------------------------------------------
