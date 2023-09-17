@@ -91,10 +91,7 @@ void SlateContainerBase::ClearChildren()
 	}
 	for (auto&& child : pChildren)
 	{
-		if (child.use_count() != -1)
-		{
-			OutputDebugStringA(("slate children count : " + std::to_string(child.use_count())).c_str());
-		}
+		OutputDebugStringA(("slate children count : " + std::to_string(child.use_count()) + "\n").c_str());
 	}
 	pChildren.erase(pChildren.begin(), pChildren.end());
 }
