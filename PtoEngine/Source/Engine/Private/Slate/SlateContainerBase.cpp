@@ -80,7 +80,7 @@ void SlateContainerBase::RemoveChild(std::shared_ptr<SlateBase> in)
 void SlateContainerBase::ClearChildren()
 {
 	OutputDebugStringA("---------------------- ClearChildren ----------------------\n");
-	OutputDebugStringA(GetName().c_str());
+	OutputDebugStringA((GetName() + "\n").c_str());
 
 	for (auto&& child : pChildren)
 	{
