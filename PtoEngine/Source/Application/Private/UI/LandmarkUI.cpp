@@ -44,7 +44,7 @@ LandmarkUI::~LandmarkUI()
 // ------------------------------------------------------------------------------------------------------------
 void LandmarkUI::NativeOnInitialized()
 {
-	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize());
+	pRootSlate = MakeSlate<S_CanvasPanel>(EngineSettings::GetWindowSize());
 
 	/* Border */
 	{
@@ -52,7 +52,7 @@ void LandmarkUI::NativeOnInitialized()
 		borderAppearance.Type = EBorderType::Box;
 		borderAppearance.bIsFill = true;
 		borderAppearance.color = FColor(0.f, 0.f, 0.f, 1.f);
-		pEffectBorder = std::make_shared<S_Border>(EngineSettings::GetWindowSize(), FSlateInfos(), borderAppearance);
+		pEffectBorder = MakeSlate<S_Border>(EngineSettings::GetWindowSize(), FSlateInfos(), borderAppearance);
 
 		FSlateInfos textInfos;
 		textInfos.HAlign = EHorizontalAlignment::Center;
@@ -63,7 +63,7 @@ void LandmarkUI::NativeOnInitialized()
 
 		FSlateTextAppearance textAppearance;
 		textAppearance.color = FColor(1.f, 1.f, 1.f);
-		pText = std::make_shared<S_TextBlock>(textInfos, textFont, textAppearance);
+		pText = MakeSlate<S_TextBlock>(textInfos, textFont, textAppearance);
 		pText->SetText(mLandmarkName);
 
 		pRootSlate->AddChild(pEffectBorder);
