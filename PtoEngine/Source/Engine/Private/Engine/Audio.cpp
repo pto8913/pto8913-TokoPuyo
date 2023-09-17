@@ -106,7 +106,6 @@ Audio::Audio(const wchar_t* fileName)
 }
 Audio::~Audio()
 {
-    OutputDebugStringA("Audio Destructor");
     pSourceVoice = nullptr;
 
     delete m_buffer.pAudioData;
