@@ -2,6 +2,8 @@
 
 #include "UI/UserWidget.h"
 
+class S_TextBlock;
+
 class GameOverUI : public UserWidget
 {
 public:
@@ -15,6 +17,7 @@ public:
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
 	virtual void NativeOnInitialized() override;
+	void SetScore(const int& inMaxScore, const int& inMaxCombo);
 	virtual std::string GetName() const override
 	{
 		using namespace std::string_literals;
@@ -34,4 +37,7 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	int mMaxScore;
 	int mMaxCombo;
+
+	std::shared_ptr<S_TextBlock> pTextBlock_MaxScore = nullptr;
+	std::shared_ptr<S_TextBlock> pTextBlock_MaxCombo = nullptr;
 };

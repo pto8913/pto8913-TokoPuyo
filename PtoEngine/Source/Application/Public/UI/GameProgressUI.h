@@ -5,6 +5,7 @@
 class S_TextBlock;
 class S_Image;
 class S_Button;
+class S_Overlay;
 
 class GameProgressUI : public UserWidget
 {
@@ -44,6 +45,7 @@ protected:
 	// ----------------------------------------------------------
 	// State : Game State
 	// ----------------------------------------------------------
+	std::shared_ptr<S_Overlay> pOverlay_NextPuyo = nullptr;
 	std::shared_ptr<S_Image> pImage_NextPuyo1_1 = nullptr;
 	std::shared_ptr<S_Image> pImage_NextPuyo1_2 = nullptr;
 

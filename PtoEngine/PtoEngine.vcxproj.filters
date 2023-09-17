@@ -490,9 +490,6 @@
     <ClInclude Include="Source\Application\Public\Level\ObjectManager2D.h">
       <Filter>Source\Application\Public\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Framework\Level\ObjectCollection.h">
-      <Filter>Source\Engine\Public\Framework\Level</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Framework\Level\Layer.h">
       <Filter>Source\Engine\Public\Framework\Level</Filter>
     </ClInclude>
@@ -624,6 +621,24 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\UI\WidgetManager.h">
       <Filter>Source\Engine\Public\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Component\BoxCollision2D.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Component\BoxCollision.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Component\CollisionComponent.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Framework\Level\CollisionManager.h">
+      <Filter>Source\Engine\Public\Framework\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Framework\Level\ObjectManager.h">
+      <Filter>Source\Engine\Public\Framework\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Framework\Level\QuadTree.h">
+      <Filter>Source\Engine\Public\Framework\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -849,9 +864,6 @@
     <ClCompile Include="Source\Application\Private\Level\ObjectManager2D.cpp">
       <Filter>Source\Application\Private\Level</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Framework\Level\ObjectCollection.cpp">
-      <Filter>Source\Engine\Private\Framework\Level</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Application\Private\Level\Level_TokoPuyo.cpp">
       <Filter>Source\Application\Private\Level</Filter>
     </ClCompile>
@@ -962,6 +974,21 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\UI\WidgetManager.cpp">
       <Filter>Source\Engine\Private\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Framework\Level\ObjectManager.cpp">
+      <Filter>Source\Engine\Private\Framework\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Framework\Level\QuadTree.cpp">
+      <Filter>Source\Engine\Private\Framework\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Framework\Level\CollisionManager.cpp">
+      <Filter>Source\Engine\Private\Framework\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Component\BoxCollision.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Component\CollisionComponent.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

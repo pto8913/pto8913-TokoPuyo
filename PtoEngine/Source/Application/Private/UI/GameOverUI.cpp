@@ -32,6 +32,12 @@ GameOverUI::~GameOverUI()
 {
 	OnClickedRestart.ClearBind();
 	OnClickedPause.ClearBind();
+
+	pTextBlock_MaxScore.reset();
+	pTextBlock_MaxScore = nullptr;
+
+	pTextBlock_MaxCombo.reset();
+	pTextBlock_MaxCombo = nullptr;
 }
 
 // ------------------------------------------------------------------------------------------------------------
@@ -39,11 +45,11 @@ GameOverUI::~GameOverUI()
 // ------------------------------------------------------------------------------------------------------------
 void GameOverUI::NativeOnInitialized()
 {
-	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), pRt2D);
+	pRootSlate = MakeSlate<S_CanvasPanel>(EngineSettings::GetWindowSize());
 
 	FSlateInfos SlateInfos;
 	SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-	auto InfosVB = std::make_shared<S_VerticalBox>(GameSettings::GAMEUI_SIZE, pRt2D, SlateInfos);
+	auto InfosVB = MakeSlate<S_VerticalBox>(GameSettings::GAMEUI_SIZE, SlateInfos);
 	InfosVB->SetPosition(
 		{
 			(EngineSettings::GetWindowSize().x / 2.f) - (GameSettings::GAMEUI_SIZE.x / 2.f),
@@ -51,7 +57,7 @@ void GameOverUI::NativeOnInitialized()
 		}
 	);
 
-	auto pSpacer = std::make_shared<S_Spacer>(FVector2D(0.f, 80.f), pRt2D);
+	auto pSpacer = MakeSlate<S_Spacer>(FVector2D(0.f, 80.f));
 	InfosVB->AddChild(pSpacer);
 
 	/* GameOverText */
@@ -64,7 +70,7 @@ void GameOverUI::NativeOnInitialized()
 		font.fontSize = 40.f;
 		FSlateInfos slateInfo;
 		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pText_GameOver = std::make_shared<S_TextBlock>(pRt2D, slateInfo, font, textGameOver);
+		auto pText_GameOver = MakeSlate<S_TextBlock>(slateInfo, font, textGameOver);
 		pText_GameOver->SetText(L"GAME OVER");
 		InfosVB->AddChild(pText_GameOver);
 	}
@@ -78,10 +84,10 @@ void GameOverUI::NativeOnInitialized()
 		textAppearance.vAlign = EVerticalAlignment::Center;
 		textAppearance.hAlign = EHorizontalAlignment::Left;
 
-		auto pTextBlock_MaxScore = std::make_shared<S_TextBlock>(pRt2D, scoreSlateInfos, FSlateFont(), textAppearance);
+		pTextBlock_MaxScore = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), textAppearance);
 		InfosVB->AddChild(pTextBlock_MaxScore);
 
-		auto pTextBlock_MaxCombo = std::make_shared<S_TextBlock>(pRt2D, scoreSlateInfos, FSlateFont(), textAppearance);
+		pTextBlock_MaxCombo = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), textAppearance);
 		InfosVB->AddChild(pTextBlock_MaxCombo);
 		if (pTextBlock_MaxScore)
 		{
@@ -98,12 +104,12 @@ void GameOverUI::NativeOnInitialized()
 	{
 		FSlateInfos SlateInfos;
 		SlateInfos.padding = { 5.f, 5.f, 5.f, 5.f };
-		auto pButton = std::make_shared<S_Button>(FVector2D(150.f, 40.f), pRt2D, SlateInfos);
+		auto pButton = MakeSlate<S_Button>(FVector2D(150.f, 40.f), SlateInfos);
 
 		FSlateInfos LabelInfos;
 		LabelInfos.VAlign = EVerticalAlignment::Center;
 		LabelInfos.HAlign = EHorizontalAlignment::Center;
-		auto pLabel = std::make_shared<S_TextBlock>(pRt2D, LabelInfos);
+		auto pLabel = MakeSlate<S_TextBlock>(LabelInfos);
 		pLabel->SetText(label);
 		pButton->AddChild(pLabel);
 
@@ -121,6 +127,19 @@ void GameOverUI::NativeOnInitialized()
 	pRootSlate->SetPosition({ 0, 0 });
 	pRootSlate->UpdateWidget();
 	UserWidget::NativeOnInitialized();
+}
+void GameOverUI::SetScore(const int& inMaxScore, const int& inMaxCombo)
+{
+	mMaxScore = inMaxScore;
+	mMaxCombo = inMaxCombo;
+	if (pTextBlock_MaxScore)
+	{
+		pTextBlock_MaxScore->SetText(std::format(L"Max Score : {}", mMaxScore));
+	}
+	if (pTextBlock_MaxCombo)
+	{
+		pTextBlock_MaxCombo->SetText(std::format(L"Max Combo : {}", mMaxCombo));
+	}
 }
 void GameOverUI::OnClickedRestartButton(DX::MouseEvent inMouseEvent)
 {

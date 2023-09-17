@@ -119,6 +119,23 @@ void Level_TokoPuyo::Clear()
 	nextPuyo2_1 = GameSettings::EMPTY_PUYO;
 	nextPuyo2_2 = GameSettings::EMPTY_PUYO;
 
+	for (auto&& layer : GetObjectManager()->pObjects)
+	{
+		auto iter = layer.second.begin();
+		while (iter != layer.second.end())
+		{
+			auto& obj = *iter;
+			if (obj != nullptr)
+			{
+				if (obj->HasTag(GameSettings::PUYO_TAG))
+				{
+					obj->MarkPendingKill();
+				}
+			}
+			++iter;
+		}
+	}
+
 	unionFind.clear();
 
 	for (auto& row : stackedPuyo)

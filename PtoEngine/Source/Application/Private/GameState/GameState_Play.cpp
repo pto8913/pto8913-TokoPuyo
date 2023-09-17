@@ -58,7 +58,12 @@ void GameState_Play::SetGameProgress(DirectX11& dx, EGameProgress NewState)
 				mMaxCombo
 			);
 			pGameOverUI->OnClickedRestart.Bind<&GameState_Play::OnClickedRestartFromGameOver>(*this, "GameState");
-			pGameOverUI->AddToViewport();
+		}
+		pGameOverUI->SetScore(mMaxScore, mMaxCombo);
+		pGameOverUI->AddToViewport();
+		if (pGameProgressUI)
+		{
+			pGameProgressUI->RemoveFromParent();
 		}
 		break;
 	default:
@@ -69,10 +74,13 @@ void GameState_Play::SetGameProgress(DirectX11& dx, EGameProgress NewState)
 				dx,
 				GetWorld()->GetPlayerController()->GetMouse()
 			);
-
 			pGameProgressUI->OnClickedRestart.Bind<&GameState_Play::OnClickedRestart>(*this, "GameState");
 			pGameProgressUI->OnClickedPause.Bind<&GameState_Play::OnClickedPause>(*this, "GameState");
-			pGameProgressUI->AddToViewport();
+		}
+		pGameProgressUI->AddToViewport();
+		if (pGameOverUI)
+		{
+			pGameOverUI->RemoveFromParent();
 		}
 		break;
 	}

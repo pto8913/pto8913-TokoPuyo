@@ -27,6 +27,9 @@ GameProgressUI::~GameProgressUI()
 	OnClickedRestart.ClearBind();
 	OnClickedPause.ClearBind();
 
+	pOverlay_NextPuyo.reset();
+	pOverlay_NextPuyo = nullptr;
+
 	pImage_NextPuyo1_1.reset();
 	pImage_NextPuyo1_1 = nullptr;
 	pImage_NextPuyo1_2.reset();
@@ -56,11 +59,11 @@ GameProgressUI::~GameProgressUI()
 // ------------------------------------------------------------------------------------------------------------
 void GameProgressUI::NativeOnInitialized()
 {
-	pRootSlate = std::make_shared<S_CanvasPanel>(EngineSettings::GetWindowSize(), pRt2D);
+	pRootSlate = MakeSlate<S_CanvasPanel>(EngineSettings::GetWindowSize());
 
 	FSlateInfos SlateInfos;
 	SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-	auto InfosVB = std::make_shared<S_VerticalBox>(FVector2D(300.f, 768.f), pRt2D, SlateInfos);
+	auto InfosVB = MakeSlate<S_VerticalBox>(FVector2D(300.f, 768.f), SlateInfos);
 	pRootSlate->AddChild(InfosVB);
 	InfosVB->SetPosition({ 416, GameSettings::GAMESCREEN_PADDING.y });
 
@@ -73,7 +76,7 @@ void GameProgressUI::NativeOnInitialized()
 		font.fontSize = 30.f;
 		FSlateInfos slateInfo;
 		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pTextBlock_GameMode = std::make_shared<S_TextBlock>(pRt2D, slateInfo, font, textAppearance);
+		auto pTextBlock_GameMode = MakeSlate<S_TextBlock>(slateInfo, font, textAppearance);
 		pTextBlock_GameMode->SetText(L"TokoPuyo");
 
 		InfosVB->AddChild(pTextBlock_GameMode);
@@ -86,57 +89,56 @@ void GameProgressUI::NativeOnInitialized()
 		textAppearance.hAlign = EHorizontalAlignment::Center;
 		FSlateInfos slateInfo;
 		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pTextBlock_NextPuyo = std::make_shared<S_TextBlock>(pRt2D, slateInfo, FSlateFont(), textAppearance);
+		auto pTextBlock_NextPuyo = MakeSlate<S_TextBlock>(slateInfo, FSlateFont(), textAppearance);
 		pTextBlock_NextPuyo->SetText(L"Next Puyo");
+		//InfosVB->AddChild(pTextBlock_NextPuyo);
 
 		FSlateInfos Overlay;
 		Overlay.padding = { 5.f, 15.f , 5.f, 15.f };
 		Overlay.HAlign = EHorizontalAlignment::Center;
-		auto pOverlay_NextPuyo1 = std::make_shared<S_Overlay>(FVector2D(150.f, 250.f), pRt2D, Overlay);
+		pOverlay_NextPuyo = MakeSlate<S_Overlay>(FVector2D(150.f, 250.f), Overlay);
+		InfosVB->AddChild(pOverlay_NextPuyo);
 
 		FSlateInfos SlateInfoNextPuyo;
 		SlateInfoNextPuyo.HAlign = EHorizontalAlignment::Center;
 		SlateInfoNextPuyo.VAlign = EVerticalAlignment::Center;
-
-		FSlateInfos SlateInfoNextPuyo1VB;
-		SlateInfoNextPuyo1VB.HAlign = EHorizontalAlignment::Left;
-		SlateInfoNextPuyo1VB.VAlign = EVerticalAlignment::Top;
-		SlateInfoNextPuyo1VB.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pRootSlate_NextPuyo1 = std::make_shared<S_VerticalBox>(FVector2D(64.f, 128.f), pRt2D, SlateInfoNextPuyo1VB);
-
-		if (pImage_NextPuyo1_1 == nullptr)
 		{
-			pImage_NextPuyo1_1 = std::make_shared<S_Image>(FVector2D(64.f, 64.f), pRt2D, SlateInfoNextPuyo);
+			FSlateInfos SlateInfoNextPuyo1VB;
+			SlateInfoNextPuyo1VB.HAlign = EHorizontalAlignment::Left;
+			SlateInfoNextPuyo1VB.VAlign = EVerticalAlignment::Top;
+			SlateInfoNextPuyo1VB.padding = { 5.f, 5.f , 5.f, 5.f };
+			auto pRootSlate_NextPuyo1 = MakeSlate<S_VerticalBox>(FVector2D(64.f, 128.f), SlateInfoNextPuyo1VB);
+
+			if (pImage_NextPuyo1_1 == nullptr)
+			{
+				pImage_NextPuyo1_1 = MakeSlate<S_Image>(FVector2D(64.f, 64.f), SlateInfoNextPuyo);
+			}
+			if (pImage_NextPuyo1_2 == nullptr)
+			{
+				pImage_NextPuyo1_2 = MakeSlate<S_Image>(FVector2D(64.f, 64.f), SlateInfoNextPuyo);
+			}
+			pOverlay_NextPuyo->AddChild(pRootSlate_NextPuyo1);
+			pRootSlate_NextPuyo1->AddChild(pImage_NextPuyo1_1);
+			pRootSlate_NextPuyo1->AddChild(pImage_NextPuyo1_2);
 		}
-		if (pImage_NextPuyo1_2 == nullptr)
 		{
-			pImage_NextPuyo1_2 = std::make_shared<S_Image>(FVector2D(64.f, 64.f), pRt2D, SlateInfoNextPuyo);
+			FSlateInfos SlateInfoNextPuyo2VB;
+			SlateInfoNextPuyo2VB.HAlign = EHorizontalAlignment::Right;
+			SlateInfoNextPuyo2VB.VAlign = EVerticalAlignment::Bottom;
+			SlateInfoNextPuyo2VB.padding = { 5.f, 5.f , 5.f, 5.f };
+			auto pRootSlate_NextPuyo2 = MakeSlate<S_VerticalBox>(FVector2D(32.f, 64.f), SlateInfoNextPuyo2VB);
+			if (pImage_NextPuyo2_1 == nullptr)
+			{
+				pImage_NextPuyo2_1 = MakeSlate<S_Image>(FVector2D(32.f, 32.f), SlateInfoNextPuyo);
+			}
+			if (pImage_NextPuyo2_2 == nullptr)
+			{
+				pImage_NextPuyo2_2 = MakeSlate<S_Image>(FVector2D(32.f, 32.f), SlateInfoNextPuyo);
+			}
+			pOverlay_NextPuyo->AddChild(pRootSlate_NextPuyo2);
+			pRootSlate_NextPuyo2->AddChild(pImage_NextPuyo2_1);
+			pRootSlate_NextPuyo2->AddChild(pImage_NextPuyo2_2);
 		}
-
-		FSlateInfos SlateInfoNextPuyo2VB;
-		SlateInfoNextPuyo2VB.HAlign = EHorizontalAlignment::Right;
-		SlateInfoNextPuyo2VB.VAlign = EVerticalAlignment::Bottom;
-		SlateInfoNextPuyo2VB.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pRootSlate_NextPuyo2 = std::make_shared<S_VerticalBox>(FVector2D(32.f, 64.f), pRt2D, SlateInfoNextPuyo2VB);
-		if (pImage_NextPuyo2_1 == nullptr)
-		{
-			pImage_NextPuyo2_1 = std::make_shared<S_Image>(FVector2D(32.f, 32.f), pRt2D, SlateInfoNextPuyo);
-		}
-		if (pImage_NextPuyo2_2 == nullptr)
-		{
-			pImage_NextPuyo2_2 = std::make_shared<S_Image>(FVector2D(32.f, 32.f), pRt2D, SlateInfoNextPuyo);
-		}
-		//InfosVB->AddChild(pTextBlock_NextPuyo);
-
-		InfosVB->AddChild(pOverlay_NextPuyo1);
-
-		pOverlay_NextPuyo1->AddChild(pRootSlate_NextPuyo1);
-		pRootSlate_NextPuyo1->AddChild(pImage_NextPuyo1_1);
-		pRootSlate_NextPuyo1->AddChild(pImage_NextPuyo1_2);
-
-		pOverlay_NextPuyo1->AddChild(pRootSlate_NextPuyo2);
-		pRootSlate_NextPuyo2->AddChild(pImage_NextPuyo2_1);
-		pRootSlate_NextPuyo2->AddChild(pImage_NextPuyo2_2);
 	}
 
 	/* how to control */
@@ -149,23 +151,23 @@ void GameProgressUI::NativeOnInitialized()
 		Appearance.vAlign = EVerticalAlignment::Center;
 		Appearance.hAlign = EHorizontalAlignment::Left;
 
-		auto pText_Control1 = std::make_shared<S_TextBlock>(pRt2D, SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control1 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
 		pText_Control1->SetText(L" Å™ : Turn Right");
 
-		auto pText_Control2 = std::make_shared<S_TextBlock>(pRt2D, SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control2 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
 		pText_Control2->SetText(L"Å© : Move Left");
 
-		auto pText_Control3 = std::make_shared<S_TextBlock>(pRt2D, SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control3 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
 		pText_Control3->SetText(L"Å® : Move Right");
 
-		auto pText_Control4 = std::make_shared<S_TextBlock>(pRt2D, SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control4 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
 		pText_Control4->SetText(L" Å´ : Move Bottom");
 
-		auto pText_Control5 = std::make_shared<S_TextBlock>(pRt2D, SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control5 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
 		pText_Control5->SetText(L" Z : Turn Left");
 
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 20.f };
-		auto pText_Control6 = std::make_shared<S_TextBlock>(pRt2D, SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control6 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
 		pText_Control6->SetText(L" X : Turn Right");
 
 		InfosVB->AddChild(pText_Control1);
@@ -186,19 +188,19 @@ void GameProgressUI::NativeOnInitialized()
 		scoreAppearance.hAlign = EHorizontalAlignment::Left;
 		if (pTextBlock_MaxScore == nullptr)
 		{
-			pTextBlock_MaxScore = std::make_shared<S_TextBlock>(pRt2D, scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_MaxScore = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		if (pTextBlock_MaxCombo == nullptr)
 		{
-			pTextBlock_MaxCombo = std::make_shared<S_TextBlock>(pRt2D, scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_MaxCombo = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		if (pTextBlock_Score == nullptr)
 		{
-			pTextBlock_Score = std::make_shared<S_TextBlock>(pRt2D, scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_Score = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		if (pTextBlock_Combo == nullptr)
 		{
-			pTextBlock_Combo = std::make_shared<S_TextBlock>(pRt2D, scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_Combo = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		InfosVB->AddChild(pTextBlock_MaxScore);
 		InfosVB->AddChild(pTextBlock_MaxCombo);
@@ -212,13 +214,13 @@ void GameProgressUI::NativeOnInitialized()
 	{
 		FSlateInfos SlateInfos;
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
-		auto pButton = std::make_shared<S_Button>(FVector2D(150.f, 40.f), pRt2D, SlateInfos);
+		auto pButton = MakeSlate<S_Button>(FVector2D(150.f, 40.f), SlateInfos);
 		pButton->ClearChildren();
 
 		FSlateInfos LabelInfos;
 		LabelInfos.VAlign = EVerticalAlignment::Center;
 		LabelInfos.HAlign = EHorizontalAlignment::Center;
-		auto pLabel = std::make_shared<S_TextBlock>(pRt2D, LabelInfos);
+		auto pLabel = MakeSlate<S_TextBlock>(LabelInfos);
 		pButton->AddChild(pLabel);
 		pLabel->SetText(label);
 

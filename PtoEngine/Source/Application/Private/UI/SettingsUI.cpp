@@ -32,13 +32,13 @@ void SettingsUI::NativeOnInitialized()
 	const auto windowSize = EngineSettings::GetWindowSize();
 	const auto padding = GameSettings::GAMESCREEN_PADDING;
 
-	pRootSlate = std::make_shared<S_CanvasPanel>(windowSize, pRt2D);
+	pRootSlate = MakeSlate<S_CanvasPanel>(windowSize);
 	pRootSlate->SetPosition({ 0, 0 });
 
 	FSlateInfos menuVBInfos;
 	menuVBInfos.VAlign = EVerticalAlignment::Center;
 	const FVector2D menuVBSize = { windowSize.x / 2, windowSize.y / 2.f };
-	auto pMenuVB = std::make_shared<S_VerticalBox>(menuVBSize, pRt2D, menuVBInfos);
+	auto pMenuVB = MakeSlate<S_VerticalBox>(menuVBSize, menuVBInfos);
 	pMenuVB->SetPosition({ windowSize.x / 2 - menuVBSize.x / 2, windowSize.y / 2 - menuVBSize.y / 2 + padding.y });
 	pRootSlate->AddChild(pMenuVB);
 
@@ -46,19 +46,19 @@ void SettingsUI::NativeOnInitialized()
 		FSlateInfos settingsVBInfos;
 		settingsVBInfos.VAlign = EVerticalAlignment::Center;
 		const FVector2D settingsVBSize = { windowSize.x / 2, windowSize.y / 2.f - 40.f };
-		auto pSettingsVB = std::make_shared<S_VerticalBox>(pRt2D, settingsVBInfos); //settingsVBSize, pRt2D, settingsVBInfos);
+		auto pSettingsVB = MakeSlate<S_VerticalBox>(settingsVBInfos); //settingsVBSize, settingsVBInfos);
 		pMenuVB->AddChild(pSettingsVB);
 
 		/* Audio Settings */
 		{
 			FSlateInfos HBInfos;
 			HBInfos.HAlign = EHorizontalAlignment::Center;
-			auto pHB = std::make_shared<S_HorizontalBox>(FVector2D(300.f, 40.f), pRt2D, HBInfos);
+			auto pHB = MakeSlate<S_HorizontalBox>(FVector2D(300.f, 40.f), HBInfos);
 
 			FSlateInfos textInfos;
 			FSlateFont font;
 			FSlateTextAppearance textAppearance;
-			auto pTextBlock = std::make_shared<S_TextBlock>(FVector2D(75.f, 40.f), pRt2D, textInfos, font, textAppearance);
+			auto pTextBlock = MakeSlate<S_TextBlock>(FVector2D(75.f, 40.f), textInfos, font, textAppearance);
 			pTextBlock->SetText(L"‰¹—Ê");
 
 			currentAudioValue = GameSettings::GetAudioVolume();
@@ -66,13 +66,13 @@ void SettingsUI::NativeOnInitialized()
 			FSlateInfos textAudioVolumeInfos;
 			FSlateFont fontAudioVolume;
 			FSlateTextAppearance textAudioVolumeAppearance;
-			pText_AudioVolume = std::make_shared<S_TextBlock>(FVector2D(50.f, 40.f), pRt2D, textAudioVolumeInfos, fontAudioVolume, textAudioVolumeAppearance);
+			pText_AudioVolume = MakeSlate<S_TextBlock>(FVector2D(50.f, 40.f), textAudioVolumeInfos, fontAudioVolume, textAudioVolumeAppearance);
 
 			FSlateInfos infos;
 			FSlateSliderAppearance appearance;
 			appearance.sliderLineThickness = 2.f;
 			appearance.step = 0.01f;
-			auto pVolumeSlider = std::make_shared<S_Slider>(FVector2D(175.f, 40.f), pRt2D, infos, appearance);
+			auto pVolumeSlider = MakeSlate<S_Slider>(FVector2D(175.f, 40.f), infos, appearance);
 			pVolumeSlider->SetMaxValue(100.f);
 			pVolumeSlider->OnValueChanged.Bind<&SettingsUI::OnAudioVolumeChanged>(*this, "SettingsUI");
 			pVolumeSlider->SetValue(currentAudioValue);
@@ -90,7 +90,7 @@ void SettingsUI::NativeOnInitialized()
 		FSlateInfos infos;
 		infos.padding = { 2.5f, 0.f, 2.5f, 0.f };
 		FSlateButtonAppearance appearance;
-		auto pButton = std::make_shared<S_Button>(FVector2D(145.f, 40.f), pRt2D, infos, appearance);
+		auto pButton = MakeSlate<S_Button>(FVector2D(145.f, 40.f), infos, appearance);
 
 		/* Label */
 		{
@@ -102,7 +102,7 @@ void SettingsUI::NativeOnInitialized()
 			font.fontSize = 30.f;
 			FSlateTextAppearance appearance;
 
-			auto pTextBlock = std::make_shared<S_TextBlock>(pRt2D, infos, font, appearance);
+			auto pTextBlock = MakeSlate<S_TextBlock>(infos, font, appearance);
 			pTextBlock->SetText(mode);
 			pButton->AddChild(pTextBlock);
 		}
@@ -113,7 +113,7 @@ void SettingsUI::NativeOnInitialized()
 	FSlateInfos buttonHBinfos;
 	buttonHBinfos.HAlign = EHorizontalAlignment::Center;
 	buttonHBinfos.padding = { 0.f,2.5f,0.f,2.5f };
-	auto pButtonsHB = std::make_shared<S_HorizontalBox>(FVector2D(300.f, 40.f), pRt2D, buttonHBinfos);
+	auto pButtonsHB = MakeSlate<S_HorizontalBox>(FVector2D(300.f, 40.f), buttonHBinfos);
 	pMenuVB->AddChild(pButtonsHB);
 
 	/*  Button Save */

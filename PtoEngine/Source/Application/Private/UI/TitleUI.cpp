@@ -27,13 +27,13 @@ void TitleUI::NativeOnInitialized()
 	const auto windowSize = EngineSettings::GetWindowSize();
 	const auto padding = GameSettings::GAMESCREEN_PADDING;
 
-	pRootSlate = std::make_shared<S_CanvasPanel>(windowSize, pRt2D);
+	pRootSlate = MakeSlate<S_CanvasPanel>(windowSize);
 	pRootSlate->SetPosition({ 0, 0 });
 
 	FSlateInfos menuVBInfos;
 	menuVBInfos.VAlign = EVerticalAlignment::Center;
 	const FVector2D menuVBSize = { windowSize.x / 2, windowSize.y / 2.f };
-	auto pMenuVB = std::make_shared<S_VerticalBox>(menuVBSize, pRt2D, menuVBInfos);
+	auto pMenuVB = MakeSlate<S_VerticalBox>(menuVBSize, menuVBInfos);
 	pMenuVB->SetPosition({ windowSize.x / 2 - menuVBSize.x / 2, windowSize.y / 2 - menuVBSize.y / 2 + padding.y });
 	pRootSlate->AddChild(pMenuVB);
 
@@ -46,12 +46,12 @@ void TitleUI::NativeOnInitialized()
 		font.fontSize = 60.f;
 		FSlateTextAppearance appearance;
 
-		auto pTextBlock = std::make_shared<S_TextBlock>(pRt2D, infos, font, appearance);
+		auto pTextBlock = MakeSlate<S_TextBlock>(infos, font, appearance);
 		pTextBlock->SetText(L"pto8193 ‚Õ‚æ‚Õ‚æ");
 		pMenuVB->AddChild(pTextBlock);
 	}
 
-	auto pSpacer = std::make_shared<S_Spacer>(FVector2D(0.f, 100.f), pRt2D);
+	auto pSpacer = MakeSlate<S_Spacer>(FVector2D(0.f, 100.f));
 	pMenuVB->AddChild(pSpacer);
 
 	/* Button */
@@ -61,7 +61,7 @@ void TitleUI::NativeOnInitialized()
 		infos.HAlign = EHorizontalAlignment::Center;
 		infos.padding = { 0.f, 2.5f, 0.f, 2.5f };
 		FSlateButtonAppearance appearance;
-		auto pButton = std::make_shared<S_Button>(FVector2D(200.f, 40.f), pRt2D, infos, appearance);
+		auto pButton = MakeSlate<S_Button>(FVector2D(200.f, 40.f), infos, appearance);
 
 		/* Label */
 		{
@@ -73,7 +73,7 @@ void TitleUI::NativeOnInitialized()
 			font.fontSize = 30.f;
 			FSlateTextAppearance appearance;
 
-			auto pTextBlock = std::make_shared<S_TextBlock>(pRt2D, infos, font, appearance);
+			auto pTextBlock = MakeSlate<S_TextBlock>(infos, font, appearance);
 			pTextBlock->SetText(mode);
 			pButton->AddChild(pTextBlock);
 		}
