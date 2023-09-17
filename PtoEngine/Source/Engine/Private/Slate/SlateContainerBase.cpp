@@ -23,12 +23,7 @@ SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inD2DRT, FSlateInfos i
 }
 SlateContainerBase::~SlateContainerBase()
 {
-	for (auto&& child : pChildren)
-	{
-		child.reset();
-		child = nullptr;
-	}
-	pChildren.clear();
+	ClearChildren();
 }
 
 // ------------------------------------------------------------------------------------------------
