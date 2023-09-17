@@ -25,6 +25,7 @@ S_Button::S_Button(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateB
 S_Button::~S_Button()
 {
 	OnClicked.ClearBind();
+	ClearChildren();
 }
 
 // ------------------------------------------------------------------------------------------------------------
