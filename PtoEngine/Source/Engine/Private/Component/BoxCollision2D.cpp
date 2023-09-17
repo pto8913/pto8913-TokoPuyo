@@ -21,7 +21,6 @@ BoxCollision2D::BoxCollision2D(Actor* inOwner)
 	: CollisionComponent(inOwner)
 {
 }
-
 BoxCollision2D::~BoxCollision2D()
 {
 }

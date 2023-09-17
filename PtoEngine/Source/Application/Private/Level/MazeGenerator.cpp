@@ -22,8 +22,6 @@ using namespace DirectX;
 using namespace Math;
 using namespace Algo;
 
-#define _DEBUG 1
-
 #if _DEBUG
 #include <format>
 #endif
