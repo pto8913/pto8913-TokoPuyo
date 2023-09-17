@@ -20,10 +20,6 @@ DebugUI::DebugUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::
 }
 DebugUI::~DebugUI()
 {
-	if (pRootSlate != nullptr)
-	{
-		pRootSlate->ClearChildren();
-	}
 	pText_FPS.reset();
 	pText_FPS = nullptr;
 
@@ -45,6 +41,10 @@ DebugUI::~DebugUI()
 	pText_PhysUsed = nullptr;
 	pText_PhysCurrentUsed.reset();
 	pText_PhysCurrentUsed = nullptr;
+	if (pRootSlate != nullptr)
+	{
+		pRootSlate->ClearChildren();
+	}
 }
 
 // ------------------------------------------------------------------------------------------------------------
