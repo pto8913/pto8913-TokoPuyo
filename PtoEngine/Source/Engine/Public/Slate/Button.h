@@ -31,7 +31,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_S_Button";
+			return pParent->GetName() + "_S_Button";
 		}
 		return "S_Button";
 	}

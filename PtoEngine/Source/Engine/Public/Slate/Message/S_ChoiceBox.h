@@ -26,7 +26,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_S_ChoiceBox";
+			return pParent->GetName() + "_S_ChoiceBox";
 		}
 		return "S_ChoiceBox";
 	}

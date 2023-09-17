@@ -18,7 +18,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_S_Spacer";
+			return pParent->GetName() + "_S_Spacer";
 		}
 		return "S_Spacer";
 	}

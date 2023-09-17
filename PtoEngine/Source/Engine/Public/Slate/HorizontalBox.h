@@ -18,7 +18,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_S_HorizontalBox";
+			return pParent->GetName() + "_S_HorizontalBox";
 		}
 		return "S_HorizontalBox";
 	}
