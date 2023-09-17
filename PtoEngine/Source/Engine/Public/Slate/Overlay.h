@@ -16,7 +16,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_S_Overlay";
+			return pParent->GetName() + "_S_Overlay";
 		}
 		return "S_Overlay";
 	}

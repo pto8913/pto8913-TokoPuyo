@@ -79,7 +79,7 @@ void SlateContainerBase::RemoveChild(std::shared_ptr<SlateBase> in)
 }
 void SlateContainerBase::ClearChildren()
 {
-	OutputDebugStringA("---------------------- ClearChildren ----------------------");
+	OutputDebugStringA("---------------------- ClearChildren ----------------------\n");
 	OutputDebugStringA(GetName().c_str());
 
 	for (auto&& child : pChildren)
@@ -92,7 +92,7 @@ void SlateContainerBase::ClearChildren()
 		OutputDebugStringA(("slate children count : " + std::to_string(child.use_count()) + "\n").c_str());
 	}
 	pChildren.erase(pChildren.begin(), pChildren.end());
-	OutputDebugStringA("-----------------------------------------------------------");
+	OutputDebugStringA("-----------------------------------------------------------\n");
 }
 
 void SlateContainerBase::UpdateWidget()

@@ -52,7 +52,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_S_Slider";
+			return pParent->GetName() + "_S_Slider";
 		}
 		return "S_Slider";
 	}

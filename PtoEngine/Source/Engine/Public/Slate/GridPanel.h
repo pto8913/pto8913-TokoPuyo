@@ -26,7 +26,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_S_GridPanel";
+			return pParent->GetName() + "_S_GridPanel";
 		}
 		return "S_GridPanel";
 	}

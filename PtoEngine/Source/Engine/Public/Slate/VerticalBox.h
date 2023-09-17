@@ -15,7 +15,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_S_VerticalBox";
+			return pParent->GetName() + "_S_VerticalBox";
 		}
 		return "S_VerticalBox";
 	}

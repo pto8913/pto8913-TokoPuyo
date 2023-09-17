@@ -16,7 +16,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_S_Image";
+			return pParent->GetName() + "_S_Image";
 		}
 		return "S_Image";
 	}

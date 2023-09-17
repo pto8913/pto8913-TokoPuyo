@@ -16,7 +16,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_S_CanvasPanel";
+			return pParent->GetName() + "_S_CanvasPanel";
 		}
 		return "S_CanvasPanel";
 	}

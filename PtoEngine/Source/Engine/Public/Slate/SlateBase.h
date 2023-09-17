@@ -68,7 +68,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_SlateBase";
+			return pParent->GetName() + "_SlateBase";
 		}
 		return "SlateBase";
 	}

@@ -23,7 +23,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_SlateContainerBase";
+			return pParent->GetName() + "_SlateContainerBase";
 		}
 		return "SlateContainerBase";
 	}
@@ -85,7 +85,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_SlotContainerOnlyOne";
+			return pParent->GetName() + "_SlotContainerOnlyOne";
 		}
 		return "SlotContainerOnlyOne";
 	}

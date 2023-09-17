@@ -61,7 +61,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_S_Border";
+			return pParent->GetName() + "_S_Border";
 		}
 		return "S_Border";
 	}

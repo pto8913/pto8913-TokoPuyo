@@ -83,7 +83,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_S_TextBlock";
+			return pParent->GetName() + "_S_TextBlock";
 		}
 		return "S_TextBlock";
 	}

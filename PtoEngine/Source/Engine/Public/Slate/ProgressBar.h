@@ -29,7 +29,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_S_ProgressBar";
+			return pParent->GetName() + "_S_ProgressBar";
 		}
 		return "S_ProgressBar";
 	}

@@ -16,7 +16,7 @@ public:
 	{
 		if (pParent != nullptr)
 		{
-			return GetName() + "_SlateSlotBase";
+			return pParent->GetName() + "_SlateSlotBase";
 		}
 		return "SlateSlotBase";
 	}
