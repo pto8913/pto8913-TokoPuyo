@@ -21,10 +21,6 @@ LandmarkUI::LandmarkUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx
 }
 LandmarkUI::~LandmarkUI()
 {
-	if (pRootSlate != nullptr)
-	{
-		pRootSlate->ClearChildren();
-	}
 	Anim_blackout.Deactivate();
 	Anim_blackout.Clear();
 
@@ -37,6 +33,10 @@ LandmarkUI::~LandmarkUI()
 
 	pText.reset();
 	pText = nullptr;
+	if (pRootSlate != nullptr)
+	{
+		pRootSlate->ClearChildren();
+	}
 }
 
 // ------------------------------------------------------------------------------------------------------------
