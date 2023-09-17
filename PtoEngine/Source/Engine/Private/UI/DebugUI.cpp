@@ -53,12 +53,12 @@ DebugUI::~DebugUI()
 void DebugUI::NativeOnInitialized()
 {
 	const auto windowSize = EngineSettings::GetWindowSize();
-	pRootSlate = std::make_shared<S_CanvasPanel>(windowSize, pRt2D);
+	pRootSlate = MakeSlate<S_CanvasPanel>(windowSize);
 	pRootSlate->SetPosition({ 0, 0 });
 
 	FSlateInfos menuVBInfos;
 	menuVBInfos.padding = { 5.f, 5.f, 0.f, 0.f };
-	auto menuVB = std::make_shared<S_VerticalBox>(FVector2D(500.f, windowSize.y), pRt2D, menuVBInfos);
+	auto menuVB = MakeSlate<S_VerticalBox>(FVector2D(500.f, windowSize.y), menuVBInfos);
 	pRootSlate->AddChild(menuVB);
 
 	/* TextBlock */
@@ -71,7 +71,7 @@ void DebugUI::NativeOnInitialized()
 		appearance.color = FColor(255.f, 0.f, 0.f, 1.f);
 		appearance.hAlign = EHorizontalAlignment::Left;
 
-		auto textBlock = std::make_shared<S_TextBlock>(FVector2D(500.f, 30.f), pRt2D, textInfos, font, appearance);
+		auto textBlock = MakeSlate<S_TextBlock>(FVector2D(500.f, 30.f), textInfos, font, appearance);
 		textBlock->SetText(label);
 		menuVB->AddChild(textBlock);
 		return std::move(textBlock);

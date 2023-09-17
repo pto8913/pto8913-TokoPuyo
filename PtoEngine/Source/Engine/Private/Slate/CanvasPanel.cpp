@@ -1,8 +1,8 @@
 
 #include "Slate/CanvasPanel.h"
 
-S_CanvasPanel::S_CanvasPanel(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
-	: SlateContainerBase(inSize, inD2DRT, inSlateInfos)
+S_CanvasPanel::S_CanvasPanel(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos)
+	: SlateContainerBase(inD2DRT, inSize, inSlateInfos)
 {
 }
 S_CanvasPanel::S_CanvasPanel(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)

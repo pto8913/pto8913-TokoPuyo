@@ -5,12 +5,8 @@
 class S_Spacer : public SlateSlotBase
 {
 public:
-	S_Spacer(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
-		: SlateSlotBase(inSize, inD2DRT, inSlateInfos)
-	{}
-	S_Spacer(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {})
-		: S_Spacer({ 0,0 }, inD2DRT, inSlateInfos)
-	{}
+	S_Spacer(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos = {});
+	S_Spacer(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {});
 
 	virtual void Draw() override {};
 

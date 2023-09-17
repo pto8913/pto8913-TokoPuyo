@@ -1,8 +1,8 @@
 
 #include "Slate/VerticalBox.h"
 
-S_VerticalBox::S_VerticalBox(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
-	: SlateContainerBase(inSize, inD2DRT, inSlateInfos)
+S_VerticalBox::S_VerticalBox(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos)
+	: SlateContainerBase(inD2DRT, inSize, inSlateInfos)
 {
 #if _DEBUG
 	pBrush->SetColor(
@@ -12,7 +12,7 @@ S_VerticalBox::S_VerticalBox(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlat
 }
 
 S_VerticalBox::S_VerticalBox(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
-	: S_VerticalBox({ 0,0 }, inD2DRT, inSlateInfos)
+	: S_VerticalBox(inD2DRT, { 0,0 }, inSlateInfos)
 {}
 
 S_VerticalBox::~S_VerticalBox()

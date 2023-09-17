@@ -15,8 +15,8 @@
 #include <format>
 #endif
 
-S_Slider::S_Slider(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
-	: SlateSlotBase(inSize, inD2DRT, inSlateInfos), 
+S_Slider::S_Slider(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
+	: SlateSlotBase(inD2DRT, inSize, inSlateInfos), 
 	mAppearance(inAppearance)
 {
 	inD2DRT->CreateSolidColorBrush(
@@ -27,7 +27,7 @@ S_Slider::S_Slider(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inS
 	SetAppearance(inAppearance);
 }
 S_Slider::S_Slider(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
-	: S_Slider({ 0,0 }, inD2DRT, inSlateInfos, inAppearance)
+	: S_Slider(inD2DRT, { 0,0 }, inSlateInfos, inAppearance)
 {
 }
 

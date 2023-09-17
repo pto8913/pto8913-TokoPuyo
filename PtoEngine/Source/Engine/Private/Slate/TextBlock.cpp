@@ -9,8 +9,8 @@
 #include "Helper/ColorHelper.h"
 #include "Helper/RectHelper.h"
 
-S_TextBlock::S_TextBlock(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
-	: SlateSlotBase(inSize, inD2DRT, inSlateInfos), mText(L""), mFont(inFont), mAppearance(inAppearance)
+S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
+	: SlateSlotBase(inD2DRT, inSize, inSlateInfos), mText(L""), mFont(inFont), mAppearance(inAppearance)
 {
 	pD2DRT->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.color),

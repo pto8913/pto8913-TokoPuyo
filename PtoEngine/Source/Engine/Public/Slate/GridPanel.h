@@ -15,7 +15,7 @@ public:
 class S_GridPanel : public SlateContainerBase
 {
 public:
-	S_GridPanel(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateGridPanelAppearance inAppearance = {});
+	S_GridPanel(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateGridPanelAppearance inAppearance = {});
 	S_GridPanel(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateGridPanelAppearance inAppearance = {});
 	virtual ~S_GridPanel();
 

@@ -12,13 +12,13 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////////// 
 
-SlateContainerBase::SlateContainerBase(FVector2D inSize, ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
-	: SlateBase(inSize, inD2DRT, inSlateInfos)
+SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos)
+	: SlateBase(inD2DRT, inSize, inSlateInfos)
 {
 	mSlateInputEventReceiveType = ESlateInputEventReceiveType::NotChildren;
 }
 SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
-	: SlateContainerBase({ 0,0 }, inD2DRT, inSlateInfos)
+	: SlateContainerBase(inD2DRT, { 0,0 }, inSlateInfos)
 {
 }
 SlateContainerBase::~SlateContainerBase()
@@ -312,6 +312,14 @@ bool SlateContainerBase::OnKeyUp(DX::MouseEvent inMouseEvent)
 // Container only one
 // 
 //////////////////////////////////////////////////////////////////////////////////////// 
+SlotContainerOnlyOne::SlotContainerOnlyOne(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos)
+	: SlateContainerBase(inD2DRT, inSize, inSlateInfos)
+{
+}
+SlotContainerOnlyOne::SlotContainerOnlyOne(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
+	: SlotContainerOnlyOne(inD2DRT, { 0,0 }, inSlateInfos)
+{
+}
 void SlotContainerOnlyOne::AddChild(std::shared_ptr<SlateBase> in)
 {
 	if (pChildren.size() == 0)

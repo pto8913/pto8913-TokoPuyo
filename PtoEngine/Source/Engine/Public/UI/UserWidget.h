@@ -49,6 +49,13 @@ public:
 		return "UserWidget_" + std::to_string(mID);
 	}
 protected:
+	template<class TClass, typename ...Args, typename = typename std::enable_if_t<std::is_base_of_v<SlateBase, TClass>>>
+	std::shared_ptr<TClass> MakeSlate(Args&& ...args)
+	{
+		auto out = std::make_shared<TClass>(pRt2D, std::forward<Args>(args)...);
+		return std::move(out);
+	}
+
 	// --------------------------
 	// Main : Animation
 	// --------------------------

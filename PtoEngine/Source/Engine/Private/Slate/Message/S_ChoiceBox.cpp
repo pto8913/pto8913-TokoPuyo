@@ -4,8 +4,8 @@
 
 #include <format>
 
-S_ChoiceBox::S_ChoiceBox(FVector2D inSize, ID2D1RenderTarget* inD2DRT, const TArray<FChoiceInfos>& inChoiceInfos, FSlateInfos inSlateInfos)
-	: S_VerticalBox(inSize, inD2DRT, inSlateInfos)
+S_ChoiceBox::S_ChoiceBox(ID2D1RenderTarget* inD2DRT, FVector2D inSize, const TArray<FChoiceInfos>& inChoiceInfos, FSlateInfos inSlateInfos)
+	: S_VerticalBox(inD2DRT, inSize, inSlateInfos)
 {
 	SetChoiceButton(inChoiceInfos);
 }
