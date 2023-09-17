@@ -11,6 +11,14 @@ public:
 	S_VerticalBox(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {});
 	virtual ~S_VerticalBox();
 
+	virtual std::string GetName() const override
+	{
+		if (pParent != nullptr)
+		{
+			return GetName() + "_S_VerticalBox";
+		}
+		return "S_VerticalBox";
+	}
 protected:
 	// ------------------------------------------------------------------------------------------------
 	// Main

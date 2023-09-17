@@ -79,6 +79,14 @@ public:
 	// ------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		if (pParent != nullptr)
+		{
+			return GetName() + "_S_TextBlock";
+		}
+		return "S_TextBlock";
+	}
 	virtual void Draw() override;
 
 	void SetAppearance(FSlateTextAppearance in);

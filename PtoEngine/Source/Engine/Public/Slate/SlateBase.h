@@ -64,6 +64,14 @@ public:
 	// ------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------
+	virtual std::string GetName() const
+	{
+		if (pParent != nullptr)
+		{
+			return GetName() + "_SlateBase";
+		}
+		return "SlateBase";
+	}
 	virtual void Draw() = 0;
 	void SetVisibility(bool in);
 	bool GetVisibility() const noexcept;

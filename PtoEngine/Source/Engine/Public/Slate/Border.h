@@ -57,6 +57,14 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		if (pParent != nullptr)
+		{
+			return GetName() + "_S_Border";
+		}
+		return "S_Border";
+	}
 	virtual void Draw() override;
 
 	void SetAppearance(const FSlateBorderAppearance& inAppearance);

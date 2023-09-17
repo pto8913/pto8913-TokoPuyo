@@ -12,6 +12,14 @@ public:
 	// ------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		if (pParent != nullptr)
+		{
+			return GetName() + "_S_Image";
+		}
+		return "S_Image";
+	}
 	virtual void Draw() override;
 
 	void SetFileName(std::wstring in);

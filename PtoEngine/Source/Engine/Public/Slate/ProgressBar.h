@@ -25,6 +25,14 @@ public:
 	// ------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		if (pParent != nullptr)
+		{
+			return GetName() + "_S_ProgressBar";
+		}
+		return "S_ProgressBar";
+	}
 	virtual void Draw() override;
 
 	FRect GetRect(float inPercent) const noexcept;

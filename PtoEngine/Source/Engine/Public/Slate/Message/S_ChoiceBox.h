@@ -22,6 +22,14 @@ public:
 	// ------------------------------------------------------
 	// Main
 	// ------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		if (pParent != nullptr)
+		{
+			return GetName() + "_S_ChoiceBox";
+		}
+		return "S_ChoiceBox";
+	}
 	FOnChoceResult& GetOnChoiceResult();
 
 	// --------------------------

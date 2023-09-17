@@ -11,4 +11,13 @@ public:
 	SlateSlotBase(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = FSlateInfos())
 		: SlateBase({ 0,0 }, inD2DRT, inSlateInfos)
 	{}
+
+	virtual std::string GetName() const override
+	{
+		if (pParent != nullptr)
+		{
+			return GetName() + "_SlateSlotBase";
+		}
+		return "SlateSlotBase";
+	}
 };

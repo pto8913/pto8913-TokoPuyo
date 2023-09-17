@@ -27,6 +27,14 @@ public:
 	// ------------------------------------------------------------------------------------------------------------
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
+	virtual std::string GetName() const override
+	{
+		if (pParent != nullptr)
+		{
+			return GetName() + "_S_Button";
+		}
+		return "S_Button";
+	}
 	virtual void Draw() override;
 
 	void SetAppearance(const FSlateButtonAppearance& in);
