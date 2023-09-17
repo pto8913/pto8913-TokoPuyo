@@ -106,7 +106,11 @@ Audio::Audio(const wchar_t* fileName)
 }
 Audio::~Audio()
 {
+    OutputDebugStringA("Audio Destructor");
     pSourceVoice = nullptr;
+
+    m_buffer.pAudioData = nullptr;
+    m_buffer.pContext = nullptr;
     m_buffer = {};
     wfx = {};
 }
