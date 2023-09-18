@@ -16,6 +16,29 @@ UserWidget::UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx
 }
 UserWidget::~UserWidget()
 {
+	{
+		auto iter = mAnimations.begin();
+		while (iter != mAnimations.end())
+		{
+			auto& obj = *iter;
+			obj.Deactivate();
+			obj.Clear();
+			iter = mAnimations.erase(iter);
+		}
+		mAnimations.clear();
+	}
+	{
+		auto iter = mAnimationProps.begin();
+		while (iter != mAnimationProps.end())
+		{
+			auto& obj = *iter;
+			delete obj;
+			obj = nullptr;
+			iter = mAnimationProps.end();
+		}
+		mAnimationProps.clear();
+	}
+
 	if (pMouse)
 	{
 		pMouse->GetClickedLeftPressed().Unbind(GetName() + "_Left");
@@ -158,7 +181,7 @@ void UserWidget::AddAnimation(WidgetAnimation in)
 {
 	if (!IsPendingKill() && IsInViewport())
 	{
-		mAnimations.Add(in);
+		mAnimations.push_back(in);
 	}
 }
 
