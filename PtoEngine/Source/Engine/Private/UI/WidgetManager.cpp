@@ -60,7 +60,7 @@ WidgetManager::WidgetManager(DirectX11& dx)
 	pRt2D = pScreenTextOnlyOutput->GetRT2D();
 	pMutex11 = pScreenTextOnlyOutput->GetMutex11();
 	pMutex10 = pScreenTextOnlyOutput->GetMutex10();
-	//AddTask(pScreenTextOnlyOutput);
+	AddTask(pScreenTextOnlyOutput);
 
 	//AddTask(SamplerState::Make(dx, 0));
 
@@ -149,7 +149,7 @@ void WidgetManager::Tick(DirectX11& dx, float deltaTime)
 	pMutex10->ReleaseSync(1);
 	pMutex11->AcquireSync(1, 5);
 
-	//DrawableObject::ExecuteTasks(dx);
+	DrawableObject::ExecuteTasks(dx);
 }
 
 DirectX::XMMATRIX WidgetManager::GetTransformXM(DirectX11&) const noexcept
