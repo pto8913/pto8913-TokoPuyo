@@ -84,3 +84,7 @@ void WidgetAnimation::Update(float deltaTime)
 		}
 	}
 }
+void WidgetAnimation::Reset()
+{
+	mDuration = 0.f;
+}

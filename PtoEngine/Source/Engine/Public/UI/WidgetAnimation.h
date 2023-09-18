@@ -164,6 +164,7 @@ public:
 	void Deactivate();
 
 	void Update(float deltaTime);
+	void Reset();
 private:
 	// ------------------------------------------------------------------------------------------------------------
 	// State
