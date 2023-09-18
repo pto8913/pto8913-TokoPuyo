@@ -27,17 +27,6 @@ UserWidget::~UserWidget()
 		}
 		mAnimations.clear();
 	}
-	{
-		auto iter = mAnimationProps.begin();
-		while (iter != mAnimationProps.end())
-		{
-			auto& obj = *iter;
-			delete obj;
-			obj = nullptr;
-			iter = mAnimationProps.end();
-		}
-		mAnimationProps.clear();
-	}
 
 	if (pMouse)
 	{
