@@ -22,29 +22,30 @@ Sprite::Sprite(DirectX11& dx, const std::wstring& inFileName, std::wstring Tag, 
 	//SetWorldRotation(rotation);
 	//SetWorldScale(scale);
 	//SetWorldTransform();
-	AddTask(BlendState::Make(dx, 0));
+	// 
+	//AddTask(BlendState::Make(dx, 0));
 
-	auto model = Plane::Make2D();
+	//auto model = Plane::Make2D();
 
-	pIndexBuffer = IndexBuffer::Make(dx, Util::w2String(Tag), model.indices);
-	pVertexBuffer = VertexBuffer<DX::FVertex2D>::Make(dx, Util::w2String(Tag), model.vertices);
-	pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//pIndexBuffer = IndexBuffer::Make(dx, Util::w2String(Tag), model.indices);
+	//pVertexBuffer = VertexBuffer<DX::FVertex2D>::Make(dx, Util::w2String(Tag), model.vertices);
+	//pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	pScreenTexture = ScreenTexture::Make(dx, inFileName, inSize.x, inSize.y);
 	//AddTask(pScreenTexture);
-	AddTask(SamplerState::Make(dx));
+	//AddTask(SamplerState::Make(dx));
 
-	auto pVS = VertexShader::Make(dx, L"Shader/Sprite.hlsl", "VS");
-	AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V2D, pVS.get()));
-	AddTask(std::move(pVS));
-	AddTask(PixelShader::Make(dx, L"Shader/Sprite.hlsl", "PS"));
+	//auto pVS = VertexShader::Make(dx, L"Shader/Sprite.hlsl", "VS");
+	//AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V2D, pVS.get()));
+	//AddTask(std::move(pVS));
+	//AddTask(PixelShader::Make(dx, L"Shader/Sprite.hlsl", "PS"));
 
-	AddTask(Rasterizer::Make(dx, Rasterizer::Transparent2, (UINT)model.indices.size()));
+	//AddTask(Rasterizer::Make(dx, Rasterizer::Transparent2, (UINT)model.indices.size()));
 
-	pTCB = std::make_shared<TransformConstantBuffer>(dx, 0);
-	pTCB->InitParentRefrence(*this);
+	//pTCB = std::make_shared<TransformConstantBuffer>(dx, 0);
+	//pTCB->InitParentRefrence(*this);
 
-	InitializeTasks();
+	//InitializeTasks();
 }
 Sprite::~Sprite()
 {
