@@ -1,20 +1,20 @@
 #pragma once
 
-#include "DrawableObject2D.h"
+#include "ObjectBase.h"
 #include "Render/TransformConstantBuffer.h"
 
 class DirectX11;
 
 class ScreenTexture;
 
-class Sprite : public DrawableObject2D
+class Sprite : public ObjectBase
 {
 public:
 	Sprite() = default;
 	Sprite(DirectX11& dx, const std::wstring& inFileName, std::wstring Tag, DirectX::XMFLOAT2 inSize);
 	virtual ~Sprite();
 
-	virtual void ExecuteTasks(DirectX11& dx) override;
+	void ExecuteTasks(DirectX11& dx);
 	void UpdateTexture(const std::wstring& inFileName);
 
 	// ----------------------------------------------------
@@ -28,9 +28,5 @@ public:
 	virtual DirectX::XMMATRIX GetTransformXM(DirectX11& dx) const noexcept override;
 
 protected:
-	TransformConstantBuffer::Transforms tf = {
-		DirectX::XMMatrixIdentity(),
-		DirectX::XMMatrixIdentity()
-	};
 	std::shared_ptr<ScreenTexture> pScreenTexture = nullptr;
 };
