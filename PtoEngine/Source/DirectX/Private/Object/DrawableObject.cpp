@@ -50,8 +50,14 @@ void DrawableObject::ExecuteTasks(DirectX11& dx)
 {
 	if (visibility)
 	{
-		pTopology->Bind(dx);
-		pIndexBuffer->Bind(dx);
+		if (pTopology)
+		{
+			pTopology->Bind(dx);
+		}
+		if (pIndexBuffer)
+		{
+			pIndexBuffer->Bind(dx);
+		}
 		//pVertexBuffer->Bind(dx);
 		for (auto task : tasks)
 		{
