@@ -6,9 +6,18 @@
 
 void DrawableObject2D::ExecuteTasks(DirectX11& dx)
 {
-	pTopology->Bind(dx);
-	pIndexBuffer->Bind(dx);
-	pVertexBuffer->Bind(dx);
+	if (pTopology)
+	{
+		pTopology->Bind(dx);
+	}
+	if (pIndexBuffer)
+	{
+		pIndexBuffer->Bind(dx);
+	}
+	if (pVertexBuffer)
+	{
+		pVertexBuffer->Bind(dx);
+	}
 	for (auto task : tasks)
 	{
 		task.get()->Bind(dx);

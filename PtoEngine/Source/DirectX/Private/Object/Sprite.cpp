@@ -59,7 +59,7 @@ void Sprite::ExecuteTasks(DirectX11& dx)
 {
 	//dx.GetContext()->OMSetBlendState(0, 0, 0xffffffff);
 
-	pTCB->Bind(dx, tf);
+	//pTCB->Bind(dx, tf);
 
 	pScreenTexture->Bind(GetLocation(), DirectX::XMVectorGetY(GetRotation()));
 	//pScreenTexture->Bind(offset);// { DirectX::XMVectorGetX(GetLocation()), DirectX::XMVectorGetY(GetLocation()) });

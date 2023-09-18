@@ -32,6 +32,5 @@ protected:
 		DirectX::XMMatrixIdentity(),
 		DirectX::XMMatrixIdentity()
 	};
-	std::shared_ptr<TransformConstantBuffer> pTCB = nullptr;
 	std::shared_ptr<ScreenTexture> pScreenTexture = nullptr;
 };
