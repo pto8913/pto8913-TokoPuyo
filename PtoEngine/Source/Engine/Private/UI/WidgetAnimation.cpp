@@ -55,6 +55,10 @@ void WidgetAnimation::AssignProp(FWidgetAnimationProperty* prop)
 	props.Add(prop);
 }
 
+bool WidgetAnimation::IsActive() const
+{
+	return bIsActive;
+}
 void WidgetAnimation::Activate()
 {
 	bIsActive = true;

@@ -160,6 +160,7 @@ public:
 
 	void AssignProp(FWidgetAnimationProperty* prop);
 
+	bool IsActive() const;
 	void Activate();
 	void Deactivate();
 
