@@ -1,6 +1,7 @@
 
 
 #include "Slate/TextBlock.h"
+#include "Slate/CustomTextRenderer.h"
 
 #include "Core/DirectX.h"
 
@@ -9,12 +10,42 @@
 #include "Helper/ColorHelper.h"
 #include "Helper/RectHelper.h"
 
+#include "EngineSettings.h"
+
 S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
 	: SlateSlotBase(inD2DRT, inSize, inSlateInfos), mText(L""), mFont(inFont), mAppearance(inAppearance)
 {
+	const auto windowSize = EngineSettings::GetWindowSize();
+
+	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&pDWriteFactory));
+	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
+
 	pD2DRT->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.color),
 		&pBrush
+	);
+
+	if (pBitmapBrush == nullptr)
+	{
+		D2D1_SIZE_U bitmapSize;
+		bitmapSize.width = windowSize.x;
+		bitmapSize.height = windowSize.y;
+		D2D1_BITMAP_PROPERTIES bitmapProps;
+		ID2D1Bitmap* pBitmap = nullptr;
+		pD2DRT->CreateBitmap(bitmapSize, bitmapProps, &pBitmap);
+		// Create the bitmap brush
+		D2D1_BITMAP_BRUSH_PROPERTIES properties = { D2D1_EXTEND_MODE_WRAP, D2D1_EXTEND_MODE_WRAP, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR };
+		pD2DRT->CreateBitmapBrush(
+			pBitmap,
+			properties,
+			&pBitmapBrush
+		);
+	}
+	pCustomTextRenderer = new CustomTextRenderer(
+		pD2DFactory,
+		pD2DRT,
+		pBrush,
+		pBitmapBrush
 	);
 
 	SetFont(mFont);
@@ -27,7 +58,9 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, F
 
 S_TextBlock::~S_TextBlock()
 {
+	Util::SafeRelease(pDWriteFactory);
 	Util::SafeRelease(pTextFormat);
+	Util::SafeRelease(pTextLayout);
 	OnSetText.ClearBind();
 }
 
@@ -40,20 +73,22 @@ void S_TextBlock::Draw()
 	{
 		return;
 	}
+	/* For WidgetAnimation */
 	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
-	pD2DRT->DrawText(
-		mText.c_str(),
-		(UINT32)mText.size(),
-		pTextFormat,
-		RectHelper::ConvertRectToD2D(GetRect()),
-		pBrush
-	);
+	//pD2DRT->DrawText(
+	//	mText.c_str(),
+	//	(UINT32)mText.size(),
+	//	pTextFormat,
+	//	RectHelper::ConvertRectToD2D(GetRect()),
+	//	pBrush
+	//);
 #if _DEBUG
 	pD2DRT->DrawRectangle(
 		RectHelper::ConvertRectToD2D(GetRect()),
 		pBrush
 	);
 #endif
+	pTextLayout->Draw(NULL, pCustomTextRenderer, mPosition.x, mPosition.y);
 }
 
 void S_TextBlock::SetAppearance(FSlateTextAppearance in)
@@ -75,10 +110,7 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 {
 	mFont = inFont;
 
-	IDWriteFactory* m_pDWriteFactory = nullptr;
-	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&m_pDWriteFactory));
-
-	m_pDWriteFactory->CreateTextFormat(
+	pDWriteFactory->CreateTextFormat(
 		mFont.fontFamily,
 		NULL,
 		mFont.weight,
@@ -88,13 +120,15 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 		mFont.fontLocalName,
 		&pTextFormat
 	);
-	m_pDWriteFactory->Release();
 	UpdateSize();
+	UpdateTextLayout();
 }
 void S_TextBlock::SetText(std::wstring inText)
 {
 	mText = inText;
+
 	UpdateSize();
+	UpdateTextLayout();
 }
 void S_TextBlock::SetSize(FVector2D inSize)
 {
@@ -133,6 +167,33 @@ void S_TextBlock::UpdateSize()
 		//);
 	}
 }
+void S_TextBlock::UpdateTextLayout()
+{
+	const auto windowSize = EngineSettings::GetWindowSize();
+	pDWriteFactory->CreateTextLayout(
+		mText.c_str(),
+		mText.length(),
+		pTextFormat,
+		windowSize.x,
+		windowSize.y,
+		&pTextLayout
+	);
+	DWRITE_TEXT_RANGE textRange;
+	textRange.length = mText.length();
+	pTextLayout->SetFontSize(mFont.fontSize, textRange);
+	pTextLayout->SetUnderline(mAppearance.layoutUnderLine, textRange);
+	pTextLayout->SetFontWeight(mAppearance.layoutWeight, textRange);
+
+	IDWriteTypography* pTypography = nullptr;
+	pDWriteFactory->CreateTypography(&pTypography);
+	if (pTypography != nullptr)
+	{
+		pTypography->AddFontFeature(mAppearance.layoutFeature);
+		pTextLayout->SetTypography(pTypography, textRange);
+	}
+	Util::SafeRelease(pTypography);
+}
+
 void S_TextBlock::SetAppearHorizontalAlignment(EHorizontalAlignment in)
 {
 	mAppearance.hAlign = in;

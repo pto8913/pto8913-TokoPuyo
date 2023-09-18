@@ -6,6 +6,7 @@
 #include "Engine/Color.h"
 
 class DirectX11;
+class CustomTextRenderer;
 
 DECLARE_MULTICAST_DELEGATE_RET(FOnSetText, std::wstring);
 
@@ -54,6 +55,13 @@ public:
 	EVerticalAlignment vAlign;
 
 	ETextWrap wrap;
+
+	// Layout
+	bool layoutUnderLine;
+	DWRITE_FONT_WEIGHT layoutWeight;
+
+	// Typography
+	DWRITE_FONT_FEATURE layoutFeature;
 };
 
 /*  
@@ -97,7 +105,7 @@ public:
 	virtual void SetSize(FVector2D inSize) override;
 protected:
 	virtual void UpdateSize();
-
+	void UpdateTextLayout();
 public:
 	virtual void SetAppearHorizontalAlignment(EHorizontalAlignment in);
 	virtual void SetAppearVerticalAlignment(EVerticalAlignment in);
@@ -113,7 +121,12 @@ private:
 	// ------------------------------------------------------------------------------------------------
 	FSlateTextAppearance mAppearance;
 
+	ID2D1Factory* pD2DFactory = nullptr;
+	IDWriteFactory* pDWriteFactory = nullptr;
 	IDWriteTextFormat* pTextFormat = nullptr;
+	IDWriteTextLayout* pTextLayout = nullptr;
+	ID2D1BitmapBrush* pBitmapBrush = nullptr;
+	CustomTextRenderer* pCustomTextRenderer = nullptr;
 	FSlateFont mFont;
 	std::wstring mText;
 };
