@@ -60,6 +60,11 @@ protected:
 	// Main : Animation
 	// --------------------------
 	void AddAnimation(WidgetAnimation in);
+	template<typename T>
+	void AddAnimationProp(WidgetAnimationProperty<T> in)
+	{
+		mAnimationProps.push_back(in);
+	}
 
 	// --------------------------
 	// Main : Input
@@ -103,5 +108,6 @@ protected:
 	DirectX11* pDX = nullptr;
 	DX::IMouseInterface* pMouse = nullptr;
 
-	TArray<WidgetAnimation> mAnimations;
+	std::vector<WidgetAnimation> mAnimations;
+	std::vector<FWidgetAnimationProperty*> mAnimationProps;
 };
