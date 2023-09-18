@@ -23,36 +23,36 @@
 
 WidgetManager::WidgetManager(DirectX11& dx)
 {
-	//AddTask(BlendState::Make(dx, 0));
+	AddTask(BlendState::Make(dx, 0));
 
-	////Compile Shaders from shader file
-	//auto pVS = VertexShader::Make(dx, L"Shader/DrawScreenText.hlsl", "VS");
-	//AddTask(PixelShader::Make(dx, L"Shader/DrawScreenText.hlsl", "PS"));
-	//AddTask(pVS);
+	//Compile Shaders from shader file
+	auto pVS = VertexShader::Make(dx, L"Shader/DrawScreenText.hlsl", "VS");
+	AddTask(PixelShader::Make(dx, L"Shader/DrawScreenText.hlsl", "PS"));
+	AddTask(pVS);
 
-	//std::vector<DX::FVertex2D> vertices =
-	//{
-	//	DX::FVertex2D(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
-	//	DX::FVertex2D(-1.0f,  1.0f, -1.0f, 0.0f, 0.0f),
-	//	DX::FVertex2D(1.0f,  1.0f, -1.0f, 1.0f, 0.0f),
-	//	DX::FVertex2D(1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
-	//};
+	std::vector<DX::FVertex2D> vertices =
+	{
+		DX::FVertex2D(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
+		DX::FVertex2D(-1.0f,  1.0f, -1.0f, 0.0f, 0.0f),
+		DX::FVertex2D(1.0f,  1.0f, -1.0f, 1.0f, 0.0f),
+		DX::FVertex2D(1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
+	};
 
-	//std::vector<DWORD> indices = {
-	//	0,  1,  2,
-	//	0,  2,  3,
-	//};
-	//pIndexBuffer = IndexBuffer::Make(dx, "WidgetManager", indices);
-	//pVertexBuffer = VertexBuffer<DX::FVertex2D>::Make(dx, "WidgetManager", vertices);
-	//pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	std::vector<DWORD> indices = {
+		0,  1,  2,
+		0,  2,  3,
+	};
+	pIndexBuffer = IndexBuffer::Make(dx, "WidgetManager", indices);
+	pVertexBuffer = VertexBuffer<DX::FVertex2D>::Make(dx, "WidgetManager", vertices);
+	pTopology = Topology::Make(dx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	//AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V2D, pVS.get()));
+	AddTask(InputLayout::Make(dx, DX::Layout::VertexType::V2D, pVS.get()));
 
-	//AddTask(pIndexBuffer);
-	//AddTask(pVertexBuffer);
+	AddTask(pIndexBuffer);
+	AddTask(pVertexBuffer);
 
-	//pTCB = std::make_shared<TransformConstantBuffer>(dx);
-	//pTCB->InitParentRefrence(*this);
+	pTCB = std::make_shared<TransformConstantBuffer>(dx);
+	pTCB->InitParentRefrence(*this);
 	//AddTask(pTCB);
 
 	const auto widgetSize = EngineSettings::GetWindowSize();
@@ -62,11 +62,11 @@ WidgetManager::WidgetManager(DirectX11& dx)
 	pMutex10 = pScreenTextOnlyOutput->GetMutex10();
 	AddTask(pScreenTextOnlyOutput);
 
-	//AddTask(SamplerState::Make(dx, 0));
+	AddTask(SamplerState::Make(dx, 0));
 
-	//AddTask(Rasterizer::Make(dx, Rasterizer::RasterizerType::Transparent2, pIndexBuffer.get()->GetCount()));
+	AddTask(Rasterizer::Make(dx, Rasterizer::RasterizerType::Transparent2, pIndexBuffer.get()->GetCount()));
 
-	//InitializeTasks();
+	InitializeTasks();
 }
 WidgetManager::~WidgetManager()
 {
