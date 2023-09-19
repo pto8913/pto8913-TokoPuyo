@@ -5,8 +5,8 @@
 #include "Helper/ColorHelper.h"
 #include "Helper/RectHelper.h"
 
-S_Border::S_Border(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos, FSlateBorderAppearance inAppearance)
-	: SlotContainerOnlyOne(inD2DRT, inSize, inSlateInfos)
+S_Border::S_Border(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateBorderAppearance inAppearance)
+	: SlotContainerOnlyOne(inRt2D, inSize, inSlateInfos)
 {
 	SetAppearance(inAppearance);
 #if _DEBUG
@@ -15,8 +15,8 @@ S_Border::S_Border(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inS
 	);
 #endif
 }
-S_Border::S_Border(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateBorderAppearance inAppearance)
-	: S_Border(inD2DRT, { 0,0 }, inSlateInfos, inAppearance)
+S_Border::S_Border(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos, FSlateBorderAppearance inAppearance)
+	: S_Border(inRt2D, { 0,0 }, inSlateInfos, inAppearance)
 {
 }
 S_Border::~S_Border()
@@ -43,14 +43,14 @@ void S_Border::Draw()
 	case EBorderType::Box:
 		if (mAppearance.bIsFill)
 		{
-			pD2DRT->FillRectangle(
+			pRt2D->FillRectangle(
 				RectHelper::ConvertRectToD2D(GetRect()),
 				pBrush
 			);
 		}
 		else
 		{
-			pD2DRT->DrawRectangle(
+			pRt2D->DrawRectangle(
 				RectHelper::ConvertRectToD2D(GetRect()),
 				pBrush,
 				mAppearance.lineWidth
@@ -60,7 +60,7 @@ void S_Border::Draw()
 	case EBorderType::Border:
 		if (mAppearance.bIsFill)
 		{
-			pD2DRT->FillRoundedRectangle(
+			pRt2D->FillRoundedRectangle(
 				D2D1::RoundedRect(
 					RectHelper::ConvertRectToD2D(GetRect()),
 					mAppearance.roundSize.x,
@@ -71,7 +71,7 @@ void S_Border::Draw()
 		}
 		else
 		{
-			pD2DRT->DrawRoundedRectangle(
+			pRt2D->DrawRoundedRectangle(
 				D2D1::RoundedRect(
 					RectHelper::ConvertRectToD2D(GetRect()),
 					mAppearance.roundSize.x,
@@ -85,7 +85,7 @@ void S_Border::Draw()
 	case EBorderType::Image:
 		if (pBrush != nullptr)
 		{
-			pD2DRT->DrawBitmap(
+			pRt2D->DrawBitmap(
 				pBitmap,
 				RectHelper::ConvertRectToD2D(GetRect()),
 				1.f,
@@ -144,7 +144,7 @@ void S_Border::SetFileName(std::wstring in)
 	pImageFactory->CreateFormatConverter(&pImageConverter);
 	pImageConverter->Initialize(pBrushFrameDecode, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, nullptr, 1.f, WICBitmapPaletteTypeMedianCut);
 
-	pD2DRT->CreateBitmapFromWicBitmap(pImageConverter, nullptr, &pBitmap);
+	pRt2D->CreateBitmapFromWicBitmap(pImageConverter, nullptr, &pBitmap);
 
 	pImageFactory->Release();
 	pBrushDecoder->Release();

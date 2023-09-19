@@ -1,8 +1,8 @@
 
 #include "Slate/Overlay.h"
 
-S_Overlay::S_Overlay(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos)
-	: SlateContainerBase(inD2DRT, inSize, inSlateInfos)
+S_Overlay::S_Overlay(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
+	: SlateContainerBase(inRt2D, inSize, inSlateInfos)
 {
 #if _DEBUG
 	pBrush->SetColor(
@@ -10,8 +10,8 @@ S_Overlay::S_Overlay(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos i
 	);
 #endif
 }
-S_Overlay::S_Overlay(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
-	: S_Overlay(inD2DRT, { 0,0 }, inSlateInfos)
+S_Overlay::S_Overlay(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos)
+	: S_Overlay(inRt2D, { 0,0 }, inSlateInfos)
 {
 }
 S_Overlay::~S_Overlay()

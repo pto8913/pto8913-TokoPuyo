@@ -15,19 +15,19 @@
 #include <format>
 #endif
 
-S_Slider::S_Slider(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
-	: SlateSlotBase(inD2DRT, inSize, inSlateInfos), 
+S_Slider::S_Slider(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
+	: SlateSlotBase(inRt2D, inSize, inSlateInfos), 
 	mAppearance(inAppearance)
 {
-	inD2DRT->CreateSolidColorBrush(
+	inRt2D->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.sliderLineColor),
 		&pLineBrush
 	);
 
 	SetAppearance(inAppearance);
 }
-S_Slider::S_Slider(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
-	: S_Slider(inD2DRT, { 0,0 }, inSlateInfos, inAppearance)
+S_Slider::S_Slider(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
+	: S_Slider(inRt2D, { 0,0 }, inSlateInfos, inAppearance)
 {
 }
 
@@ -52,7 +52,7 @@ void S_Slider::Draw()
 	{
 	case ESliderDirection::Horizontal:
 		/* Draw SliderLine */
-		pD2DRT->FillRectangle(
+		pRt2D->FillRectangle(
 			RectHelper::ConvertRectToD2D(
 				FRect(
 					mPosition.x + mOffset.x,
@@ -64,7 +64,7 @@ void S_Slider::Draw()
 			pLineBrush
 		);
 		/* Draw Slider */
-		pD2DRT->FillRectangle(
+		pRt2D->FillRectangle(
 			RectHelper::ConvertRectToD2D(
 				FRect(
 					mPosition.x + mOffset.x - mAppearance.sliderButtonSize.x / 2 + GetSliderPosition(),
@@ -78,7 +78,7 @@ void S_Slider::Draw()
 		break;
 	default:
 		/* Draw SliderLine */
-		pD2DRT->FillRectangle(
+		pRt2D->FillRectangle(
 			RectHelper::ConvertRectToD2D(
 				FRect(
 					mPosition.x + mOffset.x - mAppearance.sliderLineThickness / 2,
@@ -90,7 +90,7 @@ void S_Slider::Draw()
 			pLineBrush
 		);
 		/* Draw Slider */
-		pD2DRT->FillRectangle(
+		pRt2D->FillRectangle(
 			RectHelper::ConvertRectToD2D(
 				FRect(
 					mPosition.x + mOffset.x - mAppearance.sliderButtonSize.x / 2,
@@ -105,7 +105,7 @@ void S_Slider::Draw()
 	}
 
 #if _DEBUG
-	pD2DRT->DrawRectangle(
+	pRt2D->DrawRectangle(
 		RectHelper::ConvertRectToD2D(GetRect()),
 		pBrush
 	);

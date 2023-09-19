@@ -1,13 +1,13 @@
 
 #include "Slate/SlateBase.h"
 
-SlateBase::SlateBase(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos)
+SlateBase::SlateBase(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
 	: mSize(inSize),
-	pD2DRT(inD2DRT),
+	pRt2D(inRt2D),
 	mSlateInfos(inSlateInfos),
 	mSlateInputEventReceiveType(ESlateInputEventReceiveType::Enable)
 {
-	pD2DRT->CreateSolidColorBrush(
+	pRt2D->CreateSolidColorBrush(
 		D2D1::ColorF(255.f, 255.f, 255.f, 1.f),
 		&pBrush
 	);
@@ -17,7 +17,7 @@ SlateBase::~SlateBase()
 {
 	pBrush->Release();
 
-	pD2DRT = nullptr;
+	pRt2D = nullptr;
 	pParent = nullptr;
 }
 
