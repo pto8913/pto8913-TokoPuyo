@@ -65,18 +65,16 @@ void S_TextBlock::Draw()
 	{
 		pRt2D->DrawGeometry(pPathGeometry, pBrush, mAppearance.layoutOutlineWidth);
 		pRt2D->FillGeometry(pPathGeometry, pBrush);
+		pTextLayout->Draw(NULL, pCustomTextRenderer, mPosition.x, mPosition.y);
 		return;
 	}
-
-	pTextLayout->Draw(NULL, pCustomTextRenderer, mPosition.x, mPosition.y);
-
-	//pRt2D->DrawText(
-	//	mText.c_str(),
-	//	(UINT32)mText.size(),
-	//	pTextFormat,
-	//	RectHelper::ConvertRectToD2D(GetRect()),
-	//	pBrush
-	//);
+	pRt2D->DrawText(
+		mText.c_str(),
+		(UINT32)mText.size(),
+		pTextFormat,
+		RectHelper::ConvertRectToD2D(GetRect()),
+		pBrush
+	);
 }
 
 void S_TextBlock::SetAppearance(FSlateTextAppearance in)
