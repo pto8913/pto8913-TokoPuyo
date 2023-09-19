@@ -46,7 +46,12 @@ public:
 		: color(FColor(1.f, 1.f, 1.f, 1.f)),
 		hAlign(EHorizontalAlignment::Center),
 		vAlign(EVerticalAlignment::Center),
-		wrap(ETextWrap::No)
+		wrap(ETextWrap::No),
+		layoutUnderLine(false),
+		layoutWeight(DWRITE_FONT_WEIGHT_BOLD),
+		layoutOutline(false),
+		layoutOutlineWidth(2.f),
+		layoutFeature(DWRITE_FONT_FEATURE_TAG_DEFAULT)
 	{}
 
 	FColor color;
