@@ -75,20 +75,30 @@ void S_TextBlock::Draw()
 	}
 	/* For WidgetAnimation */
 	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
-	//pD2DRT->DrawText(
-	//	mText.c_str(),
-	//	(UINT32)mText.size(),
-	//	pTextFormat,
-	//	RectHelper::ConvertRectToD2D(GetRect()),
-	//	pBrush
-	//);
 #if _DEBUG
 	pD2DRT->DrawRectangle(
 		RectHelper::ConvertRectToD2D(GetRect()),
 		pBrush
 	);
 #endif
-	pTextLayout->Draw(NULL, pCustomTextRenderer, mPosition.x, mPosition.y);
+
+	if (mAppearance.layoutOutline)
+	{
+		pD2DRT->DrawGeometry(pPathGeometry, pBrush, mAppearance.layoutOutlineWidth);
+		pD2DRT->FillGeometry(pPathGeometry, pBrush);
+		return;
+	}
+
+
+	pD2DRT->DrawText(
+		mText.c_str(),
+		(UINT32)mText.size(),
+		pTextFormat,
+		RectHelper::ConvertRectToD2D(GetRect()),
+		pBrush
+	);
+
+
 }
 
 void S_TextBlock::SetAppearance(FSlateTextAppearance in)
@@ -193,6 +203,62 @@ void S_TextBlock::UpdateTextLayout()
 	}
 	Util::SafeRelease(pTypography);
 }
+void S_TextBlock::SetOutline()
+{
+	IDWriteFontFile* pFontFile = nullptr;
+	pDWriteFactory->CreateFontFileReference(
+		L"Content/Fonts/khurasan-NewRamen.ttf",
+		NULL,
+		&pFontFile
+	);
+	IDWriteFontFile* pFontFiles[] = { pFontFile };
+	
+	IDWriteFontFace* pFontFace = nullptr;
+	pDWriteFactory->CreateFontFace(
+		DWRITE_FONT_FACE_TYPE_TRUETYPE,
+		1,
+		pFontFiles,
+		0,
+		DWRITE_FONT_SIMULATIONS_NONE,
+		&pFontFace
+	);
+
+	const auto textLength = mText.length();
+	UINT* pCodePoints = new UINT[textLength];
+	UINT16* pGlyphIndices = new UINT16[textLength];
+	ZeroMemory(pCodePoints, sizeof(UINT) * textLength);
+	ZeroMemory(pGlyphIndices, sizeof(UINT16) * textLength);
+	for (int i = 0; i < textLength; ++i)
+	{
+		pCodePoints[i] = mText.at(i);
+	}
+	pFontFace->GetGlyphIndicesW(pCodePoints, textLength, pGlyphIndices);
+
+	pD2DFactory->CreatePathGeometry(&pPathGeometry);
+	pPathGeometry->Open(&pGeometrySink);
+	pFontFace->GetGlyphRunOutline(
+		96.f,
+		pGlyphIndices,
+		nullptr,
+		nullptr,
+		textLength,
+		false,
+		false,
+		pGeometrySink
+	);
+	pGeometrySink->Close();
+	if (pCodePoints)
+	{
+		delete[] pCodePoints;
+		pCodePoints = nullptr;
+	}
+	if (pGlyphIndices)
+	{
+		delete[] pGlyphIndices;
+		pGlyphIndices = nullptr;
+	}
+}
+
 
 void S_TextBlock::SetAppearHorizontalAlignment(EHorizontalAlignment in)
 {

@@ -60,6 +60,10 @@ public:
 	bool layoutUnderLine;
 	DWRITE_FONT_WEIGHT layoutWeight;
 
+	// Layout : outline
+	bool layoutOutline;
+	float layoutOutlineWidth;
+
 	// Typography
 	DWRITE_FONT_FEATURE layoutFeature;
 };
@@ -106,6 +110,7 @@ public:
 protected:
 	virtual void UpdateSize();
 	void UpdateTextLayout();
+	void SetOutline();
 public:
 	virtual void SetAppearHorizontalAlignment(EHorizontalAlignment in);
 	virtual void SetAppearVerticalAlignment(EVerticalAlignment in);
@@ -127,6 +132,8 @@ private:
 	IDWriteTextLayout* pTextLayout = nullptr;
 	ID2D1BitmapBrush* pBitmapBrush = nullptr;
 	CustomTextRenderer* pCustomTextRenderer = nullptr;
+	ID2D1PathGeometry* pPathGeometry = nullptr;
+	ID2D1GeometrySink* pGeometrySink = nullptr;
 	FSlateFont mFont;
 	std::wstring mText;
 };
