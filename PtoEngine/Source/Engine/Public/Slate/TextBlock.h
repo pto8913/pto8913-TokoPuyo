@@ -116,14 +116,23 @@ public:
 	virtual void SetSize(FVector2D inSize) override;
 protected:
 	virtual void UpdateSize();
-	void UpdateTextLayout();
-	void SetOutline();
+
+
 public:
 	virtual void SetAppearHorizontalAlignment(EHorizontalAlignment in);
 	virtual void SetAppearVerticalAlignment(EVerticalAlignment in);
 
 	virtual void SetWrap(ETextWrap in);
+protected:
+	/* Called once in constructor. */
+	void CreateDeviceResource();
+	void CreateBitmap();
 
+	/* Called when any of mText, mFont, or mAppearance is changed.. */
+	void UpdateTextLayout();
+	void UpdateOutline();
+
+public:
 	/* NOTE : this will be called per frame. */
 	FOnSetText OnSetText;
 
@@ -141,6 +150,10 @@ private:
 	CustomTextRenderer* pCustomTextRenderer = nullptr;
 	ID2D1PathGeometry* pPathGeometry = nullptr;
 	ID2D1GeometrySink* pGeometrySink = nullptr;
+	IWICImagingFactory* pWICFactory = nullptr;
+	ID2D1Bitmap* pBitmap = nullptr;
 	FSlateFont mFont;
+
 	std::wstring mText;
+	UINT32 mTextLength;
 };
