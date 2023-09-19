@@ -14,10 +14,10 @@
 
 #include <wincodec.h>
 
-S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
+S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
 	: SlateSlotBase(inRt2D, inSize, inSlateInfos), mText(L""), mFont(inFont), mAppearance(inAppearance)
 {
-	CreateDeviceResource();
+	CreateDeviceResource(dx);
 
 	pRt2D->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.color),
@@ -25,13 +25,12 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfo
 	);
 	mTextLength = (UINT32)mText.length();
 	UpdateTextLayout();
-	UpdateOutline();
 
 	SetFont(mFont);
 	SetAppearance(mAppearance);
 }
-S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
-	: S_TextBlock(inRt2D, { 0,0 }, inSlateInfos, inFont, inAppearance)
+S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
+	: S_TextBlock(inRt2D, dx, { 0,0 }, inSlateInfos, inFont, inAppearance)
 {
 }
 
@@ -63,8 +62,6 @@ void S_TextBlock::Draw()
 
 	if (mAppearance.layoutOutline)
 	{
-		pRt2D->DrawGeometry(pPathGeometry, pBrush, mAppearance.layoutOutlineWidth);
-		pRt2D->FillGeometry(pPathGeometry, pBrush);
 		pTextLayout->Draw(NULL, pCustomTextRenderer, mPosition.x, mPosition.y);
 		return;
 	}
@@ -88,10 +85,6 @@ void S_TextBlock::SetAppearance(FSlateTextAppearance in)
 	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
 
 	UpdateTextLayout();
-	if (mAppearance.layoutOutline)
-	{
-		UpdateOutline();
-	}
 }
 FSlateTextAppearance& S_TextBlock::GetAppearance()
 {
@@ -114,7 +107,6 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 	);
 	UpdateSize();
 	UpdateTextLayout();
-	UpdateOutline();
 }
 void S_TextBlock::SetText(std::wstring inText)
 {
@@ -123,7 +115,6 @@ void S_TextBlock::SetText(std::wstring inText)
 
 	UpdateSize();
 	UpdateTextLayout();
-	UpdateOutline();
 }
 void S_TextBlock::SetSize(FVector2D inSize)
 {
@@ -195,7 +186,6 @@ void S_TextBlock::SetAppearVerticalAlignment(EVerticalAlignment in)
 		break;
 	}
 }
-
 void S_TextBlock::SetWrap(ETextWrap in)
 {
 	mAppearance.wrap = in;
@@ -219,7 +209,7 @@ void S_TextBlock::SetWrap(ETextWrap in)
 	}
 }
 
-void S_TextBlock::CreateDeviceResource()
+void S_TextBlock::CreateDeviceResource(DirectX11& dx)
 {
 	CoCreateInstance(
 		CLSID_WICImagingFactory,
@@ -228,10 +218,20 @@ void S_TextBlock::CreateDeviceResource()
 		IID_IWICImagingFactory,
 		reinterpret_cast<void**>(&pWICFactory)
 	);
-	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
-	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&pDWriteFactory));
+	D2D1CreateFactory(
+		D2D1_FACTORY_TYPE_SINGLE_THREADED, 
+		&pD2DFactory
+	);
+	DWriteCreateFactory(
+		DWRITE_FACTORY_TYPE_SHARED, 
+		__uuidof(IDWriteFactory), 
+		reinterpret_cast<IUnknown**>(&pDWriteFactory)
+	);
 
-	CreateBitmap();
+	UpdateTextLayout();
+	
+	ID2D1Bitmap* pBitmap = nullptr;
+	LoadResourceBitmap(pRt2D, pWICFactory, L"Tulip", L"Image", &pBitmap);
 
 	if (pBitmapBrush == nullptr)
 	{
@@ -252,47 +252,22 @@ void S_TextBlock::CreateDeviceResource()
 			pBitmapBrush
 		);
 	}
-}
-void S_TextBlock::CreateBitmap()
-{
-	if (pBitmap)
-	{
-		pBitmap->Release();
-		pBitmap = nullptr;
-	}
-
-	IWICBitmapDecoder* pBitmapDecoder;
-	IWICBitmapFrameDecode* pBitmapFrameDecode;
-	IWICFormatConverter* pImageConverter;
-	if (pWICFactory == nullptr)
-	{
-		HRESULT result = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, (LPVOID*)&pWICFactory);
-	}
-	pWICFactory->CreateDecoderFromFilename(L"Content/Textures/T_Transparent.png", nullptr, GENERIC_READ, WICDecodeMetadataCacheOnLoad, &pBitmapDecoder);
-	pBitmapDecoder->GetFrame(0, &pBitmapFrameDecode);
-	pWICFactory->CreateFormatConverter(&pImageConverter);
-	pImageConverter->Initialize(pBitmapFrameDecode, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, nullptr, 1.f, WICBitmapPaletteTypeMedianCut);
-
-	HRESULT result = pRt2D->CreateBitmapFromWicBitmap(pImageConverter, nullptr, &pBitmap);
-	if (FAILED(result))
-	{
-		MessageBox(NULL, L"Can not create Bitmap", L"Failed ScreenTexture constructor", MB_OK);
-		assert(false);
-	}
-
-	pBitmapDecoder->Release();
-	pBitmapFrameDecode->Release();
-	pImageConverter->Release();
+	Util::SafeRelease(pBitmap);
 }
 
 void S_TextBlock::UpdateTextLayout()
 {
+	if (pTextLayout)
+	{
+		pTextLayout->Release();
+		pTextLayout = nullptr;
+	}
 	pDWriteFactory->CreateTextLayout(
 		mText.c_str(),
 		mTextLength,
 		pTextFormat,
-		mSize.x,
-		mSize.y,
+		mSize.x / 96.f,
+		mSize.y / 96.f,
 		&pTextLayout
 	);
 	if (pTextLayout)
@@ -312,58 +287,141 @@ void S_TextBlock::UpdateTextLayout()
 		Util::SafeRelease(pTypography);
 	}
 }
-void S_TextBlock::UpdateOutline()
+
+
+#ifndef HINST_THISCOMPONENT
+EXTERN_C IMAGE_DOS_HEADER __ImageBase;
+#define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
+#endif
+
+HRESULT S_TextBlock::LoadResourceBitmap(
+	ID2D1RenderTarget* pRT,
+	IWICImagingFactory* pIWICFactory,
+	PCWSTR resourceName,
+	PCWSTR resourceType,
+	__deref_out ID2D1Bitmap** ppBitmap
+)
 {
-	IDWriteFontFile* pFontFile = nullptr;
-	pDWriteFactory->CreateFontFileReference(
-		mFont.fileName.c_str(),
-		NULL,
-		&pFontFile
-	);
-	IDWriteFontFile* pFontFiles[] = { pFontFile };
+	HRESULT hr = S_OK;
 
-	IDWriteFontFace* pFontFace = nullptr;
-	pDWriteFactory->CreateFontFace(
-		DWRITE_FONT_FACE_TYPE_TRUETYPE,
-		1,
-		pFontFiles,
-		0,
-		DWRITE_FONT_SIMULATIONS_NONE,
-		&pFontFace
+	IWICBitmapDecoder* pDecoder = NULL;
+	IWICBitmapFrameDecode* pSource = NULL;
+	IWICStream* pStream = NULL;
+	IWICFormatConverter* pConverter = NULL;
+
+	HRSRC imageResHandle = NULL;
+	HGLOBAL imageResDataHandle = NULL;
+	void* pImageFile = NULL;
+	DWORD imageFileSize = 0;
+
+	// Locate the resource handle in our dll
+	imageResHandle = FindResourceW(
+		HINST_THISCOMPONENT,
+		resourceName,
+		resourceType
 	);
 
-	const auto textLength = mText.length();
-	UINT* pCodePoints = new UINT[textLength];
-	UINT16* pGlyphIndices = new UINT16[textLength];
-	ZeroMemory(pCodePoints, sizeof(UINT) * textLength);
-	ZeroMemory(pGlyphIndices, sizeof(UINT16) * textLength);
-	for (int i = 0; i < textLength; ++i)
-	{
-		pCodePoints[i] = mText.at(i);
-	}
-	pFontFace->GetGlyphIndicesW(pCodePoints, textLength, pGlyphIndices);
+	hr = imageResHandle ? S_OK : E_FAIL;
 
-	pD2DFactory->CreatePathGeometry(&pPathGeometry);
-	pPathGeometry->Open(&pGeometrySink);
-	pFontFace->GetGlyphRunOutline(
-		96.f,
-		pGlyphIndices,
-		NULL,
-		NULL,
-		textLength,
-		FALSE,
-		FALSE,
-		pGeometrySink
+	// Load the resource
+	imageResDataHandle = LoadResource(
+		HINST_THISCOMPONENT,
+		imageResHandle
 	);
-	pGeometrySink->Close();
-	if (pCodePoints)
+
+	if (SUCCEEDED(hr))
 	{
-		delete[] pCodePoints;
-		pCodePoints = nullptr;
+		hr = imageResDataHandle ? S_OK : E_FAIL;
 	}
-	if (pGlyphIndices)
+
+	// Lock it to get a system memory pointer
+	pImageFile = LockResource(
+		imageResDataHandle
+	);
+
+	if (SUCCEEDED(hr))
 	{
-		delete[] pGlyphIndices;
-		pGlyphIndices = nullptr;
+		hr = pImageFile ? S_OK : E_FAIL;
 	}
+
+	// Calculate the size
+	imageFileSize = SizeofResource(
+		HINST_THISCOMPONENT,
+		imageResHandle
+	);
+
+	if (SUCCEEDED(hr))
+	{
+		hr = imageFileSize ? S_OK : E_FAIL;
+	}
+
+	// Create a WIC stream to map onto the memory
+	if (SUCCEEDED(hr))
+	{
+		hr = pIWICFactory->CreateStream(&pStream);
+	}
+
+	// Initialize the stream with the memory pointer and size
+	if (SUCCEEDED(hr))
+	{
+		hr = pStream->InitializeFromMemory(
+			reinterpret_cast<BYTE*>(pImageFile),
+			imageFileSize
+		);
+	}
+
+	// Create a decoder for the stream
+	if (SUCCEEDED(hr))
+	{
+		hr = pIWICFactory->CreateDecoderFromStream(
+			pStream,
+			NULL,
+			WICDecodeMetadataCacheOnLoad,
+			&pDecoder
+		);
+	}
+
+	// Create the initial frame
+	if (SUCCEEDED(hr))
+	{
+		hr = pDecoder->GetFrame(
+			0,
+			&pSource
+		);
+	}
+
+	// Format convert to 32bppPBGRA -- which Direct2D expects
+	if (SUCCEEDED(hr))
+	{
+		hr = pIWICFactory->CreateFormatConverter(&pConverter);
+	}
+
+	if (SUCCEEDED(hr))
+	{
+		hr = pConverter->Initialize(
+			pSource,
+			GUID_WICPixelFormat32bppPBGRA,
+			WICBitmapDitherTypeNone,
+			NULL,
+			0.f,
+			WICBitmapPaletteTypeMedianCut
+		);
+	}
+
+	// Create a Direct2D bitmap from the WIC bitmap.
+	if (SUCCEEDED(hr))
+	{
+		hr = pRT->CreateBitmapFromWicBitmap(
+			pConverter,
+			NULL,
+			ppBitmap
+		);
+	}
+
+	Util::SafeRelease(pDecoder);
+	Util::SafeRelease(pSource);
+	Util::SafeRelease(pStream);
+	Util::SafeRelease(pConverter);
+
+	return hr;
 }
