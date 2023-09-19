@@ -300,19 +300,22 @@ void S_TextBlock::UpdateTextLayout()
 		windowSize.y,
 		&pTextLayout
 	);
-	DWRITE_TEXT_RANGE textRange;
-	textRange.length = mTextLength;
-	pTextLayout->SetFontSize(mFont.fontSize, textRange);
-	pTextLayout->SetUnderline(mAppearance.layoutUnderLine, textRange);
-	pTextLayout->SetFontWeight(mAppearance.layoutWeight, textRange);
-	IDWriteTypography* pTypography = nullptr;
-	pDWriteFactory->CreateTypography(&pTypography);
-	if (pTypography != nullptr)
+	if (pTextLayout)
 	{
-		pTypography->AddFontFeature(mAppearance.layoutFeature);
-		pTextLayout->SetTypography(pTypography, textRange);
+		DWRITE_TEXT_RANGE textRange;
+		textRange.length = mTextLength;
+		pTextLayout->SetFontSize(mFont.fontSize, textRange);
+		pTextLayout->SetUnderline(mAppearance.layoutUnderLine, textRange);
+		pTextLayout->SetFontWeight(mAppearance.layoutWeight, textRange);
+		IDWriteTypography* pTypography = nullptr;
+		pDWriteFactory->CreateTypography(&pTypography);
+		if (pTypography != nullptr)
+		{
+			pTypography->AddFontFeature(mAppearance.layoutFeature);
+			pTextLayout->SetTypography(pTypography, textRange);
+		}
+		Util::SafeRelease(pTypography);
 	}
-	Util::SafeRelease(pTypography);
 }
 void S_TextBlock::UpdateOutline()
 {
