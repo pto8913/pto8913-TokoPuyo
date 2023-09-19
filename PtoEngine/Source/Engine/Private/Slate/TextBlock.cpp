@@ -89,7 +89,6 @@ void S_TextBlock::Draw()
 		return;
 	}
 
-
 	pD2DRT->DrawText(
 		mText.c_str(),
 		(UINT32)mText.size(),
@@ -108,6 +107,11 @@ void S_TextBlock::SetAppearance(FSlateTextAppearance in)
 	SetAppearHorizontalAlignment(mAppearance.hAlign);
 	SetAppearVerticalAlignment(mAppearance.vAlign);
 	SetWrap(mAppearance.wrap);
+
+	if (mAppearance.layoutOutline)
+	{
+		SetOutline();
+	}
 
 	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
 }
