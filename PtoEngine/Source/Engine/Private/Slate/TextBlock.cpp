@@ -288,6 +288,11 @@ void S_TextBlock::UpdateTextLayout()
 	}
 }
 
+#ifndef HINST_THISCOMPONENT
+EXTERN_C IMAGE_DOS_HEADER __ImageBase;
+#define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
+#endif
+
 HRESULT S_TextBlock::LoadResourceBitmap(
 	ID2D1RenderTarget* pRT,
 	IWICImagingFactory* pIWICFactory,
