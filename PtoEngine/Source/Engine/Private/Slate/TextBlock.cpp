@@ -63,6 +63,7 @@ void S_TextBlock::Draw()
 	if (mAppearance.layoutOutline)
 	{
 		pTextLayout->Draw(NULL, pCustomTextRenderer, mPosition.x, mPosition.y);
+		pRt2D->DrawTextLayout(D2D1::Point2F(mPosition.x, mPosition.y), pTextLayout, pBrush);
 		return;
 	}
 	pRt2D->DrawText(
