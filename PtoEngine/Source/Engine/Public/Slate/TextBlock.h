@@ -22,16 +22,10 @@ public:
 		style(DWRITE_FONT_STYLE_NORMAL),
 		stretch(DWRITE_FONT_STRETCH_NORMAL)
 	{}
-	virtual ~FSlateFont()
-	{
-		delete[] fileName;
-		delete[] fontFamily;
-		delete[] fontLocalName;
-	}
 	
-	const wchar_t* fileName;
-	const wchar_t* fontFamily;
-	const wchar_t* fontLocalName;
+	std::wstring fileName;
+	std::wstring fontFamily;
+	std::wstring fontLocalName;
 	float fontSize;
 
 	DWRITE_FONT_WEIGHT weight;
