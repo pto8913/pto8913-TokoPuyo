@@ -96,8 +96,6 @@ void S_TextBlock::Draw()
 		RectHelper::ConvertRectToD2D(GetRect()),
 		pBrush
 	);
-
-
 }
 
 void S_TextBlock::SetAppearance(FSlateTextAppearance in)
