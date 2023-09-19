@@ -123,13 +123,13 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 	mFont = inFont;
 
 	pDWriteFactory->CreateTextFormat(
-		mFont.fontFamily,
+		mFont.fontFamily.c_str(),
 		NULL,
 		mFont.weight,
 		mFont.style,
 		mFont.stretch,
 		mFont.fontSize,
-		mFont.fontLocalName,
+		mFont.fontLocalName.c_str(),
 		&pTextFormat
 	);
 	UpdateSize();
@@ -209,7 +209,7 @@ void S_TextBlock::SetOutline()
 {
 	IDWriteFontFile* pFontFile = nullptr;
 	pDWriteFactory->CreateFontFileReference(
-		mFont.fileName,
+		mFont.fileName.c_str(),
 		NULL,
 		&pFontFile
 	);
