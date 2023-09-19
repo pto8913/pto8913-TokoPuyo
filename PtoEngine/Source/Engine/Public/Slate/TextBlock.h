@@ -117,7 +117,6 @@ public:
 protected:
 	virtual void UpdateSize();
 
-
 public:
 	virtual void SetAppearHorizontalAlignment(EHorizontalAlignment in);
 	virtual void SetAppearVerticalAlignment(EVerticalAlignment in);
