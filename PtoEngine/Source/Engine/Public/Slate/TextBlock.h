@@ -14,14 +14,22 @@ struct FSlateFont
 {
 public:
 	FSlateFont() 
-		: fontFamily(L"Script"), 
+		: fileName(L"Content/Fonts/khurasan-NewRamen.ttf"),
+		fontFamily(L"Script"), 
 		fontLocalName(L"en-us"),
 		fontSize(24.f), 
 		weight(DWRITE_FONT_WEIGHT_REGULAR), 
 		style(DWRITE_FONT_STYLE_NORMAL),
 		stretch(DWRITE_FONT_STRETCH_NORMAL)
 	{}
+	virtual ~FSlateFont()
+	{
+		delete[] fileName;
+		delete[] fontFamily;
+		delete[] fontLocalName;
+	}
 	
+	const wchar_t* fileName;
 	const wchar_t* fontFamily;
 	const wchar_t* fontLocalName;
 	float fontSize;
@@ -51,7 +59,7 @@ public:
 		layoutWeight(DWRITE_FONT_WEIGHT_BOLD),
 		layoutOutline(false),
 		layoutOutlineWidth(2.f),
-		layoutFeature(DWRITE_FONT_FEATURE_TAG_DEFAULT)
+		layoutFeature()
 	{}
 
 	FColor color;
@@ -89,8 +97,8 @@ public:
 class S_TextBlock : public SlateSlotBase
 {
 public:
-	S_TextBlock(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
-	S_TextBlock(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
+	S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
+	S_TextBlock(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
 	virtual ~S_TextBlock();
 
 	// ------------------------------------------------------------------------------------------------

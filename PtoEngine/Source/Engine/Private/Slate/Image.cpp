@@ -5,13 +5,13 @@
 
 #include "Helper/RectHelper.h"
 
-S_Image::S_Image(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos, std::wstring inFileName)
-	: SlateSlotBase(inD2DRT, inSize, inSlateInfos)
+S_Image::S_Image(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, std::wstring inFileName)
+	: SlateSlotBase(inRt2D, inSize, inSlateInfos)
 {
 	SetFileName(inFileName);
 }
-S_Image::S_Image(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, std::wstring inFileName)	
-	: S_Image(inD2DRT, { 0,0 }, inSlateInfos, inFileName)
+S_Image::S_Image(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos, std::wstring inFileName)	
+	: S_Image(inRt2D, { 0,0 }, inSlateInfos, inFileName)
 {}
 S_Image::~S_Image()
 {
@@ -29,7 +29,7 @@ void S_Image::Draw()
 	}
 	if (pBitmap != nullptr)
 	{
-		pD2DRT->DrawBitmap(
+		pRt2D->DrawBitmap(
 			pBitmap,
 			RectHelper::ConvertRectToD2D(GetRect()),
 			1.f,
@@ -38,7 +38,7 @@ void S_Image::Draw()
 		);
 	}
 #if _DEBUG
-	pD2DRT->DrawRectangle(
+	pRt2D->DrawRectangle(
 		RectHelper::ConvertRectToD2D(GetRect()),
 		pBrush
 	);
@@ -73,7 +73,7 @@ void S_Image::SetFileName(std::wstring in)
 	pImageFactory->CreateFormatConverter(&pImageConverter);
 	pImageConverter->Initialize(pBitmapFrameDecode, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, nullptr, 1.f, WICBitmapPaletteTypeMedianCut);
 
-	pD2DRT->CreateBitmapFromWicBitmap(pImageConverter, nullptr, &pBitmap);
+	pRt2D->CreateBitmapFromWicBitmap(pImageConverter, nullptr, &pBitmap);
 
 	pImageFactory->Release();
 	pBitmapDecoder->Release();

@@ -7,8 +7,8 @@ class SlateSlotBase;
 class S_VerticalBox : public SlateContainerBase
 {
 public:
-	S_VerticalBox(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos = {});
-	S_VerticalBox(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {});
+	S_VerticalBox(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = {});
+	S_VerticalBox(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos = {});
 	virtual ~S_VerticalBox();
 
 	virtual std::string GetName() const override

@@ -41,8 +41,8 @@ public:
 class S_Slider : public SlateSlotBase
 {
 public:
-	S_Slider(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateSliderAppearance inAppearance = {});
-	S_Slider(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {}, FSlateSliderAppearance inAppearance = {});
+	S_Slider(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateSliderAppearance inAppearance = {});
+	S_Slider(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos = {}, FSlateSliderAppearance inAppearance = {});
 	virtual ~S_Slider();
 
 	// ------------------------------------------------------

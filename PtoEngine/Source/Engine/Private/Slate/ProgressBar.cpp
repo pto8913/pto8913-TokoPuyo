@@ -6,23 +6,23 @@
 #include "Helper/ColorHelper.h"
 #include "Helper/RectHelper.h"
 
-S_ProgressBar::S_ProgressBar(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos, FSlateProgressAppearance inAppearance)
-	: SlateSlotBase(inD2DRT, inSize, inSlateInfos),
+S_ProgressBar::S_ProgressBar(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateProgressAppearance inAppearance)
+	: SlateSlotBase(inRt2D, inSize, inSlateInfos),
 	mAppearance(inAppearance),
 	mPercent(1.f)
 {
-	pD2DRT->CreateSolidColorBrush(
+	pRt2D->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.BackgroundColor),
 		&pBrush
 	);
 
-	pD2DRT->CreateSolidColorBrush(
+	pRt2D->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.ProgressColor),
 		&pBarBrush
 	);
 }
-S_ProgressBar::S_ProgressBar(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateProgressAppearance inAppearance)
-	: S_ProgressBar(inD2DRT, { 0,0 }, inSlateInfos, inAppearance)
+S_ProgressBar::S_ProgressBar(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos, FSlateProgressAppearance inAppearance)
+	: S_ProgressBar(inRt2D, { 0,0 }, inSlateInfos, inAppearance)
 {
 }
 S_ProgressBar::~S_ProgressBar()
@@ -39,13 +39,13 @@ void S_ProgressBar::Draw()
 	{
 		return;
 	}
-	pD2DRT->FillRectangle(
+	pRt2D->FillRectangle(
 		RectHelper::ConvertRectToD2D(GetRect(1)),
 		pBrush
 	);
 
 	FRect progressRect = GetRect(mPercent);
-	pD2DRT->FillRectangle(
+	pRt2D->FillRectangle(
 		RectHelper::ConvertRectToD2D(progressRect),
 		pBarBrush
 	);

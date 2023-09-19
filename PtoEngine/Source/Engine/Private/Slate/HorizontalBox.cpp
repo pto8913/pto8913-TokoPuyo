@@ -1,8 +1,8 @@
 
 #include "Slate/HorizontalBox.h"
 
-S_HorizontalBox::S_HorizontalBox(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos)
-	: SlateContainerBase(inD2DRT, inSize, inSlateInfos)
+S_HorizontalBox::S_HorizontalBox(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
+	: SlateContainerBase(inRt2D, inSize, inSlateInfos)
 {
 #if _DEBUG
 	pBrush->SetColor(
@@ -11,8 +11,8 @@ S_HorizontalBox::S_HorizontalBox(ID2D1RenderTarget* inD2DRT, FVector2D inSize, F
 #endif
 }
 
-S_HorizontalBox::S_HorizontalBox(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
-	: S_HorizontalBox(inD2DRT, { 0,0 }, inSlateInfos)
+S_HorizontalBox::S_HorizontalBox(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos)
+	: S_HorizontalBox(inRt2D, { 0,0 }, inSlateInfos)
 {
 }
 S_HorizontalBox::~S_HorizontalBox()

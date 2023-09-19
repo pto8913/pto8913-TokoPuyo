@@ -4,13 +4,13 @@
 
 #include <format>
 
-S_ChoiceBox::S_ChoiceBox(ID2D1RenderTarget* inD2DRT, FVector2D inSize, const TArray<FChoiceInfos>& inChoiceInfos, FSlateInfos inSlateInfos)
-	: S_VerticalBox(inD2DRT, inSize, inSlateInfos)
+S_ChoiceBox::S_ChoiceBox(ID2D1RenderTarget* inRt2D, FVector2D inSize, const TArray<FChoiceInfos>& inChoiceInfos, FSlateInfos inSlateInfos)
+	: S_VerticalBox(inRt2D, inSize, inSlateInfos)
 {
 	SetChoiceButton(inChoiceInfos);
 }
-S_ChoiceBox::S_ChoiceBox(ID2D1RenderTarget* inD2DRT, const TArray<FChoiceInfos>& inChoiceInfos, FSlateInfos inSlateInfos)
-	: S_ChoiceBox(inD2DRT, { 0,0 }, inChoiceInfos, inSlateInfos)
+S_ChoiceBox::S_ChoiceBox(ID2D1RenderTarget* inRt2D, const TArray<FChoiceInfos>& inChoiceInfos, FSlateInfos inSlateInfos)
+	: S_ChoiceBox(inRt2D, { 0,0 }, inChoiceInfos, inSlateInfos)
 {
 }
 
@@ -50,7 +50,7 @@ void S_ChoiceBox::SetChoiceButton(const TArray<FChoiceInfos>& inChoiceInfos)
 
 			for (int i = 0; i < numOfButton; ++i)
 			{
-				auto button = std::make_shared<S_ChoiceButton>(pD2DRT, FVector2D(GetSize().x, 30.f), FChoiceInfos(), info, appearance);
+				auto button = std::make_shared<S_ChoiceButton>(pRt2D, FVector2D(GetSize().x, 30.f), FChoiceInfos(), info, appearance);
 				AddChild(button);
 				button->GetOnChoice().Bind<&S_ChoiceBox::OnClicked>(*this, std::format("choice_button_{}", GetChildrenCount()));
 			}

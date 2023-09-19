@@ -12,13 +12,13 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////////// 
 
-SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos)
-	: SlateBase(inD2DRT, inSize, inSlateInfos)
+SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
+	: SlateBase(inRt2D, inSize, inSlateInfos)
 {
 	mSlateInputEventReceiveType = ESlateInputEventReceiveType::NotChildren;
 }
-SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
-	: SlateContainerBase(inD2DRT, { 0,0 }, inSlateInfos)
+SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos)
+	: SlateContainerBase(inRt2D, { 0,0 }, inSlateInfos)
 {
 }
 SlateContainerBase::~SlateContainerBase()
@@ -37,7 +37,7 @@ void SlateContainerBase::Draw()
 	}
 
 #if _DEBUG
-	pD2DRT->DrawRectangle(
+	pRt2D->DrawRectangle(
 		RectHelper::ConvertRectToD2D(GetRect()),
 		pBrush
 	);
@@ -312,12 +312,12 @@ bool SlateContainerBase::OnKeyUp(DX::MouseEvent inMouseEvent)
 // Container only one
 // 
 //////////////////////////////////////////////////////////////////////////////////////// 
-SlotContainerOnlyOne::SlotContainerOnlyOne(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos)
-	: SlateContainerBase(inD2DRT, inSize, inSlateInfos)
+SlotContainerOnlyOne::SlotContainerOnlyOne(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
+	: SlateContainerBase(inRt2D, inSize, inSlateInfos)
 {
 }
-SlotContainerOnlyOne::SlotContainerOnlyOne(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos)
-	: SlotContainerOnlyOne(inD2DRT, { 0,0 }, inSlateInfos)
+SlotContainerOnlyOne::SlotContainerOnlyOne(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos)
+	: SlotContainerOnlyOne(inRt2D, { 0,0 }, inSlateInfos)
 {
 }
 void SlotContainerOnlyOne::AddChild(std::shared_ptr<SlateBase> in)

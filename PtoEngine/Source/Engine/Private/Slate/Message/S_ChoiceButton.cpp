@@ -5,21 +5,21 @@
 #include "Slate/Button.h"
 #include "Slate/TextBlock.h"
 
-S_ChoiceButton::S_ChoiceButton(ID2D1RenderTarget* inD2DRT, FVector2D inSize, const FChoiceInfos& inChoiceInfos, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
-	: S_Button(inD2DRT, inSize, inSlateInfos, inButtonAppearance)
+S_ChoiceButton::S_ChoiceButton(ID2D1RenderTarget* inRt2D, FVector2D inSize, const FChoiceInfos& inChoiceInfos, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
+	: S_Button(inRt2D, inSize, inSlateInfos, inButtonAppearance)
 {
 	OnClicked.Bind<&S_ChoiceButton::OnClickedEvent>(*this, "S_ChoiceButton");
 
 	FSlateInfos infos;
 	infos.HAlign = EHorizontalAlignment::Center;
 	infos.VAlign = EVerticalAlignment::Center;
-	pLabel = std::make_shared<S_TextBlock>(inD2DRT, infos);
+	pLabel = std::make_shared<S_TextBlock>(inRt2D, infos);
 	AddChild(pLabel);
 
 	SetChoiceInfos(inChoiceInfos);
 }
-S_ChoiceButton::S_ChoiceButton(ID2D1RenderTarget* inD2DRT, const FChoiceInfos& inChoiceInfos, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
-	: S_ChoiceButton(inD2DRT, { 0,0 }, inChoiceInfos, inSlateInfos, inButtonAppearance)
+S_ChoiceButton::S_ChoiceButton(ID2D1RenderTarget* inRt2D, const FChoiceInfos& inChoiceInfos, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
+	: S_ChoiceButton(inRt2D, { 0,0 }, inChoiceInfos, inSlateInfos, inButtonAppearance)
 {
 }
 S_ChoiceButton::~S_ChoiceButton()

@@ -8,18 +8,18 @@
 #include <format>
 #endif
 
-S_Button::S_Button(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos, FSlateButtonAppearance inAppearance)
-	: SlotContainerOnlyOne(inD2DRT, inSize, inSlateInfos), mAppearance(inAppearance)
+S_Button::S_Button(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateButtonAppearance inAppearance)
+	: SlotContainerOnlyOne(inRt2D, inSize, inSlateInfos), mAppearance(inAppearance)
 {
 	mSlateInputEventReceiveType = ESlateInputEventReceiveType::Enable;
 
-	pD2DRT->CreateSolidColorBrush(
+	pRt2D->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.DefaultColor),
 		&pBrush
 	);
 }
-S_Button::S_Button(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateButtonAppearance inAppearance)
-	: S_Button(inD2DRT, { 0,0 }, inSlateInfos, inAppearance)
+S_Button::S_Button(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos, FSlateButtonAppearance inAppearance)
+	: S_Button(inRt2D, { 0,0 }, inSlateInfos, inAppearance)
 {}
 
 S_Button::~S_Button()
@@ -36,7 +36,7 @@ void S_Button::Draw()
 	{
 		return;
 	}
-	pD2DRT->FillRectangle(
+	pRt2D->FillRectangle(
 		RectHelper::ConvertRectToD2D(GetRect()),
 		pBrush
 	);

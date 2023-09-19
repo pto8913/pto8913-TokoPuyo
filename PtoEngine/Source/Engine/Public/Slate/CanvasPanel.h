@@ -5,8 +5,8 @@
 class S_CanvasPanel : public SlateContainerBase
 {
 public:
-	S_CanvasPanel(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos = {});
-	S_CanvasPanel(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos = {});
+	S_CanvasPanel(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = {});
+	S_CanvasPanel(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos = {});
 	virtual ~S_CanvasPanel();
 
 	// ------------------------------------------------------------------------------------------------

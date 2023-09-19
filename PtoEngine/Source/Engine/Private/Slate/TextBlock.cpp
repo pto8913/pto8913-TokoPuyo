@@ -12,15 +12,15 @@
 
 #include "EngineSettings.h"
 
-S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
-	: SlateSlotBase(inD2DRT, inSize, inSlateInfos), mText(L""), mFont(inFont), mAppearance(inAppearance)
+S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
+	: SlateSlotBase(inRt2D, inSize, inSlateInfos), mText(L""), mFont(inFont), mAppearance(inAppearance)
 {
 	const auto windowSize = EngineSettings::GetWindowSize();
 
 	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&pDWriteFactory));
 	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
 
-	pD2DRT->CreateSolidColorBrush(
+	pRt2D->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.color),
 		&pBrush
 	);
@@ -32,10 +32,10 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInf
 		bitmapSize.height = windowSize.y;
 		D2D1_BITMAP_PROPERTIES bitmapProps;
 		ID2D1Bitmap* pBitmap = nullptr;
-		pD2DRT->CreateBitmap(bitmapSize, bitmapProps, &pBitmap);
+		pRt2D->CreateBitmap(bitmapSize, bitmapProps, &pBitmap);
 		// Create the bitmap brush
 		D2D1_BITMAP_BRUSH_PROPERTIES properties = { D2D1_EXTEND_MODE_WRAP, D2D1_EXTEND_MODE_WRAP, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR };
-		pD2DRT->CreateBitmapBrush(
+		pRt2D->CreateBitmapBrush(
 			pBitmap,
 			properties,
 			&pBitmapBrush
@@ -43,7 +43,7 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInf
 	}
 	pCustomTextRenderer = new CustomTextRenderer(
 		pD2DFactory,
-		pD2DRT,
+		pRt2D,
 		pBrush,
 		pBitmapBrush
 	);
@@ -51,8 +51,8 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FVector2D inSize, FSlateInf
 	SetFont(mFont);
 	SetAppearance(mAppearance);
 }
-S_TextBlock::S_TextBlock(ID2D1RenderTarget* inD2DRT, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
-	: S_TextBlock(inD2DRT, { 0,0 }, inSlateInfos, inFont, inAppearance)
+S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
+	: S_TextBlock(inRt2D, { 0,0 }, inSlateInfos, inFont, inAppearance)
 {
 }
 
@@ -76,7 +76,7 @@ void S_TextBlock::Draw()
 	/* For WidgetAnimation */
 	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
 #if _DEBUG
-	pD2DRT->DrawRectangle(
+	pRt2D->DrawRectangle(
 		RectHelper::ConvertRectToD2D(GetRect()),
 		pBrush
 	);
@@ -84,12 +84,12 @@ void S_TextBlock::Draw()
 
 	if (mAppearance.layoutOutline)
 	{
-		pD2DRT->DrawGeometry(pPathGeometry, pBrush, mAppearance.layoutOutlineWidth);
-		pD2DRT->FillGeometry(pPathGeometry, pBrush);
+		pRt2D->DrawGeometry(pPathGeometry, pBrush, mAppearance.layoutOutlineWidth);
+		pRt2D->FillGeometry(pPathGeometry, pBrush);
 		return;
 	}
 
-	pD2DRT->DrawText(
+	pRt2D->DrawText(
 		mText.c_str(),
 		(UINT32)mText.size(),
 		pTextFormat,
@@ -209,7 +209,7 @@ void S_TextBlock::SetOutline()
 {
 	IDWriteFontFile* pFontFile = nullptr;
 	pDWriteFactory->CreateFontFileReference(
-		L"Content/Fonts/khurasan-NewRamen.ttf",
+		mFont.fileName,
 		NULL,
 		&pFontFile
 	);
@@ -241,11 +241,11 @@ void S_TextBlock::SetOutline()
 	pFontFace->GetGlyphRunOutline(
 		96.f,
 		pGlyphIndices,
-		nullptr,
-		nullptr,
+		NULL,
+		NULL,
 		textLength,
-		false,
-		false,
+		FALSE,
+		FALSE,
 		pGeometrySink
 	);
 	pGeometrySink->Close();
@@ -260,7 +260,6 @@ void S_TextBlock::SetOutline()
 		pGlyphIndices = nullptr;
 	}
 }
-
 
 void S_TextBlock::SetAppearHorizontalAlignment(EHorizontalAlignment in)
 {
