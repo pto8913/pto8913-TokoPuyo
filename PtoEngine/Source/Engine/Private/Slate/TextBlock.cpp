@@ -25,7 +25,7 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfo
 		ColorHelper::ConvertColorToD2D(mAppearance.color),
 		&pBrush
 	);
-
+	mTextLength = (UINT32)mText.length();
 	UpdateTextLayout();
 	UpdateOutline();
 
@@ -72,13 +72,13 @@ void S_TextBlock::Draw()
 
 	pTextLayout->Draw(NULL, pCustomTextRenderer, mPosition.x, mPosition.y);
 
-	pRt2D->DrawText(
-		mText.c_str(),
-		(UINT32)mText.size(),
-		pTextFormat,
-		RectHelper::ConvertRectToD2D(GetRect()),
-		pBrush
-	);
+	//pRt2D->DrawText(
+	//	mText.c_str(),
+	//	(UINT32)mText.size(),
+	//	pTextFormat,
+	//	RectHelper::ConvertRectToD2D(GetRect()),
+	//	pBrush
+	//);
 }
 
 void S_TextBlock::SetAppearance(FSlateTextAppearance in)
