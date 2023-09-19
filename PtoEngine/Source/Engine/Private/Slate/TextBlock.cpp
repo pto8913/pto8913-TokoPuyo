@@ -12,40 +12,18 @@
 
 #include "EngineSettings.h"
 
+#include <wincodec.h>
+
 S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
 	: SlateSlotBase(inRt2D, inSize, inSlateInfos), mText(L""), mFont(inFont), mAppearance(inAppearance)
 {
 	const auto windowSize = EngineSettings::GetWindowSize();
 
-	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&pDWriteFactory));
-	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
+	CreateDeviceResource();
 
 	pRt2D->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.color),
 		&pBrush
-	);
-
-	if (pBitmapBrush == nullptr)
-	{
-		D2D1_SIZE_U bitmapSize;
-		bitmapSize.width = windowSize.x;
-		bitmapSize.height = windowSize.y;
-		D2D1_BITMAP_PROPERTIES bitmapProps;
-		ID2D1Bitmap* pBitmap = nullptr;
-		pRt2D->CreateBitmap(bitmapSize, bitmapProps, &pBitmap);
-		// Create the bitmap brush
-		D2D1_BITMAP_BRUSH_PROPERTIES properties = { D2D1_EXTEND_MODE_WRAP, D2D1_EXTEND_MODE_WRAP, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR };
-		pRt2D->CreateBitmapBrush(
-			pBitmap,
-			properties,
-			&pBitmapBrush
-		);
-	}
-	pCustomTextRenderer = new CustomTextRenderer(
-		pD2DFactory,
-		pRt2D,
-		pBrush,
-		pBitmapBrush
 	);
 
 	SetFont(mFont);
@@ -88,15 +66,16 @@ void S_TextBlock::Draw()
 		pRt2D->FillGeometry(pPathGeometry, pBrush);
 		return;
 	}
+
 	pTextLayout->Draw(NULL, pCustomTextRenderer, mPosition.x, mPosition.y);
 
-	//pRt2D->DrawText(
-	//	mText.c_str(),
-	//	(UINT32)mText.size(),
-	//	pTextFormat,
-	//	RectHelper::ConvertRectToD2D(GetRect()),
-	//	pBrush
-	//);
+	pRt2D->DrawText(
+		mText.c_str(),
+		(UINT32)mText.size(),
+		pTextFormat,
+		RectHelper::ConvertRectToD2D(GetRect()),
+		pBrush
+	);
 }
 
 void S_TextBlock::SetAppearance(FSlateTextAppearance in)
@@ -107,13 +86,13 @@ void S_TextBlock::SetAppearance(FSlateTextAppearance in)
 	SetAppearVerticalAlignment(mAppearance.vAlign);
 	SetWrap(mAppearance.wrap);
 
+	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
+
 	UpdateTextLayout();
 	if (mAppearance.layoutOutline)
 	{
-		SetOutline();
+		UpdateOutline();
 	}
-
-	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
 }
 FSlateTextAppearance& S_TextBlock::GetAppearance()
 {
@@ -136,15 +115,16 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 	);
 	UpdateSize();
 	UpdateTextLayout();
-	SetOutline();
+	UpdateOutline();
 }
 void S_TextBlock::SetText(std::wstring inText)
 {
 	mText = inText;
+	mTextLength = (UINT32)mText.length();
 
 	UpdateSize();
 	UpdateTextLayout();
-	SetOutline();
+	UpdateOutline();
 }
 void S_TextBlock::SetSize(FVector2D inSize)
 {
@@ -181,87 +161,6 @@ void S_TextBlock::UpdateSize()
 		//		mSize.y
 		//	}
 		//);
-	}
-}
-void S_TextBlock::UpdateTextLayout()
-{
-	const auto windowSize = EngineSettings::GetWindowSize();
-	pDWriteFactory->CreateTextLayout(
-		mText.c_str(),
-		mText.length(),
-		pTextFormat,
-		windowSize.x,
-		windowSize.y,
-		&pTextLayout
-	);
-	DWRITE_TEXT_RANGE textRange;
-	textRange.length = mText.length();
-	pTextLayout->SetFontSize(mFont.fontSize, textRange);
-	pTextLayout->SetUnderline(mAppearance.layoutUnderLine, textRange);
-	pTextLayout->SetFontWeight(mAppearance.layoutWeight, textRange);
-
-	IDWriteTypography* pTypography = nullptr;
-	pDWriteFactory->CreateTypography(&pTypography);
-	if (pTypography != nullptr)
-	{
-		pTypography->AddFontFeature(mAppearance.layoutFeature);
-		pTextLayout->SetTypography(pTypography, textRange);
-	}
-	Util::SafeRelease(pTypography);
-}
-void S_TextBlock::SetOutline()
-{
-	IDWriteFontFile* pFontFile = nullptr;
-	pDWriteFactory->CreateFontFileReference(
-		mFont.fileName.c_str(),
-		NULL,
-		&pFontFile
-	);
-	IDWriteFontFile* pFontFiles[] = { pFontFile };
-	
-	IDWriteFontFace* pFontFace = nullptr;
-	pDWriteFactory->CreateFontFace(
-		DWRITE_FONT_FACE_TYPE_TRUETYPE,
-		1,
-		pFontFiles,
-		0,
-		DWRITE_FONT_SIMULATIONS_NONE,
-		&pFontFace
-	);
-
-	const auto textLength = mText.length();
-	UINT* pCodePoints = new UINT[textLength];
-	UINT16* pGlyphIndices = new UINT16[textLength];
-	ZeroMemory(pCodePoints, sizeof(UINT) * textLength);
-	ZeroMemory(pGlyphIndices, sizeof(UINT16) * textLength);
-	for (int i = 0; i < textLength; ++i)
-	{
-		pCodePoints[i] = mText.at(i);
-	}
-	pFontFace->GetGlyphIndicesW(pCodePoints, textLength, pGlyphIndices);
-
-	pD2DFactory->CreatePathGeometry(&pPathGeometry);
-	pPathGeometry->Open(&pGeometrySink);
-	pFontFace->GetGlyphRunOutline(
-		96.f,
-		pGlyphIndices,
-		NULL,
-		NULL,
-		textLength,
-		FALSE,
-		FALSE,
-		pGeometrySink
-	);
-	pGeometrySink->Close();
-	if (pCodePoints)
-	{
-		delete[] pCodePoints;
-		pCodePoints = nullptr;
-	}
-	if (pGlyphIndices)
-	{
-		delete[] pGlyphIndices;
-		pGlyphIndices = nullptr;
 	}
 }
 
@@ -318,5 +217,152 @@ void S_TextBlock::SetWrap(ETextWrap in)
 	default:
 		pTextFormat->SetWordWrapping(DWRITE_WORD_WRAPPING_WRAP);
 		break;
+	}
+}
+
+void S_TextBlock::CreateDeviceResource()
+{
+	CoCreateInstance(
+		CLSID_WICImagingFactory,
+		NULL,
+		CLSCTX_INPROC_SERVER,
+		IID_IWICImagingFactory,
+		reinterpret_cast<void**>(&pWICFactory)
+	);
+	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
+	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&pDWriteFactory));
+
+	CreateBitmap();
+
+	if (pBitmapBrush == nullptr)
+	{
+		// Create the bitmap brush
+		D2D1_BITMAP_BRUSH_PROPERTIES properties = { D2D1_EXTEND_MODE_WRAP, D2D1_EXTEND_MODE_WRAP, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR };
+		pRt2D->CreateBitmapBrush(
+			pBitmap,
+			properties,
+			&pBitmapBrush
+		);
+	}
+	if (pCustomTextRenderer == nullptr)
+	{
+		pCustomTextRenderer = new CustomTextRenderer(
+			pD2DFactory,
+			pRt2D,
+			pBrush,
+			pBitmapBrush
+		);
+	}
+}
+void S_TextBlock::CreateBitmap()
+{
+	if (pBitmap)
+	{
+		pBitmap->Release();
+		pBitmap = nullptr;
+	}
+
+	IWICBitmapDecoder* pBitmapDecoder;
+	IWICBitmapFrameDecode* pBitmapFrameDecode;
+	IWICFormatConverter* pImageConverter;
+	if (pWICFactory == nullptr)
+	{
+		HRESULT result = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, (LPVOID*)&pWICFactory);
+	}
+	pWICFactory->CreateDecoderFromFilename(L"Content/Textures/T_Transparent.png", nullptr, GENERIC_READ, WICDecodeMetadataCacheOnLoad, &pBitmapDecoder);
+	pBitmapDecoder->GetFrame(0, &pBitmapFrameDecode);
+	pWICFactory->CreateFormatConverter(&pImageConverter);
+	pImageConverter->Initialize(pBitmapFrameDecode, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, nullptr, 1.f, WICBitmapPaletteTypeMedianCut);
+
+	HRESULT result = pRt2D->CreateBitmapFromWicBitmap(pImageConverter, nullptr, &pBitmap);
+	if (FAILED(result))
+	{
+		MessageBox(NULL, L"Can not create Bitmap", L"Failed ScreenTexture constructor", MB_OK);
+		assert(false);
+	}
+
+	pBitmapDecoder->Release();
+	pBitmapFrameDecode->Release();
+	pImageConverter->Release();
+}
+
+void S_TextBlock::UpdateTextLayout()
+{
+	const auto windowSize = EngineSettings::GetWindowSize();
+	pDWriteFactory->CreateTextLayout(
+		mText.c_str(),
+		mTextLength,
+		pTextFormat,
+		windowSize.x,
+		windowSize.y,
+		&pTextLayout
+	);
+	DWRITE_TEXT_RANGE textRange;
+	textRange.length = mTextLength;
+	pTextLayout->SetFontSize(mFont.fontSize, textRange);
+	pTextLayout->SetUnderline(mAppearance.layoutUnderLine, textRange);
+	pTextLayout->SetFontWeight(mAppearance.layoutWeight, textRange);
+	IDWriteTypography* pTypography = nullptr;
+	pDWriteFactory->CreateTypography(&pTypography);
+	if (pTypography != nullptr)
+	{
+		pTypography->AddFontFeature(mAppearance.layoutFeature);
+		pTextLayout->SetTypography(pTypography, textRange);
+	}
+	Util::SafeRelease(pTypography);
+}
+void S_TextBlock::UpdateOutline()
+{
+	IDWriteFontFile* pFontFile = nullptr;
+	pDWriteFactory->CreateFontFileReference(
+		mFont.fileName.c_str(),
+		NULL,
+		&pFontFile
+	);
+	IDWriteFontFile* pFontFiles[] = { pFontFile };
+
+	IDWriteFontFace* pFontFace = nullptr;
+	pDWriteFactory->CreateFontFace(
+		DWRITE_FONT_FACE_TYPE_TRUETYPE,
+		1,
+		pFontFiles,
+		0,
+		DWRITE_FONT_SIMULATIONS_NONE,
+		&pFontFace
+	);
+
+	const auto textLength = mText.length();
+	UINT* pCodePoints = new UINT[textLength];
+	UINT16* pGlyphIndices = new UINT16[textLength];
+	ZeroMemory(pCodePoints, sizeof(UINT) * textLength);
+	ZeroMemory(pGlyphIndices, sizeof(UINT16) * textLength);
+	for (int i = 0; i < textLength; ++i)
+	{
+		pCodePoints[i] = mText.at(i);
+	}
+	pFontFace->GetGlyphIndicesW(pCodePoints, textLength, pGlyphIndices);
+
+	pD2DFactory->CreatePathGeometry(&pPathGeometry);
+	pPathGeometry->Open(&pGeometrySink);
+	pFontFace->GetGlyphRunOutline(
+		96.f,
+		pGlyphIndices,
+		NULL,
+		NULL,
+		textLength,
+		FALSE,
+		FALSE,
+		pGeometrySink
+	);
+	pGeometrySink->Close();
+	if (pCodePoints)
+	{
+		delete[] pCodePoints;
+		pCodePoints = nullptr;
+	}
+	if (pGlyphIndices)
+	{
+		delete[] pGlyphIndices;
+		pGlyphIndices = nullptr;
 	}
 }
