@@ -17,8 +17,6 @@
 S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
 	: SlateSlotBase(inRt2D, inSize, inSlateInfos), mText(L""), mFont(inFont), mAppearance(inAppearance)
 {
-	const auto windowSize = EngineSettings::GetWindowSize();
-
 	CreateDeviceResource();
 
 	pRt2D->CreateSolidColorBrush(
@@ -291,13 +289,12 @@ void S_TextBlock::CreateBitmap()
 
 void S_TextBlock::UpdateTextLayout()
 {
-	const auto windowSize = EngineSettings::GetWindowSize();
 	pDWriteFactory->CreateTextLayout(
 		mText.c_str(),
 		mTextLength,
 		pTextFormat,
-		windowSize.x,
-		windowSize.y,
+		mSize.x,
+		mSize.y,
 		&pTextLayout
 	);
 	if (pTextLayout)
