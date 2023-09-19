@@ -113,7 +113,7 @@ public:
 private:
     unsigned long cRefCount_;
     ID2D1Factory* pD2DFactory_;
-    ID2D1HwndRenderTarget* pRT_;
+    ID2D1RenderTarget* pRT_;
     ID2D1SolidColorBrush* pOutlineBrush_;
     ID2D1BitmapBrush* pFillBrush_;
 };
