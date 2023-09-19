@@ -86,6 +86,7 @@ void S_TextBlock::Draw()
 	{
 		pRt2D->DrawGeometry(pPathGeometry, pBrush, mAppearance.layoutOutlineWidth);
 		pRt2D->FillGeometry(pPathGeometry, pBrush);
+		pTextLayout->Draw(NULL, pCustomTextRenderer, mPosition.x, mPosition.y);
 		return;
 	}
 
@@ -134,6 +135,7 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 	);
 	UpdateSize();
 	UpdateTextLayout();
+	SetOutline();
 }
 void S_TextBlock::SetText(std::wstring inText)
 {
