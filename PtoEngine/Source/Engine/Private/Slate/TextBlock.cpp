@@ -141,6 +141,7 @@ void S_TextBlock::SetText(std::wstring inText)
 
 	UpdateSize();
 	UpdateTextLayout();
+	SetOutline();
 }
 void S_TextBlock::SetSize(FVector2D inSize)
 {
