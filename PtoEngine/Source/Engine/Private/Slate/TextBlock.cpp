@@ -26,6 +26,9 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfo
 		&pBrush
 	);
 
+	UpdateTextLayout();
+	UpdateOutline();
+
 	SetFont(mFont);
 	SetAppearance(mAppearance);
 }
