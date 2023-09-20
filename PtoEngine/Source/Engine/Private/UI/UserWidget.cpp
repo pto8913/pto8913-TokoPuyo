@@ -173,7 +173,7 @@ void UserWidget::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
 // --------------------------
 // Main : Animation
 // --------------------------
-std::shared_ptr<WidgetAnimation> MakeAnimation()
+std::shared_ptr<WidgetAnimation> UserWidget::MakeAnimation()
 {
 	return std::move(std::make_shared<WidgetAnimation>());
 }
