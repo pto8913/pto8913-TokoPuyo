@@ -21,9 +21,16 @@ UserWidget::~UserWidget()
 		while (iter != mAnimations.end())
 		{
 			auto& obj = *iter;
-			obj.Deactivate();
-			obj.Clear();
-			iter = mAnimations.erase(iter);
+			if (obj != nullptr)
+			{
+				obj->Deactivate();
+				obj->Clear();
+				iter = mAnimations.erase(iter);
+			}
+			else
+			{
+				++iter;
+			}
 		}
 		mAnimations.clear();
 	}
@@ -95,7 +102,7 @@ void UserWidget::Tick(DirectX11& dx, float deltaTime)
 
 			for (auto&& animation : mAnimations)
 			{
-				animation.Update(deltaTime);
+				animation->Update(deltaTime);
 			}
 		}
 	}
@@ -166,7 +173,11 @@ void UserWidget::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
 // --------------------------
 // Main : Animation
 // --------------------------
-void UserWidget::AddAnimation(WidgetAnimation in)
+std::shared_ptr<WidgetAnimation> MakeAnimation()
+{
+	return std::move(std::make_shared<WidgetAnimation>());
+}
+void UserWidget::AddAnimation(std::shared_ptr<WidgetAnimation> in)
 {
 	if (!IsPendingKill() && IsInViewport())
 	{

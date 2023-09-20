@@ -59,7 +59,8 @@ protected:
 	// --------------------------
 	// Main : Animation
 	// --------------------------
-	void AddAnimation(WidgetAnimation in);
+	std::shared_ptr<WidgetAnimation> MakeAnimation();
+	void AddAnimation(std::shared_ptr<WidgetAnimation> in);
 
 	// --------------------------
 	// Main : Input
@@ -103,5 +104,5 @@ protected:
 	DirectX11* pDX = nullptr;
 	DX::IMouseInterface* pMouse = nullptr;
 
-	std::vector<WidgetAnimation> mAnimations;
+	std::vector<std::shared_ptr<WidgetAnimation>> mAnimations;
 };
