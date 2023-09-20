@@ -1,5 +1,7 @@
 #pragma once
 
+#include <xutility>
+
 namespace Algo
 {
 	template<typename T>
