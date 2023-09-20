@@ -43,7 +43,7 @@ void WidgetAnimation::SetPlaySpeed(const float& in)
 {
 	if (!bIsActive)
 	{
-		mPlaySpeed = in;
+		mPlaySpeed = Math::Clamp(in, 0.000001f, 10000000.f);
 	}
 }
 
