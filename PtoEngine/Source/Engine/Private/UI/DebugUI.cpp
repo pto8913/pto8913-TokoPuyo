@@ -67,7 +67,7 @@ void DebugUI::NativeOnInitialized()
 		appearance.color = FColor(255.f, 0.f, 0.f, 1.f);
 		appearance.hAlign = EHorizontalAlignment::Left;
 
-		auto textBlock = MakeSlate<S_TextBlock>(*pDX, FVector2D(500.f, 30.f), textInfos, font, appearance);
+		auto textBlock = MakeSlate<S_TextBlock>(FVector2D(500.f, 30.f), textInfos, font, appearance);
 		textBlock->SetText(label);
 		menuVB->AddChild(textBlock);
 		return std::move(textBlock);

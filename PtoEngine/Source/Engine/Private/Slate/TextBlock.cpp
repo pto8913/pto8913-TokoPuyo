@@ -12,7 +12,9 @@
 
 #include "EngineSettings.h"
 
-S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
+#include <wincodec.h>
+
+S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
 	: SlateSlotBase(inRt2D, inSize, inSlateInfos), mText(L""), mFont(inFont), mAppearance(inAppearance)
 {
 	pRt2D->CreateSolidColorBrush(
@@ -24,13 +26,15 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector2D inS
 	SetFont(mFont);
 	SetAppearance(mAppearance);
 }
-S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
-	: S_TextBlock(inRt2D, dx, { 0,0 }, inSlateInfos, inFont, inAppearance)
+S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
+	: S_TextBlock(inRt2D, { 0,0 }, inSlateInfos, inFont, inAppearance)
 {
 }
 
 S_TextBlock::~S_TextBlock()
 {
+	Util::SafeRelease(pDWriteFactory);
+	Util::SafeRelease(pTextFormat);
 	OnSetText.ClearBind();
 }
 

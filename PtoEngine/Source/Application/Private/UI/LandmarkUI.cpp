@@ -59,7 +59,7 @@ void LandmarkUI::NativeOnInitialized()
 
 		FSlateTextAppearance textAppearance;
 		textAppearance.color = FColor(1.f, 1.f, 1.f);
-		pText = MakeSlate<S_TextBlock>(*pDX, textInfos, textFont, textAppearance);
+		pText = MakeSlate<S_TextBlock>(textInfos, textFont, textAppearance);
 		pText->SetText(mLandmarkName);
 
 		pRootSlate->AddChild(pEffectBorder);

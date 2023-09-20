@@ -6,6 +6,7 @@
 #include "Engine/Color.h"
 
 class DirectX11;
+class CustomTextRenderer;
 
 DECLARE_MULTICAST_DELEGATE_RET(FOnSetText, std::wstring);
 
@@ -47,12 +48,7 @@ public:
 		: color(FColor(1.f, 1.f, 1.f, 1.f)),
 		hAlign(EHorizontalAlignment::Center),
 		vAlign(EVerticalAlignment::Center),
-		wrap(ETextWrap::No),
-		layoutUnderLine(false),
-		layoutWeight(DWRITE_FONT_WEIGHT_BOLD),
-		layoutOutline(false),
-		layoutOutlineWidth(2.f),
-		layoutFeature()
+		wrap(ETextWrap::No)
 	{}
 
 	FColor color;
@@ -61,17 +57,6 @@ public:
 	EVerticalAlignment vAlign;
 
 	ETextWrap wrap;
-
-	// Layout
-	bool layoutUnderLine;
-	DWRITE_FONT_WEIGHT layoutWeight;
-
-	// Layout : outline
-	bool layoutOutline;
-	float layoutOutlineWidth;
-
-	// Typography
-	DWRITE_FONT_FEATURE layoutFeature;
 };
 
 /*  
@@ -90,8 +75,8 @@ public:
 class S_TextBlock : public SlateSlotBase
 {
 public:
-	S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
-	S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
+	S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
+	S_TextBlock(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
 	virtual ~S_TextBlock();
 
 	// ------------------------------------------------------------------------------------------------
@@ -121,7 +106,6 @@ public:
 	virtual void SetAppearVerticalAlignment(EVerticalAlignment in);
 
 	virtual void SetWrap(ETextWrap in);
-
 public:
 	/* NOTE : this will be called per frame. */
 	FOnSetText OnSetText;
@@ -132,7 +116,6 @@ private:
 	// ------------------------------------------------------------------------------------------------
 	FSlateTextAppearance mAppearance;
 
-	ID2D1Factory* pD2DFactory = nullptr;
 	IDWriteFactory* pDWriteFactory = nullptr;
 	IDWriteTextFormat* pTextFormat = nullptr;
 	FSlateFont mFont;
