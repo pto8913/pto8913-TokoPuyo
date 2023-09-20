@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Algorithm/Array.h"
 #include "Algorithm/Math2.h"
 #include "Algorithm/algo.h"
 #include "Math/Math.h"
@@ -10,6 +9,7 @@
 #include "WidgetAnimationTypes.h"
 
 #include <format>
+#include <vector>
 
 // ------------------------------------------------------------------------------------------------------------
 // Widget Animation Property
@@ -145,7 +145,7 @@ private:
 class WidgetAnimation
 {
 public:
-	WidgetAnimation(float inStartTime = 0.f, float inPlaySpeed = 1.f);
+	WidgetAnimation();
 	virtual ~WidgetAnimation();
 
 	FOnWidgetAnimationCompleted OnWidgetAnimationCompleted;
@@ -164,6 +164,9 @@ public:
 	void Activate();
 	void Deactivate();
 
+	void PlayForward(const float& inStartTime = 0.f, const float inPlaySpeed = 1.f);
+	void PlayReverse(const float& inStartTime = 0.f, const float inPlaySpeed = 1.f);
+
 	void Update(float deltaTime);
 	void Reset();
 private:
@@ -177,5 +180,5 @@ private:
 	float mPlaySpeed = 1.f;
 	float mDuration = 0.f;
 
-	TArray<FWidgetAnimationProperty*> props;
+	std::vector<FWidgetAnimationProperty*> props;
 };

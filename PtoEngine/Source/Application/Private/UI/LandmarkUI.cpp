@@ -74,7 +74,7 @@ void LandmarkUI::NativeOnInitialized()
 }
 void LandmarkUI::AnimationStart()
 {
-	WidgetAnimation blackout(0.f, mPlayRate);
+	WidgetAnimation blackout;
 	propColor.Clear();
 	propColor.Assign(
 		pText->GetAppearance(),
@@ -89,8 +89,8 @@ void LandmarkUI::AnimationStart()
 	{
 		blackout.OnWidgetAnimationCompleted.Append(mDelegate);
 	}
-	blackout.Activate();
 	AddAnimation(blackout);
+	blackout.PlayForward(0.f, mPlayRate);
 }
 void LandmarkUI::Completed()
 {

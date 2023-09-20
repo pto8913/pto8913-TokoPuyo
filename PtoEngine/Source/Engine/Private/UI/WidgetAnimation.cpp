@@ -4,13 +4,8 @@
 // ------------------------------------------------------------------------------------------------------------
 // Widget Animation
 // ------------------------------------------------------------------------------------------------------------
-WidgetAnimation::WidgetAnimation(float inStartTime, float inPlaySpeed)
+WidgetAnimation::WidgetAnimation()
 {
-	mStartTime = inStartTime;
-	mEndTime = 1.f;
-	mPlaySpeed = inPlaySpeed;
-
-	mDuration = mStartTime;
 };
 WidgetAnimation::~WidgetAnimation()
 {
@@ -47,12 +42,27 @@ void WidgetAnimation::Clear()
 	mPlaySpeed = 1.f;
 	mDuration = 0.f;
 
-	props.Clear();
+	auto iter = props.begin();
+	while (iter != props.end())
+	{
+		auto& obj = *iter;
+		if (obj)
+		{
+			delete obj;
+			obj = nullptr;
+			iter = props.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+	props.clear();
 }
 
 void WidgetAnimation::AssignProp(FWidgetAnimationProperty* prop)
 {
-	props.Add(prop);
+	props.push_back(prop);
 }
 
 bool WidgetAnimation::IsActive() const
@@ -68,6 +78,18 @@ void WidgetAnimation::Deactivate()
 	bIsActive = false;
 }
 
+
+void WidgetAnimation::PlayForward(const float& inStartTime, const float inPlaySpeed)
+{
+	Deactivate();
+	SetStartTime(inStartTime);
+	SetPlaySpeed(inPlaySpeed);
+	Activate();
+}
+void WidgetAnimation::PlayReverse(const float& inStartTime, const float inPlaySpeed)
+{
+
+}
 void WidgetAnimation::Update(float deltaTime)
 {
 	if (bIsActive)
