@@ -1,6 +1,7 @@
 #pragma once
 
 #include "UI/UserWidget.h"
+#include "Engine/Color.h"
 
 class S_TextBlock;
 class S_Image;
@@ -29,6 +30,8 @@ protected:
 	void OnClickedRestartButton(DX::MouseEvent inMouseEvent);
 	void OnClickedPauseButton(DX::MouseEvent inMouseEvent);
 	void OnClickedReturnToTitle(DX::MouseEvent inMouseEvent);
+
+	void ComboAnimationCompleted();
 public:
 
 	// ----------------------------------------------------------
@@ -59,6 +62,14 @@ protected:
 	std::shared_ptr<S_TextBlock> pTextBlock_Combo = nullptr;
 
 	std::shared_ptr<S_Button> pButton_Pause = nullptr;
+
+	// ----------------------------------------------------------
+	// State : Effect
+	// ----------------------------------------------------------
+	std::shared_ptr<S_TextBlock> pTextBlock_AllClearEffect = nullptr;
+	std::shared_ptr<S_TextBlock> pTextBlock_ComboEffect = nullptr;
+	WidgetAnimationProperty<FColor> propColor;
+	WidgetAnimation mAnimCombo;
 
 	bool bPause = false;
 };

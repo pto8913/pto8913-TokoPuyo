@@ -35,7 +35,7 @@
 
 CustomTextRenderer::CustomTextRenderer(
     ID2D1Factory* pD2DFactory,
-    ID2D1RenderTarget* pRT,
+    ID2D1HwndRenderTarget* pRT,
     ID2D1SolidColorBrush* pOutlineBrush,
     ID2D1BitmapBrush* pFillBrush
 )

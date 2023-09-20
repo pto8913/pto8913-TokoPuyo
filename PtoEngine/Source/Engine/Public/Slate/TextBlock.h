@@ -6,7 +6,6 @@
 #include "Engine/Color.h"
 
 class DirectX11;
-class CustomTextRenderer;
 
 DECLARE_MULTICAST_DELEGATE_RET(FOnSetText, std::wstring);
 
@@ -122,20 +121,7 @@ public:
 	virtual void SetAppearVerticalAlignment(EVerticalAlignment in);
 
 	virtual void SetWrap(ETextWrap in);
-protected:
-	/* Called once in constructor. */
-	void CreateDeviceResource(DirectX11& dx);
 
-	/* Called when any of mText, mFont, or mAppearance is changed.. */
-	void UpdateTextLayout();
-
-	HRESULT LoadResourceBitmap(
-		ID2D1RenderTarget* pRT,
-		IWICImagingFactory* pIWICFactory,
-		PCWSTR resourceName,
-		PCWSTR resourceType,
-		__deref_out ID2D1Bitmap** ppBitmap
-	);
 public:
 	/* NOTE : this will be called per frame. */
 	FOnSetText OnSetText;
@@ -149,10 +135,6 @@ private:
 	ID2D1Factory* pD2DFactory = nullptr;
 	IDWriteFactory* pDWriteFactory = nullptr;
 	IDWriteTextFormat* pTextFormat = nullptr;
-	IDWriteTextLayout* pTextLayout = nullptr;
-	ID2D1BitmapBrush* pBitmapBrush = nullptr;
-	CustomTextRenderer* pCustomTextRenderer = nullptr;
-	IWICImagingFactory* pWICFactory = nullptr;
 	FSlateFont mFont;
 
 	std::wstring mText;
