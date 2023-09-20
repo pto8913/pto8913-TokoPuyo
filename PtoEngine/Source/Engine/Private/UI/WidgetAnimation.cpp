@@ -10,6 +10,22 @@ WidgetAnimation::WidgetAnimation()
 WidgetAnimation::~WidgetAnimation()
 {
 	Clear();
+
+	auto iter = props.begin();
+	while (iter != props.end())
+	{
+		auto& obj = *iter;
+		if (obj)
+		{
+			delete obj;
+			obj = nullptr;
+			iter = props.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
 }
 
 // -------------------------------------------------------
@@ -42,21 +58,6 @@ void WidgetAnimation::Clear()
 	mPlaySpeed = 1.f;
 	mDuration = 0.f;
 
-	auto iter = props.begin();
-	while (iter != props.end())
-	{
-		auto& obj = *iter;
-		if (obj)
-		{
-			delete obj;
-			obj = nullptr;
-			iter = props.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
-	}
 	props.clear();
 }
 
