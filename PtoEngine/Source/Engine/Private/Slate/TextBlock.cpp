@@ -22,7 +22,6 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfo
 		&pBrush
 	);
 	mTextLength = (UINT32)mText.length();
-
 	SetFont(mFont);
 	SetAppearance(mAppearance);
 }
@@ -84,6 +83,14 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 {
 	mFont = inFont;
 
+	if (pDWriteFactory == nullptr)
+	{
+		DWriteCreateFactory(
+			DWRITE_FACTORY_TYPE_SHARED,
+			__uuidof(IDWriteFactory),
+			reinterpret_cast<IUnknown**>(&pDWriteFactory)
+		);
+	}
 	pDWriteFactory->CreateTextFormat(
 		mFont.fontFamily.c_str(),
 		NULL,
