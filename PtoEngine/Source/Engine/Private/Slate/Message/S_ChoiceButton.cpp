@@ -8,13 +8,12 @@
 S_ChoiceButton::S_ChoiceButton(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, const FChoiceInfos& inChoiceInfos, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
 	: S_Button(inRt2D, inSize, inSlateInfos, inButtonAppearance)
 {
-	pDX = &dx;
 	OnClicked.Bind<&S_ChoiceButton::OnClickedEvent>(*this, "S_ChoiceButton");
 
 	FSlateInfos infos;
 	infos.HAlign = EHorizontalAlignment::Center;
 	infos.VAlign = EVerticalAlignment::Center;
-	pLabel = std::make_shared<S_TextBlock>(inRt2D, infos);
+	pLabel = std::make_shared<S_TextBlock>(inRt2D, dx, infos);
 	AddChild(pLabel);
 
 	SetChoiceInfos(inChoiceInfos);

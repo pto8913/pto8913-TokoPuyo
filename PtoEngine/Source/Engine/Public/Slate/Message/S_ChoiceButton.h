@@ -47,6 +47,4 @@ protected:
 
 	FOnChoice OnChoice;
 	FChoiceInfos ChoiceInfos;
-
-	DirectX11* pDX = nullptr;
 };
