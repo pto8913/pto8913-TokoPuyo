@@ -49,7 +49,8 @@ public:
 		hAlign(EHorizontalAlignment::Center),
 		vAlign(EVerticalAlignment::Center),
 		wrap(ETextWrap::No),
-		outline(false)
+		outline(false),
+		outlineColor(FColor(0.f, 0.f, 0.f, 1.f))
 	{}
 
 	FColor color;
