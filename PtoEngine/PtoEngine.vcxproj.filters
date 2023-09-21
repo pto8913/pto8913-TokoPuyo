@@ -640,7 +640,7 @@
     <ClInclude Include="Source\Engine\Public\Framework\Level\QuadTree.h">
       <Filter>Source\Engine\Public\Framework\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Slate\CustomTextRenderer.h">
+    <ClInclude Include="Source\Engine\Public\Slate\TextRenderer_Outline.h">
       <Filter>Source\Engine\Public\Slate</Filter>
     </ClInclude>
   </ItemGroup>
@@ -993,7 +993,7 @@
     <ClCompile Include="Source\Engine\Private\Component\CollisionComponent.cpp">
       <Filter>Source\Engine\Private\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Slate\CustomTextRenderer.cpp">
+    <ClCompile Include="Source\Engine\Private\Slate\TextRenderer_Outline.cpp">
       <Filter>Source\Engine\Private\Slate</Filter>
     </ClCompile>
   </ItemGroup>
