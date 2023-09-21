@@ -9,13 +9,20 @@
 
 #include "Input/MouseInterface.h"
 
+#include <d2d1.h>
+#include <dwrite.h>
+#include "Slate/TextRenderer_Outline.h"
+
 DECLARE_MULTICAST_DELEGATE(FOnSuspending);
 DECLARE_MULTICAST_DELEGATE(FOnResuming);
 DECLARE_MULTICAST_DELEGATE(FOnActivated);
+DECLARE_MULTICAST_DELEGATE(FOnWM_PAINT);
 DECLARE_MULTICAST_DELEGATE(FOnDeactivated);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnWindowSizeChanged, int, int);
 
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnProcessMessage, UINT, WPARAM, LPARAM);
+class DirectX11;
+class TextRenderer_Outline;
 
 class Window
 {
@@ -42,13 +49,8 @@ public:
 	HWND& GetHWnd();
 	UINT GetWidth() const noexcept;
 	UINT GetHeight() const noexcept;
-
-	void ConfineCursor() noexcept;
-	void FreeCursor() noexcept;
-
-	bool IsEnableMouse() const noexcept;
-	void SetMouseEnabled(bool in);
-
+	void Render();
+	void Init(DirectX11& dx);
 	static std::optional<int> ProcessMessages() noexcept;
 
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
@@ -61,6 +63,8 @@ public:
 	FOnActivated OnActivated;
 	FOnDeactivated OnDeactivated;
 	FOnProcessMessage OnProcessMessage;
+
+	FOnWM_PAINT OnWM_PAINT;
 private:
 	// ------------------------------------------------------------------------
 	// State
@@ -74,6 +78,15 @@ private:
 	UINT defaultWidth = 800;
 	UINT defaultHeight = 600;
 
+	ID2D1Factory* pD2DFactory;
+	ID2D1SolidColorBrush* pBrushFill;
+	ID2D1SolidColorBrush* pBrushOutline;
+	ID2D1HwndRenderTarget* pRtHWnd;
+	IDWriteTextLayout* pTextLayout;
+	TextRenderer_Outline* pTextRenderer_Outline;
+
+	std::shared_ptr<class ScreenTextOnlyOutput> pSTOO;
+	ID2D1RenderTarget* pRt2D;
 public:
 	// ----------------------------------
 	// State : Controller

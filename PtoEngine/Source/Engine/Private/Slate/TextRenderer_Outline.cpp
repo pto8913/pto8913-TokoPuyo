@@ -64,8 +64,8 @@ IFACEMETHODIMP TextRenderer_Outline::DrawGlyphRun(
 
     // Initialize a matrix to translate the origin of the glyph run.
     const D2D1::Matrix3x2F matrix = D2D1::Matrix3x2F(
-        1.0f, 0.0f,
-        0.0f, 1.0f,
+        1.f, 0.0f,
+        0.0f, 1.f,
         baselineOriginX, baselineOriginY
     );
 
@@ -77,7 +77,7 @@ IFACEMETHODIMP TextRenderer_Outline::DrawGlyphRun(
     // Fill in the glyph run
     pRtHWnd->FillGeometry(pTransformedGeometry, pBrushFill);
 
-    //pRtHWnd->DrawGlyphRun(D2D1_POINT_2F(baselineOriginX, baselineOriginY), glyphRun, pBrushOutline.get(), measuringMode);
+    //pRtHWnd->DrawGlyphRun(D2D1_POINT_2F(baselineOriginX, baselineOriginY), glyphRun, pBrushOutline, measuringMode);
 
     pRtHWnd->SetTransform(D2D1::IdentityMatrix()); // make sure we come back to no transform
 

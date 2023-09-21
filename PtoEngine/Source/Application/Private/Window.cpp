@@ -7,6 +7,9 @@
 
 #include "Input/MouseInterface.h"
 
+#include "Core/DirectX.h"
+#include "Render/ScreenText.h"
+
 Window::WindowClass::WindowClass()
     : hInstance(GetModuleHandle(nullptr))
 {
@@ -70,7 +73,7 @@ Window::Window(const float& inWidth, const float& inHeight)
     m_hWnd = CreateWindow(
         mClass.GetName(),
         EngineSettings::GetWindowTitle().c_str(),
-        WS_CAPTION | WS_SYSMENU,
+        WS_CAPTION | WS_SYSMENU | WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT,
         CW_USEDEFAULT,
         width,
@@ -85,19 +88,7 @@ Window::Window(const float& inWidth, const float& inHeight)
     {
         return;
     }
-    // newly created windows start off as hidden
-    ShowWindow(m_hWnd, SW_SHOWDEFAULT);
 
-    //// register mouse raw input device
-    //RAWINPUTDEVICE rid;
-    //rid.usUsagePage = 0x01; // mouse page
-    //rid.usUsage = 0x02; // mouse usage
-    //rid.dwFlags = 0;
-    //rid.hwndTarget = nullptr;
-    //if (RegisterRawInputDevices(&rid, 1, sizeof(rid)) == FALSE)
-    //{
-    //    return;
-    //}
 }
 Window::~Window()
 {
@@ -105,6 +96,51 @@ Window::~Window()
     DestroyWindow(m_hWnd);
 }
 
+void Window::Init(DirectX11& dx)
+{
+    pSTOO = ScreenTextOnlyOutput::Make(dx, width, height);
+    pRt2D = pSTOO->GetRT2D();
+
+    D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
+    pD2DFactory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(), D2D1::HwndRenderTargetProperties(m_hWnd), &pRtHWnd);
+    pRtHWnd->CreateSolidColorBrush(D2D1::ColorF(1, 0, 0), &pBrushFill);
+    pRtHWnd->CreateSolidColorBrush(D2D1::ColorF(0, 0, 0), &pBrushOutline);
+
+    IDWriteFactory* dwriteFactory = nullptr;
+
+    DWriteCreateFactory(
+        DWRITE_FACTORY_TYPE_SHARED,
+        __uuidof(IDWriteFactory),
+        reinterpret_cast<IUnknown**>(&dwriteFactory)
+    );
+
+    IDWriteTextFormat* format = nullptr;
+
+    dwriteFactory->CreateTextFormat(
+        L"Times New Roman",
+        nullptr,
+        DWRITE_FONT_WEIGHT_NORMAL,
+        DWRITE_FONT_STYLE_NORMAL,
+        DWRITE_FONT_STRETCH_NORMAL,
+        50,
+        L"",
+        &format
+    );
+
+    std::wstring str = L"pto8913";
+    // we want a straight line w/o limit
+    dwriteFactory->CreateTextLayout(str.c_str(), str.length(), format, FLT_MAX, 0, &pTextLayout);
+
+    pTextRenderer_Outline = new TextRenderer_Outline(
+        pD2DFactory,
+        pRtHWnd,
+        pBrushOutline,
+        pBrushFill
+    );
+    // newly created windows start off as hidden
+    ShowWindow(m_hWnd, SW_SHOWDEFAULT);
+    UpdateWindow(m_hWnd);
+}
 void Window::SetTitle(const wchar_t* title)
 {
     if (SetWindowText(m_hWnd, title) == 0)
@@ -129,26 +165,6 @@ UINT Window::GetWidth() const noexcept
 UINT Window::GetHeight() const noexcept
 {
     return height;
-}
-void Window::ConfineCursor() noexcept
-{
-    RECT rect;
-    GetClientRect(m_hWnd, &rect);
-    MapWindowPoints(m_hWnd, nullptr, reinterpret_cast<POINT*>(&rect), 2);
-    ClipCursor(&rect);
-}
-void Window::FreeCursor() noexcept
-{
-    ClipCursor(nullptr);
-}
-
-bool Window::IsEnableMouse() const noexcept
-{
-    return pMouse->IsVisible();
-}
-void Window::SetMouseEnabled(bool in)
-{
-    pMouse->SetVisibility(in);
 }
 
 std::optional<int> Window::ProcessMessages() noexcept
@@ -201,327 +217,39 @@ LRESULT CALLBACK Window::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 // Windows procedure
 LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    static bool s_in_sizemove = false;
-    static bool s_in_suspend = false;
-    static bool s_minimized = false;
-    static bool s_fullscreen = false;
-    // TODO: Set s_fullscreen to true if defaulting to fullscreen.
-
     switch (message)
     {
     case WM_PAINT:
+    {
         PAINTSTRUCT ps;
         BeginPaint(hWnd, &ps);
         OutputDebugStringA("WM_PAINT\n");
+        Render();
         EndPaint(hWnd, &ps);
         break;
+    }
     case WM_SIZE:
-        if (wParam == SIZE_MINIMIZED)
-        {
-            if (!s_minimized)
-            {
-                s_minimized = true;
-                if (!s_in_suspend)
-                {
-                    OnSuspending.Broadcast();
-                }
-                s_in_suspend = true;
-            }
-        }
-        else if (s_minimized)
-        {
-            s_minimized = false;
-            if (s_in_suspend)
-            {
-                OnResuming.Broadcast();
-            }
-            s_in_suspend = false;
-        }
-        else if (!s_in_sizemove)
-        {
-            OnWindowSizeChanged.Broadcast(LOWORD(lParam), HIWORD(lParam));
-        }
-        break;
-
-    case WM_ENTERSIZEMOVE:
-        s_in_sizemove = true;
-        break;
-
-    case WM_EXITSIZEMOVE:
-    {
-        s_in_sizemove = false;
-        RECT rc;
-        GetClientRect(hWnd, &rc);
-
-        OnWindowSizeChanged.Broadcast(rc.right - rc.left, rc.bottom - rc.top);
-        break;
-    }
-    case WM_GETMINMAXINFO:
-    {
-        if (lParam)
-        {
-            auto info = reinterpret_cast<MINMAXINFO*>(lParam);
-            info->ptMinTrackSize.x = 320;
-            info->ptMinTrackSize.y = 200;
-        }
-        break;
-    }
-    case WM_ACTIVATEAPP:
-    {
-        if (wParam)
-        {
-            OnActivated.Broadcast();
-
-        }
-        else
-        {
-            OnDeactivated.Broadcast();
-        }
-        break;
-    }
-    case WM_POWERBROADCAST:
-    {
-        switch (wParam)
-        {
-        case PBT_APMQUERYSUSPEND:
-            if (!s_in_suspend)
-            {
-                OnSuspending.Broadcast();
-            }
-            s_in_suspend = true;
-            return TRUE;
-
-        case PBT_APMRESUMESUSPEND:
-            if (!s_minimized)
-            {
-                if (s_in_suspend)
-                {
-                    OnResuming.Broadcast();
-                }
-                s_in_suspend = false;
-            }
-            return TRUE;
-        }
-        break;
-    }
+        pRtHWnd->Resize(D2D1::SizeU(LOWORD(lParam), HIWORD(lParam)));
+        return 0;
     case WM_DESTROY:
     {
         PostQuitMessage(0);
         break;
     }
-    case WM_SYSKEYDOWN:
-    {
-        if (wParam == VK_RETURN && (lParam & 0x60000000) == 0x20000000)
-        {
-            // Implements the classic ALT+ENTER fullscreen toggle
-            if (s_fullscreen)
-            {
-                SetWindowLongPtr(hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
-                SetWindowLongPtr(hWnd, GWL_EXSTYLE, 0);
-
-                ShowWindow(hWnd, SW_SHOWNORMAL);
-
-                SetWindowPos(hWnd, HWND_TOP, 0, 0, defaultWidth, defaultHeight, SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
-            }
-            else
-            {
-                SetWindowLongPtr(hWnd, GWL_STYLE, WS_POPUP);
-                SetWindowLongPtr(hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);
-
-                SetWindowPos(hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
-
-                ShowWindow(hWnd, SW_SHOWMAXIMIZED);
-            }
-
-            s_fullscreen = !s_fullscreen;
-        }
-        break;
     }
-    case WM_MENUCHAR:
-    {
-        // A menu is active and the user presses a key that does not correspond
-        // to any mnemonic or accelerator key. Ignore so we don't produce an error beep.
-        return MAKELRESULT(0, MNC_CLOSE);
-    }
-    case WM_ACTIVATE:
-    {
-        if (pMouse != nullptr)
-        {
-            if (!IsEnableMouse())
-            {
-                if (wParam & WA_ACTIVE)
-                {
-                    ConfineCursor();
-                    SetMouseEnabled(false);
-                }
-                else
-                {
-                    FreeCursor();
-                    SetMouseEnabled(true);
-                }
-            }
-        }
-        break;
-    }
-
-    // --------------------------------------------------------------------------
-    // Mouse Keyboard
-    // --------------------------------------------------------------------------
-
-    // --------------------------------------------------------------------------
-    // Mouse Messages
-    // --------------------------------------------------------------------------
-    case WM_MOUSEMOVE:
-    {
-        if (pMouse != nullptr)
-        {
-            const POINTS pt = MAKEPOINTS(lParam);
-            if (!IsEnableMouse())
-            {
-                if (!pMouse->IsInWindow())
-                {
-                    SetCapture(hWnd);
-
-                    pMouse->OnMouseEnter();
-                    SetMouseEnabled(false);
-                }
-                break;
-            }
-            if (pt.x >= 0 && pt.y < (SHORT)width && pt.y >= 0 && pt.y < (SHORT)height)
-            {
-                pMouse->OnMouseMove(pt.x, pt.y);
-                if (!pMouse->IsInWindow())
-                {
-                    SetCapture(hWnd);
-                    pMouse->OnMouseEnter();
-                }
-            }
-            else
-            {
-                if (wParam & (MK_LBUTTON | MK_RBUTTON))
-                {
-                    pMouse->OnMouseMove(pt.x, pt.y);
-                }
-                else
-                {
-                    ReleaseCapture();
-                    pMouse->OnMouseLeave();
-                }
-            }
-            break;
-        }
-    }
-    case WM_LBUTTONDOWN:
-    {
-        SetForegroundWindow(hWnd);
-        if (pMouse != nullptr)
-        {
-            if (!IsEnableMouse())
-            {
-                ConfineCursor();
-                SetMouseEnabled(false);
-            }
-            const POINTS pt = MAKEPOINTS(lParam);
-            pMouse->OnLeftPressed(pt.x, pt.y);
-            break;
-        }
-    }
-    case WM_LBUTTONUP:
-    {
-        if (pMouse != nullptr)
-        {
-            const POINTS pt = MAKEPOINTS(lParam);
-            pMouse->OnLeftReleased(pt.x, pt.y);
-            if (pt.x < 0 || pt.x >= (SHORT)width || pt.y < 0 || pt.y >= (SHORT)height)
-            {
-                ReleaseCapture();
-                pMouse->OnMouseLeave();
-            }
-            break;
-        }
-    }
-    case WM_RBUTTONDOWN:
-    {
-        if (pMouse != nullptr)
-        {
-            const POINTS pt = MAKEPOINTS(lParam);
-            pMouse->OnRightPressed(pt.x, pt.y);
-            break;
-        }
-    }
-    case WM_RBUTTONUP:
-    {
-        if (pMouse != nullptr)
-        {
-            const POINTS pt = MAKEPOINTS(lParam);
-            pMouse->OnRightReleased(pt.x, pt.y);
-            if (pt.x < 0 || pt.x >= (SHORT)width || pt.y < 0 || pt.y >= (SHORT)height)
-            {
-                ReleaseCapture();
-                pMouse->OnMouseLeave();
-            }
-            break;
-        }
-    }
-    case WM_MOUSEWHEEL:
-    {
-        if (pMouse != nullptr)
-        {
-            const POINTS pt = MAKEPOINTS(lParam);
-            const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
-            pMouse->OnWheelDelta(pt.x, pt.y, delta);
-            break;
-        }
-    }
-    // ------------------------------------
-    // Raw Mouse Messages
-    // ------------------------------------
-    case WM_INPUT:
-    {
-        if (pMouse != nullptr)
-        {
-            if (!pMouse->IsRawEnabled())
-            {
-                break;
-            }
-            UINT size;
-            if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, nullptr, &size, sizeof(RAWINPUTHEADER)) == -1)
-            {
-                break;
-            }
-            rawBuffer.resize(size);
-            if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, rawBuffer.data(), &size, sizeof(RAWINPUTHEADER)) != size)
-            {
-                break;
-            }
-            auto&& raw = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
-            if (raw.header.dwType == RIM_TYPEMOUSE && (raw.data.mouse.lLastX != 0 || raw.data.mouse.lLastY != 0))
-            {
-                pMouse->OnRawDelta(raw.data.mouse.lLastX, raw.data.mouse.lLastY);
-            }
-            break;
-        }
-    }
-    }
-
-    if (pMouse != nullptr)
-    {
-        if (pMouse->IsLeftPressed())
-        {
-            const POINTS pt = MAKEPOINTS(lParam);
-            pMouse->OnLeftHeld(pt.x, pt.y);
-        }
-        if (pMouse->IsRightPressed())
-        {
-            const POINTS pt = MAKEPOINTS(lParam);
-            pMouse->OnRightHeld(pt.x, pt.y);
-        }
-        if (pMouse->IsWheelPressed())
-        {
-            const POINTS pt = MAKEPOINTS(lParam);
-            pMouse->OnWheelHeld(pt.x, pt.y);
-        }
-    }
-    OnProcessMessage.Broadcast(message, wParam, lParam);
     return DefWindowProc(hWnd, message, wParam, lParam);
+}
+
+void Window::Render()
+{
+    pRtHWnd->BeginDraw();
+
+    pRtHWnd->Clear(D2D1::ColorF(1, 1, 1, 0.f));
+
+    //draw geometry
+
+    //draw phrase using our special render
+    pTextLayout->Draw(nullptr, pTextRenderer_Outline, 10, 200);
+    //pRt2D->DrawTextLayout(D2D1::Point2F(10, 200), pTextLayout, pBrushFill);
+    pRtHWnd->EndDraw();
 }

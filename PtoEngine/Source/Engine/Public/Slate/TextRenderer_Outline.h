@@ -6,6 +6,7 @@
 class TextRenderer_Outline : public IDWriteTextRenderer
 {
 public:
+    TextRenderer_Outline() = default;
     TextRenderer_Outline(
         ID2D1Factory* inD2DFactory,
         ID2D1HwndRenderTarget* inRT,

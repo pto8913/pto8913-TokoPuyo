@@ -22,6 +22,7 @@
 #include "Render/ViewPort.h"
 
 #include "Window.h"
+#include <d2d1.h>
 
 class DirectX11;
 
@@ -31,6 +32,8 @@ class PlayerController;
 class World;
 class PtoGameInstance;
 class DebugUI;
+class S_TextBlock;
+class ScreenTextOnlyOutput;
 
 class App
 {
@@ -78,4 +81,8 @@ private:
 	// -----------------------------------
 	std::unique_ptr<WorldTimer> pAppTimer = nullptr;
 	float appTimerSpeed = 1.f;
+
+	std::shared_ptr<ScreenTextOnlyOutput> pScreenText;
+	std::shared_ptr<S_TextBlock> pTextTitle;
+	std::shared_ptr<S_TextBlock> pTextSimple;
 };

@@ -12,6 +12,8 @@
 
 #include "Input/Keyboard.h"
 
+#include "Slate/TextBlock.h"
+#include "Render/ScreenText.h"
 
 #if _DEBUG
 #include "UI/DebugUI.h"
@@ -19,6 +21,7 @@
 
 Keyboard::InputAction InputEsc(DIK_ESCAPE);
 Keyboard::InputAction InputAt(DIK_AT);
+Keyboard keyboard;
 
 int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
 {
@@ -33,11 +36,11 @@ App::App()
     OutputDebugStringA(("window InSize : " + EngineSettings::GetWindowSize().ToString() + "\n").c_str());
 #endif
     pDX = std::make_unique<DirectX11>(mWindow.GetHInstance(), mWindow.GetHWnd(), mWindow.GetWidth(), mWindow.GetHeight());
+    keyboard = Keyboard(mWindow.GetHInstance(), mWindow.GetHWnd());
+    mWindow.Init(*pDX);
 
     pGameInstance = &PtoGameInstance::Get();
     pGameInstance->Initialize(*pDX);
-    pGameInstance->OnOpenWorld.Bind<&App::OnWorldChanged>(*this, "App");
-    pGameInstance->OpenWorld(0);
 
     /* Viewport */
     {
@@ -46,6 +49,17 @@ App::App()
     }
 
     pAppTimer = std::make_unique<WorldTimer>();
+
+
+    //FSlateTextAppearance appearance;
+    //appearance.outline = true;
+    //appearance.outlineColor = FColor(0.5f, 0.5f, 0.f, 1.f);
+    //pTextTitle = std::make_shared<S_TextBlock>(pScreenText->GetRT2D(), *pDX, FVector2D(200.f, 50.f), FSlateInfos(), FSlateFont(), appearance);
+    //pTextTitle->SetText(L"pto8913");
+
+    //pTextSimple = std::make_shared<S_TextBlock>(pScreenText->GetRT2D(), *pDX, FVector2D(200.f, 50.f));
+    //pTextSimple->SetText(L"pto8913");
+    //pTextSimple->SetPosition({ 0, 100.f });
 
     bIsInitialized = true;
 }
@@ -83,26 +97,29 @@ int App::Run()
                 return *ecode;
             }
 
-            pDX->BeginFrame();
-
-            const auto deltaSec = pAppTimer->GetDelta() * appTimerSpeed;
+            //pDX->BeginFrame();
+            keyboard.Update();
+            //const auto deltaSec = pAppTimer->GetDelta() * appTimerSpeed;
 
             InputUpdate(*pDX);
 
-            pGameInstance->Tick(*pDX, deltaSec);
+            //pGameInstance->Tick(*pDX, deltaSec);
 
-            HRESULT result = pDX->EndFrame();
-            if (result == DXGI_ERROR_DEVICE_REMOVED || result == DXGI_ERROR_DEVICE_RESET)
-            {
-                //OnDeviceLost();
-            }
-            else
-            {
-                if (FAILED(result))
-                {
-                    assert(false);
-                }
-            }
+            //pTextTitle->Draw();
+            //pTextSimple->Draw();
+
+            //HRESULT result = pDX->EndFrame();
+            //if (result == DXGI_ERROR_DEVICE_REMOVED || result == DXGI_ERROR_DEVICE_RESET)
+            //{
+            //    //OnDeviceLost();
+            //}
+            //else
+            //{
+            //    if (FAILED(result))
+            //    {
+            //        assert(false);
+            //    }
+            //}
         }
     }
 }
@@ -111,15 +128,17 @@ void App::InputUpdate(DirectX11& dx)
 #if _DEBUG
     if (InputAt)
     {
-        bOpenDebugUI = !bOpenDebugUI;
-        if (bOpenDebugUI)
-        {
-            OpenDebugUI();
-        }
-        else
-        {
-            CloseDebugUI();
-        }
+        mWindow.Render();
+        OutputDebugStringA("WindowRender\n");
+        //bOpenDebugUI = !bOpenDebugUI;
+        //if (bOpenDebugUI)
+        //{
+        //    OpenDebugUI();
+        //}
+        //else
+        //{
+        //    CloseDebugUI();
+        //}
     }
 #endif
     if (InputEsc)
