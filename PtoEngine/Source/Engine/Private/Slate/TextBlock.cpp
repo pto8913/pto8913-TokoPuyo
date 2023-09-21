@@ -95,7 +95,7 @@ void S_TextBlock::SetAppearance(FSlateTextAppearance in)
 			ColorHelper::ConvertColorToD2D(mAppearance.outlineColor),
 			&pBrushOutline
 		);
-		if (pTextRenderer_Outline == nullptr)
+		if (pTextRenderer_Outline != nullptr)
 		{
 			pTextRenderer_Outline->UpdateBrushFill(pBrush);
 			pTextRenderer_Outline->UpdateBrushOutline(pBrushOutline);
