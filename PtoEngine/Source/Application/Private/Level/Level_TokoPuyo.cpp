@@ -502,7 +502,9 @@ void Level_TokoPuyo::ActionActivePuyoRotate(bool rotateR)
 				{
 					if (IsValidIndex(stackedPuyo, mainIdx.x, mainIdx.y + 1))
 					{
+#if _DEBUG
 						OutputDebugStringA("U to B by R\n");
+#endif
 						if (GetStackedPuyo(mainIdx.x, mainIdx.y + 1))
 						{
 							mainIdx.y -= 1;
@@ -513,7 +515,9 @@ void Level_TokoPuyo::ActionActivePuyoRotate(bool rotateR)
 				else
 				{
 					/* U to R */
+#if _DEBUG
 					OutputDebugStringA("U to R by R\n");
+#endif
 					mainIdx.x -= 1;
 				}
 			}
@@ -526,7 +530,9 @@ void Level_TokoPuyo::ActionActivePuyoRotate(bool rotateR)
 				{
 					if (IsValidIndex(stackedPuyo, mainIdx.x, mainIdx.y + 1))
 					{
+#if _DEBUG
 						OutputDebugStringA("B to U by R\n");
+#endif
 						if (!GetStackedPuyo(mainIdx.x, mainIdx.y + 1))
 						{
 						}
@@ -537,7 +543,9 @@ void Level_TokoPuyo::ActionActivePuyoRotate(bool rotateR)
 				else
 				{
 					/* B to R */
+#if _DEBUG
 					OutputDebugStringA("B to R by R\n");
+#endif
 					mainIdx.x += 1;
 				}
 			}
@@ -567,7 +575,9 @@ void Level_TokoPuyo::ActionActivePuyoRotate(bool rotateR)
 					/* U to B */
 					if (IsValidIndex(stackedPuyo, mainIdx.x, mainIdx.y + 1))
 					{
+#if _DEBUG
 						OutputDebugStringA("U to B by L\n");
+#endif
 						if (GetStackedPuyo(mainIdx.x, mainIdx.y + 1))
 						{
 							mainIdx.y -= 1;
@@ -577,7 +587,9 @@ void Level_TokoPuyo::ActionActivePuyoRotate(bool rotateR)
 				}
 				else
 				{
+#if _DEBUG
 					OutputDebugStringA("U to L by L\n");
+#endif
 					mainIdx.x += 1;
 				}
 			}
@@ -588,7 +600,9 @@ void Level_TokoPuyo::ActionActivePuyoRotate(bool rotateR)
 				/* B to U */
 				if (IsValidIndex(stackedPuyo, mainIdx.x, mainIdx.y + 1))
 				{
+#if _DEBUG
 					OutputDebugStringA("B to U by L\n");
+#endif
 					if (GetStackedPuyo(mainIdx.x, mainIdx.y + 1))
 					{
 						mainIdx.y -= 1;
@@ -597,7 +611,9 @@ void Level_TokoPuyo::ActionActivePuyoRotate(bool rotateR)
 				}
 				else
 				{
+#if _DEBUG
 					OutputDebugStringA("B to L by L\n");
+#endif
 					mainIdx.x -= 1;
 				}
 			}

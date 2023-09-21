@@ -81,7 +81,7 @@ void GameProgressUI::NativeOnInitialized()
 		font.fontSize = 30.f;
 		FSlateInfos slateInfo;
 		slateInfo.padding = { 5.f, 5.f, 5.f, 5.f };
-		auto pTextBlock_GameMode = MakeSlate<S_TextBlock>(slateInfo, font, textAppearance);
+		auto pTextBlock_GameMode = MakeSlate<S_TextBlock>(*pDX, slateInfo, font, textAppearance);
 		pTextBlock_GameMode->SetText(L"TokoPuyo");
 
 		InfosVB->AddChild(pTextBlock_GameMode);
@@ -94,7 +94,7 @@ void GameProgressUI::NativeOnInitialized()
 		textAppearance.hAlign = EHorizontalAlignment::Center;
 		FSlateInfos slateInfo;
 		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pTextBlock_NextPuyo = MakeSlate<S_TextBlock>(slateInfo, FSlateFont(), textAppearance);
+		auto pTextBlock_NextPuyo = MakeSlate<S_TextBlock>(*pDX, slateInfo, FSlateFont(), textAppearance);
 		pTextBlock_NextPuyo->SetText(L"Next Puyo");
 		//InfosVB->AddChild(pTextBlock_NextPuyo);
 
@@ -156,23 +156,23 @@ void GameProgressUI::NativeOnInitialized()
 		Appearance.vAlign = EVerticalAlignment::Center;
 		Appearance.hAlign = EHorizontalAlignment::Left;
 
-		auto pText_Control1 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control1 = MakeSlate<S_TextBlock>(*pDX, SlateInfos, FSlateFont(), Appearance);
 		pText_Control1->SetText(L" Å™ : Turn Right");
 
-		auto pText_Control2 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control2 = MakeSlate<S_TextBlock>(*pDX, SlateInfos, FSlateFont(), Appearance);
 		pText_Control2->SetText(L"Å© : Move Left");
 
-		auto pText_Control3 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control3 = MakeSlate<S_TextBlock>(*pDX, SlateInfos, FSlateFont(), Appearance);
 		pText_Control3->SetText(L"Å® : Move Right");
 
-		auto pText_Control4 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control4 = MakeSlate<S_TextBlock>(*pDX, SlateInfos, FSlateFont(), Appearance);
 		pText_Control4->SetText(L" Å´ : Move Bottom");
 
-		auto pText_Control5 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control5 = MakeSlate<S_TextBlock>(*pDX, SlateInfos, FSlateFont(), Appearance);
 		pText_Control5->SetText(L" Z : Turn Left");
 
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 20.f };
-		auto pText_Control6 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control6 = MakeSlate<S_TextBlock>(*pDX, SlateInfos, FSlateFont(), Appearance);
 		pText_Control6->SetText(L" X : Turn Right");
 
 		InfosVB->AddChild(pText_Control1);
@@ -193,19 +193,19 @@ void GameProgressUI::NativeOnInitialized()
 		scoreAppearance.hAlign = EHorizontalAlignment::Left;
 		if (pTextBlock_MaxScore == nullptr)
 		{
-			pTextBlock_MaxScore = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_MaxScore = MakeSlate<S_TextBlock>(*pDX, scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		if (pTextBlock_MaxCombo == nullptr)
 		{
-			pTextBlock_MaxCombo = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_MaxCombo = MakeSlate<S_TextBlock>(*pDX, scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		if (pTextBlock_Score == nullptr)
 		{
-			pTextBlock_Score = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_Score = MakeSlate<S_TextBlock>(*pDX, scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		if (pTextBlock_Combo == nullptr)
 		{
-			pTextBlock_Combo = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_Combo = MakeSlate<S_TextBlock>(*pDX, scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		InfosVB->AddChild(pTextBlock_MaxScore);
 		InfosVB->AddChild(pTextBlock_MaxCombo);
@@ -227,7 +227,7 @@ void GameProgressUI::NativeOnInitialized()
 			FSlateInfos LabelInfos;
 			LabelInfos.VAlign = EVerticalAlignment::Center;
 			LabelInfos.HAlign = EHorizontalAlignment::Center;
-			auto pLabel = MakeSlate<S_TextBlock>(LabelInfos);
+			auto pLabel = MakeSlate<S_TextBlock>(*pDX, LabelInfos);
 			pButton->AddChild(pLabel);
 			pLabel->SetText(label);
 
@@ -255,7 +255,7 @@ void GameProgressUI::NativeOnInitialized()
 		font.stretch = DWRITE_FONT_STRETCH_EXTRA_EXPANDED;
 		FSlateTextAppearance appearance;
 		appearance.color = FColor(1.f, 0.5f, 0.25f, 1.f);
-		pTextBlock_AllClearEffect = MakeSlate<S_TextBlock>(infos, font, appearance);
+		pTextBlock_AllClearEffect = MakeSlate<S_TextBlock>(*pDX, infos, font, appearance);
 		pTextBlock_AllClearEffect->SetPosition(
 			GameSettings::GAMESCREEN_PADDING + EngineSettings::GetCELL() * FVector2D(0.6f, 2.f)
 		);
@@ -273,7 +273,7 @@ void GameProgressUI::NativeOnInitialized()
 		font.stretch = DWRITE_FONT_STRETCH_EXTRA_EXPANDED;
 		FSlateTextAppearance appearance;
 		appearance.color = FColor(1.f, 1.f, 0.25f, 1.f);
-		pTextBlock_ComboEffect = MakeSlate<S_TextBlock>(infos, font, appearance);
+		pTextBlock_ComboEffect = MakeSlate<S_TextBlock>(*pDX, infos, font, appearance);
 		pTextBlock_ComboEffect->SetPosition(
 			GameSettings::GAMESCREEN_PADDING + EngineSettings::GetCELL() * FVector2D(1.75f, 2.f)
 		);

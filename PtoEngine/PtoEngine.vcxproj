@@ -217,7 +217,6 @@
     <ClInclude Include="Source\Application\Public\PtoGameInstance.h" />
     <ClInclude Include="Source\Application\Public\UI\GameOverUI.h" />
     <ClInclude Include="Source\Application\Public\UI\GameProgressUI.h" />
-    <ClInclude Include="Source\Application\Public\UI\LandmarkUI.h" />
     <ClInclude Include="Source\Application\Public\UI\SettingsUI.h" />
     <ClInclude Include="Source\Application\Public\UI\TitleUI.h" />
     <ClInclude Include="Source\Application\Public\Window.h" />
@@ -356,7 +355,6 @@
     <ClCompile Include="Source\Application\Private\PtoGameInstance.cpp" />
     <ClCompile Include="Source\Application\Private\UI\GameOverUI.cpp" />
     <ClCompile Include="Source\Application\Private\UI\GameProgressUI.cpp" />
-    <ClCompile Include="Source\Application\Private\UI\LandmarkUI.cpp" />
     <ClCompile Include="Source\Application\Private\UI\SettingsUI.cpp" />
     <ClCompile Include="Source\Application\Private\UI\TitleUI.cpp" />
     <ClCompile Include="Source\Application\Private\Window.cpp" />
