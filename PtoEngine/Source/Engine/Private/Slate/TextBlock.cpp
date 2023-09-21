@@ -120,6 +120,7 @@ void S_TextBlock::SetAppearance(FSlateTextAppearance in)
 			);
 		}
 	}
+	UpdateTextLayout();
 }
 FSlateTextAppearance& S_TextBlock::GetAppearance()
 {
@@ -140,16 +141,16 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 		mFont.fontLocalName.c_str(),
 		&pTextFormat
 	);
-	UpdateTextLayout();
 	UpdateSize();
+	UpdateTextLayout();
 }
 void S_TextBlock::SetText(std::wstring inText)
 {
 	mText = inText;
 	mTextLength = (UINT32)mText.length();
 
-	UpdateTextLayout();
 	UpdateSize();
+	UpdateTextLayout();
 }
 void S_TextBlock::SetSize(FVector2D inSize)
 {
