@@ -2,7 +2,7 @@
 #include "Slate/TextRenderer_Outline.h"
 #include "Utils/DirectXUtils.h"
 
-TextRenderer_Outline::TextRenderer_Outline(ID2D1Factory* inD2DFactory, ID2D1RenderTarget* inRT, ID2D1SolidColorBrush* inBrushOutline, ID2D1SolidColorBrush* inBrushFill)
+TextRenderer_Outline::TextRenderer_Outline(ID2D1Factory* inD2DFactory, ID2D1HwndRenderTarget* inRT, ID2D1SolidColorBrush* inBrushOutline, ID2D1SolidColorBrush* inBrushFill)
     :
     cRefCount_(0),
     pD2DFactory(inD2DFactory),

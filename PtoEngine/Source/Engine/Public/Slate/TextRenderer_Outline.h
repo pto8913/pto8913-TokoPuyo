@@ -8,7 +8,7 @@ class TextRenderer_Outline : public IDWriteTextRenderer
 public:
     TextRenderer_Outline(
         ID2D1Factory* inD2DFactory,
-        ID2D1RenderTarget* inRT,
+        ID2D1HwndRenderTarget* inRT,
         ID2D1SolidColorBrush* inBrushOutline,
         ID2D1SolidColorBrush* inBrushFill
     );
@@ -53,7 +53,7 @@ public:
 private:
     unsigned long cRefCount_;
     ID2D1Factory* pD2DFactory = nullptr;
-    ID2D1RenderTarget* pRtHWnd = nullptr;
+    ID2D1HwndRenderTarget* pRtHWnd = nullptr;
     ID2D1SolidColorBrush* pBrushOutline = nullptr;
     ID2D1SolidColorBrush* pBrushFill = nullptr;
 };

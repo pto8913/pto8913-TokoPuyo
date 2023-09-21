@@ -170,6 +170,49 @@ void UserWidget::RemoveSlate(std::shared_ptr<SlateBase> inSlate)
 	}
 }
 
+void UserWidget::AddWidget(UserWidget* inWidget)
+{
+	if (!IsPendingKill())
+	{
+		pChildWidgets.push_back(inWidget);
+
+		pRootSlate->AddChild(inWidget->pRootSlate);
+		pRootSlate->UpdateWidget();
+
+		inWidget->pRootSlate->AddPosition(pRootSlate->GetPosition());
+		inWidget->pRootSlate->UpdateWidget();
+	}
+}
+void UserWidget::RemoveWidget(UserWidget* inWidget)
+{
+	if (!IsPendingKill())
+	{
+		pRootSlate->RemoveChild(inWidget->pRootSlate);
+
+		auto iter = pChildWidgets.begin();
+		while (iter != pChildWidgets.end())
+		{
+			auto& obj = *iter;
+			if (obj != nullptr)
+			{
+				if (obj->GetID() == inWidget->GetID())
+				{
+					obj = nullptr;
+					iter = pChildWidgets.erase(iter);
+				}
+				else
+				{
+					++iter;
+				}
+			}
+			else
+			{
+				++iter;
+			}
+		}
+	}
+}
+
 // --------------------------
 // Main : Animation
 // --------------------------

@@ -13,6 +13,7 @@ class WidgetAnimation;
 
 class UserWidget : public Object
 {
+	friend class UserWidget;
 	friend class WidgetManager;
 public:
 	UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
@@ -43,6 +44,9 @@ public:
 
 	virtual void AddSlate(std::shared_ptr<SlateBase> inSlate);
 	virtual void RemoveSlate(std::shared_ptr<SlateBase> inSlate);
+
+	virtual void AddWidget(UserWidget* inWidget);
+	virtual void RemoveWidget(UserWidget* inWidget);
 
 	virtual std::string GetName() const override
 	{
@@ -98,6 +102,7 @@ private:
 protected:
 	bool bIsInViewport = false;
 	std::shared_ptr<SlateContainerBase> pRootSlate = nullptr;
+	std::vector<UserWidget*> pChildWidgets;
 
 	Object* pOwner = nullptr;
 	ID2D1RenderTarget* pRt2D = nullptr;

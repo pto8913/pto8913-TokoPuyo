@@ -14,7 +14,7 @@
 
 #include <wincodec.h>
 
-S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
+S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
 	: SlateSlotBase(inRt2D, inSize, inSlateInfos), mText(L""), mFont(inFont), mAppearance(inAppearance)
 {
 	D2D1CreateFactory(
@@ -27,6 +27,12 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfo
 		reinterpret_cast<IUnknown**>(&pDWriteFactory)
 	);
 
+	pD2DFactory->CreateHwndRenderTarget(
+		D2D1::RenderTargetProperties(),
+		D2D1::HwndRenderTargetProperties(dx.GetHWnd()),
+		&pRtHwnd
+	);
+
 	pRt2D->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.color),
 		&pBrush
@@ -35,8 +41,8 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfo
 	SetFont(mFont);
 	SetAppearance(mAppearance);
 }
-S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
-	: S_TextBlock(inRt2D, { 0,0 }, inSlateInfos, inFont, inAppearance)
+S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
+	: S_TextBlock(inRt2D, dx, { 0,0 }, inSlateInfos, inFont, inAppearance)
 {
 }
 S_TextBlock::~S_TextBlock()
@@ -104,7 +110,7 @@ void S_TextBlock::SetAppearance(FSlateTextAppearance in)
 		{
 			pTextRenderer_Outline = new TextRenderer_Outline(
 				pD2DFactory,
-				pRt2D,
+				pRtHwnd,
 				pBrushOutline,
 				pBrush
 			);
