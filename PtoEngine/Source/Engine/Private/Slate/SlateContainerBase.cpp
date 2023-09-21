@@ -12,12 +12,12 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////////// 
 
-SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
+SlateContainerBase::SlateContainerBase(ID2D1HwndRenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
 	: SlateBase(inRt2D, inSize, inSlateInfos)
 {
 	mSlateInputEventReceiveType = ESlateInputEventReceiveType::NotChildren;
 }
-SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos)
+SlateContainerBase::SlateContainerBase(ID2D1HwndRenderTarget* inRt2D, FSlateInfos inSlateInfos)
 	: SlateContainerBase(inRt2D, { 0,0 }, inSlateInfos)
 {
 }
@@ -312,11 +312,11 @@ bool SlateContainerBase::OnKeyUp(DX::MouseEvent inMouseEvent)
 // Container only one
 // 
 //////////////////////////////////////////////////////////////////////////////////////// 
-SlotContainerOnlyOne::SlotContainerOnlyOne(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
+SlotContainerOnlyOne::SlotContainerOnlyOne(ID2D1HwndRenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
 	: SlateContainerBase(inRt2D, inSize, inSlateInfos)
 {
 }
-SlotContainerOnlyOne::SlotContainerOnlyOne(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos)
+SlotContainerOnlyOne::SlotContainerOnlyOne(ID2D1HwndRenderTarget* inRt2D, FSlateInfos inSlateInfos)
 	: SlotContainerOnlyOne(inRt2D, { 0,0 }, inSlateInfos)
 {
 }

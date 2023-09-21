@@ -5,12 +5,12 @@
 
 #include "Helper/RectHelper.h"
 
-S_Image::S_Image(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, std::wstring inFileName)
+S_Image::S_Image(ID2D1HwndRenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, std::wstring inFileName)
 	: SlateSlotBase(inRt2D, inSize, inSlateInfos)
 {
 	SetFileName(inFileName);
 }
-S_Image::S_Image(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos, std::wstring inFileName)	
+S_Image::S_Image(ID2D1HwndRenderTarget* inRt2D, FSlateInfos inSlateInfos, std::wstring inFileName)	
 	: S_Image(inRt2D, { 0,0 }, inSlateInfos, inFileName)
 {}
 S_Image::~S_Image()

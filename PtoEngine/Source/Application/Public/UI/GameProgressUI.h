@@ -11,7 +11,7 @@ class S_Overlay;
 class GameProgressUI : public UserWidget
 {
 public:
-	GameProgressUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
+	GameProgressUI(Object* inOwner, ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
 	virtual ~GameProgressUI();
 
 	// ------------------------------------------------------------------------------------------------------------

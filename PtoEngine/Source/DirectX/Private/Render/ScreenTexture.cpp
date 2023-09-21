@@ -25,7 +25,15 @@ ScreenTexture::ScreenTexture(DirectX11& dx, const std::wstring& inFileName, FLOA
 
 	IDXGISurface* surface = nullptr;
 	dx.GetSwapChain()->GetBuffer(0, __uuidof(IDXGISurface), (void**)&surface);
-	HRESULT result = D2DFactory->CreateDxgiSurfaceRenderTarget(surface, &renderTargetProperties, &D2DRenderTarget);
+	HRESULT result = D2DFactory->CreateHwndRenderTarget(
+		renderTargetProperties, 
+		D2D1_HWND_RENDER_TARGET_PROPERTIES(dx.GetHWnd()), 
+		&D2DRenderTarget
+	);
+
+	D2DFactory->Release();
+	surface->Release();
+
 	if (FAILED(result))
 	{
 		MessageBox(NULL, L"Can not create D2DRenderTarget", L"Failed ScreenTexture constructor", MB_OK);
@@ -125,7 +133,7 @@ void ScreenTexture::Bind(const DirectX::XMVECTOR& loc, const float& angle)
 	D2DRenderTarget->EndDraw();
 }
 
-ID2D1RenderTarget* ScreenTexture::GetRt2D()
+ID2D1HwndRenderTarget* ScreenTexture::GetRt2D()
 {
 	return D2DRenderTarget;
 }

@@ -14,7 +14,7 @@
 #include <tchar.h>
 #include <Windows.h>
 
-DebugUI::DebugUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
+DebugUI::DebugUI(Object* inOwner, ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
 	: UserWidget(inOwner, inRt2D, dx, mouse)
 {
 }

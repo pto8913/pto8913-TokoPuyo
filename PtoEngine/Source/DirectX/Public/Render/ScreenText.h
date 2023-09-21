@@ -31,7 +31,7 @@ protected:
 
 	IDXGIKeyedMutex* keyedMutex11 = nullptr;
 	IDXGIKeyedMutex* keyedMutex10 = nullptr;
-	ID2D1RenderTarget* D2DRenderTarget = nullptr;
+	ID2D1HwndRenderTarget* D2DRenderTarget = nullptr;
 	ID2D1SolidColorBrush* pBrush = nullptr;
 	ID3D11ShaderResourceView* d2dTexture = nullptr;
 	IDWriteTextFormat* TextFormat = nullptr;
@@ -60,7 +60,7 @@ public:
 		return GenerateID(0, 0);
 	}
 
-	ID2D1RenderTarget*& GetRT2D() noexcept { return D2DRenderTarget; }
+	ID2D1HwndRenderTarget*& GetRT2D() noexcept { return D2DRenderTarget; }
 	IDXGIKeyedMutex*& GetMutex11() noexcept { return keyedMutex11; }
 	IDXGIKeyedMutex*& GetMutex10() noexcept { return keyedMutex10; }
 protected:
@@ -68,7 +68,7 @@ protected:
 	float height;
 
 	ID3D11ShaderResourceView* d2dTexture = nullptr;
-	ID2D1RenderTarget* D2DRenderTarget = nullptr;
+	ID2D1HwndRenderTarget* D2DRenderTarget = nullptr;
 	IDXGIKeyedMutex* keyedMutex11 = nullptr;
 	IDXGIKeyedMutex* keyedMutex10 = nullptr;
 };

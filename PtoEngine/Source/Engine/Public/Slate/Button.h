@@ -20,8 +20,8 @@ public:
 class S_Button : public SlotContainerOnlyOne
 {
 public:
-	S_Button(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {});
-	S_Button(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {});
+	S_Button(ID2D1HwndRenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {});
+	S_Button(ID2D1HwndRenderTarget* inRt2D, FSlateInfos inSlateInfos = {}, FSlateButtonAppearance inButtonAppearance = {});
 	virtual ~S_Button();
 
 	// ------------------------------------------------------------------------------------------------------------

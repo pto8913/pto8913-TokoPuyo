@@ -15,8 +15,8 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FOnChoceResult, const FChoiceInfos&);
 class S_ChoiceBox : public S_VerticalBox
 {
 public:
-	S_ChoiceBox(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, const TArray<FChoiceInfos>& inChoiceInfos = {}, FSlateInfos inSlateInfos = FSlateInfos());
-	S_ChoiceBox(ID2D1RenderTarget* inRt2D, DirectX11& dx, const TArray<FChoiceInfos>& inChoiceInfos = {}, FSlateInfos inSlateInfos = FSlateInfos());
+	S_ChoiceBox(ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, const TArray<FChoiceInfos>& inChoiceInfos = {}, FSlateInfos inSlateInfos = FSlateInfos());
+	S_ChoiceBox(ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, const TArray<FChoiceInfos>& inChoiceInfos = {}, FSlateInfos inSlateInfos = FSlateInfos());
 	virtual ~S_ChoiceBox();
 
 	// ------------------------------------------------------

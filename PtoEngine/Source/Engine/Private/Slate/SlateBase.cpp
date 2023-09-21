@@ -1,7 +1,7 @@
 
 #include "Slate/SlateBase.h"
 
-SlateBase::SlateBase(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
+SlateBase::SlateBase(ID2D1HwndRenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
 	: mSize(inSize),
 	pRt2D(inRt2D),
 	mSlateInfos(inSlateInfos),

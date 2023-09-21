@@ -12,7 +12,7 @@
 #include "EngineSettings.h"
 #include "GameSettings.h"
 
-SettingsUI::SettingsUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
+SettingsUI::SettingsUI(Object* inOwner, ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse)
 	: UserWidget(inOwner, inRt2D, dx, mouse)
 {
 }

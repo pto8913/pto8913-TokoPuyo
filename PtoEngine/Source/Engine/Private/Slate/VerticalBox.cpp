@@ -1,7 +1,7 @@
 
 #include "Slate/VerticalBox.h"
 
-S_VerticalBox::S_VerticalBox(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
+S_VerticalBox::S_VerticalBox(ID2D1HwndRenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
 	: SlateContainerBase(inRt2D, inSize, inSlateInfos)
 {
 #if _DEBUG
@@ -11,7 +11,7 @@ S_VerticalBox::S_VerticalBox(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlate
 #endif
 }
 
-S_VerticalBox::S_VerticalBox(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos)
+S_VerticalBox::S_VerticalBox(ID2D1HwndRenderTarget* inRt2D, FSlateInfos inSlateInfos)
 	: S_VerticalBox(inRt2D, { 0,0 }, inSlateInfos)
 {}
 

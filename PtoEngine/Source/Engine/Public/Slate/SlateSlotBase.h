@@ -5,8 +5,8 @@
 class SlateSlotBase : public SlateBase
 {
 public:
-	SlateSlotBase(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = FSlateInfos());
-	SlateSlotBase(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos = FSlateInfos());
+	SlateSlotBase(ID2D1HwndRenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = FSlateInfos());
+	SlateSlotBase(ID2D1HwndRenderTarget* inRt2D, FSlateInfos inSlateInfos = FSlateInfos());
 
 	virtual std::string GetName() const override
 	{

@@ -5,8 +5,8 @@
 class S_Overlay : public SlateContainerBase
 {
 public:
-	S_Overlay(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = {});
-	S_Overlay(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos = {});
+	S_Overlay(ID2D1HwndRenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = {});
+	S_Overlay(ID2D1HwndRenderTarget* inRt2D, FSlateInfos inSlateInfos = {});
 	virtual ~S_Overlay();
 
 	// ------------------------------------------------------------------------------------------------

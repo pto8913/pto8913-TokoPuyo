@@ -16,7 +16,7 @@ class UserWidget : public Object
 	friend class UserWidget;
 	friend class WidgetManager;
 public:
-	UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
+	UserWidget(Object* inOwner, ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
 	virtual ~UserWidget();
 
 	// ------------------------------------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ protected:
 	std::vector<UserWidget*> pChildWidgets;
 
 	Object* pOwner = nullptr;
-	ID2D1RenderTarget* pRt2D = nullptr;
+	ID2D1HwndRenderTarget* pRt2D = nullptr;
 	DirectX11* pDX = nullptr;
 	DX::IMouseInterface* pMouse = nullptr;
 

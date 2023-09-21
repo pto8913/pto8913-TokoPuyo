@@ -23,16 +23,16 @@ public:
 	virtual bool InBoundingVolume(Actor* other) override;
 	FRect GetRect();
 protected:
-	virtual void EnterVolume(std::shared_ptr<CollisionComponent> other) override;
-	virtual void LeaveVolume(std::shared_ptr<CollisionComponent> other) override;
+	virtual void EnterVolume(CollisionComponent* other) override;
+	virtual void LeaveVolume(CollisionComponent* other) override;
 
-	virtual void ResolveBlock(std::shared_ptr<CollisionComponent> other) override;
+	virtual void ResolveBlock(CollisionComponent* other) override;
 public:
 
 	// ----------------------------
 	// Main : Debug
 	// ----------------------------
-	void DrawDebug(ID2D1RenderTarget* Rt2D);
+	void DrawDebug(ID2D1HwndRenderTarget* Rt2D);
 protected:
 
 	// ------------------------------------------------------

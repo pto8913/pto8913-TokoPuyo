@@ -10,7 +10,7 @@ class S_Button;
 class TitleUI : public UserWidget
 {
 public:
-	TitleUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
+	TitleUI(Object* inOwner, ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
 	virtual ~TitleUI();
 
 	// ------------------------------------------------------------------------------------------------------------

@@ -33,7 +33,7 @@ public:
 		return GenerateID(fileName, 0, 0);
 	}
 
-	ID2D1RenderTarget* GetRt2D();
+	ID2D1HwndRenderTarget* GetRt2D();
 	
 protected:
 	const std::wstring fileName;
@@ -41,5 +41,5 @@ protected:
 	float height;
 
 	ID2D1Bitmap* pBitmap = nullptr;
-	ID2D1RenderTarget* D2DRenderTarget = nullptr;
+	ID2D1HwndRenderTarget* D2DRenderTarget = nullptr;
 };

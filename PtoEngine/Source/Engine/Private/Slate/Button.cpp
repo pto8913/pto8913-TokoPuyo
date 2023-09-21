@@ -8,7 +8,7 @@
 #include <format>
 #endif
 
-S_Button::S_Button(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateButtonAppearance inAppearance)
+S_Button::S_Button(ID2D1HwndRenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateButtonAppearance inAppearance)
 	: SlotContainerOnlyOne(inRt2D, inSize, inSlateInfos), mAppearance(inAppearance)
 {
 	mSlateInputEventReceiveType = ESlateInputEventReceiveType::Enable;
@@ -18,7 +18,7 @@ S_Button::S_Button(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSl
 		&pBrush
 	);
 }
-S_Button::S_Button(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos, FSlateButtonAppearance inAppearance)
+S_Button::S_Button(ID2D1HwndRenderTarget* inRt2D, FSlateInfos inSlateInfos, FSlateButtonAppearance inAppearance)
 	: S_Button(inRt2D, { 0,0 }, inSlateInfos, inAppearance)
 {}
 

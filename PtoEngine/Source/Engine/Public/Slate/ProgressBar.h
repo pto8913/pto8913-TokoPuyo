@@ -18,8 +18,8 @@ public:
 class S_ProgressBar : public SlateSlotBase
 {
 public:
-	S_ProgressBar(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateProgressAppearance inAppearance = {});
-	S_ProgressBar(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos = {}, FSlateProgressAppearance inAppearance = {});
+	S_ProgressBar(ID2D1HwndRenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateProgressAppearance inAppearance = {});
+	S_ProgressBar(ID2D1HwndRenderTarget* inRt2D, FSlateInfos inSlateInfos = {}, FSlateProgressAppearance inAppearance = {});
 	virtual ~S_ProgressBar();
 
 	// ------------------------------------------------------------------------------------------------

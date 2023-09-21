@@ -15,7 +15,7 @@
 #include <format>
 #endif
 
-S_Slider::S_Slider(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
+S_Slider::S_Slider(ID2D1HwndRenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
 	: SlateSlotBase(inRt2D, inSize, inSlateInfos), 
 	mAppearance(inAppearance)
 {
@@ -26,7 +26,7 @@ S_Slider::S_Slider(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSl
 
 	SetAppearance(inAppearance);
 }
-S_Slider::S_Slider(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
+S_Slider::S_Slider(ID2D1HwndRenderTarget* inRt2D, FSlateInfos inSlateInfos, FSlateSliderAppearance inAppearance)
 	: S_Slider(inRt2D, { 0,0 }, inSlateInfos, inAppearance)
 {
 }

@@ -57,7 +57,7 @@ public:
 class SlateBase : public DX::ISlateInterface
 {
 public:
-	SlateBase(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = FSlateInfos());
+	SlateBase(ID2D1HwndRenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = FSlateInfos());
 	virtual ~SlateBase() = 0;
 
 	// ------------------------------------------------------------------------------------------------
@@ -141,7 +141,7 @@ protected:
 	// State
 	// ------------------------------------------------------------------------------------------------
 	SlateBase* pParent = nullptr;
-	ID2D1RenderTarget* pRt2D = nullptr;
+	ID2D1HwndRenderTarget* pRt2D = nullptr;
 	ID2D1SolidColorBrush* pBrush = nullptr;
 
 	// ------------------------------------------------

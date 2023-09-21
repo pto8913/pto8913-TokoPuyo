@@ -83,8 +83,8 @@ public:
 class S_TextBlock : public SlateSlotBase
 {
 public:
-	S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
-	S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
+	S_TextBlock(ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
+	S_TextBlock(ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, FSlateInfos inSlateInfos = {}, FSlateFont inFont = {}, FSlateTextAppearance inAppearance = {});
 	virtual ~S_TextBlock();
 
 	// ------------------------------------------------------------------------------------------------

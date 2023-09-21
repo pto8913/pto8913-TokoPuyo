@@ -5,7 +5,7 @@
 #include "Slate/Button.h"
 #include "Slate/TextBlock.h"
 
-S_ChoiceButton::S_ChoiceButton(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, const FChoiceInfos& inChoiceInfos, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
+S_ChoiceButton::S_ChoiceButton(ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, const FChoiceInfos& inChoiceInfos, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
 	: S_Button(inRt2D, inSize, inSlateInfos, inButtonAppearance)
 {
 	OnClicked.Bind<&S_ChoiceButton::OnClickedEvent>(*this, "S_ChoiceButton");
@@ -18,7 +18,7 @@ S_ChoiceButton::S_ChoiceButton(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector
 
 	SetChoiceInfos(inChoiceInfos);
 }
-S_ChoiceButton::S_ChoiceButton(ID2D1RenderTarget* inRt2D, DirectX11& dx, const FChoiceInfos& inChoiceInfos, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
+S_ChoiceButton::S_ChoiceButton(ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, const FChoiceInfos& inChoiceInfos, FSlateInfos inSlateInfos, FSlateButtonAppearance inButtonAppearance)
 	: S_ChoiceButton(inRt2D, dx, { 0,0 }, inChoiceInfos, inSlateInfos, inButtonAppearance)
 {
 }

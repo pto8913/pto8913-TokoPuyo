@@ -4,13 +4,13 @@
 
 #include <format>
 
-S_ChoiceBox::S_ChoiceBox(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, const TArray<FChoiceInfos>& inChoiceInfos, FSlateInfos inSlateInfos)
+S_ChoiceBox::S_ChoiceBox(ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, const TArray<FChoiceInfos>& inChoiceInfos, FSlateInfos inSlateInfos)
 	: S_VerticalBox(inRt2D, inSize, inSlateInfos)
 {
 	pDX = &dx;
 	SetChoiceButton(inChoiceInfos);
 }
-S_ChoiceBox::S_ChoiceBox(ID2D1RenderTarget* inRt2D, DirectX11& dx, const TArray<FChoiceInfos>& inChoiceInfos, FSlateInfos inSlateInfos)
+S_ChoiceBox::S_ChoiceBox(ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, const TArray<FChoiceInfos>& inChoiceInfos, FSlateInfos inSlateInfos)
 	: S_ChoiceBox(inRt2D, dx, { 0,0 }, inChoiceInfos, inSlateInfos)
 {
 }

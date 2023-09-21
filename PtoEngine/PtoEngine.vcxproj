@@ -436,6 +436,7 @@
     <ClCompile Include="Source\Engine\Private\Algorithm\UnionFind.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\ActorComponent.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\BoxCollision.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\BoxCollision2D.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\CollisionComponent.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\ComponentBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\SpriteComponent.cpp" />

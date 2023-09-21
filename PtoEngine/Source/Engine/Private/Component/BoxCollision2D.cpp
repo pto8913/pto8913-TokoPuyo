@@ -9,7 +9,6 @@
 
 #if _DEBUG
 #include "Framework/World.h"
-#include "UI/HUD.h"
 #endif
 
 #include "EngineSettings.h"
@@ -34,7 +33,6 @@ void BoxCollision2D::BeginPlay(DirectX11& dx)
 #if _DEBUG
 
 	auto hud = GetWorld()->GetHUD();
-	static_pointer_cast<HUD>(hud)->AddBoxDebug(shared_from_this());
 #endif
 }
 
@@ -44,7 +42,7 @@ bool BoxCollision2D::InBoundingVolume(Actor* other)
 
 	if (auto otherCollision = other->GetComponent<CollisionComponent>())
 	{
-		if (auto boxCollision = static_pointer_cast<BoxCollision2D>(otherCollision))
+		if (auto boxCollision = static_cast<BoxCollision2D*>(otherCollision))
 		{
 			if (RectHelper::IsInRect(rect, boxCollision->GetRect()))
 			{
@@ -87,7 +85,7 @@ FRect BoxCollision2D::GetRect()
 		location.y + scale.y / ratio.y
 	);
 }
-void BoxCollision2D::EnterVolume(std::shared_ptr<CollisionComponent> other)
+void BoxCollision2D::EnterVolume(CollisionComponent* other)
 {
 	OutputDebugStringA("Enter Box Collision\n");
 	switch (GetCollisionType())
@@ -101,16 +99,16 @@ void BoxCollision2D::EnterVolume(std::shared_ptr<CollisionComponent> other)
 		break;
 	}
 }
-void BoxCollision2D::LeaveVolume(std::shared_ptr<CollisionComponent> other)
+void BoxCollision2D::LeaveVolume(CollisionComponent* other)
 {
 
 }
 
-void BoxCollision2D::ResolveBlock(std::shared_ptr<CollisionComponent> other)
+void BoxCollision2D::ResolveBlock(CollisionComponent* other)
 {
 	auto ownerSize = pOwner->GetActorScale();
 
-	auto otherBox = static_pointer_cast<BoxCollision2D>(other);
+	auto otherBox = static_cast<BoxCollision2D*>(other);
 
 	const FRect& box1 = GetRect();
 	const FRect& box2 = otherBox->GetRect();
@@ -147,7 +145,7 @@ void BoxCollision2D::ResolveBlock(std::shared_ptr<CollisionComponent> other)
 // ----------------------------
 // Main : Debug
 // ----------------------------
-void BoxCollision2D::DrawDebug(ID2D1RenderTarget* Rt2D)
+void BoxCollision2D::DrawDebug(ID2D1HwndRenderTarget* Rt2D)
 {
 #if _DEBUG
 	if (pBrush == nullptr)

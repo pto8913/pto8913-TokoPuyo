@@ -7,8 +7,8 @@ class SlateSlotBase;
 class S_HorizontalBox : public SlateContainerBase
 {
 public:
-	S_HorizontalBox(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = {});		
-	S_HorizontalBox(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos = {});
+	S_HorizontalBox(ID2D1HwndRenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos = {});		
+	S_HorizontalBox(ID2D1HwndRenderTarget* inRt2D, FSlateInfos inSlateInfos = {});
 	virtual ~S_HorizontalBox();
 	
 	// ------------------------------------------------------------------------------------------------

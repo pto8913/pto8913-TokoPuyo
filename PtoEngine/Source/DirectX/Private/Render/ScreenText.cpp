@@ -55,9 +55,11 @@ ScreenText::ScreenText(DirectX11& dx, float inWidth, float inHeight)
 	ZeroMemory(&renderTargetProperties, sizeof(renderTargetProperties));
 	renderTargetProperties.type = D2D1_RENDER_TARGET_TYPE_HARDWARE;
 	renderTargetProperties.pixelFormat = D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED);
-
-	D2DFactory->CreateDxgiSurfaceRenderTarget(sharedSurface10, &renderTargetProperties, &D2DRenderTarget);
-
+	result = D2DFactory->CreateHwndRenderTarget(
+		renderTargetProperties,
+		D2D1_HWND_RENDER_TARGET_PROPERTIES(dx.GetHWnd()),
+		&D2DRenderTarget
+	);
 	sharedSurface10->Release();
 	D2DFactory->Release();
 
@@ -211,9 +213,11 @@ ScreenTextOnlyOutput::ScreenTextOnlyOutput(DirectX11& dx, float inWidth, float i
 	ZeroMemory(&renderTargetProperties, sizeof(renderTargetProperties));
 	renderTargetProperties.type = D2D1_RENDER_TARGET_TYPE_HARDWARE;
 	renderTargetProperties.pixelFormat = D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED);
-
-	D2DFactory->CreateDxgiSurfaceRenderTarget(sharedSurface10, &renderTargetProperties, &D2DRenderTarget);
-
+	result = D2DFactory->CreateHwndRenderTarget(
+		renderTargetProperties,
+		D2D1_HWND_RENDER_TARGET_PROPERTIES(dx.GetHWnd()),
+		&D2DRenderTarget
+	);
 	sharedSurface10->Release();
 	D2DFactory->Release();
 

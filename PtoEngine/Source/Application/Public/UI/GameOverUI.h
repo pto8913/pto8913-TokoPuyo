@@ -8,7 +8,7 @@ class GameOverUI : public UserWidget
 {
 public:
 	GameOverUI(
-		Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse,
+		Object* inOwner, ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse,
 		const int& inMaxScore, const int& inMaxCombo
 	);
 	virtual ~GameOverUI();

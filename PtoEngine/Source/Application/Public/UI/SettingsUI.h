@@ -7,7 +7,7 @@ class S_TextBlock;
 class SettingsUI : public UserWidget
 {
 public:
-	SettingsUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
+	SettingsUI(Object* inOwner, ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse);
 	virtual ~SettingsUI();
 
 	// ------------------------------------------------------------------------------------------------------------

@@ -36,7 +36,7 @@ protected:
 		DirectX::XMMatrixIdentity()
 	};
 
-	ID2D1RenderTarget* pRt2D = nullptr;
+	ID2D1HwndRenderTarget* pRt2D = nullptr;
 	IDXGIKeyedMutex* pMutex11 = nullptr;
 	IDXGIKeyedMutex* pMutex10 = nullptr;
 

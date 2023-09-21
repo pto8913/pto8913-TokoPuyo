@@ -20,7 +20,7 @@
 using namespace DirectX;
 
 GameOverUI::GameOverUI(
-	Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse,
+	Object* inOwner, ID2D1HwndRenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse,
 	const int& inMaxScore, const int& inMaxCombo
 )
 	: UserWidget(inOwner, inRt2D, dx, mouse),
