@@ -13,7 +13,6 @@ DECLARE_MULTICAST_DELEGATE(FOnSuspending);
 DECLARE_MULTICAST_DELEGATE(FOnResuming);
 DECLARE_MULTICAST_DELEGATE(FOnActivated);
 DECLARE_MULTICAST_DELEGATE(FOnDeactivated);
-DECLARE_MULTICAST_DELEGATE(FOnTick);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnWindowSizeChanged, int, int);
 
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnProcessMessage, UINT, WPARAM, LPARAM);
@@ -56,7 +55,6 @@ public:
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	FOnTick Tick;
 	FOnWindowSizeChanged OnWindowSizeChanged;
 	FOnSuspending OnSuspending;
 	FOnResuming OnResuming;

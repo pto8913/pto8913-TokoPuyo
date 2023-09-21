@@ -210,16 +210,10 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
     switch (message)
     {
     case WM_PAINT:
-        if (s_in_sizemove)
-        {
-            Tick.Broadcast();
-        }
-        else
-        {
-            PAINTSTRUCT ps;
-            std::ignore = BeginPaint(hWnd, &ps);
-            EndPaint(hWnd, &ps);
-        }
+        PAINTSTRUCT ps;
+        BeginPaint(hWnd, &ps);
+        OutputDebugStringA("WM_PAINT\n");
+        EndPaint(hWnd, &ps);
         break;
     case WM_SIZE:
         if (wParam == SIZE_MINIMIZED)
