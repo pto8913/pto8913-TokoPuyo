@@ -137,7 +137,7 @@ protected:
 	// State : CustomTextRenderer
 	// --------------------------------------------------
 	ID2D1Factory* pD2DFactory = nullptr;
-	ID2D1HwndRenderTarget* pRtHwnd = nullptr;
+	ID2D1HwndRenderTarget* pRtHWnd = nullptr;
 	ID2D1SolidColorBrush* pBrushOutline = nullptr;
 	IDWriteTextLayout* pTextLayout = nullptr;
 

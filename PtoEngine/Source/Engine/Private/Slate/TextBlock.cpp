@@ -30,7 +30,7 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector2D inS
 	pD2DFactory->CreateHwndRenderTarget(
 		D2D1::RenderTargetProperties(),
 		D2D1::HwndRenderTargetProperties(dx.GetHWnd()),
-		&pRtHwnd
+		&pRtHWnd
 	);
 
 	pRt2D->CreateSolidColorBrush(
@@ -72,7 +72,11 @@ void S_TextBlock::Draw()
 
 	if (mAppearance.outline)
 	{
+		pRtHWnd->BeginDraw();
+		pRtHWnd->Clear(D2D1_COLOR_F(1, 1, 1));
+
 		pTextLayout->Draw(nullptr, pTextRenderer_Outline, mPosition.x, mPosition.y);
+		pRtHWnd->EndDraw();
 		return;
 	}
 
@@ -110,7 +114,7 @@ void S_TextBlock::SetAppearance(FSlateTextAppearance in)
 		{
 			pTextRenderer_Outline = new TextRenderer_Outline(
 				pD2DFactory,
-				pRtHwnd,
+				pRtHWnd,
 				pBrushOutline,
 				pBrush
 			);
