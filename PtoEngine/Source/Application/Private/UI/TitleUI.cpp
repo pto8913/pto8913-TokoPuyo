@@ -45,9 +45,8 @@ void TitleUI::NativeOnInitialized()
 		FSlateFont font;
 		font.fontSize = 60.f;
 		FSlateTextAppearance appearance;
-		appearance.layoutOutline = true;
 
-		auto pTextBlock = MakeSlate<S_TextBlock>(*pDX, infos, font, appearance);
+		auto pTextBlock = MakeSlate<S_TextBlock>(infos, font, appearance);
 		pTextBlock->SetText(L"pto8193 ‚Õ‚æ‚Õ‚æ");
 		pMenuVB->AddChild(pTextBlock);
 	}
@@ -74,7 +73,7 @@ void TitleUI::NativeOnInitialized()
 			font.fontSize = 30.f;
 			FSlateTextAppearance appearance;
 
-			auto pTextBlock = MakeSlate<S_TextBlock>(*pDX, infos, font, appearance);
+			auto pTextBlock = MakeSlate<S_TextBlock>(infos, font, appearance);
 			pTextBlock->SetText(mode);
 			pButton->AddChild(pTextBlock);
 		}

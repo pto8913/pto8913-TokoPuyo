@@ -33,6 +33,7 @@ public:
 
 	void UpdateNextPuyo(uint8_t nPuyo1_1, uint8_t nPuyo1_2, uint8_t nPuyo2_1, uint8_t nPuyo2_2);
 	void UpdateScore(const int& inScore, const int& inCombo);
+	void SetAllClear(bool allClear);
 
 	void GetResult(int& maxScore, int maxCombo);
 	void GetCombo(int& combo, int maxCombo);

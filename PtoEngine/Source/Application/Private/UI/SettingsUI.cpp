@@ -58,7 +58,7 @@ void SettingsUI::NativeOnInitialized()
 			FSlateInfos textInfos;
 			FSlateFont font;
 			FSlateTextAppearance textAppearance;
-			auto pTextBlock = MakeSlate<S_TextBlock>(*pDX, FVector2D(75.f, 40.f), textInfos, font, textAppearance);
+			auto pTextBlock = MakeSlate<S_TextBlock>(FVector2D(75.f, 40.f), textInfos, font, textAppearance);
 			pTextBlock->SetText(L"‰¹—Ê");
 
 			currentAudioValue = GameSettings::GetAudioVolume();
@@ -66,7 +66,7 @@ void SettingsUI::NativeOnInitialized()
 			FSlateInfos textAudioVolumeInfos;
 			FSlateFont fontAudioVolume;
 			FSlateTextAppearance textAudioVolumeAppearance;
-			pText_AudioVolume = MakeSlate<S_TextBlock>(*pDX, FVector2D(50.f, 40.f), textAudioVolumeInfos, fontAudioVolume, textAudioVolumeAppearance);
+			pText_AudioVolume = MakeSlate<S_TextBlock>(FVector2D(50.f, 40.f), textAudioVolumeInfos, fontAudioVolume, textAudioVolumeAppearance);
 
 			FSlateInfos infos;
 			FSlateSliderAppearance appearance;
@@ -102,7 +102,7 @@ void SettingsUI::NativeOnInitialized()
 			font.fontSize = 30.f;
 			FSlateTextAppearance appearance;
 
-			auto pTextBlock = MakeSlate<S_TextBlock>(*pDX, infos, font, appearance);
+			auto pTextBlock = MakeSlate<S_TextBlock>(infos, font, appearance);
 			pTextBlock->SetText(mode);
 			pButton->AddChild(pTextBlock);
 		}

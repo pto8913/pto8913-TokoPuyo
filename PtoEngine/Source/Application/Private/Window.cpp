@@ -53,7 +53,7 @@ Window::Window(const float& inWidth, const float& inHeight)
     wr.right = appWindowX + wr.left;
     wr.top = 0;
     wr.bottom = appWindowY + wr.top;
-    if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_OVERLAPPEDWINDOW, FALSE) == 0)
+    if (AdjustWindowRect(&wr, WS_CAPTION | WS_SYSMENU, FALSE) == 0)
     {
         return;
     }
@@ -70,7 +70,7 @@ Window::Window(const float& inWidth, const float& inHeight)
     m_hWnd = CreateWindow(
         mClass.GetName(),
         EngineSettings::GetWindowTitle().c_str(),
-        WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_OVERLAPPEDWINDOW,
+        WS_CAPTION | WS_SYSMENU,
         CW_USEDEFAULT,
         CW_USEDEFAULT,
         width,

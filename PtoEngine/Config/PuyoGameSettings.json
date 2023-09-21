@@ -66,8 +66,8 @@
     "puyoFallSpeed_Control": 1000,
     "puyoFallSpeed_PressDown": 50,
     "puyoFallSpeed_Release": 125,
-    "puyoFallSpeed_Vanish": 250,
-    "puyoFallSpeed_VanishToFall": 250,
+    "puyoFallSpeed_Vanish": 0,
+    "puyoFallSpeed_VanishToFall": 200,
     "puyoFallSpeed_Wait": 1000,
     "puyoImages": [
         "Content/Textures/T_Puyo_Red.png",

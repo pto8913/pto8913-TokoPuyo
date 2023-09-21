@@ -70,7 +70,7 @@ void GameOverUI::NativeOnInitialized()
 		font.fontSize = 40.f;
 		FSlateInfos slateInfo;
 		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pText_GameOver = MakeSlate<S_TextBlock>(*pDX, slateInfo, font, textGameOver);
+		auto pText_GameOver = MakeSlate<S_TextBlock>(slateInfo, font, textGameOver);
 		pText_GameOver->SetText(L"GAME OVER");
 		InfosVB->AddChild(pText_GameOver);
 	}
@@ -84,10 +84,10 @@ void GameOverUI::NativeOnInitialized()
 		textAppearance.vAlign = EVerticalAlignment::Center;
 		textAppearance.hAlign = EHorizontalAlignment::Left;
 
-		pTextBlock_MaxScore = MakeSlate<S_TextBlock>(*pDX, scoreSlateInfos, FSlateFont(), textAppearance);
+		pTextBlock_MaxScore = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), textAppearance);
 		InfosVB->AddChild(pTextBlock_MaxScore);
 
-		pTextBlock_MaxCombo = MakeSlate<S_TextBlock>(*pDX, scoreSlateInfos, FSlateFont(), textAppearance);
+		pTextBlock_MaxCombo = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), textAppearance);
 		InfosVB->AddChild(pTextBlock_MaxCombo);
 		if (pTextBlock_MaxScore)
 		{
@@ -109,7 +109,7 @@ void GameOverUI::NativeOnInitialized()
 		FSlateInfos LabelInfos;
 		LabelInfos.VAlign = EVerticalAlignment::Center;
 		LabelInfos.HAlign = EHorizontalAlignment::Center;
-		auto pLabel = MakeSlate<S_TextBlock>(*pDX, LabelInfos);
+		auto pLabel = MakeSlate<S_TextBlock>(LabelInfos);
 		pLabel->SetText(label);
 		pButton->AddChild(pLabel);
 

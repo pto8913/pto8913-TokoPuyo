@@ -10,6 +10,8 @@
 #include "Slate/Button.h"
 #include "Slate/Spacer.h"
 
+#include "Framework/World.h"
+
 #include "GameSettings.h"
 #include "EngineSettings.h"
 
@@ -52,6 +54,9 @@ GameProgressUI::~GameProgressUI()
 
 	pButton_Pause.reset();
 	pButton_Pause = nullptr;
+
+	propColor.Clear();
+	mAnimCombo->Clear();
 }
 
 // ------------------------------------------------------------------------------------------------------------
@@ -75,8 +80,8 @@ void GameProgressUI::NativeOnInitialized()
 		FSlateFont font;
 		font.fontSize = 30.f;
 		FSlateInfos slateInfo;
-		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pTextBlock_GameMode = MakeSlate<S_TextBlock>(*pDX, slateInfo, font, textAppearance);
+		slateInfo.padding = { 5.f, 5.f, 5.f, 5.f };
+		auto pTextBlock_GameMode = MakeSlate<S_TextBlock>(slateInfo, font, textAppearance);
 		pTextBlock_GameMode->SetText(L"TokoPuyo");
 
 		InfosVB->AddChild(pTextBlock_GameMode);
@@ -89,7 +94,7 @@ void GameProgressUI::NativeOnInitialized()
 		textAppearance.hAlign = EHorizontalAlignment::Center;
 		FSlateInfos slateInfo;
 		slateInfo.padding = { 5.f, 5.f , 5.f, 5.f };
-		auto pTextBlock_NextPuyo = MakeSlate<S_TextBlock>(*pDX, slateInfo, FSlateFont(), textAppearance);
+		auto pTextBlock_NextPuyo = MakeSlate<S_TextBlock>(slateInfo, FSlateFont(), textAppearance);
 		pTextBlock_NextPuyo->SetText(L"Next Puyo");
 		//InfosVB->AddChild(pTextBlock_NextPuyo);
 
@@ -151,23 +156,23 @@ void GameProgressUI::NativeOnInitialized()
 		Appearance.vAlign = EVerticalAlignment::Center;
 		Appearance.hAlign = EHorizontalAlignment::Left;
 
-		auto pText_Control1 = MakeSlate<S_TextBlock>(*pDX, SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control1 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
 		pText_Control1->SetText(L" Å™ : Turn Right");
 
-		auto pText_Control2 = MakeSlate<S_TextBlock>(*pDX, SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control2 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
 		pText_Control2->SetText(L"Å© : Move Left");
 
-		auto pText_Control3 = MakeSlate<S_TextBlock>(*pDX, SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control3 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
 		pText_Control3->SetText(L"Å® : Move Right");
 
-		auto pText_Control4 = MakeSlate<S_TextBlock>(*pDX, SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control4 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
 		pText_Control4->SetText(L" Å´ : Move Bottom");
 
-		auto pText_Control5 = MakeSlate<S_TextBlock>(*pDX, SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control5 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
 		pText_Control5->SetText(L" Z : Turn Left");
 
 		SlateInfos.padding = { 5.f, 2.5f, 5.f, 20.f };
-		auto pText_Control6 = MakeSlate<S_TextBlock>(*pDX, SlateInfos, FSlateFont(), Appearance);
+		auto pText_Control6 = MakeSlate<S_TextBlock>(SlateInfos, FSlateFont(), Appearance);
 		pText_Control6->SetText(L" X : Turn Right");
 
 		InfosVB->AddChild(pText_Control1);
@@ -188,19 +193,19 @@ void GameProgressUI::NativeOnInitialized()
 		scoreAppearance.hAlign = EHorizontalAlignment::Left;
 		if (pTextBlock_MaxScore == nullptr)
 		{
-			pTextBlock_MaxScore = MakeSlate<S_TextBlock>(*pDX, scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_MaxScore = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		if (pTextBlock_MaxCombo == nullptr)
 		{
-			pTextBlock_MaxCombo = MakeSlate<S_TextBlock>(*pDX, scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_MaxCombo = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		if (pTextBlock_Score == nullptr)
 		{
-			pTextBlock_Score = MakeSlate<S_TextBlock>(*pDX, scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_Score = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		if (pTextBlock_Combo == nullptr)
 		{
-			pTextBlock_Combo = MakeSlate<S_TextBlock>(*pDX, scoreSlateInfos, FSlateFont(), scoreAppearance);
+			pTextBlock_Combo = MakeSlate<S_TextBlock>(scoreSlateInfos, FSlateFont(), scoreAppearance);
 		}
 		InfosVB->AddChild(pTextBlock_MaxScore);
 		InfosVB->AddChild(pTextBlock_MaxCombo);
@@ -222,7 +227,7 @@ void GameProgressUI::NativeOnInitialized()
 			FSlateInfos LabelInfos;
 			LabelInfos.VAlign = EVerticalAlignment::Center;
 			LabelInfos.HAlign = EHorizontalAlignment::Center;
-			auto pLabel = MakeSlate<S_TextBlock>(*pDX, LabelInfos);
+			auto pLabel = MakeSlate<S_TextBlock>(LabelInfos);
 			pButton->AddChild(pLabel);
 			pLabel->SetText(label);
 
@@ -246,18 +251,18 @@ void GameProgressUI::NativeOnInitialized()
 	{
 		FSlateInfos infos;
 		FSlateFont font;
-		font.fontSize = 150.f;
+		font.fontSize = 100.f;
 		font.stretch = DWRITE_FONT_STRETCH_EXTRA_EXPANDED;
 		FSlateTextAppearance appearance;
-		appearance.color = FColor(1.f, 1.f, 0.25f, 1.f);
-		pTextBlock_ComboEffect = MakeSlate<S_TextBlock>(*pDX, infos, font, appearance);
-		pTextBlock_ComboEffect->SetPosition(
-			GameSettings::GAMESCREEN_PADDING + EngineSettings::GetCELL() * FVector2D(1.75f, 2.f)
+		appearance.color = FColor(1.f, 0.5f, 0.25f, 1.f);
+		pTextBlock_AllClearEffect = MakeSlate<S_TextBlock>(infos, font, appearance);
+		pTextBlock_AllClearEffect->SetPosition(
+			GameSettings::GAMESCREEN_PADDING + EngineSettings::GetCELL() * FVector2D(0.6f, 2.f)
 		);
 
-		pTextBlock_ComboEffect->SetText(L"ëSè¡Çµ");
-		pRootSlate->AddChild(pTextBlock_ComboEffect);
-		pTextBlock_ComboEffect->SetVisibility(false);
+		pTextBlock_AllClearEffect->SetText(L"ëSè¡Çµ");
+		pRootSlate->AddChild(pTextBlock_AllClearEffect);
+		pTextBlock_AllClearEffect->SetVisibility(false);
 	}
 
 	/* Combo */
@@ -267,10 +272,8 @@ void GameProgressUI::NativeOnInitialized()
 		font.fontSize = 150.f;
 		font.stretch = DWRITE_FONT_STRETCH_EXTRA_EXPANDED;
 		FSlateTextAppearance appearance;
-		appearance.layoutOutline = true;
-		appearance.layoutOutlineWidth = 3.f;
 		appearance.color = FColor(1.f, 1.f, 0.25f, 1.f);
-		pTextBlock_ComboEffect = MakeSlate<S_TextBlock>(*pDX, infos, font, appearance);
+		pTextBlock_ComboEffect = MakeSlate<S_TextBlock>(infos, font, appearance);
 		pTextBlock_ComboEffect->SetPosition(
 			GameSettings::GAMESCREEN_PADDING + EngineSettings::GetCELL() * FVector2D(1.75f, 2.f)
 		);
@@ -283,6 +286,24 @@ void GameProgressUI::NativeOnInitialized()
 	pRootSlate->SetPosition({ 0, 0 });
 	pRootSlate->UpdateWidget();
 	UserWidget::NativeOnInitialized();
+	
+	/* Animation */
+	{
+		mAnimCombo = MakeAnimation();
+		propColor.Assign(
+			pTextBlock_ComboEffect->GetAppearance(),
+			&FSlateTextAppearance::color,
+			FColor(1.f, 1.f, 0.25f, 1.f),
+			FColor(1.f, 1.f, 0.25f, 0.f)
+		);
+
+		mAnimCombo->SetPlaySpeed(0.5f);
+		mAnimCombo->AssignProp(&propColor);
+
+		mAnimCombo->OnWidgetAnimationCompleted.Bind<&GameProgressUI::ComboAnimationCompleted>(*this, GetName());
+		AddAnimation(mAnimCombo);
+	}
+
 }
 void GameProgressUI::UpdateNextPuyo(uint8_t nPuyo1_1, uint8_t nPuyo1_2, uint8_t nPuyo2_1, uint8_t nPuyo2_2)
 {
@@ -310,23 +331,22 @@ void GameProgressUI::UpdateScore(const int& inScore, const int& inCombo, const i
 {
 	if (inCombo != 0)
 	{
-		/* Animation */
-		propColor.Assign(
-			pTextBlock_ComboEffect->GetAppearance(),
-			&FSlateTextAppearance::color,
-			FColor(1.f, 1.f, 0.25f, 1.f),
-			FColor(1.f, 1.f, 0.25f, 0.f)
-		);
+		const auto strCombo = std::to_wstring(inCombo);
+		if (strCombo.length() > 1)
+		{
+			pTextBlock_ComboEffect->SetPosition(
+				GameSettings::GAMESCREEN_PADDING + EngineSettings::GetCELL() * FVector2D(1.25f, 2.f)
+			);
+		}
+		else
+		{
+			pTextBlock_ComboEffect->SetPosition(
+				GameSettings::GAMESCREEN_PADDING + EngineSettings::GetCELL() * FVector2D(1.75f, 2.f)
+			);
+		}
+		mAnimCombo->PlayForward(0.f, 0.5f);
 
-		mAnimCombo.SetPlaySpeed(0.5f);
-		mAnimCombo.AssignProp(&propColor);
-
-		mAnimCombo.OnWidgetAnimationCompleted.Bind<&GameProgressUI::ComboAnimationCompleted>(*this, GetName());
-		mAnimCombo.Reset();
-		mAnimCombo.Activate();
-		AddAnimation(mAnimCombo);
-
-		pTextBlock_ComboEffect->SetText(std::to_wstring(inCombo));
+		pTextBlock_ComboEffect->SetText(strCombo);
 		pTextBlock_ComboEffect->SetVisibility(true);
 	}
 	if (pTextBlock_MaxScore)
@@ -344,6 +364,35 @@ void GameProgressUI::UpdateScore(const int& inScore, const int& inCombo, const i
 	if (pTextBlock_Combo)
 	{
 		pTextBlock_Combo->SetText(std::format(L"Combo : {}", inCombo));
+	}
+}
+void GameProgressUI::SetAllClear(bool allClear)
+{
+	if (allClear)
+	{
+		pTextBlock_AllClearEffect->SetVisibility(true);
+	}
+	else
+	{
+		if (pTextBlock_AllClearEffect->GetVisibility())
+		{
+			if (mAnimAllClear == nullptr)
+			{
+				mAnimAllClear = MakeAnimation();
+				WidgetAnimationProperty<FColor>* colorProp = new WidgetAnimationProperty<FColor>();
+				colorProp->Assign(
+					pTextBlock_AllClearEffect->GetAppearance(),
+					&FSlateTextAppearance::color,
+					FColor(1.f, 0.5f, 0.25f, 1.f),
+					FColor(1.f, 1.f, 0.25f, 0.f)
+				);
+
+				mAnimAllClear->AssignProp(colorProp);
+				mAnimAllClear->OnWidgetAnimationCompleted.Bind<&GameProgressUI::AllClearAnimationCompleted>(*this, GetName());
+			}
+			AddAnimation(mAnimAllClear);
+			mAnimAllClear->PlayForward(0.f, 1.f);
+		}
 	}
 }
 
@@ -381,4 +430,10 @@ void GameProgressUI::OnClickedReturnToTitle(DX::MouseEvent inMouseEvent)
 void GameProgressUI::ComboAnimationCompleted()
 {
 	pTextBlock_ComboEffect->SetVisibility(false);
+	mAnimCombo->Deactivate();
+}
+void GameProgressUI::AllClearAnimationCompleted()
+{
+	pTextBlock_AllClearEffect->SetVisibility(false);
+	mAnimAllClear->Deactivate();
 }

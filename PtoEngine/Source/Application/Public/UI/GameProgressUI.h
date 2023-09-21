@@ -25,13 +25,14 @@ public:
 	}
 	void UpdateNextPuyo(uint8_t nPuyo1_1, uint8_t nPuyo1_2, uint8_t nPuyo2_1, uint8_t nPuyo2_2);
 	void UpdateScore(const int& inScore, const int& inCombo, const int& inMaxScore, const int& inMaxCombo);
-
+	void SetAllClear(bool allClear);
 protected:
 	void OnClickedRestartButton(DX::MouseEvent inMouseEvent);
 	void OnClickedPauseButton(DX::MouseEvent inMouseEvent);
 	void OnClickedReturnToTitle(DX::MouseEvent inMouseEvent);
 
 	void ComboAnimationCompleted();
+	void AllClearAnimationCompleted();
 public:
 
 	// ----------------------------------------------------------
@@ -69,7 +70,9 @@ protected:
 	std::shared_ptr<S_TextBlock> pTextBlock_AllClearEffect = nullptr;
 	std::shared_ptr<S_TextBlock> pTextBlock_ComboEffect = nullptr;
 	WidgetAnimationProperty<FColor> propColor;
-	WidgetAnimation mAnimCombo;
+
+	std::shared_ptr<WidgetAnimation> mAnimCombo = nullptr;
+	std::shared_ptr<WidgetAnimation> mAnimAllClear = nullptr;
 
 	bool bPause = false;
 };

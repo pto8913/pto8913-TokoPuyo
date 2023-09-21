@@ -491,35 +491,60 @@ void Level_TokoPuyo::ActionActivePuyoRotate(bool rotateR)
 	/* set rotate coord. */
 	if (rotateR)
 	{
+		/* Rotate Right */
 		switch (pMainPuyo->GetPuyoInfos().GetRotation())
 		{
 		case FPuyoInfos::ERotation::U:
-#if _DEBUG
-			//OutputDebugStringA("U to R\n");
-#endif
 			if (!IsValidIndex(stackedPuyo, mainIdx.x + 1, mainIdx.y) || (IsValidIndex(stackedPuyo, mainIdx.x + 1, mainIdx.y) && GetStackedPuyo(mainIdx.x + 1, mainIdx.y)))
 			{
-				mainIdx.x -= 1;
+				/* U to B */
+				if (GetStackedPuyo(mainIdx.x - 1, mainIdx.y) && GetStackedPuyo(mainIdx.x + 1, mainIdx.y))
+				{
+					if (IsValidIndex(stackedPuyo, mainIdx.x, mainIdx.y + 1))
+					{
+						OutputDebugStringA("U to B by R\n");
+						if (GetStackedPuyo(mainIdx.x, mainIdx.y + 1))
+						{
+							mainIdx.y -= 1;
+						}
+						pMainPuyo->GetPuyoInfos().Rotate(rotateR);
+					}
+				}
+				else
+				{
+					/* U to R */
+					OutputDebugStringA("U to R by R\n");
+					mainIdx.x -= 1;
+				}
 			}
 			break;
 		case FPuyoInfos::ERotation::B:
-#if _DEBUG
-			//OutputDebugStringA("B to L\n");
-#endif
 			if (!IsValidIndex(stackedPuyo, mainIdx.x - 1, mainIdx.y) || (IsValidIndex(stackedPuyo, mainIdx.x - 1, mainIdx.y) && GetStackedPuyo(mainIdx.x - 1, mainIdx.y)))
 			{
-				mainIdx.x += 1;
+				/* B to U */
+				if (GetStackedPuyo(mainIdx.x - 1, mainIdx.y) && GetStackedPuyo(mainIdx.x + 1, mainIdx.y))
+				{
+					if (IsValidIndex(stackedPuyo, mainIdx.x, mainIdx.y + 1))
+					{
+						OutputDebugStringA("B to U by R\n");
+						if (!GetStackedPuyo(mainIdx.x, mainIdx.y + 1))
+						{
+						}
+						//mainIdx.y -= 1;
+						pMainPuyo->GetPuyoInfos().Rotate(rotateR);
+					}
+				}
+				else
+				{
+					/* B to R */
+					OutputDebugStringA("B to R by R\n");
+					mainIdx.x += 1;
+				}
 			}
 			break;
 		case FPuyoInfos::ERotation::L:
-#if _DEBUG
-			//OutputDebugStringA("L to U\n");
-#endif
 			break;
 		case FPuyoInfos::ERotation::R:
-#if _DEBUG
-			//OutputDebugStringA("R to B\n");
-#endif
 			if (!IsValidIndex(stackedPuyo, mainIdx.x, mainIdx.y + 2) || (IsValidIndex(stackedPuyo, mainIdx.x, mainIdx.y + 2) && GetStackedPuyo(mainIdx.x, mainIdx.y + 2)))
 			{
 				mainIdx.y -= 1;
@@ -531,39 +556,59 @@ void Level_TokoPuyo::ActionActivePuyoRotate(bool rotateR)
 	}
 	else
 	{
+		/* Rotate Left */
 		switch (pMainPuyo->GetPuyoInfos().GetRotation())
 		{
 		case FPuyoInfos::ERotation::U:
-#if _DEBUG
-			//OutputDebugStringA("U to L\n");
-#endif
 			if (!IsValidIndex(stackedPuyo, mainIdx.x - 1, mainIdx.y) || (IsValidIndex(stackedPuyo, mainIdx.x - 1, mainIdx.y) && GetStackedPuyo(mainIdx.x - 1, mainIdx.y)))
 			{
-				mainIdx.x += 1;
+				if (GetStackedPuyo(mainIdx.x - 1, mainIdx.y) && GetStackedPuyo(mainIdx.x + 1, mainIdx.y))
+				{
+					/* U to B */
+					if (IsValidIndex(stackedPuyo, mainIdx.x, mainIdx.y + 1))
+					{
+						OutputDebugStringA("U to B by L\n");
+						if (GetStackedPuyo(mainIdx.x, mainIdx.y + 1))
+						{
+							mainIdx.y -= 1;
+						}
+						pMainPuyo->GetPuyoInfos().Rotate(rotateR);
+					}
+				}
+				else
+				{
+					OutputDebugStringA("U to L by L\n");
+					mainIdx.x += 1;
+				}
 			}
 			break;
 		case FPuyoInfos::ERotation::B:
-#if _DEBUG
-			//OutputDebugStringA("B to R\n");
-#endif
 			if (!IsValidIndex(stackedPuyo, mainIdx.x + 1, mainIdx.y) || (IsValidIndex(stackedPuyo, mainIdx.x + 1, mainIdx.y) && GetStackedPuyo(mainIdx.x + 1, mainIdx.y)))
 			{
-				mainIdx.x -= 1;
+				/* B to U */
+				if (IsValidIndex(stackedPuyo, mainIdx.x, mainIdx.y + 1))
+				{
+					OutputDebugStringA("B to U by L\n");
+					if (GetStackedPuyo(mainIdx.x, mainIdx.y + 1))
+					{
+						mainIdx.y -= 1;
+					}
+					pMainPuyo->GetPuyoInfos().Rotate(rotateR);
+				}
+				else
+				{
+					OutputDebugStringA("B to L by L\n");
+					mainIdx.x -= 1;
+				}
 			}
 			break;
 		case FPuyoInfos::ERotation::L:
-#if _DEBUG
-			//OutputDebugStringA("L to B\n");
-#endif
 			if (!IsValidIndex(stackedPuyo, mainIdx.x, mainIdx.y + 2) || (IsValidIndex(stackedPuyo, mainIdx.x, mainIdx.y + 2) && GetStackedPuyo(mainIdx.x, mainIdx.y + 2)))
 			{
 				mainIdx.y -= 1;
 			}
 			break;
 		case FPuyoInfos::ERotation::R:
-#if _DEBUG
-			//OutputDebugStringA("R to U\n");
-#endif
 			break;
 		default:
 			break;
@@ -822,6 +867,8 @@ void Level_TokoPuyo::VanishPuyo()
 	puyoCount = 0;
 
 	SE_PuyoVanish->Play();
+
+	pGameState->SetAllClear(false);
 }
 
 // ------------------------------------------------------------
@@ -830,6 +877,7 @@ void Level_TokoPuyo::VanishPuyo()
 void Level_TokoPuyo::DoFrame_FallAll()
 {
 	bool bIsDown = false;
+	bool bIsPuyoExists = false;
 	auto& objects = GetObjectManager()->pObjects[Layer::EActorLayer::Entities];
 	auto iter = objects.begin();
 	while (iter != objects.end())
@@ -839,6 +887,7 @@ void Level_TokoPuyo::DoFrame_FallAll()
 		{
 			if (puyoObj->HasTag(GameSettings::PUYO_TAG))
 			{
+				bIsPuyoExists = true;
 				auto puyoActor = static_pointer_cast<Actor2D>(puyoObj);
 				if (puyoActor != nullptr)
 				{
@@ -865,6 +914,10 @@ void Level_TokoPuyo::DoFrame_FallAll()
 		++iter;
 	}
 
+	if (!bIsPuyoExists)
+	{
+		pGameState->SetAllClear(true);
+	}
 	if (!bIsDown)
 	{
 		ReachToBottomAll();

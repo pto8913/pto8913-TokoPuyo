@@ -112,6 +112,13 @@ void GameState_Play::UpdateScore(const int& inScore, const int& inCombo)
 		pGameProgressUI->UpdateScore(mScore, mCombo, mMaxScore, mMaxCombo);
 	}
 }
+void GameState_Play::SetAllClear(bool allClear)
+{
+	if (pGameProgressUI != nullptr)
+	{
+		pGameProgressUI->SetAllClear(allClear);
+	}
+}
 
 void GameState_Play::GetResult(int& maxScore, int maxCombo)
 {
