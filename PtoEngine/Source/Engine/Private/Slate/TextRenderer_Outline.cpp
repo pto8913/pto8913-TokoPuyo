@@ -59,39 +59,43 @@ IFACEMETHODIMP TextRenderer_Outline::DrawGlyphRun(
         glyphRun->bidiLevel % 2,
         pSink
     );
-
     // Close the geometry sink
     pSink->Close();
 
     // Initialize a matrix to translate the origin of the glyph run.
-    D2D1::Matrix3x2F const matrix = D2D1::Matrix3x2F(
+    const D2D1::Matrix3x2F matrix = D2D1::Matrix3x2F(
         1.0f, 0.0f,
         0.0f, 1.0f,
         baselineOriginX, baselineOriginY
     );
 
     // Create the transformed geometry
-    ID2D1TransformedGeometry* pTransformedGeometry = NULL;
-    pD2DFactory->CreateTransformedGeometry(
-        pTextGeometry,
-        &matrix,
-        &pTransformedGeometry
-    );
+    ID2D1TransformedGeometry* pTransformedGeometry = nullptr;
+    pD2DFactory->CreateTransformedGeometry(pTextGeometry, &matrix, &pTransformedGeometry);
     // Draw the outline of the glyph run
-    pRtHWnd->DrawGeometry(
-        pTransformedGeometry,
-        pBrushOutline
-    );
-
+    pRtHWnd->DrawGeometry(pTransformedGeometry, pBrushOutline);
     // Fill in the glyph run
-    pRtHWnd->FillGeometry(
-        pTransformedGeometry,
-        pBrushFill
-    );
+    pRtHWnd->FillGeometry(pTransformedGeometry, pBrushFill);
 
     //pRtHWnd->DrawGlyphRun(D2D1_POINT_2F(baselineOriginX, baselineOriginY), glyphRun, pBrushOutline.get(), measuringMode);
 
     pRtHWnd->SetTransform(D2D1::IdentityMatrix()); // make sure we come back to no transform
+
+    if (pSink)
+    {
+        pSink->Release();
+        pSink = nullptr;
+    }
+    if (pTextGeometry)
+    {
+        pTextGeometry->Release();
+        pTextGeometry = nullptr;
+    }
+    if (pTransformedGeometry)
+    {
+        pTransformedGeometry->Release();
+        pTransformedGeometry = nullptr;
+    }
 
     return S_OK;
 }
