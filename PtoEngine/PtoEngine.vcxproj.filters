@@ -772,7 +772,7 @@
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimation.h">
       <Filter>Source\Engine\Public\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Slate\CustomTextRenderer.h">
+    <ClInclude Include="Source\Engine\Public\Slate\TextRenderer_Outline.h">
       <Filter>Source\Engine\Public\Slate</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1218,7 +1218,7 @@
     <ClCompile Include="Source\Engine\Private\UI\UserWidget.cpp">
       <Filter>Source\Engine\Private\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Slate\CustomTextRenderer.cpp">
+    <ClCompile Include="Source\Engine\Private\Slate\TextRenderer_Outline.cpp">
       <Filter>Source\Engine\Private\Slate</Filter>
     </ClCompile>
   </ItemGroup>

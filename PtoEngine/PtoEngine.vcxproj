@@ -341,7 +341,7 @@
     <ClInclude Include="Source\Engine\Public\Slate\Border.h" />
     <ClInclude Include="Source\Engine\Public\Slate\Button.h" />
     <ClInclude Include="Source\Engine\Public\Slate\CanvasPanel.h" />
-    <ClInclude Include="Source\Engine\Public\Slate\CustomTextRenderer.h" />
+    <ClInclude Include="Source\Engine\Public\Slate\TextRenderer_Outline.h" />
     <ClInclude Include="Source\Engine\Public\Slate\GridPanel.h" />
     <ClInclude Include="Source\Engine\Public\Slate\HorizontalBox.h" />
     <ClInclude Include="Source\Engine\Public\Slate\Image.h" />
@@ -581,7 +581,7 @@
     <ClCompile Include="Source\Engine\Private\Slate\Border.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\Button.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\CanvasPanel.cpp" />
-    <ClCompile Include="Source\Engine\Private\Slate\CustomTextRenderer.cpp" />
+    <ClCompile Include="Source\Engine\Private\Slate\TextRenderer_Outline.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\GridPanel.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\HorizontalBox.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\Image.cpp" />

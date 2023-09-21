@@ -1,7 +1,7 @@
 
 
 #include "Slate/TextBlock.h"
-#include "Slate/CustomTextRenderer.h"
+#include "Slate/TextRenderer_Outline.h"
 
 #include "Core/DirectX.h"
 
@@ -17,6 +17,16 @@
 S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
 	: SlateSlotBase(inRt2D, inSize, inSlateInfos), mText(L""), mFont(inFont), mAppearance(inAppearance)
 {
+	D2D1CreateFactory(
+		D2D1_FACTORY_TYPE_SINGLE_THREADED,
+		&pD2DFactory
+	);
+	DWriteCreateFactory(
+		DWRITE_FACTORY_TYPE_SHARED,
+		__uuidof(IDWriteFactory),
+		reinterpret_cast<IUnknown**>(&pDWriteFactory)
+	);
+
 	pRt2D->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.color),
 		&pBrush
@@ -29,7 +39,6 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos, FS
 	: S_TextBlock(inRt2D, { 0,0 }, inSlateInfos, inFont, inAppearance)
 {
 }
-
 S_TextBlock::~S_TextBlock()
 {
 	Util::SafeRelease(pDWriteFactory);
@@ -55,6 +64,12 @@ void S_TextBlock::Draw()
 	);
 #endif
 
+	if (mAppearance.outline)
+	{
+		pTextLayout->Draw(nullptr, pTextRenderer_Outline, mPosition.x, mPosition.y);
+		return;
+	}
+
 	pRt2D->DrawText(
 		mText.c_str(),
 		(UINT32)mText.size(),
@@ -73,6 +88,28 @@ void S_TextBlock::SetAppearance(FSlateTextAppearance in)
 	SetWrap(mAppearance.wrap);
 
 	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
+
+	if (mAppearance.outline)
+	{
+		pRt2D->CreateSolidColorBrush(
+			ColorHelper::ConvertColorToD2D(mAppearance.outlineColor),
+			&pBrushOutline
+		);
+		if (pTextRenderer_Outline == nullptr)
+		{
+			pTextRenderer_Outline->UpdateBrushFill(pBrush);
+			pTextRenderer_Outline->UpdateBrushOutline(pBrushOutline);
+		}
+		else
+		{
+			pTextRenderer_Outline = new TextRenderer_Outline(
+				pD2DFactory,
+				pRt2D,
+				pBrushOutline,
+				pBrush
+			);
+		}
+	}
 }
 FSlateTextAppearance& S_TextBlock::GetAppearance()
 {
@@ -83,14 +120,6 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 {
 	mFont = inFont;
 
-	if (pDWriteFactory == nullptr)
-	{
-		DWriteCreateFactory(
-			DWRITE_FACTORY_TYPE_SHARED,
-			__uuidof(IDWriteFactory),
-			reinterpret_cast<IUnknown**>(&pDWriteFactory)
-		);
-	}
 	pDWriteFactory->CreateTextFormat(
 		mFont.fontFamily.c_str(),
 		NULL,
@@ -101,6 +130,7 @@ void S_TextBlock::SetFont(FSlateFont inFont)
 		mFont.fontLocalName.c_str(),
 		&pTextFormat
 	);
+	UpdateTextLayout();
 	UpdateSize();
 }
 void S_TextBlock::SetText(std::wstring inText)
@@ -108,6 +138,7 @@ void S_TextBlock::SetText(std::wstring inText)
 	mText = inText;
 	mTextLength = (UINT32)mText.length();
 
+	UpdateTextLayout();
 	UpdateSize();
 }
 void S_TextBlock::SetSize(FVector2D inSize)
@@ -146,6 +177,17 @@ void S_TextBlock::UpdateSize()
 		//	}
 		//);
 	}
+}
+void S_TextBlock::UpdateTextLayout()
+{
+	pDWriteFactory->CreateTextLayout(
+		mText.c_str(),
+		mTextLength,
+		pTextFormat,
+		FLT_MAX,
+		0,
+		&pTextLayout
+	);
 }
 
 void S_TextBlock::SetAppearHorizontalAlignment(EHorizontalAlignment in)

@@ -6,7 +6,7 @@
 #include "Engine/Color.h"
 
 class DirectX11;
-class CustomTextRenderer;
+class TextRenderer_Outline;
 
 DECLARE_MULTICAST_DELEGATE_RET(FOnSetText, std::wstring);
 
@@ -48,7 +48,8 @@ public:
 		: color(FColor(1.f, 1.f, 1.f, 1.f)),
 		hAlign(EHorizontalAlignment::Center),
 		vAlign(EVerticalAlignment::Center),
-		wrap(ETextWrap::No)
+		wrap(ETextWrap::No),
+		outline(false)
 	{}
 
 	FColor color;
@@ -57,6 +58,12 @@ public:
 	EVerticalAlignment vAlign;
 
 	ETextWrap wrap;
+
+	// ------------------------------------------
+	// Layout : Outline
+	// ------------------------------------------
+	bool outline;
+	FColor outlineColor;
 };
 
 /*  
@@ -100,17 +107,18 @@ public:
 	virtual void SetSize(FVector2D inSize) override;
 protected:
 	virtual void UpdateSize();
-
+	/* Call when any of mText or pFormat is changed. */
+	void UpdateTextLayout();
 public:
 	virtual void SetAppearHorizontalAlignment(EHorizontalAlignment in);
 	virtual void SetAppearVerticalAlignment(EVerticalAlignment in);
 
 	virtual void SetWrap(ETextWrap in);
-public:
+
 	/* NOTE : this will be called per frame. */
 	FOnSetText OnSetText;
 
-private:
+protected:
 	// ------------------------------------------------------------------------------------------------
 	// State
 	// ------------------------------------------------------------------------------------------------
@@ -118,8 +126,19 @@ private:
 
 	IDWriteFactory* pDWriteFactory = nullptr;
 	IDWriteTextFormat* pTextFormat = nullptr;
+
 	FSlateFont mFont;
 
 	std::wstring mText;
 	UINT32 mTextLength;
+
+	// --------------------------------------------------
+	// State : CustomTextRenderer
+	// --------------------------------------------------
+	ID2D1Factory* pD2DFactory = nullptr;
+	ID2D1SolidColorBrush* pBrushOutline = nullptr;
+	IDWriteTextLayout* pTextLayout = nullptr;
+
+	TextRenderer_Outline* pTextRenderer_Outline = nullptr;
+
 };
