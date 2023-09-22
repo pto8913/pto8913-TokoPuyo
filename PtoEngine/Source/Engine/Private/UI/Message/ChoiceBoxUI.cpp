@@ -49,7 +49,7 @@ void ChoiceBoxUI::SetChoiceButton(const std::vector<FChoiceInfos>& inChoiceInfos
 		{
 			for (int i = 0; i < numOfButton; ++i)
 			{
-				auto button = GetWorld()->CreateWidget<ChoiceButtonUI>(this, pRt2D, *pDX, pMouse);
+				auto button = GetWorld()->CreateWidget<ChoiceButtonUI>(this, *pDX, pMouse);
 				AddWidget(button);
 				button->GetOnChoice().Bind<&ChoiceBoxUI::OnClicked>(*this, std::format("choice_button_{}", currNumOfButton));
 			}
