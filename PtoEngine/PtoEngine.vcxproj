@@ -345,7 +345,6 @@
     <ClInclude Include="Source\Engine\Public\Slate\GridPanel.h" />
     <ClInclude Include="Source\Engine\Public\Slate\HorizontalBox.h" />
     <ClInclude Include="Source\Engine\Public\Slate\Image.h" />
-    <ClInclude Include="Source\Engine\Public\Slate\Message\ChoiceTypes.h" />
     <ClInclude Include="Source\Engine\Public\Slate\Message\S_ChoiceBox.h" />
     <ClInclude Include="Source\Engine\Public\Slate\Message\S_ChoiceButton.h" />
     <ClInclude Include="Source\Engine\Public\Slate\Overlay.h" />
@@ -359,6 +358,9 @@
     <ClInclude Include="Source\Engine\Public\Slate\TextBlock.h" />
     <ClInclude Include="Source\Engine\Public\Slate\VerticalBox.h" />
     <ClInclude Include="Source\Engine\Public\UI\DebugUI.h" />
+    <ClInclude Include="Source\Engine\Public\UI\Message\ChoiceBoxUI.h" />
+    <ClInclude Include="Source\Engine\Public\UI\Message\ChoiceButtonUI.h" />
+    <ClInclude Include="Source\Engine\Public\UI\Message\ChoiceTypes.h" />
     <ClInclude Include="Source\Engine\Public\UI\UserWidget.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimation.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimationTypes.h" />
@@ -597,6 +599,8 @@
     <ClCompile Include="Source\Engine\Private\Slate\TextBlock.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\VerticalBox.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\DebugUI.cpp" />
+    <ClCompile Include="Source\Engine\Private\UI\Message\ChoiceBoxUI.cpp" />
+    <ClCompile Include="Source\Engine\Private\UI\Message\ChoiceButtonUI.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\UserWidget.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\WidgetAnimation.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\WidgetManager.cpp" />

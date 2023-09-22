@@ -48,9 +48,9 @@ public:
 		: color(FColor(1.f, 1.f, 1.f, 1.f)),
 		hAlign(EHorizontalAlignment::Center),
 		vAlign(EVerticalAlignment::Center),
-		wrap(ETextWrap::No),
+		wrap(ETextWrap::No)/*,
 		outline(false),
-		outlineColor(FColor(0.f, 0.f, 0.f, 1.f))
+		outlineColor(FColor(0.f, 0.f, 0.f, 1.f))*/
 	{}
 
 	FColor color;
@@ -63,8 +63,8 @@ public:
 	// ------------------------------------------
 	// Layout : Outline
 	// ------------------------------------------
-	bool outline;
-	FColor outlineColor;
+	//bool outline;
+	//FColor outlineColor;
 };
 
 /*  
@@ -109,7 +109,7 @@ public:
 protected:
 	virtual void UpdateSize();
 	/* Call when any of mText or pFormat is changed. */
-	void UpdateTextLayout();
+	//void UpdateTextLayout();
 public:
 	virtual void SetAppearHorizontalAlignment(EHorizontalAlignment in);
 	virtual void SetAppearVerticalAlignment(EVerticalAlignment in);
@@ -136,11 +136,11 @@ protected:
 	// --------------------------------------------------
 	// State : CustomTextRenderer
 	// --------------------------------------------------
-	ID2D1Factory* pD2DFactory = nullptr;
-	ID2D1HwndRenderTarget* pRtHWnd = nullptr;
-	ID2D1SolidColorBrush* pBrushOutline = nullptr;
-	IDWriteTextLayout* pTextLayout = nullptr;
+	//ID2D1Factory* pD2DFactory = nullptr;
+	//ID2D1HwndRenderTarget* pRtHWnd = nullptr;
+	//ID2D1SolidColorBrush* pBrushOutline = nullptr;
+	//IDWriteTextLayout* pTextLayout = nullptr;
 
-	TextRenderer_Outline* pTextRenderer_Outline = nullptr;
+	//TextRenderer_Outline* pTextRenderer_Outline = nullptr;
 
 };
