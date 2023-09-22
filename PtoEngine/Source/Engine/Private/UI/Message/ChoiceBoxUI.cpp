@@ -18,6 +18,9 @@ ChoiceBoxUI::ChoiceBoxUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& 
 ChoiceBoxUI::~ChoiceBoxUI()
 {
 	OnChoiceResult.ClearBind();
+
+	pDX = nullptr;
+	pMouse = nullptr;
 }
 
 // ------------------------------------------------------
