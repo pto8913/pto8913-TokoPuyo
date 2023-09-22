@@ -2,8 +2,6 @@
 #include "Object/Sprite.h"
 #include "Core/DirectX.h"
 
-#include "Geometry/Plane.h"
-
 #include "Render/ScreenTexture.h"
 
 Sprite::Sprite(DirectX11& dx, const std::wstring& inFileName, std::wstring Tag, DirectX::XMFLOAT2 inSize)
