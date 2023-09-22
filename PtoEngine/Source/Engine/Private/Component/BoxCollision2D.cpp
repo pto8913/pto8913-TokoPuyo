@@ -89,7 +89,9 @@ FRect BoxCollision2D::GetRect()
 }
 void BoxCollision2D::EnterVolume(std::shared_ptr<CollisionComponent> other)
 {
+#if _DEBUG
 	OutputDebugStringA("Enter Box Collision\n");
+#endif
 	switch (GetCollisionType())
 	{
 	case ECollisionType::Block:

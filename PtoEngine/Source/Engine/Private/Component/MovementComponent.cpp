@@ -60,13 +60,16 @@ void MovementComponent::AddVelocity(FVector worldDirection, float scale)
 		auto currLocation = GetOwner()->GetActorLocation();
 		mVelocity = worldDirection * scale * mAcceleration * (mInputDuration.count() / 1000.f);
 		mVelocity = Vector::Clamp(mVelocity, 0, mMaxMoveSpeed);
+#if _DEBUG
 		OutputDebugStringA(("Clamped Velocity : " + std::to_string(mVelocity.Length()) + " = " + std::to_string(worldDirection.Length()) + " * " + std::to_string(scale) + " * " + std::to_string(mAcceleration) + " * " + std::to_string(mInputDuration.count()) + " / 1000.f\n").c_str());
-
+#endif
 		pOwner->SetActorLocation(currLocation + mVelocity);
 		mLastTickLocation = currLocation;
 
+#if _DEBUG
 		//OutputDebugStringA(("Velocity2 : " + mVelocity.ToString() + "\n").c_str());
 		OutputDebugStringA(("Owner Loc : " + pOwner->GetActorLocation().ToString() + "\n").c_str());
+#endif
 	}
 }
 FVector MovementComponent::GetVelocity()
