@@ -67,7 +67,9 @@ FBox BoxCollision::GetBoundingBox()
 }
 void BoxCollision::EnterVolume(CollisionComponent* other)
 {
+#if _DEBUG
 	OutputDebugStringA("Enter Box Collision\n");
+#endif
 	switch (GetCollisionType())
 	{
 	case ECollisionType::Block:
