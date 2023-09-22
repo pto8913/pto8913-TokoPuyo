@@ -150,6 +150,14 @@ bool Audio::IsPlaying() const
     return bIsPlay;
 }
 
+void Audio::SetDefaultVolume(float inVolume)
+{
+    defaultVolume = inVolume;
+}
+float Audio::GetDefaultVolume() const
+{
+    return defaultVolume;
+}
 void Audio::SetVolume(float inVolume)
 {
     Volume = inVolume;
@@ -158,7 +166,7 @@ void Audio::SetVolume(float inVolume)
         pSourceVoice->SetVolume(Volume);
     }
 }
-float Audio::GetVolume()
+float Audio::GetVolume() const
 {
     return Volume;
 }
