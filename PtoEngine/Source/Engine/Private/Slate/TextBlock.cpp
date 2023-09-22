@@ -21,11 +21,11 @@ S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector2D inS
 	//	D2D1_FACTORY_TYPE_SINGLE_THREADED,
 	//	&pD2DFactory
 	//);
-	//DWriteCreateFactory(
-	//	DWRITE_FACTORY_TYPE_SHARED,
-	//	__uuidof(IDWriteFactory),
-	//	reinterpret_cast<IUnknown**>(&pDWriteFactory)
-	//);
+	DWriteCreateFactory(
+		DWRITE_FACTORY_TYPE_SHARED,
+		__uuidof(IDWriteFactory),
+		reinterpret_cast<IUnknown**>(&pDWriteFactory)
+	);
 
 	//pD2DFactory->CreateHwndRenderTarget(
 	//	D2D1::RenderTargetProperties(),
