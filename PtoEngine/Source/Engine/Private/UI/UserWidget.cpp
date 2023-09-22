@@ -212,6 +212,17 @@ void UserWidget::RemoveWidget(UserWidget* inWidget)
 		}
 	}
 }
+void UserWidget::RemoveWidget(int idx)
+{
+	if (!IsPendingKill())
+	{
+		auto iter = pChildWidgets.begin() + idx;
+		auto& obj = *iter;
+		pRootSlate->RemoveChild(obj->pRootSlate);
+		pChildWidgets.erase(iter);
+		obj = nullptr;
+	}
+}
 
 // --------------------------
 // Main : Animation

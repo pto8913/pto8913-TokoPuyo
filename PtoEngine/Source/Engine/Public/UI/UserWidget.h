@@ -47,6 +47,7 @@ public:
 
 	virtual void AddWidget(UserWidget* inWidget);
 	virtual void RemoveWidget(UserWidget* inWidget);
+	virtual void RemoveWidget(int idx);
 
 	virtual std::string GetName() const override
 	{

@@ -17,21 +17,21 @@
 S_TextBlock::S_TextBlock(ID2D1RenderTarget* inRt2D, DirectX11& dx, FVector2D inSize, FSlateInfos inSlateInfos, FSlateFont inFont, FSlateTextAppearance inAppearance)
 	: SlateSlotBase(inRt2D, inSize, inSlateInfos), mText(L""), mFont(inFont), mAppearance(inAppearance)
 {
-	D2D1CreateFactory(
-		D2D1_FACTORY_TYPE_SINGLE_THREADED,
-		&pD2DFactory
-	);
-	DWriteCreateFactory(
-		DWRITE_FACTORY_TYPE_SHARED,
-		__uuidof(IDWriteFactory),
-		reinterpret_cast<IUnknown**>(&pDWriteFactory)
-	);
+	//D2D1CreateFactory(
+	//	D2D1_FACTORY_TYPE_SINGLE_THREADED,
+	//	&pD2DFactory
+	//);
+	//DWriteCreateFactory(
+	//	DWRITE_FACTORY_TYPE_SHARED,
+	//	__uuidof(IDWriteFactory),
+	//	reinterpret_cast<IUnknown**>(&pDWriteFactory)
+	//);
 
-	pD2DFactory->CreateHwndRenderTarget(
-		D2D1::RenderTargetProperties(),
-		D2D1::HwndRenderTargetProperties(dx.GetHWnd()),
-		&pRtHWnd
-	);
+	//pD2DFactory->CreateHwndRenderTarget(
+	//	D2D1::RenderTargetProperties(),
+	//	D2D1::HwndRenderTargetProperties(dx.GetHWnd()),
+	//	&pRtHWnd
+	//);
 
 	pRt2D->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.color),
@@ -70,15 +70,15 @@ void S_TextBlock::Draw()
 	);
 #endif
 
-	if (mAppearance.outline)
-	{
-		pRtHWnd->BeginDraw();
-		pRtHWnd->Clear(D2D1_COLOR_F(1, 1, 1));
+	//if (mAppearance.outline)
+	//{
+	//	pRtHWnd->BeginDraw();
+	//	pRtHWnd->Clear(D2D1_COLOR_F(1, 1, 1));
 
-		pTextLayout->Draw(nullptr, pTextRenderer_Outline, mPosition.x, mPosition.y);
-		pRtHWnd->EndDraw();
-		return;
-	}
+	//	pTextLayout->Draw(nullptr, pTextRenderer_Outline, mPosition.x, mPosition.y);
+	//	pRtHWnd->EndDraw();
+	//	return;
+	//}
 
 	pRt2D->DrawText(
 		mText.c_str(),
@@ -99,27 +99,27 @@ void S_TextBlock::SetAppearance(FSlateTextAppearance in)
 
 	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
 
-	if (mAppearance.outline)
-	{
-		pRt2D->CreateSolidColorBrush(
-			ColorHelper::ConvertColorToD2D(mAppearance.outlineColor),
-			&pBrushOutline
-		);
-		if (pTextRenderer_Outline != nullptr)
-		{
-			pTextRenderer_Outline->UpdateBrushFill(pBrush);
-			pTextRenderer_Outline->UpdateBrushOutline(pBrushOutline);
-		}
-		else
-		{
-			pTextRenderer_Outline = new TextRenderer_Outline(
-				pD2DFactory,
-				pRtHWnd,
-				pBrushOutline,
-				pBrush
-			);
-		}
-	}
+	//if (mAppearance.outline)
+	//{
+	//	pRt2D->CreateSolidColorBrush(
+	//		ColorHelper::ConvertColorToD2D(mAppearance.outlineColor),
+	//		&pBrushOutline
+	//	);
+	//	if (pTextRenderer_Outline != nullptr)
+	//	{
+	//		pTextRenderer_Outline->UpdateBrushFill(pBrush);
+	//		pTextRenderer_Outline->UpdateBrushOutline(pBrushOutline);
+	//	}
+	//	else
+	//	{
+	//		pTextRenderer_Outline = new TextRenderer_Outline(
+	//			pD2DFactory,
+	//			pRtHWnd,
+	//			pBrushOutline,
+	//			pBrush
+	//		);
+	//	}
+	//}
 	UpdateTextLayout();
 }
 FSlateTextAppearance& S_TextBlock::GetAppearance()
@@ -189,17 +189,17 @@ void S_TextBlock::UpdateSize()
 		//);
 	}
 }
-void S_TextBlock::UpdateTextLayout()
-{
-	pDWriteFactory->CreateTextLayout(
-		mText.c_str(),
-		mTextLength,
-		pTextFormat,
-		FLT_MAX,
-		0,
-		&pTextLayout
-	);
-}
+//void S_TextBlock::UpdateTextLayout()
+//{
+//	pDWriteFactory->CreateTextLayout(
+//		mText.c_str(),
+//		mTextLength,
+//		pTextFormat,
+//		FLT_MAX,
+//		0,
+//		&pTextLayout
+//	);
+//}
 
 void S_TextBlock::SetAppearHorizontalAlignment(EHorizontalAlignment in)
 {

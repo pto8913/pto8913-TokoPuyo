@@ -230,6 +230,12 @@
     <Filter Include="Source\Engine\Private\Helper">
       <UniqueIdentifier>{0cc79391-c1c4-4f3d-98ba-73faafb4d946}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Engine\Private\UI\Message">
+      <UniqueIdentifier>{161c49d1-9ed7-4000-a5bd-5a6e1a820ef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Public\UI\Message">
+      <UniqueIdentifier>{a217b3c9-bcce-427b-a064-8a8285ee1352}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DirectX\DirectXHead.h">
@@ -366,9 +372,6 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Slate\CanvasPanel.h">
       <Filter>Source\Engine\Public\Slate</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Slate\Message\ChoiceTypes.h">
-      <Filter>Source\Engine\Public\Slate\Message</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\EngineSettings.h">
       <Filter>Source\Engine\Public</Filter>
@@ -642,6 +645,15 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Slate\TextRenderer_Outline.h">
       <Filter>Source\Engine\Public\Slate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Message\ChoiceButtonUI.h">
+      <Filter>Source\Engine\Public\UI\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Message\ChoiceBoxUI.h">
+      <Filter>Source\Engine\Public\UI\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\UI\Message\ChoiceTypes.h">
+      <Filter>Source\Engine\Public\UI\Message</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -995,6 +1007,12 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Slate\TextRenderer_Outline.cpp">
       <Filter>Source\Engine\Private\Slate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Message\ChoiceButtonUI.cpp">
+      <Filter>Source\Engine\Private\UI\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\UI\Message\ChoiceBoxUI.cpp">
+      <Filter>Source\Engine\Private\UI\Message</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
