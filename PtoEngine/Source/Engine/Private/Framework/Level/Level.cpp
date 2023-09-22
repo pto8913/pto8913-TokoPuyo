@@ -34,7 +34,6 @@ void Level::Tick(DirectX11& dx, float deltaSec)
 {
 	Object::Tick(dx, deltaSec);
 
-	//mCollisionManager.Tick();
 	if (pObjectManager != nullptr)
 	{
 		pObjectManager->Tick(dx, deltaSec);
@@ -48,11 +47,6 @@ void Level::SetWorld(World* in)
 World* Level::GetWorld()
 {
 	return pOwningWorld;
-}
-
-CollisionManager& Level::GetCollisionManager()
-{
-	return mCollisionManager;
 }
 
 ObjectManager* Level::GetObjectManager()

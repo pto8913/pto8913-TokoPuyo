@@ -7,7 +7,6 @@
 #include "Engine/Timer.h"
 #include "Math/Vector.h"
 
-#include "Framework/Level/CollisionManager.h"
 #include "Framework/Level/ObjectManager.h"
 
 class DirectX11;
@@ -34,8 +33,6 @@ public:
 	void SetWorld(World* in);
 	virtual World* GetWorld() override;
 
-	CollisionManager& GetCollisionManager();
-	
 	ObjectManager* GetObjectManager();
 
 public:
@@ -58,7 +55,6 @@ protected:
 
 	World* pOwningWorld = nullptr;
 
-	CollisionManager mCollisionManager;
 	std::shared_ptr<ObjectManager> pObjectManager = nullptr;
 
 	FVector mStartPosition;
