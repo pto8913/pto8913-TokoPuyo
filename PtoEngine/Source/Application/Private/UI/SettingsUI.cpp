@@ -142,4 +142,6 @@ void SettingsUI::OnAudioVolumeChanged(float inValue)
 {
 	currentAudioValue = inValue;
 	pText_AudioVolume->SetText(std::to_wstring((int)inValue));
+
+	_OnAudioVolumeChanged.Broadcast(inValue);
 }

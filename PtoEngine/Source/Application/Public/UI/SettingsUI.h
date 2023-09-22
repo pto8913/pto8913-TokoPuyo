@@ -1,6 +1,7 @@
 #pragma once
 
 #include "UI/UserWidget.h"
+#include "GameSettings.h"
 
 class S_TextBlock;
 
@@ -25,6 +26,7 @@ public:
 	void OnAudioVolumeChanged(float inValue);
 
 	DX::FOnMouseAction OnClickedReturnToTitle;
+	FOnAudioVolumeChanged _OnAudioVolumeChanged;
 protected:
 	// ------------------------------------------------------------------------------------------------------------
 	// State

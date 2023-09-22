@@ -6,6 +6,7 @@
 class TitleUI;
 class SettingsUI;
 class DebugUI;
+class Audio;
 
 class Level_Title : public Level
 {
@@ -35,6 +36,7 @@ public:
 protected:
 	void OpenSettingsUI();
 	void OnClickedCloseSettings(DX::MouseEvent inMouseEvent);
+	void OnAudioVolumeChanged(float inValue);
 
 protected:
 	// ------------------------------------------------------
@@ -42,4 +44,5 @@ protected:
 	// ------------------------------------------------------
 	TitleUI* pTitleUI = nullptr;
 	SettingsUI* pSettingsUI = nullptr;
+	std::shared_ptr<Audio> BGM = nullptr;
 };

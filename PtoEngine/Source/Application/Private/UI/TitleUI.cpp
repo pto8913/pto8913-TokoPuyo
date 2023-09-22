@@ -45,8 +45,6 @@ void TitleUI::NativeOnInitialized()
 		FSlateFont font;
 		font.fontSize = 60.f;
 		FSlateTextAppearance appearance;
-		appearance.outline = true;
-		appearance.outlineColor = FColor(1.f, 1.f, 0.f, 1.f);
 
 		auto pTextBlock = MakeSlate<S_TextBlock>(*pDX, infos, font, appearance);
 		pTextBlock->SetText(L"pto8193 ‚Õ‚æ‚Õ‚æ");

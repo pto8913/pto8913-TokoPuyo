@@ -40,15 +40,17 @@ Level_TokoPuyo::Level_TokoPuyo(DirectX11& dx)
 
 	BGM = std::make_shared<Audio>(L"Content/Sounds/Puyo_BGM.wav");
 	SE_PuyoMove = std::make_shared<Audio>(L"Content/Sounds/Puyo_Move.wav");
-	SE_PuyoMove->SetVolume(0.5f);
+	SE_PuyoMove->SetVolume(0.25f);
 	SE_PuyoBottom = std::make_shared<Audio>(L"Content/Sounds/Puyo_Bottom.wav");
+	SE_PuyoBottom->SetVolume(0.25f);
 	SE_PuyoRotate = std::make_shared<Audio>(L"Content/Sounds/Puyo_Rotate.wav");
-	SE_PuyoRotate->SetVolume(0.5f);
+	SE_PuyoRotate->SetVolume(0.25f);
 	SE_PuyoVanish = std::make_shared<Audio>(L"Content/Sounds/Puyo_Vanish.wav");
+	SE_PuyoVanish->SetVolume(0.25f);
 	SE_PuyoGameOver = std::make_shared<Audio>(L"Content/Sounds/Puyo_GameOver.wav");
 	if (BGM)
 	{
-		BGM->SetVolume(0.5f);
+		BGM->SetVolume(0.25f);
 		BGM->SetLoop(true);
 		BGM->Play();
 	}
@@ -272,12 +274,12 @@ void Level_TokoPuyo::GameProgressChanged(const EGameProgress& NewState)
 }
 void Level_TokoPuyo::OnAudioVolumeChanged(float inValue)
 {
-	BGM->SetVolume(BGM->GetVolume() * inValue / 10.f);
-	SE_PuyoMove->SetVolume(SE_PuyoMove->GetVolume() * inValue / 10.f);
-	SE_PuyoBottom->SetVolume(SE_PuyoBottom->GetVolume() * inValue / 10.f);
-	SE_PuyoRotate->SetVolume(SE_PuyoRotate->GetVolume() * inValue / 10.f);
-	SE_PuyoVanish->SetVolume(SE_PuyoVanish->GetVolume() * inValue / 10.f);
-	SE_PuyoGameOver->SetVolume(SE_PuyoGameOver->GetVolume() * inValue / 10.f);
+	BGM->SetVolume(BGM->GetDefaultVolume() * inValue / 10.f);
+	SE_PuyoMove->SetVolume(SE_PuyoMove->GetDefaultVolume() * inValue / 10.f);
+	SE_PuyoBottom->SetVolume(SE_PuyoBottom->GetDefaultVolume() * inValue / 10.f);
+	SE_PuyoRotate->SetVolume(SE_PuyoRotate->GetDefaultVolume() * inValue / 10.f);
+	SE_PuyoVanish->SetVolume(SE_PuyoVanish->GetDefaultVolume() * inValue / 10.f);
+	SE_PuyoGameOver->SetVolume(SE_PuyoGameOver->GetDefaultVolume() * inValue / 10.f);
 }
 
 void Level_TokoPuyo::StartControlPuyo()

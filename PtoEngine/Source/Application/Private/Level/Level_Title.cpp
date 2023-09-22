@@ -11,9 +11,19 @@
 #include "PtoGameInstance.h"
 #include "World/WorldTypes.h"
 
+#include "Engine/Audio.h"
+
 Level_Title::Level_Title(DirectX11& dx)
 	: Level(dx)
 {
+	BGM = std::make_shared<Audio>(L"Content/Sounds/Puyo_BGM.wav");
+	if (BGM)
+	{
+		BGM->SetVolume(0.25f);
+		BGM->SetLoop(true);
+		BGM->Play();
+	}
+	OnAudioVolumeChanged(GameSettings::GetAudioVolume());
 }
 Level_Title::~Level_Title()
 {
@@ -28,6 +38,13 @@ Level_Title::~Level_Title()
 		pSettingsUI->MarkPendingKill();
 	}
 	pSettingsUI = nullptr;
+
+	if (BGM)
+	{
+		BGM->Stop();
+	}
+	BGM.reset();
+	BGM = nullptr;
 }
 
 // ------------------------------------------------------
@@ -78,7 +95,8 @@ void Level_Title::OpenSettingsUI()
 			*pDX,
 			GetWorld()->GetPlayerController()->GetMouse()
 		);
-		pSettingsUI->OnClickedReturnToTitle.Bind<&Level_Title::OnClickedCloseSettings>(*this, "Title");
+		pSettingsUI->OnClickedReturnToTitle.Bind<&Level_Title::OnClickedCloseSettings>(*this, GetName());
+		pSettingsUI->_OnAudioVolumeChanged.Bind<&Level_Title::OnAudioVolumeChanged>(*this, GetName());
 	}
 	pSettingsUI->AddToViewport();
 }
@@ -89,4 +107,8 @@ void Level_Title::OnClickedCloseSettings(DX::MouseEvent inMouseEvent)
 		pSettingsUI->RemoveFromParent();
 	}
 	pTitleUI->AddToViewport();
+}
+void Level_Title::OnAudioVolumeChanged(float inValue)
+{
+	BGM->SetVolume(BGM->GetDefaultVolume() * inValue / 10.f);
 }
