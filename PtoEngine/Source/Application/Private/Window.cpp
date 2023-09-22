@@ -212,7 +212,6 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
     case WM_PAINT:
         PAINTSTRUCT ps;
         BeginPaint(hWnd, &ps);
-        OutputDebugStringA("WM_PAINT\n");
         EndPaint(hWnd, &ps);
         break;
     case WM_SIZE:
