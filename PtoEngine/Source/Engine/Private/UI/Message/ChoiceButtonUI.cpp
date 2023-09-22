@@ -6,7 +6,7 @@
 
 #include "EngineSettings.h"
 
-ChoiceButtonUI::ChoiceButtonUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse, const FChoiceInfos& inChoiceInfos = {})
+ChoiceButtonUI::ChoiceButtonUI(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx, DX::IMouseInterface* mouse, const FChoiceInfos& inChoiceInfos)
 	: UserWidget(inOwner, inRt2D, dx, mouse)
 {
 	SetChoiceInfos(inChoiceInfos);

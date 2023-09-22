@@ -146,12 +146,6 @@
     <Filter Include="Source\Engine\Public\Slate">
       <UniqueIdentifier>{07ee9350-8921-4552-a41e-8d87a7933506}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Engine\Public\Slate\Message">
-      <UniqueIdentifier>{e7c0e955-32d5-41f0-a991-a92a95d3684e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Engine\Private\Slate\Message">
-      <UniqueIdentifier>{1e3c0a73-4b7b-43ff-9c51-7efeddd17491}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Application">
       <UniqueIdentifier>{89bc185b-cc89-4292-973a-a4586c3404bb}</UniqueIdentifier>
     </Filter>
@@ -522,12 +516,6 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Framework\PlayerController.h">
       <Filter>Source\Engine\Public\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Slate\Message\S_ChoiceBox.h">
-      <Filter>Source\Engine\Public\Slate\Message</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Slate\Message\S_ChoiceButton.h">
-      <Filter>Source\Engine\Public\Slate\Message</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Slate\SlateBase.h">
       <Filter>Source\Engine\Public\Slate</Filter>
@@ -1037,12 +1025,6 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Slate\VerticalBox.cpp">
       <Filter>Source\Engine\Private\Slate</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Slate\Message\S_ChoiceBox.cpp">
-      <Filter>Source\Engine\Private\Slate\Message</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Slate\Message\S_ChoiceButton.cpp">
-      <Filter>Source\Engine\Private\Slate\Message</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Math\Vector.cpp">
       <Filter>Source\Engine\Private\Math</Filter>
