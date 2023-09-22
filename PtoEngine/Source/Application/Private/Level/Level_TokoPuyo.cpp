@@ -14,6 +14,8 @@
 
 #include "GameState/GameState_Play.h"
 
+#include "PtoGameInstance.h"
+
 using namespace DirectX;
 
 Level_TokoPuyo::Level_TokoPuyo(DirectX11& dx)
@@ -38,7 +40,6 @@ Level_TokoPuyo::Level_TokoPuyo(DirectX11& dx)
 
 	Cached_NeedDurationTime_Main = 0;
 
-	BGM = std::make_shared<Audio>(L"Content/Sounds/Puyo_BGM.wav");
 	SE_PuyoMove = std::make_shared<Audio>(L"Content/Sounds/Puyo_Move.wav");
 	SE_PuyoMove->SetVolume(0.25f);
 	SE_PuyoBottom = std::make_shared<Audio>(L"Content/Sounds/Puyo_Bottom.wav");
@@ -48,12 +49,7 @@ Level_TokoPuyo::Level_TokoPuyo(DirectX11& dx)
 	SE_PuyoVanish = std::make_shared<Audio>(L"Content/Sounds/Puyo_Vanish.wav");
 	SE_PuyoVanish->SetVolume(0.25f);
 	SE_PuyoGameOver = std::make_shared<Audio>(L"Content/Sounds/Puyo_GameOver.wav");
-	if (BGM)
-	{
-		BGM->SetVolume(0.25f);
-		BGM->SetLoop(true);
-		BGM->Play();
-	}
+
 	OnAudioVolumeChanged(GameSettings::GetAudioVolume());
 
 	//mGameMode = std::make_shared<GameMode>();
@@ -77,7 +73,6 @@ Level_TokoPuyo::~Level_TokoPuyo()
 		in.reset();
 		in = nullptr;
 	};
-	Stop(BGM);
 	Stop(SE_PuyoMove);
 	Stop(SE_PuyoBottom);
 	Stop(SE_PuyoRotate);
@@ -226,6 +221,9 @@ void Level_TokoPuyo::Pause()
 {
 	if (pGameState->IsPause())
 	{
+		PtoGameInstance& gameInstance = PtoGameInstance::Get();
+		gameInstance.SetPause(true);
+
 		Cached_GameProgress = pGameState->GetGameProgress();
 		pGameState->SetGameProgress(*pDX, EGameProgress::Wait);
 	}
@@ -234,6 +232,9 @@ void Level_TokoPuyo::Resume()
 {
 	if (!pGameState->IsPause())
 	{
+		PtoGameInstance& gameInstance = PtoGameInstance::Get();
+		gameInstance.SetPause(false);
+
 		pGameState->SetGameProgress(*pDX, Cached_GameProgress);
 	}
 }
@@ -242,10 +243,8 @@ void Level_TokoPuyo::GameProgressChanged(const EGameProgress& NewState)
 {
 	if (NewState != EGameProgress::GameOver)
 	{
-		if (!BGM->IsPlaying())
-		{
-			BGM->Play();
-		}
+		PtoGameInstance& gameInstance = PtoGameInstance::Get();
+		gameInstance.SetBGM(true);
 	}
 	switch (NewState)
 	{
@@ -264,7 +263,7 @@ void Level_TokoPuyo::GameProgressChanged(const EGameProgress& NewState)
 		NeedDurationTime_Main = GameSettings::GetPuyoFallSpeed(EPuyoControl::VanishToFall);
 		break;
 	case EGameProgress::GameOver:
-		BGM->Stop();
+		PtoGameInstance::Get().SetBGM(false);
 		SE_PuyoGameOver->Play();
 		break;
 	default:
@@ -274,7 +273,6 @@ void Level_TokoPuyo::GameProgressChanged(const EGameProgress& NewState)
 }
 void Level_TokoPuyo::OnAudioVolumeChanged(float inValue)
 {
-	BGM->SetVolume(BGM->GetDefaultVolume() * inValue / 10.f);
 	SE_PuyoMove->SetVolume(SE_PuyoMove->GetDefaultVolume() * inValue / 10.f);
 	SE_PuyoBottom->SetVolume(SE_PuyoBottom->GetDefaultVolume() * inValue / 10.f);
 	SE_PuyoRotate->SetVolume(SE_PuyoRotate->GetDefaultVolume() * inValue / 10.f);

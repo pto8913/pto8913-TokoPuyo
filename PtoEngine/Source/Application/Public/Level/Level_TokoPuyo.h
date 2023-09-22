@@ -201,7 +201,6 @@ private:
 	// ----------------------
 	// State : Sound
 	// ----------------------
-	std::shared_ptr<Audio> BGM = nullptr;
 	std::shared_ptr<Audio> SE_PuyoMove = nullptr;
 	std::shared_ptr<Audio> SE_PuyoBottom = nullptr;
 	std::shared_ptr<Audio> SE_PuyoRotate = nullptr;
