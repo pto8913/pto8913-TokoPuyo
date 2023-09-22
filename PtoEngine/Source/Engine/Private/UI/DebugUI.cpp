@@ -52,6 +52,7 @@ void DebugUI::NativeOnInitialized()
 	pRootSlate = MakeSlate<S_CanvasPanel>(windowSize);
 	pRootSlate->SetPosition({ 0, 0 });
 
+#if _DEBUG
 	FSlateInfos menuVBInfos;
 	menuVBInfos.padding = { 5.f, 5.f, 0.f, 0.f };
 	auto menuVB = MakeSlate<S_VerticalBox>(FVector2D(500.f, windowSize.y), menuVBInfos);
@@ -105,7 +106,7 @@ void DebugUI::NativeOnInitialized()
 	pText_PhysUsed = MakeTextBlock();
 	/* physical memory current used */
 	pText_PhysCurrentUsed = MakeTextBlock();
-
+#endif
 	pRootSlate->UpdateWidget();
 	UserWidget::NativeOnInitialized();
 }
@@ -114,7 +115,7 @@ int MemoryDiv = 1048576;
 void DebugUI::Tick(DirectX11& dx, float deltaTime)
 {
 	UserWidget::Tick(dx, deltaTime);
-
+#if _DEBUG
 	MEMORYSTATUSEX memInfo;
 	memInfo.dwLength = sizeof(MEMORYSTATUSEX);
 	GlobalMemoryStatusEx(&memInfo);
@@ -173,6 +174,7 @@ void DebugUI::Tick(DirectX11& dx, float deltaTime)
 	{
 		pText_PhysCurrentUsed->SetText(std::format(L"physical memory current used : {}", pmc.WorkingSetSize / MemoryDiv));
 	}
+#endif
 }
 
 // -------------------------------------------------------
