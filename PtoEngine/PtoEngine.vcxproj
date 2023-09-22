@@ -308,8 +308,6 @@
     <ClInclude Include="Source\Engine\Public\Slate\GridPanel.h" />
     <ClInclude Include="Source\Engine\Public\Slate\HorizontalBox.h" />
     <ClInclude Include="Source\Engine\Public\Slate\Image.h" />
-    <ClInclude Include="Source\Engine\Public\Slate\Message\S_ChoiceBox.h" />
-    <ClInclude Include="Source\Engine\Public\Slate\Message\S_ChoiceButton.h" />
     <ClInclude Include="Source\Engine\Public\Slate\Overlay.h" />
     <ClInclude Include="Source\Engine\Public\Slate\ProgressBar.h" />
     <ClInclude Include="Source\Engine\Public\Slate\SlateBase.h" />
@@ -472,8 +470,6 @@
     <ClCompile Include="Source\Engine\Private\Slate\GridPanel.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\HorizontalBox.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\Image.cpp" />
-    <ClCompile Include="Source\Engine\Private\Slate\Message\S_ChoiceBox.cpp" />
-    <ClCompile Include="Source\Engine\Private\Slate\Message\S_ChoiceButton.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\Overlay.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\ProgressBar.cpp" />
     <ClCompile Include="Source\Engine\Private\Slate\SlateBase.cpp" />
