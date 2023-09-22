@@ -62,7 +62,6 @@ public:
 	void Play();
 	void Stop();
 	bool IsPlaying() const;
-	void SetDefaultVolume(float inVolume);
 	float GetDefaultVolume() const;
 	void SetVolume(float inVolume);
 	float GetVolume() const;
@@ -78,7 +77,7 @@ private:
 	// ------------------------------------------------------------------------
 	// State
 	// ------------------------------------------------------------------------
-	float defaultVolume = 1.f;
+	float defaultVolume = -1.f;
 	float Volume = 1.f;
 	bool bLoop = false;
 	bool bIsPlay = false;

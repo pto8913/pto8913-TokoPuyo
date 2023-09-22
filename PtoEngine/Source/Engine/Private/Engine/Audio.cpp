@@ -150,16 +150,16 @@ bool Audio::IsPlaying() const
     return bIsPlay;
 }
 
-void Audio::SetDefaultVolume(float inVolume)
-{
-    defaultVolume = inVolume;
-}
 float Audio::GetDefaultVolume() const
 {
     return defaultVolume;
 }
 void Audio::SetVolume(float inVolume)
 {
+    if (defaultVolume == -1.f)
+    {
+        defaultVolume = inVolume;
+    }
     Volume = inVolume;
     if (pSourceVoice)
     {
