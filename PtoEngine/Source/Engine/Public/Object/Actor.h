@@ -21,8 +21,6 @@ public:
 	Actor();
 	virtual ~Actor();
 
-	/* Will be called when the between Constructor to BeginPlay */
-	virtual void NativeOnInitialized() {};
 
 	// ------------------------------------------------------
 	// Main
