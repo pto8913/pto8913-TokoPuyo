@@ -22,7 +22,7 @@ public:
 	virtual ~Actor();
 
 	/* Will be called when the between Constructor to BeginPlay */
-	virtual void NativeOnInitialized() = 0;
+	virtual void NativeOnInitialized() {};
 
 	// ------------------------------------------------------
 	// Main
@@ -87,9 +87,9 @@ public:
 	// -----------------------------------
 	// Main : Util
 	// -----------------------------------
-private:
+protected:
 	/* This will be call from World->SpawnActor() only once */
-	void SetOuter(Object* inOuter);
+	virtual void SetOuter(Object* inOuter);
 public:
 	Object* GetOuter();
 	
