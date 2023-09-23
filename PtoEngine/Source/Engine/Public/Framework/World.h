@@ -76,6 +76,7 @@ public:
 		{
 			pPersistentLevel->GetCollisionManager().Add(collision);
 		}
+		out->NativeOnInitialized();
 		return std::move(out.get());
 	}
 	template<class TClass, typename ...Args, typename = std::enable_if_t<std::is_base_of_v<UserWidget, TClass>>>
