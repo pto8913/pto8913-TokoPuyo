@@ -19,7 +19,7 @@ public:
 	Player();
 	virtual ~Player();
 
-	virtual void NativeOnInitialized() override;
+	virtual void NativeOnInitialized(DirectX11& dx) override;
 
 	// -------------------------------------------------------
 	// Main
@@ -54,6 +54,11 @@ public:
 
 	void UpdateActivePuyo(const float& x, const float& y);
 	void UpdateSubPuyoLocationByRotation();
+	// ---------------------------
+	// Main : State : Main Timer
+	// ---------------------------
+	void SetNeedDurationCached(DWORD NewVal);
+	void ResetNeedDuration();
 
 	// ----------------------
 	// Main : Input
@@ -85,6 +90,7 @@ protected:
 	chrono::time_point LastTime_Main;
 	std::chrono::milliseconds Duration_Main;
 	DWORD NeedDurationTime_Main;
+	DWORD Cached_NeedDurationTime_Main;
 
 	// ----------------------
 	// State : Play : Sound

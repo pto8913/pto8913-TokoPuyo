@@ -44,7 +44,7 @@ void World_TokoPuyo::SetPlayerController(DirectX11& dx)
 }
 void World_TokoPuyo::SetPlayer(DirectX11& dx)
 {
-	pPlayer = SpawnActor<Player>();
+	pPlayer = __SpawnActor<Player>();
 
 	World::SetPlayer(dx);
 }

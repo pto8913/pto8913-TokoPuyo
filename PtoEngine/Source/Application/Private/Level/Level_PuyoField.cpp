@@ -264,25 +264,28 @@ void Level_PuyoField::SetActivePuyo(Puyo*&& mainPuyoActor, Puyo*&& subPuyoActor)
 }
 void Level_PuyoField::DoFrame_Release()
 {
-	int fallCount = 0;
-	if (pMainPuyo->GetPuyoInfos().GetRotation() == FPuyoInfos::ERotation::B)
+	if (pMainPuyo != nullptr)
 	{
-		fallCount += TryToStackPuyo(pSubPuyo);
-		fallCount += TryToStackPuyo(pMainPuyo);
-	}
-	else
-	{
-		fallCount += TryToStackPuyo(pMainPuyo);
-		fallCount += TryToStackPuyo(pSubPuyo);
-	}
+		int fallCount = 0;
+		if (pMainPuyo->GetPuyoInfos().GetRotation() == FPuyoInfos::ERotation::B)
+		{
+			fallCount += TryToStackPuyo(pSubPuyo);
+			fallCount += TryToStackPuyo(pMainPuyo);
+		}
+		else
+		{
+			fallCount += TryToStackPuyo(pMainPuyo);
+			fallCount += TryToStackPuyo(pSubPuyo);
+		}
 
-	if (fallCount == 0)
-	{
-		pGameState->SetGameProgress(EGameProgress::Wait);
-		PuyoIsStacked();
+		if (fallCount == 0)
+		{
+			pGameState->SetGameProgress(EGameProgress::Wait);
+			PuyoIsStacked();
 #if _DEBUG
-		Show();
+			Show();
 #endif
+		}
 	}
 }
 bool Level_PuyoField::TryToStackPuyo(Puyo* puyoActor)

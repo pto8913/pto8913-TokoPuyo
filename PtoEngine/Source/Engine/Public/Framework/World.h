@@ -72,11 +72,6 @@ protected:
 		++mActorTotalCount;
 		AddToObjectManager(out);
 
-		BoxCollision* collision = out->GetComponent<BoxCollision>();
-		if (collision != nullptr)
-		{
-			pPersistentLevel->GetCollisionManager().Add(collision);
-		}
 		out->NativeOnInitialized(*pDX);
 		return std::move(out);
 	}

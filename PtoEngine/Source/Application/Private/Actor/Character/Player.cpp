@@ -55,9 +55,10 @@ Player::~Player()
 	Stop(SE_PuyoRotate);
 }
 
-void Player::NativeOnInitialized()
+void Player::NativeOnInitialized(DirectX11& dx)
 {
-	Actor::NativeOnInitialized();
+	Actor::NativeOnInitialized(dx);
+	pDX = &dx;
 
 	pGameState = static_cast<GameState_Play*>(GetWorld()->GetGameState());
 	pGameState->OnRestart.Bind<&Player::OnRestart>(*this, GetName());
@@ -74,13 +75,12 @@ void Player::NativeOnInitialized()
 void Player::BeginPlay(DirectX11& dx)
 {
 	Actor::BeginPlay(dx);
-
-	pDX = &dx;
-
 }
 void Player::Tick(DirectX11& dx, float deltaTime)
 {
 	Actor::Tick(dx, deltaTime);
+
+	InputUpdate();
 
 	if (pGameState)
 	{
@@ -222,7 +222,7 @@ void Player::ActivePuyoDownToRelease()
 	{
 		currMainIdx.x = 0;
 	}
-	else if (currMainIdx.x >= pLevel->GetWidth())
+	else if (currMainIdx.x >= GameSettings::GetGameBoardSize().x)//pLevel->GetWidth())
 	{
 		currMainIdx.x = floor(currMainIdx.x);
 	}
@@ -396,7 +396,7 @@ void Player::ActionActivePuyoRotate(bool rotateR)
 void Player::ActivePuyoRotateToRelease()
 {
 	auto idx = pMainPuyo->Get2DIdx();
-	if (idx.y >= pLevel->GetHeight())
+	if (idx.y >= GameSettings::GetGameBoardSize().y)//pLevel->GetHeight())
 	{
 		idx.y = floor(idx.y);
 	}
@@ -408,7 +408,7 @@ void Player::ActivePuyoRotateToRelease()
 	{
 		idx.x = 0;
 	}
-	else if (idx.x >= pLevel->GetWidth())
+	else if (idx.x >= GameSettings::GetGameBoardSize().x)//pLevel->GetWidth())
 	{
 		idx.x = floor(idx.x);
 	}
@@ -444,6 +444,32 @@ void Player::UpdateSubPuyoLocationByRotation()
 	}
 }
 
+// ------------------------------------------------------
+// Main : State : Main Timer
+// ------------------------------------------------------
+void Player::SetNeedDurationCached(DWORD NewVal)
+{
+	if (pGameState->GetGameProgress() == EGameProgress::Control)
+	{
+		if (Cached_NeedDurationTime_Main == 0)
+		{
+			Cached_NeedDurationTime_Main = NeedDurationTime_Main;
+			NeedDurationTime_Main = NewVal;
+		}
+	}
+}
+void Player::ResetNeedDuration()
+{
+	if (pGameState->GetGameProgress() == EGameProgress::Control)
+	{
+		if (Cached_NeedDurationTime_Main > 0)
+		{
+			NeedDurationTime_Main = Cached_NeedDurationTime_Main;
+			Cached_NeedDurationTime_Main = 0;
+		}
+	}
+}
+
 // ----------------------
 // Main : Input
 // ----------------------
@@ -473,11 +499,11 @@ void Player::InputUpdate()
 		}
 		if (InputDown)
 		{
-			pLevel->SetNeedDurationCached(GameSettings::GetPuyoFallSpeed(EPuyoControl::PressDown));
+			SetNeedDurationCached(GameSettings::GetPuyoFallSpeed(EPuyoControl::PressDown));
 		}
 		else
 		{
-			pLevel->ResetNeedDuration();
+			ResetNeedDuration();
 		}
 	}
 }
