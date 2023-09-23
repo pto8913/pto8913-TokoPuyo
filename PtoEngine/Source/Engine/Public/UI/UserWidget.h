@@ -23,8 +23,11 @@ public:
 	// Main
 	// ------------------------------------------------------------------------------------------------------------
 protected:
+	/* Will be called when the between Constructor to BeginPlay */
 	virtual void NativeOnInitialized();
+	/* Will be called when the AddToViewport */
 	virtual void NativeConstruct();
+	/* Will be called when the RemoveFromParent */
 	virtual void NativeDestruct();
 
 	virtual void Tick(DirectX11& dx, float deltaTime) override;

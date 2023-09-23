@@ -9,9 +9,6 @@ UserWidget::UserWidget(Object* inOwner, ID2D1RenderTarget* inRt2D, DirectX11& dx
 	: pOwner(inOwner), pRt2D(inRt2D), pDX(&dx), pMouse(mouse)
 {
 	SetTickEnabled(true);
-
-	//NativeOnInitialized();
-
 	SetLayer(Layer::EActorLayer::UI);
 }
 UserWidget::~UserWidget()
