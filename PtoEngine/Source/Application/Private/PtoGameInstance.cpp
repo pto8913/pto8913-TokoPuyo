@@ -36,6 +36,7 @@ void PtoGameInstance::SetPause(bool inPause)
 {
     if (pAudio_BGM != nullptr)
     {
+        OnPaused.Broadcast(inPause);
         SetBGM(!inPause);
         if (inPause)
         {

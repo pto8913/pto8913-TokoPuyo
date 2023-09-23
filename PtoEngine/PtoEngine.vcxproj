@@ -196,6 +196,7 @@
     <ClInclude Include="SDK\nlohmann\json.hpp" />
     <ClInclude Include="Source\Application\Public\Actor\Actor2D.h" />
     <ClInclude Include="Source\Application\Public\Actor\Actor2DTypes.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Character\Player.h" />
     <ClInclude Include="Source\Application\Public\Actor\Character\Puyo.h" />
     <ClInclude Include="Source\Application\Public\Actor\Character\PuyoTypes.h" />
     <ClInclude Include="Source\Application\Public\Actor\Ground\GroundBase.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="Source\Application\Public\GameState\GameState_TokoPuyo.h" />
     <ClInclude Include="Source\Application\Public\Level\Level2D.h" />
     <ClInclude Include="Source\Application\Public\Level\LevelTypes.h" />
+    <ClInclude Include="Source\Application\Public\Level\Level_PuyoField.h" />
     <ClInclude Include="Source\Application\Public\Level\Level_Title.h" />
     <ClInclude Include="Source\Application\Public\Level\Level_TokoPuyo.h" />
     <ClInclude Include="Source\Application\Public\Level\ObjectManager2D.h" />
@@ -326,6 +328,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\Application\Private\Actor\Actor2D.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Character\Player.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Character\Puyo.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Character\PuyoTypes.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Ground\GroundBase.cpp" />
@@ -339,6 +342,7 @@
     <ClCompile Include="Source\Application\Private\GameState\GameState_Play.cpp" />
     <ClCompile Include="Source\Application\Private\GameState\GameState_TokoPuyo.cpp" />
     <ClCompile Include="Source\Application\Private\Level\Level2D.cpp" />
+    <ClCompile Include="Source\Application\Private\Level\Level_PuyoField.cpp" />
     <ClCompile Include="Source\Application\Private\Level\Level_Title.cpp" />
     <ClCompile Include="Source\Application\Private\Level\Level_TokoPuyo.cpp" />
     <ClCompile Include="Source\Application\Private\Level\ObjectManager2D.cpp" />

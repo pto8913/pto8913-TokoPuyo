@@ -4,6 +4,8 @@
 
 class Audio;
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnPaused, bool);
+
 class PtoGameInstance : public GameInstance
 {
 	friend class App;
@@ -21,6 +23,11 @@ public:
 	// -----------------------------
 	void SetBGM(bool inPlay);
 	void OnAudioVolumeChanged(float inValue);
+
+	// -----------------------------
+	// Main : Delegates
+	// -----------------------------
+	FOnPaused OnPaused;
 protected:
 	// -----------------------------
 	// Main : World

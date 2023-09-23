@@ -6,8 +6,9 @@
 #include "Controller/PlayerController_TokoPuyo.h"
 #include "GameMode/GameMode_TokoPuyo.h"
 #include "GameState/GameState_TokoPuyo.h"
+#include "Actor/Character/Player.h"
 
-#include "Level/Level_TokoPuyo.h"
+#include "Level/Level_PuyoField.h"
 
 World_TokoPuyo::World_TokoPuyo()
 	: World()
@@ -19,7 +20,7 @@ World_TokoPuyo::~World_TokoPuyo()
 
 void World_TokoPuyo::SetLevel(DirectX11& dx)
 {
-	pPersistentLevel = std::make_shared<Level_TokoPuyo>(dx);
+	pPersistentLevel = std::make_shared<Level_PuyoField>(dx);
 
 	World::SetLevel(dx);
 }
@@ -40,4 +41,10 @@ void World_TokoPuyo::SetPlayerController(DirectX11& dx)
 	pPlayerController = std::make_shared<PlayerController_TokoPuyo>(dx);
 
 	World::SetPlayerController(dx);
+}
+void World_TokoPuyo::SetPlayer(DirectX11& dx)
+{
+	pPlayer = SpawnActor<Player>();
+
+	World::SetPlayer(dx);
 }

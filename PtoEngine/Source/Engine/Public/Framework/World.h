@@ -22,8 +22,6 @@ class UserWidget;
 
 class WidgetManager;
 
-class BoxCollision;
-
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnGameModeChanged, GameModeBase*);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerControllerChanged, PlayerController*);
 
@@ -71,11 +69,6 @@ public:
 		++mActorTotalCount;
 		AddToObjectManager(out);
 
-		BoxCollision* collision = out->GetComponent<BoxCollision>();
-		if (collision != nullptr)
-		{
-			pPersistentLevel->GetCollisionManager().Add(collision);
-		}
 		out->NativeOnInitialized();
 		return std::move(out.get());
 	}

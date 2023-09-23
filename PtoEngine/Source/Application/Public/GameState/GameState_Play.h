@@ -5,11 +5,14 @@
 
 #include "Input/MouseInterface.h"
 
+
 class UserWidget;
 
 class GameProgressUI;
 class GameOverUI;
 
+
+DECLARE_MULTICAST_DELEGATE(FOnRestart);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnGameProgressChanged, const EGameProgress&);
 
 class GameState_Play : public GameState
@@ -28,7 +31,7 @@ public:
 	}
 	virtual void BeginPlay(DirectX11& dx) override;
 
-	virtual void SetGameProgress(DirectX11& dx, EGameProgress NewState);
+	virtual void SetGameProgress(EGameProgress NewState);
 	const EGameProgress& GetGameProgress() const;
 
 	void UpdateNextPuyo(uint8_t nPuyo1_1, uint8_t nPuyo1_2, uint8_t nPuyo2_1, uint8_t nPuyo2_2);
@@ -43,14 +46,18 @@ public:
 	bool IsPause() const noexcept;
 
 protected:
+	void OpenGameOverUI();
+	void OpenGameProgressUI();
+
 	void OnClickedRestart(DX::MouseEvent inMouseEvent);
 	void OnClickedRestartFromGameOver(DX::MouseEvent inMouseEvent);
 	void OnClickedPause(DX::MouseEvent inMouseEvent);
-public:
 
+public:
 	// ---------------------------
 	// Main : Delegate
 	// ---------------------------
+	FOnRestart OnRestart;
 	FOnGameProgressChanged OnGameProgressChanged;
 
 protected:
@@ -58,9 +65,11 @@ protected:
 	// State
 	// ------------------------------------------------------
 	EGameProgress mGameProgress;
+	EGameProgress Cached_GameProgress;
 
 	GameProgressUI* pGameProgressUI = nullptr;
 	GameOverUI* pGameOverUI = nullptr;
+	DirectX11* pDX = nullptr;
 
 	int mMaxScore = 0;
 	int mMaxCombo = 0;
@@ -69,4 +78,5 @@ protected:
 	int mCombo = 0;
 
 	bool bPause = false;
+
 };

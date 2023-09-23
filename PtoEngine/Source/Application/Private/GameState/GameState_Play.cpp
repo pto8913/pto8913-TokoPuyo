@@ -7,7 +7,7 @@
 #include "Framework/PlayerController.h"
 #include "Framework/World.h"
 
-#include "Level/Level_TokoPuyo.h"
+#include "PtoGameInstance.h"
 
 GameState_Play::GameState_Play()
 {
@@ -29,6 +29,7 @@ GameState_Play::~GameState_Play()
 		pGameOverUI->MarkPendingKill();
 	}
 	pGameOverUI = nullptr;
+	pDX = nullptr;
 }
 
 // ------------------------------------------------------
@@ -36,55 +37,32 @@ GameState_Play::~GameState_Play()
 // ------------------------------------------------------
 void GameState_Play::BeginPlay(DirectX11& dx)
 {
+	pDX = &dx;
+
 	GameState::BeginPlay(dx);
 
-	SetGameProgress(dx, EGameProgress::Control);
+	SetGameProgress(EGameProgress::Control);
+
+	OnRestart.Broadcast();
 }
 
-void GameState_Play::SetGameProgress(DirectX11& dx, EGameProgress NewState)
+void GameState_Play::SetGameProgress(EGameProgress NewState)
 {
 	mGameProgress = NewState;
-
+	if (NewState != EGameProgress::GameOver)
+	{
+		PtoGameInstance& gameInstance = PtoGameInstance::Get();
+		gameInstance.SetBGM(true);
+	}
 	switch (mGameProgress)
 	{
 	case EGameProgress::GameOver:
-		if (pGameOverUI == nullptr)
-		{
-			pGameOverUI = GetWorld()->CreateWidget<GameOverUI>(
-				GetWorld(),
-				dx,
-				GetWorld()->GetPlayerController()->GetMouse(),
-				mMaxScore,
-				mMaxCombo
-			);
-			pGameOverUI->OnClickedRestart.Bind<&GameState_Play::OnClickedRestartFromGameOver>(*this, "GameState");
-		}
-		pGameOverUI->SetScore(mMaxScore, mMaxCombo);
-		pGameOverUI->AddToViewport();
-		if (pGameProgressUI)
-		{
-			pGameProgressUI->RemoveFromParent();
-		}
+		OpenGameOverUI();
 		break;
 	default:
-		if (pGameProgressUI == nullptr)
-		{
-			pGameProgressUI = GetWorld()->CreateWidget<GameProgressUI>(
-				GetWorld(),
-				dx,
-				GetWorld()->GetPlayerController()->GetMouse()
-			);
-			pGameProgressUI->OnClickedRestart.Bind<&GameState_Play::OnClickedRestart>(*this, "GameState");
-			pGameProgressUI->OnClickedPause.Bind<&GameState_Play::OnClickedPause>(*this, "GameState");
-		}
-		pGameProgressUI->AddToViewport();
-		if (pGameOverUI)
-		{
-			pGameOverUI->RemoveFromParent();
-		}
+		OpenGameProgressUI();
 		break;
 	}
-
 	OnGameProgressChanged.Broadcast(mGameProgress);
 }
 const EGameProgress& GameState_Play::GetGameProgress() const
@@ -139,23 +117,75 @@ void GameState_Play::GetScore(int& score, int maxScore)
 void GameState_Play::SetPause(bool in)
 {
 	bPause = in;
+	if (!bPause)
+	{
+		PtoGameInstance& gameInstance = PtoGameInstance::Get();
+		gameInstance.SetPause(true);
+
+		Cached_GameProgress = GetGameProgress();
+		SetGameProgress(EGameProgress::Wait);
+	}
+	else
+	{
+		PtoGameInstance& gameInstance = PtoGameInstance::Get();
+		gameInstance.SetPause(false);
+
+		SetGameProgress(Cached_GameProgress);
+	}
 }
 bool GameState_Play::IsPause() const noexcept
 {
 	return bPause;
 }
 
+void GameState_Play::OpenGameOverUI()
+{
+	if (pGameOverUI == nullptr)
+	{
+		pGameOverUI = GetWorld()->CreateWidget<GameOverUI>(
+			GetWorld(),
+			*pDX,
+			GetWorld()->GetPlayerController()->GetMouse(),
+			mMaxScore,
+			mMaxCombo
+		);
+		pGameOverUI->OnClickedRestart.Bind<&GameState_Play::OnClickedRestartFromGameOver>(*this, "GameState");
+	}
+	pGameOverUI->SetScore(mMaxScore, mMaxCombo);
+	pGameOverUI->AddToViewport();
+	if (pGameProgressUI)
+	{
+		pGameProgressUI->RemoveFromParent();
+	}
+}
+void GameState_Play::OpenGameProgressUI()
+{
+	if (pGameProgressUI == nullptr)
+	{
+		pGameProgressUI = GetWorld()->CreateWidget<GameProgressUI>(
+			GetWorld(),
+			*pDX,
+			GetWorld()->GetPlayerController()->GetMouse()
+		);
+		pGameProgressUI->OnClickedRestart.Bind<&GameState_Play::OnClickedRestart>(*this, "GameState");
+		pGameProgressUI->OnClickedPause.Bind<&GameState_Play::OnClickedPause>(*this, "GameState");
+	}
+	pGameProgressUI->AddToViewport();
+	if (pGameOverUI)
+	{
+		pGameOverUI->RemoveFromParent();
+	}
+}
+
 void GameState_Play::OnClickedRestart(DX::MouseEvent inMouseEvent)
 {
-	auto level = static_cast<Level_TokoPuyo*>(GetWorld()->GetLevel());
-	level->Restart();
+	OnRestart.Broadcast();
 
 	SetPause(false);
 }
 void GameState_Play::OnClickedRestartFromGameOver(DX::MouseEvent inMouseEvent)
 {
-	auto level = static_cast<Level_TokoPuyo*>(GetWorld()->GetLevel());
-	level->Restart();
+	OnRestart.Broadcast();
 
 	mMaxCombo = 0;
 	mMaxScore = 0;
@@ -166,15 +196,13 @@ void GameState_Play::OnClickedRestartFromGameOver(DX::MouseEvent inMouseEvent)
 }
 void GameState_Play::OnClickedPause(DX::MouseEvent inMouseEvent)
 {
-	auto level = static_cast<Level_TokoPuyo*>(GetWorld()->GetLevel());
 	if (IsPause())
 	{
 		SetPause(false);
-		level->Resume();
 	}
 	else
 	{
 		SetPause(true);
-		level->Pause();
 	}
 }
+
