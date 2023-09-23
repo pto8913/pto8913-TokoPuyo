@@ -19,7 +19,7 @@ public:
 	virtual ~Object();
 
 	/* Will be called when the between Constructor to BeginPlay */
-	virtual void NativeOnInitialized() {};
+	virtual void NativeOnInitialized(DirectX11& dx) {};
 
 	// ------------------------------------------------------
 	// Main

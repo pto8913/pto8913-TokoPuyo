@@ -77,7 +77,7 @@ protected:
 		{
 			pPersistentLevel->GetCollisionManager().Add(collision);
 		}
-		out->NativeOnInitialized();
+		out->NativeOnInitialized(*pDX);
 		return std::move(out);
 	}
 public:
@@ -145,6 +145,8 @@ protected:
 	// State
 	// ------------------------------------------------------
 	TimerManager mTimerManager;
+
+	DirectX11* pDX = nullptr;
 
 	std::shared_ptr<Level> pPersistentLevel = nullptr;
 	/* cache only persistent */
