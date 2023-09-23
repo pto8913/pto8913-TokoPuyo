@@ -48,6 +48,7 @@ World::~World()
 	pPlayer = nullptr;
 
 	pHUD = nullptr;
+	pDX = nullptr;
 }
 
 // -----------------------------------
@@ -56,6 +57,7 @@ World::~World()
 void World::Init(DirectX11& dx)
 {
 	pWidgetManager = std::make_shared<WidgetManager>(dx);
+	pDX = &dx;
 
 	SetLevel(dx);
 	SetGameMode(dx);

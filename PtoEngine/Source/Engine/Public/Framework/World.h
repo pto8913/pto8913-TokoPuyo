@@ -22,6 +22,8 @@ class UserWidget;
 
 class WidgetManager;
 
+class BoxCollision;
+
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnGameModeChanged, GameModeBase*);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerControllerChanged, PlayerController*);
 
@@ -70,7 +72,12 @@ protected:
 		++mActorTotalCount;
 		AddToObjectManager(out);
 
-		out->NativeOnInitialized();
+		BoxCollision* collision = out->GetComponent<BoxCollision>();
+		if (collision != nullptr)
+		{
+			pPersistentLevel->GetCollisionManager().Add(collision);
+		}
+		out->NativeOnInitialized(*pDX);
 		return std::move(out);
 	}
 public:
@@ -138,6 +145,8 @@ protected:
 	// State
 	// ------------------------------------------------------
 	TimerManager mTimerManager;
+
+	DirectX11* pDX = nullptr;
 
 	std::shared_ptr<Level> pPersistentLevel = nullptr;
 	/* cache only persistent */
