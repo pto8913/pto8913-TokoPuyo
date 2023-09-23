@@ -12,6 +12,7 @@ class World;
 
 class Object
 {
+	friend class WidgetManager;
 	friend class World;
 public:
 	Object();
