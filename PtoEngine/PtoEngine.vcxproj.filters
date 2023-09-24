@@ -328,9 +328,6 @@
     <ClInclude Include="Source\Engine\Public\Engine\Timer.h">
       <Filter>Source\Engine\Public\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Public\Algorithm\Math2.h">
-      <Filter>Source\Engine\Public\Algorithm</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Helper\RectHelper.h">
       <Filter>Source\Engine\Public\Helper</Filter>
     </ClInclude>
@@ -687,9 +684,6 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Engine\Timer.cpp">
       <Filter>Source\Engine\Private\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Private\Algorithm\Math2.cpp">
-      <Filter>Source\Engine\Private\Algorithm</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Engine\Color.cpp">
       <Filter>Source\Engine\Private\Engine</Filter>
