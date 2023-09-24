@@ -245,7 +245,6 @@
     <ClInclude Include="Source\Engine\Public\Algorithm\algo.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\Array.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\Math.h" />
-    <ClInclude Include="Source\Engine\Public\Algorithm\Math2.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\Random.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\UnionFind.h" />
     <ClInclude Include="Source\Engine\Public\Component\ActorComponent.h" />
@@ -411,7 +410,6 @@
     <ClCompile Include="Source\Application\Private\World\World_SonoTown.cpp" />
     <ClCompile Include="Source\Application\Private\World\World_Town.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\Math.cpp" />
-    <ClCompile Include="Source\Engine\Private\Algorithm\Math2.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\Random.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\UnionFind.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\ActorComponent.cpp" />
