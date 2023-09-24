@@ -64,7 +64,7 @@ public:
 
 protected:
 	template<class TClass, typename ...Args, typename = typename std::enable_if_t<std::is_base_of_v<Object, TClass>>>
-	std::shared_ptr<TClass> __NewObject(Args&& ...args, bool init = true)
+	std::shared_ptr<TClass> __NewObject(Args&& ...args)
 	{
 		std::shared_ptr<TClass> out = std::make_shared<TClass>(std::forward<Args>(args)...);
 		out->SetOuter(pPersistentLevel.get());
@@ -72,10 +72,8 @@ protected:
 		++mActorTotalCount;
 		AddToObjectManager(out);
 
-		if (init)
-		{
-			out->NativeOnInitialized(*pDX);
-		}
+		out->NativeOnInitialized(*pDX);
+		
 		return std::move(out);
 	}
 public:
@@ -88,8 +86,13 @@ protected:
 	template<class TClass, typename ...Args, typename = typename std::enable_if_t<std::is_base_of_v<Actor, TClass>>>
 	std::shared_ptr<TClass> __SpawnActor(Args&&... args)
 	{
-		auto out = __NewObject<TClass>(std::forward<Args>(args)..., false);
-		out->NativeOnInitialized(*pDX);
+		auto out = __NewObject<TClass>(std::forward<Args>(args)...);
+
+		BoxCollision* collision = out->GetComponent<BoxCollision>();
+		if (collision != nullptr)
+		{
+			pPersistentLevel->GetCollisionManager().Add(collision);
+		}
 		return std::move(out);
 	}
 public:
