@@ -2,22 +2,22 @@
 #include "UI/WidgetManager.h"
 #include "UI/UserWidget.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
-#include "Render/IndexBuffer.h"
-#include "Render/VertexBuffer.h"
+#include "Graphics/Render/IndexBuffer.h"
+#include "Graphics/Render/VertexBuffer.h"
 
-#include "Render/PixelShader.h"
-#include "Render/VertexShader.h"
+#include "Graphics/Render/PixelShader.h"
+#include "Graphics/Render/VertexShader.h"
 
-#include "Render/InputLayout.h"
-#include "Render/Topology.h"
+#include "Graphics/Render/InputLayout.h"
+#include "Graphics/Render/Topology.h"
 
-#include "Render/ScreenText.h"
-#include "Render/BlendState.h"
-#include "Render/SamplerState.h"
+#include "Graphics/Render/ScreenText.h"
+#include "Graphics/Render/BlendState.h"
+#include "Graphics/Render/SamplerState.h"
 
-#include "Render/Rasterizer.h"
+#include "Graphics/Render/Rasterizer.h"
 
 #include "EngineSettings.h"
 

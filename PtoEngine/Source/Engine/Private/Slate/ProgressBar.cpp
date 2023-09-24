@@ -1,7 +1,7 @@
 
 #include "Slate/ProgressBar.h"
 
-#include "Math/Math.h"
+#include "Algorithm/Math.h"
 
 #include "Helper/ColorHelper.h"
 #include "Helper/RectHelper.h"

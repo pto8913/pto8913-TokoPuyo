@@ -101,7 +101,7 @@ void WidgetAnimation::Update(float deltaTime)
 			prop->Udpate(mDuration);
 		}
 
-		if (Algo::IsNearlyEqual(mDuration, mEndTime, 0.1f))
+		if (Math::IsNearlyEqual(mDuration, mEndTime, 0.1f))
 		{
 			if (OnWidgetAnimationCompleted.IsBound())
 			{

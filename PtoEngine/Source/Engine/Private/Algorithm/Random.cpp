@@ -1,6 +1,6 @@
 
 #include "Algorithm/Random.h"
-#include "Math/Math.h"
+#include "Algorithm/Math.h"
 
 std::random_device rd;
 std::mt19937 gen(rd());

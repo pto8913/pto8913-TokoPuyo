@@ -1,7 +1,7 @@
 
 #include "Engine/Color.h"
 
-#include "Algorithm/Math2.h"
+#include "Algorithm/Math.h"
 
 #pragma once
 
@@ -156,7 +156,7 @@ FColor FColor::Round(const int& decimal) const
 
 bool FColor::IsNearlyEqual(const FColor& other, const float& epsilon)
 {
-    return Algo::IsNearlyEqual(*this, other, epsilon);
+    return Math::IsNearlyEqual(*this, other, epsilon);
 }
 
 FColor FColor::Abs()

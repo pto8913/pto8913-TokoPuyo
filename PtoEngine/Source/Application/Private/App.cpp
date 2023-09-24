@@ -2,7 +2,7 @@
 #include "App.h"
 #include "EngineSettings.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Engine/Timer.h"
 

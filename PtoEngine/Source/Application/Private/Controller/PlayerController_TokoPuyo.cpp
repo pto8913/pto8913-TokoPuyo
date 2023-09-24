@@ -1,7 +1,7 @@
 
 #include "Controller/PlayerController_TokoPuyo.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 PlayerController_TokoPuyo::PlayerController_TokoPuyo(DirectX11& dx)
 	: PlayerController(dx)

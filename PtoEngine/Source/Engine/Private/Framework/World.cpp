@@ -1,7 +1,7 @@
 
 #include "Framework/World.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Framework/GameModeBase.h"
 #include "Framework/GameStateBase.h"
@@ -207,13 +207,13 @@ void World::Tick(DirectX11& dx, float deltaSec)
 		}
 	}
 
-	if (IsValid(pPlayer))
-	{
-		if (pPlayer->GetTickEnabled())
-		{
-			pPlayer->Tick(dx, deltaSec);
-		}
-	}
+	//if (IsValid(pPlayer))
+	//{
+	//	if (pPlayer->GetTickEnabled())
+	//	{
+	//		pPlayer->Tick(dx, deltaSec);
+	//	}
+	//}
 
 	if (pWidgetManager != nullptr)
 	{

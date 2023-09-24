@@ -6,7 +6,7 @@
 
 #include "Component/ComponentBase.h"
 
-#include "Math/Math.h"
+#include "Algorithm/Math.h"
 
 #include "Helper/VectorHelper.h"
 

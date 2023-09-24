@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Algorithm/Math2.h"
+#include "Algorithm/Math.h"
 #include "Algorithm/algo.h"
-#include "Math/Math.h"
+#include "Algorithm/Math.h"
 
 #include "Engine/Delegate.h"
 
@@ -93,7 +93,7 @@ public:
 
 			T s = *reinterpret_cast<T*>(start);
 			T e = *reinterpret_cast<T*>(end);
-			*ptr = Algo::lerp(s, e, Math::Clamp(alpha, 0.f, 1.f));
+			*ptr = Math::lerp(s, e, Math::Clamp(alpha, 0.f, 1.f));
 #if _DEBUG
 			if (Algo::has_ToString<T>::value)
 			{

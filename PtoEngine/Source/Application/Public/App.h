@@ -17,9 +17,9 @@
 #pragma comment(lib, "dwrite.lib")
 
 
-#include "DirectX/DirectXHead.h"
+#include "Graphics/DirectXHead.h"
 
-#include "Render/ViewPort.h"
+#include "Graphics/Render/ViewPort.h"
 
 #include "Window.h"
 

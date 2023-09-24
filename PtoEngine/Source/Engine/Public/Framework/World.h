@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DirectX/DirectXHead.h"
+#include "Graphics/DirectXHead.h"
 
 #include "Object/Actor.h"
 
@@ -63,8 +63,8 @@ public:
 	TimerManager& GetTimerManager();
 
 protected:
-	template<class TClass, typename ...Args, typename = typename std::enable_if_t<std::is_base_of_v<Actor, TClass>>>
-	std::shared_ptr<TClass> __SpawnActor(Args&&... args)
+	template<class TClass, typename ...Args, typename = typename std::enable_if_t<std::is_base_of_v<Object, TClass>>>
+	std::shared_ptr<TClass> __NewObject(Args&& ...args, bool init = true)
 	{
 		std::shared_ptr<TClass> out = std::make_shared<TClass>(std::forward<Args>(args)...);
 		out->SetOuter(pPersistentLevel.get());
@@ -72,6 +72,29 @@ protected:
 		++mActorTotalCount;
 		AddToObjectManager(out);
 
+		if (init)
+		{
+			out->NativeOnInitialized(*pDX);
+		}
+		return std::move(out);
+	}
+public:
+	template<class TClass, typename ...Args, typename = typename std::enable_if_t<std::is_base_of_v<Object, TClass>>>
+	TClass* NewObject(Args&& ...args)
+	{
+		return std::move(__NewObject<TClass>(std::forward<Args>(args)...).get());
+	}
+protected:
+	template<class TClass, typename ...Args, typename = typename std::enable_if_t<std::is_base_of_v<Actor, TClass>>>
+	std::shared_ptr<TClass> __SpawnActor(Args&&... args)
+	{
+		auto out = __NewObject<TClass>(std::forward<Args>(args)..., false);
+
+		BoxCollision* collision = out->GetComponent<BoxCollision>();
+		if (collision != nullptr)
+		{
+			pPersistentLevel->GetCollisionManager().Add(collision);
+		}
 		out->NativeOnInitialized(*pDX);
 		return std::move(out);
 	}

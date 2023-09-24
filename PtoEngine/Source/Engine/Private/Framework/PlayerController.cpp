@@ -1,7 +1,7 @@
 
 #include "Framework/PlayerController.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Input/Mouse.h"
 
@@ -9,6 +9,8 @@ PlayerController::PlayerController(DirectX11& dx)
 	: Controller(dx)
 {
     SetTickEnabled(true);
+
+    AddTag(L"PlayerController");
 
     /* Input */
     {

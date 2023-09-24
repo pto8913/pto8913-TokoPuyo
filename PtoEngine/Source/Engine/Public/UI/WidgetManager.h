@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Object/DrawableObject2D.h"
+#include "Graphics/Object/DrawableObject2D.h"
 #include "UI/UserWidget.h"
 
 class DirectX11;
