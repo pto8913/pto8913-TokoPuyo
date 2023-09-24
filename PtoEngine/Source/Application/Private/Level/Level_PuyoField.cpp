@@ -33,6 +33,13 @@ Level_PuyoField::Level_PuyoField(DirectX11& dx)
 }
 Level_PuyoField::~Level_PuyoField()
 {
+	OnSpawnPuyo.ClearBind();
+
+	pDX = nullptr;
+	pGameState = nullptr;
+	pMainPuyo = nullptr;
+	pSubPuyo = nullptr;
+
 	auto Stop = [](std::shared_ptr<Audio>& in)
 	{
 		if (in)
@@ -259,6 +266,9 @@ void Level_PuyoField::SpawnPuyo()
 // ------------------------------------------------------------
 void Level_PuyoField::SetActivePuyo(Puyo*&& mainPuyoActor, Puyo*&& subPuyoActor)
 {
+#if _DEBUG
+	OutputDebugStringA("SetActivePuyo\n");
+#endif
 	pMainPuyo = std::move(mainPuyoActor);
 	pSubPuyo = std::move(subPuyoActor);
 }
@@ -266,6 +276,9 @@ void Level_PuyoField::DoFrame_Release()
 {
 	if (pMainPuyo != nullptr)
 	{
+#if _DEBUG
+		OutputDebugStringA("MainPuyoIsValid\n");
+#endif
 		int fallCount = 0;
 		if (pMainPuyo->GetPuyoInfos().GetRotation() == FPuyoInfos::ERotation::B)
 		{
@@ -349,7 +362,7 @@ void Level_PuyoField::PuyoIsStacked()
 	}
 	else
 	{
-		StartControlPuyo();
+		GetWorld()->GetTimerManager().SetTimer<&Level_PuyoField::StartControlPuyo>(*this, 0.f, false, 0.2f);
 	}
 }
 bool Level_PuyoField::SetPlanToVanishPuyo(Puyo* puyoActor)

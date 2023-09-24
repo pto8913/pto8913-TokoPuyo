@@ -12,10 +12,12 @@
 GameState_Play::GameState_Play()
 {
 	mGameProgress = EGameProgress::Wait;
+	Cached_GameProgress = EGameProgress::Wait;
 }
 GameState_Play::~GameState_Play()
 {
 	OnGameProgressChanged.ClearBind();
+	OnRestart.ClearBind();
 
 	if (IsValid(pGameProgressUI))
 	{

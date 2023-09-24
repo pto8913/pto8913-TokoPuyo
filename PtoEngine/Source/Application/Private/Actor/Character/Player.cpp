@@ -34,13 +34,16 @@ Player::Player()
 
 	PtoGameInstance& gameInstance = PtoGameInstance::Get();
 	gameInstance.OnPaused.Bind<&Player::OnPaused>(*this, GetName());
-
-	LastTime_Main = chrono::now();
-	NeedDurationTime_Main = GameSettings::GetPuyoFallSpeed(EPuyoControl::Control);
 }
 
 Player::~Player()
 {
+	pMainPuyo = nullptr;
+	pSubPuyo = nullptr;
+	pGameState = nullptr;
+	pLevel = nullptr;
+	pDX = nullptr;
+
 	auto Stop = [](std::shared_ptr<Audio>& in)
 	{
 		if (in)
@@ -62,20 +65,18 @@ void Player::NativeOnInitialized(DirectX11& dx)
 
 	pGameState = static_cast<GameState_Play*>(GetWorld()->GetGameState());
 	pGameState->OnRestart.Bind<&Player::OnRestart>(*this, GetName());
+	pGameState->OnGameProgressChanged.Bind<&Player::OnGameProgressChanged>(*this, GetName());
 
 	pLevel = static_cast<Level_PuyoField*>(GetLevel());
 	pLevel->OnSpawnPuyo.Bind<&Player::OnSpawnPuyo>(*this, GetName());
 
-	OutputDebugStringA("NativeOnInitialized\n");
+	LastTime_Main = chrono::now();
+	NeedDurationTime_Main = GameSettings::GetPuyoFallSpeed(EPuyoControl::Control);
 }
 
 // -------------------------------------------------------
 // Main
 // -------------------------------------------------------
-void Player::BeginPlay(DirectX11& dx)
-{
-	Actor::BeginPlay(dx);
-}
 void Player::Tick(DirectX11& dx, float deltaTime)
 {
 	Actor::Tick(dx, deltaTime);
@@ -217,6 +218,7 @@ void Player::ActivePuyoDownToRelease()
 	OutputDebugStringA("ActivePuyoDownToRelease\n");
 #endif
 	auto currMainIdx = pMainPuyo->Get2DIdx();
+	//currMainIdx.y = ceil(currMainIdx.y);
 	currMainIdx.y = floor(currMainIdx.y);
 	if (currMainIdx.x < 0)
 	{
@@ -462,7 +464,7 @@ void Player::ResetNeedDuration()
 {
 	if (pGameState->GetGameProgress() == EGameProgress::Control)
 	{
-		if (Cached_NeedDurationTime_Main > 0)
+		if (Cached_NeedDurationTime_Main != 0)
 		{
 			NeedDurationTime_Main = Cached_NeedDurationTime_Main;
 			Cached_NeedDurationTime_Main = 0;
@@ -522,13 +524,8 @@ void Player::OnPaused(bool inPause)
 
 void Player::OnSpawnPuyo(const uint8_t& mainId, const uint8_t& subId)
 {
-	OutputDebugStringA("OnSpawnPuyo\n");
-
 	if (pMainPuyo == nullptr)
 	{
-#if _DEBUG
-		OutputDebugStringA("SpawnPuyo new pointer\n");
-#endif
 		auto world = GetWorld();
 		pMainPuyo = world->SpawnActor<Puyo>(
 			*pDX, mainId
@@ -539,9 +536,6 @@ void Player::OnSpawnPuyo(const uint8_t& mainId, const uint8_t& subId)
 	}
 	else
 	{
-#if _DEBUG
-		OutputDebugStringA("SpawnPuyo shared pointer\n");
-#endif
 		pMainPuyo->SetType(mainId);
 		pSubPuyo->SetType(subId);
 	}
@@ -561,6 +555,7 @@ void Player::OnGameProgressChanged(const EGameProgress& NewState)
 		pSubPuyo = nullptr;
 		break;
 	default:
+		ResetNeedDuration();
 		break;
 	}
 }

@@ -29,7 +29,6 @@ public:
 		using namespace std::string_literals;
 		return "Player" + "#"s + std::to_string(mID);
 	}
-	virtual void BeginPlay(DirectX11& dx) override;
 	virtual void Tick(DirectX11& dx, float deltaTime) override;
 
 	void Clear();
@@ -89,8 +88,8 @@ protected:
 	// ----------------------
 	chrono::time_point LastTime_Main;
 	std::chrono::milliseconds Duration_Main;
-	DWORD NeedDurationTime_Main;
-	DWORD Cached_NeedDurationTime_Main;
+	DWORD NeedDurationTime_Main = 0;
+	DWORD Cached_NeedDurationTime_Main = 0;
 
 	// ----------------------
 	// State : Play : Sound
