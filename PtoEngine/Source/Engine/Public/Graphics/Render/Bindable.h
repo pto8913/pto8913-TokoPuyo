@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Graphics/Graphics/Core/DirectXResource.h"
+#include "Graphics/Core/DirectXResource.h"
 
 #include <optional>
 

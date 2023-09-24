@@ -1,7 +1,7 @@
 
 #include "World/World_TokoPuyo.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Controller/PlayerController_TokoPuyo.h"
 #include "GameMode/GameMode_TokoPuyo.h"

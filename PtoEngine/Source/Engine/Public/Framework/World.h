@@ -89,12 +89,6 @@ protected:
 	std::shared_ptr<TClass> __SpawnActor(Args&&... args)
 	{
 		auto out = __NewObject<TClass>(std::forward<Args>(args)..., false);
-
-		BoxCollision* collision = out->GetComponent<BoxCollision>();
-		if (collision != nullptr)
-		{
-			pPersistentLevel->GetCollisionManager().Add(collision);
-		}
 		out->NativeOnInitialized(*pDX);
 		return std::move(out);
 	}
