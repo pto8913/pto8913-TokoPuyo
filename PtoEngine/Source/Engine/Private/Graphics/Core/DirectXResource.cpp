@@ -1,5 +1,5 @@
 
-#include "Core/DirectXResource.h"
+#include "Graphics/Core/DirectXResource.h"
 
 ID3D11Device* DirectXResource::GetDevice(DirectX11& dx) noexcept
 {
