@@ -64,11 +64,11 @@ void Player::NativeOnInitialized(DirectX11& dx)
 	pDX = &dx;
 
 	pGameState = static_cast<GameState_Play*>(GetWorld()->GetGameState());
-	pGameState->OnRestart.Bind<&Player::OnRestart>(*this, GetName());
 	pGameState->OnGameProgressChanged.Bind<&Player::OnGameProgressChanged>(*this, GetName());
 
 	pLevel = static_cast<Level_PuyoField*>(GetLevel());
 	pLevel->OnSpawnPuyo.Bind<&Player::OnSpawnPuyo>(*this, GetName());
+	pLevel->OnPuyoFieldRestart.Bind<&Player::OnRestart>(*this, GetName());
 
 	LastTime_Main = chrono::now();
 	NeedDurationTime_Main = GameSettings::GetPuyoFallSpeed(EPuyoControl::Control);
@@ -81,13 +81,13 @@ void Player::Tick(DirectX11& dx, float deltaTime)
 {
 	Actor::Tick(dx, deltaTime);
 
-	InputUpdate();
-
 	if (pGameState)
 	{
 		const auto gameProgress = pGameState->GetGameProgress();
 		if (gameProgress != EGameProgress::GameOver)
 		{
+			InputUpdate();
+
 			chrono::duration DurationTime_Main = chrono::now() - LastTime_Main;
 			Duration_Main = std::chrono::duration_cast<std::chrono::milliseconds>(DurationTime_Main);
 			if (Duration_Main.count() >= NeedDurationTime_Main)
@@ -96,7 +96,7 @@ void Player::Tick(DirectX11& dx, float deltaTime)
 				switch (gameProgress)
 				{
 				case EGameProgress::Control:
-					DoFrame_Control();
+					ActionActivePuyoSlide(0.f, 0.5f);
 					break;
 				default:
 					break;
@@ -109,17 +109,6 @@ void Player::Clear()
 {
 	pMainPuyo = nullptr;
 	pSubPuyo = nullptr;
-}
-
-// ------------------------------------------------------------
-// Main : Control Puyo
-// ------------------------------------------------------------
-void Player::DoFrame_Control()
-{
-#if _DEBUG
-	//OutputDebugStringA("DoFrame_Control\n");
-#endif
-	ActionActivePuyoSlide(0.f, 0.5f);
 }
 
 // ---------------------------
@@ -446,9 +435,9 @@ void Player::UpdateSubPuyoLocationByRotation()
 	}
 }
 
-// ------------------------------------------------------
+// ----------------------
 // Main : State : Main Timer
-// ------------------------------------------------------
+// ----------------------
 void Player::SetNeedDurationCached(DWORD NewVal)
 {
 	if (pGameState->GetGameProgress() == EGameProgress::Control)
@@ -522,6 +511,10 @@ void Player::OnPaused(bool inPause)
 	}
 }
 
+void Player::OnRestart()
+{
+	Clear();
+}
 void Player::OnSpawnPuyo(const uint8_t& mainId, const uint8_t& subId)
 {
 	if (pMainPuyo == nullptr)
@@ -540,10 +533,6 @@ void Player::OnSpawnPuyo(const uint8_t& mainId, const uint8_t& subId)
 		pSubPuyo->SetType(subId);
 	}
 	UpdateActivePuyo(2, 1);
-}
-void Player::OnRestart()
-{
-	Clear();
 }
 void Player::OnGameProgressChanged(const EGameProgress& NewState)
 {

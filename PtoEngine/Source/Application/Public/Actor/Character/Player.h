@@ -34,11 +34,6 @@ public:
 	void Clear();
 
 	// ---------------------------
-	// Main : Control Puyo
-	// ---------------------------
-	void DoFrame_Control();
-
-	// ---------------------------
 	// Main : Puyo Moving
 	// ---------------------------
 	/*
@@ -59,9 +54,9 @@ public:
 	void SetNeedDurationCached(DWORD NewVal);
 	void ResetNeedDuration();
 
-	// ----------------------
+	// ---------------------------
 	// Main : Input
-	// ----------------------
+	// ---------------------------
 	void InputUpdate();
 protected:
 	void OnPaused(bool inPause);
@@ -77,23 +72,23 @@ protected:
 	Level_PuyoField* pLevel = nullptr;
 	DirectX11* pDX = nullptr;
 
-	// ----------------------
+	// ---------------------------
 	// State : Puyo
-	// ----------------------
+	// ---------------------------
 	Puyo* pMainPuyo = nullptr;
 	Puyo* pSubPuyo = nullptr;
 
-	// ----------------------
+	// ---------------------------
 	// State : Main Timer
-	// ----------------------
+	// ---------------------------
 	chrono::time_point LastTime_Main;
 	std::chrono::milliseconds Duration_Main;
 	DWORD NeedDurationTime_Main = 0;
 	DWORD Cached_NeedDurationTime_Main = 0;
 
-	// ----------------------
+	// ---------------------------
 	// State : Play : Sound
-	// ----------------------
+	// ---------------------------
 	std::shared_ptr<Audio> SE_PuyoBottom = nullptr;
 	std::shared_ptr<Audio> SE_PuyoMove = nullptr;
 	std::shared_ptr<Audio> SE_PuyoRotate = nullptr;

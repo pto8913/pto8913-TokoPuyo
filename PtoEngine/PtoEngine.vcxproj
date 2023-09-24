@@ -225,24 +225,9 @@
     <ClInclude Include="Source\Application\Public\World\WorldTypes.h" />
     <ClInclude Include="Source\Application\Public\World\World_Title.h" />
     <ClInclude Include="Source\Application\Public\World\World_TokoPuyo.h" />
-    <ClInclude Include="Source\DirectX\DirectXHead.h" />
-    <ClInclude Include="Source\DirectX\Public\Core\DirectX.h" />
-    <ClInclude Include="Source\DirectX\Public\Core\DirectXResource.h" />
-    <ClInclude Include="Source\DirectX\Public\Core\DirectXTex.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\Controller.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\ControllerInterface.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\Keyboard.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\Mouse.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\MouseInterface.h" />
-    <ClInclude Include="Source\DirectX\Public\Math\Math.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawableObject2D.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawableObject.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\ObjectBase.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\Sprite.h" />
-    <ClInclude Include="Source\DirectX\Public\Utils\DirectXUtils.h" />
-    <ClInclude Include="Source\DirectX\Public\Utils\String.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\algo.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\Array.h" />
+    <ClInclude Include="Source\Engine\Public\Algorithm\Math.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\Random.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\UnionFind.h" />
     <ClInclude Include="Source\Engine\Public\Component\ActorComponent.h" />
@@ -261,6 +246,14 @@
     <ClInclude Include="Source\Engine\Public\Framework\Level\ObjectManager.h" />
     <ClInclude Include="Source\Engine\Public\Framework\PlayerController.h" />
     <ClInclude Include="Source\Engine\Public\Framework\World.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Core\DirectX.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Core\DirectXResource.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Core\DirectXTex.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\DirectXHead.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\DrawableObject.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\DrawableObject2D.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\ObjectBase.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\Sprite.h" />
     <ClInclude Include="Source\Engine\Public\Graphics\Render\Bindable.h" />
     <ClInclude Include="Source\Engine\Public\Graphics\Render\BindableManager.h" />
     <ClInclude Include="Source\Engine\Public\Graphics\Render\BlendState.h" />
@@ -288,6 +281,11 @@
     <ClInclude Include="Source\Engine\Public\Helper\ColorHelper.h" />
     <ClInclude Include="Source\Engine\Public\Helper\RectHelper.h" />
     <ClInclude Include="Source\Engine\Public\Helper\VectorHelper.h" />
+    <ClInclude Include="Source\Engine\Public\Input\Controller.h" />
+    <ClInclude Include="Source\Engine\Public\Input\ControllerInterface.h" />
+    <ClInclude Include="Source\Engine\Public\Input\Keyboard.h" />
+    <ClInclude Include="Source\Engine\Public\Input\Mouse.h" />
+    <ClInclude Include="Source\Engine\Public\Input\MouseInterface.h" />
     <ClInclude Include="Source\Engine\Public\Math\Box.h" />
     <ClInclude Include="Source\Engine\Public\Math\Matrix.h" />
     <ClInclude Include="Source\Engine\Public\Math\Rect.h" />
@@ -317,6 +315,8 @@
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimation.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimationTypes.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetManager.h" />
+    <ClInclude Include="Source\Engine\Public\Utils\DirectXUtils.h" />
+    <ClInclude Include="Source\Engine\Public\Utils\String.h" />
     <ClInclude Include="Source\pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -353,46 +353,7 @@
     <ClCompile Include="Source\Application\Private\Window.cpp" />
     <ClCompile Include="Source\Application\Private\World\World_Title.cpp" />
     <ClCompile Include="Source\Application\Private\World\World_TokoPuyo.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Core\DirectX.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Core\DirectXResource.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Input\Keyboard.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Input\Mouse.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Math\Math.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawableObject.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawableObject2D.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\ObjectBase.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\Sprite.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Utils\String.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Algorithm\Math.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\Random.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\UnionFind.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\ActorComponent.cpp" />
@@ -409,6 +370,12 @@
     <ClCompile Include="Source\Engine\Private\Framework\Level\ObjectManager.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\PlayerController.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\World.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Core\DirectX.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Core\DirectXResource.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\DrawableObject.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\DrawableObject2D.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\ObjectBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\Sprite.cpp" />
     <ClCompile Include="Source\Engine\Private\Graphics\Render\BlendState.cpp" />
     <ClCompile Include="Source\Engine\Private\Graphics\Render\ConstantBuffer.cpp" />
     <ClCompile Include="Source\Engine\Private\Graphics\Render\CubeTexture.cpp" />
@@ -434,6 +401,9 @@
     <ClCompile Include="Source\Engine\Private\Helper\ColorHelper.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\RectHelper.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\VectorHelper.cpp" />
+    <ClCompile Include="Source\Engine\Private\Input\Controller.cpp" />
+    <ClCompile Include="Source\Engine\Private\Input\Keyboard.cpp" />
+    <ClCompile Include="Source\Engine\Private\Input\Mouse.cpp" />
     <ClCompile Include="Source\Engine\Private\Math\Box.cpp" />
     <ClCompile Include="Source\Engine\Private\Math\Matrix.cpp" />
     <ClCompile Include="Source\Engine\Private\Math\Rect.cpp" />
@@ -461,6 +431,8 @@
     <ClCompile Include="Source\Engine\Private\UI\UserWidget.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\WidgetAnimation.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\WidgetManager.cpp" />
+    <ClCompile Include="Source\Engine\Private\Utils\DirectXUtils.cpp" />
+    <ClCompile Include="Source\Engine\Private\Utils\String.cpp" />
     <ClCompile Include="Source\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -484,6 +456,7 @@
     <None Include="Config\PtoEngineSettings.json" />
     <None Include="Config\PuyoGameSettings.json" />
     <None Include="filever.rc2" />
+    <None Include="Source\Engine\Public\Graphics\Core\DirectXTex.inl" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

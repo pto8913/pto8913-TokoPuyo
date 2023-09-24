@@ -12,7 +12,7 @@
 GameState_Play::GameState_Play()
 {
 	mGameProgress = EGameProgress::Wait;
-	Cached_GameProgress = EGameProgress::Wait;
+	Cached_GameProgress = EGameProgress::Invalid;
 }
 GameState_Play::~GameState_Play()
 {
@@ -119,7 +119,7 @@ void GameState_Play::GetScore(int& score, int maxScore)
 void GameState_Play::SetPause(bool in)
 {
 	bPause = in;
-	if (!bPause)
+	if (bPause)
 	{
 		PtoGameInstance& gameInstance = PtoGameInstance::Get();
 		gameInstance.SetPause(true);
@@ -132,7 +132,10 @@ void GameState_Play::SetPause(bool in)
 		PtoGameInstance& gameInstance = PtoGameInstance::Get();
 		gameInstance.SetPause(false);
 
-		SetGameProgress(Cached_GameProgress);
+		if (Cached_GameProgress != EGameProgress::Invalid)
+		{
+			SetGameProgress(Cached_GameProgress);
+		}
 	}
 }
 bool GameState_Play::IsPause() const noexcept

@@ -34,16 +34,12 @@ void PtoGameInstance::Initialize(DirectX11& dx)
 // -------------------------------------------------------
 void PtoGameInstance::SetPause(bool inPause)
 {
-    if (pAudio_BGM != nullptr)
+    OnPaused.Broadcast(inPause);
+    if (inPause)
     {
-        OnPaused.Broadcast(inPause);
-        SetBGM(!inPause);
-        if (inPause)
-        {
-        }
-        else
-        {
-        }
+    }
+    else
+    {
     }
 }
 

@@ -199,6 +199,8 @@ void Level_PuyoField::Restart()
 	std::vector<FPuyoInfos> puyoRow(mGameBoardSize.x, FPuyoInfos(-1));
 	stackedPuyo.assign(mGameBoardSize.y, puyoRow);
 
+	OnPuyoFieldRestart.Broadcast();
+
 	LastTime_Main = chrono::now();
 
 	ResetPlanToVanishPuyo();
@@ -222,10 +224,10 @@ void Level_PuyoField::StartControlPuyo()
 		}
 		else
 		{
-			pGameState->SetGameProgress(EGameProgress::Control);
-
 			ResetCalcScoreCount();
 			SpawnPuyo();
+
+			pGameState->SetGameProgress(EGameProgress::Control);
 		}
 	}
 	else
@@ -362,7 +364,7 @@ void Level_PuyoField::PuyoIsStacked()
 	}
 	else
 	{
-		GetWorld()->GetTimerManager().SetTimer<&Level_PuyoField::StartControlPuyo>(*this, 0.f, false, 0.2f);
+		StartControlPuyo();
 	}
 }
 bool Level_PuyoField::SetPlanToVanishPuyo(Puyo* puyoActor)

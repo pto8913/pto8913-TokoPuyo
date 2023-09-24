@@ -9,4 +9,5 @@ enum class EGameProgress
 	Wait,    /* Wait Task */
 	GameOver,
 	GameOverAnimation,
+	Invalid,
 };

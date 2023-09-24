@@ -16,6 +16,7 @@ class Puyo;
 class Audio;
 class GameState_Play;
 
+DECLARE_MULTICAST_DELEGATE(FOnPuyoFieldRestart);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnSpawnPuyo, const uint8_t&, const uint8_t&);
 
 class Level_PuyoField : public Level2D
@@ -140,6 +141,7 @@ public:
 	// ---------------------------
 	// Main : Delegates
 	// ---------------------------
+	FOnPuyoFieldRestart OnPuyoFieldRestart;
 	FOnSpawnPuyo OnSpawnPuyo;
 
 protected:
