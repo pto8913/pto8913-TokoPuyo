@@ -1,7 +1,7 @@
 
 #include "World/World_Dungeon.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Controller/PlayerController_Dungeon.h"
 #include "GameMode/GameMode_Dungeon.h"

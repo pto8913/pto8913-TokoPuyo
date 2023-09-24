@@ -3,6 +3,7 @@
 
 GameStateBase::GameStateBase()
 {
+	AddTag(L"GameStateBase");
 }
 
 GameStateBase::~GameStateBase()

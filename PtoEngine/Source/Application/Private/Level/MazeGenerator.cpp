@@ -7,7 +7,7 @@
 #include "Actor/Event/EventBase.h"
 #include "Actor/Item/ItemBase.h"
 
-#include "Math/Math.h"
+#include "Algorithm/Math.h"
 
 #include "Algorithm/algo.h"
 

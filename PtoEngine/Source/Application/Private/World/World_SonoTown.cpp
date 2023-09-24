@@ -1,7 +1,7 @@
 
 #include "World/World_SonoTown.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Level/Level_SonoTown.h"
 #include "Actor/Character/Player_Dungeon.h"

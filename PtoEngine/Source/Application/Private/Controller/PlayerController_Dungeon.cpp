@@ -3,7 +3,7 @@
 
 #include "Actor/Character/Player.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 PlayerController_Dungeon::PlayerController_Dungeon(DirectX11& dx)
 	: PlayerController(dx)

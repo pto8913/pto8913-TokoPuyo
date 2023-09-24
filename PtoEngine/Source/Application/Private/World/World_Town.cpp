@@ -1,7 +1,7 @@
 
 #include "World/World_Town.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Controller/PlayerController_Town.h"
 #include "GameMode/GameMode_Town.h"

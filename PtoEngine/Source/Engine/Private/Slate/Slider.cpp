@@ -1,15 +1,15 @@
 
 #include "Slate/Slider.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Utils/String.h"
 
 #include "Helper/ColorHelper.h"
 #include "Helper/RectHelper.h"
 
-#include "Math/Math.h"
-#include "Algorithm/Math2.h"
+#include "Algorithm/Math.h"
+#include "Algorithm/Math.h"
 
 #if _DEBUG
 #include <format>

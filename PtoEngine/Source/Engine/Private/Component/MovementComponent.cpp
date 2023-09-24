@@ -1,7 +1,7 @@
 
 #include "Component/MovementComponent.h"
 
-#include "Algorithm/Math2.h"
+#include "Algorithm/Math.h"
 
 #include "Object/Actor.h"
 

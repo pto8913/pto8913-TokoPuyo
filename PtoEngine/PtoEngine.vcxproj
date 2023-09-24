@@ -242,65 +242,9 @@
     <ClInclude Include="Source\Application\Public\World\World_SonoCave.h" />
     <ClInclude Include="Source\Application\Public\World\World_SonoTown.h" />
     <ClInclude Include="Source\Application\Public\World\World_Town.h" />
-    <ClInclude Include="Source\DirectX\DirectXHead.h" />
-    <ClInclude Include="Source\DirectX\Public\Core\DirectX.h" />
-    <ClInclude Include="Source\DirectX\Public\Core\DirectXResource.h" />
-    <ClInclude Include="Source\DirectX\Public\Core\DirectXTex.h" />
-    <ClInclude Include="Source\DirectX\Public\Geometry\Cube.h" />
-    <ClInclude Include="Source\DirectX\Public\Geometry\Plane.h" />
-    <ClInclude Include="Source\DirectX\Public\Geometry\Sphere.h" />
-    <ClInclude Include="Source\DirectX\Public\Geometry\TriangleList.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\Camera.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\CameraIndicator.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\CameraInterface.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\CameraProjection.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\Controller.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\ControllerInterface.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\Keyboard.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\Mouse.h" />
-    <ClInclude Include="Source\DirectX\Public\Input\MouseInterface.h" />
-    <ClInclude Include="Source\DirectX\Public\Math\Math.h" />
-    <ClInclude Include="Source\DirectX\Public\Math\Vertex.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawableObject2D.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawableObject3D.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawCube.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawableObject.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawPlane.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawPyramid.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawSphere.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\DrawScreenText.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\LightBase.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\ObjectBase.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\PointLight.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\SkyLight.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\SkySphere.h" />
-    <ClInclude Include="Source\DirectX\Public\Object\Sprite.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Bindable.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\BindableManager.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\BlendState.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\ConstantBuffer.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\CubeTexture.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\DepthStencilState.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\DepthStencilView.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\IndexBuffer.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\InputLayout.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\PixelShader.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Rasterizer.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\RenderTargetView.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\SamplerState.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\ScreenText.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\ScreenTexture.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Shader.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Texture.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\Topology.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\TransformConstantBuffer.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\VertexBuffer.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\VertexShader.h" />
-    <ClInclude Include="Source\DirectX\Public\Render\ViewPort.h" />
-    <ClInclude Include="Source\DirectX\Public\Utils\DirectXUtils.h" />
-    <ClInclude Include="Source\DirectX\Public\Utils\String.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\algo.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\Array.h" />
+    <ClInclude Include="Source\Engine\Public\Algorithm\Math.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\Math2.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\Random.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\UnionFind.h" />
@@ -327,10 +271,64 @@
     <ClInclude Include="Source\Engine\Public\Framework\Level\QuadTree.h" />
     <ClInclude Include="Source\Engine\Public\Framework\PlayerController.h" />
     <ClInclude Include="Source\Engine\Public\Framework\World.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Core\DirectX.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Core\DirectXResource.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Core\DirectXTex.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\DirectXHead.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Geometry\Cube.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Geometry\Plane.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Geometry\Sphere.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Geometry\TriangleList.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\DrawableObject.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\DrawableObject2D.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\DrawableObject3D.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\DrawCube.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\DrawPlane.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\DrawPyramid.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\DrawScreenText.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\DrawSphere.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\LightBase.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\ObjectBase.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\PointLight.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\SkyLight.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\SkySphere.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Object\Sprite.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\Bindable.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\BindableManager.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\BlendState.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\ConstantBuffer.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\CubeTexture.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\DepthStencilState.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\DepthStencilView.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\IndexBuffer.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\InputLayout.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\PixelShader.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\Rasterizer.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\RenderTargetView.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\SamplerState.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\ScreenText.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\ScreenTexture.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\Shader.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\Texture.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\Topology.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\TransformConstantBuffer.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\Vertex.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\VertexBuffer.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\VertexShader.h" />
+    <ClInclude Include="Source\Engine\Public\Graphics\Render\ViewPort.h" />
     <ClInclude Include="Source\Engine\Public\Helper\BoxHelper.h" />
     <ClInclude Include="Source\Engine\Public\Helper\ColorHelper.h" />
     <ClInclude Include="Source\Engine\Public\Helper\RectHelper.h" />
     <ClInclude Include="Source\Engine\Public\Helper\VectorHelper.h" />
+    <ClInclude Include="Source\Engine\Public\Input\Camera.h" />
+    <ClInclude Include="Source\Engine\Public\Input\CameraIndicator.h" />
+    <ClInclude Include="Source\Engine\Public\Input\CameraInterface.h" />
+    <ClInclude Include="Source\Engine\Public\Input\CameraProjection.h" />
+    <ClInclude Include="Source\Engine\Public\Input\Controller.h" />
+    <ClInclude Include="Source\Engine\Public\Input\ControllerInterface.h" />
+    <ClInclude Include="Source\Engine\Public\Input\Keyboard.h" />
+    <ClInclude Include="Source\Engine\Public\Input\Mouse.h" />
+    <ClInclude Include="Source\Engine\Public\Input\MouseInterface.h" />
     <ClInclude Include="Source\Engine\Public\Math\Box.h" />
     <ClInclude Include="Source\Engine\Public\Math\Matrix.h" />
     <ClInclude Include="Source\Engine\Public\Math\Rect.h" />
@@ -363,6 +361,8 @@
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimation.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetAnimationTypes.h" />
     <ClInclude Include="Source\Engine\Public\UI\WidgetManager.h" />
+    <ClInclude Include="Source\Engine\Public\Utils\DirectXUtils.h" />
+    <ClInclude Include="Source\Engine\Public\Utils\String.h" />
     <ClInclude Include="Source\pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -410,139 +410,7 @@
     <ClCompile Include="Source\Application\Private\World\World_SonoCave.cpp" />
     <ClCompile Include="Source\Application\Private\World\World_SonoTown.cpp" />
     <ClCompile Include="Source\Application\Private\World\World_Town.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Core\DirectX.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Core\DirectXResource.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Geometry\Cube.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Geometry\Plane.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Geometry\Sphere.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Geometry\TriangleList.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Input\Camera.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Input\CameraIndicator.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Input\CameraProjection.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Input\Controller.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Input\Keyboard.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Input\Mouse.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Math\Math.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Math\Vertex.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawableObject.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawableObject2D.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawableObject3D.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawCube.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawPlane.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawPyramid.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawSphere.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\DrawScreenText.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\LightBase.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\ObjectBase.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\PointLight.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\SkyLight.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\SkySphere.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Object\Sprite.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\BlendState.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\ConstantBuffer.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\CubeTexture.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\DepthStencilState.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\DepthStencilView.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\IndexBuffer.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\InputLayout.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\PixelShader.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\Rasterizer.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\RenderTargetView.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\SamplerState.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\ScreenText.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\ScreenTexture.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\Shader.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\Texture.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\Topology.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\TransformConstantBuffer.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\VertexBuffer.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\VertexShader.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Render\ViewPort.cpp" />
-    <ClCompile Include="Source\DirectX\Private\Utils\DirectXUtils.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Utils\String.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Algorithm\Math.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\Math2.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\Random.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\UnionFind.cpp" />
@@ -567,10 +435,57 @@
     <ClCompile Include="Source\Engine\Private\Framework\Level\QuadTree.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\PlayerController.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\World.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Core\DirectX.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Core\DirectXResource.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Geometry\Cube.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Geometry\Plane.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Geometry\Sphere.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Geometry\TriangleList.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\DrawableObject.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\DrawableObject2D.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\DrawableObject3D.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\DrawCube.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\DrawPlane.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\DrawPyramid.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\DrawScreenText.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\DrawSphere.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\LightBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\ObjectBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\PointLight.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\SkyLight.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\SkySphere.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Object\Sprite.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\BlendState.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\ConstantBuffer.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\CubeTexture.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\DepthStencilState.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\DepthStencilView.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\IndexBuffer.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\InputLayout.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\PixelShader.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\Rasterizer.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\RenderTargetView.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\SamplerState.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\ScreenText.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\ScreenTexture.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\Shader.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\Texture.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\Topology.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\TransformConstantBuffer.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\Vertex.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\VertexBuffer.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\VertexShader.cpp" />
+    <ClCompile Include="Source\Engine\Private\Graphics\Render\ViewPort.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\BoxHelper.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\ColorHelper.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\RectHelper.cpp" />
     <ClCompile Include="Source\Engine\Private\Helper\VectorHelper.cpp" />
+    <ClCompile Include="Source\Engine\Private\Input\Camera.cpp" />
+    <ClCompile Include="Source\Engine\Private\Input\CameraIndicator.cpp" />
+    <ClCompile Include="Source\Engine\Private\Input\CameraProjection.cpp" />
+    <ClCompile Include="Source\Engine\Private\Input\Controller.cpp" />
+    <ClCompile Include="Source\Engine\Private\Input\Keyboard.cpp" />
+    <ClCompile Include="Source\Engine\Private\Input\Mouse.cpp" />
     <ClCompile Include="Source\Engine\Private\Math\Box.cpp" />
     <ClCompile Include="Source\Engine\Private\Math\Matrix.cpp" />
     <ClCompile Include="Source\Engine\Private\Math\Rect.cpp" />
@@ -600,6 +515,8 @@
     <ClCompile Include="Source\Engine\Private\UI\UserWidget.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\WidgetAnimation.cpp" />
     <ClCompile Include="Source\Engine\Private\UI\WidgetManager.cpp" />
+    <ClCompile Include="Source\Engine\Private\Utils\DirectXUtils.cpp" />
+    <ClCompile Include="Source\Engine\Private\Utils\String.cpp" />
     <ClCompile Include="Source\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -686,6 +603,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
+    <None Include="Source\Engine\Public\Graphics\Core\DirectXTex.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

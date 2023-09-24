@@ -1,7 +1,7 @@
 
 #include "Level/Level2D.h"
 
-#include "Math/Math.h"
+#include "Algorithm/Math.h"
 
 #include "Actor/Ground/GroundBase.h"
 #include "Actor/Event/EventBase.h"

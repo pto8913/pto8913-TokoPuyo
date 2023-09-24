@@ -2,7 +2,7 @@
 #include "Slate/SlateContainerBase.h"
 #include "Slate/SlateSlotBase.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Helper/RectHelper.h"
 

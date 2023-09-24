@@ -1,7 +1,7 @@
 #pragma once
 
-#include "DirectX/DirectXHead.h"
-#include "Core/DirectX.h"
+#include "Graphics/DirectXHead.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Slate/SlateInterface.h"
 

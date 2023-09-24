@@ -2,14 +2,14 @@
 #include "Level/Level_SonoTown.h"
 
 #include "Framework/World.h"
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Actor/Ground/GroundBase.h"
 
-#include "Object/DrawPlane.h"
-#include "Object/SkyLight.h"
+#include "Graphics/Object/DrawPlane.h"
+#include "Graphics/Object/SkyLight.h"
 
-#include "Math/Math.h"
+#include "Algorithm/Math.h"
 
 #include "Actor/Event/EventBase.h"
 

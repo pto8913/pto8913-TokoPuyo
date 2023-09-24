@@ -1,7 +1,7 @@
 
 #include "Level/LevelFactory.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Level/Level_SonoTown.h"
 #include "Level/MazeGenerator.h"

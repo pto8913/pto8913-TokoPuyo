@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DirectX/DirectXHead.h"
+#include "Graphics/DirectXHead.h"
 #include <random>
 
 namespace Algo

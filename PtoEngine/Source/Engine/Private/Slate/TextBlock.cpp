@@ -3,7 +3,7 @@
 #include "Slate/TextBlock.h"
 #include "Slate/TextRenderer_Outline.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Utils/String.h"
 

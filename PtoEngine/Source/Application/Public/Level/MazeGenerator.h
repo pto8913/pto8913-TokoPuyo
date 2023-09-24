@@ -36,7 +36,7 @@
 
 #include "Level2D.h"
 
-#include "DirectX/DirectXHead.h"
+#include "Graphics/DirectXHead.h"
 
 #include "Algorithm/UnionFind.h"
 #include "Algorithm/Array.h"

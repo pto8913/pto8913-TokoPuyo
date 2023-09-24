@@ -3,7 +3,7 @@
 #include "Framework/World.h"
 #include "Framework/PlayerController.h"
 
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "UI/LandmarkUI.h"
 

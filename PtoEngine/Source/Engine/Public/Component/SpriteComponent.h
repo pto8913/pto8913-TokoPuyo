@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Object/Sprite.h"
+#include "Graphics/Object/Sprite.h"
 #include "Component/ActorComponent.h"
 
 class SpriteComponent : public ActorComponent, public Sprite

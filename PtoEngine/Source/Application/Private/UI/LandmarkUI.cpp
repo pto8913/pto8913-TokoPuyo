@@ -5,7 +5,7 @@
 #include "Slate/CanvasPanel.h"
 
 #include "EngineSettings.h"
-#include "Core/DirectX.h"
+#include "Graphics/Core/DirectX.h"
 
 #include "Framework/World.h"
 #include "Math/Vector.h"

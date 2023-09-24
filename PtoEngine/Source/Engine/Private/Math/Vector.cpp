@@ -4,7 +4,7 @@
 
 #include <format>
 
-#include "Algorithm/Math2.h"
+#include "Algorithm/Math.h"
 
 // --------------------------------------------------------------------------------------------------
 // Vector 2D
@@ -114,7 +114,7 @@ FVector2D& FVector2D::operator/=(const float& in)
 
 bool FVector2D::operator==(const FVector2D& in) const
 {
-	return Algo::IsNearlyEqual(x, in.x) && Algo::IsNearlyEqual(y, in.y);
+	return Math::IsNearlyEqual(x, in.x) && Math::IsNearlyEqual(y, in.y);
 }
 
 std::string FVector2D::ToString() const
@@ -254,7 +254,7 @@ bool FVector::operator<(const float& in) const
 }
 bool FVector::operator==(const FVector& in) const
 {
-	return Algo::IsNearlyEqual(x, in.x) && Algo::IsNearlyEqual(y, in.y) && Algo::IsNearlyEqual(z, in.z);
+	return Math::IsNearlyEqual(x, in.x) && Math::IsNearlyEqual(y, in.y) && Math::IsNearlyEqual(z, in.z);
 }
 
 std::string FVector::ToString() const
