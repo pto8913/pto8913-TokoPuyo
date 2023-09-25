@@ -22,15 +22,6 @@ S_HorizontalBox::~S_HorizontalBox()
 // ------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------
-void S_HorizontalBox::Draw()
-{
-	if (!bIsVisible)
-	{
-		return;
-	}
-	SlateContainerBase::Draw();
-}
-
 void S_HorizontalBox::Update()
 {
 	const FRect containerRect = GetRect();

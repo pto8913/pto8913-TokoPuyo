@@ -5,7 +5,7 @@ SlateBase::SlateBase(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos in
 	: mSize(inSize),
 	pRt2D(inRt2D),
 	mSlateInfos(inSlateInfos),
-	mSlateInputEventReceiveType(ESlateInputEventReceiveType::Enable)
+	mSlateVisibility(ESlateVisibility::Visible)
 {
 	pRt2D->CreateSolidColorBrush(
 		D2D1::ColorF(255.f, 255.f, 255.f, 1.f),
@@ -24,22 +24,13 @@ SlateBase::~SlateBase()
 // ------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------
-void SlateBase::SetVisibility(bool in)
+void SlateBase::SetVisibility(const ESlateVisibility& in)
 {
-	bIsVisible = in;
+	mSlateVisibility = in;
 }
-bool SlateBase::GetVisibility() const noexcept
+ESlateVisibility SlateBase::GetVisibility() const
 {
-	return bIsVisible;
-}
-
-void SlateBase::SetInputEnability(ESlateInputEventReceiveType in)
-{
-	mSlateInputEventReceiveType = in;
-}
-ESlateInputEventReceiveType SlateBase::GetInputEnability() const
-{
-	return mSlateInputEventReceiveType;
+	return mSlateVisibility;
 }
 
 void SlateBase::UpdateWidget()
@@ -70,44 +61,41 @@ SlateBase* SlateBase::GetRootParent() noexcept
 // ------------------------------------------------
 bool SlateBase::OnMouseMove(DX::MouseEvent inMouseEvent)
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
-		return false;
-	}
-
-	if (InRect(inMouseEvent.x, inMouseEvent.y))
-	{
-		if (!bIsLastInRect)
+	case ESlateVisibility::Collapsed:
+		break;
+	default:
+		if (InRect(inMouseEvent.x, inMouseEvent.y))
 		{
-			OnMouseEnter(inMouseEvent);
-			bIsLastInRect = true;
+			if (!bIsLastInRect)
+			{
+				OnMouseEnter(inMouseEvent);
+				bIsLastInRect = true;
 #if _DEBUG
-			//OutputDebugStringA("OnMouseEnter\n");
+				//OutputDebugStringA("OnMouseEnter\n");
+#endif
+			}
+		}
+		else if (bIsLastInRect)
+		{
+			OnMouseLeave(inMouseEvent);
+			bIsLastInRect = false;
+#if _DEBUG
+			//OutputDebugStringA("OnMouseLeave\n");
 #endif
 		}
-	}
-	else if (bIsLastInRect)
-	{
-		OnMouseLeave(inMouseEvent);
-		bIsLastInRect = false;
-#if _DEBUG
-		//OutputDebugStringA("OnMouseLeave\n");
-#endif
+		break;
 	}
 	return true;
 }
 bool SlateBase::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
 		return false;
-	}
-
-	switch (mSlateInputEventReceiveType)
-	{
-	case ESlateInputEventReceiveType::IgnoreAll:
-		return false;
-		break;
 	default:
 		auto rect = GetRect();
 		if (inMouseEvent.State == DX::MouseEvent::ButtonState::LPRESSED ||
@@ -124,14 +112,10 @@ bool SlateBase::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 }
 bool SlateBase::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
-		return false;
-	}
-
-	switch (mSlateInputEventReceiveType)
-	{
-	case ESlateInputEventReceiveType::IgnoreAll:
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
 		return false;
 	default:
 		auto rect = GetRect();
@@ -149,16 +133,11 @@ bool SlateBase::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 }
 bool SlateBase::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
 		return false;
-	}
-
-	switch (mSlateInputEventReceiveType)
-	{
-	case ESlateInputEventReceiveType::IgnoreAll:
-		return false;
-		break;
 	default:
 		auto rect = GetRect();
 		if (inMouseEvent.State == DX::MouseEvent::ButtonState::LRELEASED ||
@@ -175,54 +154,44 @@ bool SlateBase::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
 }
 bool SlateBase::OnMouseEnter(DX::MouseEvent inMouseEvent)
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
 		return false;
-	}
-
-	switch (mSlateInputEventReceiveType)
-	{
-	case ESlateInputEventReceiveType::IgnoreAll:
-		return false;
-		break;
 	default:
 		return InRect(inMouseEvent.x, inMouseEvent.y);
 	}
 }
 bool SlateBase::OnMouseLeave(DX::MouseEvent)
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
 		return false;
+	default:
+		return true;
 	}
-	return true;
 }
 bool SlateBase::OnKeyDown(DX::MouseEvent inMouseEvent)
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
 		return false;
-	}
-	switch (mSlateInputEventReceiveType)
-	{
-	case ESlateInputEventReceiveType::IgnoreAll:
-		return false;
-		break;
 	default:
 		return InRect(inMouseEvent.x, inMouseEvent.y);
 	}
 }
 bool SlateBase::OnKeyUp(DX::MouseEvent inMouseEvent)
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
 		return false;
-	}
-	switch (mSlateInputEventReceiveType)
-	{
-	case ESlateInputEventReceiveType::IgnoreAll:
-		return false;
-		break;
 	default:
 		return InRect(inMouseEvent.x, inMouseEvent.y);
 	}

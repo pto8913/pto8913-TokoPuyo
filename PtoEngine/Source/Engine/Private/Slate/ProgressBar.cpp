@@ -35,20 +35,23 @@ S_ProgressBar::~S_ProgressBar()
 // ------------------------------------------------------------------------------------------------
 void S_ProgressBar::Draw()
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
+		return;
+	default:
+		pRt2D->FillRectangle(
+			RectHelper::ConvertRectToD2D(GetRect(1)),
+			pBrush
+		);
+
+		FRect progressRect = GetRect(mPercent);
+		pRt2D->FillRectangle(
+			RectHelper::ConvertRectToD2D(progressRect),
+			pBarBrush
+		);
 		return;
 	}
-	pRt2D->FillRectangle(
-		RectHelper::ConvertRectToD2D(GetRect(1)),
-		pBrush
-	);
-
-	FRect progressRect = GetRect(mPercent);
-	pRt2D->FillRectangle(
-		RectHelper::ConvertRectToD2D(progressRect),
-		pBarBrush
-	);
 }
 
 FRect S_ProgressBar::GetRect(float inPercent) const noexcept

@@ -40,6 +40,9 @@ public:
 	void AddToViewport(double inZOrder = 0);
 	void RemoveFromParent();
 
+	void SetVisibility(const ESlateVisibility& inVisibility);
+	ESlateVisibility GetVisibility() const;
+
 	bool IsInViewport() const noexcept;
 	double GetZOrder() const noexcept;
 
