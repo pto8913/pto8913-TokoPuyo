@@ -212,142 +212,170 @@ size_t SlateContainerBase::GetChildrenCount() const noexcept
 // ------------------------------------------------
 bool SlateContainerBase::OnMouseMove(DX::MouseEvent inMouseEvent)
 {
+	bool out = false;
 	switch (GetVisibility())
 	{
 	case ESlateVisibility::Collapsed:
 	case ESlateVisibility::IgnoreAll:
-		return false;
+		return out;
 	case ESlateVisibility::Visible:
-		SlateBase::OnMouseMove(inMouseEvent);
+		out = SlateBase::OnMouseMove(inMouseEvent);
 	default:
-		for (auto&& child : pChildren)
+		if (out)
 		{
-			if (child != nullptr)
+			for (auto&& child : pChildren)
 			{
-				child->OnMouseMove(inMouseEvent);
+				if (child != nullptr)
+				{
+					child->OnMouseMove(inMouseEvent);
+				}
 			}
 		}
-		return true;
+		return out;
 	}
 }
 bool SlateContainerBase::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
+	bool out = false;
 	switch (GetVisibility())
 	{
 	case ESlateVisibility::Collapsed:
 	case ESlateVisibility::IgnoreAll:
-		return false;
+		return out;
 	case ESlateVisibility::Visible:
-		SlateBase::OnMouseButtonDown(inMouseEvent);
+		out = SlateBase::OnMouseButtonDown(inMouseEvent);
 	default:
-		for (auto&& child : pChildren)
+		if (out)
 		{
-			if (child != nullptr)
+			for (auto&& child : pChildren)
 			{
-				child->OnMouseButtonDown(inMouseEvent);
+				if (child != nullptr)
+				{
+					child->OnMouseButtonDown(inMouseEvent);
+				}
 			}
 		}
-		return true;
+		return out;
 	}
 }
 bool SlateContainerBase::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
+	bool out = false;
 	switch (GetVisibility())
 	{
 	case ESlateVisibility::Collapsed:
 	case ESlateVisibility::IgnoreAll:
-		return false;
+		return out;
 	case ESlateVisibility::Visible:
-		SlateBase::OnMouseButtonHeld(inMouseEvent);
+		out = SlateBase::OnMouseButtonHeld(inMouseEvent);
 	default:
-		for (auto&& child : pChildren)
+		if (out)
 		{
-			if (child != nullptr)
+			for (auto&& child : pChildren)
 			{
-				child->OnMouseButtonHeld(inMouseEvent);
+				if (child != nullptr)
+				{
+					child->OnMouseButtonHeld(inMouseEvent);
+				}
 			}
 		}
-		return true;
+		return out;
 	}
 }
 bool SlateContainerBase::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
 {
+	bool out = false;
 	switch (GetVisibility())
 	{
 	case ESlateVisibility::Collapsed:
 	case ESlateVisibility::IgnoreAll:
-		return false;
+		return out;
 	case ESlateVisibility::Visible:
-		SlateBase::OnMouseButtonUp(inMouseEvent);
+		out = SlateBase::OnMouseButtonUp(inMouseEvent);
 	default:
-		for (auto&& child : pChildren)
+		if (out)
 		{
-			if (child != nullptr)
+			for (auto&& child : pChildren)
 			{
-				child->OnMouseButtonUp(inMouseEvent);
+				if (child != nullptr)
+				{
+					child->OnMouseButtonUp(inMouseEvent);
+				}
 			}
 		}
-		return true;
+		return out;
 	}
 }
 bool SlateContainerBase::OnMouseEnter(DX::MouseEvent inMouseEvent)
 {
+	bool out = false;
 	switch (GetVisibility())
 	{
 	case ESlateVisibility::Collapsed:
 	case ESlateVisibility::IgnoreAll:
-		return false;
+		return out;
 	case ESlateVisibility::Visible:
-		SlateBase::OnMouseEnter(inMouseEvent);
+		out = SlateBase::OnMouseEnter(inMouseEvent);
 	default:
-		for (auto&& child : pChildren)
+		if (out)
 		{
-			if (child != nullptr)
+			for (auto&& child : pChildren)
 			{
-				child->OnMouseEnter(inMouseEvent);
+				if (child != nullptr)
+				{
+					child->OnMouseEnter(inMouseEvent);
+				}
 			}
 		}
-		return true;
+		return out;
 	}
 }
 bool SlateContainerBase::OnMouseLeave(DX::MouseEvent inMouseEvent)
 {
+	bool out = false;
 	switch (GetVisibility())
 	{
 	case ESlateVisibility::Collapsed:
 	case ESlateVisibility::IgnoreAll:
-		return false;
+		return out;
 	case ESlateVisibility::Visible:
-		SlateBase::OnMouseLeave(inMouseEvent);
+		out = SlateBase::OnMouseLeave(inMouseEvent);
 	default:
-		for (auto&& child : pChildren)
+		if (out)
 		{
-			if (child != nullptr)
+			for (auto&& child : pChildren)
 			{
-				child->OnMouseLeave(inMouseEvent);
+				if (child != nullptr)
+				{
+					child->OnMouseLeave(inMouseEvent);
+				}
 			}
 		}
-		return true;
+		return out;
 	}
 }
 bool SlateContainerBase::OnKeyDown(DX::MouseEvent inMouseEvent)
 {
+	bool out = false;
 	switch (GetVisibility())
 	{
 	case ESlateVisibility::Collapsed:
 	case ESlateVisibility::IgnoreAll:
-		return false;
+		return out;
 	case ESlateVisibility::Visible:
-		SlateBase::OnKeyDown(inMouseEvent);
+		out = SlateBase::OnKeyDown(inMouseEvent);
 	default:
-		for (auto&& child : pChildren)
+		if (out)
 		{
-			if (child != nullptr)
+			for (auto&& child : pChildren)
 			{
-				child->OnKeyDown(inMouseEvent);
+				if (child != nullptr)
+				{
+					child->OnKeyDown(inMouseEvent);
+				}
 			}
 		}
-		return true;
+		return out;
 	}
 }
 bool SlateContainerBase::OnKeyUp(DX::MouseEvent inMouseEvent)
