@@ -259,7 +259,7 @@ bool SlateContainerBase::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 	case ESlateVisibility::IgnoreAll:
 		return false;
 	case ESlateVisibility::Visible:
-		bool out = SlateBase::OnMouseButtonHeld(inMouseEvent);
+		SlateBase::OnMouseButtonHeld(inMouseEvent);
 	default:
 		for (auto&& child : pChildren)
 		{
