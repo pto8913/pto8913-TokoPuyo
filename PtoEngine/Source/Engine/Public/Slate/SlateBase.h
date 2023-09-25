@@ -13,8 +13,8 @@ class DirectX11;
 enum class ESlateInputEventReceiveType
 {
 	Enable, /* Enable all event. */
-	NotChildren, /* Ignore this slate, but children is not ignore. Containers Default */
-	NotAll, /* Ignore all */
+	IgnoreThis, /* Ignore this slate, but children is not ignore. Containers Default */
+	IgnoreAll, /* Ignore all */
 };
 
 enum class EHorizontalAlignment
@@ -52,6 +52,7 @@ public:
 
 	EHorizontalAlignment HAlign;
 	EVerticalAlignment VAlign;
+
 };
 
 class SlateBase : public DX::ISlateInterface
@@ -75,9 +76,12 @@ public:
 	void SetVisibility(bool in);
 	bool GetVisibility() const noexcept;
 
+	void SetInputEnability(ESlateInputEventReceiveType in);
+	ESlateInputEventReceiveType GetInputEnability() const;
+
 	/* 
 		Must be call this when the widget layout changed.
-		ex. AddChild
+		 ex. AddChild
 	*/
 	virtual void UpdateWidget();
 protected:
@@ -136,6 +140,7 @@ public:
 	void SetOffset(FVector2D in);
 	FVector2D GetOffset() const noexcept;
 
+
 protected:
 	// ------------------------------------------------------------------------------------------------
 	// State
@@ -145,15 +150,11 @@ protected:
 	ID2D1SolidColorBrush* pBrush = nullptr;
 
 	// ------------------------------------------------
-	// State : InputEvent
-	// ------------------------------------------------
-	ESlateInputEventReceiveType mSlateInputEventReceiveType;
-
-	// ------------------------------------------------
 	// State : SlateInfos
 	// ------------------------------------------------
 	FSlateInfos mSlateInfos;
 	bool bIsVisible = true;
+	ESlateInputEventReceiveType mSlateInputEventReceiveType;
 
 	FVector2D mSize;
 	/*

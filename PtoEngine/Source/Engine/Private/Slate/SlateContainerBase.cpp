@@ -15,7 +15,7 @@
 SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
 	: SlateBase(inRt2D, inSize, inSlateInfos)
 {
-	mSlateInputEventReceiveType = ESlateInputEventReceiveType::NotChildren;
+	mSlateInputEventReceiveType = ESlateInputEventReceiveType::IgnoreThis;
 }
 SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos)
 	: SlateContainerBase(inRt2D, { 0,0 }, inSlateInfos)
@@ -212,99 +212,219 @@ size_t SlateContainerBase::GetChildrenCount() const noexcept
 // ------------------------------------------------
 bool SlateContainerBase::OnMouseMove(DX::MouseEvent inMouseEvent)
 {
-	SlateBase::OnMouseMove(inMouseEvent);
-	for (auto&& child : pChildren)
+	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
 	{
-		if (child != nullptr)
+		bool out = SlateBase::OnMouseMove(inMouseEvent);
+		for (auto&& child : pChildren)
 		{
-			child->OnMouseMove(inMouseEvent);
+			if (child != nullptr)
+			{
+				child->OnMouseMove(inMouseEvent);
+			}
 		}
+		return out;
 	}
-	return true;
+	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
+	{
+		for (auto&& child : pChildren)
+		{
+			if (child != nullptr)
+			{
+				child->OnMouseMove(inMouseEvent);
+			}
+		}
+		return true;
+	}
+	return false;
 }
 bool SlateContainerBase::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
-	bool out = SlateBase::OnMouseButtonDown(inMouseEvent);
-	for (auto&& child : pChildren)
+	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
 	{
-		if (child != nullptr)
+		bool out = SlateBase::OnMouseButtonDown(inMouseEvent);
+		for (auto&& child : pChildren)
 		{
-			child->OnMouseButtonDown(inMouseEvent);
+			if (child != nullptr)
+			{
+				child->OnMouseButtonDown(inMouseEvent);
+			}
 		}
+		return out;
 	}
-	return out;
+	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
+	{
+		for (auto&& child : pChildren)
+		{
+			if (child != nullptr)
+			{
+				child->OnMouseButtonDown(inMouseEvent);
+			}
+		}
+		return true;
+	}
+	return false;
 }
 bool SlateContainerBase::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
-	bool out = SlateBase::OnMouseButtonHeld(inMouseEvent);
-	for (auto&& child : pChildren)
+	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
 	{
-		if (child != nullptr)
+		bool out = SlateBase::OnMouseButtonHeld(inMouseEvent);
+		for (auto&& child : pChildren)
 		{
-			child->OnMouseButtonHeld(inMouseEvent);
+			if (child != nullptr)
+			{
+				child->OnMouseButtonHeld(inMouseEvent);
+			}
 		}
+		return out;
 	}
-	return out;
+	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
+	{
+		for (auto&& child : pChildren)
+		{
+			if (child != nullptr)
+			{
+				child->OnMouseButtonHeld(inMouseEvent);
+			}
+		}
+		return true;
+	}
+	return false;
 }
 bool SlateContainerBase::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
 {
-	bool out = SlateBase::OnMouseButtonUp(inMouseEvent);
-	for (auto&& child : pChildren)
+	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
 	{
-		if (child != nullptr)
+		bool out = SlateBase::OnMouseButtonUp(inMouseEvent);
+		for (auto&& child : pChildren)
 		{
-			child->OnMouseButtonUp(inMouseEvent);
+			if (child != nullptr)
+			{
+				child->OnMouseButtonUp(inMouseEvent);
+			}
 		}
+		return out;
 	}
-	return out;
+	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
+	{
+		for (auto&& child : pChildren)
+		{
+			if (child != nullptr)
+			{
+				child->OnMouseButtonUp(inMouseEvent);
+			}
+		}
+		return true;
+	}
+	return false;
 }
 bool SlateContainerBase::OnMouseEnter(DX::MouseEvent inMouseEvent)
 {
-	bool out = SlateBase::OnMouseEnter(inMouseEvent);
-	for (auto&& child : pChildren)
+	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
 	{
-		if (child != nullptr)
+		bool out = SlateBase::OnMouseEnter(inMouseEvent);
+		for (auto&& child : pChildren)
 		{
-			child->OnMouseEnter(inMouseEvent);
+			if (child != nullptr)
+			{
+				child->OnMouseEnter(inMouseEvent);
+			}
 		}
+		return out;
 	}
-	return out;
+	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
+	{
+		for (auto&& child : pChildren)
+		{
+			if (child != nullptr)
+			{
+				child->OnMouseEnter(inMouseEvent);
+			}
+		}
+		return true;
+	}
+	return false;
 }
 bool SlateContainerBase::OnMouseLeave(DX::MouseEvent inMouseEvent)
 {
-	bool out = SlateBase::OnMouseLeave(inMouseEvent);
-	for (auto&& child : pChildren)
+	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
 	{
-		if (child != nullptr)
+		bool out = SlateBase::OnMouseLeave(inMouseEvent);
+		for (auto&& child : pChildren)
 		{
-			child->OnMouseLeave(inMouseEvent);
+			if (child != nullptr)
+			{
+				child->OnMouseLeave(inMouseEvent);
+			}
 		}
+		return out;
 	}
-	return out;
+	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
+	{
+		for (auto&& child : pChildren)
+		{
+			if (child != nullptr)
+			{
+				child->OnMouseLeave(inMouseEvent);
+			}
+		}
+		return true;
+	}
+	return false;
 }
 bool SlateContainerBase::OnKeyDown(DX::MouseEvent inMouseEvent)
 {
-	bool out = SlateBase::OnKeyDown(inMouseEvent);
-	for (auto&& child : pChildren)
+	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
 	{
-		if (child != nullptr)
+		bool out = SlateBase::OnKeyDown(inMouseEvent);
+		for (auto&& child : pChildren)
 		{
-			child->OnKeyDown(inMouseEvent);
+			if (child != nullptr)
+			{
+				child->OnKeyDown(inMouseEvent);
+			}
 		}
+		return out;
 	}
-	return out;
+	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
+	{
+		for (auto&& child : pChildren)
+		{
+			if (child != nullptr)
+			{
+				child->OnKeyDown(inMouseEvent);
+			}
+		}
+		return true;
+	}
+	return false;
 }
 bool SlateContainerBase::OnKeyUp(DX::MouseEvent inMouseEvent)
 {
-	bool out = SlateBase::OnKeyUp(inMouseEvent);
-	for (auto&& child : pChildren)
+	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
 	{
-		if (child != nullptr)
+		bool out = SlateBase::OnKeyUp(inMouseEvent);
+		for (auto&& child : pChildren)
 		{
-			child->OnKeyUp(inMouseEvent);
+			if (child != nullptr)
+			{
+				child->OnKeyUp(inMouseEvent);
+			}
 		}
+		return out;
 	}
-	return out;
+	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
+	{
+		for (auto&& child : pChildren)
+		{
+			if (child != nullptr)
+			{
+				child->OnKeyUp(inMouseEvent);
+			}
+		}
+		return true;
+	}
+	return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

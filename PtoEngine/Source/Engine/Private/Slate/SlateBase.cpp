@@ -33,6 +33,15 @@ bool SlateBase::GetVisibility() const noexcept
 	return bIsVisible;
 }
 
+void SlateBase::SetInputEnability(ESlateInputEventReceiveType in)
+{
+	mSlateInputEventReceiveType = in;
+}
+ESlateInputEventReceiveType SlateBase::GetInputEnability() const
+{
+	return mSlateInputEventReceiveType;
+}
+
 void SlateBase::UpdateWidget()
 {
 	Update();
@@ -96,7 +105,7 @@ bool SlateBase::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 
 	switch (mSlateInputEventReceiveType)
 	{
-	case ESlateInputEventReceiveType::NotAll:
+	case ESlateInputEventReceiveType::IgnoreAll:
 		return false;
 		break;
 	default:
@@ -122,7 +131,7 @@ bool SlateBase::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 
 	switch (mSlateInputEventReceiveType)
 	{
-	case ESlateInputEventReceiveType::NotAll:
+	case ESlateInputEventReceiveType::IgnoreAll:
 		return false;
 	default:
 		auto rect = GetRect();
@@ -147,7 +156,7 @@ bool SlateBase::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
 
 	switch (mSlateInputEventReceiveType)
 	{
-	case ESlateInputEventReceiveType::NotAll:
+	case ESlateInputEventReceiveType::IgnoreAll:
 		return false;
 		break;
 	default:
@@ -173,7 +182,7 @@ bool SlateBase::OnMouseEnter(DX::MouseEvent inMouseEvent)
 
 	switch (mSlateInputEventReceiveType)
 	{
-	case ESlateInputEventReceiveType::NotAll:
+	case ESlateInputEventReceiveType::IgnoreAll:
 		return false;
 		break;
 	default:
@@ -196,7 +205,7 @@ bool SlateBase::OnKeyDown(DX::MouseEvent inMouseEvent)
 	}
 	switch (mSlateInputEventReceiveType)
 	{
-	case ESlateInputEventReceiveType::NotAll:
+	case ESlateInputEventReceiveType::IgnoreAll:
 		return false;
 		break;
 	default:
@@ -211,7 +220,7 @@ bool SlateBase::OnKeyUp(DX::MouseEvent inMouseEvent)
 	}
 	switch (mSlateInputEventReceiveType)
 	{
-	case ESlateInputEventReceiveType::NotAll:
+	case ESlateInputEventReceiveType::IgnoreAll:
 		return false;
 		break;
 	default:
