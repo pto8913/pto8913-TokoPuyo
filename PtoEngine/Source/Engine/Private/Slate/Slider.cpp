@@ -140,8 +140,13 @@ void S_Slider::SetValue(float in)
 
 bool S_Slider::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
-	if (GetVisibility() == ESlateVisibility::Visible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
+	case ESlateVisibility::IgnoreThis:
+		break;
+	default:
 		if (inMouseEvent.State == DX::MouseEvent::ButtonState::LPRESSED)
 		{
 			if (InRect(inMouseEvent.x, inMouseEvent.y))
@@ -161,13 +166,19 @@ bool S_Slider::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 				return true;
 			}
 		}
+		break;
 	}
 	return false;
 }
 bool S_Slider::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
-	if (GetVisibility() == ESlateVisibility::Visible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
+	case ESlateVisibility::IgnoreThis:
+		break;
+	default:
 		if (inMouseEvent.State == DX::MouseEvent::ButtonState::LHELD)
 		{
 			if (InRect(inMouseEvent.x, inMouseEvent.y))
@@ -187,6 +198,7 @@ bool S_Slider::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 				return true;
 			}
 		}
+		break;
 	}
 	return false;
 }
