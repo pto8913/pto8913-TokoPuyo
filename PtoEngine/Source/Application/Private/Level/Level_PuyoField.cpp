@@ -367,7 +367,7 @@ bool Level_PuyoField::SetPlanToVanishPuyo(Puyo* puyoActor)
 {
 	const auto currPos = GetPos(puyoActor->Get2DIdx());
 	bool hasVanishPlan = false;
-	for (uint8_t y = 0; y < mGameBoardSize.y; ++y)
+	for (uint8_t y = 0; y < mGameBoardSize.y - 1; ++y)
 	{
 		for (uint8_t x = 0; x < mGameBoardSize.x; ++x)
 		{

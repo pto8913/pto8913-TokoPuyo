@@ -386,25 +386,28 @@ void Player::ActionActivePuyoRotate(bool rotateR)
 }
 void Player::ActivePuyoRotateToRelease()
 {
-	auto idx = pMainPuyo->Get2DIdx();
-	if (idx.y >= GameSettings::GetGameBoardSize().y)//pLevel->GetHeight())
+	auto currMainIdx = pMainPuyo->Get2DIdx();
+	currMainIdx.y = floor(currMainIdx.y);
+	//currMainIdx.y = ceil(currMainIdx.y);
+
+	//if (currMainIdx.y >= GameSettings::GetGameBoardSize().y)//pLevel->GetHeight())
+	//{
+	//	currMainIdx.y = floor(currMainIdx.y);
+	//}
+	//else
+	//{
+	//	currMainIdx.y = ceil(currMainIdx.y);
+	//}
+	if (currMainIdx.x < 0)
 	{
-		idx.y = floor(idx.y);
+		currMainIdx.x = 0;
 	}
-	else
+	else if (currMainIdx.x >= GameSettings::GetGameBoardSize().x)//pLevel->GetWidth())
 	{
-		idx.y = ceil(idx.y);
-	}
-	if (idx.x < 0)
-	{
-		idx.x = 0;
-	}
-	else if (idx.x >= GameSettings::GetGameBoardSize().x)//pLevel->GetWidth())
-	{
-		idx.x = floor(idx.x);
+		currMainIdx.x = floor(currMainIdx.x);
 	}
 
-	UpdateActivePuyo(idx.x, idx.y);
+	UpdateActivePuyo(currMainIdx.x, currMainIdx.y);
 	pGameState->SetGameProgress(EGameProgress::Release);
 }
 

@@ -435,6 +435,10 @@ void GameProgressUI::ComboAnimationCompleted()
 {
 	pTextBlock_ComboEffect->SetVisibility(ESlateVisibility::Collapsed);
 	mAnimCombo->Deactivate();
+
+	pTextBlock_ComboEffect->SetPosition(
+		GameSettings::GAMESCREEN_PADDING + EngineSettings::GetCELL() * FVector2D(1.75f, 2.f)
+	);
 }
 void GameProgressUI::AllClearAnimationCompleted()
 {
