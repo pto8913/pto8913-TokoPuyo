@@ -139,46 +139,52 @@ void S_Slider::SetValue(float in)
 
 bool S_Slider::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
-	if (inMouseEvent.State == DX::MouseEvent::ButtonState::LPRESSED)
+	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
 	{
-		if (InRect(inMouseEvent.x, inMouseEvent.y))
+		if (inMouseEvent.State == DX::MouseEvent::ButtonState::LPRESSED)
 		{
-			switch (mAppearance.direction)
+			if (InRect(inMouseEvent.x, inMouseEvent.y))
 			{
-			case ESliderDirection::Horizontal:
+				switch (mAppearance.direction)
+				{
+				case ESliderDirection::Horizontal:
 #if _DEBUG
-				OutputDebugStringA(std::format("Slider RangeValue {} {} {} {} {}\n", (float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue).c_str());
+					OutputDebugStringA(std::format("Slider RangeValue {} {} {} {} {}\n", (float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue).c_str());
 #endif
-				SetValue(Math::MapRange((float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue));
-				break;
-			default:
-				SetValue(Math::MapRange((float)inMouseEvent.y - mPosition.y, 0.f, mSize.y, mMinValue, mMaxValue));
-				break;
+					SetValue(Math::MapRange((float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue));
+					break;
+				default:
+					SetValue(Math::MapRange((float)inMouseEvent.y - mPosition.y, 0.f, mSize.y, mMinValue, mMaxValue));
+					break;
+				}
+				return true;
 			}
-			return true;
 		}
 	}
 	return false;
 }
 bool S_Slider::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
-	if (inMouseEvent.State == DX::MouseEvent::ButtonState::LHELD)
+	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
 	{
-		if (InRect(inMouseEvent.x, inMouseEvent.y))
+		if (inMouseEvent.State == DX::MouseEvent::ButtonState::LHELD)
 		{
-			switch (mAppearance.direction)
+			if (InRect(inMouseEvent.x, inMouseEvent.y))
 			{
-			case ESliderDirection::Horizontal:
+				switch (mAppearance.direction)
+				{
+				case ESliderDirection::Horizontal:
 #if _DEBUG
-				OutputDebugStringA(std::format("Slider RangeValue {} {} {} {} {}\n", (float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue).c_str());
+					OutputDebugStringA(std::format("Slider RangeValue {} {} {} {} {}\n", (float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue).c_str());
 #endif
-				SetValue(Math::MapRange((float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue));
-				break;
-			default:
-				SetValue(Math::MapRange((float)inMouseEvent.y - mPosition.y, 0.f, mSize.y, mMinValue, mMaxValue));
-				break;
+					SetValue(Math::MapRange((float)inMouseEvent.x - mPosition.x, 0.f, mSize.x, mMinValue, mMaxValue));
+					break;
+				default:
+					SetValue(Math::MapRange((float)inMouseEvent.y - mPosition.y, 0.f, mSize.y, mMinValue, mMaxValue));
+					break;
+				}
+				return true;
 			}
-			return true;
 		}
 	}
 	return false;
