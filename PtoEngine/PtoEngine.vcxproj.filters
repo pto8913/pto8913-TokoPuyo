@@ -65,6 +65,9 @@
     <Filter Include="Source\DirectX\Public\Delegate">
       <UniqueIdentifier>{7aa0817b-932f-4f76-9efd-444bcf8867d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\Share">
+      <UniqueIdentifier>{282692ac-e5e9-4478-a186-81af5f5666d4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source\DirectX\Public\Object\Widget">
       <UniqueIdentifier>{2f97230d-b228-4a55-93d8-669c303a8523}</UniqueIdentifier>
     </Filter>
@@ -197,17 +200,41 @@
     <Filter Include="Source\Application\Private\Actor">
       <UniqueIdentifier>{c69a3ad8-7a40-451b-bb8b-727a38684d6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Application\Public\Actor\Item">
+      <UniqueIdentifier>{c3d3526e-ee0b-4aaf-8f5a-d831dd22c73a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Application\Public\Actor\Building">
+      <UniqueIdentifier>{953dbb39-27f6-42e8-aea2-9af8fa5972e0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source\Application\Public\Actor\Character">
       <UniqueIdentifier>{f79d3c62-5966-42af-9c1f-6f22f3734e6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Application\Public\Actor\Effect">
+      <UniqueIdentifier>{a30bc22d-df52-4650-85e2-e3601c608e6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Application\Public\Actor\Event">
+      <UniqueIdentifier>{ef4797e6-0ee0-481b-86c2-6d331cfdd19c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Application\Public\Actor\Ground">
       <UniqueIdentifier>{d6e3f129-85f7-4dcd-952f-c828ee58d113}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Application\Private\Actor\Building">
+      <UniqueIdentifier>{bed850ef-80fb-415b-afbe-87e1cd5469c9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source\Application\Private\Actor\Character">
       <UniqueIdentifier>{07068b9e-d206-4942-956d-778763fc7167}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Application\Private\Actor\Effect">
+      <UniqueIdentifier>{0c198f58-faef-4645-b6a8-796407cb8c9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Application\Private\Actor\Event">
+      <UniqueIdentifier>{5b0d834b-d02c-4d9b-a9f4-15b6f5ec0274}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source\Application\Private\Actor\Ground">
       <UniqueIdentifier>{28aa674c-7fa9-4a4c-ad82-dd618ee679b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Application\Private\Actor\Item">
+      <UniqueIdentifier>{d245647c-06a5-42c3-b77c-dd9fdde5eade}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Application\Private\Controller">
       <UniqueIdentifier>{63ceafdd-c005-4738-a96e-71284b3bfe13}</UniqueIdentifier>
@@ -247,6 +274,12 @@
     <ClInclude Include="Source\DirectX\Public\Core\DirectXTex.h">
       <Filter>Source\DirectX\Public\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\Camera.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\DrawCube.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Object\DrawableObject.h">
       <Filter>Source\DirectX\Public\Object</Filter>
     </ClInclude>
@@ -256,8 +289,26 @@
     <ClInclude Include="Source\DirectX\Public\Math\Math.h">
       <Filter>Source\DirectX\Public\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\DrawPlane.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Utils\String.h">
       <Filter>Source\DirectX\Public\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\DrawSphere.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\PointLight.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\CameraIndicator.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\CameraProjection.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\DrawPyramid.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Object\ObjectBase.h">
       <Filter>Source\DirectX\Public\Object</Filter>
@@ -265,7 +316,13 @@
     <ClInclude Include="Source\DirectX\Public\Object\Sprite.h">
       <Filter>Source\DirectX\Public\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\DrawableObject3D.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Object\DrawableObject2D.h">
+      <Filter>Source\DirectX\Public\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Object\DrawScreenText.h">
       <Filter>Source\DirectX\Public\Object</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Input\Keyboard.h">
@@ -281,6 +338,9 @@
       <Filter>Source\DirectX\Public\Input</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectX\Public\Input\ControllerInterface.h">
+      <Filter>Source\DirectX\Public\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectX\Public\Input\CameraInterface.h">
       <Filter>Source\DirectX\Public\Input</Filter>
     </ClInclude>
     <ClInclude Include="SDK\DXTex\include\Public\DDSTextureLoader11.h">
@@ -337,6 +397,21 @@
     <ClInclude Include="Source\Engine\Public\Component\ActorComponent.h">
       <Filter>Source\Engine\Public\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Component\InventoryComponentBase.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Component\MovementComponent.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Component\CollisionComponent.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Component\BoxCollision.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Component\BoxCollision2D.h">
+      <Filter>Source\Engine\Public\Component</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Helper\VectorHelper.h">
       <Filter>Source\Engine\Public\Helper</Filter>
     </ClInclude>
@@ -364,11 +439,23 @@
     <ClInclude Include="Source\Engine\Public\Framework\GameInstance.h">
       <Filter>Source\Engine\Public\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Application\Public\GameMode\GameMode_Dungeon.h">
+      <Filter>Source\Application\Public\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\GameMode\GameMode_Town.h">
+      <Filter>Source\Application\Public\GameMode</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Engine\Public\Framework\GameModeBase.h">
       <Filter>Source\Engine\Public\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application\Public\GameSettings.h">
       <Filter>Source\Application\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\GameState\GameState_Dungeon.h">
+      <Filter>Source\Application\Public\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\GameState\GameState_Town.h">
+      <Filter>Source\Application\Public\GameState</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Framework\GameStateBase.h">
       <Filter>Source\Engine\Public\Framework</Filter>
@@ -387,6 +474,9 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Math\Matrix.h">
       <Filter>Source\Engine\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Level\MazeGenerator.h">
+      <Filter>Source\Application\Public\Level</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Slate\Overlay.h">
       <Filter>Source\Engine\Public\Slate</Filter>
@@ -433,8 +523,26 @@
     <ClInclude Include="Source\Engine\Public\Framework\World.h">
       <Filter>Source\Engine\Public\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Application\Public\World\World_Dungeon.h">
+      <Filter>Source\Application\Public\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\World\World_Town.h">
+      <Filter>Source\Application\Public\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\World\World_SonoCave.h">
+      <Filter>Source\Application\Public\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\World\World_SonoTown.h">
+      <Filter>Source\Application\Public\World</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Application\Public\GameState\GameState.h">
       <Filter>Source\Application\Public\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\LibraryInterface.h">
+      <Filter>Source\Application\Public\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\StatusTypes.h">
+      <Filter>Source\Application\Public\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application\Public\Actor\Actor2D.h">
       <Filter>Source\Application\Public\Actor</Filter>
@@ -442,11 +550,68 @@
     <ClInclude Include="Source\Application\Public\Actor\Actor2DTypes.h">
       <Filter>Source\Application\Public\Actor</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\ItemManager.h">
+      <Filter>Source\Application\Public\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Building\BuildingBase.h">
+      <Filter>Source\Application\Public\Actor\Building</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Building\BuildingTypes.h">
+      <Filter>Source\Application\Public\Actor\Building</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Character\CharacterBase.h">
+      <Filter>Source\Application\Public\Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Character\CharacterTypes.h">
+      <Filter>Source\Application\Public\Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Character\Enemy.h">
+      <Filter>Source\Application\Public\Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Character\Player.h">
+      <Filter>Source\Application\Public\Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Character\PlayerTypes.h">
+      <Filter>Source\Application\Public\Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Character\Player_Dungeon.h">
+      <Filter>Source\Application\Public\Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Character\Player_Town.h">
+      <Filter>Source\Application\Public\Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Effect\EffectBase.h">
+      <Filter>Source\Application\Public\Actor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Effect\EffectTypes.h">
+      <Filter>Source\Application\Public\Actor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Event\EventBase.h">
+      <Filter>Source\Application\Public\Actor\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Event\EventChoiceBase.h">
+      <Filter>Source\Application\Public\Actor\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Event\EventTypes.h">
+      <Filter>Source\Application\Public\Actor\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Event\Event_DungeonExit.h">
+      <Filter>Source\Application\Public\Actor\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Event\Event_TownDoor.h">
+      <Filter>Source\Application\Public\Actor\Event</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Application\Public\Actor\Ground\GroundBase.h">
       <Filter>Source\Application\Public\Actor\Ground</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application\Public\Actor\Ground\GroundTypes.h">
       <Filter>Source\Application\Public\Actor\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Item\ItemBase.h">
+      <Filter>Source\Application\Public\Actor\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Actor\Item\ItemTypes.h">
+      <Filter>Source\Application\Public\Actor\Item</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Public\Component\SpriteComponent.h">
       <Filter>Source\Engine\Public\Component</Filter>
@@ -460,7 +625,10 @@
     <ClInclude Include="Source\Application\Public\Level\Level2D.h">
       <Filter>Source\Application\Public\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application\Public\Controller\PlayerController_TokoPuyo.h">
+    <ClInclude Include="Source\Application\Public\Controller\PlayerController_Dungeon.h">
+      <Filter>Source\Application\Public\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Public\Controller\PlayerController_Town.h">
       <Filter>Source\Application\Public\Controller</Filter>
     </ClInclude>
     <ClInclude Include="SDK\nlohmann\json.hpp">
@@ -472,46 +640,13 @@
     <ClInclude Include="Source\Engine\Public\Framework\Level\Layer.h">
       <Filter>Source\Engine\Public\Framework\Level</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Framework\Level\Layer.h">
+      <Filter>Source\Engine\Public\Framework\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Public\Framework\Level\QuadTree.h">
+      <Filter>Source\Engine\Public\Framework\Level</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Application\Public\Level\LevelTypes.h">
-      <Filter>Source\Application\Public\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\Level\Level_TokoPuyo.h">
-      <Filter>Source\Application\Public\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\World\World_TokoPuyo.h">
-      <Filter>Source\Application\Public\World</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\GameState\GameState_TokoPuyo.h">
-      <Filter>Source\Application\Public\GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\GameState\GameState_PlayTypes.h">
-      <Filter>Source\Application\Public\GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\GameMode\GameMode_TokoPuyo.h">
-      <Filter>Source\Application\Public\GameMode</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\GameMode\GameMode.h">
-      <Filter>Source\Application\Public\GameMode</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\Actor\Character\PuyoTypes.h">
-      <Filter>Source\Application\Public\Actor\Character</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\Actor\Character\Puyo.h">
-      <Filter>Source\Application\Public\Actor\Character</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\UI\GameProgressUI.h">
-      <Filter>Source\Application\Public\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\UI\GameOverUI.h">
-      <Filter>Source\Application\Public\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\GameState\GameState_Play.h">
-      <Filter>Source\Application\Public\GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\UI\TitleUI.h">
-      <Filter>Source\Application\Public\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Application\Public\Level\Level_Title.h">
       <Filter>Source\Application\Public\Level</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application\Public\World\World_Title.h">
@@ -619,6 +754,12 @@
     <ClCompile Include="Source\DirectX\Private\Core\DirectX.cpp">
       <Filter>Source\DirectX\Private\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Input\Camera.cpp">
+      <Filter>Source\DirectX\Private\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\DrawCube.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Object\DrawableObject.cpp">
       <Filter>Source\DirectX\Private\Object</Filter>
     </ClCompile>
@@ -631,16 +772,46 @@
     <ClCompile Include="Source\DirectX\Private\Utils\String.cpp">
       <Filter>Source\DirectX\Private\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\DrawSphere.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\PointLight.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Input\CameraIndicator.cpp">
+      <Filter>Source\DirectX\Private\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Input\CameraProjection.cpp">
+      <Filter>Source\DirectX\Private\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\DrawPyramid.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Math\Math.cpp">
       <Filter>Source\DirectX\Private\Math</Filter>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Object\ObjectBase.cpp">
       <Filter>Source\DirectX\Private\Object</Filter>
     </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\LightBase.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\SkyLight.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\SkySphere.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Object\Sprite.cpp">
       <Filter>Source\DirectX\Private\Object</Filter>
     </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\DrawableObject3D.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Object\DrawableObject2D.cpp">
+      <Filter>Source\DirectX\Private\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectX\Private\Object\DrawScreenText.cpp">
       <Filter>Source\DirectX\Private\Object</Filter>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Input\Keyboard.cpp">
@@ -694,6 +865,21 @@
     <ClCompile Include="Source\Engine\Private\Component\ActorComponent.cpp">
       <Filter>Source\Engine\Private\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Component\InventoryComponentBase.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Component\MovementComponent.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Component\CollisionComponent.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Component\BoxCollision.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Private\Component\BoxCollision2D.cpp">
+      <Filter>Source\Engine\Private\Component</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Engine\Private\Helper\VectorHelper.cpp">
       <Filter>Source\Engine\Private\Helper</Filter>
     </ClCompile>
@@ -718,8 +904,20 @@
     <ClCompile Include="Source\Engine\Private\Framework\GameInstance.cpp">
       <Filter>Source\Engine\Private\Framework</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Application\Private\GameMode\GameMode_Dungeon.cpp">
+      <Filter>Source\Application\Private\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\GameMode\GameMode_Town.cpp">
+      <Filter>Source\Application\Private\GameMode</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Application\Private\GameSettings.cpp">
       <Filter>Source\Application\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\GameState\GameState_Dungeon.cpp">
+      <Filter>Source\Application\Private\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\GameState\GameState_Town.cpp">
+      <Filter>Source\Application\Private\GameState</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Framework\GameModeBase.cpp">
       <Filter>Source\Engine\Private\Framework</Filter>
@@ -744,6 +942,9 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Math\Matrix.cpp">
       <Filter>Source\Engine\Private\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Level\MazeGenerator.cpp">
+      <Filter>Source\Application\Private\Level</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Private\Slate\Overlay.cpp">
       <Filter>Source\Engine\Private\Slate</Filter>
@@ -787,17 +988,62 @@
     <ClCompile Include="Source\Engine\Private\Framework\World.cpp">
       <Filter>Source\Engine\Private\Framework</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Application\Private\World\World_Dungeon.cpp">
+      <Filter>Source\Application\Private\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\World\World_SonoCave.cpp">
+      <Filter>Source\Application\Private\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\World\World_SonoTown.cpp">
+      <Filter>Source\Application\Private\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\World\World_Town.cpp">
+      <Filter>Source\Application\Private\World</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Application\Private\GameState\GameState.cpp">
       <Filter>Source\Application\Private\GameState</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Application\Private\Actor\Character\Puyo.cpp">
+    <ClCompile Include="Source\Application\Private\Actor\Building\BuildingBase.cpp">
+      <Filter>Source\Application\Private\Actor\Building</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Actor\Character\CharacterBase.cpp">
       <Filter>Source\Application\Private\Actor\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Actor\Character\Enemy.cpp">
+      <Filter>Source\Application\Private\Actor\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Actor\Character\Player.cpp">
+      <Filter>Source\Application\Private\Actor\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Actor\Character\Player_Dungeon.cpp">
+      <Filter>Source\Application\Private\Actor\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Actor\Character\Player_Town.cpp">
+      <Filter>Source\Application\Private\Actor\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Actor\Effect\EffectBase.cpp">
+      <Filter>Source\Application\Private\Actor\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Actor\Event\EventBase.cpp">
+      <Filter>Source\Application\Private\Actor\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Actor\Event\EventChoiceBase.cpp">
+      <Filter>Source\Application\Private\Actor\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Actor\Event\Event_DungeonExit.cpp">
+      <Filter>Source\Application\Private\Actor\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Actor\Event\Event_TownDoor.cpp">
+      <Filter>Source\Application\Private\Actor\Event</Filter>
     </ClCompile>
     <ClCompile Include="Source\Application\Private\Actor\Ground\GroundBase.cpp">
       <Filter>Source\Application\Private\Actor\Ground</Filter>
     </ClCompile>
     <ClCompile Include="Source\Application\Private\Actor\Ground\GroundTypes.cpp">
       <Filter>Source\Application\Private\Actor\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Actor\Item\ItemBase.cpp">
+      <Filter>Source\Application\Private\Actor\Item</Filter>
     </ClCompile>
     <ClCompile Include="Source\Application\Private\Actor\Actor2D.cpp">
       <Filter>Source\Application\Private\Actor</Filter>
@@ -814,7 +1060,10 @@
     <ClCompile Include="Source\Application\Private\Level\Level2D.cpp">
       <Filter>Source\Application\Private\Level</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Application\Private\Controller\PlayerController_TokoPuyo.cpp">
+    <ClCompile Include="Source\Application\Private\Controller\PlayerController_Dungeon.cpp">
+      <Filter>Source\Application\Private\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Private\Controller\PlayerController_Town.cpp">
       <Filter>Source\Application\Private\Controller</Filter>
     </ClCompile>
     <ClCompile Include="Source\Application\Private\Level\ObjectManager2D.cpp">
@@ -856,8 +1105,8 @@
     <ClCompile Include="Source\DirectX\Private\Render\BlendState.cpp">
       <Filter>Source\DirectX\Private\Render</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DirectX\Private\Render\ConstantBuffer.cpp">
-      <Filter>Source\DirectX\Private\Render</Filter>
+    <ClCompile Include="Source\Engine\Private\Framework\Level\QuadTree.cpp">
+      <Filter>Source\Engine\Private\Framework\Level</Filter>
     </ClCompile>
     <ClCompile Include="Source\DirectX\Private\Render\CubeTexture.cpp">
       <Filter>Source\DirectX\Private\Render</Filter>
@@ -946,9 +1195,6 @@
     <Image Include="directx.ico">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Content\Textures\icon.png">
-      <Filter>Assets</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="settings.manifest">
@@ -956,23 +1202,64 @@
     </Manifest>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Shader\Shader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Light_Point.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Light_Directional.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\SkyMap.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
     <FxCompile Include="Shader\DrawScreenText.hlsl">
       <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Solid_VS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Solid_PS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Shadow_PS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Shadow_VS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Share\LightVectorData.hlsli">
+      <Filter>Shader\Share</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Share\PShadow_Dynamic.hlsli">
+      <Filter>Shader\Share</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Share\PShadow_Statc.hlsli">
+      <Filter>Shader\Share</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Share\ShaderOps.hlsli">
+      <Filter>Shader\Share</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Share\Transform.hlsli">
+      <Filter>Shader\Share</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\Share\VShadow.hlsli">
+      <Filter>Shader\Share</Filter>
     </FxCompile>
     <FxCompile Include="Shader\Sprite.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shader\PointLight.hlsli">
+      <Filter>Shader</Filter>
+    </None>
     <None Include="Config\PtoEngineSettings.json">
       <Filter>Config</Filter>
     </None>
-    <None Include="Config\PuyoGameSettings.json">
-      <Filter>Config</Filter>
+    <None Include="..\.editorconfig">
+      <Filter>Source\Engine\Private</Filter>
     </None>
-    <None Include="filever.rc2" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
   </ItemGroup>
 </Project>

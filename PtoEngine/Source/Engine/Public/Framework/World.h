@@ -58,7 +58,7 @@ public:
 	// -----------------------------------
 	// Main : Util
 	// -----------------------------------
-	virtual World* GetWorld() override final;
+	virtual std::shared_ptr<World> GetWorld() override final;
 
 	TimerManager& GetTimerManager();
 
@@ -67,7 +67,7 @@ protected:
 	std::shared_ptr<TClass> __NewObject(Args&& ...args)
 	{
 		std::shared_ptr<TClass> out = std::make_shared<TClass>(std::forward<Args>(args)...);
-		out->SetOuter(pPersistentLevel.get());
+		out->SetOuter(pPersistentLevel);
 		out->SetID(mActorTotalCount);
 		++mActorTotalCount;
 		AddToObjectManager(out);

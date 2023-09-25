@@ -227,9 +227,9 @@ void World::Tick(DirectX11& dx, float deltaSec)
 // -----------------------------------
 // Main : Util
 // -----------------------------------
-World* World::GetWorld()
+std::shared_ptr<World> World::GetWorld()
 {
-	return this;
+	return shared_from_this();
 }
 TimerManager& World::GetTimerManager()
 {

@@ -91,13 +91,13 @@ protected:
 public:
 	Object* GetOuter();
 	
-	Level* GetLevel();
-	virtual World* GetWorld() override final;
+	std::shared_ptr<Level> GetLevel();
+	virtual std::shared_ptr<World> GetWorld() override final;
 
 	template<typename T>
-	T* GetTypedOuter()
+	std::shared_ptr<T> GetTypedOuter()
 	{
-		return static_cast<T*>(pOuter);
+		return std::static_pointer_cast<T>(pOuter);
 	}
 
 	// -----------------------------------

@@ -48,8 +48,20 @@ UserWidget::~UserWidget()
 	pMouse = nullptr;
 	if (pRootSlate != nullptr)
 	{
-		pRootSlate->ClearChildren();
+		pMouse->GetClickedLeftPressed().Unbind("UserWidget");
+		pMouse->GetClickedLeftReleased().Unbind("UserWidget");
+		pMouse->GetClickedLeftHeld().Unbind("UserWidget");
+		pMouse->GetClickedRightPressed().Unbind("UserWidget");
+		pMouse->GetClickedRightReleased().Unbind("UserWidget");
+		pMouse->GetClickedRightHeld().Unbind("UserWidget");
+		pMouse->GetClickedWheelPressed().Unbind("UserWidget");
+		pMouse->GetClickedWheelReleased().Unbind("UserWidget");
+		pMouse->GetClickedWheelHeld().Unbind("UserWidget");
+		pMouse->GetMouseMove().Unbind("UserWidget");
 	}
+	pMouse = nullptr;
+
+	pRootSlate->ClearChildren();
 	pRootSlate.reset();
 	pRootSlate = nullptr;
 
@@ -158,7 +170,7 @@ double UserWidget::GetZOrder() const noexcept
 {
 	return ZOrder;
 }
-World* UserWidget::GetWorld()
+std::shared_ptr<World> UserWidget::GetWorld()
 {
 	if (IsValid(pOwner))
 	{

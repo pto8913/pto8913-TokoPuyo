@@ -33,7 +33,7 @@ public:
 	virtual void SetTickEnabled(bool inState) noexcept;
 	virtual bool GetTickEnabled() const noexcept;
 
-	virtual World* GetWorld() { return nullptr; }
+	virtual std::shared_ptr<World> GetWorld() { return nullptr; }
 
 	bool IsPendingKill() const noexcept;
 	void MarkPendingKill();

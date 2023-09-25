@@ -30,8 +30,8 @@ public:
 	// ------------------------------------------------------
 	virtual void Tick(DirectX11& dx, float deltaSec) override;
 
-	void SetWorld(World* in);
-	virtual World* GetWorld() override;
+	void SetWorld(std::shared_ptr<World> in);
+	virtual std::shared_ptr<World> GetWorld() override;
 
 	ObjectManager* GetObjectManager();
 
@@ -53,7 +53,7 @@ protected:
 	// ------------------------------------------------------
 	DirectX11* pDX = nullptr;
 
-	World* pOwningWorld = nullptr;
+	std::shared_ptr<World> pOwningWorld = nullptr;
 
 	std::shared_ptr<ObjectManager> pObjectManager = nullptr;
 

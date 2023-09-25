@@ -18,6 +18,7 @@ Actor::~Actor()
 {
 	OnDestroyed.ClearBind();
 
+	pOuter.reset();
 	pOuter = nullptr;
 
 	for (auto&& pair : pComponents)
@@ -150,16 +151,16 @@ FVector Actor::GetActorRightVector()
 // -----------------------------------
 // Main : Util
 // -----------------------------------
-void Actor::SetOuter(Object* inOuter)
+void Actor::SetOuter(std::shared_ptr<Object> inOuter)
 {
 	pOuter = inOuter;
 }
-Object* Actor::GetOuter()
+std::shared_ptr<Object> Actor::GetOuter()
 {
 	return pOuter;
 }
 
-Level* Actor::GetLevel()
+std::shared_ptr<Level> Actor::GetLevel()
 {
 	if (!IsPendingKill())
 	{
@@ -167,7 +168,7 @@ Level* Actor::GetLevel()
 	}
 	return nullptr;
 }
-World* Actor::GetWorld()
+std::shared_ptr<World> Actor::GetWorld()
 {
 	if (!IsPendingKill())
 	{

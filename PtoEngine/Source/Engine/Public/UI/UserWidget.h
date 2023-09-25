@@ -46,7 +46,7 @@ public:
 	bool IsInViewport() const noexcept;
 	double GetZOrder() const noexcept;
 
-	virtual World* GetWorld() override;
+	virtual std::shared_ptr<World> GetWorld() override;
 
 	virtual void AddSlate(std::shared_ptr<SlateBase> inSlate);
 	virtual void RemoveSlate(std::shared_ptr<SlateBase> inSlate);

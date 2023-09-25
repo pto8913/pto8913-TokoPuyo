@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -76,8 +76,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <TargetName>pto8913-PuyoPuyo</TargetName>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)SDK\DXTex\include\;$(ProjectDir)SDK\FBX\include\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -85,7 +84,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <TargetName>pto8913-PuyoPuyo</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -111,7 +109,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)SDK;$(ProjectDir)SDK/DXTex/include/Public;$(ProjectDir)Source/Application/Public;$(ProjectDir)Source/Engine/Public;$(ProjectDir)Source/DirectX/Public;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)SDK;$(ProjectDir)SDK/DXTex/include/Public;$(ProjectDir)Source/Application/Public;$(ProjectDir)Source/Engine/Public;$(ProjectDir)Source/DirectX/Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
@@ -162,21 +160,20 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)SDK;$(ProjectDir)SDK/DXTex/include/Public;$(ProjectDir)Source/Application/Public;$(ProjectDir)Source/Engine/Public;$(ProjectDir)Source/DirectX/Public;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source;$(ProjectDir)SDK;$(ProjectDir)SDK/DXTex/include/Public;$(ProjectDir)Source/Application/Public;$(ProjectDir)Source/Engine/Public;$(ProjectDir)Source/DirectX/Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalOptions>/Zc:__cplusplus /D"_DEBUG=0" %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <UndefinePreprocessorDefinitions>
-      </UndefinePreprocessorDefinitions>
+      <UndefinePreprocessorDefinitions>_DEBUG</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -201,15 +198,21 @@
     <ClInclude Include="Source\Application\Public\Actor\Character\PuyoTypes.h" />
     <ClInclude Include="Source\Application\Public\Actor\Ground\GroundBase.h" />
     <ClInclude Include="Source\Application\Public\Actor\Ground\GroundTypes.h" />
+    <ClInclude Include="Source\Application\Public\Actor\ItemManager.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Item\ItemBase.h" />
+    <ClInclude Include="Source\Application\Public\Actor\Item\ItemTypes.h" />
+    <ClInclude Include="Source\Application\Public\Actor\LibraryInterface.h" />
+    <ClInclude Include="Source\Application\Public\Actor\StatusTypes.h" />
     <ClInclude Include="Source\Application\Public\App.h" />
-    <ClInclude Include="Source\Application\Public\Controller\PlayerController_TokoPuyo.h" />
-    <ClInclude Include="Source\Application\Public\GameMode\GameMode.h" />
-    <ClInclude Include="Source\Application\Public\GameMode\GameMode_TokoPuyo.h" />
+    <ClInclude Include="Source\Application\Public\Controller\PlayerController_Dungeon.h" />
+    <ClInclude Include="Source\Application\Public\Controller\PlayerController_Town.h" />
+    <ClInclude Include="Source\Application\Public\GameMode\GameMode_Dungeon.h" />
+    <ClInclude Include="Source\Application\Public\GameMode\GameMode_Town.h" />
     <ClInclude Include="Source\Application\Public\GameSettings.h" />
     <ClInclude Include="Source\Application\Public\GameState\GameState.h" />
-    <ClInclude Include="Source\Application\Public\GameState\GameState_PlayTypes.h" />
-    <ClInclude Include="Source\Application\Public\GameState\GameState_Play.h" />
-    <ClInclude Include="Source\Application\Public\GameState\GameState_TokoPuyo.h" />
+    <ClInclude Include="Source\Application\Public\GameState\GameState_Dungeon.h" />
+    <ClInclude Include="Source\Application\Public\GameState\GameState_Town.h" />
+    <ClInclude Include="Source\Application\Public\Level\LevelTypes.h" />
     <ClInclude Include="Source\Application\Public\Level\Level2D.h" />
     <ClInclude Include="Source\Application\Public\Level\LevelTypes.h" />
     <ClInclude Include="Source\Application\Public\Level\Level_PuyoField.h" />
@@ -231,7 +234,12 @@
     <ClInclude Include="Source\Engine\Public\Algorithm\Random.h" />
     <ClInclude Include="Source\Engine\Public\Algorithm\UnionFind.h" />
     <ClInclude Include="Source\Engine\Public\Component\ActorComponent.h" />
+    <ClInclude Include="Source\Engine\Public\Component\BoxCollision.h" />
+    <ClInclude Include="Source\Engine\Public\Component\BoxCollision2D.h" />
+    <ClInclude Include="Source\Engine\Public\Component\CollisionComponent.h" />
     <ClInclude Include="Source\Engine\Public\Component\ComponentBase.h" />
+    <ClInclude Include="Source\Engine\Public\Component\InventoryComponentBase.h" />
+    <ClInclude Include="Source\Engine\Public\Component\MovementComponent.h" />
     <ClInclude Include="Source\Engine\Public\Component\SpriteComponent.h" />
     <ClInclude Include="Source\Engine\Public\EngineSettings.h" />
     <ClInclude Include="Source\Engine\Public\Engine\Audio.h" />
@@ -241,6 +249,7 @@
     <ClInclude Include="Source\Engine\Public\Framework\GameInstance.h" />
     <ClInclude Include="Source\Engine\Public\Framework\GameModeBase.h" />
     <ClInclude Include="Source\Engine\Public\Framework\GameStateBase.h" />
+    <ClInclude Include="Source\Engine\Public\Framework\Level\CollisionCollection.h" />
     <ClInclude Include="Source\Engine\Public\Framework\Level\Layer.h" />
     <ClInclude Include="Source\Engine\Public\Framework\Level\Level.h" />
     <ClInclude Include="Source\Engine\Public\Framework\Level\ObjectManager.h" />
@@ -332,14 +341,16 @@
     <ClCompile Include="Source\Application\Private\Actor\Character\PuyoTypes.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Ground\GroundBase.cpp" />
     <ClCompile Include="Source\Application\Private\Actor\Ground\GroundTypes.cpp" />
+    <ClCompile Include="Source\Application\Private\Actor\Item\ItemBase.cpp" />
     <ClCompile Include="Source\Application\Private\App.cpp" />
-    <ClCompile Include="Source\Application\Private\Controller\PlayerController_TokoPuyo.cpp" />
-    <ClCompile Include="Source\Application\Private\GameMode\GameMode.cpp" />
-    <ClCompile Include="Source\Application\Private\GameMode\GameMode_TokoPuyo.cpp" />
+    <ClCompile Include="Source\Application\Private\Controller\PlayerController_Dungeon.cpp" />
+    <ClCompile Include="Source\Application\Private\Controller\PlayerController_Town.cpp" />
+    <ClCompile Include="Source\Application\Private\GameMode\GameMode_Dungeon.cpp" />
+    <ClCompile Include="Source\Application\Private\GameMode\GameMode_Town.cpp" />
     <ClCompile Include="Source\Application\Private\GameSettings.cpp" />
     <ClCompile Include="Source\Application\Private\GameState\GameState.cpp" />
-    <ClCompile Include="Source\Application\Private\GameState\GameState_Play.cpp" />
-    <ClCompile Include="Source\Application\Private\GameState\GameState_TokoPuyo.cpp" />
+    <ClCompile Include="Source\Application\Private\GameState\GameState_Dungeon.cpp" />
+    <ClCompile Include="Source\Application\Private\GameState\GameState_Town.cpp" />
     <ClCompile Include="Source\Application\Private\Level\Level2D.cpp" />
     <ClCompile Include="Source\Application\Private\Level\Level_PuyoField.cpp" />
     <ClCompile Include="Source\Application\Private\Level\Level_Title.cpp" />
@@ -357,7 +368,12 @@
     <ClCompile Include="Source\Engine\Private\Algorithm\Random.cpp" />
     <ClCompile Include="Source\Engine\Private\Algorithm\UnionFind.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\ActorComponent.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\BoxCollision.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\BoxCollision2D.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\CollisionComponent.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\ComponentBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\InventoryComponentBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Component\MovementComponent.cpp" />
     <ClCompile Include="Source\Engine\Private\Component\SpriteComponent.cpp" />
     <ClCompile Include="Source\Engine\Private\EngineSettings.cpp" />
     <ClCompile Include="Source\Engine\Private\Engine\Audio.cpp" />
@@ -366,6 +382,7 @@
     <ClCompile Include="Source\Engine\Private\Framework\GameInstance.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\GameModeBase.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\GameStateBase.cpp" />
+    <ClCompile Include="Source\Engine\Private\Framework\Level\CollisionCollection.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\Level\Level.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\Level\ObjectManager.cpp" />
     <ClCompile Include="Source\Engine\Private\Framework\PlayerController.cpp" />
@@ -436,14 +453,45 @@
     <ClCompile Include="Source\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Content\Textures\icon.png" />
     <Image Include="directx.ico" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="settings.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Shader\Light_Directional.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\Light_Point.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Shader\DrawScreenText.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\Shader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\Shadow_PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\Shadow_VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\SkyMap.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\Solid_PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\Solid_VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
@@ -453,6 +501,37 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Shader\Share\LightVectorData.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\Share\PShadow_Dynamic.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\Share\PShadow_Statc.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\Share\ShaderOps.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\Share\Transform.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shader\Share\VShadow.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <None Include="..\.editorconfig" />
     <None Include="Config\PtoEngineSettings.json" />
     <None Include="Config\PuyoGameSettings.json" />
     <None Include="filever.rc2" />
