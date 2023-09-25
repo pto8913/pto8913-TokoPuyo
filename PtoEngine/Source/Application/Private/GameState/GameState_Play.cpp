@@ -160,7 +160,7 @@ void GameState_Play::OpenGameOverUI()
 	pGameOverUI->AddToViewport();
 	if (pGameProgressUI)
 	{
-		//pGameProgressUI->RemoveFromParent();
+		pGameProgressUI->SetVisibility(ESlateVisibility::IgnoreAll);
 	}
 }
 void GameState_Play::OpenGameProgressUI()
@@ -175,6 +175,7 @@ void GameState_Play::OpenGameProgressUI()
 		pGameProgressUI->OnClickedRestart.Bind<&GameState_Play::OnClickedRestart>(*this, "GameState");
 		pGameProgressUI->OnClickedPause.Bind<&GameState_Play::OnClickedPause>(*this, "GameState");
 	}
+	pGameProgressUI->SetVisibility(ESlateVisibility::Visible);
 	pGameProgressUI->AddToViewport();
 	if (pGameOverUI)
 	{

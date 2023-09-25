@@ -262,7 +262,7 @@ void GameProgressUI::NativeOnInitialized()
 
 		pTextBlock_AllClearEffect->SetText(L"‘SÁ‚µ");
 		pRootSlate->AddChild(pTextBlock_AllClearEffect);
-		pTextBlock_AllClearEffect->SetVisibility(false);
+		pTextBlock_AllClearEffect->SetVisibility(ESlateVisibility::Collapsed);
 	}
 
 	/* Combo */
@@ -280,7 +280,7 @@ void GameProgressUI::NativeOnInitialized()
 		
 		pTextBlock_ComboEffect->SetText(L"0");
 		pRootSlate->AddChild(pTextBlock_ComboEffect);
-		pTextBlock_ComboEffect->SetVisibility(false);
+		pTextBlock_ComboEffect->SetVisibility(ESlateVisibility::Collapsed);
 	}
 
 	pRootSlate->SetPosition({ 0, 0 });
@@ -347,7 +347,7 @@ void GameProgressUI::UpdateScore(const int& inScore, const int& inCombo, const i
 		mAnimCombo->PlayForward(0.f, 0.5f);
 
 		pTextBlock_ComboEffect->SetText(strCombo);
-		pTextBlock_ComboEffect->SetVisibility(true);
+		pTextBlock_ComboEffect->SetVisibility(ESlateVisibility::Visible);
 	}
 	if (pTextBlock_MaxScore)
 	{
@@ -370,12 +370,15 @@ void GameProgressUI::SetAllClear(bool allClear)
 {
 	if (allClear)
 	{
-		pTextBlock_AllClearEffect->SetVisibility(true);
+		pTextBlock_AllClearEffect->SetVisibility(ESlateVisibility::Visible);
 	}
 	else
 	{
-		if (pTextBlock_AllClearEffect->GetVisibility())
+		switch (pTextBlock_AllClearEffect->GetVisibility())
 		{
+		case ESlateVisibility::Collapsed:
+			break;
+		default:
 			if (mAnimAllClear == nullptr)
 			{
 				mAnimAllClear = MakeAnimation();
@@ -392,6 +395,7 @@ void GameProgressUI::SetAllClear(bool allClear)
 			}
 			AddAnimation(mAnimAllClear);
 			mAnimAllClear->PlayForward(0.f, 1.f);
+			break;
 		}
 	}
 }
@@ -429,11 +433,11 @@ void GameProgressUI::OnClickedReturnToTitle(DX::MouseEvent inMouseEvent)
 
 void GameProgressUI::ComboAnimationCompleted()
 {
-	pTextBlock_ComboEffect->SetVisibility(false);
+	pTextBlock_ComboEffect->SetVisibility(ESlateVisibility::Collapsed);
 	mAnimCombo->Deactivate();
 }
 void GameProgressUI::AllClearAnimationCompleted()
 {
-	pTextBlock_AllClearEffect->SetVisibility(false);
+	pTextBlock_AllClearEffect->SetVisibility(ESlateVisibility::Collapsed);
 	mAnimAllClear->Deactivate();
 }
