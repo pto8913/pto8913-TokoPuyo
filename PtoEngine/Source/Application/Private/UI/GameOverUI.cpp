@@ -47,6 +47,11 @@ void GameOverUI::NativeOnInitialized()
 {
 	pRootSlate = MakeSlate<S_CanvasPanel>(EngineSettings::GetWindowSize());
 
+	FSlateBorderAppearance colorMaskAppearance;
+	colorMaskAppearance.color = FColor(0.f, 0.f, 0.f, 0.75f);
+	auto colorMask = MakeSlate<S_Border>(EngineSettings::GetWindowSize(), FSlateInfos(), colorMaskAppearance);
+	pRootSlate->AddChild(colorMask);
+
 	FSlateInfos SlateInfos;
 	SlateInfos.padding = { 5.f, 2.5f, 5.f, 2.5f };
 	auto InfosVB = MakeSlate<S_VerticalBox>(GameSettings::GAMEUI_SIZE, SlateInfos);

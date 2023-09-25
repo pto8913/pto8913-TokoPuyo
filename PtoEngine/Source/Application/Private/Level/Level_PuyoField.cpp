@@ -68,8 +68,8 @@ void Level_PuyoField::BeginPlay(DirectX11& dx)
 void Level_PuyoField::Tick(DirectX11& dx, float deltaTime)
 {
 	const auto gameProgress = pGameState->GetGameProgress();
-	if (gameProgress != EGameProgress::GameOver)
-	{
+	//if (gameProgress != EGameProgress::GameOver)
+	//{
 		Level2D::Tick(dx, deltaTime);
 
 		chrono::duration DurationTime_Main = chrono::now() - LastTime_Main;
@@ -92,7 +92,7 @@ void Level_PuyoField::Tick(DirectX11& dx, float deltaTime)
 				break;
 			}
 		}
-	}
+	//}
 }
 void Level_PuyoField::Init(const int& x, const int& y)
 {
@@ -229,10 +229,6 @@ void Level_PuyoField::StartControlPuyo()
 
 			pGameState->SetGameProgress(EGameProgress::Control);
 		}
-	}
-	else
-	{
-		pGameState->SetGameProgress(EGameProgress::GameOver);
 	}
 }
 void Level_PuyoField::SpawnPuyo()

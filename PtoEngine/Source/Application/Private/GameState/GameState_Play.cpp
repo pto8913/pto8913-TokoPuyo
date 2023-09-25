@@ -160,7 +160,7 @@ void GameState_Play::OpenGameOverUI()
 	pGameOverUI->AddToViewport();
 	if (pGameProgressUI)
 	{
-		pGameProgressUI->RemoveFromParent();
+		//pGameProgressUI->RemoveFromParent();
 	}
 }
 void GameState_Play::OpenGameProgressUI()
