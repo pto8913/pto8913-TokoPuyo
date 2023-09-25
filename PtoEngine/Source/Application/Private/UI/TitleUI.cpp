@@ -47,7 +47,7 @@ void TitleUI::NativeOnInitialized()
 		FSlateTextAppearance appearance;
 
 		auto pTextBlock = MakeSlate<S_TextBlock>(*pDX, infos, font, appearance);
-		pTextBlock->SetText(L"pto8193 ‚Õ‚æ‚Õ‚æ");
+		pTextBlock->SetText(L"pto8913 ‚Õ‚æ‚Õ‚æ");
 		pMenuVB->AddChild(pTextBlock);
 	}
 
