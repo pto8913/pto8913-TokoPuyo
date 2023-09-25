@@ -11,7 +11,7 @@
 S_Button::S_Button(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos, FSlateButtonAppearance inAppearance)
 	: SlotContainerOnlyOne(inRt2D, inSize, inSlateInfos), mAppearance(inAppearance)
 {
-	mSlateInputEventReceiveType = ESlateInputEventReceiveType::Enable;
+	mSlateVisibility = ESlateVisibility::Visible;
 
 	pRt2D->CreateSolidColorBrush(
 		ColorHelper::ConvertColorToD2D(mAppearance.DefaultColor),
@@ -32,15 +32,18 @@ S_Button::~S_Button()
 // ------------------------------------------------------------------------------------------------------------
 void S_Button::Draw()
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
+		return;
+	default:
+		pRt2D->FillRectangle(
+			RectHelper::ConvertRectToD2D(GetRect()),
+			pBrush
+		);
+		SlotContainerOnlyOne::Draw();
 		return;
 	}
-	pRt2D->FillRectangle(
-		RectHelper::ConvertRectToD2D(GetRect()),
-		pBrush
-	);
-	SlotContainerOnlyOne::Draw();
 }
 
 void S_Button::SetAppearance(const FSlateButtonAppearance& in)

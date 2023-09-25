@@ -133,6 +133,23 @@ void UserWidget::RemoveFromParent()
 	NativeDestruct();
 	bIsInViewport = false;
 }
+
+void UserWidget::SetVisibility(const ESlateVisibility& inVisibility)
+{
+	if (pRootSlate)
+	{
+		pRootSlate->SetVisibility(inVisibility);
+	}
+}
+ESlateVisibility UserWidget::GetVisibility() const
+{
+	if (pRootSlate)
+	{
+		return pRootSlate->GetVisibility();
+	}
+	return ESlateVisibility::Invalid;
+}
+
 bool UserWidget::IsInViewport() const noexcept
 {
 	return bIsInViewport;

@@ -21,15 +21,6 @@ S_Overlay::~S_Overlay()
 // ------------------------------------------------------------------------------------------------
 // Main
 // ------------------------------------------------------------------------------------------------
-void S_Overlay::Draw()
-{
-	if (!bIsVisible)
-	{
-		return;
-	}
-	SlateContainerBase::Draw();
-}
-
 void S_Overlay::AddChild(std::shared_ptr<SlateBase> in)
 {
 	SetSize({ in->GetWidth(), in->GetHeight() });

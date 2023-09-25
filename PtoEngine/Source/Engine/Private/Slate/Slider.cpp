@@ -43,67 +43,68 @@ S_Slider::~S_Slider()
 // ------------------------------------------------------
 void S_Slider::Draw()
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
 		return;
-	}
-
-	switch (mAppearance.direction)
-	{
-	case ESliderDirection::Horizontal:
-		/* Draw SliderLine */
-		pRt2D->FillRectangle(
-			RectHelper::ConvertRectToD2D(
-				FRect(
-					mPosition.x + mOffset.x,
-					mPosition.y + mOffset.y + mSize.y / 2 - mAppearance.sliderLineThickness / 2,
-					mPosition.x + mOffset.x + mSize.x,
-					mPosition.y + mOffset.y + mSize.y / 2 + mAppearance.sliderLineThickness / 2
-				)
-			),
-			pLineBrush
-		);
-		/* Draw Slider */
-		pRt2D->FillRectangle(
-			RectHelper::ConvertRectToD2D(
-				FRect(
-					mPosition.x + mOffset.x - mAppearance.sliderButtonSize.x / 2 + GetSliderPosition(),
-					mPosition.y + mOffset.y - mAppearance.sliderButtonSize.y / 2 + mSize.y / 2,
-					mPosition.x + mOffset.x + mAppearance.sliderButtonSize.x / 2 + GetSliderPosition(),
-					mPosition.y + mOffset.y + mAppearance.sliderButtonSize.y / 2 + mSize.y / 2
-				)
-			),
-			pBrush
-		);
-		break;
 	default:
-		/* Draw SliderLine */
-		pRt2D->FillRectangle(
-			RectHelper::ConvertRectToD2D(
-				FRect(
-					mPosition.x + mOffset.x - mAppearance.sliderLineThickness / 2,
-					mPosition.y + mOffset.y,
-					mPosition.x + mOffset.x + mAppearance.sliderLineThickness / 2,
-					mPosition.y + mOffset.y + mSize.y
-				)
-			),
-			pLineBrush
-		);
-		/* Draw Slider */
-		pRt2D->FillRectangle(
-			RectHelper::ConvertRectToD2D(
-				FRect(
-					mPosition.x + mOffset.x - mAppearance.sliderButtonSize.x / 2,
-					mPosition.y + mOffset.y - mAppearance.sliderButtonSize.y / 2 + GetSliderPosition(),
-					mPosition.x + mOffset.x + mAppearance.sliderButtonSize.x / 2,
-					mPosition.y + mOffset.y + mAppearance.sliderButtonSize.y / 2 + GetSliderPosition()
-				)
-			),
-			pBrush
-		);
+		switch (mAppearance.direction)
+		{
+		case ESliderDirection::Horizontal:
+			/* Draw SliderLine */
+			pRt2D->FillRectangle(
+				RectHelper::ConvertRectToD2D(
+					FRect(
+						mPosition.x + mOffset.x,
+						mPosition.y + mOffset.y + mSize.y / 2 - mAppearance.sliderLineThickness / 2,
+						mPosition.x + mOffset.x + mSize.x,
+						mPosition.y + mOffset.y + mSize.y / 2 + mAppearance.sliderLineThickness / 2
+					)
+				),
+				pLineBrush
+			);
+			/* Draw Slider */
+			pRt2D->FillRectangle(
+				RectHelper::ConvertRectToD2D(
+					FRect(
+						mPosition.x + mOffset.x - mAppearance.sliderButtonSize.x / 2 + GetSliderPosition(),
+						mPosition.y + mOffset.y - mAppearance.sliderButtonSize.y / 2 + mSize.y / 2,
+						mPosition.x + mOffset.x + mAppearance.sliderButtonSize.x / 2 + GetSliderPosition(),
+						mPosition.y + mOffset.y + mAppearance.sliderButtonSize.y / 2 + mSize.y / 2
+					)
+				),
+				pBrush
+			);
+			break;
+		default:
+			/* Draw SliderLine */
+			pRt2D->FillRectangle(
+				RectHelper::ConvertRectToD2D(
+					FRect(
+						mPosition.x + mOffset.x - mAppearance.sliderLineThickness / 2,
+						mPosition.y + mOffset.y,
+						mPosition.x + mOffset.x + mAppearance.sliderLineThickness / 2,
+						mPosition.y + mOffset.y + mSize.y
+					)
+				),
+				pLineBrush
+			);
+			/* Draw Slider */
+			pRt2D->FillRectangle(
+				RectHelper::ConvertRectToD2D(
+					FRect(
+						mPosition.x + mOffset.x - mAppearance.sliderButtonSize.x / 2,
+						mPosition.y + mOffset.y - mAppearance.sliderButtonSize.y / 2 + GetSliderPosition(),
+						mPosition.x + mOffset.x + mAppearance.sliderButtonSize.x / 2,
+						mPosition.y + mOffset.y + mAppearance.sliderButtonSize.y / 2 + GetSliderPosition()
+					)
+				),
+				pBrush
+			);
+			break;
+		}
 		break;
 	}
-
 #if _DEBUG
 	pRt2D->DrawRectangle(
 		RectHelper::ConvertRectToD2D(GetRect()),
@@ -139,7 +140,7 @@ void S_Slider::SetValue(float in)
 
 bool S_Slider::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
-	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
+	if (GetVisibility() == ESlateVisibility::Visible)
 	{
 		if (inMouseEvent.State == DX::MouseEvent::ButtonState::LPRESSED)
 		{
@@ -165,7 +166,7 @@ bool S_Slider::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 }
 bool S_Slider::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
-	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
+	if (GetVisibility() == ESlateVisibility::Visible)
 	{
 		if (inMouseEvent.State == DX::MouseEvent::ButtonState::LHELD)
 		{

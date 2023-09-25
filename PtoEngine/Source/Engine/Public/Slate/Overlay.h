@@ -20,8 +20,6 @@ public:
 		}
 		return "S_Overlay";
 	}
-	virtual void Draw() override;
-
 	virtual void SetSize(FVector2D inSize) override;
 
 	virtual void AddChild(std::shared_ptr<SlateBase> in) override;

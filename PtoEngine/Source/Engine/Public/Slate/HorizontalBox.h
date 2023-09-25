@@ -22,7 +22,6 @@ public:
 		}
 		return "S_HorizontalBox";
 	}
-	virtual void Draw() override;
 protected:
 	virtual void Update() override;
 };

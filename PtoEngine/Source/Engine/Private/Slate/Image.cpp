@@ -23,20 +23,24 @@ S_Image::~S_Image()
 // ------------------------------------------------------------------------------------------------
 void S_Image::Draw()
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
 		return;
+	default:
+		if (pBitmap != nullptr)
+		{
+			pRt2D->DrawBitmap(
+				pBitmap,
+				RectHelper::ConvertRectToD2D(GetRect()),
+				1.f,
+				D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
+				nullptr
+			);
+		}
+		break;
 	}
-	if (pBitmap != nullptr)
-	{
-		pRt2D->DrawBitmap(
-			pBitmap,
-			RectHelper::ConvertRectToD2D(GetRect()),
-			1.f,
-			D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
-			nullptr
-		);
-	}
+
 #if _DEBUG
 	pRt2D->DrawRectangle(
 		RectHelper::ConvertRectToD2D(GetRect()),

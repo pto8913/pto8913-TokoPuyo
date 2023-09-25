@@ -29,72 +29,74 @@ S_Border::~S_Border()
 // ------------------------------------------------------------------------------------------------------------
 void S_Border::Draw()
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
 		return;
-	}
-
-	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
-	switch (mAppearance.Type)
-	{
-	case EBorderType::None:
-		SlotContainerOnlyOne::Draw();
-		return;
-	case EBorderType::Box:
-		if (mAppearance.bIsFill)
-		{
-			pRt2D->FillRectangle(
-				RectHelper::ConvertRectToD2D(GetRect()),
-				pBrush
-			);
-		}
-		else
-		{
-			pRt2D->DrawRectangle(
-				RectHelper::ConvertRectToD2D(GetRect()),
-				pBrush,
-				mAppearance.lineWidth
-			);
-		}
-		break;
-	case EBorderType::Border:
-		if (mAppearance.bIsFill)
-		{
-			pRt2D->FillRoundedRectangle(
-				D2D1::RoundedRect(
-					RectHelper::ConvertRectToD2D(GetRect()),
-					mAppearance.roundSize.x,
-					mAppearance.roundSize.y
-				),
-				pBrush
-			);
-		}
-		else
-		{
-			pRt2D->DrawRoundedRectangle(
-				D2D1::RoundedRect(
-					RectHelper::ConvertRectToD2D(GetRect()),
-					mAppearance.roundSize.x,
-					mAppearance.roundSize.y
-				),
-				pBrush,
-				mAppearance.lineWidth
-			);
-		}
-		break;
-	case EBorderType::Image:
-		if (pBrush != nullptr)
-		{
-			pRt2D->DrawBitmap(
-				pBitmap,
-				RectHelper::ConvertRectToD2D(GetRect()),
-				1.f,
-				D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
-				nullptr
-			);
-		}
-		break;
 	default:
+		pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
+		switch (mAppearance.Type)
+		{
+		case EBorderType::None:
+			SlotContainerOnlyOne::Draw();
+			return;
+		case EBorderType::Box:
+			if (mAppearance.bIsFill)
+			{
+				pRt2D->FillRectangle(
+					RectHelper::ConvertRectToD2D(GetRect()),
+					pBrush
+				);
+			}
+			else
+			{
+				pRt2D->DrawRectangle(
+					RectHelper::ConvertRectToD2D(GetRect()),
+					pBrush,
+					mAppearance.lineWidth
+				);
+			}
+			break;
+		case EBorderType::Border:
+			if (mAppearance.bIsFill)
+			{
+				pRt2D->FillRoundedRectangle(
+					D2D1::RoundedRect(
+						RectHelper::ConvertRectToD2D(GetRect()),
+						mAppearance.roundSize.x,
+						mAppearance.roundSize.y
+					),
+					pBrush
+				);
+			}
+			else
+			{
+				pRt2D->DrawRoundedRectangle(
+					D2D1::RoundedRect(
+						RectHelper::ConvertRectToD2D(GetRect()),
+						mAppearance.roundSize.x,
+						mAppearance.roundSize.y
+					),
+					pBrush,
+					mAppearance.lineWidth
+				);
+			}
+			break;
+		case EBorderType::Image:
+			if (pBrush != nullptr)
+			{
+				pRt2D->DrawBitmap(
+					pBitmap,
+					RectHelper::ConvertRectToD2D(GetRect()),
+					1.f,
+					D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
+					nullptr
+				);
+			}
+			break;
+		default:
+			break;
+		}
 		break;
 	}
 

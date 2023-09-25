@@ -57,36 +57,39 @@ S_TextBlock::~S_TextBlock()
 // ------------------------------------------------------------------------------------------------
 void S_TextBlock::Draw()
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
 		return;
-	}
-	/* For WidgetAnimation */
-	pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
+	default:
+		/* For WidgetAnimation */
+		pBrush->SetColor(ColorHelper::ConvertColorToD2D(mAppearance.color));
 #if _DEBUG
-	pRt2D->DrawRectangle(
-		RectHelper::ConvertRectToD2D(GetRect()),
-		pBrush
-	);
+		pRt2D->DrawRectangle(
+			RectHelper::ConvertRectToD2D(GetRect()),
+			pBrush
+		);
 #endif
 
-	//if (mAppearance.outline)
-	//{
-	//	pRtHWnd->BeginDraw();
-	//	pRtHWnd->Clear(D2D1_COLOR_F(1, 1, 1));
+		//if (mAppearance.outline)
+		//{
+		//	pRtHWnd->BeginDraw();
+		//	pRtHWnd->Clear(D2D1_COLOR_F(1, 1, 1));
 
-	//	pTextLayout->Draw(nullptr, pTextRenderer_Outline, mPosition.x, mPosition.y);
-	//	pRtHWnd->EndDraw();
-	//	return;
-	//}
+		//	pTextLayout->Draw(nullptr, pTextRenderer_Outline, mPosition.x, mPosition.y);
+		//	pRtHWnd->EndDraw();
+		//	return;
+		//}
 
-	pRt2D->DrawText(
-		mText.c_str(),
-		(UINT32)mText.size(),
-		pTextFormat,
-		RectHelper::ConvertRectToD2D(GetRect()),
-		pBrush
-	);
+		pRt2D->DrawText(
+			mText.c_str(),
+			(UINT32)mText.size(),
+			pTextFormat,
+			RectHelper::ConvertRectToD2D(GetRect()),
+			pBrush
+		);
+		return;
+	}
 }
 
 void S_TextBlock::SetAppearance(FSlateTextAppearance in)

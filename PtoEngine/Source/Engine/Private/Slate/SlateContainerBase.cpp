@@ -15,7 +15,7 @@
 SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inRt2D, FVector2D inSize, FSlateInfos inSlateInfos)
 	: SlateBase(inRt2D, inSize, inSlateInfos)
 {
-	mSlateInputEventReceiveType = ESlateInputEventReceiveType::IgnoreThis;
+	mSlateVisibility = ESlateVisibility::IgnoreThis;
 }
 SlateContainerBase::SlateContainerBase(ID2D1RenderTarget* inRt2D, FSlateInfos inSlateInfos)
 	: SlateContainerBase(inRt2D, { 0,0 }, inSlateInfos)
@@ -31,22 +31,23 @@ SlateContainerBase::~SlateContainerBase()
 // ------------------------------------------------------------------------------------------------
 void SlateContainerBase::Draw()
 {
-	if (!bIsVisible)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
 		return;
+	default:
+		for (auto&& child : pChildren)
+		{
+			child->Draw();
+		}
+		break;
 	}
-
 #if _DEBUG
 	pRt2D->DrawRectangle(
 		RectHelper::ConvertRectToD2D(GetRect()),
 		pBrush
 	);
 #endif
-
-	for (auto&& child : pChildren)
-	{
-		child->Draw();
-	}
 }
 
 void SlateContainerBase::AddChild(std::shared_ptr<SlateBase> in)
@@ -212,20 +213,14 @@ size_t SlateContainerBase::GetChildrenCount() const noexcept
 // ------------------------------------------------
 bool SlateContainerBase::OnMouseMove(DX::MouseEvent inMouseEvent)
 {
-	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
+	switch (GetVisibility())
 	{
-		bool out = SlateBase::OnMouseMove(inMouseEvent);
-		for (auto&& child : pChildren)
-		{
-			if (child != nullptr)
-			{
-				child->OnMouseMove(inMouseEvent);
-			}
-		}
-		return out;
-	}
-	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
-	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
+		return false;
+	case ESlateVisibility::Visible:
+		SlateBase::OnMouseMove(inMouseEvent);
+	default:
 		for (auto&& child : pChildren)
 		{
 			if (child != nullptr)
@@ -235,24 +230,17 @@ bool SlateContainerBase::OnMouseMove(DX::MouseEvent inMouseEvent)
 		}
 		return true;
 	}
-	return false;
 }
 bool SlateContainerBase::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 {
-	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
+	switch (GetVisibility())
 	{
-		bool out = SlateBase::OnMouseButtonDown(inMouseEvent);
-		for (auto&& child : pChildren)
-		{
-			if (child != nullptr)
-			{
-				child->OnMouseButtonDown(inMouseEvent);
-			}
-		}
-		return out;
-	}
-	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
-	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
+		return false;
+	case ESlateVisibility::Visible:
+		SlateBase::OnMouseButtonDown(inMouseEvent);
+	default:
 		for (auto&& child : pChildren)
 		{
 			if (child != nullptr)
@@ -262,24 +250,17 @@ bool SlateContainerBase::OnMouseButtonDown(DX::MouseEvent inMouseEvent)
 		}
 		return true;
 	}
-	return false;
 }
 bool SlateContainerBase::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 {
-	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
+	switch (GetVisibility())
 	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
+		return false;
+	case ESlateVisibility::Visible:
 		bool out = SlateBase::OnMouseButtonHeld(inMouseEvent);
-		for (auto&& child : pChildren)
-		{
-			if (child != nullptr)
-			{
-				child->OnMouseButtonHeld(inMouseEvent);
-			}
-		}
-		return out;
-	}
-	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
-	{
+	default:
 		for (auto&& child : pChildren)
 		{
 			if (child != nullptr)
@@ -289,24 +270,17 @@ bool SlateContainerBase::OnMouseButtonHeld(DX::MouseEvent inMouseEvent)
 		}
 		return true;
 	}
-	return false;
 }
 bool SlateContainerBase::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
 {
-	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
+	switch (GetVisibility())
 	{
-		bool out = SlateBase::OnMouseButtonUp(inMouseEvent);
-		for (auto&& child : pChildren)
-		{
-			if (child != nullptr)
-			{
-				child->OnMouseButtonUp(inMouseEvent);
-			}
-		}
-		return out;
-	}
-	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
-	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
+		return false;
+	case ESlateVisibility::Visible:
+		SlateBase::OnMouseButtonUp(inMouseEvent);
+	default:
 		for (auto&& child : pChildren)
 		{
 			if (child != nullptr)
@@ -316,24 +290,17 @@ bool SlateContainerBase::OnMouseButtonUp(DX::MouseEvent inMouseEvent)
 		}
 		return true;
 	}
-	return false;
 }
 bool SlateContainerBase::OnMouseEnter(DX::MouseEvent inMouseEvent)
 {
-	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
+	switch (GetVisibility())
 	{
-		bool out = SlateBase::OnMouseEnter(inMouseEvent);
-		for (auto&& child : pChildren)
-		{
-			if (child != nullptr)
-			{
-				child->OnMouseEnter(inMouseEvent);
-			}
-		}
-		return out;
-	}
-	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
-	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
+		return false;
+	case ESlateVisibility::Visible:
+		SlateBase::OnMouseEnter(inMouseEvent);
+	default:
 		for (auto&& child : pChildren)
 		{
 			if (child != nullptr)
@@ -343,24 +310,17 @@ bool SlateContainerBase::OnMouseEnter(DX::MouseEvent inMouseEvent)
 		}
 		return true;
 	}
-	return false;
 }
 bool SlateContainerBase::OnMouseLeave(DX::MouseEvent inMouseEvent)
 {
-	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
+	switch (GetVisibility())
 	{
-		bool out = SlateBase::OnMouseLeave(inMouseEvent);
-		for (auto&& child : pChildren)
-		{
-			if (child != nullptr)
-			{
-				child->OnMouseLeave(inMouseEvent);
-			}
-		}
-		return out;
-	}
-	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
-	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
+		return false;
+	case ESlateVisibility::Visible:
+		SlateBase::OnMouseLeave(inMouseEvent);
+	default:
 		for (auto&& child : pChildren)
 		{
 			if (child != nullptr)
@@ -370,24 +330,17 @@ bool SlateContainerBase::OnMouseLeave(DX::MouseEvent inMouseEvent)
 		}
 		return true;
 	}
-	return false;
 }
 bool SlateContainerBase::OnKeyDown(DX::MouseEvent inMouseEvent)
 {
-	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
+	switch (GetVisibility())
 	{
-		bool out = SlateBase::OnKeyDown(inMouseEvent);
-		for (auto&& child : pChildren)
-		{
-			if (child != nullptr)
-			{
-				child->OnKeyDown(inMouseEvent);
-			}
-		}
-		return out;
-	}
-	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
-	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
+		return false;
+	case ESlateVisibility::Visible:
+		SlateBase::OnKeyDown(inMouseEvent);
+	default:
 		for (auto&& child : pChildren)
 		{
 			if (child != nullptr)
@@ -397,24 +350,17 @@ bool SlateContainerBase::OnKeyDown(DX::MouseEvent inMouseEvent)
 		}
 		return true;
 	}
-	return false;
 }
 bool SlateContainerBase::OnKeyUp(DX::MouseEvent inMouseEvent)
 {
-	if (GetInputEnability() == ESlateInputEventReceiveType::Enable)
+	switch (GetVisibility())
 	{
-		bool out = SlateBase::OnKeyUp(inMouseEvent);
-		for (auto&& child : pChildren)
-		{
-			if (child != nullptr)
-			{
-				child->OnKeyUp(inMouseEvent);
-			}
-		}
-		return out;
-	}
-	else if (GetInputEnability() == ESlateInputEventReceiveType::IgnoreThis)
-	{
+	case ESlateVisibility::Collapsed:
+	case ESlateVisibility::IgnoreAll:
+		return false;
+	case ESlateVisibility::Visible:
+		SlateBase::OnKeyUp(inMouseEvent);
+	default:
 		for (auto&& child : pChildren)
 		{
 			if (child != nullptr)
@@ -424,7 +370,6 @@ bool SlateContainerBase::OnKeyUp(DX::MouseEvent inMouseEvent)
 		}
 		return true;
 	}
-	return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
